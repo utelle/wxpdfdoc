@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<wxpdfdoc-font-metrics type="Type0">
+  <font-name>KozMinPro-Regular-Acro</font-name>
+  <encoding>cp932</encoding>
+  <description>
+    <ascent>800</ascent>
+    <descent>-200</descent>
+    <cap-height>800</cap-height>
+    <flags>6</flags>
+    <font-bbox>[0 -200 1000 900]</font-bbox>
+    <italic-angle>0</italic-angle>
+    <stem-v>60</stem-v>
+    <missing-width>1000</missing-width>
+    <x-height>500</x-height>
+    <underline-position>-120</underline-position>
+    <underline-thickness>40</underline-thickness>
+  </description>
+  <registry ordering="Japan1" supplement="2" />
+  <cmap>90msp-RKSJ-H</cmap>
+  <widths>
+    <char id="32" width="278" />
+    <char id="33" width="299" />
+    <char id="34" width="353" />
+    <char id="35" width="614" />
+    <char id="36" width="614" />
+    <char id="37" width="721" />
+    <char id="38" width="735" />
+    <char id="39" width="216" />
+    <char id="40" width="323" />
+    <char id="41" width="323" />
+    <char id="42" width="449" />
+    <char id="43" width="529" />
+    <char id="44" width="219" />
+    <char id="45" width="306" />
+    <char id="46" width="219" />
+    <char id="47" width="453" />
+    <char id="48" width="614" />
+    <char id="49" width="614" />
+    <char id="50" width="614" />
+    <char id="51" width="614" />
+    <char id="52" width="614" />
+    <char id="53" width="614" />
+    <char id="54" width="614" />
+    <char id="55" width="614" />
+    <char id="56" width="614" />
+    <char id="57" width="614" />
+    <char id="58" width="219" />
+    <char id="59" width="219" />
+    <char id="60" width="529" />
+    <char id="61" width="529" />
+    <char id="62" width="529" />
+    <char id="63" width="486" />
+    <char id="64" width="744" />
+    <char id="65" width="646" />
+    <char id="66" width="604" />
+    <char id="67" width="617" />
+    <char id="68" width="681" />
+    <char id="69" width="567" />
+    <char id="70" width="537" />
+    <char id="71" width="647" />
+    <char id="72" width="738" />
+    <char id="73" width="320" />
+    <char id="74" width="433" />
+    <char id="75" width="637" />
+    <char id="76" width="566" />
+    <char id="77" width="904" />
+    <char id="78" width="710" />
+    <char id="79" width="716" />
+    <char id="80" width="605" />
+    <char id="81" width="716" />
+    <char id="82" width="623" />
+    <char id="83" width="517" />
+    <char id="84" width="601" />
+    <char id="85" width="690" />
+    <char id="86" width="668" />
+    <char id="87" width="990" />
+    <char id="88" width="681" />
+    <char id="89" width="634" />
+    <char id="90" width="578" />
+    <char id="91" width="316" />
+    <char id="92" width="614" />
+    <char id="93" width="316" />
+    <char id="94" width="529" />
+    <char id="95" width="500" />
+    <char id="96" width="387" />
+    <char id="97" width="509" />
+    <char id="98" width="566" />
+    <char id="99" width="478" />
+    <char id="100" width="565" />
+    <char id="101" width="503" />
+    <char id="102" width="337" />
+    <char id="103" width="549" />
+    <char id="104" width="580" />
+    <char id="105" width="275" />
+    <char id="106" width="266" />
+    <char id="107" width="544" />
+    <char id="108" width="276" />
+    <char id="109" width="854" />
+    <char id="110" width="579" />
+    <char id="111" width="550" />
+    <char id="112" width="578" />
+    <char id="113" width="566" />
+    <char id="114" width="410" />
+    <char id="115" width="444" />
+    <char id="116" width="340" />
+    <char id="117" width="575" />
+    <char id="118" width="512" />
+    <char id="119" width="760" />
+    <char id="120" width="503" />
+    <char id="121" width="529" />
+    <char id="122" width="453" />
+    <char id="123" width="326" />
+    <char id="124" width="380" />
+    <char id="125" width="326" />
+    <char id="126" width="387" />
+  </widths>
+</wxpdfdoc-font-metrics>
+

@@ -1,0 +1,11 @@
+The wxPdfDocument distribution includes several fonts for which
+different licenses apply. Please read the accompanying licenses
+and respect them if you use these fonts:
+
+Calligrapher-Regular	free font, distributed with FPDF
+                    	(http://www.fpdf.org), also available
+                    	from http://www.fontfox.com/
+Feta                	see FETA-COPYING
+GFSDidot             	see GFSDIDOT-OFL
+BitStream Vera      	see VERA-COPYRIGHT
+
