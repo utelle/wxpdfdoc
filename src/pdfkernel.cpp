@@ -342,7 +342,7 @@ wxPdfDocument::PutInfo()
   }
   wxDateTime now = wxDateTime::Now();
   Out("/CreationDate ",false);
-  OutTextstring(wxString(_T("D:")+now.Format(_T("%Y%m%d%H%M%S"))));
+  OutRawTextstring(wxString(_T("D:")+now.Format(_T("%Y%m%d%H%M%S"))));
 }
 
 void
@@ -2081,7 +2081,7 @@ wxPdfDocument::OutHexTextstring(const wxString& s, bool newline)
   }
   mbstr[ofs+len] = 0;
 #else
-  strcpy(&mbstr[ofs],s.c_str());
+  memcpy(&mbstr[ofs],s.c_str(),len);
 #endif
 
   if (m_encrypted)

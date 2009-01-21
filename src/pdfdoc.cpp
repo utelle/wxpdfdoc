@@ -870,6 +870,10 @@ wxPdfDocument::Text(double x, double y, const wxString& txt)
            Double2String((m_h-y)*m_k,2) + wxString(_T(" Td (")), false);
   TextEscape(txt,false);
   Out(") Tj ET", false);
+  if (m_currentFont != 0)
+  {
+    m_currentFont->UpdateUsedChars(txt);
+  }
 
   if ((m_decoration & wxPDF_FONT_DECORATION) && txt.Length() > 0)
   {

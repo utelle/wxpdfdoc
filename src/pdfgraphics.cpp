@@ -1410,7 +1410,7 @@ wxPdfDocument::ClippingText(double x, double y, const wxString& txt, bool outlin
            Double2String((m_h-y)*m_k,2) + wxString(_T(" Td ")) +
            op + wxString(_T(" Tr (")),false);
   TextEscape(txt,false);
-  Out(") Tj 0 Tr ET");
+  Out(") Tj ET");
 }
 
 void
