@@ -20,6 +20,8 @@
 #endif
 
 #include "wx/pdfdoc.h"
+#include "wx/pdfencoding.h"
+#include "wx/pdffontmanager.h"
 
 /**
 * Adding new fonts and encoding support
@@ -38,8 +40,8 @@
 * 
 * Adding a new font requires three steps for TrueTypes: 
 *
-* \li Generation of the metric file (.afm) 
-* \li Generation of the font definition file (.php) 
+* \li Generation of the metric file (.afm/.ufm) 
+* \li Generation of the font definition file (.xml) 
 * \li Declaration of the font in the program 
 *
 * For Type1, the first one is theoretically not necessary because the AFM file is
@@ -73,16 +75,16 @@
 *
 * The last step is the most simple. You just need to call the AddFont() method. For instance: 
 * 
-* pdf.AddFont(_T("Comic"),_T(""),_T("comic.xml"));
+* pdf.AddFont(wxT("Comic"),wxT(""),wxT("comic.xml"));
 *  
 * or simply: 
 * 
-* pdf.AddFont(_T("Comic"));
+* pdf.AddFont(wxT("Comic"));
 *  
 * And the font is now available (in regular and underlined styles), usable like the others.
 * If we had worked with Comic Sans MS Bold (comicbd.ttf), we would have put: 
 * 
-* pdf.AddFont(_T("Comic"),_T("B"),_T("comicbd.xml"));
+* pdf.AddFont(wxT("Comic"),wxT("B"),wxT("comicbd.xml"));
 *  
 * Reducing the size of TrueType fonts
 *
@@ -108,53 +110,121 @@
 */
 
 void
-tutorial7()
+createFontList()
+{
+  wxPdfDocument pdf;
+  pdf.AddPage();
+  pdf.SetFont(wxT("Arial"),wxT(""),12);
+
+  wxPdfFontManager::GetFontManager()->RegisterSystemFonts();
+  size_t n = wxPdfFontManager::GetFontManager()->GetFontCount();
+  size_t j;
+  for (j = 0; j < n; ++j)
+  {
+    wxPdfFont font = wxPdfFontManager::GetFontManager()->GetFont(j);
+    pdf.Write(5, font.GetName());
+    pdf.Ln();
+  }
+  pdf.SaveAsFile(wxT("fontlist.pdf"));
+}
+
+void
+twoEncodings()
+{
+  wxString cyrillicText("Tchaikovsky - \xd0\xa7\xd0\xb0\xd0\xb9\xd0\xba\xc3\xb3\xd0\xb2\xd1\x81\xd0\xba\xd0\xb8\xd0\xb9", wxConvUTF8);
+  wxPdfFont nimbus1 = wxPdfFontManager::GetFontManager()->RegisterFont(wxT("urw-nimbus-cyr.pfb"), wxT("nimbus"));
+  wxPdfFont nimbus2(nimbus1);
+  wxPdfEncoding cyrillicEncoding;
+  cyrillicEncoding.SetEncoding(wxT("cp-1251"));
+  nimbus1.SetEncoding(cyrillicEncoding);
+
+  wxPdfDocument pdf;
+  pdf.AddPage();
+  pdf.SetFont(nimbus2, wxPDF_FONTSTYLE_REGULAR, 16);
+  pdf.Cell(0,10,wxT("This is font URW Nimbus Cyrillic (WinAnsi encoding)"));
+  pdf.Ln(10);
+  pdf.SetFont(nimbus1, wxPDF_FONTSTYLE_REGULAR, 16);
+  pdf.Cell(0,10,wxT("This is font URW Nimbus Cyrillic (CP-1251 encoding)"));
+  pdf.Ln(10);
+  pdf.Cell(0,10,cyrillicText);
+  pdf.Ln(10);
+
+
+  pdf.SaveAsFile(wxT("twoencodings.pdf"));
+}
+
+void
+fontSample()
 {
   wxPdfDocument pdf;
 
-  pdf.AddFont(_T("Calligrapher"),_T(""),_T("calligra.xml"));
-  pdf.AddFont(_T("Feta"),_T(""),_T("feta16.xml"));
-  pdf.AddFont(_T("FetaAlphabet"),_T(""),_T("feta-alphabet16.xml"));
+#if defined(__WXMSW__)
+  // TODO: using wxFont objects does not work in console application under Linux
+  const wxFont* myFont = wxSWISS_FONT;
+  wxPdfFontManager::GetFontManager()->RegisterFont(*myFont, wxT("Swiss"));
+#endif
+  pdf.AddFont(wxT("liz"), wxT(""), wxT("liz.otf"));
+
+  pdf.AddFont(wxT("Calligrapher"),wxT(""),wxT("calligra.xml"));
+  pdf.AddFont(wxT("Feta"),wxT(""),wxT("feta16.xml"));
+  pdf.AddFont(wxT("FetaAlphabet"),wxT(""),wxT("feta-alphabet16.xml"));
 
   pdf.AddPage();
-  pdf.SetFont(_T("Calligrapher"),_T(""),30);
-  pdf.Cell(0,10,_T("Enjoy new fonts with wxPdfDocument!"));
+  pdf.SetFont(wxT("Calligrapher"),wxT(""),30);
+  pdf.Cell(0,10,wxT("Enjoy new fonts with wxPdfDocument!"));
   pdf.Ln(25);
 #if wxUSE_UNICODE
-  pdf.AddFont(_T("Vera"),_T(""),_T("vera.xml"));
-  pdf.SetFont(_T("Vera"),_T(""),16);
-  pdf.Cell(0,10,_T("This is the TrueType Unicode font BitstreamVeraSans!"));
-  pdf.Ln(25);
-
-  pdf.AddFont(_T("GFSDidot"),_T(""),_T("GFSDidot.xml"));
-  pdf.SetFont(_T("GFSDidot"),_T(""),16);
-  pdf.Cell(0,10,_T("And this is OpenType Unicode font GFSDidot:"));
-  pdf.Ln(10);
-  pdf.Cell(0,10,_T("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
-  pdf.Ln(10);
-  pdf.Cell(0,10,_T("abcdefghijklmnopqrstuvwxyz"));
+  pdf.AddFont(wxT("Vera"),wxT(""),wxT("vera.xml"));
+  pdf.SetFont(wxT("Vera"),wxT(""),16);
+  pdf.Cell(0,10,wxT("This is the TrueType Unicode font BitstreamVeraSans!"));
   pdf.Ln(25);
 #endif
 
-  pdf.SetFont(_T("Feta"),_T(""),35);
+#if wxUSE_UNICODE
+  pdf.AddFont(wxT("GFSDidot"),wxT(""),wxT("GFSDidot.xml"));
+  pdf.SetFont(wxT("GFSDidot"),wxT(""),16);
+  pdf.Cell(0,10,wxT("And this is OpenType Unicode font GFSDidot:"));
+  pdf.Ln(10);
+  pdf.Cell(0,10,wxT("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+  pdf.Ln(10);
+  pdf.Cell(0,10,wxT("abcdefghijklmnopqrstuvwxyz"));
+  pdf.Ln(25);
+#endif
+
+  pdf.SetFont(wxT("liz"),wxT(""),16);
+  pdf.Cell(0,10,wxT("And this is OpenType font LIZ:"));
+  pdf.Ln(10);
+  pdf.Cell(0,10,wxT("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+  pdf.Ln(10);
+
+#if defined(__WXMSW__)
+  // TODO: using wxFont objects does not work in console application under Linux
+  pdf.SetFont(wxT("Swiss"),wxT(""),16);
+  pdf.Cell(0,10,wxT("And this is wxFont wxSWISS_FONT:"));
+  pdf.Ln(10);
+  pdf.Cell(0,10,wxT("abcdefghijklmnopqrstuvwxyz"));
+  pdf.Ln(10);
+#endif
+
+  pdf.SetFont(wxT("Feta"),wxT(""),35);
   pdf.SetLineWidth(0.6);
   pdf.Rect(10,150,95,16);
   pdf.Line(10,154,105,154);
   pdf.Line(10,158,105,158);
   pdf.Line(10,162,105,162);
-  pdf.Text(14,162,_T("\xae"));
-  pdf.Text(24,158,_T("\x33"));
-  pdf.SetFont(_T("FetaAlphabet"),_T(""),35);
-  pdf.Text(30,157,_T("\x36"));
-  pdf.Text(30,165,_T("\x32"));
-  pdf.SetFont(_T("Feta"),_T(""),35);
-  pdf.Text(40,158,_T("\x3e"));
-  pdf.Text(48,156,_T("\x3e"));
-  pdf.Text(56,154,_T("\x3d"));
-  pdf.Text(66,156,_T("\x3d"));
-  pdf.Text(76,158,_T("\x3d"));
-  pdf.Text(86,162,_T("\x3d"));
-  pdf.Text(96,168,_T("\x3d"));
+  pdf.Text(14,162,wxT("\xae"));
+  pdf.Text(24,158,wxT("\x33"));
+  pdf.SetFont(wxT("FetaAlphabet"),wxT(""),35);
+  pdf.Text(30,157,wxT("\x36"));
+  pdf.Text(30,165,wxT("\x32"));
+  pdf.SetFont(wxT("Feta"),wxT(""),35);
+  pdf.Text(40,158,wxT("\x3e"));
+  pdf.Text(48,156,wxT("\x3e"));
+  pdf.Text(56,154,wxT("\x3d"));
+  pdf.Text(66,156,wxT("\x3d"));
+  pdf.Text(76,158,wxT("\x3d"));
+  pdf.Text(86,162,wxT("\x3d"));
+  pdf.Text(96,168,wxT("\x3d"));
   pdf.Line(40,159,40,168);
   pdf.Line(48,157,48,166);
   pdf.Line(56,155,56,164);
@@ -163,6 +233,17 @@ tutorial7()
   pdf.Line(90,161,90,151);
   pdf.Line(100,167,100,157);
 
-  pdf.SaveAsFile(_T("tutorial7.pdf"));
+  pdf.SaveAsFile(wxT("tutorial7.pdf"));
+}
+
+void
+tutorial7()
+{
+  wxPdfFont zapf = wxPdfFontManager::GetFontManager()->RegisterFont(wxT("urw-zapf.pfb"), wxT("zapf"));
+  fontSample();
+#if wxUSE_UNICODE
+  twoEncodings();
+#endif
+  createFontList();
 }
 

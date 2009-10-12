@@ -52,10 +52,10 @@
 class PdfTuto5 : public wxPdfDocument
 {
 public:
-  //Load data
+  // Load data
   void LoadData(const wxString& file, wxArrayPtrVoid& data)
   {
-    //Read file lines
+    // Read file lines
     wxFileInputStream f(file);
     wxTextInputStream text( f );
     wxString line;
@@ -76,17 +76,17 @@ public:
     }
   }
 
-  //Simple table
+  // Simple table
   void BasicTable(wxArrayString& header,wxArrayPtrVoid& data)
   {
     size_t j;
-    //Header
+    // Header
     for (j = 0; j < header.GetCount(); j++)
     {
       Cell(40,7,header[j],wxPDF_BORDER_FRAME);
     }
     Ln();
-    //Data
+    // Data
     for (j = 0; j < data.GetCount(); j++)
     {
       wxArrayString* row = (wxArrayString*) data[j];
@@ -99,19 +99,19 @@ public:
     }
   }
 
-  //Better table
+  // Better table
   void ImprovedTable(wxArrayString& header,wxArrayPtrVoid& data)
   {
-    //Column widths
+    // Column widths
     double w[4] = {40,35,40,45};
-    //Header
+    // Header
     size_t i;
     for (i = 0; i <header.GetCount(); i++)
     {
       Cell(w[i],7,header[i],wxPDF_BORDER_FRAME,0,wxPDF_ALIGN_CENTER);
     }
     Ln();
-    //Data
+    // Data
     size_t j;
     for (j = 0; j < data.GetCount(); j++)
     {
@@ -122,19 +122,19 @@ public:
       Cell(w[3],6,(*row)[3],wxPDF_BORDER_LEFT | wxPDF_BORDER_RIGHT,0,wxPDF_ALIGN_RIGHT);
       Ln();
     }
-    //Closure line
-    Cell((w[0]+w[1]+w[2]+w[3]),0,_T(""),wxPDF_BORDER_TOP);
+    // Closure line
+    Cell((w[0]+w[1]+w[2]+w[3]),0,wxT(""),wxPDF_BORDER_TOP);
   }
 
-  //Colored table
+  // Colored table
   void FancyTable(wxArrayString& header, wxArrayPtrVoid& data)
   {
-    //Colors, line width and bold font
-    SetFillColor(wxColour(255,0,0));
-    SetTextColor(255);
-    SetDrawColor(wxColour(128,0,0));
+    // Colors, line width and bold font
+    SetFillColour(wxColour(255,0,0));
+    SetTextColour(255);
+    SetDrawColour(wxColour(128,0,0));
     SetLineWidth(.3);
-    SetFont(_T(""),_T("B"));
+    SetFont(wxT(""),wxT("B"));
     //Header
     double w[4] = {40,35,40,45};
     size_t i;
@@ -143,11 +143,11 @@ public:
       Cell(w[i],7,header[i],wxPDF_BORDER_FRAME, 0, wxPDF_ALIGN_CENTER, 1);
     }
     Ln();
-    //Color and font restoration
-    SetFillColor(wxColour(224,235,255));
-    SetTextColor(0);
-    SetFont(_T(""));
-    //Data
+    // Color and font restoration
+    SetFillColour(wxColour(224,235,255));
+    SetTextColour(0);
+    SetFont(wxT(""));
+    // Data
     int fill = 0;
     size_t j;
     for (j = 0; j < data.GetCount(); j++)
@@ -160,7 +160,7 @@ public:
       Ln();
       fill = 1 - fill;
     }
-    Cell((w[0]+w[1]+w[2]+w[3]),0,_T(""),wxPDF_BORDER_TOP);
+    Cell((w[0]+w[1]+w[2]+w[3]),0,wxT(""),wxPDF_BORDER_TOP);
   }
 };
 
@@ -168,23 +168,23 @@ void
 tutorial5()
 {
   PdfTuto5 pdf;
-  //Column titles
+  // Column titles
   wxArrayString header;
   wxArrayPtrVoid data;
-  header.Add(_T("Country"));
-  header.Add(_T("Capital"));
-  header.Add(_T("Area (sq km)"));
-  header.Add(_T("Pop. (thousands)"));
-  //Data loading
-  pdf.LoadData(_T("countries.txt"),data);
-  pdf.SetFont(_T("Arial"),_T(""),14);
+  header.Add(wxT("Country"));
+  header.Add(wxT("Capital"));
+  header.Add(wxT("Area (sq km)"));
+  header.Add(wxT("Pop. (thousands)"));
+  // Data loading
+  pdf.LoadData(wxT("countries.txt"),data);
+  pdf.SetFont(wxT("Arial"),wxT(""),14);
   pdf.AddPage();
   pdf.BasicTable(header,data);
   pdf.AddPage();
   pdf.ImprovedTable(header,data);
   pdf.AddPage();
   pdf.FancyTable(header,data);
-  pdf.SaveAsFile(_T("tutorial5.pdf"));
+  pdf.SaveAsFile(wxT("tutorial5.pdf"));
   size_t j;
   for (j = 0; j < data.GetCount(); j++)
   {

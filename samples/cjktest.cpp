@@ -32,37 +32,37 @@
 void
 cjktest()
 {
-  wxCSConv conv_cn(_T("cp950"));
+  wxCSConv conv_cn(wxT("cp-950"));
   wxString s_cn("²{®É®ğ·Å 18 C Àã«× 83 %",conv_cn);
   wxPdfDocument pdf;
-  pdf.AddFontCJK(_T("Big5"));
+  pdf.AddFontCJK(wxT("Big5"));
   pdf.Open();
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"), _T(""),24);
-  pdf.Write(10,_T("Chinese"));
+  pdf.SetFont(wxT("Arial"), wxT(""),24);
+  pdf.Write(10,wxT("Chinese"));
   pdf.Ln(12);
-  pdf.SetFont(_T("Big5"),_T(""),20);
+  pdf.SetFont(wxT("Big5"),wxT(""),20);
   pdf.Write(10,s_cn);
 
-  wxCSConv conv_jp(_T("cp932"));
+  wxCSConv conv_jp(wxT("cp-932"));
   wxString s_jp("9ƒ–Œ‚ÌŒöŠJƒeƒXƒg‚ğŒo‚ÄPHP 3.0‚Í1998”N6Œ‚ÉŒö®‚ÉƒŠƒŠ[ƒX‚³‚ê‚Ü‚µ‚½B",conv_jp);
-  pdf.AddFontCJK(_T("SJIS"));
+  pdf.AddFontCJK(wxT("SJIS"));
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"), _T(""),24);
-  pdf.Write(10,_T("Japanese"));
+  pdf.SetFont(wxT("Arial"), wxT(""),24);
+  pdf.Write(10,wxT("Japanese"));
   pdf.Ln(12);
-  pdf.SetFont(_T("SJIS"),_T(""),18);
+  pdf.SetFont(wxT("SJIS"),wxT(""),18);
   pdf.Write(8,s_jp);
 
-  wxCSConv conv_kr(_T("cp949"));
+  wxCSConv conv_kr(wxT("cp-949"));
   wxString s_kr("PHP 3.0Àº 1998³â 6¿ù¿¡ °ø½ÄÀûÀ¸·Î ¸±¸®ÁîµÇ¾ú´Ù. °ø°³ÀûÀÎ Å×½ºÆ® ÀÌÈÄ¾à 9°³¿ù¸¸ÀÌ¾ú´Ù.",conv_kr);
-  pdf.AddFontCJK(_T("UHC"));
+  pdf.AddFontCJK(wxT("UHC"));
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"), _T(""),24);
-  pdf.Write(10,_T("Korean"));
+  pdf.SetFont(wxT("Arial"), wxT(""),24);
+  pdf.Write(10,wxT("Korean"));
   pdf.Ln(12);
-  pdf.SetFont(_T("UHC"),_T(""),18);
+  pdf.SetFont(wxT("UHC"),wxT(""),18);
   pdf.Write(8,s_kr);
 
-  pdf.SaveAsFile(_T("cjktest.pdf"));
+  pdf.SaveAsFile(wxT("cjktest.pdf"));
 }

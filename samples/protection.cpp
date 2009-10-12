@@ -35,9 +35,9 @@ protection1()
   pdf.SetProtection(wxPDF_PERMISSION_PRINT);
   pdf.Open();
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"));
-  pdf.Cell(0,10,wxString(_T("You can print me but not copy my text.")),0,1);
-  pdf.SaveAsFile(_T("protection1.pdf"));
+  pdf.SetFont(wxT("Arial"));
+  pdf.Cell(0,10,wxString(wxT("You can print me but not copy my text.")),0,1);
+  pdf.SaveAsFile(wxT("protection1.pdf"));
 }
 
 /**
@@ -51,11 +51,11 @@ void
 protection2()
 {
   wxPdfDocument pdf;
-  pdf.SetProtection(wxPDF_PERMISSION_NONE, _T("Hello"), _T("World"), wxPDF_ENCRYPTION_RC4V2, 128);
+  pdf.SetProtection(wxPDF_PERMISSION_NONE, wxT("Hello"), wxT("World"), wxPDF_ENCRYPTION_RC4V2, 128);
   pdf.Open();
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"));
-  pdf.Cell(0,10,wxString(_T("You can only view me on screen.")),0,1);
-  pdf.SaveAsFile(_T("protection2.pdf"));
+  pdf.SetFont(wxT("Arial"));
+  pdf.Cell(0,10,wxString(wxT("You can only view me on screen.")),0,1);
+  pdf.SaveAsFile(wxT("protection2.pdf"));
 }
 

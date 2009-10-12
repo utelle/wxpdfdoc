@@ -31,11 +31,12 @@ FPDF web site are incorporated into wxPdfDocument. The main features are:
 - Automatic page break 
 - Automatic line break and text justification 
 - Image support (GIF, JPEG, PNG and WMF) 
-- Colors (Grayscale, RGB, CMYK, Spot colors)
+- Colours (Grayscale, RGB, CMYK, Spot colours)
 - Links (internal and external)
 - 14 Adobe standard fonts
 - TrueType and Type1 fonts (with or without embedding) and encoding support
 - TrueType Unicode and Type0 fonts (for Chinese, Japanese and Korean) support in the Unicode build
+- OpenType Unicode fonts support in the Unicode build
 - Page compression 
 - Graphics primitives for the creation of simple drawings
 - Definition of clipping areas
@@ -47,6 +48,8 @@ FPDF web site are incorporated into wxPdfDocument. The main features are:
 - JavaScript
 - Fill gradients
 - Templates
+- Layers (optional content groups)
+- Simple bitmap patterns as draw and fill colours
 
 The class can produce documents in many languages other than the Western European ones:
 Central European, Cyrillic, Greek, Baltic and Thai, provided you own TrueType or Type1
@@ -71,6 +74,45 @@ verified to function properly. This means: wxPdfDocument still needs intensive t
 <b>If you find bugs please report them to the author!</b>
 
 <dl>
+<dt><b>0.8.5</b> - <i>October 2009</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets version 2.8.10. Some preparations were done
+to make wxPdfDocument compatible with version 2.9.x and above, too.
+
+Added features in <b>all</b> builds:<br>
+- support for individual page sizes
+- support for setting fill rule to <i>odd/even</i> or <i>winding</i>
+- support for setting the text render mode
+- support for layers (optional content groups)
+- support for patterns as draw and fill colours
+- support for Code 128 barcodes
+
+Added features in <b>Unicode</b> build:<br>
+- support for kerning
+- support for different encodings for Type1 and TrueType fonts
+- support for using TrueType and OpenType fonts loaded directly from .ttf or .otf file
+- support for using Type1 fonts loaded directly from .pfb and .afm file
+- support for using TrueType and OpenType fonts defined by a wxFont object
+- font subsetting for OpenType Unicode fonts (experimental, currently non-CID fonts only)
+- direct positioning and writing of glyph numbers for TrueType/OpenType Unicode fonts<br>
+this may be used in conjunction with tools for writing complex scripts like ICU
+
+Added features in <b>ANSI</b> build:<br>
+- support for fonts defined by a wxFont object (mapped by family, weight and style to the Adobe core fonts)
+
+General changes:<br>
+- coordinate transformation (location of origin and y axis orientation)
+is now done directly in PDF. This was a prerequisite to add wxGraphicsContext support
+in an upcoming version. User unit scaling is done programmatically.
+- unified the naming of all methods manipulating colours. Now always the
+British spelling is used, i.e. <i>colour</i> instead of <i>color</i>.
+
+Fixed bugs:<br>
+- line style measurements did not use user units
+- encryption support for big endian platforms.
+- method wxPdfDocument::ClippingText.
+</dd>
+
 <dt><b>0.8.0</b> - <i>December 2006</i></dt>
 <dd>
 Added features:<br>
@@ -122,7 +164,7 @@ Added or enhanced features:<br>
 - support for polygon and shape clipping
 - support for printing text along a path
 - extended support for fill gradients (<b>API changed!</b>)
-- internal color management reworked
+- internal colour management reworked
 
 Fixed some minor bugs
 </dd>
@@ -130,9 +172,9 @@ Fixed some minor bugs
 <dt><b>0.7</b> - <i>April 2006</i></dt>
 <dd>
 Added features:<br>
-- support for CMYK and spot colors
-- support for named colors (486 predefined names for RGB colors) (wxPdfColour)
-- support for color names in HTML notation (\#rrggbb) (wxPdfColour)
+- support for CMYK and spot colours
+- support for named colours (486 predefined names for RGB colours) (wxPdfColour)
+- support for colour names in HTML notation (\#rrggbb) (wxPdfColour)
 - text annotations
 - additional font decorations: overline, strikeout
 - PDF forms
@@ -153,8 +195,8 @@ Added features:
 - barcodes<br>
 - \ref makefont<br>
 
-Changed API of graphics primitives: line style and fill color parameters deleted,
-line style and fill color have to be set using wxPdfDocument::SetLineStyle and wxPdfDocument::SetFillColor.
+Changed API of graphics primitives: line style and fill colour parameters deleted,
+line style and fill colour have to be set using wxPdfDocument::SetLineStyle and wxPdfDocument::SetFillColour.
 </dd>
 
   <dt><b>0.5</b> - <i>September 2005</i></dt>
@@ -187,7 +229,18 @@ Planning and basic PDF features implemented
 
 \section issues Known issues
 
-\section acknowledgement Acknowledgement
+\li only partial graphics state management for nested transformations
+
+\section acknowledgement Acknowledgements
+
+I'm very grateful to <b>Bruno Lowagie</b>, the main author of the <b>iText Java library</b>
+(http://www.lowagie.com/iText), for allowing to take lots of ideas and inspirations
+from this great Java PDF library. Especially the font handling and font subsetting
+was influenced in that way.
+
+Many thanks go to <b>Ben Moores</b> who provided code for layers and patterns he wrote for
+his PDF extension for <b>Mapnik</b> (http://www.mapnik.org). This code has been extended
+based on ideas from the <b>iText Java library</b> and was incorporated into wxPdfDocument.
 
 Since wxPdfDocument is based on the great \b FPDF PHP class and several of the contributions to it
 found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank 
@@ -224,12 +277,17 @@ of a specific method the following alphabetical list shows all available methods
 \li wxPdfDocument::AcceptPageBreak - accept or not automatic page break
 \li wxPdfDocument::AddFont - add a new font
 \li wxPdfDocument::AddFontCJK - add a CJK (Chinese, Japanese or Korean) font
-\li wxPdfDocument::AppendJavascript - add document level JavaScript
+\li wxPdfDocument::AddLayer - add a layer (optional content group)
+\li wxPdfDocument::AddLayerTitle - add a layer title
+\li wxPdfDocument::AddLayerMembership - add a layer group
+\li wxPdfDocument::AddLayerRadioGroup - add a layer radio group
 \li wxPdfDocument::AddLink - create an internal link
 \li wxPdfDocument::AddPage - add a new page
-\li wxPdfDocument::AddSpotColor - add a spot color
+\li wxPdfDocument::AddPattern - add a simple pattern
+\li wxPdfDocument::AddSpotColour - add a spot colour
 \li wxPdfDocument::AliasNbPages - define an alias for number of pages
 \li wxPdfDocument::Annotate - add a text annotation
+\li wxPdfDocument::AppendJavascript - add document level JavaScript
 \li wxPdfDocument::Arrow - draw an arrow
 \li wxPdfDocument::AxialGradient - define axial gradient shading
 
@@ -255,26 +313,37 @@ of a specific method the following alphabetical list shows all available methods
 
 \li wxPdfDocument::Ellipse - draw an ellipse
 \li wxPdfDocument::EndTemplate - end template creation
+\li wxPdfDocument::EnterLayer - enter a layer
 
 \li wxPdfDocument::Footer - page footer.
 
 \li wxPdfDocument::GetBreakMargin - get the page break margin
 \li wxPdfDocument::GetCellMargin - get the cell margin
+\li wxPdfDocument::GetDrawColour - get current draw colour
+\li wxPdfDocument::GetFillColour - get current fill colour
+\li wxPdfDocument::GetFillingRule - get current filling rule
 \li wxPdfDocument::GetFontDescription - get description of current font
 \li wxPdfDocument::GetFontFamily - get current font family
-\li wxPdfDocument::GetFontPath - get current default path for font files
 \li wxPdfDocument::GetFontSize - get current font size in points
 \li wxPdfDocument::GetFontStyle - get current font style
+\li wxPdfDocument::GetFontStyles - get current font styles
 \li wxPdfDocument::GetFontSubsetting - get font embedding mode
 \li wxPdfDocument::GetImageScale - get image scale
 \li wxPdfDocument::GetLeftMargin - get the left margin
-\li wxPdfDocument::GetPageWidth - get page width
+\li wxPdfDocument::GetLineHeight - get line height
+\li wxPdfDocument::GetLineStyle - get current line style
+\li wxPdfDocument::GetLineWidth - get current line width
 \li wxPdfDocument::GetPageHeight - get page height
+\li wxPdfDocument::GetPageWidth - get page width
+\li wxPdfDocument::GetPatternColour - get pattern as colour
 \li wxPdfDocument::GetRightMargin - get the right margin
 \li wxPdfDocument::GetScaleFactor - get scale factor
+\li wxPdfDocument::GetSourceInfo - get info dictionary of external document
 \li wxPdfDocument::GetStringWidth - compute string length
-\li wxPdfDocument::GetTemplateSize - get size of template
 \li wxPdfDocument::GetTemplateBBox - get bounding box of template
+\li wxPdfDocument::GetTemplateSize - get size of template
+\li wxPdfDocument::GetTextColour - get current text colour
+\li wxPdfDocument::GetTextRenderMode - get current text render mode
 \li wxPdfDocument::GetTopMargin - get the top margin
 \li wxPdfDocument::GetX - get current x position
 \li wxPdfDocument::GetY - get current y position
@@ -286,12 +355,14 @@ of a specific method the following alphabetical list shows all available methods
 \li wxPdfDocument::ImportPage - import page of external document for use as template
 \li wxPdfDocument::IsInFooter - check whether footer output is in progress
 
+\li wxPdfDocument::LeaveLayer - leave layer
 \li wxPdfDocument::Line - draw a line
 \li wxPdfDocument::LinearGradient - define linear gradient shading
 \li wxPdfDocument::LineCount - count the number of lines a text would occupy
 \li wxPdfDocument::LineTo - append straight line segment to a clipping path
 \li wxPdfDocument::Link - put a link
 \li wxPdfDocument::Ln - line break
+\li wxPdfDocument::LockLayer - lock a layer
 
 \li wxPdfDocument::Marker - draw a marker symbol
 \li wxPdfDocument::MidAxialGradient - define mid axial gradient shading
@@ -329,18 +400,22 @@ of a specific method the following alphabetical list shows all available methods
 \li wxPdfDocument::SetCompression - turn compression on or off
 \li wxPdfDocument::SetCreator - set document creator
 \li wxPdfDocument::SetDisplayMode - set display mode
-\li wxPdfDocument::SetDrawColor - set drawing color
-\li wxPdfDocument::SetFillColor - set filling color
+\li wxPdfDocument::SetDrawColour - set drawing colour
+\li wxPdfDocument::SetDrawPattern - set draw colour pattern
+\li wxPdfDocument::SetFillColour - set filling colour
 \li wxPdfDocument::SetFillGradient - paint a rectangular area using a fill gradient
+\li wxPdfDocument::SetFillingRule - set filling rule
+\li wxPdfDocument::SetFillPattern - set fill colour pattern
 \li wxPdfDocument::SetFont - set font
-\li wxPdfDocument::SetFontPath - set default path for font files
 \li wxPdfDocument::SetFontSize - set font size
 \li wxPdfDocument::SetFontSubsetting - set font embedding mode
 \li wxPdfDocument::SetFormBorderStyle - set form field border style
-\li wxPdfDocument::SetFormColors - set form field colors (border, background, text)
+\li wxPdfDocument::SetFormColours - set form field colours (border, background, text)
 \li wxPdfDocument::SetImageScale - set image scale
+\li wxPdfDocument::SetKerning - set kerning mode
 \li wxPdfDocument::SetKeywords - associate keywords with document
 \li wxPdfDocument::SetLeftMargin - set left margin
+\li wxPdfDocument::SetLineHeight - set line height
 \li wxPdfDocument::SetLineStyle - set line style
 \li wxPdfDocument::SetLineWidth - set line width
 \li wxPdfDocument::SetLink - set internal link destination
@@ -350,7 +425,9 @@ of a specific method the following alphabetical list shows all available methods
 \li wxPdfDocument::SetSourceFile - set source file of external template document
 \li wxPdfDocument::SetSubject - set document subject
 \li wxPdfDocument::SetTemplateBBox - set bounding box of template
-\li wxPdfDocument::SetTextColor - set text color
+\li wxPdfDocument::SetTextColour - set text colour
+\li wxPdfDocument::SetTextPattern - set text colour pattern
+\li wxPdfDocument::SetTextRenderMode - set text render mode
 \li wxPdfDocument::SetTitle - set document title
 \li wxPdfDocument::SetTopMargin - set top margin
 \li wxPdfDocument::SetViewerPreferences - set viewer preferences
@@ -369,23 +446,51 @@ of a specific method the following alphabetical list shows all available methods
 \li wxPdfDocument::Text - print a string
 \li wxPdfDocument::TextBox - print a string horizontally and vertically aligned in a box
 \li wxPdfDocument::TextField - add a text field to a form
+\li wxPdfDocument::Transform - set transformation matrix
 \li wxPdfDocument::Translate - move the origin 
 \li wxPdfDocument::TranslateX - move the X origin only
 \li wxPdfDocument::TranslateY - move the Y origin only
 
-\li wxPdfDocument::UseTemplate - use template
 \li wxPdfDocument::UnsetClipping - remove clipping area
+\li wxPdfDocument::UseTemplate - use template
 
 \li wxPdfDocument::Write - print flowing text
 \li wxPdfDocument::WriteCell - print flowing text with cell attributes
+\li wxPdfDocument::WriteGlyphArray - print array of glyphs
 \li wxPdfDocument::WriteXml - print flowing text containing simple XML markup
 
 \li wxPdfDocument::wxPdfDocument - constructor
+\li wxPdfDocument::~wxPdfDocument - destructor
 
+\section refpdffontmanager wxPdfFontManager
+
+\li wxPdfFontManager::AddSearchPath - add path entries to the font search path list
+
+\li wxPdfFontManager::GetDefaultEmbed - get the default embedding mode
+\li wxPdfFontManager::GetDefaultSubset - get the default subsetting mode
+\li wxPdfFontManager::GetFont - get a font by name and style or index
+\li wxPdfFontManager::GetFontCount - get the number of registered fonts
+\li wxPdfFontManager::GetFontManager - get the font manager
+
+\li wxPdfFontManager::InitializeFontData - initialize the font data of a font
+
+\li wxPdfFontManager::RegisterFont - register a font
+\li wxPdfFontManager::RegisterFontCJK - register a CJK font family
+\li wxPdfFontManager::RegisterFontCollection - register a font collection
+\li wxPdfFontManager::RegisterFontDirectory - register all fonts located in a directory
+\li wxPdfFontManager::RegisterSystemFonts - register the fonts known to the operating system
+
+\li wxPdfFontManager::SetDefaultEmbed - set the default embedding mode
+\li wxPdfFontManager::SetDefaultSubset - set the default subsetting mode
 
 \section refpdfbarcode wxPdfBarCodeCreator
 
+\li wxPdfBarCodeCreator::Code128
+\li wxPdfBarCodeCreator::Code128A
+\li wxPdfBarCodeCreator::Code128B
+\li wxPdfBarCodeCreator::Code128C
 \li wxPdfBarCodeCreator::Code39
+\li wxPdfBarCodeCreator::EAN128
 \li wxPdfBarCodeCreator::EAN13
 \li wxPdfBarCodeCreator::UPC_A
 \li wxPdfBarCodeCreator::I25
@@ -416,7 +521,7 @@ Adding a new font requires three steps for \b TrueType fonts:
 
 For \b Type1, the first one is theoretically not necessary because the AFM file is
 usually shipped with the font. In case you have only a metric file in PFM format,
-it must be converted to AFM first. 
+it must be converted to AFM first.
 
 \section mkfontgen1 Generation of the metric file
 
@@ -436,17 +541,21 @@ For example, for Comic Sans MS Regular:
  
 Two files are created; the one we are interested in is comic.afm. 
 
+\remark Starting with wxPdfDocument version 0.8.5 this step may be ommitted for
+TrueType and OpenType fonts.
+
 \section mkfontgen2 Generation of the font definition file
 
 The second step consists in generating a wxPdfDocument font metrics XML file containing
 all the information needed by wxPdfDocument; in addition, the font file is compressed.
 To do this, a utility program, \b makefont, is provided.
 
-<tt>makefont {-a font.afm | -u font.ufm } [-f font.{ttf|pfb}] [-e encoding] [-p patch] [-t {ttf|otf|t1}]</tt>
+<tt>makefont {-a font.afm | -u font.ufm | -i } [-f font.{ttf|pfb}] [-e encoding] [-p patch] [-t {ttf|otf|t1}]</tt>
 
 <table border=0>
 <tr><td><tt>-a font.afm</tt></td><td>AFM font metric file for \b TrueType or \b Type1 fonts</td></tr>
 <tr><td><tt>-u font.ufm</tt></td><td>UFM font metric file for <b>TrueType Unicode</b> or <b>OpenType Unicode</b> fonts</td></tr>
+<tr><td><tt>-i</tt></td><td>Extract font metrics directly from <b>TrueType Unicode</b> or <b>OpenType Unicode</b> fonts</td></tr>
 <tr><td valign="top"><tt>-f font.{ttf|otf|pfb}</tt></td><td>font file (<tt>.ttf</tt> = TrueType, <tt>.otf</tt> = OpenType, <tt>.pfb</tt> = Type1).
 <br>If you own a Type1 font in ASCII format (<tt>.pfa</tt>), you can convert it to binary format with
 <a href="http://www.lcdf.org/~eddietwo/type/#t1utils">t1utils</a>.
@@ -515,16 +624,16 @@ You have to copy the generated file(s) to the font directory.
 
 The last step is the most simple. You just need to call the AddFont() method. For instance: 
  
-<tt>pdf.AddFont(_T("Comic"),_T(""),_T("comic.xml"));</tt>
+<tt>pdf.AddFont(wxT("Comic"),wxT(""),wxT("comic.xml"));</tt>
   
 or simply: 
  
-<tt>pdf.AddFont(_T("Comic"));</tt>
+<tt>pdf.AddFont(wxT("Comic"));</tt>
   
 And the font is now available (in regular and underlined styles), usable like the others.
 If we had worked with Comic Sans MS Bold (comicbd.ttf), we would have put: 
  
-<tt>pdf.AddFont(_T("Comic"),_T("B"),_T("comicbd.xml"));</tt>
+<tt>pdf.AddFont(wxT("Comic"),wxT("B"),wxT("comicbd.xml"));</tt>
   
 \section mkfontreduce Reducing the size of TrueType fonts
 
@@ -549,7 +658,8 @@ and remove the lines you are not interested in. This will reduce the file size
 accordingly. 
 
 Since wxPdfDocument version 0.8.0 automatic font subsetting is supported for
-TrueType und TrueType Unicode fonts. <b>Note</b>: The font license must allow embedding and
+TrueType und TrueType Unicode fonts. Since version 0.8.5 subsetting of OpenType Unicode
+fonts is supported as well. <b>Note</b>: The font license must allow embedding and
 subsetting.
 */
 
@@ -715,7 +825,7 @@ the characters following <b>#</b> are used as the name of the anchor.</td></tr>
 \subsection fonttag Font specification
 
 This tag allows to specify several font attributes for the embedded content. Font family,
-font size and color can be set. Attributes not given retain their previous value.
+font size and colour can be set. Attributes not given retain their previous value.
 
 <table border="0">
 <tr bgcolor="#6699dd"><td colspan="2"><b>Tag</b></td></tr>
@@ -724,8 +834,8 @@ font size and color can be set. Attributes not given retain their previous value
 <tr bgcolor="#eeeeee"><td valign="top"><tt>face="<i>fontfamily</i>"</tt></td><td>The name of the font family. It can be the name of one of the
 14 core fonts or the name of a font previously added by wxPdfDocument::AddFont.</td></tr>
 <tr bgcolor="#ddeeff"><td><tt>size="<i>fontsize</i>"</tt></td><td>The font size in points</td></tr>
-<tr bgcolor="#eeeeee"><td><tt>color="<i>fontcolor</i>"</tt></td><td>The font color in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
-or as a named color, i.e. <b><i>red</i></b>.</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>color="<i>fontcolour</i>"</tt></td><td>The font colour in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
+or as a named colour, i.e. <b><i>red</i></b>.</td></tr>
 </table>
 
 \subsection msgtag Translatable text
@@ -814,19 +924,19 @@ The supported tags and their attributes are shown in the following tables:
 <tr bgcolor="#ddeeff"><td><tt>&lt;col width="<i>width</i>" span="<i>number</i>"&gt; ... &lt;/col&gt;</tt></td><td>
 Defines the <i>width</i> of one or more columns. <i>number</i> specifies for how many columns the width is specified, default is 1.
 </td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>&lt;thead odd="<i>background color for odd numbered rows</i>" even="<i>background color for even numbered rows</i>"&gt; ... &lt;/thead&gt;</tt></td>
+<tr bgcolor="#eeeeee"><td valign="top"><tt>&lt;thead odd="<i>background colour for odd numbered rows</i>" even="<i>background colour for even numbered rows</i>"&gt; ... &lt;/thead&gt;</tt></td>
 <td>Defines a group of table header rows.
 Contains one or more &lt;tr&gt; tags. If a table does not fit on a single page these rows are repeated on each page.
 The attributes <b><tt>odd</tt></b> and <b><tt>even</tt></b> are optional.
 </td></tr>
-<tr bgcolor="#ddeeff"><td valign="top"><tt>&lt;tbody odd="<i>background color for odd numbered rows</i>" even="<i>background color for even numbered rows</i>"&gt; ... &lt;/tbody&gt;</tt></td>
+<tr bgcolor="#ddeeff"><td valign="top"><tt>&lt;tbody odd="<i>background colour for odd numbered rows</i>" even="<i>background colour for even numbered rows</i>"&gt; ... &lt;/tbody&gt;</tt></td>
 <td>Defines a group of table body rows. Contains one or more &lt;tr&gt; tags.
 The attributes <b><tt>odd</tt></b> and <b><tt>even</tt></b> are optional.
 </td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>&lt;tr bgcolor="<i>background color</i>" height="<i>height</i>"&gt; ... &lt;/tr&gt;</tt></td>
+<tr bgcolor="#eeeeee"><td valign="top"><tt>&lt;tr bgcolor="<i>background colour</i>" height="<i>height</i>"&gt; ... &lt;/tr&gt;</tt></td>
 <td>Defines a table row. Contains one or more &lt;td&gt; tags.
-<p>The <i>background color</i> may be specified in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
-or as a named color, i.e. <b><i>red</i></b>. If no background color is given the background is transparent.</p>
+<p>The <i>background colour</i> may be specified in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
+or as a named colour, i.e. <b><i>red</i></b>. If no background colour is given the background is transparent.</p>
 <p>Usually the height of the highest cell in a row is used as the row height, but a minimal row <i>height</i> may be specified, too</p>
 </td></tr>
 <tr bgcolor="#ddeeff"><td valign="top"><tt>&lt;td&gt; ... &lt;/td&gt;</tt></td><td>Defines a table cell. 
@@ -851,9 +961,9 @@ the combination of up to 4 letters:
 .</td></tr>
 <tr bgcolor="#ddeeff"><td valign="top"><tt>align="left|right|center"</tt></td><td>Defines the horizontal alignment of the cell content. Default is <i>left</i>.</td></tr>
 <tr bgcolor="#eeeeee"><td><tt>valign="top|middle|bottom"</tt></td><td>Defines the vertical alignment of the cell content. Default is <i>top</i>.</td></tr>
-<tr bgcolor="#ddeeff"><td valign="top"><tt>bgcolor="<i>background color</i>"</tt></td><td>The background color of the cell in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
-or as a named color, i.e. <b><i>red</i></b>. This attribute overrides the background color specification of the row.
-If neither a row nor a cell background color is specified the background is transparent.</td></tr>
+<tr bgcolor="#ddeeff"><td valign="top"><tt>bgcolor="<i>background colour</i>"</tt></td><td>The background colour of the cell in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
+or as a named colour, i.e. <b><i>red</i></b>. This attribute overrides the background colour specification of the row.
+If neither a row nor a cell background colour is specified the background is transparent.</td></tr>
 <tr bgcolor="#eeeeee"><td valign="top"><tt>rowspan="<i>number</i>"</tt></td><td><i>Number</i> of rows this cell should span. Default is 1.</td></tr>
 <tr bgcolor="#ddeeff"><td valign="top"><tt>colspan="<i>number</i>"</tt></td><td><i>Number</i> of columns this cell should span. Default is 1.</td></tr>
 </table>
@@ -863,13 +973,30 @@ If neither a row nor a cell background color is specified the background is tran
 #ifndef _PDFDOC_DEF_H_
 #define _PDFDOC_DEF_H_
 
-#ifdef WXMAKINGDLL_WXPDFDOC
-    #define WXDLLIMPEXP_PDFDOC WXEXPORT
+#if defined(WXMAKINGLIB_PDFDOC)
+  #define WXDLLIMPEXP_PDFDOC
+  #define WXDLLIMPEXP_DATA_PDFDOC(type) type
+#elif defined(WXMAKINGDLL_PDFDOC)
+  #define WXDLLIMPEXP_PDFDOC WXEXPORT
+  #define WXDLLIMPEXP_DATA_PDFDOC(type) WXEXPORT type
 #elif defined(WXUSINGDLL)
-    #define WXDLLIMPEXP_PDFDOC WXIMPORT
+  #define WXDLLIMPEXP_PDFDOC WXIMPORT
+  #define WXDLLIMPEXP_DATA_PDFDOC(type) WXIMPORT type
 #else // not making nor using DLL
-    #define WXDLLIMPEXP_PDFDOC
+  #define WXDLLIMPEXP_PDFDOC
+  #define WXDLLIMPEXP_DATA_PDFDOC(type) type
+#endif
+
+/*
+  GCC warns about using __declspec on forward declarations
+  while MSVC complains about forward declarations without
+  __declspec for the classes later declared with it. To hide this
+  difference a separate macro for forward declarations is defined:
+ */
+#if defined(__WINDOWS__) && defined(__GNUC__)
+  #define WXDLLIMPEXP_FWD_PDFDOC
+#else
+  #define WXDLLIMPEXP_FWD_PDFDOC WXDLLIMPEXP_PDFDOC
 #endif
 
 #endif // _PDFDOC_DEF_H_
-

@@ -53,48 +53,48 @@
 
 class PdfTuto2 : public wxPdfDocument
 {
-  //Page header
+  // Page header
   void Header()
   {
-    //Logo
-    Image(_T("wxpdfdoc.png"),10,8,28);
-    //Arial bold 15
-    SetFont(_T("Arial"),_T("B"),15);
-    //Move to the right
+    // Logo
+    Image(wxT("wxpdfdoc.png"),10,8,28);
+    // Arial bold 15
+    SetFont(wxT("Arial"),wxT("B"),15);
+    // Move to the right
     Cell(80);
-    //Title
-    Cell(30,10,_T("Title"),wxPDF_BORDER_FRAME,0,wxPDF_ALIGN_CENTER);
-    //Line break
+    // Title
+    Cell(30,10,wxT("Title"),wxPDF_BORDER_FRAME,0,wxPDF_ALIGN_CENTER);
+    // Line break
     Ln(20);
   }
 
-  //Page footer
+  // Page footer
   void Footer()
   {
-    //Position at 1.5 cm from bottom
+    // Position at 1.5 cm from bottom
     SetY(-15);
-    //Arial italic 8
-    SetFont(_T("Arial"),_T("I"),8);
-    //Page number
-    Cell(0,10,wxString::Format(_T("Page %d/{nb}"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
+    // Arial italic 8
+    SetFont(wxT("Arial"),wxT("I"),8);
+    // Page number
+    Cell(0,10,wxString::Format(wxT("Page %d/{nb}"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
   }
 };
 
 void
 tutorial2()
 {
-//Instanciation of inherited class
+  // Instantiation of inherited class
   PdfTuto2 pdf;
   pdf.AliasNbPages();
   pdf.AddPage();
-  pdf.Image(_T("smile.jpg"),70,40,12);
-  pdf.Image(_T("apple.gif"),110,40,25);
-  pdf.SetFont(_T("Times"),_T(""),12);
+  pdf.Image(wxT("smile.jpg"),70,40,12);
+  pdf.Image(wxT("apple.gif"),110,40,25);
+  pdf.SetFont(wxT("Times"),wxT(""),12);
   int i;
   for (i = 1; i <= 40; i++)
   {
-    pdf.Cell(0,10,wxString::Format(_T("Printing line number %d"),i),0,1);
+    pdf.Cell(0,10,wxString::Format(wxT("Printing line number %d"),i),0,1);
   }
-  pdf.SaveAsFile(_T("tutorial2.pdf"));
+  pdf.SaveAsFile(wxT("tutorial2.pdf"));
 }
 

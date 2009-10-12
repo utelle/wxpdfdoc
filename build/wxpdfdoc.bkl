@@ -1,111 +1,93 @@
 <?xml version="1.0" ?>
 <makefile>
 
-  <!-- Some defaults for the variables used by wxCode bakefiles -->
-  <set var="WXCODE_BAKEFILEDIR">../../../build/bakefiles</set>
-  <include file="$(WXCODE_BAKEFILEDIR)/defaults.bkl"/>
+<!--
+  <set var="USE_UNSTABLE_VERSION">1</set>
+  <set var="WX_VERSION_DEFAULT">29</set>
+-->
+
+  <set var="WX_VERSION_DEFAULT">28</set>
+  <include file="presets/wxcode.bkl"/>
 
   <!-- The wxPdfDoc settings -->
   <!-- ===================== -->
 
-  <set var="COMP_NAME">wxpdfdoc</set>
-  <set var="COMP_SRC">
-    pdfannotation.cpp pdfbarcode.cpp pdfcolor.cpp pdfdecode.cpp
-    pdfdoc.cpp pdfencrypt.cpp pdffont.cpp pdfform.cpp 
-    pdfgraphics.cpp pdfimage.cpp pdfkernel.cpp pdfobjects.cpp 
-    pdfparser.cpp pdfrijndael.cpp pdftemplate.cpp pdftruetype.cpp 
-    pdfxml.cpp
+  <set-comp-name>pdfdoc</set-comp-name>
+
+  <set var="COMP_HDR_PART1">
+    $(fileList('include/wx/*.h'))
   </set>
   <set var="COMP_HDR">
-    wx/pdfbarcode.h wx/pdfdoc.h wx/pdfdocdef.h wx/pdfencrypt.h 
-    wx/pdffont.h wx/pdfform.h wx/pdfgraphics.h wx/pdfimage.h 
-    wx/pdfobjects.h wx/pdfparser.h wx/pdfproperties.h wx/pdfrijndael.h
-    wx/pdftemplate.h wx/pdftruetype.h wx/pdfxml.h
+    $(COMP_HDR_PART1)
+    src/pdfcmapdata.inc
+    src/pdfcolourdata.inc
+    src/pdfcorefontdata.inc
+    src/pdfcorefontkerning.inc
+    src/pdfglyphnames.inc
   </set>
-  <set var="COMP_SAMPLE_SRC">
-    barcodes.cpp bookmark.cpp charting.cpp cjktest.cpp 
-    clipping.cpp drawing.cpp gradients.cpp jsform.cpp 
-    labels.cpp minimal.cpp protection.cpp rotation.cpp 
-    templates.cpp transformation.cpp transparency.cpp tutorial1.cpp 
-    tutorial2.cpp tutorial3.cpp tutorial4.cpp tutorial5.cpp 
-    tutorial6.cpp tutorial7.cpp wmf.cpp xmlwrite.cpp
-  </set>
-  <set var="COMP_SAMPLE_HDR"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Library settings                                                  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-  <set var="COMP_MAKEFONT_SRC">$(COMP_BASEPATH)/makefont/makefont.cpp</set>
-  <set var="COMP_MAKEFONT_DIR">$(COMP_BASEPATH)/makefont</set>
-
-<!--  <set var="COMP_WANT_INSTALL_TARGET">0</set>-->
-  <set var="WX_UNICODE_DEFAULT">1</set>
-  <set var="MONOLITHIC">0</set>
-  <set var="WX_VERSION_DEFAULT">26</set>
-
-  <!-- The wxCode bakefile to include after the definition of the COMP_XXXX variables... -->
-  <include file="$(WXCODE_BAKEFILEDIR)/wxcode.bkl"/>
-  <set var="POSTFIX">
-    <if cond="WX_SHARED=='0'">_lib</if>
-    <if cond="WX_SHARED=='1'">_dll</if>
-   </set>
-  <if cond="FORMAT!='autoconf'">
-    <set var="BUILDDIR">$(FORMAT)$(WXLIBPOSTFIX)$(POSTFIX)</set>
-  </if>
-
-  <!-- The real target: wxcode.bkl does not declare a real target but a template called
-       "complib". In this way modifications are allowed to the basic template. -->
-  <lib id="wxpdfdoc_lib" template="complib" cond="WX_SHARED=='0'">
-    <install-to>$(LIBDIR)</install-to>
+  <lib id="pdfdoc_lib" template="wxcode-lib" cond="WX_SHARED=='0'">
   </lib>
-  <dll id="wxpdfdoc_dll" template="compdll" cond="WX_SHARED=='1'">
-    <install-to>$(LIBDIR)</install-to>
-    <if cond="MONOLITHIC=='1'">
-      <sys-lib>wx$(WXPORT)$(WX_VERSION)$(WXLIBPOSTFIX)</sys-lib>
-    </if>
-    <if cond="MONOLITHIC=='0'">
-      <wx-lib>xml</wx-lib>
-      <wx-lib>core</wx-lib>
-      <wx-lib>base</wx-lib>
-    </if>
+
+  <dll id="pdfdoc_dll" template="wxcode-dll" cond="WX_SHARED=='1'">
+    <wx-lib>xml</wx-lib>
+    <wx-lib>core</wx-lib>
+    <wx-lib>base</wx-lib>
   </dll>
 
-  <set var="MSVC6PRJ_MERGED_TARGETS">wxpdfdoc=wxpdfdoc_lib+wxpdfdoc_dll</set>
+  <set var="MSVC6PRJ_MERGED_TARGETS">
+    pdfdoc=pdfdoc_lib+pdfdoc_dll
+  </set>
 
-  <template id="wxpdfdoccompsample" template="compsample">
-    <include>..$(DIRSEP)..$(DIRSEP)include</include>
+  <set var="COMPONENT_LIB">
+    <if cond="FORMAT_SUPPORTS_CONDITIONS=='1' and WX_SHARED=='0'">pdfdoc_lib</if>
+    <if cond="FORMAT_SUPPORTS_CONDITIONS=='1' and WX_SHARED=='1'">pdfdoc_dll</if>
+    <if cond="FORMAT_SUPPORTS_CONDITIONS=='0'">pdfdoc_lib</if>
+  </set>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Sample(s) settings                                                -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <template id="pdfdoc_sample">
     <app-type>console</app-type>
-    <library>wxpdfdoc_lib</library>
-    <if cond="MONOLITHIC=='1'">
-      <sys-lib>wx$(WXPORT)$(WX_VERSION)$(WXLIBPOSTFIX)</sys-lib>
-    </if>
-    <if cond="MONOLITHIC=='0'">
-      <wx-lib>xml</wx-lib>
-      <wx-lib>core</wx-lib>
-      <wx-lib>base</wx-lib>
-    </if>
+    <sources>$(fileList('samples/*.cpp'))</sources>
+    <headers>$(fileList('samples/*.h'))</headers>
+    <include>$(SRCDIR)/samples</include>
+    <dirname>$(SRCDIR)/samples</dirname>
+    <library>$(COMPONENT_LIB)</library>
+    <wx-lib>xml</wx-lib>
+    <wx-lib>core</wx-lib>
+    <wx-lib>base</wx-lib>
   </template>
 
-  <!-- use _ instead of '-' or '.' because MSVC6 does not like these chars -->
-  <exe id="minimal" template="wxpdfdoccompsample">
-    <res-include>$(COMP_SAMPLE_DIR)</res-include>
-    <win32-res>$(COMP_SAMPLE_DIR)$(DIRSEP)minimal.rc</win32-res>
-  </exe>
-
-  <exe id="makefont" template="compsamplebasic">
-    <sources>$(COMP_MAKEFONT_SRC)</sources>
-    <dirname>$(COMP_MAKEFONT_DIR)</dirname>
-    <res-include>$(COMP_MAKEFONT_DIR)</res-include>
-    <win32-res>$(COMP_MAKEFONT_DIR)$(DIRSEP)makefont.rc</win32-res>
-    <include>..$(DIRSEP)..$(DIRSEP)include</include>
+  <template id="pdfdoc_makefont">
     <app-type>console</app-type>
-    <library>wxpdfdoc_lib</library>
-    <if cond="MONOLITHIC=='1'">
-      <sys-lib>wx$(WXPORT)$(WX_VERSION)$(WXLIBPOSTFIX)</sys-lib>
-    </if>
-    <if cond="MONOLITHIC=='0'">
-      <wx-lib>xml</wx-lib>
-      <wx-lib>core</wx-lib>
-      <wx-lib>base</wx-lib>
-    </if>
-  </exe>
+    <sources>makefont/makefont.cpp</sources>
+    <headers></headers>
+    <include>$(SRCDIR)/makefont</include>
+    <dirname>$(SRCDIR)/makefont</dirname>
+    <library>$(COMPONENT_LIB)</library>
+    <wx-lib>xml</wx-lib>
+    <wx-lib>core</wx-lib>
+    <wx-lib>base</wx-lib>
+  </template>
+
+  <!-- The sample of the component: as for the LIB target, this exe derives from a 
+       template contained in wxcode.bkl which can be modified here -->
+  <wxcode-sample id="minimal" template="pdfdoc_sample">
+    <exename>minimal</exename>
+    <win32-res>samples/minimal.rc</win32-res>
+  </wxcode-sample>
+
+  <wxcode-sample id="makefont" template="pdfdoc_makefont">
+    <exename>makefont</exename>
+    <win32-res>makefont/makefont.rc</win32-res>
+  </wxcode-sample>
 
 </makefile>
 

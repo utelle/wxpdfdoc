@@ -20,6 +20,7 @@
 #endif
 
 #include "wx/pdfdoc.h"
+#include "wx/pdfcoonspatchmesh.h"
 
 /**
 * Gradients
@@ -42,11 +43,11 @@ gradients()
   wxPdfColour cyan(0,255,255);
   wxPdfColour white(255,255,255);
   wxPdfColour black(0,0,0);
-  wxPdfColour navy(wxString(_T("navy")));
-  wxPdfColour lightsteelblue(wxString(_T("lightsteelblue")));
-  wxPdfColour light(wxString(_T("#EEEEEE")));
-  wxPdfColour fcol(wxString(_T("#440000")));
-  wxPdfColour tcol(wxString(_T("#FF9090")));
+  wxPdfColour navy(wxString(wxT("navy")));
+  wxPdfColour lightsteelblue(wxString(wxT("lightsteelblue")));
+  wxPdfColour light(wxString(wxT("#EEEEEE")));
+  wxPdfColour fcol(wxString(wxT("#440000")));
+  wxPdfColour tcol(wxString(wxT("#FF9090")));
 
   // paint a linear gradient
   int grad1 = pdf.LinearGradient(red,blue);
@@ -126,7 +127,7 @@ gradients()
 
   // second page
   pdf.AddPage();
-  //pdf.Cell(0,5,_T("Page 2"),0,1,'C');
+  //pdf.Cell(0,5,wxT("Page 2"),0,1,'C');
   pdf.Ln();
 
   wxPdfCoonsPatchMesh mesh3;
@@ -160,6 +161,6 @@ gradients()
   int coons3 = pdf.CoonsPatchGradient(mesh3, minCoord3, maxCoord3);
   pdf.SetFillGradient(10,25,190,200,coons3);
 
-  pdf.SaveAsFile(_T("gradients.pdf"));
+  pdf.SaveAsFile(wxT("gradients.pdf"));
 }
 

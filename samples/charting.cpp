@@ -33,7 +33,7 @@ class PdfCharting : public wxPdfDocument
 public:
   void PieChart(double width, double height, int nData, const wxString* label, double* data, const wxColour* colors)
   {
-    SetFont(_T("Arial"), _T(""), 10);
+    SetFont(wxT("Arial"), wxT(""), 10);
     double margin = 2;
     double hLegend = 5;
 
@@ -55,7 +55,7 @@ public:
     double xPage = GetX();
     double xDiag = GetX() + margin + radius;
     double yDiag = GetY() + margin + radius;
-    //Sectors
+    // Sectors
     SetLineWidth(0.2);
     double angle = 0;
     double angleStart = 0;
@@ -66,7 +66,7 @@ public:
       if (angle != 0)
       {
         angleEnd = angleStart + angle;
-        SetFillColor(colors[i]);
+        SetFillColour(colors[i]);
         Sector(xDiag, yDiag, radius, angleStart, angleEnd);
         angleStart += angle;
       }
@@ -76,13 +76,13 @@ public:
       Sector(xDiag, yDiag, radius, angleStart - angle, 360);
     }
 
-    //Legends
+    // Legends
     double x1 = xPage + 2 * radius + 4 * margin;
     double x2 = x1 + hLegend + margin;
     double y1 = yDiag - radius + (2 * radius - nData*(hLegend + margin)) / 2;
     for (i = 0; i < nData; i++)
     {
-      SetFillColor(colors[i]);
+      SetFillColour(colors[i]);
       Rect(x1, y1, hLegend, hLegend, wxPDF_STYLE_FILLDRAW);
       SetXY(x2, y1);
       Cell(0, hLegend, label[i]);
@@ -90,16 +90,16 @@ public:
     }
   }
 
-  void BarDiagram(double width, double height, int nData, const wxString* label, double* data, const wxColour& color = wxColour(), double maxVal = 0, int nDiv = 4)
+  void BarDiagram(double width, double height, int nData, const wxString* label, double* data, const wxColour& colour = wxColour(), double maxVal = 0, int nDiv = 4)
   {
-    wxPdfColour saveColor = GetFillColor();
-    wxColour localColor = color;
-    if (!localColor.Ok())
+    wxPdfColour saveColour = GetFillColour();
+    wxColour localColour = colour;
+    if (!localColour.Ok())
     {
-      localColor = wxColour(155,155,155);
+      localColour = wxColour(155,155,155);
     }
 
-    SetFont(_T("Arial"), _T(""), 10);
+    SetFont(wxT("Arial"), wxT(""), 10);
 
     // Determine maximal legend width and sum of data values
     double maxValue = data[0];
@@ -143,13 +143,13 @@ public:
     {
       xpos = xDiag + tickLen * i;
       Line(xpos, yDiag, xpos, yDiag + hDiag);
-      wxString val = wxString::Format(_T("%.2f"), i * tickRange);
+      wxString val = wxString::Format(wxT("%.2f"), i * tickRange);
       xpos -= GetStringWidth(val) / 2;
       ypos = yDiag + hDiag;
       Text(xpos, ypos + 2*margin, val);
     }
 
-    SetFillColor(color);
+    SetFillColour(colour);
     double wval;
     for (i = 0; i < nData; i++)
     {
@@ -161,7 +161,7 @@ public:
       SetXY(0, ypos);
       Cell(xDiag - margin, eBaton, label[i], wxPDF_BORDER_NONE, 0, wxPDF_ALIGN_RIGHT);
     }
-    SetFillColor(saveColor);
+    SetFillColour(saveColour);
   }
 };
 
@@ -172,39 +172,39 @@ charting()
 
   // Show examples of a simple pie chart and a simple bar chart
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"),_T(""),12);
+  pdf.SetFont(wxT("Arial"),wxT(""),12);
 
   int nData = 4;
   wxColour colors[] = { wxColour(92,172,238), wxColour(67,205,128), wxColour(255,99,71), wxColour(255,215,0)};
-  wxString labels[] = { _T("Job 1"), _T("Job 2"),_T("Job 3"),_T("Job 4") };
+  wxString labels[] = { wxT("Job 1"), wxT("Job 2"),wxT("Job 3"),wxT("Job 4") };
   double pieData[] = { 30., 20., 40., 10. };
 
   pdf.SetX(40);
-  pdf.MultiCell(0,4.5, _T("Pie Chart Sample"));
+  pdf.MultiCell(0,4.5, wxT("Pie Chart Sample"));
   pdf.Ln(5);
   pdf.SetX(pdf.GetX()+30);
   pdf.PieChart(125, 70, nData, labels, pieData, colors);
 
-  pdf.SetFont(_T("Arial"),_T(""),12);
+  pdf.SetFont(wxT("Arial"),wxT(""),12);
   pdf.SetXY(40,110);
-  pdf.MultiCell(0,4.5, _T("Bar Chart Sample"));
+  pdf.MultiCell(0,4.5, wxT("Bar Chart Sample"));
   pdf.SetXY(40,120);
   nData = 3;
   double barData[] = { 50., 80., 25. };
-  wxString label[] = { _T("Job 1"), _T("Job 2"), _T("Job 3") };
+  wxString label[] = { wxT("Job 1"), wxT("Job 2"), wxT("Job 3") };
   pdf.BarDiagram(70, 35, nData, label, barData, wxColour(176,196,222), 100, 2);
 
 
   // Show available marker symbols
   pdf.AddPage();
 
-  pdf.Cell(40.,0., _T("Marker symbols and arrows"));
+  pdf.Cell(40.,0., wxT("Marker symbols and arrows"));
   pdf.Marker(25., 80., wxPDF_MARKER_CIRCLE, 15.0);
   pdf.Arrow(35.,85., 70., 105., 0.5, 8., 3.);
   pdf.Marker(78., 109., wxPDF_MARKER_CIRCLE, 10.0);
-  pdf.SetFillColor(wxColour(255,99,71));
+  pdf.SetFillColour(wxColour(255,99,71));
   pdf.Arrow(120.,75., 90., 100., 0.2, 6., 2.);
-  pdf.SetFillColor(wxColour(255,255,0));
+  pdf.SetFillColour(wxColour(255,255,0));
 
   pdf.SetLineWidth(0.12);
   double x;
@@ -223,7 +223,7 @@ charting()
     pdf.Marker(x, y1, (wxPdfMarker) i, 4.2);
   }
 
-  pdf.SetFillColor(wxColour(0,0,0));
+  pdf.SetFillColour(wxColour(0,0,0));
   for (i = 0; i < wxPDF_MARKER_LAST; i++)
   {
     x = 7. * i + 7. + x0;
@@ -231,34 +231,18 @@ charting()
   }
 
   pdf.AddPage();
-
-#if 0
-// Get a list of month using the current locale
-$months = $gDateLocale->GetShortMonth();
-
-  // Setup the tab title
-  $graph->tabtitle->Set('Year 2003');
-  $graph->tabtitle->SetFont(FF_ARIAL,FS_BOLD,10);
-
-  // Setup month as labels on the X-axis
-  $graph->xaxis->SetTickLabels($months);
-  $graph->xaxis->SetFont(FF_ARIAL,FS_NORMAL,8);
-  $graph->xaxis->SetLabelAngle(45);
-
-#endif
-
   pdf.SetLineWidth(0.2);
-  pdf.SetDrawColor(0,0,0);
+  pdf.SetDrawColour(0,0,0);
   pdf.Rect(55, 53, 100, 72);
 
   pdf.SetAlpha(1, 0.5);
   int j;
-  pdf.SetFillColor(wxPdfColour(wxString(_T("#BBBBBB"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxT("#BBBBBB"))));
   for (j = 0; j < 3; j++)
   {
     pdf.Rect(55, 53+2*j*12, 100, 12, wxPDF_STYLE_FILL);
   }
-  pdf.SetFillColor(wxPdfColour(wxString(_T("#DDDDDD"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxT("#DDDDDD"))));
   for (j = 0; j < 3; j++)
   {
     pdf.Rect(55, 53+2*(j+1)*12-12, 100, 12, wxPDF_STYLE_FILL);
@@ -268,7 +252,7 @@ $months = $gDateLocale->GetShortMonth();
   wxPdfArrayDouble dash;
   dash.Add(3.);
   dash.Add(3.);
-  wxPdfLineStyle dashStyle(0.2, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash, 0., wxPdfColour(wxString(_T("gray"))));
+  wxPdfLineStyle dashStyle(0.2, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash, 0., wxPdfColour(wxString(wxT("gray"))));
   pdf.SetLineStyle(dashStyle);
   for (j = 1; j < 6; j++)
   {
@@ -282,8 +266,8 @@ $months = $gDateLocale->GetShortMonth();
   double xdata[]  = { 10,  20, 30,  40,  50,  60, 70, 80,  90, 100 };
   double ydata[]  = { 10, 120, 80, 190, 260, 170, 60, 40,  20, 230 };
   double ydata2[] = { 10,  70, 40, 120, 200,  60, 80, 40,  20,   5 };
-  wxPdfColour fcol(wxString(_T("#440000")));
-  wxPdfColour tcol(wxString(_T("#FF9090")));
+  wxPdfColour fcol(wxString(wxT("#440000")));
+  wxPdfColour tcol(wxString(wxT("#FF9090")));
   int grad = pdf.LinearGradient(fcol, tcol, wxPDF_LINEAR_GRADIENT_REFLECTION_LEFT);
   for (j = 0; j < 10; j++)
   {
@@ -291,7 +275,7 @@ $months = $gDateLocale->GetShortMonth();
   }
 
   wxPdfArrayDouble solid;
-  wxPdfLineStyle solidStyle(0.1, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, solid, 0., wxPdfColour(wxString(_T("blue"))));
+  wxPdfLineStyle solidStyle(0.1, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, solid, 0., wxPdfColour(wxString(wxT("blue"))));
   pdf.SetLineStyle(solidStyle);
   wxPdfArrayDouble xl, yl;
   for (j = 0; j < 10; j++)
@@ -300,14 +284,14 @@ $months = $gDateLocale->GetShortMonth();
   }
   xl.Add(xdata[9]+50); yl.Add(125);
   xl.Add(xdata[0]+50); yl.Add(125);
-  pdf.SetDrawColor(wxPdfColour(wxString(_T("navy"))));
-  pdf.SetFillColor(wxPdfColour(wxString(_T("skyblue"))));
+  pdf.SetDrawColour(wxPdfColour(wxString(wxT("navy"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxT("skyblue"))));
   pdf.SetAlpha(0.75,0.5);
   pdf.Polygon(xl, yl, wxPDF_STYLE_FILLDRAW);
 
   pdf.SetAlpha(0.75,1);
-  pdf.SetDrawColor(wxPdfColour(wxString(_T("blue"))));
-  pdf.SetFillColor(wxPdfColour(wxString(_T("lightblue"))));
+  pdf.SetDrawColour(wxPdfColour(wxString(wxT("blue"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxT("lightblue"))));
   pdf.SetLineWidth(0.1);
   for (j = 0; j < 10; j++)
   {
@@ -315,41 +299,5 @@ $months = $gDateLocale->GetShortMonth();
   }
   pdf.SetAlpha();
 
-#if 0
-  pdf.SetAlpha(1, 0.5);
-  pdf.SetFillColor(wxPdfColour(wxString(_T("skyblue"))));
-  pdf.Rect(105, 210, 20, 15, wxPDF_STYLE_FILL);
-  pdf.SetAlpha();
-
-  //example of clipping polygon
-  wxPdfArrayDouble x1, x2, y;
-  x1.Add(30); x2.Add(120); y.Add(135);
-  x1.Add(60); x2.Add(150); y.Add(155);
-  x1.Add(40); x2.Add(130); y.Add(155);
-  x1.Add(70); x2.Add(160); y.Add(160);
-  x1.Add(30); x2.Add(120); y.Add(165);
-
-  pdf.ClippingPolygon(x1,y,false);
-  pdf.SetFillGradient(20,135,50,30,grad1);
-  pdf.UnsetClipping();
-
-
-  $bplot->SetFillGradient($fcol,$tcol,GRAD_LEFT_REFLECTION);
-
-  // Set line weigth to 0 so that there are no border
-  // around each bar
-  $bplot->SetWeight(0);
-
-$  graph->Add($bplot);
-
-  // Create filled line plot
-  $lplot = new LinePlot($ydata2);
-  $lplot->SetFillColor('skyblue@0.5');
-  $lplot->SetColor('navy@0.7');
-  $lplot->SetBarCenter();
-
-#endif
-  pdf.SaveAsFile(_T("charting.pdf"));
+  pdf.SaveAsFile(wxT("charting.pdf"));
 }
-
-

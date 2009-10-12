@@ -10,17 +10,20 @@
 
 /// \file pdfimage.h Interface of the wxPdfImage class
 
-#ifndef _PDFIMAGE_H_
-#define _PDFIMAGE_H_
+#ifndef _PDF_IMAGE_H_
+#define _PDF_IMAGE_H_
 
+// wxWidgets headers
 #include <wx/filesys.h>
 #include <wx/image.h>
+#include <wx/stream.h>
+#include <wx/string.h>
 
+// wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 
 // Forward declarations
-
-class WXDLLIMPEXP_PDFDOC wxPdfDocument;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfDocument;
 
 /// Class representing image objects. (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfImage
@@ -83,8 +86,8 @@ public:
   /// Get image offset in Y direction
   int GetY() { return m_y; }
 
-  /// Get color space
-  wxString GetColorSpace() { return m_cs; }
+  /// Get colour space
+  wxString GetColourSpace() { return m_cs; }
 
   /// Get bits per component
   int GetBitsPerComponent() { return m_bpc; }
@@ -96,19 +99,19 @@ public:
   wxString GetParms() { return m_parms; }
 
   /// Get palette size
-  int GetPaletteSize() { return m_palSize; }
+  unsigned int GetPaletteSize() { return m_palSize; }
 
   /// Get palette data
   char* GetPalette() { return m_pal; }
 
   /// Get transparency size
-  int GetTransparencySize() { return m_trnsSize; }
+  unsigned int GetTransparencySize() { return m_trnsSize; }
 
   /// Get transparency data
   char* GetTransparency() { return m_trns; }
 
   /// Get image data size
-  int GetDataSize() { return m_dataSize; }
+  unsigned int GetDataSize() { return m_dataSize; }
 
   /// Get image data
   char* GetData() { return m_data; }
@@ -169,15 +172,15 @@ protected:
 
   int            m_width;     ///< Image width in pixels
   int            m_height;    ///< Image height in pixels
-  wxString       m_cs;        ///< Colorspace
-  char           m_bpc;       ///< Bits per color
+  wxString       m_cs;        ///< Colourspace
+  char           m_bpc;       ///< Bits per colour
   wxString       m_f;         ///< Compression method
   wxString       m_parms;     ///< Additional PDF parameters
-  int            m_palSize;   ///< Size of palette
+  unsigned int   m_palSize;   ///< Size of palette
   char*          m_pal;       ///< Palette data
-  int            m_trnsSize;  ///< Transparency color size
-  char*          m_trns;      ///< Transparency color data
-  int            m_dataSize;  ///< Image data size
+  unsigned int   m_trnsSize;  ///< Transparency colour size
+  char*          m_trns;      ///< Transparency colour data
+  unsigned int   m_dataSize;  ///< Image data size
   char*          m_data;      ///< Image data
 
   bool           m_isFormObj; ///< Flag whether image must be treated as form object

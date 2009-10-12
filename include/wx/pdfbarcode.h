@@ -10,18 +10,27 @@
 
 /// \file pdfbarcode.h Interface of the wxPdfBarCodeCreator class
 
-#ifndef _PDFBARCODE_H_
-#define _PDFBARCODE_H_
+#ifndef _PDF_BARCODE_H_
+#define _PDF_BARCODE_H_
 
+// wxWidgets headers
+#include <wx/string.h>
+
+// wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 
 // Forward declarations
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfDocument;
 
-class WXDLLIMPEXP_PDFDOC wxPdfDocument;
+/// Special function code characters for Code128 barcodes
+const wxChar CODE128_FNC1 = 0xf1;
+const wxChar CODE128_FNC3 = 0xf2;
+const wxChar CODE128_FNC2 = 0xf3;
+const wxChar CODE128_FNC4 = 0xf4;
 
 /// Class representing barcode objects.
 /**
-* All supported barcodes are drawn directly in PDF without using an image or special font.
+* All supported barcodes are drawn directly in PDF without using an image or a special font.
 */
 class WXDLLIMPEXP_PDFDOC wxPdfBarCodeCreator
 {
@@ -44,7 +53,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 16
   * \param w width of a bar. Default value: 0.35.
-  * \returns TRUE if barcode could be drawn, FALSE if the check digit is invalid
+  * \return TRUE if barcode could be drawn, FALSE if the check digit is invalid
   */
   bool EAN13(double x, double y, const wxString& barcode, double h = 16, double w = .35);
 
@@ -57,7 +66,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 16
   * \param w width of a bar. Default value: 0.35.
-  * \returns TRUE if barcode could be drawn, FALSE if the check digit is invalid
+  * \return TRUE if barcode could be drawn, FALSE if the check digit is invalid
   */
   bool UPC_A(double x, double y, const wxString& barcode, double h = 16, double w = .35);
 
@@ -97,9 +106,72 @@ public:
   * \param x: abscissa of barcode
   * \param y: ordinate of barcode
   * \param zipcode: zip code to draw
-  * \returns TRUE if barcode could be drawn, FALSE if the zipcode is invalid
+  * \return TRUE if barcode could be drawn, FALSE if the zipcode is invalid
   */
   bool PostNet(double x, double y, const wxString& zipcode);
+
+  /// Draw a Code128 barcode automatically switching the code sets as needed
+  /**
+  * A Code128 barcode consists of characters in the range from ASCII code 0 to 127.
+  * Special function codes FNC1, FNC2, FNC3, FNC4 are supported as well.
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode value of barcode
+  * \param h height of barcode. Default value: 13
+  * \param w width of a bar. Default value: 0.21.
+  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  */
+  bool Code128(double x, double y, const wxString& barcode, double h, double w = 0.21);
+
+  /// Draw a Code128 barcode using only code set A
+  /**
+  * A Code128A barcode consists of characters in the range from ASCII code 0 to 95.
+  * Special function codes FNC1, FNC2, FNC3, FNC4 are supported as well.
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode value of barcode
+  * \param h height of barcode. Default value: 13
+  * \param w width of a bar. Default value: 0.21.
+  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  */
+  bool Code128A(double x, double y, const wxString& barcode, double h = 13, double w = 0.21);
+
+  /// Draw a Code128 barcode using only code set B
+  /**
+  * A Code128B barcode consists of characters in the range from ASCII code 32 to 127.
+  * Special function codes FNC1, FNC2, FNC3, FNC4 are supported as well.
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode value of barcode
+  * \param h height of barcode. Default value: 13
+  * \param w width of a bar. Default value: 0.21.
+  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  */
+  bool Code128B(double x, double y, const wxString& barcode, double h = 13, double w = 0.21);
+
+  /// Draw a Code128 barcode using only code set C
+  /**
+  * A Code128C barcode consists of decimal digits characters only.
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode value of barcode
+  * \param h height of barcode. Default value: 13
+  * \param w width of a bar. Default value: 0.21.
+  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  */
+  bool Code128C(double x, double y, const wxString& barcode, double h = 13, double w = 0.21);
+
+  /// Draw a EAN128 barcode
+  /**
+  * AI codes are supported.
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode value of barcode
+  * \param h height of barcode. Default value: 13
+  * \param w width of a bar. Default value: 0.21.
+  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  */
+  bool EAN128(double x, double y, const wxString& barcode, double h, double w = 0.21);
 
 protected:
   /// Calculate check digit
@@ -109,7 +181,7 @@ protected:
   bool TestCheckDigit(const wxString& barcode);
 
   /// Draw a barcode
-  bool Barcode(double x, double y, const wxString& barcode, double h, double w, int len);
+  bool Barcode(double x, double y, const wxString& barcode, double h, double w, unsigned int len);
 
   /// Encode extended Code39 barcode
   wxString EncodeCode39Ext(const wxString& code);
@@ -129,6 +201,9 @@ protected:
   /// Draw ZIP code barcode
   void ZipCodeDrawDigitBars(double x, double y, double barSpacing,
                             double halfBarHeight, double fullBarHeight, int digit);
+
+  /// Draw Code128 barcode
+  void Code128Draw(double x, double y, const wxString& barcode, double h, double w);
 
 private:
   wxPdfDocument* m_document;  ///< Document this barcode creator belongs to

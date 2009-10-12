@@ -10,14 +10,22 @@
 
 /// \file pdftemplate.h Interface of the wxPdfTemplate class
 
-#ifndef _PDFTEMPLATE_H_
-#define _PDFTEMPLATE_H_
+#ifndef _PDF_TEMPLATE_H_
+#define _PDF_TEMPLATE_H_
 
 // wxWidgets headers
+#include <wx/mstream.h>
+
+// wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 
-#include "wx/pdfdoc.h"
-#include "wx/pdfparser.h"
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfDocument;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontHashMap;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfImageHashMap;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfObject;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfParser;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfTemplate;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfTemplatesMap;
 
 /// Class representing a template (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfTemplate

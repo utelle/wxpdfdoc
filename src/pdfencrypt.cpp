@@ -49,8 +49,9 @@
 // includes
 #include <wx/log.h>
 
-#include "wx/pdfdoc.h"
 #include "wx/pdfencrypt.h"
+#include "wx/pdfrijndael.h"
+#include "wx/pdfutility.h"
 
 // ----------------
 // MD5 by RSA
@@ -76,6 +77,44 @@ static void  MD5Init(MD5_CTX *context);
 static void  MD5Update(MD5_CTX *context, unsigned char const *buf, unsigned len);
 static void  MD5Final(unsigned char digest[MD5_HASHBYTES], MD5_CTX *context);
 static void  MD5Transform(unsigned int buf[4], unsigned int const in[16]);
+
+#ifndef WORDS_BIGENDIAN
+#define byteReverse(buf,len)   /* Nothing */
+#else
+static void byteReverse(unsigned char *buf, unsigned longs);
+
+/*
+ * Note: this code is harmless on little-endian machines.
+ */
+static void byteReverse(unsigned char *buf, unsigned longs)
+{
+  static int littleEndian = -1;
+  if (littleEndian < 0)
+  {
+    // Are we little or big endian? This method is from Harbison & Steele.
+    union
+    {
+      long l;
+      char c[sizeof(long)];
+    } u;
+    u.l = 1;
+    littleEndian = (u.c[0] == 1) ? 1 : 0;
+  }
+
+  if (littleEndian != 1)
+  {
+    unsigned int t;
+    do
+    {
+      t = (unsigned int) ((unsigned) buf[3] << 8 | buf[2]) << 16 |
+          ((unsigned) buf[1] << 8 | buf[0]);
+      *(unsigned int *) buf = t;  
+      buf += 4;
+    }
+    while (--longs);
+  }
+}
+#endif
 
 #if 0
 static char* MD5End(MD5_CTX *, char *);
@@ -132,6 +171,7 @@ static void MD5Final(unsigned char digest[16], MD5_CTX *ctx)
   {
     /* Two lots of padding:  Pad the first block to 64 bytes */
     memset(p, 0, count);
+    byteReverse(ctx->in, 16);
     MD5Transform(ctx->buf, (unsigned int *) ctx->in);
 
     /* Now fill the next block with 56 bytes */
@@ -142,12 +182,14 @@ static void MD5Final(unsigned char digest[16], MD5_CTX *ctx)
     /* Pad block to 56 bytes */
     memset(p, 0, count - 8);   
   }
+  byteReverse(ctx->in, 14);
 
   /* Append length in bits and transform */
   ((unsigned int *) ctx->in)[14] = ctx->bits[0];
   ((unsigned int *) ctx->in)[15] = ctx->bits[1];
 
   MD5Transform(ctx->buf, (unsigned int *) ctx->in);
+  byteReverse((unsigned char *) ctx->buf, 4);
   memcpy(digest, ctx->buf, 16);
   memset((char *) ctx, 0, sizeof(ctx));       /* In case it's sensitive */
 }
@@ -191,6 +233,7 @@ static void MD5Update(MD5_CTX *ctx, unsigned char const *buf, unsigned len)
       return;
     }
     memcpy(p, buf, t);
+    byteReverse(ctx->in, 16);
     MD5Transform(ctx->buf, (unsigned int *) ctx->in);
     buf += t;
     len -= t;
@@ -200,6 +243,7 @@ static void MD5Update(MD5_CTX *ctx, unsigned char const *buf, unsigned len)
   while (len >= 64)
   {
     memcpy(ctx->in, buf, 64);
+    byteReverse(ctx->in, 16);
     MD5Transform(ctx->buf, (unsigned int *) ctx->in);
     buf += 64;
     len -= 64;
@@ -309,29 +353,6 @@ static void MD5Transform(unsigned int buf[4], unsigned int const in[16])
   buf[3] += d;
 }
  
-
-#ifndef REVERSEBYTE
-#define byteReverse(buf, len)   /* Nothing */
-#else
-void byteReverse(unsigned char *buf, unsigned longs);
-
-/*
- * Note: this code is harmless on little-endian machines.
- */
-static void byteReverse(unsigned char *buf, unsigned longs)
-{
-  unsigned int t;
-  do
-  {
-    t = (unsigned int) ((unsigned) buf[3] << 8 | buf[2]) << 16 |
-        ((unsigned) buf[1] << 8 | buf[0]);
-    *(unsigned int *) buf = t;  
-    buf += 4;
-  }
-  while (--longs);
-}
-#endif
-
 // ---------------------------
 // wxPdfEncrypt implementation
 // ---------------------------
@@ -379,14 +400,16 @@ wxPdfEncrypt::~wxPdfEncrypt()
 void
 wxPdfEncrypt::PadPassword(const wxString& password, unsigned char pswd[32])
 {
-  int m = password.Length();
+  unsigned int m = (unsigned int) password.Length();
   if (m > 32) m = 32;
 
-  int j;
-  int p = 0;
+  unsigned int j;
+  unsigned int p = 0;
+  wxString::const_iterator ch = password.begin();
   for (j = 0; j < m; j++)
   {
-    pswd[p++] = (unsigned char) password.GetChar(j);
+    pswd[p++] = (unsigned char) ((unsigned int) (*ch) & 0xff);
+    ++ch;
   }
   for (j = 0; p < 32 && j < 32; j++)
   {
@@ -426,10 +449,14 @@ wxPdfEncrypt::Authenticate(const wxString& documentID, const wxString& password,
   unsigned char userKey[32];
   bool ok = false;
   int j;
+  wxString::const_iterator uChar = uValue.begin();
+  wxString::const_iterator oChar = oValue.begin();
   for (j = 0; j < 32; j++)
   {
-    m_uValue[j] = (unsigned char) uValue.GetChar(j);
-    m_oValue[j] = (unsigned char) oValue.GetChar(j);
+    m_uValue[j] = (unsigned char) ((unsigned int) (*uChar) & 0xff);
+    m_oValue[j] = (unsigned char) ((unsigned int) (*oChar) & 0xff);
+    ++uChar;
+    ++oChar;
   }
   m_pValue = pValue;
   m_keyLength = lengthValue / 8;
@@ -453,12 +480,12 @@ wxPdfEncrypt::Authenticate(const wxString& documentID, const wxString& password,
 
 void
 wxPdfEncrypt::ComputeOwnerKey(unsigned char userPad[32], unsigned char ownerPad[32],
-                              int keyLength, int revision, bool authenticate,
+                              unsigned int keyLength, int revision, bool authenticate,
                               unsigned char ownerKey[32])
 {
   unsigned char mkey[MD5_HASHBYTES];
   unsigned char digest[MD5_HASHBYTES];
-  int length = keyLength / 8;
+  unsigned int length = keyLength / 8;
 
   MD5_CTX ctx;
   MD5Init(&ctx);
@@ -468,7 +495,7 @@ wxPdfEncrypt::ComputeOwnerKey(unsigned char userPad[32], unsigned char ownerPad[
   if (revision == 3 || revision == 4)
   {
     // only use for the input as many bit as the key consists of
-    int k;
+    unsigned int k;
     for (k = 0; k < 50; ++k)
     {
       MD5Init(&ctx);
@@ -476,8 +503,8 @@ wxPdfEncrypt::ComputeOwnerKey(unsigned char userPad[32], unsigned char ownerPad[
       MD5Final(digest,&ctx);
     }
     memcpy(ownerKey, userPad, 32);
-    int i;
-    int j;
+    unsigned int i;
+    unsigned int j;
     for (i = 0; i < 20; ++i)
     {
       for (j = 0; j < length ; ++j)
@@ -503,11 +530,10 @@ wxPdfEncrypt::ComputeOwnerKey(unsigned char userPad[32], unsigned char ownerPad[
 void
 wxPdfEncrypt::ComputeEncryptionKey(const wxString& documentId,
                                    unsigned char userPad[32], unsigned char ownerKey[32],
-                                   int pValue, int keyLength, int revision,
+                                   int pValue, unsigned int keyLength, int revision,
                                    unsigned char userKey[32])
 {
-  int j;
-  int k;
+  unsigned int k;
   m_keyLength = keyLength / 8;
 
   MD5_CTX ctx;
@@ -522,15 +548,17 @@ wxPdfEncrypt::ComputeEncryptionKey(const wxString& documentId,
   ext[3] = (unsigned char) ((pValue >> 24) & 0xff);
   MD5Update(&ctx, ext, 4);
 
-  size_t docIdLength = documentId.Length();
+  unsigned int docIdLength = (unsigned int) documentId.Length();
   unsigned char* docId = NULL;
   if (docIdLength > 0)
   {
     docId = new unsigned char[docIdLength];
-    size_t j;
+    unsigned int j;
+    wxString::const_iterator dChar = documentId.begin();
     for (j = 0; j < docIdLength; j++)
     {
-      docId[j] = (unsigned char) documentId.GetChar(j);
+      docId[j] = (unsigned char) ((unsigned int) (*dChar) & 0xff);
+      ++dChar;
     }
     MD5Update(&ctx, docId, docIdLength);
   }
@@ -571,6 +599,7 @@ wxPdfEncrypt::ComputeEncryptionKey(const wxString& documentId,
     }
     for (k = 0; k < 20; k++)
     {
+      unsigned int j;
       for (j = 0; j < m_keyLength; ++j)
       {
         digest[j] = (unsigned char)(m_encryptionKey[j] ^ k);
@@ -605,9 +634,9 @@ wxPdfEncrypt::CheckKey(unsigned char key1[32], unsigned char key2[32])
 void
 wxPdfEncrypt::Encrypt(int n, int g, wxString& str)
 {
-  size_t len = str.Length();
+  unsigned int len = (unsigned int) str.Length();
   unsigned char* data = new unsigned char[len];
-  size_t j;
+  unsigned int j;
   for (j = 0; j < len; j++)
   {
     data[j] = (unsigned char) str.GetChar(j);
@@ -621,12 +650,12 @@ wxPdfEncrypt::Encrypt(int n, int g, wxString& str)
 }
 
 void
-wxPdfEncrypt::Encrypt(int n, int g, unsigned char* str, int len)
+wxPdfEncrypt::Encrypt(int n, int g, unsigned char* str, unsigned int len)
 {
   unsigned char objkey[MD5_HASHBYTES];
   unsigned char nkey[MD5_HASHBYTES+5+4];
-  int nkeylen = m_keyLength + 5;
-  int j;
+  unsigned int nkeylen = m_keyLength + 5;
+  unsigned int j;
   for (j = 0; j < m_keyLength; j++)
   {
     nkey[j] = m_encryptionKey[j];
@@ -667,12 +696,12 @@ wxPdfEncrypt::Encrypt(int n, int g, unsigned char* str, int len)
 */
 
 void
-wxPdfEncrypt::RC4(unsigned char* key, int keylen,
-                  unsigned char* textin, int textlen,
+wxPdfEncrypt::RC4(unsigned char* key, unsigned int keylen,
+                  unsigned char* textin, unsigned int textlen,
                   unsigned char* textout)
 {
-  int i;
-  int j;
+  unsigned int i;
+  unsigned int j;
   int t;
   unsigned char rc4[256];
 
@@ -714,7 +743,7 @@ wxPdfEncrypt::RC4(unsigned char* key, int keylen,
 }
 
 void
-wxPdfEncrypt::GetMD5Binary(const unsigned char* data, int length, unsigned char* digest)
+wxPdfEncrypt::GetMD5Binary(const unsigned char* data, unsigned int length, unsigned char* digest)
 {
   MD5_CTX ctx;
   MD5Init(&ctx);
@@ -723,39 +752,41 @@ wxPdfEncrypt::GetMD5Binary(const unsigned char* data, int length, unsigned char*
 }
 
 void
-wxPdfEncrypt::AES(unsigned char* key, int WXUNUSED(keylen),
-                  unsigned char* textin, int textlen,
+wxPdfEncrypt::AES(unsigned char* key, unsigned int keylen,
+                  unsigned char* textin, unsigned int textlen,
                   unsigned char* textout)
 {
+  wxUnusedVar(keylen);
   GenerateInitialVector(textout);
   m_aes->init(wxPdfRijndael::CBC, wxPdfRijndael::Encrypt, key, wxPdfRijndael::Key16Bytes, textout);
-  int offset = CalculateStreamOffset();
+  size_t offset = CalculateStreamOffset();
   int len = m_aes->padEncrypt(&textin[offset], textlen, &textout[offset]);
   
   // It is a good idea to check the error code
   if (len < 0)
   {
-    wxLogError(_T("wxPdfEncrypt::AES: Error on encrypting."));
+    wxLogError(wxString(wxT("wxPdfEncrypt::AES: ")) +
+               wxString(_("Error on encrypting.")));
   }
 }
 
 void
 wxPdfEncrypt::GenerateInitialVector(unsigned char iv[16])
 {
-  wxString keyString = wxPdfDocument::GetUniqueId();
+  wxString keyString = wxPdfUtility::GetUniqueId();
 #if wxUSE_UNICODE
   wxCharBuffer cb(keyString.ToAscii());
   const char* key = (const char*) cb;
 #else
   const char* key = (const char*) keyString.c_str();
 #endif
-  GetMD5Binary((const unsigned char*) key, keyString.Length(), iv);
+  GetMD5Binary((const unsigned char*) key, (unsigned int) keyString.Length(), iv);
 }
 
-int
-wxPdfEncrypt::CalculateStreamLength(int length)
+size_t
+wxPdfEncrypt::CalculateStreamLength(size_t length)
 {
-  int realLength = length;
+  size_t realLength = length;
   if (m_rValue == 4)
   {
 //    realLength = (length % 0x7ffffff0) + 32;
@@ -768,10 +799,10 @@ wxPdfEncrypt::CalculateStreamLength(int length)
   return realLength;
 }
 
-int
+size_t
 wxPdfEncrypt::CalculateStreamOffset()
 {
-  int offset = 0;
+  size_t offset = 0;
   if (m_rValue == 4)
   {
     offset = 16;
@@ -788,7 +819,7 @@ wxPdfEncrypt::CreateDocumentId()
   int k;
   for (k = 0; k < 16; k++)
   {
-    documentId.Append(id[k]);
+    documentId.Append(wxChar(id[k]));
   }
   return documentId;
 }

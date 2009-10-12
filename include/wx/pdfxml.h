@@ -10,20 +10,21 @@
 
 /// \file pdfxml.h Interface of the wxPdfDocument markup
 
-#ifndef _PDFXML_H_
-#define _PDFXML_H_
+#ifndef _PDF_XML_H_
+#define _PDF_XML_H_
 
 // wxWidgets headers
 #include <wx/string.h>
 #include <wx/wfstream.h>
 
+// wxPdfDocument headers
 #include "wx/pdfdocdef.h"
-#include "wx/pdfdoc.h"
+#include "wx/pdfdocument.h"
 
-class wxPdfTable;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfTable;
 
 /// Class representing cell context objects. (For internal use only)
-class wxPdfCellContext
+class WXDLLIMPEXP_PDFDOC wxPdfCellContext
 {
 public:
   /// Constructor
@@ -54,7 +55,7 @@ public:
   void AddLine();
 
   /// Get number of lines in cell
-  size_t GetLineCount() { return m_linewidth.GetCount(); }
+  unsigned int GetLineCount() { return (unsigned int) m_linewidth.GetCount(); }
 
   /// Add width and number of spaces of the last line of the current context
   void AddLastLineValues(double width, int spaces);
@@ -81,7 +82,7 @@ public:
   int    GetCurrentLineSpaces();
 
   /// Get number of current line
-  size_t GetCurrentLine() { return m_currentLine; }
+  unsigned int GetCurrentLine() { return m_currentLine; }
 
   /// Increment line counter
   void IncrementCurrentLine();
@@ -96,7 +97,7 @@ public:
   void SetAligned() { m_aligned = true; }
 
   /// Get the number of contexts
-  size_t GetContextCount() { return m_contexts.GetCount(); }
+  unsigned int GetContextCount() { return (unsigned int) m_contexts.GetCount(); }
 
   /// Increment current context
   void IncrementCurrentContext();
@@ -137,9 +138,9 @@ private:
   wxPdfAlignment   m_hAlign;          ///< horizontal alignment
   wxPdfAlignment   m_vAlign;          ///< vertical alignment
   double           m_height;          ///< height of cell
-  size_t           m_currentContext;  ///< index of current context
+  unsigned int     m_currentContext;  ///< index of current context
   wxArrayPtrVoid   m_contexts;        ///< list of contexts
-  size_t           m_currentLine;     ///< index of current line
+  unsigned int     m_currentLine;     ///< index of current line
   bool             m_aligned;         ///< alignment flag
   wxPdfArrayDouble m_linewidth;       ///< list of line widths
   wxArrayInt       m_spaces;          ///< list of space counters
@@ -150,26 +151,26 @@ private:
 };
 
 /// Class representing table cells. (For internal use only)
-class wxPdfTableCell
+class WXDLLIMPEXP_PDFDOC wxPdfTableCell
 {
 public:
   /// Constructor
-  wxPdfTableCell(wxXmlNode* cell, int row, int col, int rows, int cols);
+  wxPdfTableCell(wxXmlNode* cell, unsigned int row, unsigned int col, unsigned int rows, unsigned int cols);
 
   /// Destructor
   virtual ~wxPdfTableCell();
 
   /// Get row of cell
-  int GetRow() const { return m_row; }
+  unsigned int GetRow() const { return m_row; }
 
   /// Get column of cell
-  int GetCol() const { return m_col; }
+  unsigned int GetCol() const { return m_col; }
 
   /// Get row span of cell
-  int GetRowSpan() const { return m_rowSpan;};
+  unsigned int GetRowSpan() const { return m_rowSpan;};
 
   /// Get column span of cell
-  int GetColSpan() const { return m_colSpan;};
+  unsigned int GetColSpan() const { return m_colSpan;};
 
   /// Set width of cell
   void SetWidth(double w) { m_width = w;};
@@ -207,23 +208,23 @@ public:
   /// Get border
   int GetBorder() { return m_border; }
 
-  /// Check whether cell has a colored or transparent background
-  bool HasCellColor() const { return m_hasCellColor; };
+  /// Check whether cell has a coloured or transparent background
+  bool HasCellColour() const { return m_hasCellColour; };
 
-  /// Set background color of cell
-  void SetCellColor(wxPdfColour color) { m_hasCellColor = true; m_colorCell = color;};
+  /// Set background colour of cell
+  void SetCellColour(wxPdfColour colour) { m_hasCellColour = true; m_colourCell = colour;};
 
-  /// Get background color of cell
-  wxPdfColour GetCellColor() const { return m_colorCell; };
+  /// Get background colour of cell
+  wxPdfColour GetCellColour() const { return m_colourCell; };
 
   /// Get root node of cell
   wxXmlNode* GetXmlNode() { return m_cell; }
 
 private:
-  int               m_row;           ///< row index
-  int               m_col;           ///< column index
-  int               m_rowSpan;       ///< row span
-  int               m_colSpan;       ///< column span
+  unsigned int      m_row;           ///< row index
+  unsigned int      m_col;           ///< column index
+  unsigned int      m_rowSpan;       ///< row span
+  unsigned int      m_colSpan;       ///< column span
 
   wxPdfCellContext* m_context;       ///< table cell context
   wxXmlNode*        m_cell;          ///< xml root node of cell
@@ -233,15 +234,15 @@ private:
   double            m_width;         ///< cell width
   double            m_height;        ///< cell height
   
-  bool              m_hasCellColor;  ///< flag whether cell has background color or is transparent
-  wxPdfColour       m_colorCell;     ///< cell background color
+  bool              m_hasCellColour;  ///< flag whether cell has background colour or is transparent
+  wxPdfColour       m_colourCell;     ///< cell background colour
 }; 
 
 /// Hashmap class for document links
-WX_DECLARE_HASH_MAP(long, wxPdfTableCell*, wxIntegerHash, wxIntegerEqual, wxPdfCellHashMap);
+WX_DECLARE_HASH_MAP_WITH_DECL(long, wxPdfTableCell*, wxIntegerHash, wxIntegerEqual, wxPdfCellHashMap, class WXDLLIMPEXP_PDFDOC);
 
 /// Class representing tables within a cell. (For internal use only)
-class wxPdfTable
+class WXDLLIMPEXP_PDFDOC wxPdfTable
 {
 public:
   /// Constructor
@@ -269,7 +270,7 @@ public:
   void Write();
 
   /// Write one table row to the document
-  void WriteRow(size_t row, double x, double y);
+  void WriteRow(unsigned int row, double x, double y);
 
   /// Set cell padding
   void SetPad(double pad) { m_pad = pad; }
@@ -290,19 +291,19 @@ public:
   double GetTotalHeight() { return m_totalHeight; }
 
   /// Set index of first header row
-  void SetHeadRowFirst(size_t row) { m_headRowFirst = row; }
+  void SetHeadRowFirst(unsigned int row) { m_headRowFirst = row; }
 
   /// Set index of last header row
-  void SetHeadRowLast(size_t row) { m_headRowLast = row; }
+  void SetHeadRowLast(unsigned int row) { m_headRowLast = row; }
 
   /// Set index of first body row
-  void SetBodyRowFirst(size_t row) { m_bodyRowFirst = row; }
+  void SetBodyRowFirst(unsigned int row) { m_bodyRowFirst = row; }
 
   /// Set index of last body row
-  void SetBodyRowLast(size_t row) { m_bodyRowLast = row; }
+  void SetBodyRowLast(unsigned int row) { m_bodyRowLast = row; }
 
 private:
-  wxPdfDocument*     m_document;     ///< document reference
+  wxPdfDocument* m_document;     ///< document reference
   wxPdfDoubleHashMap m_minHeights;   ///< array of minimal row heights
   wxPdfDoubleHashMap m_rowHeights;   ///< array of row heights
   wxPdfDoubleHashMap m_colWidths;    ///< array of column widths
@@ -312,13 +313,13 @@ private:
   double             m_totalHeight;  ///< total height
   double             m_headHeight;   ///< total height of table header
 
-  size_t             m_headRowFirst; ///< index of first header row
-  size_t             m_headRowLast;  ///< index of last header row
-  size_t             m_bodyRowFirst; ///< index of first body row
-  size_t             m_bodyRowLast;  ///< index of last body row
+  unsigned int       m_headRowFirst; ///< index of first header row
+  unsigned int       m_headRowLast;  ///< index of last header row
+  unsigned int       m_bodyRowFirst; ///< index of first body row
+  unsigned int       m_bodyRowLast;  ///< index of last body row
 
-  size_t             m_nRows;        ///< number of rows
-  size_t             m_nCols;        ///< number of columns
+  unsigned int       m_nRows;        ///< number of rows
+  unsigned int       m_nCols;        ///< number of columns
   wxPdfCellHashMap   m_table;        ///< array of table cells
   double             m_pad;          ///< cell padding
   bool               m_border;       ///< border flag

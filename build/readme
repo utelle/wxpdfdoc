@@ -1,4 +1,4 @@
-wxPdfDocument 0.8.0
+wxPdfDocument 0.8.5
 ===================
 
 When building wxPdfDocument and the sample application with MSVC
@@ -29,14 +29,6 @@ If you build wxPdfDocument as a DLL you need to copy the DLL from the
 'lib' folder to the 'samples' folder to be able to execute the sample
 program. Another solution is to add the 'lib' folder path to the Windows
 search path (PATH environment variable).
-
-Bakefile
---------
-
-If you recreate the project and workspace files using bakefile you
-should thereafter change the warning level in project settings from
-4 to 3, otherwise when compiling the sample application you see lots
-of warnings which could be savely ignored.
 
 ************************************************************************
 

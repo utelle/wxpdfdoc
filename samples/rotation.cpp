@@ -32,9 +32,9 @@ rotation()
 {
   wxPdfDocument pdf;
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"),_T(""),20);
-  pdf.RotatedImage(_T("circle.png"),85,60,40,16,45);
-  pdf.RotatedText(100,60,_T("Hello!"),45);
-  pdf.SaveAsFile(_T("rotation.pdf"));
+  pdf.SetFont(wxT("Arial"),wxT(""),20);
+  pdf.RotatedImage(wxT("circle.png"),85,60,40,16,45);
+  pdf.RotatedText(100,60,wxT("Hello!"),45);
+  pdf.SaveAsFile(wxT("rotation.pdf"));
 }
 

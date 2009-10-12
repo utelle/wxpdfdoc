@@ -10,14 +10,16 @@
 
 /// \file pdfobjects.h Interfaces of the wxPdfObject classes
 
-#ifndef _PDFOBJECTS_H_
-#define _PDFOBJECTS_H_
+#ifndef _PDF_OBJECTS_H_
+#define _PDF_OBJECTS_H_
 
 // wxWidgets headers
 #include <wx/dynarray.h>
+#include <wx/mstream.h>
+#include <wx/string.h>
 
+// wxPdfDocument headers
 #include "wx/pdfdocdef.h"
-#include "wx/pdfdoc.h"
 
 #define OBJTYPE_NULL         1
 #define OBJTYPE_BOOLEAN      2
@@ -52,10 +54,40 @@ public:
   int GetGeneration() { return m_objGen; }
 
   /// Flag this object as created through a indirect reference
-  void SetIndirect(bool indirect) { m_indirect = indirect; }
+  void SetCreatedIndirect(bool indirect) { m_indirect = indirect; }
 
   /// Check whether this object was created through a indirect reference
-  bool IsIndirect() { return m_indirect; }
+  bool IsCreatedIndirect() { return m_indirect; }
+
+  /// Check whether this object can be in an object stream
+  bool CanBeInObjStm();
+
+  /// Checks whether this is a wxPdfNull object.
+  bool IsNull() { return (m_type == OBJTYPE_NULL); }
+
+  /// Checks whether this is a wxPdfBoolean object.
+  bool IsBoolean() { return (m_type == OBJTYPE_BOOLEAN); }
+
+  /// Checks whether this is a wxPdfNumber object.
+  bool IsNumber() { return (m_type == OBJTYPE_NUMBER); }
+
+  /// Checks whether this is a wxPdfString object.
+  bool IsString() { return (m_type == OBJTYPE_STRING); }
+
+  /// Checks whether this is a wxPdfName object.
+  bool IsName() { return (m_type == OBJTYPE_NAME); }
+
+  /// Checks whether this is a wxPdfArray object.
+  bool IsArray() { return (m_type == OBJTYPE_ARRAY); }
+
+  /// Checks whether this is a wxPdfDictionary object.
+  bool IsDictionary() { return (m_type == OBJTYPE_DICTIONARY); }
+
+  /// Checks whether this PdfObject is of the type PdfStream.
+  bool IsStream() { return (m_type == OBJTYPE_STREAM); }
+
+  /// Checks if this is an indirect object.
+  bool IsIndirect() { return (m_type == OBJTYPE_INDIRECT); }
 
 protected:
   int  m_type;     ///< Object type
@@ -172,9 +204,13 @@ public:
   /// Get value as string
   wxString GetAsString() { return m_string; }
 
+  /// Check whether value is integer
+  bool IsInt() { return m_isInt; }
+
 private:
   double   m_value;   ///< Numeric value
   wxString m_string;  ///< String representation of numeric value
+  bool     m_isInt;   ///< Flag whether value is integer
 };
 
 /// Class representing a name object. (For internal use only)
@@ -227,7 +263,7 @@ private:
 };
 
 /// Hash map class for dictionaries. (For internal use only)
-WX_DECLARE_STRING_HASH_MAP(wxPdfObject*, wxPdfDictionaryMap);
+WX_DECLARE_STRING_HASH_MAP_WITH_DECL(wxPdfObject*, wxPdfDictionaryMap, class WXDLLIMPEXP_PDFDOC);
 
 /// Class representing a dictionary object. (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfDictionary : public wxPdfObject
@@ -236,11 +272,17 @@ public:
   /// Constructor
   wxPdfDictionary();
 
+  /// Constructor
+  wxPdfDictionary(const wxString& type);
+
   /// Destructor
   virtual ~wxPdfDictionary();
 
   /// Add a (name,value) pair to the dictionary
   void Put(wxPdfName* key, wxPdfObject* value);
+
+  /// Add a (name,value) pair to the dictionary
+  void Put(const wxString& key, wxPdfObject* value);
 
   /// Get the value identified by the given key
   wxPdfObject* Get(const wxString& key);
@@ -339,10 +381,10 @@ private:
 };
 
 /// Hashmap class for object queue entries (For internal use only)
-WX_DECLARE_HASH_MAP(long, wxPdfObjectQueue*, wxIntegerHash, wxIntegerEqual, wxPdfObjectMap);
+WX_DECLARE_HASH_MAP_WITH_DECL(long, wxPdfObjectQueue*, wxIntegerHash, wxIntegerEqual, wxPdfObjectMap, class WXDLLIMPEXP_PDFDOC);
 
 /// Hashmap class for object queue entries (For internal use only)
-WX_DECLARE_HASH_MAP(long, wxPdfObject*, wxIntegerHash, wxIntegerEqual, wxPdfObjStmMap);
+WX_DECLARE_HASH_MAP_WITH_DECL(long, wxPdfObject*, wxIntegerHash, wxIntegerEqual, wxPdfObjStmMap, class WXDLLIMPEXP_PDFDOC);
 
 #endif
 

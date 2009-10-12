@@ -10,14 +10,28 @@
 
 /// \file pdfparser.h Interface of the wxPdfParser classes
 
-#ifndef _PDFPARSER_H_
-#define _PDFPARSER_H_
+#ifndef _PDF_PARSER_H_
+#define _PDF_PARSER_H_
 
 // wxWidgets headers
 #include <wx/dynarray.h>
+#include <wx/filesys.h>
+#include <wx/mstream.h>
+#include <wx/string.h>
 
+// wxPdfDocument headers
 #include "wx/pdfdocdef.h"
-#include "wx/pdfobjects.h"
+#include "wx/pdfarraydouble.h"
+
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfArray;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfDictionary;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfEncrypt;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfInfo;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfObject;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfObjectMap;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfObjectQueue;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfObjStmMap;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfStream;
 
 /// Permissions required for import of a document
 // Permission bit  3: Print
@@ -158,7 +172,7 @@ public:
   wxString GetPdfVersion() { return m_pdfVersion; }
 
   /// Get number of pages in the parsed document
-  int GetPageCount();
+  unsigned int GetPageCount();
 
   /// Get the document information dictionary
   bool GetSourceInfo(wxPdfInfo& info);
@@ -173,25 +187,28 @@ public:
   void AppendObject(int originalObjectId, int actualObjectId, wxPdfObject* obj);
 
   /// Get the resources of a specific page
-  wxPdfObject* GetPageResources(int pageno);
+  wxPdfObject* GetPageResources(unsigned int pageno);
 
   /// Get the content stream collection of a specific page
-  void GetContent(int pageno, wxArrayPtrVoid& contents);
+  void GetContent(unsigned int pageno, wxArrayPtrVoid& contents);
 
   /// Get the media box of a specific page
-  wxPdfArrayDouble* GetPageMediaBox(int pageno);
+  wxPdfArrayDouble* GetPageMediaBox(unsigned int pageno);
 
   /// Get the crop box of a specific page
-  wxPdfArrayDouble* GetPageCropBox(int pageno);
+  wxPdfArrayDouble* GetPageCropBox(unsigned int pageno);
 
   /// Get the bleed box of a specific page
-  wxPdfArrayDouble* GetPageBleedBox(int pageno);
+  wxPdfArrayDouble* GetPageBleedBox(unsigned int pageno);
 
   /// Get the trim box of a specific page
-  wxPdfArrayDouble* GetPageTrimBox(int pageno);
+  wxPdfArrayDouble* GetPageTrimBox(unsigned int pageno);
 
   /// Get the art box of a specific page
-  wxPdfArrayDouble* GetPageArtBox(int pageno);
+  wxPdfArrayDouble* GetPageArtBox(unsigned int pageno);
+
+  /// Get the rotation of a specific page
+  int GetPageRotation (unsigned int pageno);
 
   /// Resolve an object
   wxPdfObject* ResolveObject(wxPdfObject* obj);
@@ -212,10 +229,13 @@ protected:
   /// Get a page box
   wxPdfArrayDouble* GetPageBox(wxPdfDictionary* page, const wxString& boxIndex);
 
+  /// Get a page rotation
+  int GetPageRotation (wxPdfDictionary* page);
+
   /// Parse PDF document
   bool ParseDocument();
 
-  ///
+  /// Setup a decryptor
   bool SetupDecryptor();
 
   /// Parse the cross reference
@@ -271,7 +291,7 @@ protected:
    */
   wxMemoryOutputStream* ASCIIHexDecode(wxMemoryOutputStream* osIn);
 
-  /** Decode a stream that has the ASCII85Decode filter.
+  /// Decode a stream that has the ASCII85Decode filter.
   /**
    * \param osIn the input data
    * \return the decoded data
@@ -302,7 +322,7 @@ private:
   wxPdfDictionary*  m_trailer;         ///< Trailer dictionary
   wxPdfDictionary*  m_root;            ///< Root object
   wxArrayPtrVoid    m_pages;           ///< Array of page objects
-  int               m_currentPage;     ///< Number of current page
+  unsigned int      m_currentPage;     ///< Number of current page
   bool              m_useRawStream;    ///< Flag whether to use raw stream data (without decoding)
 
   bool              m_encrypted;       ///< Flag whether the document is encrypted
@@ -318,7 +338,6 @@ private:
   int               m_objNum;          ///< Number of current object
   int               m_objGen;          ///< Generation of current object
 
-//  wxArrayInt        m_xref;            ///< Cross reference
   wxPdfXRef         m_xref;            ///< Cross reference
 
   static wxFileSystem* ms_fileSystem; ///< wxWidgets file system

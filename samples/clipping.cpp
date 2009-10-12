@@ -20,6 +20,7 @@
 #endif
 
 #include "wx/pdfdoc.h"
+#include "wx/pdfshape.h"
 
 /**
 * Clipping
@@ -37,31 +38,32 @@ clipping()
   pdf.AddPage();
 
   // example of clipped cell
-  pdf.SetFont(_T("Arial"),_T(""),14);
+  pdf.SetFont(wxT("Arial"),wxT(""),14);
   pdf.SetX(72);
-  pdf.ClippedCell(60,6,_T("These are clipping examples"),wxPDF_BORDER_FRAME);
+
+  pdf.ClippedCell(60,6,wxT("These are clipping examples"),wxPDF_BORDER_FRAME);
 
   // example of clipping text
-  pdf.SetFont(_T("Arial"),_T("B"),120);
-  //set the outline color
-  pdf.SetDrawColor(0);
+  pdf.SetFont(wxT("Arial"),wxT("B"),120);
+  // set the outline color
+  pdf.SetDrawColour(0);
   // set the outline width (note that only its outer half will be shown)
   pdf.SetLineWidth(2);
   // draw the clipping text
-  pdf.ClippingText(40,55,_T("CLIPS"),true);
-  //fill it with the image
-  pdf.Image(_T("clips.jpg"),40,10,130);
+  pdf.ClippingText(40,55,wxT("CLIPS"),true);
+  // fill it with the image
+  pdf.Image(wxT("clips.jpg"),40,10,130);
   // remove the clipping
   pdf.UnsetClipping();
 
   // example of clipping rectangle
   pdf.ClippingRect(45,65,116,20,true);
-  pdf.Image(_T("clips.jpg"),40,10,130);
+  pdf.Image(wxT("clips.jpg"),40,10,130);
   pdf.UnsetClipping();
 
   // example of clipping ellipse
   pdf.ClippingEllipse(102,104,16,10,true);
-  pdf.Image(_T("clips.jpg"),40,10,130);
+  pdf.Image(wxT("clips.jpg"),40,10,130);
   pdf.UnsetClipping();
 
   // example of clipping polygon
@@ -73,7 +75,7 @@ clipping()
   x.Add( 30); y.Add(165);
 
   pdf.ClippingPolygon(x,y,true);
-  pdf.Image(_T("clips.jpg"),20,100,130);
+  pdf.Image(wxT("clips.jpg"),20,100,130);
   pdf.UnsetClipping();
 
   // example of clipping using a shape
@@ -87,10 +89,10 @@ clipping()
   shape.CurveTo(145,125,135,137,135,140);
 
   pdf.SetLineWidth(1);
-  pdf.SetFillColor(wxPdfColour(wxString(_T("red"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxT("red"))));
   pdf.ClippingPath(shape, wxPDF_STYLE_FILLDRAW);
   pdf.UnsetClipping();
 
-  pdf.SaveAsFile(_T("clipping.pdf"));
+  pdf.SaveAsFile(wxT("clipping.pdf"));
 }
 

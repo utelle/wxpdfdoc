@@ -31,7 +31,7 @@ void wmf()
 {
   wxPdfDocument pdf;
   pdf.AddPage();
-  pdf.Image(_T("ringmaster.wmf"), 50, 10, 110, 0, _T("wmf"));
-  pdf.SaveAsFile(_T("wmf.pdf"));
+  pdf.Image(wxT("ringmaster.wmf"), 50, 10, 110, 0, wxT("wmf"));
+  pdf.SaveAsFile(wxT("wmf.pdf"));
 }
 

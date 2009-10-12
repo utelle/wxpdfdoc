@@ -49,7 +49,7 @@
 * 
 * To add a new cell next to it with centered text and go to the next line, we would do: 
 * 
-* pdf.Cell(60,10,_T("Powered by wxPdfDocument"),wxPDF_BORDER_NONE,1,wxPDF_ALIGN_CENTER);
+* pdf.Cell(60,10,wxT("Powered by wxPdfDocument"),wxPDF_BORDER_NONE,1,wxPDF_ALIGN_CENTER);
 * 
 * Remark : the line break can also be done with Ln(). This method allows to specify in
 * addition the height of the break. 
@@ -60,9 +60,10 @@
 void tutorial1()
 {
   wxPdfDocument pdf;
+  pdf.SetCompression(false);
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"),_T("B"),16);
-  pdf.Cell(40,10,_T("Hello World!"));
-  pdf.SaveAsFile(_T("tutorial1.pdf"));
+  pdf.SetFont(wxT("Arial"),wxT("B"),16);
+  pdf.Cell(40,10,wxT("Hello World!"));
+  pdf.SaveAsFile(wxT("tutorial1.pdf"));
 }
 

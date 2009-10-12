@@ -20,6 +20,7 @@
 #endif
 
 #include "wx/pdfdoc.h"
+#include "wx/pdfshape.h"
 
 /**
 * Drawing of geometric figures
@@ -31,43 +32,48 @@ void
 drawing()
 {
   wxPdfDocument pdf;
-  pdf.SetFont(_T("arial"), _T(""), 10);
+  pdf.SetFont(wxT("arial"), wxT(""), 10);
+
+  wxImage pattern1(wxT("pattern1.png"));
+  wxImage pattern2(wxT("pattern2.png"));
+  pdf.AddPattern(wxT("pattern1"), pattern1, 5, 5);
+  pdf.AddPattern(wxT("pattern2"), pattern2, 10, 10);
 
   pdf.AddPage();
 
   wxPdfArrayDouble dash1;
-  dash1.Add(10.);
-  dash1.Add(20.);
-  dash1.Add(5.);
-  dash1.Add(10.);
-  wxPdfLineStyle style(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash1, 10., wxColour(255, 0, 0));
+  dash1.Add(3.5);
+  dash1.Add(7.0);
+  dash1.Add(1.75);
+  dash1.Add(3.5);
+  wxPdfLineStyle style(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash1, 3.5, wxColour(255, 0, 0));
 
   wxPdfArrayDouble dash2;
   wxPdfLineStyle style2(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash2, 0., wxColour(255, 0, 0));
 
   wxPdfArrayDouble dash3;
-  dash3.Add(2.);
-  dash3.Add(10.);
+  dash3.Add(0.7);
+  dash3.Add(3.5);
   wxPdfLineStyle style3(1.0, wxPDF_LINECAP_ROUND, wxPDF_LINEJOIN_ROUND, dash3, 0., wxColour(255, 0, 0));
   
-  wxPdfLineStyle style4(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash1, 10., wxColour(255, 0, 0));
+  wxPdfLineStyle style4(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash1, 3.5, wxColour(255, 0, 0));
   
   wxPdfArrayDouble dash5;
   wxPdfLineStyle style5(0.25, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash5, 0., wxColour(0, 0, 0));
 
   wxPdfArrayDouble dash6;
-  dash6.Add(10.);
-  dash6.Add(10.);
+  dash6.Add(3.5);
+  dash6.Add(3.5);
   wxPdfLineStyle style6(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash6, 0., wxColour(0, 255, 0));
 
   wxPdfArrayDouble dash7;
-  wxPdfLineStyle style7(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash7, 10., wxColour(200, 200, 0));
+  wxPdfLineStyle style7(2.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash7, 3.5, pdf.GetPatternColour(wxT("pattern1")) /*wxColour(200, 200, 0)*/);
 
   wxPdfArrayDouble dash8;
   wxPdfLineStyle style8(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash8, 0., wxColour(0, 0, 0));
 
   // Line
-  pdf.Text(5, 7, _T("Line examples"));
+  pdf.Text(5, 7, wxT("Line examples"));
   pdf.SetLineStyle(style);
   pdf.Line(5, 10, 80, 30);
   pdf.SetLineStyle(style2);
@@ -76,23 +82,23 @@ drawing()
   pdf.Line(5, 10, 80, 10);
 
   // Rect
-  pdf.Text(100, 7, _T("Rectangle examples"));
+  pdf.Text(100, 7, wxT("Rectangle examples"));
   pdf.SetLineStyle(style5);
-  pdf.SetFillColor(wxColour(220, 220, 200));
+  pdf.SetFillColour(wxColour(220, 220, 200));
   pdf.Rect(100, 10, 40, 20, wxPDF_STYLE_FILLDRAW);
   pdf.SetLineStyle(style3);
   pdf.Rect(145, 10, 40, 20, wxPDF_STYLE_DRAW);
 
   // Curve
-  pdf.Text(5, 37, _T("Curve examples"));
+  pdf.Text(5, 37, wxT("Curve examples"));
   pdf.SetLineStyle(style6);
   pdf.Curve(5, 40, 30, 55, 70, 45, 60, 75, wxPDF_STYLE_DRAW);
   pdf.Curve(80, 40, 70, 75, 150, 45, 100, 75, wxPDF_STYLE_FILL);
-  pdf.SetFillColor(wxColour(200, 220, 200));
+  pdf.SetFillColour(wxColour(200, 220, 200));
   pdf.Curve(140, 40, 150, 55, 180, 45, 200, 75, wxPDF_STYLE_FILLDRAW);
 
   // Circle and ellipse
-  pdf.Text(5, 82, _T("Circle and ellipse examples"));
+  pdf.Text(5, 82, wxT("Circle and ellipse examples"));
   pdf.SetLineStyle(style5);
   pdf.Circle(25,105,20);
   pdf.SetLineStyle(style6);
@@ -110,11 +116,11 @@ drawing()
   pdf.Ellipse(175,105,30,15, 45);
   pdf.SetLineStyle(style6);
   pdf.Ellipse(175,105,15,7.50, 45, 90, 180, wxPDF_STYLE_DRAW);
-  pdf.SetFillColor(wxColour(220, 200, 200));
+  pdf.SetFillColour(wxColour(220, 200, 200));
   pdf.Ellipse(175,105,15,7.50, 45, 270, 360, wxPDF_STYLE_FILL);
 
   // Polygon
-  pdf.Text(5, 132, _T("Polygon examples"));
+  pdf.Text(5, 132, wxT("Polygon examples"));
   pdf.SetLineStyle(style8);
 
   wxPdfArrayDouble x1, y1;
@@ -147,32 +153,34 @@ drawing()
   x4.Add(200); y4.Add(160);
   x4.Add(160); y4.Add(165);
   pdf.SetLineStyle(style6);
-  pdf.SetFillColor(wxColour(220, 220, 220));
+  //pdf.SetFillColour(wxColour(220, 220, 220));
+  pdf.SetFillPattern(wxT("pattern2"));
   pdf.Polygon(x4, y4, wxPDF_STYLE_FILLDRAW);
 
   // Regular polygon
-  pdf.Text(5, 172, _T("Regular polygon examples"));
+  pdf.Text(5, 172, wxT("Regular polygon examples"));
   pdf.SetLineStyle(style5);
+  pdf.SetFillColour(wxColour(220, 220, 220));
   pdf.RegularPolygon(20, 190, 15, 6, 0, 1, wxPDF_STYLE_FILL);
   pdf.RegularPolygon(55, 190, 15, 6);
   pdf.SetLineStyle(style7);
   pdf.RegularPolygon(55, 190, 10, 6, 45, 0, wxPDF_STYLE_FILLDRAW);
   pdf.SetLineStyle(style5);
-  pdf.SetFillColor(wxColour(200, 220, 200));
+  pdf.SetFillColour(wxColour(200, 220, 200));
   pdf.RegularPolygon(90, 190, 15, 3, 0, 1, wxPDF_STYLE_FILLDRAW,
                                            wxPDF_STYLE_FILL, wxPdfLineStyle(), wxColour(255, 200, 200));
   pdf.RegularPolygon(125, 190, 15, 4, 30, 1, wxPDF_STYLE_DRAW, wxPDF_STYLE_DRAW, style6);
   pdf.RegularPolygon(160, 190, 15, 10);
 
   // Star polygon
-  pdf.Text(5, 212, _T("Star polygon examples"));
+  pdf.Text(5, 212, wxT("Star polygon examples"));
   pdf.SetLineStyle(style5);
   pdf.StarPolygon(20, 230, 15, 20, 3, 0, 1, wxPDF_STYLE_FILL);
   pdf.StarPolygon(55, 230, 15, 12, 5);
   pdf.SetLineStyle(style7);
   pdf.StarPolygon(55, 230, 7, 12, 5, 45, 0, wxPDF_STYLE_FILLDRAW);
   pdf.SetLineStyle(style5);
-  pdf.SetFillColor(wxColour(220, 220, 200));
+  pdf.SetFillColour(wxColour(220, 220, 200));
   pdf.StarPolygon(90, 230, 15, 20, 6, 0, 1, wxPDF_STYLE_FILLDRAW,
                                             wxPDF_STYLE_FILL, wxPdfLineStyle(), wxColour(255, 200, 200));
   pdf.StarPolygon(125, 230, 15, 5, 2, 30, 1, wxPDF_STYLE_DRAW, wxPDF_STYLE_DRAW, style6);
@@ -180,95 +188,104 @@ drawing()
   pdf.StarPolygon(160, 230, 7, 50, 26);
 
   // Rounded rectangle
-  pdf.Text(5, 252, _T("Rounded rectangle examples"));
+  pdf.Text(5, 252, wxT("Rounded rectangle examples"));
   pdf.SetLineStyle(style8);
   pdf.RoundedRect(5, 255, 40, 30, 3.50, wxPDF_CORNER_ALL, wxPDF_STYLE_FILLDRAW);
   pdf.RoundedRect(50, 255, 40, 30, 6.50, wxPDF_CORNER_TOP_LEFT);
   pdf.SetLineStyle(style6);
   pdf.RoundedRect(95, 255, 40, 30, 10.0, wxPDF_CORNER_ALL, wxPDF_STYLE_DRAW);
-  pdf.SetFillColor(wxColour(200, 200, 200));
+  pdf.SetFillColour(wxColour(200, 200, 200));
   pdf.RoundedRect(140, 255, 40, 30, 8.0, wxPDF_CORNER_TOP_RIGHT | wxPDF_CORNER_BOTTOM_RIGHT, wxPDF_STYLE_FILLDRAW);
 
   pdf.AddPage();
 
-  pdf.SetFont(_T("Arial"), _T("B"), 20);
+  pdf.SetFont(wxT("Arial"), wxT("B"), 20);
   pdf.SetLineWidth(1);
 
-  pdf.SetDrawColor(50, 0, 0, 0);
-  pdf.SetFillColor(100, 0, 0, 0);
-  pdf.SetTextColor(100, 0, 0, 0);
+  pdf.SetDrawColour(50, 0, 0, 0);
+  pdf.SetFillColour(100, 0, 0, 0);
+  pdf.SetTextColour(100, 0, 0, 0);
   pdf.Rect(10, 10, 20, 20, wxPDF_STYLE_FILLDRAW);
-  pdf.Text(10, 40, _T("Cyan"));
+  pdf.Text(10, 40, wxT("Cyan"));
 
-  pdf.SetDrawColor(0, 50, 0, 0);
-  pdf.SetFillColor(0, 100, 0, 0);
-  pdf.SetTextColor(0, 100, 0, 0);
+  pdf.SetDrawColour(0, 50, 0, 0);
+  pdf.SetFillColour(0, 100, 0, 0);
+  pdf.SetTextColour(0, 100, 0, 0);
   pdf.Rect(40, 10, 20, 20, wxPDF_STYLE_FILLDRAW);
-  pdf.Text(40, 40, _T("Magenta"));
+  pdf.Text(40, 40, wxT("Magenta"));
 
-  pdf.SetDrawColor(0, 0, 50, 0);
-  pdf.SetFillColor(0, 0, 100, 0);
-  pdf.SetTextColor(0, 0, 100, 0);
+  pdf.SetDrawColour(0, 0, 50, 0);
+  pdf.SetFillColour(0, 0, 100, 0);
+  pdf.SetTextColour(0, 0, 100, 0);
   pdf.Rect(70, 10, 20, 20, wxPDF_STYLE_FILLDRAW);
-  pdf.Text(70, 40, _T("Yellow"));
+  pdf.Text(70, 40, wxT("Yellow"));
 
-  pdf.SetDrawColor(0, 0, 0, 50);
-  pdf.SetFillColor(0, 0, 0, 100);
-  pdf.SetTextColor(0, 0, 0, 100);
+  pdf.SetDrawColour(0, 0, 0, 50);
+  pdf.SetFillColour(0, 0, 0, 100);
+  pdf.SetTextColour(0, 0, 0, 100);
   pdf.Rect(100, 10, 20, 20, wxPDF_STYLE_FILLDRAW);
-  pdf.Text(100, 40, _T("Black"));
+  pdf.Text(100, 40, wxT("Black"));
 
-  pdf.SetDrawColor(128, 0, 0);
-  pdf.SetFillColor(255, 0, 0);
-  pdf.SetTextColor(255, 0, 0);
+  pdf.SetDrawColour(128, 0, 0);
+  pdf.SetFillColour(255, 0, 0);
+  pdf.SetTextColour(255, 0, 0);
   pdf.Rect(10, 50, 20, 20, wxPDF_STYLE_FILLDRAW);
-  pdf.Text(10, 80, _T("Red"));
+  pdf.Text(10, 80, wxT("Red"));
 
-  pdf.SetDrawColor(0, 127, 0);
-  pdf.SetFillColor(0, 255, 0);
-  pdf.SetTextColor(0, 255, 0);
+  pdf.SetDrawColour(0, 127, 0);
+  pdf.SetFillColour(0, 255, 0);
+  pdf.SetTextColour(0, 255, 0);
   pdf.Rect(40, 50, 20, 20, wxPDF_STYLE_FILLDRAW);
-  pdf.Text(40, 80, _T("Green"));
+  pdf.Text(40, 80, wxT("Green"));
 
-  pdf.SetDrawColor(0, 0, 127);
-  pdf.SetFillColor(0, 0, 255);
-  pdf.SetTextColor(0, 0, 255);
+  pdf.SetDrawColour(0, 0, 127);
+  pdf.SetFillColour(0, 0, 255);
+  pdf.SetTextColour(0, 0, 255);
   pdf.Rect(70, 50, 20, 20, wxPDF_STYLE_FILLDRAW);
-  pdf.Text(70, 80, _T("Blue"));
+  pdf.Text(70, 80, wxT("Blue"));
 
-  pdf.SetDrawColor(127);
-  pdf.SetFillColor(0);
-  pdf.SetTextColor(0);
+  pdf.SetDrawColour(127);
+  pdf.SetFillColour(0);
+  pdf.SetTextColour(0);
   pdf.Rect(10, 90, 20, 20, wxPDF_STYLE_FILLDRAW);
-  pdf.Text(10, 120, _T("Gray"));
+  pdf.Text(10, 120, wxT("Gray"));
 
-  pdf.AddSpotColor(_T("PANTONE 404 CVC"), 0, 9.02, 23.14, 56.08);
-  pdf.SetFillColor(wxString(_T("PANTONE 404 CVC")));
+  pdf.AddSpotColour(wxT("PANTONE 404 CVC"), 0, 9.02, 23.14, 56.08);
+  pdf.SetFillColour(wxString(wxT("PANTONE 404 CVC")));
   pdf.Rect(10, 130, 20, 20, wxPDF_STYLE_FILL);
-  pdf.Text(10, 160, _T("PANTONE 404 CVC"));
+  pdf.Text(10, 160, wxT("PANTONE 404 CVC"));
+
+  pdf.SetLineWidth(0.2);
+  pdf.SetFont(wxT("Arial"), wxT(""), 48);
+  pdf.SetTextRenderMode(wxPDF_TEXT_RENDER_FILLSTROKE);
+  pdf.SetDrawColour(31);
+  pdf.SetTextPattern(wxT("pattern2"));
+  pdf.Text(10, 200, wxT("Text with Pattern"));
+  pdf.SetTextRenderMode();
+  pdf.SetTextColour(0);
 
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"), _T(""), 10);
+  pdf.SetFont(wxT("Arial"), wxT(""), 10);
   pdf.SetLineWidth(0.2);
-  pdf.SetDrawColor(0);
+  pdf.SetDrawColour(0);
 
   pdf.Curve(25, 40, 50, 55, 90, 45, 80, 75, wxPDF_STYLE_DRAW);
   wxPdfShape shape1;
   shape1.MoveTo(25,40);
   shape1.CurveTo(50, 55, 90, 45, 80, 75);
-  pdf.ShapedText(shape1, _T("This is a simple text string along a shaped line."));
+  pdf.ShapedText(shape1, wxT("This is a simple text string along a shaped line."));
 
   pdf.Curve(80, 175, 90, 145, 50, 155, 25, 140, wxPDF_STYLE_DRAW);
   wxPdfShape shape2;
   shape2.MoveTo(80, 175);
   shape2.CurveTo(90, 145, 50, 155, 25, 140);
-  pdf.ShapedText(shape2, _T("This is a simple text string along a shaped line."));
+  pdf.ShapedText(shape2, wxT("This is a simple text string along a shaped line."));
 
   pdf.Curve(125, 40, 150, 55, 190, 45, 180, 75, wxPDF_STYLE_DRAW);
   wxPdfShape shape3;
   shape3.MoveTo(125,40);
   shape3.CurveTo(150, 55, 190, 45, 180, 75);
-  pdf.ShapedText(shape3, _T("Repeat me! "), wxPDF_SHAPEDTEXTMODE_REPEAT);
+  pdf.ShapedText(shape3, wxT("Repeat me! "), wxPDF_SHAPEDTEXTMODE_REPEAT);
 
   wxPdfShape shape4;
   shape4.MoveTo(125, 130);
@@ -279,6 +296,6 @@ drawing()
   shape4.CurveTo(150, 145, 190, 155, 180, 140);
   pdf.Shape(shape4, wxPDF_STYLE_FILL | wxPDF_STYLE_DRAWCLOSE);
 
-  pdf.SaveAsFile(_T("drawing.pdf"));
+  pdf.SaveAsFile(wxT("drawing.pdf"));
 }
 

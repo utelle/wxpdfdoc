@@ -52,27 +52,29 @@ void
 tutorial6()
 {
   wxString xmlString =
-    wxString(_T("You can now easily print text mixing different styles : <b>bold</b>, <i>italic</i>, ")) +
-    wxString(_T("<u>underlined</u>, or <b><i><u>all at once</u></i></b>!<br/>You can also insert links ")) +
-    wxString(_T("on text, such as <a href=\"http://www.fpdf.org\">www.fpdf.org</a>, or on an image: click on the logo."));
+    wxString(wxT("You can now easily print text mixing different styles : <b>bold</b>, <i>italic</i>, ")) +
+    wxString(wxT("<u>underlined</u>, or <b><i><u>all at once</u></i></b>!<br/>You can also insert links ")) +
+    wxString(wxT("on text, such as <a href=\"http://www.fpdf.org\">www.fpdf.org</a>, or on an image: click on the logo."));
 
   wxPdfDocument pdf;
   // First page
   pdf.AddPage();
-  pdf.SetFont(_T("Arial"), _T(""), 20);
-  pdf.Write(5, _T("To find out what's new in this tutorial, click "));
-  pdf.SetFont(_T(""), _T("U"));
+  pdf.StartTransform();
+  pdf.SetFont(wxT("Arial"), wxT(""), 20.0);
+  pdf.Write(5, wxT("To find out what's new in this tutorial, click "));
+  pdf.SetFont(wxT(""), wxT("U"));
   int link = pdf.AddLink();
-  pdf.Write(5, _T("here"), wxPdfLink(link));
-  pdf.SetFont(_T(""));
+  pdf.Write(5, wxT("here"), wxPdfLink(link));
+  pdf.SetFont(wxT(""));
+  pdf.StopTransform();
   // Second page
   pdf.AddPage();
   pdf.SetLink(link);
-  pdf.Image(_T("logo.png"), 10, 10, 30, 0, _T(""),wxPdfLink(_T("http://www.fpdf.org")));
+  pdf.Image(wxT("logo.png"), 10, 10, 30, 0, wxT(""),wxPdfLink(wxT("http://www.fpdf.org")));
   pdf.SetLeftMargin(45);
   pdf.SetFontSize(14);
   pdf.WriteXml(xmlString);
 
-  pdf.SaveAsFile(_T("tutorial6.pdf"));
+  pdf.SaveAsFile(wxT("tutorial6.pdf"));
 }
 

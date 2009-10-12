@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <wxpdfdoc-font-metrics type="Type0">
   <font-name>MS-UIGothic</font-name>
-  <encoding>cp932</encoding>
+  <encoding>cp-932</encoding>
   <description>
     <ascent>1000</ascent>
     <descent>0</descent>

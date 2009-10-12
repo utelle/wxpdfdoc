@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Author: Francesco Montorsi
-# RCS-ID: $Id: acregen.sh,v 1.5 2008/03/10 12:23:26 frm Exp $
+# RCS-ID: $Id: acregen.sh,v 1.4 2006/11/07 11:44:59 frm Exp $
 # Creation date: 14/9/2005
 #
 # A simple script to generate the configure script for a wxCode component
@@ -14,7 +14,7 @@
 # called when an old version of aclocal is found
 function aclocalold()
 {
-    echo "Your aclocal version is $aclocal_maj.$aclocal_min.$aclocal_rel"
+    echo "Your aclocal version is  $aclocal_maj.$aclocal_min.$aclocal_rel"
     echo "Your automake installation is too old; please install automake >= $aclocal_minimal_maj.$aclocal_minimal_min.$aclocal_minimal_rel"
     echo "You can download automake from ftp://sources.redhat.com/pub/automake/"
     exit 1

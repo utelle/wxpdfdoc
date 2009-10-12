@@ -13,8 +13,8 @@
 
 /// \file pdfrijndael.h Interface of the Rijndael cipher
 
-#ifndef _PDFRIJNDAEL_H_
-#define _PDFRIJNDAEL_H_
+#ifndef _PDF_RIJNDAEL_H_
+#define _PDF_RIJNDAEL_H_
 
 // File : rijndael.h
 // Creation date : Sun Nov 5 2000 03:21:05 CEST
@@ -93,7 +93,12 @@ typedef unsigned short UINT16;
 #define RIJNDAEL_BAD_DIRECTION -6
 #define RIJNDAEL_CORRUPTED_DATA -7
 
+// wxPdfDocument headers
 #include "wx/pdfdocdef.h"
+
+#ifndef STRICT_ALIGN
+#define STRICT_ALIGN 0
+#endif
 
 /// Class implementing the Rijndael cipher. (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfRijndael

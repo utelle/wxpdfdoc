@@ -8,7 +8,7 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-/// \file pdfannotation.cpp Implementation of the wxPdfDocument link and annotation classes
+/// \file pdfannotation.cpp Implementation of the wxPdfLink, wxPdfPageLink and wxPdfAnnotation classes
 
 // For compilers that support precompilation, includes <wx/wx.h>.
 #include <wx/wxprec.h>
@@ -21,7 +21,10 @@
 #include <wx/wx.h>
 #endif
 
-#include "wx/pdfdoc.h"
+#include "wx/pdfannotation.h"
+#include "wx/pdfbookmark.h"
+#include "wx/pdfdocument.h"
+#include "wx/pdflinks.h"
 
 // ----------------------------------------------------------------------------
 // wxPdfLink: class representing internal or external links
@@ -113,12 +116,13 @@ wxPdfDocument::AddLink()
 {
   if (m_inTemplate)
   {
-    wxLogError(_("wxPdfDocument::Link: Adding links in templates is impossible. Current template ID is %d."), m_templateId);
+    wxLogError(wxString(wxT("wxPdfDocument::AddLink: ")) +
+               wxString::Format(_("Adding links in templates is impossible. Current template ID is %d."), m_templateId));
     return -1;
   }
 
   // Create a new internal link
-  int n = (*m_links).size()+1;
+  int n = (int) (*m_links).size()+1;
   (*m_links)[n] = new wxPdfLink(n);
   return n;
 }
@@ -128,7 +132,8 @@ wxPdfDocument::SetLink(int link, double ypos, int page)
 {
   if (m_inTemplate)
   {
-    wxLogError(_("wxPdfDocument::Link: Setting links in templates is impossible. Current template ID is %d."), m_templateId);
+    wxLogError(wxString(wxT("wxPdfDocument::SetLink: ")) +
+               wxString::Format(_("Setting links in templates is impossible. Current template ID is %d."), m_templateId));
     return false;
   }
 
@@ -157,13 +162,15 @@ wxPdfDocument::Link(double x, double y, double w, double h, const wxPdfLink& lin
 {
   if (m_inTemplate)
   {
-    wxLogError(_("wxPdfDocument::Link: Using links in templates is impossible. Current template ID is %d."), m_templateId);
+    wxLogError(wxString(wxT("wxPdfDocument::Link: ")) +
+               wxString::Format(_("Using links in templates is impossible. Current template ID is %d."), m_templateId));
     return;
   }
 
   // Put a link on the page
   wxArrayPtrVoid* pageLinkArray = NULL;
-  wxPdfPageLink* pageLink = new wxPdfPageLink(x*m_k, m_hPt-y*m_k, w*m_k, h*m_k, link);
+  double yPos = (m_yAxisOriginTop) ? m_h - y : y;
+  wxPdfPageLink* pageLink = new wxPdfPageLink(x*m_k, yPos*m_k, w*m_k, h*m_k, link);
   wxPdfPageLinksMap::iterator pageLinks = (*m_pageLinks).find(m_page);
   if (pageLinks != (*m_pageLinks).end())
   {
@@ -196,7 +203,8 @@ void
 wxPdfDocument::Annotate(double x, double y, const wxString& text)
 {
   wxArrayPtrVoid* annotationArray = NULL;
-  wxPdfAnnotation* annotation = new wxPdfAnnotation(x*m_k, (m_h-y)*m_k, text);
+  double yPos = (m_yAxisOriginTop) ? m_h - y : y;
+  wxPdfAnnotation* annotation = new wxPdfAnnotation(x*m_k, yPos*m_k, text);
   wxPdfAnnotationsMap::iterator pageAnnots = (*m_annotations).find(m_page);
   if (pageAnnots != (*m_annotations).end())
   {

@@ -20,6 +20,7 @@
 #endif
 
 #include "wx/pdfdoc.h"
+#include "wx/pdfinfo.h"
 
 /**
 * Templates 1
@@ -39,22 +40,22 @@ void templates1()
   // Take care, that the margins of the Template are set to the
   // original margins.
   tpl1 = pdf.BeginTemplate(0, 0, 180, 350);
-  pdf.SetFont(_T("Arial"), _T(""), 14);
-  pdf.SetTextColor(0);
+  pdf.SetFont(wxT("Arial"), wxT(""), 14);
+  pdf.SetTextColour(0);
   for(i = 0; i < 200; i++)
   {
-    pdf.Write(10, wxString::Format(_T("dummy text %d "), i));
+    pdf.Write(10, wxString::Format(wxT("dummy text %d "), i));
   }
-  pdf.Image(_T("glasses.png"), 100, 60, 100);
+  pdf.Image(wxT("glasses.png"), 100, 60, 100);
   pdf.EndTemplate();
 
   // Generate a template that will hold the whole page
   tpl2 = pdf.BeginTemplate();
-  pdf.SetFont(_T("Arial"), _T(""), 14);
+  pdf.SetFont(wxT("Arial"), wxT(""), 14);
 
   // demonstrate how to lay text in background of an existing template
   pdf.SetXY(115, 55);
-  pdf.Write(10, _T("write behind it..."));
+  pdf.Write(10, wxT("write behind it..."));
 
   // Now we use our first created template on position x=10, y=10 and
   // give it a width of 50mm (height is calculated automaticaly) and draw a border around it
@@ -81,7 +82,7 @@ void templates1()
   // Here we reuse Template No. 2
   // For example I used the rotate-script
   // to show u how, easy it is to use the created templates
-  pdf.SetFillColor(255);
+  pdf.SetFillColour(255);
   for (i = 90; i >= 0; i -= 30)
   {
     pdf.StartTransform();
@@ -94,7 +95,7 @@ void templates1()
     pdf.StopTransform();
   }
 
-  pdf.SaveAsFile(_T("templates1.pdf"));
+  pdf.SaveAsFile(wxT("templates1.pdf"));
 }
 
 /**
@@ -108,8 +109,8 @@ void templates2()
   double x, y, w, h;
   wxPdfDocument pdf;
   pdf.AddPage();
-  pdf.SetTextColor(wxPdfColour(wxString(_T("black"))));
-  int pages = pdf.SetSourceFile(_T("chart2d.pdf"));
+  pdf.SetTextColour(wxPdfColour(wxString(wxT("black"))));
+  int pages = pdf.SetSourceFile(wxT("chart2d.pdf"));
 
   // Get the document information from the imported PDF file
   wxPdfInfo info;
@@ -129,14 +130,13 @@ void templates2()
   pdf.Rect(20, 20, w, h);
 
   pdf.SetXY(30,30+h);
-  pdf.SetFont(_T("Arial"),_T(""), 10);
+  pdf.SetFont(wxT("Arial"),wxT(""), 10);
   pdf.SetLeftMargin(30);
-  pdf.Cell(0, 5, wxString(_T("Title: "))+info.GetTitle());
+  pdf.Cell(0, 5, wxString(wxT("Title: "))+info.GetTitle());
   pdf.Ln(5);
-  pdf.Cell(0, 5, wxString(_T("Creator: "))+info.GetCreator());
+  pdf.Cell(0, 5, wxString(wxT("Creator: "))+info.GetCreator());
   pdf.Ln(5);
-  pdf.Cell(0, 5, wxString(_T("Producer: "))+info.GetProducer());
+  pdf.Cell(0, 5, wxString(wxT("Producer: "))+info.GetProducer());
 
-  pdf.SaveAsFile(_T("templates2.pdf"));
+  pdf.SaveAsFile(wxT("templates2.pdf"));
 }
-

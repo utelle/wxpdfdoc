@@ -24,6 +24,7 @@
 #include <wx/wfstream.h>
 
 #include "wx/pdfdoc.h"
+#include "wx/pdffontmanager.h"
 #include <ctime>
 #include <iostream>
 
@@ -61,6 +62,15 @@ void xmlwrite();
 void transparency();
 void templates1();
 void templates2();
+void layers();
+
+void kerning();
+
+#if defined(__WXMSW__)
+#if wxUSE_UNICODE
+void glyphwriting();
+#endif
+#endif
 
 class PdfDocTutorial : public wxAppConsole
 {
@@ -80,6 +90,7 @@ PdfDocTutorial::OnInit()
 int
 PdfDocTutorial::OnExit()
 {
+  wxStockGDI::DeleteAll();
   return 0;
 }
 
@@ -98,6 +109,10 @@ PdfDocTutorial::ShowGroup(int group)
 
     switch (group)
     {
+      case 4:
+        cout << "(1) Kerning example" << endl;
+        cout << "(2) Glyph writing example" << endl;
+        break;
       case 3:
         cout << "(1) Label printing example" << endl;
         cout << "(2) Barcode examples" << endl;
@@ -107,9 +122,7 @@ PdfDocTutorial::ShowGroup(int group)
         cout << "(6) Transparency example" << endl;
         cout << "(7) Internal templates example" << endl;
         cout << "(8) External templates example" << endl;
-#if 0
-        cout << "(9) Dataset examples" << endl;
-#endif
+        cout << "(9) Layer examples" << endl;
         break;
       case 2:
         cout << "(1) Protection 1: Demonstrate setting access permissions" << endl;
@@ -194,9 +207,29 @@ PdfDocTutorial::ShowGroup(int group)
         case '6': cout << endl << "Running 'transparency' ..." << endl; transparency(); break;
         case '7': cout << endl << "Running 'templates1' ..." << endl; templates1(); break;
         case '8': cout << endl << "Running 'templates2' ..." << endl; templates2(); break;
+        case '9': cout << endl << "Running 'layers' ..." << endl; layers(); break;
+        case 'X':
+        case 'x': break;
+        default:
+          cout << endl << "Invalid choice!" << endl;
+      }
+      break;
+    case 4:
+      switch (c)
+      {
+        case '1': cout << endl << "Running 'kerning' ..." << endl; kerning(); break;
+#if defined(__WXMSW__)
+#if wxUSE_UNICODE
+        case '2': cout << endl << "Running 'glyphwriting' ..." << endl; glyphwriting(); break;
+#else
+        case '2': cout << endl << "'glyphwriting' is available in Unicode build only!" << endl; break;
+#endif
+#else
+        case '2': cout << endl << "'glyphwriting' is currently available in wxMSW build only!" << endl; break;
+#endif
+
 #if 0
-        case '9': cout << endl << "Running 'ds_examples' ..." << endl; ds_examples(); break;
-        case '8': cout << endl << "Running 'w' ..." << endl; w(); break;
+        case 'z': cout << endl << "Running 'w' ..." << endl; w(); break;
 #endif
         case 'X':
         case 'x': break;
@@ -211,13 +244,15 @@ PdfDocTutorial::ShowGroup(int group)
 int
 PdfDocTutorial::OnRun()
 {
-  wxSetWorkingDirectory(wxGetCwd() + _T("/../samples"));
-  // Set the font path
-  wxString fontPath = wxGetCwd() + _T("/../lib/fonts");
-  wxSetEnv(_T("WXPDF_FONTPATH"), fontPath);
+  if (wxImage::FindHandler(wxBITMAP_TYPE_PNG) == NULL)
+  {
+    wxImage::AddHandler(new wxPNGHandler());
+  }
 
-  wxPdfColour color;
-  color.SetColor(wxString(_T("mintcream")));
+  wxSetWorkingDirectory(wxGetCwd() + wxT("/../samples"));
+  // Set the font path
+  wxString fontPath = wxGetCwd() + wxT("/../lib/fonts");
+  wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
 
   // Show a menu on the console
   char c(' ');
@@ -228,9 +263,11 @@ PdfDocTutorial::OnRun()
 
     cout << "(1) Group 1: Tutorial 1-7, Bookmarks, CJK" << endl;
     cout << "(2) Group 2: Protection, Diverse graphic operations, Charting" << endl;
-    cout << "(3) Group 3: Label, Barcode, Javascript, Forms, Markup, Transparency, Templates" << endl;
+    cout << "(3) Group 3: Label, Barcode, Javascript, Forms, Markup, Transparency," << endl;
+    cout << "             Templates, Layers (ordering, grouping, nesting ...)" << endl;
+    cout << "(4) Group 4: Kerning, Direct glyph writing" << endl;
     cout << endl;
-    cout << "(x) Exit program" << endl << endl << "Select program (Enter 1..3 or x): ";
+    cout << "(x) Exit program" << endl << endl << "Select program (Enter 1..4 or x): ";
 
     cin >> c;
 
@@ -239,12 +276,12 @@ PdfDocTutorial::OnRun()
       case '1':
       case '2':
       case '3':
+      case '4':
         ShowGroup(c - '1' + 1);
         break;
       case 'X':
       case 'x': break;
 
-      case '4':
       case '5':
       case '6':
       case '7':

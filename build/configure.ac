@@ -1,6 +1,6 @@
 # ======================================================================================
 # Author: Francesco Montorsi
-# RCS-ID: $Id: configure.ac,v 1.4 2006/12/15 20:47:08 utelle Exp $
+# RCS-ID: $Id: configure.ac,v 1.3 2006/01/07 17:02:43 utelle Exp $
 #
 # A basic "configure.ac" for a wxCode component.
 # See 
@@ -8,22 +8,18 @@
 # for more info about autoconf and the autoconf macros.
 # ======================================================================================
 
-
-
 # Init this configure script with basic info about the component
 # (DON'T PUT ANYTHING BEFORE AC_INIT, JUST COMMENTS)
-AC_INIT([wxpdfdoc], [0.8], [utelle@users.sourceforge.net])
+AC_INIT([wxpdfdoc], [0.8.5], [utelle@users.sourceforge.net])
+AC_CONFIG_AUX_DIR(build)
 
 # ENABLES/DISABLES THE DEBUG MODE FOR THIS CONFIGURE SCRIPT
-DBG_CONFIGURE=1
+#WX_DEBUG_CONFIGURE=1
 
 # you need the wxCode/build/bakefiles in your local repository to generate a configure
 # script from this configure.ac file since wxcode.m4 is required....
 m4_include(../../../build/autoconf/wxcode.m4)
-AM_WXCODE_INIT
-
-
-
+WXCODE_INIT
 
 ## CONFIGURE OPTIONS
 ##
@@ -35,12 +31,7 @@ AM_WXCODE_INIT
 ## component's bakefile, then you can leave this section as is
 #####################################################################
 
-AM_OPTIONS_WXCONFIG             # don't touch this macro
-AM_OPTIONS_WXPRESETS            # don't touch this macro
-
-
-
-
+WXCODE_OPTIONS([debug,unicode,shared,toolkit,wxshared,wxversion])
 
 ## CONFIGURE CHECKS
 ##
@@ -53,9 +44,7 @@ AM_OPTIONS_WXPRESETS            # don't touch this macro
 # argument 1: here put the minimum required version of wx
 # argument 2: here you must put a comma-separed list of all wx required libraries 
 #             except for base,core (e.g. "xml,net,adv"); leave empty if you use only core & base
-AM_WXCODE_CHECKS([2.4.0], [xml])
-
-
+WXCODE_CHECKS([2.8.0], [core,base,xml])      # we need at least wxWidgets 2.8 to work
 
 # end in a nice way the configure script
-AM_WXCODE_END
+WXCODE_END

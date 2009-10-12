@@ -32,24 +32,23 @@ bookmark()
 {
   wxPdfDocument pdf;
   pdf.Open();
-  pdf.SetFont(_T("Arial"),_T(""),15);
-  //Page 1
+  pdf.SetFont(wxT("Arial"),wxT(""),15);
+  // Page 1
   pdf.AddPage();
-  pdf.Bookmark(_T("Page 1"));
-  pdf.Bookmark(_T("Paragraph 1"),1,-1);
-  pdf.Cell(0,6,_T("Paragraph 1"));
+  pdf.Bookmark(wxT("Page 1"));
+  pdf.Bookmark(wxT("Paragraph 1"),1,-1);
+  pdf.Cell(0,6,wxT("Paragraph 1"));
   pdf.Ln(50);
-  pdf.Bookmark(_T("Paragraph 2"),1,-1);
-  pdf.Cell(0,6,_T("Paragraph 2"));
-  pdf.Annotate(60,30,_T("First annotation on first page"));
-  pdf.Annotate(60,60,_T("Second annotation on first page"));
-  //Page 2
+  pdf.Bookmark(wxT("Paragraph 2"),1,-1);
+  pdf.Cell(0,6,wxT("Paragraph 2"));
+  pdf.Annotate(60,30,wxT("First annotation on first page"));
+  pdf.Annotate(60,60,wxT("Second annotation on first page"));
+  // Page 2
   pdf.AddPage();
-  pdf.Bookmark(_T("Page 2"));
-  pdf.Bookmark(_T("Paragraph 3"),1,-1);
-  pdf.Cell(0,6,_T("Paragraph 3"));
-  pdf.Annotate(60,40,_T("First annotation on second page"));
-  pdf.Annotate(90,40,_T("Second annotation on second page"));
-  pdf.SaveAsFile(_T("bookmark.pdf"));
+  pdf.Bookmark(wxT("Page 2"));
+  pdf.Bookmark(wxT("Paragraph 3"),1,-1);
+  pdf.Cell(0,6,wxT("Paragraph 3"));
+  pdf.Annotate(60,40,wxT("First annotation on second page"));
+  pdf.Annotate(90,40,wxT("Second annotation on second page"));
+  pdf.SaveAsFile(wxT("bookmark.pdf"));
 }
-

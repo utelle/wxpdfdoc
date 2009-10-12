@@ -19,6 +19,8 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/wfstream.h>
+
 #include "wx/pdfdoc.h"
 
 /**
@@ -57,65 +59,65 @@ public:
 
   void Header()
   {
-    //Arial bold 15
-    SetFont(_("Arial"),_T("B"),15);
-    //Calculate width of title and position
+    // Arial bold 15
+    SetFont(wxT("Arial"),wxT("B"),15);
+    // Calculate width of title and position
     double w = GetStringWidth(m_myTitle)+6;
     SetX((210-w)/2);
-    //Colors of frame, background and text
-    SetDrawColor(wxColour(0,80,180));
-    SetFillColor(wxColour(230,230,0));
-    SetTextColor(wxColour(220,50,50));
-    //Thickness of frame (1 mm)
+    // Colors of frame, background and text
+    SetDrawColour(wxColour(0,80,180));
+    SetFillColour(wxColour(230,230,0));
+    SetTextColour(wxColour(220,50,50));
+    // Thickness of frame (1 mm)
     SetLineWidth(1);
-    //Title
+    // Title
     Cell(w,9,m_myTitle,wxPDF_BORDER_FRAME,1,wxPDF_ALIGN_CENTER,1);
-    //Line break
+    // Line break
     Ln(10);
   }
 
   void Footer()
   {
-    //Position at 1.5 cm from bottom
+    // Position at 1.5 cm from bottom
     SetY(-15);
-    //Arial italic 8
-    SetFont(_T("Arial"),_T("I"),8);
-    //Text color in gray
-    SetTextColor(128);
-    //Page number
-    Cell(0,10,wxString::Format(_T("Page %d"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
+    // Arial italic 8
+    SetFont(wxT("Arial"),wxT("I"),8);
+    // Text color in gray
+    SetTextColour(128);
+    // Page number
+    Cell(0,10,wxString::Format(wxT("Page %d"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
   }
 
   void ChapterTitle(int num, const wxString& label)
   {
-    //Arial 12
-    SetFont(_T("Arial"),_T(""),12);
-    //Background color
-    SetFillColor(wxColour(200,220,255));
-    //Title
-    Cell(0,6,wxString::Format(_T("Chapter %d : "),num) + label,0,1,wxPDF_ALIGN_LEFT,1);
-    //Line break
+    // Arial 12
+    SetFont(wxT("Arial"),wxT(""),12);
+    // Background color
+    SetFillColour(wxColour(200,220,255));
+    // Title
+    Cell(0,6,wxString::Format(wxT("Chapter %d : "),num) + label,0,1,wxPDF_ALIGN_LEFT,1);
+    // Line break
     Ln(4);
   }
 
   void ChapterBody(const wxString& file)
   {
-    //Read text file
+    // Read text file
     wxFileInputStream f(file);
     int len = f.GetLength();
     char* ctxt = new char[len+1];
     f.Read(ctxt,len);
     ctxt[len] = '\0';
     wxString txt(ctxt,*wxConvCurrent);
-    //Times 12
-    SetFont(_T("Times"),_T(""),12);
-    //Output justified text
+    // Times 12
+    SetFont(wxT("Times"),wxT(""),12);
+    // Output justified text
     MultiCell(0,5,txt);
-    //Line break
+    // Line break
     Ln();
-    //Mention in italics
-    SetFont(_T(""),_T("I"));
-    Cell(0,5,_T("(end of excerpt)"));
+    // Mention in italics
+    SetFont(wxT(""),wxT("I"));
+    Cell(0,5,wxT("(end of excerpt)"));
     delete ctxt;
   }
 
@@ -133,10 +135,10 @@ void
 tutorial3()
 {
   PdfTuto3 pdf;
-  pdf.SetMyTitle(_T("20000 Leagues Under the Seas"));
-  pdf.SetAuthor(_T("Jules Verne"));
-  pdf.PrintChapter(1,_T("A RUNAWAY REEF"),_T("20k_c1.txt"));
-  pdf.PrintChapter(2,_T("THE PROS AND CONS"),_T("20k_c2.txt"));
-  pdf.SaveAsFile(_T("tutorial3.pdf"));
+  pdf.SetMyTitle(wxT("20000 Leagues Under the Seas"));
+  pdf.SetAuthor(wxT("Jules Verne"));
+  pdf.PrintChapter(1,wxT("A RUNAWAY REEF"),wxT("20k_c1.txt"));
+  pdf.PrintChapter(2,wxT("THE PROS AND CONS"),wxT("20k_c2.txt"));
+  pdf.SaveAsFile(wxT("tutorial3.pdf"));
 } 
 

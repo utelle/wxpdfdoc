@@ -1626,4 +1626,3 @@ void wxPdfRijndael::decrypt(const UINT8 a[16], UINT8 b[16])
   *((UINT32*)(b+ 8)) ^= *((UINT32*)m_expandedKey[0][2]);
   *((UINT32*)(b+12)) ^= *((UINT32*)m_expandedKey[0][3]);
 }
-

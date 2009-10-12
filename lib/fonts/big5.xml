@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <wxpdfdoc-font-metrics type="Type0">
   <font-name>MSungStd-Light-Acro</font-name>
-  <encoding>cp950</encoding>
+  <encoding>cp-950</encoding>
   <description>
     <ascent>800</ascent>
     <descent>-200</descent>
