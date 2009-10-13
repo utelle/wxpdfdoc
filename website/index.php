@@ -45,42 +45,42 @@ MakeFont utility included in wxPdfDocument version 0.8.5 and above.</p>
 <p>To get an impression what can be done with this component take a look at the sample documents
 generated with <b>wxPdfDocument</b>:</p>
 <ul>
-<li><a href="../../docs/wxpdfdoc/samples/tutorial1.pdf">Hello world!</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/tutorial2.pdf">Header, footer, page break and image embedding</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/tutorial3.pdf">Line breaks and colors</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/tutorial4.pdf">Multi-columns</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/tutorial5.pdf">Tables</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/tutorial6.pdf">Links and flowing text</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/tutorial7.pdf">Font embedding</a> <b>(updated)</b></li>
-<li><a href="../../docs/wxpdfdoc/samples/bookmark.pdf">Document outline</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/cjktest.pdf">Chinese/Japanese/Korean</a> <font size="-1">(You need CJK support installed for Acrobat Reader)</font></li>
-<li><a href="../../docs/wxpdfdoc/samples/clipping.pdf">Using clipping areas</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/drawing.pdf">Graphics primitives</a> <b>(updated)</b></li>
-<li><a href="../../docs/wxpdfdoc/samples/protection1.pdf">Setting access permissions</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/protection2.pdf">Setting password protection</a> <font size="-1">(User password: <i>Hello</i>, Owner password: <i>World</i>)</font></li>
-<li><a href="../../docs/wxpdfdoc/samples/rotation.pdf">Rotating text and image</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/wmf.pdf">Embedding Windows Meta File image</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/transformation.pdf">Geometric transformations</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/gradients.pdf">Color gradients</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/barcodes.pdf">Barcodes</a> <b>(updated)</b></li>
-<li><a href="../../docs/wxpdfdoc/samples/charting.pdf">Simple charting examples</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/labels.pdf">Simple label printing examples</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/javascript.pdf">Document level JavaScript</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/form.pdf">PDF forms example</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/xmlwrite.pdf">Text styling using simple markup language</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/transparency.pdf">Alpha transparency and image masks</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/templates1.pdf">Internal templates</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/templates2.pdf">External templates</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/kerning.pdf">Kerning</a> <b>(new)</b></li>
-<li><a href="../../docs/wxpdfdoc/samples/twoencodings.pdf">Using a font with 2 different encodings</a> <b>(new)</b></li>
-<li><a href="../../docs/wxpdfdoc/samples/fontlist.pdf">List of usable system fonts</a> <b>(new)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/tutorial1.pdf" target="_blank">Hello world!</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/tutorial2.pdf" target="_blank">Header, footer, page break and image embedding</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/tutorial3.pdf" target="_blank">Line breaks and colors</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/tutorial4.pdf" target="_blank">Multi-columns</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/tutorial5.pdf" target="_blank">Tables</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/tutorial6.pdf" target="_blank">Links and flowing text</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/tutorial7.pdf" target="_blank">Font embedding</a> <b>(updated)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/bookmark.pdf" target="_blank">Document outline</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/cjktest.pdf" target="_blank">Chinese/Japanese/Korean</a> <font size="-1">(You need CJK support installed for Acrobat Reader)</font></li>
+<li><a href="../../docs/wxpdfdoc/samples/clipping.pdf" target="_blank">Using clipping areas</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/drawing.pdf" target="_blank">Graphics primitives</a> <b>(updated)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/protection1.pdf" target="_blank">Setting access permissions</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/protection2.pdf" target="_blank">Setting password protection</a> <font size="-1">(User password: <i>Hello</i>, Owner password: <i>World</i>)</font></li>
+<li><a href="../../docs/wxpdfdoc/samples/rotation.pdf" target="_blank">Rotating text and image</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/wmf.pdf" target="_blank">Embedding Windows Meta File image</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/transformation.pdf" target="_blank">Geometric transformations</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/gradients.pdf" target="_blank">Color gradients</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/barcodes.pdf" target="_blank">Barcodes</a> <b>(updated)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/charting.pdf" target="_blank">Simple charting examples</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/labels.pdf" target="_blank">Simple label printing examples</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/javascript.pdf" target="_blank">Document level JavaScript</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/form.pdf" target="_blank">PDF forms example</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/xmlwrite.pdf" target="_blank">Text styling using simple markup language</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/transparency.pdf" target="_blank">Alpha transparency and image masks</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/templates1.pdf" target="_blank">Internal templates</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/templates2.pdf" target="_blank">External templates</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/kerning.pdf" target="_blank">Kerning</a> <b>(new)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/twoencodings.pdf" target="_blank">Using a font with 2 different encodings</a> <b>(new)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/fontlist.pdf" target="_blank">List of usable system fonts</a> <b>(new)</b></li>
 <li><b>Layers</b> (Optional Content Groups) <b>(new)</b><br>
-<a href="../../docs/wxpdfdoc/samples/layersordered.pdf">Ordered</a>, 
-<a href="../../docs/wxpdfdoc/samples/layersgrouped.pdf">Grouped</a>, 
-<a href="../../docs/wxpdfdoc/samples/layersnested.pdf">Nested</a>, 
-<a href="../../docs/wxpdfdoc/samples/layersautomatic.pdf">Automatic layers</a>, 
-<a href="../../docs/wxpdfdoc/samples/layersradiogroup.pdf">Radio group</a> </li>
-<li><a href="../../docs/wxpdfdoc/samples/glyphwriting.pdf">Direct glyph writing</a> <b>(new)</b></li>
+<a href="../../docs/wxpdfdoc/samples/layersordered.pdf" target="_blank">Ordered</a>, 
+<a href="../../docs/wxpdfdoc/samples/layersgrouped.pdf" target="_blank">Grouped</a>, 
+<a href="../../docs/wxpdfdoc/samples/layersnested.pdf" target="_blank">Nested</a>, 
+<a href="../../docs/wxpdfdoc/samples/layersautomatic.pdf" target="_blank">Automatic layers</a>, 
+<a href="../../docs/wxpdfdoc/samples/layersradiogroup.pdf" target="_blank">Radio group</a> </li>
+<li><a href="../../docs/wxpdfdoc/samples/glyphwriting.pdf" target="_blank">Direct glyph writing</a> <b>(new)</b></li>
 </ul>
 
 	<br/><?php write_h1("Known bugs"); ?>
@@ -89,9 +89,9 @@ generated with <b>wxPdfDocument</b>:</p>
 
     
 	<br/><?php write_h1("Future enhancements"); ?>
-<p>Several enhancements are planned for the next versions:
+<p>Enhancements planned for the next versions:
 <ul>
-<li><p>Version 0.9: wxWidgets printing support (wxPdfDC based of wxPdfDocument, similar to wxPostscriptDC)</p></li>
+<li><p>Version 0.9: wxWidgets printing support via wxPdfGraphicsContext based of wxPdfDocument.</p></li>
 </ul>
 </p>
     
