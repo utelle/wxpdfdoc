@@ -732,6 +732,7 @@ static void Code128AddCheck(wxString& barcode)
   barcode += CODE128_ENDBAR;
 }
 
+#if 0
 static wxString Code128RemoveFNC1(const wxString& code)
 {
   wxString buffer = wxEmptyString;
@@ -747,6 +748,7 @@ static wxString Code128RemoveFNC1(const wxString& code)
   }
   return buffer;
 }
+#endif
 
 static bool Code128IsNextDigits(const wxString& text, size_t textIndex, int numDigits)
 {
@@ -1304,10 +1306,10 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
   if (barcode[0] == wxT('('))
   {
     size_t idx = 0;
-    while (idx != wxNOT_FOUND)
+    while (idx != wxString::npos)
     {
       size_t end = barcode.find(wxT(')'), idx);
-      if (end == wxNOT_FOUND)
+      if (end == wxString::npos)
       {
         wxLogError(wxString(wxT("wxPdfBarCodeCreator::EAN128: ")) +
                    wxString::Format(_("Badly formed UCC/EAN-128 string '%s'."), barcode.c_str()));
@@ -1338,11 +1340,11 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
         sai.Prepend(wxT("0"));
       }
       idx = barcode.find(wxT('('), end);
-      size_t next = (idx == wxNOT_FOUND) ? barcode.Len() : idx;
+      size_t next = (idx == wxString::npos) ? barcode.Len() : idx;
       uccCode += sai + barcode.SubString(end+1, next-1);
       if (len < 0)
       {
-        if (idx != wxNOT_FOUND)
+        if (idx != wxString::npos)
         {
           uccCode += CODE128_FNC1;
         }

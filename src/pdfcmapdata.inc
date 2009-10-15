@@ -76,6 +76,7 @@ static const wxUint16 gs_unicode_map_zdb[256] =
   0x27b8, 0x27b9, 0x27ba, 0x27bb, 0x27bc, 0x27bd, 0x27be, 0x0000
 };
 
+#if 0
 static const wxChar* gs_glyphs_zdb[] =
 {
   wxT(".notdef"), wxT(".notdef"), wxT(".notdef"), wxT(".notdef"), wxT(".notdef"), wxT(".notdef"), wxT(".notdef"), wxT(".notdef"),
@@ -111,6 +112,7 @@ static const wxChar* gs_glyphs_zdb[] =
   wxT(".notdef"), wxT("a201"),    wxT("a183"),    wxT("a184"),    wxT("a197"),    wxT("a185"),    wxT("a194"),    wxT("a198"),
   wxT("a186"),    wxT("a195"),    wxT("a187"),    wxT("a188"),    wxT("a189"),    wxT("a190"),    wxT("a191"),    wxT(".notdef")
 }; 
+#endif
 
 // Standard Encoding
 static const wxUint16 gs_unicode_map_standard[128] =

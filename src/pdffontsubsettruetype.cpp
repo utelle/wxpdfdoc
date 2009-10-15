@@ -288,11 +288,13 @@ static const wxChar* tableNamesCmap[] = {
   wxT("hhea"), wxT("hmtx"), wxT("loca"), wxT("maxp"), wxT("prep"),
   NULL
 };
+#if 0
 static const wxChar* tableNamesExtra[] = {
   wxT("OS/2"), wxT("cmap"), wxT("cvt "), wxT("fpgm"), wxT("glyf"), wxT("head"),
   wxT("hhea"), wxT("hmtx"), wxT("loca"), wxT("maxp"), wxT("name"), wxT("prep"),
   NULL
 };
+#endif
 
 //                                   0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20
 static const int entrySelectors[] = {0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4};
