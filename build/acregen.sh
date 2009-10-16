@@ -26,6 +26,10 @@ aclocal_maj=`echo $aclocal_verfull | sed 's/aclocal (GNU automake) \([0-9]*\).\(
 aclocal_min=`echo $aclocal_verfull | sed 's/aclocal (GNU automake) \([0-9]*\).\([0-9]*\).\([0-9]*\).*/\2/'`
 aclocal_rel=`echo $aclocal_verfull | sed 's/aclocal (GNU automake) \([0-9]*\).\([0-9]*\).\([0-9]*\).*/\3/'`
 
+[[ "x$aclocal_maj" == "x" ]] && aclocal_maj=0;
+[[ "x$aclocal_min" == "x" ]] && aclocal_min=0;
+[[ "x$aclocal_rel" == "x" ]] && aclocal_rel=0;
+
 aclocal_minimal_maj=1
 aclocal_minimal_min=9
 aclocal_minimal_rel=6
