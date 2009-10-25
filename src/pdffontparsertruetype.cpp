@@ -41,6 +41,8 @@
 #include <stdio.h>
 #include <windows.h>
 
+#include "wx/msw/private.h"
+
 static USHORT
 ReadUShort(BYTE* p)
 {

@@ -14,7 +14,7 @@
 #ifndef _WX_MEMDBG_H_
 #define _WX_MEMDBG_H_
 
-#if defined(__WXMSW__)
+#if defined(__WXMSW__) && defined(__VISUALC__)
 
 #ifdef _DEBUG
 #include <crtdbg.h>
