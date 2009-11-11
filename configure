@@ -611,10 +611,11 @@ COND_WX_DEBUG_0_WX_UNICODE_1
 COND_WX_DEBUG_0
 COND_WINDOWS_IMPLIB_1
 COND_USE_SOVERSOLARIS_1
+COND_USE_SOVERSION_1_USE_SOVERSOLARIS_1
 COND_USE_SOVERSION_0
 COND_USE_SOVERLINUX_1
 COND_USE_SOVERCYGWIN_1_USE_SOVERSION_1
-COND_USE_SOSYMLINKS_1
+COND_USE_SOTWOSYMLINKS_1
 COND_PLATFORM_WIN32_1
 COND_PLATFORM_OS2_1
 COND_PLATFORM_MAC_1
@@ -632,7 +633,7 @@ WINDRES
 BK_DEPS
 DEPS_TRACKING
 SONAME_FLAG
-USE_SOSYMLINKS
+USE_SOTWOSYMLINKS
 USE_MACVERSION
 USE_SOVERCYGWIN
 USE_SOVERSOLARIS
@@ -2876,7 +2877,8 @@ $as_echo_n "checking which wxWidgets toolkit was selected... " >&6; }
             WX_GTKPORT2=$(expr "$WX_SELECTEDCONFIG" : ".*gtk2.*")
             WX_MSWPORT=$(expr "$WX_SELECTEDCONFIG" : ".*msw.*")
             WX_MOTIFPORT=$(expr "$WX_SELECTEDCONFIG" : ".*motif.*")
-            WX_MACPORT=$(expr "$WX_SELECTEDCONFIG" : ".*mac.*")
+            WX_OSXCOCOAPORT=$(expr "$WX_SELECTEDCONFIG" : ".*osx_cocoa.*")
+            WX_OSXCARBONPORT=$(expr "$WX_SELECTEDCONFIG" : ".*osx_carbon.*")
             WX_X11PORT=$(expr "$WX_SELECTEDCONFIG" : ".*x11.*")
             WX_MGLPORT=$(expr "$WX_SELECTEDCONFIG" : ".*mgl.*")
             WX_DFBPORT=$(expr "$WX_SELECTEDCONFIG" : ".*dfb.*")
@@ -2886,10 +2888,14 @@ $as_echo_n "checking which wxWidgets toolkit was selected... " >&6; }
             if test "$WX_GTKPORT2" != "0"; then WX_PORT="gtk2"; fi
             if test "$WX_MSWPORT" != "0"; then WX_PORT="msw"; fi
             if test "$WX_MOTIFPORT" != "0"; then WX_PORT="motif"; fi
-            if test "$WX_MACPORT" != "0"; then WX_PORT="mac"; fi
+            if test "$WX_OSXCOCOAPORT" != "0"; then WX_PORT="osx_cocoa"; fi
+            if test "$WX_OSXCARBONPORT" != "0"; then WX_PORT="osx_carbon"; fi
             if test "$WX_X11PORT" != "0"; then WX_PORT="x11"; fi
             if test "$WX_MGLPORT" != "0"; then WX_PORT="mgl"; fi
             if test "$WX_DFBPORT" != "0"; then WX_PORT="dfb"; fi
+
+                                    WX_MACPORT=$(expr "$WX_SELECTEDCONFIG" : ".*mac.*")
+            if test "$WX_MACPORT" != "0"; then WX_PORT="mac"; fi
 
 
             if test "$WX_PORT" = "unknown" ; then
@@ -8503,7 +8509,7 @@ EOF
         chmod +x shared-ld-sh
 
         SHARED_LD_MODULE_CC="`pwd`/shared-ld-sh -bundle -headerpad_max_install_names -o"
-        SHARED_LD_MODULE_CXX="CXX=\$(CXX) $SHARED_LD_MODULE_CC"
+        SHARED_LD_MODULE_CXX="CXX=\"\$(CXX)\" $SHARED_LD_MODULE_CC"
 
 
                                 { $as_echo "$as_me:$LINENO: checking for gcc 3.1 or later" >&5
@@ -9182,7 +9188,7 @@ $as_echo "$as_me: error: unknown system type $BAKEFILE_HOST." >&2;}
     USE_SOVERLINUX=0
     USE_SOVERSOLARIS=0
     USE_SOVERCYGWIN=0
-    USE_SOSYMLINKS=0
+    USE_SOTWOSYMLINKS=0
     USE_MACVERSION=0
     SONAME_FLAG=
 
@@ -9196,20 +9202,19 @@ $as_echo "$as_me: error: unknown system type $BAKEFILE_HOST." >&2;}
         fi
         USE_SOVERSION=1
         USE_SOVERLINUX=1
-        USE_SOSYMLINKS=1
+        USE_SOTWOSYMLINKS=1
       ;;
 
       *-*-solaris2* )
         SONAME_FLAG="-h "
         USE_SOVERSION=1
         USE_SOVERSOLARIS=1
-        USE_SOSYMLINKS=1
       ;;
 
       *-*-darwin* )
         USE_MACVERSION=1
         USE_SOVERSION=1
-        USE_SOSYMLINKS=1
+        USE_SOTWOSYMLINKS=1
       ;;
 
       *-*-cygwin* )
@@ -9608,10 +9613,10 @@ fi
 
 
 
-    BAKEFILE_BAKEFILE_M4_VERSION="0.2.6"
+    BAKEFILE_BAKEFILE_M4_VERSION="0.2.8"
 
 
-BAKEFILE_AUTOCONF_INC_M4_VERSION="0.2.6"
+BAKEFILE_AUTOCONF_INC_M4_VERSION="0.2.8"
 
     COND_DEPS_TRACKING_0="#"
     if test "x$DEPS_TRACKING" = "x0" ; then
@@ -9663,9 +9668,9 @@ BAKEFILE_AUTOCONF_INC_M4_VERSION="0.2.6"
         COND_PLATFORM_WIN32_1=""
     fi
 
-    COND_USE_SOSYMLINKS_1="#"
-    if test "x$USE_SOSYMLINKS" = "x1" ; then
-        COND_USE_SOSYMLINKS_1=""
+    COND_USE_SOTWOSYMLINKS_1="#"
+    if test "x$USE_SOTWOSYMLINKS" = "x1" ; then
+        COND_USE_SOTWOSYMLINKS_1=""
     fi
 
     COND_USE_SOVERCYGWIN_1_USE_SOVERSION_1="#"
@@ -9681,6 +9686,11 @@ BAKEFILE_AUTOCONF_INC_M4_VERSION="0.2.6"
     COND_USE_SOVERSION_0="#"
     if test "x$USE_SOVERSION" = "x0" ; then
         COND_USE_SOVERSION_0=""
+    fi
+
+    COND_USE_SOVERSION_1_USE_SOVERSOLARIS_1="#"
+    if test "x$USE_SOVERSION" = "x1" -a "x$USE_SOVERSOLARIS" = "x1" ; then
+        COND_USE_SOVERSION_1_USE_SOVERSOLARIS_1=""
     fi
 
     COND_USE_SOVERSOLARIS_1="#"
