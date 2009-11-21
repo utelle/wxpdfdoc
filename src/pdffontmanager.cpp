@@ -798,6 +798,49 @@ wxPdfFontManagerBase::RegisterSystemFonts()
   return count;
 }
 
+class wxPdfFontDirTraverser : public wxDirTraverser
+{
+public:
+  wxPdfFontDirTraverser(wxPdfFontManagerBase* fontManager)
+    : m_fontManager(fontManager), m_count(0)
+  {
+  }
+
+  virtual wxDirTraverseResult OnFile(const wxString& fileName)
+  {
+    wxFileName fontFileName(fileName);
+    wxString ext = fontFileName.GetExt().Lower();
+    if (ext.IsSameAs(wxT("ttf")) || ext.IsSameAs(wxT("otf")) ||
+        /* ext.IsSameAs(wxT("pfa")) || */ ext.IsSameAs(wxT("pfb"))) 
+    {
+      wxPdfFont registeredFont = m_fontManager->RegisterFont(fontFileName.GetFullPath());
+      if (registeredFont.IsValid())
+      {
+        ++m_count;
+      }
+    }
+    else if (ext.IsSameAs(wxT("ttc")))
+    {
+      m_count += m_fontManager->RegisterFontCollection(fontFileName.GetFullPath());
+    }
+    return wxDIR_CONTINUE;
+  }
+
+  virtual wxDirTraverseResult OnDir(const wxString& WXUNUSED(dirname))
+  {
+    return wxDIR_CONTINUE;
+  }
+
+  int GetCount() const
+  {
+    return m_count;
+  }
+
+private:
+  wxPdfFontManagerBase* m_fontManager;
+  int                   m_count;
+};
+
 int
 wxPdfFontManagerBase::RegisterFontDirectory(const wxString& directory, bool recursive)
 {
@@ -807,28 +850,10 @@ wxPdfFontManagerBase::RegisterFontDirectory(const wxString& directory, bool recu
     wxDir fontDir(directory);
     if (fontDir.IsOpened())
     {
+      wxPdfFontDirTraverser fontDirTraverser(this);
       int flags = (recursive) ? wxDIR_FILES | wxDIR_DIRS : wxDIR_FILES;
-      wxString fileName;
-      bool cont = fontDir.GetFirst(&fileName, wxEmptyString, flags);
-      while (cont)
-      {
-        wxFileName fontFileName(fileName);
-        wxString ext = fontFileName.GetExt().Lower();
-        if (ext.IsSameAs(wxT("ttf")) || ext.IsSameAs(wxT("otf")) ||
-            /* ext.IsSameAs(wxT("pfa")) || */ ext.IsSameAs(wxT("pfb"))) 
-        {
-          wxPdfFont registeredFont = RegisterFont(fontFileName.GetFullPath());
-          if (registeredFont.IsValid())
-          {
-            ++count;
-          }
-        }
-        else if (ext.IsSameAs(wxT("ttc")))
-        {
-          count += RegisterFontCollection(fontFileName.GetFullPath());
-        }
-        cont = fontDir.GetNext(&fileName);
-      }
+      fontDir.Traverse(fontDirTraverser, wxEmptyString, flags);
+      count = fontDirTraverser.GetCount();
     }
     else
     {
