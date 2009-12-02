@@ -1341,7 +1341,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
       fontFile.SeekI(cffOffset);
       fontFile.Read(buffer, cffLength);
       zOutFontFile.Write(buffer, cffLength);
-      delete buffer;
+      delete [] buffer;
     }
     else
     {
@@ -1501,7 +1501,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_SWITCH, "i", "immediate", "Extract font metrics from ttf/otf font file",     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "f", "font",      "Font file (ttf, otf or pfb)",                     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #else
-  { wxCMD_LINE_OPTION, "f", "font",      "Font file (ttf or pfb)"),                          wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, "f", "font",      "Font file (ttf or pfb)",                          wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #endif
   { wxCMD_LINE_OPTION, "e", "enc",       "Character encoding of the font (for AFM only)",   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "p", "patch",     "Patch file (for AFM only)",                       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
