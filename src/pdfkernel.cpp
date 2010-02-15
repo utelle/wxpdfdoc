@@ -350,7 +350,14 @@ wxPdfDocument::BeginPage(int orientation, wxSize pageSize)
   if (orientation != m_defOrientation || pageSize != m_defPageSize)
   {
     (*m_orientationChanges)[m_page] = true;
-    (*m_pageSizes)[m_page] = pageSize;
+    if (orientation == wxPORTRAIT)
+    {
+      (*m_pageSizes)[m_page] = pageSize;
+    }
+    else
+    {
+      (*m_pageSizes)[m_page] = wxSize(pageSize.GetHeight(), pageSize.GetWidth());
+    }
   }
   if (orientation != m_curOrientation || pageSize != m_curPageSize)
   {
@@ -811,9 +818,12 @@ wxPdfDocument::PutPages()
     wxPdfBoolHashMap::iterator oChange = (*m_orientationChanges).find(n);
     if (oChange != (*m_orientationChanges).end())
     {
+      wxSize pageSize = (*m_pageSizes)[n];
+      double pageWidth = pageSize.GetWidth() / 254. * 72.;
+      double pageHeight = pageSize.GetHeight() / 254. * 72.;
       OutAscii(wxString(wxT("/MediaBox [0 0 ")) +
-               wxPdfUtility::Double2String(hPt,2) + wxString(wxT(" ")) +
-               wxPdfUtility::Double2String(wPt,2) + wxString(wxT("]")));
+               wxPdfUtility::Double2String(pageWidth,3) + wxString(wxT(" ")) +
+               wxPdfUtility::Double2String(pageHeight,3) + wxString(wxT("]")));
     }
 
     Out("/Resources 2 0 R");
@@ -932,8 +942,8 @@ wxPdfDocument::PutPages()
   OutAscii(kids + wxString(wxT("]")));
   OutAscii(wxString(wxT("/Count ")) + wxString::Format(wxT("%d"),nb));
   OutAscii(wxString(wxT("/MediaBox [0 0 ")) +
-           wxPdfUtility::Double2String(wPt,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String(hPt,2) + wxString(wxT("]")));
+           wxPdfUtility::Double2String(wPt,3) + wxString(wxT(" ")) +
+           wxPdfUtility::Double2String(hPt,3) + wxString(wxT("]")));
   Out(">>");
   Out("endobj");
 }
