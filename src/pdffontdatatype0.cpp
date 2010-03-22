@@ -66,6 +66,14 @@ wxPdfFontDataType0::CreateDefaultEncodingConv()
   }
 }
 
+void
+wxPdfFontDataType0::SetHalfWidthRanges(bool hwRange, wxChar hwFirst, wxChar hwLast)
+{
+  m_hwRange = hwRange;
+  m_hwFirst = hwFirst;
+  m_hwLast  = hwLast;
+}
+
 bool
 wxPdfFontDataType0::LoadFontMetrics(wxXmlNode* root)
 {

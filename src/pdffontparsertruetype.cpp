@@ -191,6 +191,7 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
     delete [] fontHeader;
     fontDataSize = bufferSize;
     fontData     = buffer;
+    ok = true;
   }
   else
   {

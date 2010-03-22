@@ -18,14 +18,12 @@
 
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
+#include "wx/pdfdocument.h"
 
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfDocument;
-class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontHashMap;
-class WXDLLIMPEXP_FWD_PDFDOC wxPdfImageHashMap;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfObject;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfParser;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfTemplate;
-class WXDLLIMPEXP_FWD_PDFDOC wxPdfTemplatesMap;
 
 /// Class representing a template (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfTemplate

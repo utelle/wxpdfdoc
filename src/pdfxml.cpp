@@ -1185,7 +1185,8 @@ wxPdfDocument::WriteXml(const wxString& xmlString)
   {
     SetLineHeight(GetFontSize()*1.25 / GetScaleFactor());
   }
-  wxStringInputStream xmlStream(wxT("<xml>")+xmlString+wxT("</xml>"));
+  wxString xmlStringWithXmlRoot(wxT("<xml>")+xmlString+wxT("</xml>"));          
+  wxStringInputStream xmlStream(xmlStringWithXmlRoot);
   wxXmlDocument xmlDocument;
   bool loaded = xmlDocument.Load(xmlStream);
   if (loaded)

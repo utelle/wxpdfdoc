@@ -21,9 +21,9 @@
 
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
+#include "wx/pdffontdata.h"
 
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfCffDecoder;
-class WXDLLIMPEXP_FWD_PDFDOC wxPdfChar2GlyphMap;
 
 class wxPdfCffDictElement;
 class wxPdfCffFontObject;

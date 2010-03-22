@@ -118,7 +118,7 @@ public:
     // Mention in italics
     SetFont(wxT(""),wxT("I"));
     Cell(0,5,wxT("(end of excerpt)"));
-    delete ctxt;
+    delete [] ctxt;
   }
 
   void PrintChapter(int num, const wxString& title, const wxString& file)

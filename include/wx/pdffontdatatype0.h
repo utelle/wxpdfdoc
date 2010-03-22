@@ -80,6 +80,14 @@ public:
   /// Create the associated default encoding converter
   virtual void CreateDefaultEncodingConv();
 
+  // Set half-width ranges (ie for Japan)
+  /**
+  * \param hwRange flag whether font has a half-width range
+  * \param hwFirst CID of the first half-width character
+  * \param hwLast CID of the last half-width character
+  */
+  void SetHalfWidthRanges(bool hwRange, wxChar hwFirst, wxChar hwLast);
+
 protected:
   /// Check whether the font has a half width range
   bool HasHalfWidthRange() const { return m_hwRange; }

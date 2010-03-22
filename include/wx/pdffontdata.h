@@ -63,6 +63,12 @@ public:
   */
   bool IsInitialized() const { return m_initialized; }
 
+  /// Set initialization state
+  /**
+  * \param initialized state of initialization to set
+  */
+  void SetInitialized(bool initialized);
+
   /// Set font type
   /**
   * \param type type of the font
@@ -374,7 +380,7 @@ public:
   */
   bool HasSize2() const;
 
-  /// Get font file size 2
+  /// Set font file size 2
   /**
   * \param size2 the second size of the font file
   * \note For Type1 fonts this represents the size of the BINARY section.
@@ -387,11 +393,24 @@ public:
   */
   size_t  GetSize2() const;
 
+  /// Set font CMap
+  /**
+  * \param CMap descriptor
+  * \note For Type0 fonts only
+  */
+  void SetCMap(const wxString& cmap);
+
   /// Get the font's CMap (Type 0 only)
   /**
   * return the font's CMap descriptor
   */
   wxString GetCMap() const;
+
+  /// Set font ordering
+  /**
+  * \param ordering the font's ordering descriptor
+  */
+  void SetOrdering(const wxString& ordering);
 
   /// Get font ordering
   /**
@@ -399,9 +418,17 @@ public:
   */
   wxString GetOrdering() const;
 
-  /// Get font supplement /Type 0 only)
+  /// Set font supplement
+  /**
+  * \param supplement the font's supplement descriptor
+  * \note For Type0 fonts only
+  */
+  void SetSupplement(const wxString& supplement);
+
+  /// Get font supplement (Type 0 only)
   /**
   * \return the font's supplement descriptor
+  * \note For Type0 fonts only
   */
   wxString GetSupplement() const;
 

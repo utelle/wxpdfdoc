@@ -136,17 +136,20 @@ wxPdfFontDataCore::GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap
   const char* str = s.c_str();
 #endif
 
-  size_t i;
-  for (i = 0; i < s.Length(); i++)
+  if (str != NULL)
   {
-    w += (*m_cw)[(unsigned char) str[i]];
-  }
-  if (withKerning)
-  {
-    int kerningWidth = GetKerningWidth(s);
-    if (kerningWidth != 0)
+    size_t i;
+    for (i = 0; i < s.Length(); i++)
     {
-      w += (double) kerningWidth;
+      w += (*m_cw)[(unsigned char) str[i]];
+    }
+    if (withKerning)
+    {
+      int kerningWidth = GetKerningWidth(s);
+      if (kerningWidth != 0)
+      {
+        w += (double) kerningWidth;
+      }
     }
   }
   return w / 1000;

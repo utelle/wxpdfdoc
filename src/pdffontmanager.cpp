@@ -700,9 +700,9 @@ wxPdfFontManagerBase::RegisterSystemFonts()
   wxRegKey* fontRegKey = new wxRegKey(strFont);
   fontRegKey->Open(wxRegKey::Read);
   // Retrieve the number of SubKeys and enumerate them
-  size_t nSubKeys;
-  size_t nValues;
-  fontRegKey->GetKeyInfo(&nSubKeys, NULL, &nValues, NULL);
+  size_t nSubKeys = 0, nMaxKeyLen = 0;
+  size_t nValues = 0, nMaxValueLen = 0;
+  fontRegKey->GetKeyInfo(&nSubKeys, &nMaxKeyLen, &nValues, &nMaxValueLen);
   wxString fontDirectory = wxGetOSDirectory();
   if (!wxEndsWithPathSeparator(fontDirectory))
   {
@@ -918,7 +918,7 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
     else
     {
       wxString style = ConvertStyleToString(searchStyle);
-      wxLogError(wxString(wxT("wxPdfFontManagerBase::GetFont: ")) +
+      wxLogDebug(wxString(wxT("wxPdfFontManagerBase::GetFont: ")) +
                  wxString::Format(_("Font '%s' with style '%s' not found."), fontName.c_str(), style.c_str()));
     }
   }
@@ -1191,14 +1191,14 @@ wxPdfFontManagerBase::AddFont(wxPdfFontData* fontData, wxPdfFont& font)
   wxCriticalSectionLocker locker(gs_csFontManager);
 #endif
   wxString fontName = fontData->GetName().Lower();
+  wxString family = fontData->GetFamily().Lower();
+  wxString alias = fontData->GetAlias().Lower();
 
   wxPdfFontNameMap::const_iterator fontIter = m_fontNameMap.find(fontName.Lower());
   if (fontIter == m_fontNameMap.end())
   {
     // Font not yet registered
-    wxString family = fontData->GetFamily().Lower();
     wxArrayString fullNames = fontData->GetFullNames();
-    wxString alias = fontData->GetAlias().Lower();
     size_t pos = m_fontList.GetCount();
     wxPdfFontListEntry* fontEntry = new wxPdfFontListEntry(fontData);
     m_fontList.Add(fontEntry);
@@ -1224,31 +1224,31 @@ wxPdfFontManagerBase::AddFont(wxPdfFontData* fontData, wxPdfFont& font)
     {
       m_fontFamilyMap[alias].Add(pos);
     }
-
-    // Register family alias
-    if (!alias.IsEmpty() && !alias.IsSameAs(family))
-    {
-      // Check whether the alias is already assigned and - if so - to the same family
-      wxPdfFontAliasMap::const_iterator aliasIter = m_fontAliasMap.find(alias);
-      if (aliasIter != m_fontAliasMap.end())
-      {
-        if (!aliasIter->second.IsSameAs(family))
-        {
-          wxLogError(wxString(wxT("wxPdfFontManagerBase::AddFont: ")) +
-                     wxString::Format(_("Family alias '%s' for family '%s' already assigned to family '%s'."), 
-                     alias.c_str(), family.c_str(), aliasIter->second.c_str()));
-        }
-      }
-      else
-      {
-        // alias not previously assigned, remember assignment
-        m_fontAliasMap[alias] = family;
-      }
-    }
   }
   else
   {
     font = wxPdfFont(m_fontList[fontIter->second]->GetFontData());
+  }
+
+  // Register family alias
+  if (!alias.IsEmpty() && !alias.IsSameAs(family))
+  {
+    // Check whether the alias is already assigned and - if so - to the same family
+    wxPdfFontAliasMap::const_iterator aliasIter = m_fontAliasMap.find(alias);
+    if (aliasIter != m_fontAliasMap.end())
+    {
+      if (!aliasIter->second.IsSameAs(family))
+      {
+        wxLogError(wxString(wxT("wxPdfFontManagerBase::AddFont: ")) +
+                   wxString::Format(_("Family alias '%s' for family '%s' already assigned to family '%s'."), 
+                   alias.c_str(), family.c_str(), aliasIter->second.c_str()));
+      }
+    }
+    else
+    {
+      // alias not previously assigned, remember assignment
+      m_fontAliasMap[alias] = family;
+    }
   }
   return ok;
 }

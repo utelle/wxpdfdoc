@@ -123,6 +123,7 @@ wxPdfDocument::Initialize(int orientation)
 {
   // Allocate arrays
   m_currentFont = NULL;
+  m_buffer = new wxMemoryOutputStream();
 
   m_page       = 0;
   m_n          = 2;
@@ -458,6 +459,11 @@ wxPdfDocument::~wxPdfDocument()
   if (m_encryptor != NULL)
   {
     delete m_encryptor;
+  }
+
+  if (m_buffer != NULL)
+  {
+    delete m_buffer;
   }
 }
 
@@ -903,10 +909,17 @@ void
 wxPdfDocument::RotatedText(double x, double y, const wxString& txt, double angle)
 {
   // Text rotated around its origin
-  StartTransform();
-  Rotate(angle, x, y);
-  Text(x, y, txt);
-  StopTransform();
+  if (angle == 0)
+  {
+    Text(x, y, txt);
+  }
+  else
+  {
+    StartTransform();
+    Rotate(angle, x, y);
+    Text(x, y, txt);
+    StopTransform();
+  }
 }
 
 bool
@@ -1853,20 +1866,31 @@ void
 wxPdfDocument::SaveAsFile(const wxString& name)
 {
   wxString fileName = name;
-  // Finish document if necessary
-  if (m_state < 3)
-  {
-    Close();
-  }
   // Normalize parameters
   if(fileName.Length() == 0)
   {
     fileName = wxT("doc.pdf");
   }
-  // Save to local file
+
   wxFileOutputStream outfile(fileName);
-  wxMemoryInputStream tmp(m_buffer);
-  outfile.Write(tmp);
+
+  // Finish document if necessary
+  if (m_state < 3)
+  {
+    if (m_buffer != NULL)
+    {
+      delete m_buffer;
+    }
+    m_buffer = &outfile;
+    Close();
+    m_buffer = NULL;
+  }
+  else
+  {
+    // Save to local file
+    wxMemoryInputStream tmp(m_buffer);
+    outfile.Write(tmp);
+  }
   outfile.Close();
 }
 
@@ -1878,7 +1902,7 @@ wxPdfDocument::CloseAndGetBuffer()
     Close();
   }
   
-  return m_buffer;
+  return *((wxMemoryOutputStream*) m_buffer);
 }
 
 void

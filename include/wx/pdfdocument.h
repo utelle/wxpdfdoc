@@ -2637,7 +2637,7 @@ private:
  
   wxPdfOffsetHashMap*  m_offsets;             ///< array of object offsets
 
-  wxMemoryOutputStream m_buffer;              ///< buffer holding in-memory PDF
+  wxOutputStream*      m_buffer;              ///< buffer holding in-memory PDF
   wxPdfPageHashMap*    m_pages;               ///< array containing pages
   int                  m_state;               ///< current document state
 

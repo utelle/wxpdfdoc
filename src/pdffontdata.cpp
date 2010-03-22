@@ -481,16 +481,34 @@ wxPdfFontData::GetCMap() const
   return m_cmap;
 }
 
+void
+wxPdfFontData::SetCMap(const wxString& cmap)
+{
+  m_cmap = cmap;
+}
+
 wxString
 wxPdfFontData::GetOrdering() const
 {
   return m_ordering;
 }
 
+void
+wxPdfFontData::SetOrdering(const wxString& ordering)
+{
+  m_ordering = ordering;
+}
+
 wxString
 wxPdfFontData::GetSupplement() const
 {
   return m_supplement;
+}
+
+void
+wxPdfFontData::SetSupplement(const wxString& supplement)
+{
+  m_supplement = supplement;
 }
 
 void
@@ -634,6 +652,12 @@ bool
 wxPdfFontData::Initialize()
 {
   return IsInitialized();
+}
+
+void
+wxPdfFontData::SetInitialized(bool initialized)
+{
+  m_initialized = initialized;
 }
 
 wxString

@@ -19,11 +19,11 @@
 
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
+#include "wx/pdffontdata.h"
 #include "wx/pdffontdescription.h"
 #include "wx/pdffontparser.h"
 
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontData;
-class WXDLLIMPEXP_FWD_PDFDOC wxPdfKernPairMap;
 
 /// Class representing a table directory entry for TrueType fonts (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfTableDirectoryEntry

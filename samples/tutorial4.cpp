@@ -132,7 +132,7 @@ public:
     Cell(0,5,wxT("(end of excerpt)"));
     // Go back to first column
     SetCol(0);
-    delete ctxt;
+    delete [] ctxt;
   }
 
   void PrintChapter(int num, const wxString& title, const wxString& file)

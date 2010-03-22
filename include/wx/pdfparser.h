@@ -22,15 +22,14 @@
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 #include "wx/pdfarraydouble.h"
+#include "wx/pdfobjects.h"
 
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfArray;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfDictionary;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfEncrypt;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfInfo;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfObject;
-class WXDLLIMPEXP_FWD_PDFDOC wxPdfObjectMap;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfObjectQueue;
-class WXDLLIMPEXP_FWD_PDFDOC wxPdfObjStmMap;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfStream;
 
 /// Permissions required for import of a document

@@ -311,7 +311,7 @@ wxPdfDocument::EndDoc()
   Out("endobj");
   
   // Cross-Reference
-  int o = m_buffer.TellO();
+  int o = m_buffer->TellO();
   Out("xref");
   OutAscii(wxString(wxT("0 ")) + wxString::Format(wxT("%d"),(m_n+1)));
   Out("0000000000 65535 f ");
@@ -439,7 +439,7 @@ wxPdfDocument::NewObj(int objId)
 {
   // Begin a new object
   int id = (objId > 0) ? objId : GetNewObjId();
-  (*m_offsets)[id-1] = m_buffer.TellO();
+  (*m_offsets)[id-1] = m_buffer->TellO();
   OutAscii(wxString::Format(wxT("%d"),id) + wxString(wxT(" 0 obj")));
 }
 
@@ -930,7 +930,7 @@ wxPdfDocument::PutPages()
     }
   }
   // Pages root
-  (*m_offsets)[0] = m_buffer.TellO();
+  (*m_offsets)[0] = m_buffer->TellO();
   Out("1 0 obj");
   Out("<</Type /Pages");
   wxString kids = wxT("/Kids [");
@@ -2018,7 +2018,7 @@ wxPdfDocument::PutResources()
   PutLayers();
 
   // Resource dictionary
-  (*m_offsets)[2-1] = m_buffer.TellO();
+  (*m_offsets)[2-1] = m_buffer->TellO();
   Out("2 0 obj");
   Out("<<");
   PutResourceDict();
@@ -2153,6 +2153,10 @@ wxPdfDocument::TextEscape(const wxString& s, bool newline)
     size_t len = conv->WC2MB(NULL, t, 0);
     char* mbstr = new char[len+3];
     len = conv->WC2MB(mbstr, t, len+3);
+  	if (len == wxCONV_FAILED)
+    {
+      len = strlen(mbstr);
+    }
 #else
     size_t len = t.Length();;
     char* mbstr = new char[len+1];
@@ -2231,8 +2235,8 @@ wxPdfDocument::PutStream(wxMemoryOutputStream& s)
       }
       else
       {
-        m_buffer.Write(tmp);
-        m_buffer.Write("\n",1);
+        m_buffer->Write(tmp);
+        m_buffer->Write("\n",1);
       }
     }
   }
@@ -2432,10 +2436,10 @@ wxPdfDocument::Out(const char* s, size_t len, bool newline)
   }
   else
   {
-    m_buffer.Write(s,len);
+    m_buffer->Write(s,len);
     if (newline)
     {
-      m_buffer.Write("\n",1);
+      m_buffer->Write("\n",1);
     }
   }
 }

@@ -160,7 +160,7 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
   int generationId = object->GetGenerationId();
   if (m_offsets->count(objectId-1) == 0)
   {
-    (*m_offsets)[objectId-1] = m_buffer.TellO();
+    (*m_offsets)[objectId-1] = m_buffer->TellO();
     OutAscii(wxString::Format(wxT("%d %d obj"), objectId, generationId));
     switch (object->GetType())
     {
