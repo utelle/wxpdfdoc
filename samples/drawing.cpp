@@ -296,6 +296,66 @@ drawing()
   shape4.CurveTo(150, 145, 190, 155, 180, 140);
   pdf.Shape(shape4, wxPDF_STYLE_FILL | wxPDF_STYLE_DRAWCLOSE);
 
+  pdf.AddPage();
+  pdf.SetFont(wxT("Arial"), wxT(""), 10);
+
+  static double pi = 4. * atan(1.0);
+
+  pdf.Text(130, 40, wxT("Closed Bezier spline"));
+  wxPdfArrayDouble xp, yp;
+  int nseg = 10;
+  double radius = 30;
+  double step = 2 * pi / nseg;
+  int i;
+  for (i = 0; i < nseg; ++i)
+  {
+    double angle = i * step;
+    xp.Add(20 + radius * (sin(angle) + 1));
+    yp.Add(20 + radius * (cos(angle) + 1));
+    pdf.Marker(xp[i], yp[i], wxPDF_MARKER_CIRCLE, 2.0);
+  }
+  pdf.ClosedBezierSpline(xp, yp, wxPDF_STYLE_DRAW);
+
+  pdf.Text(130, 120, wxT("Bezier spline for Sine function"));
+  // Sinus points in [0,2PI].
+	// Fill point array with scaled in X,Y Sin values in [0, PI].
+  wxPdfArrayDouble xpSin, ypSin;
+  double scaleX = 20;
+  double scaleY = 20;
+  step = 2 * pi / nseg;
+  for (i = 0; i < nseg; ++i)
+  {
+    double angle = i * step;
+    xpSin.Add(20 + scaleX * angle);
+    ypSin.Add(100 + scaleY * (1 - sin(angle)));
+    pdf.Marker(xpSin[i], ypSin[i], wxPDF_MARKER_CIRCLE, 2.0);
+  }
+  pdf.BezierSpline(xpSin, ypSin, wxPDF_STYLE_DRAW);
+
+  pdf.Text(130, 180, wxT("Bezier spline for Runge function"));
+  wxPdfArrayDouble xpRunge, ypRunge;
+  step = 2.0 / (nseg - 1);
+  for (i = 0; i < nseg; ++i)
+  {
+    double xstep = -1 + i * step;
+    xpRunge.Add(20 + scaleX * (xstep+1));
+    ypRunge.Add(160 + scaleY * (1 - 1 / (1 + 25 * xstep * xstep)));
+    pdf.Marker(xpRunge[i], ypRunge[i], wxPDF_MARKER_CIRCLE, 2.0);
+  }
+  pdf.BezierSpline(xpRunge, ypRunge, wxPDF_STYLE_DRAW);
+
+  pdf.Text(130, 240, wxT("Bezier spline for arc from 0 to 270 degree"));
+  wxPdfArrayDouble xpArc, ypArc;
+  step = 270.0 / (nseg - 1);
+  for (i = 0; i < nseg; ++i)
+  {
+    double angle = pi * i * step / 180;
+    xpArc.Add(20 + scaleX * (cos(angle) + 1));
+    ypArc.Add(220 + scaleY * (sin(angle) + 1));
+    pdf.Marker(xpArc[i], ypArc[i], wxPDF_MARKER_CIRCLE, 2.0);
+  }
+  pdf.BezierSpline(xpArc, ypArc, wxPDF_STYLE_DRAW);
+
   pdf.SaveAsFile(wxT("drawing.pdf"));
 }
 

@@ -42,6 +42,49 @@ wxPdfFontDataType0::wxPdfFontDataType0()
   m_hwRange = false;
 }
 
+wxPdfFontDataType0::wxPdfFontDataType0(const wxString& family, const wxString& name,
+                                       const wxString& encoding, const wxString& ordering, 
+                                       const wxString& supplement, const wxString& cmap,
+                                       short* cwArray, const wxPdfFontDescription& desc)
+  : wxPdfFontData()
+{
+  m_type   = wxT("Type0");
+  m_conv = NULL;
+  m_family = family;
+  m_name   = name;
+  m_desc  = desc;
+
+  m_style = FindStyleFromName(name);
+
+  m_enc = encoding;
+  m_ordering = ordering;
+  m_supplement = supplement;
+  m_cmap = cmap;
+
+  if (cwArray != NULL)
+  {
+    m_cw = new wxPdfGlyphWidthMap();
+    int j;
+    for (j = 32; j < 127; ++j)
+    {
+      (*m_cw)[j] = cwArray[j-32];
+    }
+  }
+
+  CreateDefaultEncodingConv();
+  if (m_ordering == wxT("Japan1"))
+  {
+    m_hwRange = true;
+    m_hwFirst = 0xff61;
+    m_hwLast  = 0xff9f;
+  }
+  else
+  {
+    m_hwRange = false;
+  }
+  m_initialized = true;
+}
+
 wxPdfFontDataType0::~wxPdfFontDataType0()
 {
   if (m_conv != NULL)

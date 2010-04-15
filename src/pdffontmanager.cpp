@@ -56,6 +56,9 @@
 // Include core font data
 #include "pdfcorefontdata.inc"
 
+// Include core font data
+#include "pdfcjkfontdata.inc"
+
 // wxPdfFontManager is a singleton.
 // Critical sections are used to make access to it thread safe if necessary.
 #if wxUSE_THREADS
@@ -229,6 +232,8 @@ public:
 private:
   void InitializeCoreFonts();
 
+  void InitializeCjkFonts();
+
   bool RegisterFontCJK(const wxString& fontFileName, const wxString& fontStyle, const wxString& alias);
 
   wxPdfFontData* LoadFontFromXML(const wxString& fontFileName);
@@ -267,6 +272,7 @@ wxPdfFontManagerBase::wxPdfFontManagerBase()
     m_searchPaths.AddEnvList(wxT("WXPDF_FONTPATH"));
   }
   InitializeCoreFonts();
+  InitializeCjkFonts();
 }
   
 wxPdfFontManagerBase::~wxPdfFontManagerBase()
@@ -659,24 +665,34 @@ bool
 wxPdfFontManagerBase::RegisterFontCJK(const wxString& family)
 {
   bool ok = false;
-  wxString fontFileName = family.Lower() + wxString(wxT(".xml"));
-  wxString fullFontFileName;
-  if (FindFile(fontFileName, fullFontFileName))
+  wxPdfFontFamilyMap::const_iterator familyIter = m_fontFamilyMap.find(family.Lower());
+  if (familyIter == m_fontFamilyMap.end())
   {
-    ok = RegisterFontCJK(fullFontFileName, wxT(""), family);
-    if (ok)
+    wxString fontFileName = family.Lower() + wxString(wxT(".xml"));
+    wxString fullFontFileName;
+    if (FindFile(fontFileName, fullFontFileName))
     {
-      // Add all available styles (bold, italic and bold-italic)
-      // For all styles the same font metric file is used.
-      RegisterFontCJK(fullFontFileName, wxT(",Bold"), family);
-      RegisterFontCJK(fullFontFileName, wxT(",Italic"), family);
-      RegisterFontCJK(fullFontFileName, wxT(",BoldItalic"), family);
+      ok = RegisterFontCJK(fullFontFileName, wxT(""), family);
+      if (ok)
+      {
+        // Add all available styles (bold, italic and bold-italic)
+        // For all styles the same font metric file is used.
+        RegisterFontCJK(fullFontFileName, wxT(",Bold"), family);
+        RegisterFontCJK(fullFontFileName, wxT(",Italic"), family);
+        RegisterFontCJK(fullFontFileName, wxT(",BoldItalic"), family);
+      }
+    }
+    else
+    {
+      wxLogError(wxString(wxT("wxPdfFontManagerBase::RegisterFontCJK: ")) +
+                 wxString::Format(_("CJK Font file '%s' for CJK family '%s' does not exist or is not readable."), fontFileName.c_str(), family.c_str()));
     }
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontManagerBase::RegisterFontCJK: ")) +
-               wxString::Format(_("CJK Font file '%s' for CJK family '%s' does not exist or is not readable."), fontFileName.c_str(), family.c_str()));
+    wxLogDebug(wxString(wxT("wxPdfFontManagerBase::RegisterFontCJK: ")) +
+               wxString::Format(_("CJK family '%s' already registered."), family.c_str()));
+    ok = true;
   }
   return ok;
 }
@@ -1029,7 +1045,7 @@ wxPdfFontManagerBase::InitializeCoreFonts()
 {
   wxPdfFontDataCore* coreFontData;
   int j;
-  for (j = 0; gs_coreFontTable[j].name != wxEmptyString; j++)
+  for (j = 0; gs_coreFontTable[j].name != wxEmptyString; ++j)
   {
     const wxPdfCoreFontDesc& coreFontDesc = gs_coreFontTable[j];
     coreFontData = new wxPdfFontDataCore(coreFontDesc.family, coreFontDesc.alias, coreFontDesc.name, 
@@ -1041,6 +1057,41 @@ wxPdfFontManagerBase::InitializeCoreFonts()
                                                               coreFontDesc.xHeight, coreFontDesc.underlinePosition,
                                                               coreFontDesc.underlineThickness));
     AddFont(coreFontData);
+  }
+}
+
+void
+wxPdfFontManagerBase::InitializeCjkFonts()
+{
+  const wxChar* fontStyles[4] = { wxT(""), wxT(",Bold"), wxT(",Italic"), wxT(",BoldItalic") };
+  wxString fontName;
+  wxString fontAlias;
+  wxPdfFontDataType0* cjkFontData;
+  int j, k;
+  for (j = 0; gs_cjkFontTable[j].name != wxEmptyString; ++j)
+  {
+    for (k = 0; k < 4; ++k)
+    {
+      const wxPdfCjkFontDesc& cjkFontDesc = gs_cjkFontTable[j];
+      cjkFontData = new wxPdfFontDataType0(cjkFontDesc.family, cjkFontDesc.name, 
+                                           cjkFontDesc.encoding, cjkFontDesc.ordering, 
+                                           cjkFontDesc.supplement, cjkFontDesc.cmap, 
+                                           cjkFontDesc.cwArray,
+                                           wxPdfFontDescription(cjkFontDesc.ascent, cjkFontDesc.descent,
+                                                                cjkFontDesc.capHeight, cjkFontDesc.flags,
+                                                                cjkFontDesc.bbox, cjkFontDesc.italicAngle,
+                                                                cjkFontDesc.stemV, cjkFontDesc.missingWidth,
+                                                                cjkFontDesc.xHeight, cjkFontDesc.underlinePosition,
+                                                                cjkFontDesc.underlineThickness));
+      fontName = cjkFontDesc.name;
+      fontName += fontStyles[k];
+      cjkFontData->SetName(fontName);
+      fontAlias = cjkFontDesc.family;
+      cjkFontData->SetFamily(fontAlias);
+      cjkFontData->SetAlias(fontAlias);
+      cjkFontData->SetStyleFromName();
+      AddFont(cjkFontData);
+    }
   }
 }
 

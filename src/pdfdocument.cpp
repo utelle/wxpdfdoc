@@ -850,7 +850,7 @@ wxPdfDocument::GetFontStyles() const
 }
 
 double
-wxPdfDocument::GetFontSize()
+wxPdfDocument::GetFontSize() const
 {
   return m_fontSizePt;
 }
@@ -1758,8 +1758,8 @@ wxPdfDocument::ImageMask(const wxString& name, const wxImage& img)
       }
       else
       {
-        tempImage = img.Copy();
-        tempImage.SetOption(wxIMAGE_OPTION_PNG_FORMAT, wxPNG_TYPE_GREY);
+        tempImage = img.ConvertToGreyscale();
+        tempImage.SetOption(wxIMAGE_OPTION_PNG_FORMAT, wxPNG_TYPE_GREY_RED);
       }
       tempImage.SetMask(false);
       // First use of image, get info

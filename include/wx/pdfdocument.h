@@ -902,10 +902,11 @@ public:
   * \param afinish: Finish angle
   * \param style: Style of rectangle (draw and/or fill)
   * \param nSeg: Ellipse is made up of nSeg Bezier curves
+  * \param doSector: connect end points of elliptic arc with center point
   */
   virtual void Ellipse(double x0, double y0, double rx, double ry = 0, 
                        double angle = 0, double astart = 0, double afinish = 360,
-                       int style = wxPDF_STYLE_DRAW, int nSeg = 8);
+                       int style = wxPDF_STYLE_DRAW, int nSeg = 8, bool doSector = false);
 
   /// Draws a circle
   /**
@@ -982,6 +983,22 @@ public:
                            int circleStyle = wxPDF_STYLE_DRAW,
                            const wxPdfLineStyle& circleLineStyle = wxPdfLineStyle(),
                            const wxPdfColour& circleFillColour = wxPdfColour());
+
+  /// Draws a Bezier spline through a list of points
+  /**
+  * \param x Array with abscissa values
+  * \param y Array with ordinate values
+  * \param style: Style of the spline (draw and/or fill)
+  */
+  virtual void BezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int style);
+
+  /// Draws a closed Bezier spline through a list of points
+  /**
+  * \param x Array with abscissa values
+  * \param y Array with ordinate values
+  * \param style: Style of the spline (draw and/or fill)
+  */
+  virtual void ClosedBezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int style);
 
   /// Draws a shape
   /**
@@ -1218,7 +1235,7 @@ public:
   * \return The size (in points) of the current font
   * \see SetFont()
   */
-  virtual double GetFontSize();
+  virtual double GetFontSize() const;
 
   /// Creates a new internal link and returns its identifier.
   /**
@@ -1735,6 +1752,16 @@ public:
   * \param y3: Ordinate of end point
   */
   virtual void CurveTo(double x1, double y1, double x2, double y2, double x3, double y3);
+
+  /// End a graphics path
+  /**
+  * \param style Style of rendering. Possible values are:
+  *   \li wxPDF_STYLE_NOOP
+  *   \li wxPDF_STYLE_DRAW: draw the outline of the path  (default)
+  *   \li wxPDF_STYLE_FILL: fill the area enclosed by the path
+  *   \li wxPDF_STYLE_FILLDRAW: draw and fill
+  */
+  virtual void EndPath(int style = wxPDF_STYLE_DRAW);
 
   /// Close the clipping path
   /**

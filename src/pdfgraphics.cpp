@@ -866,25 +866,33 @@ wxPdfDocument::Curve(double x0, double y0, double x1, double y1,
 void
 wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry, 
                        double angle, double astart, double afinish,
-                       int style, int nSeg)
+                       int style, int nSeg, bool doSector)
 {
   if (rx <= 0) return;
 
   wxString op;
-  // Draw a rectangle
-  if ((style & wxPDF_STYLE_MASK) == wxPDF_STYLE_FILL)
+  // Draw an ellipse
+  if ((style & wxPDF_STYLE_DRAWCLOSE) == wxPDF_STYLE_DRAWCLOSE)
   {
-    op = wxT("f");
+    // Close the path as well
+    if ((style & wxPDF_STYLE_FILL) == wxPDF_STYLE_FILL)
+    {
+      op = wxT("b"); // small 'b' means closing the path as well
+    }
+    else
+    {
+      op = wxT("s"); // small 's' means closing the path as well
+    }
   }
   else
   {
-    if ((style & wxPDF_STYLE_MASK) == wxPDF_STYLE_FILLDRAW)
+    if ((style & wxPDF_STYLE_MASK) == wxPDF_STYLE_FILL)
+    {
+      op = wxT("f");
+    }
+    else if ((style & wxPDF_STYLE_MASK) == wxPDF_STYLE_FILLDRAW)
     {
       op = wxT("B");
-    }
-    else if ((style & wxPDF_STYLE_MASK) == wxPDF_STYLE_DRAWCLOSE)
-    {
-      op = wxT("s"); // small 's' means closing the path as well
     }
     else
     {
@@ -962,6 +970,13 @@ wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry,
     b0 = b1;
     c0 = c1;
     d0 = d1;
+  }
+  if (doSector)
+  {
+    OutLine(x0, y0);
+//    a0 = x0 + (rx * cos(t1));
+//    b0 = y0 + (ry * sin(t1));
+//    OutLine(a0, b0);
   }
   OutAscii(op);
   if (angle !=0)
@@ -1193,6 +1208,355 @@ wxPdfDocument::StarPolygon(double x0, double y0, double r, int nv, int ng, doubl
   Polygon(x, y, style);
 }
 
+static void
+SolveTridiagonalSpecial(const wxPdfArrayDouble& r, wxPdfArrayDouble& x)
+{
+  size_t i;
+  size_t n = r.GetCount();
+  x.SetCount(n);
+  wxPdfArrayDouble gamma;
+  gamma.SetCount(n);
+
+  // Decomposition and forward substitution.
+  double beta = 2.0;
+  x[0] = r[0] / beta;
+  for (i = 1; i < n; ++i)
+  {
+    gamma[i] = 1 / beta;
+    beta = (i < n-1 ? 4.0 : 3.5) - gamma[i];
+    x[i] = (r[i] - x[i-1]) / beta;
+  }
+
+  // Backsubstitution.
+  for (i = 1; i < n; ++i)
+  {
+    x[n-i-1] -= gamma[n-i] * x[n-i];
+  }
+}
+
+static bool
+GetBezierControlPoints(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y,
+                       wxPdfArrayDouble& x1, wxPdfArrayDouble& y1,
+                       wxPdfArrayDouble& x2, wxPdfArrayDouble& y2)
+{
+  size_t i;
+  size_t n = x.GetCount() - 1;
+  if (n <= 1)
+  {
+    wxLogDebug(wxString(wxT("GetBezierControlPoints: "))+_("n must be greater than 2."));
+    return false;
+  }
+#if 0
+  // Special case: Bezier curve should be a straight line.
+  if (n == 1)
+  {
+    x1[0] = (2 * x[0] + x[1]) / 3;
+    y1[0] = (2 * y[0] + y[1]) / 3;
+    x2[0] = 2 * x1[0] - x[0];
+    y2[0] = 2 * y1[0] - y[0];
+    return true;
+  }
+#endif
+
+  // First control point
+  wxPdfArrayDouble r;
+  r.SetCount(n);
+
+  // Set right hand side X values
+  for (i = 1; i < n-1; ++i)
+  {
+    r[i] = 4 * x[i] + 2 * x[i+1];
+  }
+  r[0] = x[0] + 2 * x[1];
+  r[n-1] = (8 * x[n-1] + x[n]) / 2.0;
+
+  x1.SetCount(n);
+  SolveTridiagonalSpecial(r, x1);
+
+  // Set right hand side Y values
+  for (i = 1; i < n-1; ++i)
+  {
+    r[i] = 4 * y[i] + 2 * y[i+1];
+  }
+  r[0] = y[0] + 2 * y[1];
+  r[n - 1] = (8 * y[n-1] + y[n]) / 2.0;
+
+  y1.SetCount(n);
+  SolveTridiagonalSpecial(r, y1);
+
+  // Second control point
+  x2.SetCount(n);
+  y2.SetCount(n);
+  for (i = 0; i < n; ++i)
+  {
+    if (i < n - 1)
+    {
+      x2[i] = 2 * x[i+1] - x1[i+1];
+      y2[i] = 2 * y[i+1] - y1[i+1];
+    }
+    else
+    {
+      x2[i] = (x[n] + x1[n-1]) / 2;
+      y2[i] = (y[n] + y1[n-1]) / 2;
+    }
+  }
+  return true;
+}
+
+void
+wxPdfDocument::BezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int style)
+{
+  size_t n = x.GetCount();
+  if (n == y.GetCount())
+  {
+    if (n > 2)
+    {
+      wxPdfArrayDouble x1, y1, x2, y2;
+      if (GetBezierControlPoints(x, y, x1, y1, x2, y2))
+      {
+        wxString op;
+        if ((style & wxPDF_STYLE_FILLDRAW) == wxPDF_STYLE_FILL)
+        {
+          op = (m_fillRule == wxODDEVEN_RULE) ? wxT("f*") : wxT("f");
+        }
+        else
+        {
+          if ((style & wxPDF_STYLE_FILLDRAW) == wxPDF_STYLE_FILLDRAW)
+          {
+            op = (m_fillRule == wxODDEVEN_RULE) ? wxT("B*") : wxT("B");
+          }
+          else
+          {
+            op = wxT("S");
+          }
+        }
+        MoveTo(x[0], y[0]);
+        size_t j;
+        for (j = 0; j < n-1; ++j)
+        {
+          CurveTo(x1[j], y1[j], x2[j], y2[j], x[j+1], y[j+1]);
+        }
+        OutAscii(op);
+      }
+    }
+    else
+    {
+      Line(x[0], y[0], x[1], y[1]);
+    }
+  }
+}
+
+static bool
+SolveTridiagonalGeneral(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b, 
+                        const wxPdfArrayDouble& c, const wxPdfArrayDouble& r,
+                        wxPdfArrayDouble& u)
+{
+  size_t n = r.GetCount();
+  // a, b, c and rhs vectors must have the same size.
+  if (n != a.GetCount() || n != b.GetCount() || n != c.GetCount())
+  {
+    wxLogDebug(wxString(wxT("SolveTridiagonal: "))+_("Mismatch of vector sizes."));
+    return false;
+  }
+	if (b[0] == 0.0)
+  {
+    wxLogDebug(wxString(wxT("SolveTridiagonal: "))+_("Singular matrix."));
+    return false;
+  }
+
+  wxPdfArrayDouble gamma;
+  gamma.SetCount(n);
+  u.SetCount(n);
+			
+  // Decomposition and forward substitution.
+  double beta = b[0];
+  u[0] = r[0] / beta;
+  size_t j;
+  for (j = 1; j < n; ++j)
+  {
+    gamma[j] = c[j-1] / beta;
+    beta = b[j] - a[j] * gamma[j];
+    if (beta == 0.0)
+    {
+      wxLogDebug(wxString(wxT("SolveTridiagonal: "))+_("Singular matrix."));
+      return false;
+    }
+    u[j] = (r[j] - a[j] * u[j - 1]) / beta;
+  }
+
+  // Backward substitution.
+  for (j = 1; j < n; ++j)
+  {
+    u[n-j-1] -= gamma[n-j] * u[n-j];
+  }
+  return true;
+}
+
+static bool
+SolveCyclic(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b, 
+            const wxPdfArrayDouble& c, double alpha, double beta, 
+            const wxPdfArrayDouble& r, wxPdfArrayDouble& x)
+{
+  size_t i;
+  size_t n = r.GetCount();
+  // a, b, c and rhs vectors must have the same size.
+  if (n != a.GetCount() || n != b.GetCount() || n != c.GetCount())
+  {
+    wxLogDebug(wxString(wxT("SolveCyclic: "))+_("Mismatch of vector sizes."));
+    return false;
+  }
+  if (n <= 2)
+  {
+    wxLogDebug(wxString(wxT("SolveCyclic: "))+_("n must be greater than 2."));
+    return false;
+  }
+
+  // Set up the diagonal of the modified tridiagonal system.
+  wxPdfArrayDouble bb;
+  bb.SetCount(n);
+  double gamma = -b[0];
+  bb[0] = b[0] - gamma;
+  bb[n-1] = b[n-1] - alpha * beta / gamma;
+  for (i = 1; i < n-1; ++i)
+  {
+    bb[i] = b[i];
+  }
+  // Solve A · x = rhs.
+  x.SetCount(n);
+  if (!SolveTridiagonalGeneral(a, bb, c, r, x))
+  {
+    return false;
+  }
+
+  // Set up the vector u.
+  wxPdfArrayDouble u;
+  u.SetCount(n, 0.0);
+  u[0] = gamma;
+  u[n-1] = alpha;
+
+  // Solve A · z = u.
+  wxPdfArrayDouble z;
+  z.SetCount(n);
+  if (!SolveTridiagonalGeneral(a, bb, c, u, z))
+  {
+    return false;
+  }
+
+  // Calculate solution vector x.
+  double fact = (x[0] + beta * x[n-1] / gamma) / (1.0 + z[0] + beta * z[n-1] / gamma);
+  for (i = 0; i < n; ++i)
+  {
+    x[i] -= fact * z[i];
+  }
+  return true;
+} 
+
+static bool
+GetCyclicControlPoints(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y,
+                       wxPdfArrayDouble& x1, wxPdfArrayDouble& y1,
+                       wxPdfArrayDouble& x2, wxPdfArrayDouble& y2)
+{
+  size_t i, j;
+  size_t n = x.GetCount();
+  bool ok = (n == y.GetCount());
+  if (n <= 2 || !ok)
+  {
+    wxLogDebug(wxString(wxT("GetCyclicControlPoints: "))+_("n must be greater than 2."));
+    return false;
+  }
+
+  // Calculate first Bezier control points
+
+  // The matrix.
+  wxPdfArrayDouble a, b, c;
+  a.SetCount(n, 1.0);
+  b.SetCount(n, 4.0);
+  c.SetCount(n, 1.0);
+
+  // Right hand side vector for points X coordinates.
+  wxPdfArrayDouble r;
+  r.SetCount(n);
+  for (i = 0; i < n; ++i)
+  {
+    j = (i == n-1) ? 0 : i+1;
+    r[i] = 4 * x[i] + 2 * x[j];
+  }
+
+  // Solve the system for X.
+  x1.SetCount(n);
+  if (!SolveCyclic(a, b, c, 1.0, 1.0, r, x1))
+  {
+    return false;
+  }
+
+  // Right hand side vector for points Y coordinates.
+  for (i = 0; i < n; ++i)
+  {
+    j = (i == n - 1) ? 0 : i + 1;
+    r[i] = 4 * y[i] + 2 * y[j];
+  }
+  // Solve the system for Y.
+  y1.SetCount(n);
+  if (!SolveCyclic(a, b, c, 1, 1, r, y1))
+  {
+    return false;
+  }
+
+  // Second control point.
+  x2.SetCount(n);
+  y2.SetCount(n);
+  for (i = 0; i < n; ++i)
+  {
+    x2[i] = 2 * x[i] - x1[i];
+    y2[i] = 2 * y[i] - y1[i];
+  }
+  return true;
+}
+
+void
+wxPdfDocument::ClosedBezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int style)
+{
+  size_t n = x.GetCount();
+  if (n == y.GetCount())
+  {
+    if (n > 2)
+    {
+      wxPdfArrayDouble x1, y1, x2, y2;
+      if (GetCyclicControlPoints(x, y, x1, y1, x2, y2))
+      {
+        wxString op;
+        if ((style & wxPDF_STYLE_FILLDRAW) == wxPDF_STYLE_FILL)
+        {
+          op = (m_fillRule == wxODDEVEN_RULE) ? wxT("f*") : wxT("f");
+        }
+        else
+        {
+          if ((style & wxPDF_STYLE_FILLDRAW) == wxPDF_STYLE_FILLDRAW)
+          {
+            op = (m_fillRule == wxODDEVEN_RULE) ? wxT("B*") : wxT("B");
+          }
+          else
+          {
+            op = wxT("S");
+          }
+        }
+        MoveTo(x[0], y[0]);
+        size_t j;
+        for (j = 1; j < n; ++j)
+        {
+          CurveTo(x1[j-1], y1[j-1], x2[j], y2[j], x[j], y[j]);
+        }
+        CurveTo(x1[n-1], y1[n-1], x2[0], y2[0], x[0], y[0]);
+        OutAscii(op);
+      }
+    }
+    else
+    {
+      Line(x[0], y[0], x[1], y[1]);
+    }
+  }
+}
+
 void
 wxPdfDocument::Shape(const wxPdfShape& shape, int style)
 {
@@ -1373,6 +1737,20 @@ void
 wxPdfDocument::CurveTo(double x1, double y1, double x2, double y2, double x3, double y3)
 {
   OutCurve(x1, y1, x2, y2, x3, y3);
+}
+
+void
+wxPdfDocument::EndPath(int style)
+{
+  wxString op;
+  switch (style)
+  {
+    case wxPDF_STYLE_FILL:     op = (m_fillRule == wxODDEVEN_RULE) ? wxT("f*") : wxT("f"); break;
+    case wxPDF_STYLE_FILLDRAW: op = (m_fillRule == wxODDEVEN_RULE) ? wxT("B*") : wxT("B"); break;
+    case wxPDF_STYLE_DRAW:
+    default:                   op = wxT("S"); break;
+  }
+  OutAscii(op);
 }
 
 void

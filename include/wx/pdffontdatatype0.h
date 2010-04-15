@@ -33,6 +33,22 @@ public:
   ///< Default constructor
   wxPdfFontDataType0();
 
+  /// Constructor
+  /**
+  * \param family the family name of the font
+  * \param name the font name
+  * \param encoding the font's encoding 
+  * \param ordering the font's registry ordering
+  * \param supplement the font's registry supplement
+  * \param cmap the font's cmap
+  * \param cwArray an array with the character widths 
+  * \param desc a font description
+  */
+  wxPdfFontDataType0(const wxString& family, const wxString& name,
+                     const wxString& encoding, const wxString& ordering, 
+                     const wxString& supplement, const wxString& cmap,
+                     short* cwArray, const wxPdfFontDescription& desc);
+
   /// Default destructor
   virtual ~wxPdfFontDataType0();
 
