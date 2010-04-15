@@ -1067,6 +1067,7 @@ wxPdfFontManagerBase::InitializeCjkFonts()
   wxString fontName;
   wxString fontAlias;
   wxPdfFontDataType0* cjkFontData;
+  bool ok;
   int j, k;
   for (j = 0; gs_cjkFontTable[j].name != wxEmptyString; ++j)
   {
@@ -1090,7 +1091,11 @@ wxPdfFontManagerBase::InitializeCjkFonts()
       cjkFontData->SetFamily(fontAlias);
       cjkFontData->SetAlias(fontAlias);
       cjkFontData->SetStyleFromName();
-      AddFont(cjkFontData);
+      ok = AddFont(cjkFontData);
+      if (!ok)
+      {
+        delete cjkFontData;
+      }
     }
   }
 }
