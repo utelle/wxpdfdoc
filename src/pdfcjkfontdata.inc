@@ -133,13 +133,13 @@ static short cwPMincho[] =
 static const wxPdfCjkFontDesc gs_cjkFontTable[] =
 {
   { wxT("big5"),     wxT("MSungStd-Light-Acro"),        wxT("cp-950"), wxT("CNS1"),   wxT("0"), wxT("ETenms-B5-H"),    cwBig5,     wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 }, 
-  { wxT("big5-hw"),  wxT("MSungStd-Light-Acro"),        wxT("cp-950"), wxT("CNS1"),   wxT("0"), wxT("ETen-B5-H"),      cwAllHw,    wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 },
+  { wxT("big5-hw"),  wxT("MSungStd-Light-Acro--ETen-B5-H"),        wxT("cp-950"), wxT("CNS1"),   wxT("0"), wxT("ETen-B5-H"),      cwAllHw,    wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 },
   { wxT("gb"),       wxT("STSongStd-Light-Acro"),       wxT("cp-936"), wxT("GB1"),    wxT("2"), wxT("GBKp-EUC-H"),     cwGb,       wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 },
-  { wxT("gb-hw"),    wxT("STSongStd-Light-Acro"),       wxT("cp-936"), wxT("GB1"),    wxT("2"), wxT("GBK-EUC-H"),      cwAllHw,    wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 }, 
+  { wxT("gb-hw"),    wxT("STSongStd-Light-Acro--GBK-EUC-H"),       wxT("cp-936"), wxT("GB1"),    wxT("2"), wxT("GBK-EUC-H"),      cwAllHw,    wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 }, 
   { wxT("sjis"),     wxT("KozMinPro-Regular-Acro"),     wxT("cp-932"), wxT("Japan1"), wxT("2"), wxT("90msp-RKSJ-H"),   cwSjis,     wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 60, 1000, 500, -120, 40 }, 
-  { wxT("sjis-hw"),  wxT("KozMinPro-Regular-Acro"),     wxT("cp-932"), wxT("Japan1"), wxT("2"), wxT("90ms-RKSJ-H"),    cwAllHw,    wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 60, 1000, 500, -120, 40 }, 
+  { wxT("sjis-hw"),  wxT("KozMinPro-Regular-Acro--90ms-RKSJ-H"),     wxT("cp-932"), wxT("Japan1"), wxT("2"), wxT("90ms-RKSJ-H"),    cwAllHw,    wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 60, 1000, 500, -120, 40 }, 
   { wxT("uhc"),      wxT("HYSMyeongJoStd-Medium-Acro"), wxT("cp-949"), wxT("Korea1"), wxT("1"), wxT("KSCms-UHC-H"),    cwUhc,      wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 }, 
-  { wxT("uhc-hw"),   wxT("HYSMyeongJoStd-Medium-Acro"), wxT("cp-949"), wxT("Korea1"), wxT("1"), wxT("KSCms-UHC-HW-H"), cwAllHw,    wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 }, 
+  { wxT("uhc-hw"),   wxT("HYSMyeongJoStd-Medium-Acro--KSCms-UHC-HW-H"), wxT("cp-949"), wxT("Korea1"), wxT("1"), wxT("KSCms-UHC-HW-H"), cwAllHw,    wxT("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 }, 
   { wxT("gothic"),   wxT("MS-Gothic"),                  wxT("cp-932"), wxT("Japan1"), wxT("2"), wxT("90msp-RKSJ-H"),   cwAllHw,    wxT("[0 0 1000 1000]"),   1000,    0, 1000, 6, 0, 10, 1000, 553,  -66, 74 }, 
   { wxT("pgothic"),  wxT("MS-PGothic"),                 wxT("cp-932"), wxT("Japan1"), wxT("2"), wxT("90msp-RKSJ-H"),   cwPGothic,  wxT("[0 0 1000 1000]"),   1000,    0, 1000, 6, 0, 10, 1000, 553,  -66, 74 }, 
   { wxT("uigothic"), wxT("MS-UIGothic"),                wxT("cp-932"), wxT("Japan1"), wxT("2"), wxT("90msp-RKSJ-H"),   cwUIGothic, wxT("[0 0 1000 1000]"),   1000,    0, 1000, 6, 0, 10, 1000, 553,  -66, 74 }, 

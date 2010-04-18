@@ -92,13 +92,13 @@ wxPdfUtility::Double2String(double value, int precision)
     number += wxString(wxT("-"));
   }
 
-  number += wxString::Format(wxT("%.0lf"), floor(localValue));
+  number += wxString::Format(wxT("%.0f"), floor(localValue));
 
   // generate fraction, padding with zero if necessary.
   if (precision > 0)
   {
     number += wxString(wxT("."));
-    wxString fraction = wxString::Format(wxT("%.0lf"), floor(localFraction));
+    wxString fraction = wxString::Format(wxT("%.0f"), floor(localFraction));
     if (fraction.Length() < ((size_t) precision))
     {
       number += wxString(wxT('0'), precision-fraction.Length());
