@@ -803,6 +803,12 @@ wxPdfDocument::SetFontSize(double size)
   }
 }
 
+wxPdfFont
+wxPdfDocument::GetCurrentFont() const
+{
+  return m_currentFont->GetUserFont();
+}
+
 const wxPdfFontDescription&
 wxPdfDocument::GetFontDescription() const
 {
@@ -1611,6 +1617,14 @@ wxPdfDocument::Image(const wxString& name, const wxImage& img, double x, double 
           return false;
         }
       }
+      else if (tempImage.HasMask() && maskImage <= 0)
+      {
+        // Extract the mask
+        wxImage mask = tempImage.ConvertToMono(tempImage.GetMaskRed(), tempImage.GetMaskGreen(), tempImage.GetMaskBlue());
+        // Invert the mask
+        mask = mask.ConvertToMono(0, 0, 0);
+        maskImage = ImageMask(name+wxString(wxT(".mask")), mask);
+      }
       // First use of image, get info
       tempImage.SetMask(false);
       int i = (int) (*m_images).size() + 1;
@@ -1888,7 +1902,7 @@ wxPdfDocument::SaveAsFile(const wxString& name)
   else
   {
     // Save to local file
-    wxMemoryInputStream tmp(m_buffer);
+    wxMemoryInputStream tmp(*((wxMemoryOutputStream*) m_buffer));
     outfile.Write(tmp);
   }
   outfile.Close();

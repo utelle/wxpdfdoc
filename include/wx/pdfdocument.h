@@ -1202,6 +1202,13 @@ public:
   */
   virtual void SetFontSize(double size);
   
+  /// Returns the current font.
+  /**
+  * \return The current font.
+  * \see SetFont()
+  */  
+  virtual wxPdfFont GetCurrentFont() const;
+
   /// Returns the current font description instance.
   /**
   * \return The current font description.
