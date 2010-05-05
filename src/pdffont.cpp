@@ -74,7 +74,7 @@ wxPdfFont::wxPdfFont(const wxPdfFont& font)
   }
   if (font.m_encoding != NULL)
   {
-    if (m_encoding != NULL)
+    if (m_encoding == NULL)
     {
       m_encoding = new wxPdfEncoding();
     }
@@ -102,7 +102,7 @@ wxPdfFont::operator=(const wxPdfFont& font)
   }
   if (font.m_encoding != NULL)
   {
-    if (m_encoding != NULL)
+    if (m_encoding == NULL)
     {
       m_encoding = new wxPdfEncoding();
     }
