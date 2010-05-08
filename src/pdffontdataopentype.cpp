@@ -226,7 +226,7 @@ wxPdfFontDataOpenTypeUnicode::LoadFontMetrics(wxXmlNode* root)
     wxFileName fileName(m_ctg);
     fileName.MakeAbsolute(m_path);
     wxFileSystem fs;
-    wxFSFile* ctgFile = fs.OpenFile(fileName.GetFullPath());
+    wxFSFile* ctgFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
     wxInputStream* ctgStream = NULL;
     if (ctgFile)
     {
@@ -476,7 +476,7 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
   {
     // Open font file
     wxFileSystem fs;
-    fontFile = fs.OpenFile(fileName.GetFullPath());
+    fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
     if (fontFile)
     {
       fontStream = fontFile->GetStream();

@@ -172,14 +172,14 @@ wxPdfFontParserType1::IdentifyFont(const wxString& fontFileName, int fontIndex)
   fileNameMetric.SetExt(wxT("afm"));
   if (fileNameMetric.IsFileReadable())
   {
-    metricFile = fs.OpenFile(fileNameMetric.GetFullPath());
+    metricFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameMetric));
   }
   else
   {
     fileNameMetric.SetExt(wxT("pfm"));
     if (fileNameMetric.IsFileReadable())
     {
-      metricFile = fs.OpenFile(fileNameMetric.GetFullPath());
+      metricFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameMetric));
     }
   }
   if (metricFile != NULL)
@@ -187,7 +187,7 @@ wxPdfFontParserType1::IdentifyFont(const wxString& fontFileName, int fontIndex)
     wxInputStream* metricStream = metricFile->GetStream();
 
     // Open font file
-    wxFSFile* fontFile = fs.OpenFile(fileNameFont.GetFullPath());
+    wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameFont));
     if (fontFile != NULL)
     {
       m_inFont = fontFile->GetStream();
@@ -244,14 +244,14 @@ wxPdfFontParserType1::LoadFontData(wxPdfFontData* fontData)
     fileNameMetric.SetExt(wxT("afm"));
     if (fileNameMetric.IsFileReadable())
     {
-      metricFile = fs.OpenFile(fileNameMetric.GetFullPath());
+      metricFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameMetric));
     }
     else
     {
       fileNameMetric.SetExt(wxT("pfm"));
       if (fileNameMetric.IsFileReadable())
       {
-        metricFile = fs.OpenFile(fileNameMetric.GetFullPath());
+        metricFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameMetric));
       }
     }
     if (metricFile != NULL)
@@ -259,7 +259,7 @@ wxPdfFontParserType1::LoadFontData(wxPdfFontData* fontData)
       wxInputStream* metricStream = metricFile->GetStream();
 
       // Open font file
-      wxFSFile* fontFile = fs.OpenFile(fileNameFont.GetFullPath());
+      wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameFont));
       if (fontFile != NULL)
       {
         m_inFont = fontFile->GetStream();

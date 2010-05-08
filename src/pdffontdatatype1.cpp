@@ -584,7 +584,7 @@ wxPdfFontDataType1::WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt*
 
   // Open font file
   wxFileSystem fs;
-  wxFSFile* fontFile = fs.OpenFile(fileName.GetFullPath());
+  wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
   wxInputStream* fontStream = NULL;
   if (fontFile)
   {

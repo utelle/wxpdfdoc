@@ -1132,7 +1132,7 @@ wxPdfFontManagerBase::LoadFontFromXML(const wxString& fontFileName)
   wxFileSystem fs;
 
   // Open font metrics XML file
-  wxFSFile* xmlFontMetrics = fs.OpenFile(fileName.GetFullPath());
+  wxFSFile* xmlFontMetrics = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
   if (xmlFontMetrics != NULL)
   {
     // Load the XML file
