@@ -338,9 +338,6 @@ wxPdfDocument::BeginPage(int orientation, wxSize pageSize)
   m_page++;
   (*m_pages)[m_page] = new wxMemoryOutputStream();
   m_state = 2;
-  m_x = m_lMargin;
-  m_y = (m_yAxisOriginTop) ? m_tMargin : m_h - m_tMargin;
-  m_fontFamily = wxT("");
 
   // Page orientation
   if (orientation < 0)
@@ -361,25 +358,25 @@ wxPdfDocument::BeginPage(int orientation, wxSize pageSize)
   }
   if (orientation != m_curOrientation || pageSize != m_curPageSize)
   {
-    m_fwPt = pageSize.GetWidth() / 254. * 72.;
-    m_fhPt = pageSize.GetHeight() / 254. * 72.;
-    m_fw = m_fwPt / m_k;
-    m_fh = m_fhPt / m_k;
+    double fwPt = pageSize.GetWidth() / 254. * 72.;
+    double fhPt = pageSize.GetHeight() / 254. * 72.;
+    double fw = fwPt / m_k;
+    double fh = fhPt / m_k;
 
     // Change orientation
     if (orientation == wxPORTRAIT)
     {
-      m_wPt = m_fwPt;
-      m_hPt = m_fhPt;
-      m_w = m_fw;
-      m_h = m_fh;
+      m_wPt = fwPt;
+      m_hPt = fhPt;
+      m_w = fw;
+      m_h = fh;
     }
     else
     {
-      m_wPt = m_fhPt;
-      m_hPt = m_fwPt;
-      m_w = m_fh;
-      m_h = m_fw;
+      m_wPt = fhPt;
+      m_hPt = fwPt;
+      m_w = fh;
+      m_h = fw;
     }
     m_pageBreakTrigger = (m_yAxisOriginTop) ? m_h - m_bMargin : m_bMargin;
     m_curOrientation = orientation;
@@ -389,6 +386,9 @@ wxPdfDocument::BeginPage(int orientation, wxSize pageSize)
   {
     Transform(1.0, 0.0, 0.0, -1.0, 0.0, m_h*m_k);
   }
+  m_x = m_lMargin;
+  m_y = (m_yAxisOriginTop) ? m_tMargin : m_h - m_tMargin;
+  m_fontFamily = wxT("");
 }
 
 void
@@ -859,7 +859,12 @@ wxPdfDocument::PutPages()
           double y = link->GetPosition()*m_k; 
           if (m_yAxisOriginTop)
           {
-            double h = (oChange != (*m_orientationChanges).end()) ? wPt : hPt;
+            double h = hPt;
+            if (oChange != (*m_orientationChanges).end())
+            {
+              wxSize pageSize = (*m_pageSizes)[link->GetPage()];
+              h = pageSize.GetHeight() / 254. * 72.;
+            }
             y = h - y;
           }
           OutAscii(wxString::Format(wxT("/Dest [%d 0 R /XYZ 0 "),m_firstPageId+2*(link->GetPage()-1)) +
