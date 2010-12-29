@@ -25,6 +25,7 @@
 // includes
 #include <wx/tokenzr.h>
 
+#include "wx/pdfencoding.h"
 #include "wx/pdffontdata.h"
 #include "wx/pdffont.h"
 
@@ -205,6 +206,9 @@ wxPdfFontData::wxPdfFontData()
   m_embedRequired = false;
   m_embedSupported = false;
   m_subsetSupported = false;
+
+  m_encoding = NULL;
+  m_encodingChecker = NULL;
 }
 
 wxPdfFontData::~wxPdfFontData()
@@ -226,6 +230,33 @@ wxPdfFontData::~wxPdfFontData()
     delete m_gn;
   }
   delete m_cw;
+}
+
+void
+wxPdfFontData::SetEncoding(wxPdfEncoding* encoding)
+{
+  m_encoding = encoding;
+}
+
+const wxPdfChar2GlyphMap*
+wxPdfFontData::FindEncodingMap(const wxPdfEncoding* encoding) const
+{
+  const wxPdfChar2GlyphMap* convMap = NULL;
+  if (encoding != NULL)
+  {
+    convMap = encoding->GetEncodingMap();
+  }
+  if (convMap == NULL && m_encoding != NULL)
+  {
+    convMap = m_encoding->GetEncodingMap();
+  }
+  return convMap;
+}
+
+void
+wxPdfFontData::SetEncodingChecker(wxPdfEncodingChecker* encodingChecker)
+{
+  m_encodingChecker = encodingChecker;
 }
 
 void
@@ -383,6 +414,12 @@ wxString
 wxPdfFontData::GetEncoding() const
 {
   return m_enc;
+}
+
+const wxPdfEncoding*
+wxPdfFontData::GetBaseEncoding() const
+{
+  return m_encoding;
 }
 
 bool
@@ -553,7 +590,7 @@ wxPdfFontData::GetKerningWidth(const wxString& s) const
   bool translateChar2Glyph = m_type.IsSameAs(wxT("TrueTypeUnicode")) || 
                              m_type.IsSameAs(wxT("OpenTypeUnicode"));
   int width = 0;
-  if (m_kp != NULL && s.Len())
+  if (m_kp != NULL && s.length())
   {
     wxPdfKernPairMap::const_iterator kpIter;
     wxPdfKernWidthMap::const_iterator kwIter;
@@ -603,7 +640,7 @@ wxPdfFontData::GetKerningWidthArray(const wxString& s) const
                              m_type.IsSameAs(wxT("OpenTypeUnicode"));
   wxArrayInt widths;
   int pos = 0;
-  if (m_kp != NULL && s.Len())
+  if (m_kp != NULL && s.length())
   {
     wxPdfKernPairMap::const_iterator kpIter;
     wxPdfKernWidthMap::const_iterator kwIter;
@@ -670,10 +707,10 @@ wxPdfFontData::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyphs, w
 }
   
 double
-wxPdfFontData::GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap, bool withKerning) const
+wxPdfFontData::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
 {
   wxUnusedVar(s);
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   wxUnusedVar(withKerning);
   return 0;
 }
@@ -695,10 +732,11 @@ wxPdfFontData::WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt* used
 }
 
 size_t
-wxPdfFontData::WriteUnicodeMap(wxOutputStream* mapData, wxPdfChar2GlyphMap* convMap, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
+wxPdfFontData::WriteUnicodeMap(wxOutputStream* mapData, 
+                               const wxPdfEncoding* encoding, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
 {
   wxUnusedVar(mapData);
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
   return 0;
@@ -723,14 +761,57 @@ wxPdfFontData::LoadFontMetrics(wxXmlNode* root)
   return false;
 };
 
+bool
+wxPdfFontData::CanShow(const wxString& s, const wxPdfEncoding* encoding) const
+{
+  wxUnusedVar(encoding);
+  bool canShow = true;
+#if wxUSE_UNICODE
+  wxMBConv* conv = GetEncodingConv();
+  size_t len = conv->FromWChar(NULL, 0, s, s.length());
+  canShow = (len != wxCONV_FAILED);
+#endif
+  return canShow;
+}
+
+wxString
+wxPdfFontData::ConvertToValid(const wxString& s, wxChar replace) const
+{
+  wxString t;
+  if (m_encodingChecker != NULL)
+  {
+    if (m_encodingChecker->IsIncluded((wxUint32) replace))
+    {
+      replace = wxT('?');
+    }
+    wxString::const_iterator ch = s.begin();
+    for (ch = s.begin(); ch != s.end(); ++ch)
+    {
+      if (m_encodingChecker->IsIncluded((wxUint32) *ch))
+      {
+        t.Append(*ch);
+      }
+      else
+      {
+        t.Append(replace);
+      }
+    }
+  }
+  else
+  {
+    t = s;
+  }
+  return  t;
+}
+
 wxString
 wxPdfFontData::ConvertCID2GID(const wxString& s,
-                              wxPdfChar2GlyphMap* convMap,
+                              const wxPdfEncoding* encoding,
                               wxPdfSortedArrayInt* usedGlyphs, 
-                              wxPdfChar2GlyphMap* subsetGlyphs)
+                              wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   // No conversion from cid to gid
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
   return s;
@@ -738,12 +819,12 @@ wxPdfFontData::ConvertCID2GID(const wxString& s,
 
 wxString
 wxPdfFontData::ConvertGlyph(wxUint32 glyph, 
-                            wxPdfChar2GlyphMap* convMap, 
+                            const wxPdfEncoding* encoding, 
                             wxPdfSortedArrayInt* usedGlyphs, 
-                            wxPdfChar2GlyphMap* subsetGlyphs)
+                            wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(glyph);
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
   return wxEmptyString;
@@ -753,7 +834,7 @@ wxPdfFontData::ConvertGlyph(wxUint32 glyph,
 wxMBConv*
 wxPdfFontData::GetEncodingConv() const
 {
-  return GetWinEncodingConv();
+  return &wxConvISO8859_1;
 }
 
 void
@@ -833,7 +914,7 @@ wxPdfFontData::WriteToUnicode(wxPdfGlyphList& glyphs, wxMemoryOutputStream& toUn
         WriteStreamBuffer(toUnicode, "endbfrange\n");
       }
       size = (numGlyphs-k > 100) ? 100 : numGlyphs - k;
-      wxString sizeStr = wxString::Format(wxT("%d"), size);
+      wxString sizeStr = wxString::Format(wxT("%u"), size);
       WriteStreamBuffer(toUnicode, sizeStr.ToAscii());
       WriteStreamBuffer(toUnicode, " beginbfrange\n");
     }

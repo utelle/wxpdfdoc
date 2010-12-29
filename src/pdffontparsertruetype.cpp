@@ -399,6 +399,8 @@ wxPdfFontParserTrueType::wxPdfFontParserTrueType()
   m_cmap31 = NULL;
   m_cmapExt = NULL;
   m_kp = NULL;
+  m_isMacCoreText = false;
+  m_savedStream = NULL;
 }
 
 wxPdfFontParserTrueType::~wxPdfFontParserTrueType()
@@ -456,6 +458,74 @@ wxPdfFontParserTrueType::ClearTableDirectory()
   }
 }
 
+static const wxChar* tableNamesDefault[] = {
+  wxT("cvt "), wxT("fpgm"), wxT("glyf"), wxT("head"),
+  wxT("hhea"), wxT("hmtx"), wxT("loca"), wxT("maxp"), wxT("prep"),
+  NULL
+};
+
+void
+wxPdfFontParserTrueType::LockTable(const wxString& tableName)
+{
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+  if (m_isMacCoreText)
+  {
+    wxCharBuffer asciiTableName = tableName.ToAscii();
+    const char* localTableName = asciiTableName;
+    CTFontTableTag tableTag = localTableName[0] << 24 |
+                              localTableName[1] << 16 |
+                              localTableName[2] << 8 |
+                              localTableName[3];
+    m_tableRef = CTFontCopyTable(m_fontRef, tableTag, 0);
+    const UInt8* tableData = CFDataGetBytePtr(m_tableRef);
+    CFIndex      tableLen  = CFDataGetLength(m_tableRef);
+    m_savedStream = m_inFont;
+    m_inFont = new wxMemoryInputStream((const char*) tableData, (size_t) tableLen);
+  }
+#else
+  wxUnusedVar(tableName);
+#endif
+#else
+  wxUnusedVar(tableName);
+#endif
+}
+
+void
+wxPdfFontParserTrueType::ReleaseTable()
+{
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+  if (m_isMacCoreText)
+  {
+    CFRelease(m_tableRef);
+    delete m_inFont;
+    m_inFont = m_savedStream;
+  }
+#endif
+#endif
+}
+
+int
+wxPdfFontParserTrueType::CalculateChecksum(char* b, size_t length)
+{
+  size_t len = length / 4;
+  int d0 = 0;
+  int d1 = 0;
+  int d2 = 0;
+  int d3 = 0;
+  size_t ptr = 0;
+  size_t k;
+  for (k = 0; k < len; ++k)
+  {
+    d3 += (int)b[ptr++] & 0xff;
+    d2 += (int)b[ptr++] & 0xff;
+    d1 += (int)b[ptr++] & 0xff;
+    d0 += (int)b[ptr++] & 0xff;
+  }
+  return d0 + (d1 << 8) + (d2 << 16) + (d3 << 24);
+}
+
 int
 wxPdfFontParserTrueType::GetCollectionFontCount(const wxString& fontFileName)
 {
@@ -463,7 +533,7 @@ wxPdfFontParserTrueType::GetCollectionFontCount(const wxString& fontFileName)
   wxFileName fileName(fontFileName);
   wxFileSystem fs;
 
-  wxFSFile* fontFile = fs.OpenFile(fileName.GetFullPath());
+  wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
   if (fontFile != NULL)
   {
     m_inFont = fontFile->GetStream();
@@ -494,7 +564,7 @@ wxPdfFontParserTrueType::IdentifyFont(const wxString& fontFileName, int fontInde
   wxFileSystem fs;
 
   // Open font file
-  wxFSFile* fontFile = fs.OpenFile(fileName.GetFullPath());
+  wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
   if (fontFile != NULL)
   {
     m_inFont = fontFile->GetStream();
@@ -609,6 +679,42 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
 }
 #endif
 
+#if defined(__WXMAC__)
+wxPdfFontData*
+wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
+{
+  wxPdfFontData* fontData = NULL;
+#if wxPDFMACOSX_HAS_CORE_TEXT
+#if wxCHECK_VERSION(2,9,0)
+// wxWidgets 2.9.x or higher
+  m_fontRef = font.OSXGetCTFont();
+#else // wxWidgets 2.8.x
+  m_fontRef = (const void*) font.MacGetCTFont();
+#endif
+
+  m_isMacCoreText = true;
+  m_fileName = wxEmptyString;
+
+  m_inFont = NULL;
+  m_directoryOffset = 0;
+
+  // Identify single font
+  fontData = IdentifyFont();
+  if (fontData != NULL)
+  {
+    fontData->SetFont(font);
+    fontData->SetFontIndex(0);
+  }
+  else
+  {
+    wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: ")) +
+               wxString::Format(_("Reading of font directory failed for font file '%s'."), font.GetFaceName().c_str()));
+  }
+#endif
+  return fontData;
+}
+#endif
+
 wxPdfFontData*
 wxPdfFontParserTrueType::IdentifyFont()
 {
@@ -658,7 +764,7 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
     {
       wxFileName fileName(m_fileName);
       wxFileSystem fs;
-      fontFile = fs.OpenFile(fileName.GetFullPath());
+      fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
       if (fontFile != NULL)
       {
         m_inFont = fontFile->GetStream();
@@ -666,7 +772,7 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
     }
     else
     {
-#ifdef __WXMSW__
+#if defined(__WXMSW__)
       wxFont font = fontData->GetFont();
       if (font.IsOk())
       {
@@ -676,6 +782,22 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
           m_inFont = fontStream;
         }
       }
+#elif defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+      wxFont font = fontData->GetFont();
+      if (font.IsOk())
+      {
+#if wxCHECK_VERSION(2,9,0)
+        // wxWidgets 2.9.x or higher
+        m_fontRef = font.OSXGetCTFont();
+#else // wxWidgets 2.8.x
+        m_fontRef = (const void*) font.MacGetCTFont();
+#endif
+        m_isMacCoreText = true;
+        fontStream = new wxMemoryInputStream("dummy", 5);
+        m_inFont = fontStream;
+      }
+#endif
 #endif
     }
     if (m_inFont != NULL)
@@ -821,31 +943,67 @@ wxPdfFontParserTrueType::ReadTableDirectory()
 {
   ClearTableDirectory();
   bool ok = true;
-  m_inFont->SeekI(m_directoryOffset);
-  int id = ReadInt();
-  if (id == 0x00010000 || id == 0x4F54544F)
+  if (!m_isMacCoreText)
   {
-    int num_tables = ReadUShort();
-    SkipBytes(6);
-    int k;
-    for (k = 0; k < num_tables; ++k)
+    m_inFont->SeekI(m_directoryOffset);
+    int id = ReadInt();
+    if (id == 0x00010000 || id == 0x4F54544F)
     {
-      wxString tag = ReadString(4);
-      wxPdfTableDirectoryEntry* tableLocation = new wxPdfTableDirectoryEntry();
-      tableLocation->m_checksum = ReadInt();
-      tableLocation->m_offset = ReadInt();
-      tableLocation->m_length = ReadInt();
-      (*m_tableDirectory)[tag] = tableLocation;
+      int num_tables = ReadUShort();
+      SkipBytes(6);
+      int k;
+      for (k = 0; k < num_tables; ++k)
+      {
+        wxString tag = ReadString(4);
+        wxPdfTableDirectoryEntry* tableLocation = new wxPdfTableDirectoryEntry();
+        tableLocation->m_checksum = ReadInt();
+        tableLocation->m_offset = ReadInt();
+        tableLocation->m_length = ReadInt();
+        (*m_tableDirectory)[tag] = tableLocation;
+      }
+    }
+    else
+    {
+      if (!m_fileName.IsEmpty())
+      {
+        wxLogError(wxString(wxT("wxPdfFontParserTrueType::ReadTableDirectory: '")) + 
+                   wxString::Format(_("Font file '%s' not a valid TrueType (TTF) or OpenType (OTF) file."), m_fileName.c_str()));
+      }
+      ok = false;
     }
   }
   else
   {
-    if (!m_fileName.IsEmpty())
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+    CFArrayRef tables = CTFontCopyAvailableTables(m_fontRef, 0);
+    CFIndex nTables = CFArrayGetCount(tables);
+    CFIndex n;
+    for (n = 0; n < nTables; ++n)
     {
-      wxLogError(wxString(wxT("wxPdfFontParserTrueType::ReadTableDirectory: '")) + 
-                 wxString::Format(_("Font file '%s' not a valid TrueType (TTF) or OpenType (OTF) file."), m_fileName.c_str()));
+      CTFontTableTag tag = (CTFontTableTag)(uintptr_t) CFArrayGetValueAtIndex(tables, index);
+      CFDataRef    tableRef  = CTFontCopyTable(m_fontRef, tag, 0);
+      const UInt8* tableData = CFDataGetBytePtr(tableRef);
+      CFIndex      tableLen  = CFDataGetLength(tableRef);
+      int checksum = CalculateChecksum((const char*) tableData, (size_t) tableLen)
+      CFRelease(tableRef);
+      char asciiTag[5];
+      asciiTag[0] = (tag >> 24) & 0xff;
+      asciiTag[1] = (tag >> 16) & 0xff;
+      asciiTag[2] = (tag >>  8) & 0xff;
+      asciiTag[3] =  tag        & 0xff;
+      asciiTag[4] = 0;
+      wxString tableTag = wxString::FromAscii(asciiTag);
+      wxPdfTableDirectoryEntry* tableLocation = new wxPdfTableDirectoryEntry();
+      tableLocation->m_checksum = checksum;
+      tableLocation->m_offset = 0;
+      tableLocation->m_length = tableLen;
+      (*m_tableDirectory)[tag] = tableLocation;
     }
+#else
     ok = false;
+#endif
+#endif
   }
   return ok;
 }
@@ -878,6 +1036,7 @@ wxPdfFontParserTrueType::CheckRestrictions()
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
+    LockTable(wxT("OS/2"));
     m_inFont->SeekI(tableLocation->m_offset+8);
     short fsType = ReadShort();
     bool rl = (fsType & 0x0002) != 0; // restricted license
@@ -887,6 +1046,7 @@ wxPdfFontParserTrueType::CheckRestrictions()
     bool b  = (fsType & 0x0200) != 0; // bitmap embedding only
     m_embedAllowed = !((rl && !pp && !e) || b);
     m_subsetAllowed = !ns;
+    ReleaseTable();
   }
   else
   {
@@ -904,6 +1064,7 @@ wxPdfFontParserTrueType::GetBaseFont()
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
+    LockTable(wxT("name"));
     m_inFont->SeekI(tableLocation->m_offset+2);
     int numRecords = ReadUShort();
     int startOfStorage = ReadUShort();
@@ -935,6 +1096,7 @@ wxPdfFontParserTrueType::GetBaseFont()
       wxFileName::SplitPath(m_fileName, NULL, &fontName, NULL);
       fontName.Replace(wxT(" "), wxT("-"));
     }
+    ReleaseTable();
   }
   else
   {
@@ -960,7 +1122,7 @@ wxPdfFontParserTrueType::ReadMaps()
     return false;
   }
   tableLocation = entry->second;
-
+  LockTable(wxT("head"));
   m_inFont->SeekI(tableLocation->m_offset+16);
   head.m_flags = ReadUShort();
   head.m_unitsPerEm = ReadUShort();
@@ -970,7 +1132,8 @@ wxPdfFontParserTrueType::ReadMaps()
   head.m_xMax = ReadShort();
   head.m_yMax = ReadShort();
   head.m_macStyle = ReadUShort();
-        
+  ReleaseTable();
+
   entry = m_tableDirectory->find(wxT("hhea"));
   if (entry == m_tableDirectory->end())
   {
@@ -979,6 +1142,7 @@ wxPdfFontParserTrueType::ReadMaps()
     return false;
   }
   tableLocation = entry->second;
+  LockTable(wxT("hhea"));
   m_inFont->SeekI(tableLocation->m_offset+4);
   hhea.m_ascender = ReadShort();
   hhea.m_descender = ReadShort();
@@ -991,7 +1155,8 @@ wxPdfFontParserTrueType::ReadMaps()
   hhea.m_caretSlopeRun = ReadShort();
   SkipBytes(12);
   hhea.m_numberOfHMetrics = ReadUShort();
-        
+  ReleaseTable();
+
   entry = m_tableDirectory->find(wxT("OS/2"));
   if (entry == m_tableDirectory->end())
   {
@@ -1000,6 +1165,7 @@ wxPdfFontParserTrueType::ReadMaps()
     return false;
   }
   tableLocation = entry->second;
+  LockTable(wxT("OS/2"));
   m_inFont->SeekI(tableLocation->m_offset);
   int version = ReadUShort();
   os_2.m_xAvgCharWidth = ReadShort();
@@ -1049,6 +1215,7 @@ wxPdfFontParserTrueType::ReadMaps()
     os_2.m_sxHeight = 0;
     os_2.m_sCapHeight = (int)(0.7 * head.m_unitsPerEm);
   }
+  ReleaseTable();
 
   int underlinePosition = -100;
   int underlineThickness = 50;
@@ -1065,6 +1232,7 @@ wxPdfFontParserTrueType::ReadMaps()
   else
   {
     tableLocation = entry->second;
+    LockTable(wxT("post"));
     m_inFont->SeekI(tableLocation->m_offset+4);
     short mantissa = ReadShort();
     int fraction = ReadUShort();
@@ -1072,6 +1240,7 @@ wxPdfFontParserTrueType::ReadMaps()
     underlinePosition = ReadShort();
     underlineThickness = ReadShort();
     m_isFixedPitch = ReadInt() != 0;
+    ReleaseTable();
   }
 
   ReadGlyphWidths(hhea.m_numberOfHMetrics, head.m_unitsPerEm);
@@ -1121,7 +1290,7 @@ wxPdfFontParserTrueType::ReadMaps()
     return false;
   }
   tableLocation = entry->second;
-
+  LockTable(wxT("cmap"));
   m_inFont->SeekI(tableLocation->m_offset);
   SkipBytes(2);
   int num_tables = ReadUShort();
@@ -1209,6 +1378,7 @@ wxPdfFontParserTrueType::ReadMaps()
         break;
     }
   }
+  ReleaseTable();
 
   flags = m_fd.GetFlags();
   flags |= m_fontSpecific ? 4 : 32;
@@ -1229,7 +1399,7 @@ wxPdfFontParserTrueType::ReadGlyphWidths(int numberOfHMetrics, int unitsPerEm)
     return false;
   }
   tableLocation = entry->second;
-
+  LockTable(wxT("hmtx"));
   m_inFont->SeekI(tableLocation->m_offset);
 
   m_glyphWidths.SetCount(numberOfHMetrics);
@@ -1239,6 +1409,7 @@ wxPdfFontParserTrueType::ReadGlyphWidths(int numberOfHMetrics, int unitsPerEm)
     m_glyphWidths[k] = (ReadUShort() * 1000) / unitsPerEm;
     ReadUShort();
   }
+  ReleaseTable();
   return true;
 }
 
@@ -1318,7 +1489,7 @@ wxPdfFontParserTrueType::ReadFormat4()
       r->m_width = GetGlyphWidth(r->m_glyph);
       int idx = m_fontSpecific ? ((j & 0xff00) == 0xf000 ? j & 0xff : j) : j;
       (*h)[idx] = r;
-//	  wxLogMessage(wxT("C %ld G %ld"), idx, glyph);
+//      wxLogMessage(wxT("C %ld G %ld"), idx, glyph);
     }
   }
 
@@ -1384,6 +1555,7 @@ wxPdfFontParserTrueType::ReadKerning(int unitsPerEm)
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
+    LockTable(wxT("kern"));
     m_kp = new wxPdfKernPairMap();
     wxPdfKernPairMap::iterator kp;
     wxPdfKernWidthMap* kwMap = NULL;
@@ -1430,6 +1602,7 @@ wxPdfFontParserTrueType::ReadKerning(int unitsPerEm)
         }
       }
     }
+    ReleaseTable();
   }
 }
     
@@ -1468,6 +1641,7 @@ wxPdfFontParserTrueType::GetNames(int id, bool namesOnly)
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
+    LockTable(wxT("name"));
     m_inFont->SeekI(tableLocation->m_offset+2);
     int numRecords = ReadUShort();
     int startOfStorage = ReadUShort();
@@ -1503,6 +1677,7 @@ wxPdfFontParserTrueType::GetNames(int id, bool namesOnly)
         m_inFont->SeekI(pos);
       }
     }
+    ReleaseTable();
   }
   else
   {
@@ -1521,6 +1696,7 @@ wxPdfFontParserTrueType::GetEnglishName(int id)
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
+    LockTable(wxT("name"));
     m_inFont->SeekI(tableLocation->m_offset+2);
     int numRecords = ReadUShort();
     int startOfStorage = ReadUShort();
@@ -1562,6 +1738,7 @@ wxPdfFontParserTrueType::GetEnglishName(int id)
         m_inFont->SeekI(pos);
       }
     }
+    ReleaseTable();
   }
   else
   {

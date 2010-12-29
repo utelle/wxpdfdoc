@@ -19,10 +19,14 @@
   </set>
   <set var="COMP_HDR">
     $(COMP_HDR_PART1)
+    src/pdfcjkfontdata.inc
     src/pdfcmapdata.inc
+    src/pdfcodepagedata.inc
     src/pdfcolourdata.inc
     src/pdfcorefontdata.inc
     src/pdfcorefontkerning.inc
+    src/pdfdc28.inc
+    src/pdfdc29.inc
     src/pdfglyphnames.inc
   </set>
   
@@ -53,12 +57,24 @@
   <!-- Sample(s) settings                                                -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-  <template id="pdfdoc_sample">
+  <template id="pdfdoc_sample_minimal">
     <app-type>console</app-type>
-    <sources>$(fileList('samples/*.cpp'))</sources>
-    <headers>$(fileList('samples/*.h'))</headers>
-    <include>$(SRCDIR)/samples</include>
-    <dirname>$(SRCDIR)/samples</dirname>
+    <sources>$(fileList('samples/minimal/*.cpp'))</sources>
+    <headers>$(fileList('samples/minimal/*.h'))</headers>
+    <include>$(SRCDIR)/samples/minimal</include>
+    <dirname>$(SRCDIR)/samples/minimal</dirname>
+    <library>$(COMPONENT_LIB)</library>
+    <wx-lib>xml</wx-lib>
+    <wx-lib>core</wx-lib>
+    <wx-lib>base</wx-lib>
+  </template>
+
+  <template id="pdfdoc_sample_dc">
+    <app-type>gui</app-type>
+    <sources>$(fileList('samples/pdfdc/*.cpp'))</sources>
+    <headers>$(fileList('samples/pdfdc/*.h'))</headers>
+    <include>$(SRCDIR)/samples/pdfdc</include>
+    <dirname>$(SRCDIR)/samples/pdfdc</dirname>
     <library>$(COMPONENT_LIB)</library>
     <wx-lib>xml</wx-lib>
     <wx-lib>core</wx-lib>
@@ -79,9 +95,14 @@
 
   <!-- The sample of the component: as for the LIB target, this exe derives from a 
        template contained in wxcode.bkl which can be modified here -->
-  <wxcode-sample id="minimal" template="pdfdoc_sample">
+  <wxcode-sample id="minimal" template="pdfdoc_sample_minimal">
     <exename>minimal</exename>
-    <win32-res>samples/minimal.rc</win32-res>
+    <win32-res>samples/minimal/minimal.rc</win32-res>
+  </wxcode-sample>
+
+  <wxcode-sample id="dcsample" template="pdfdoc_sample_dc">
+    <exename>printing</exename>
+    <win32-res>samples/pdfdc/printing.rc</win32-res>
   </wxcode-sample>
 
   <wxcode-sample id="makefont" template="pdfdoc_makefont">

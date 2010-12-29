@@ -1331,7 +1331,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
           }
           else
           {
-            SetFont(wxT("arial"), wxT(""), saveSize);
+            SetFont(wxT("Helvetica"), wxT(""), saveSize);
           }
           SetLeftMargin(leftMargin);
           SetXY(leftMargin, GetY());
@@ -1426,7 +1426,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
           else
           {
             wxChar itemChar;
-            SetFont(wxT("arial"), wxT(""), saveSize);
+            SetFont(wxT("Helvetica"), wxT(""), saveSize);
             wxString item;
             switch (listType)
             {

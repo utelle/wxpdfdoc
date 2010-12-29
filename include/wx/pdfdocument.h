@@ -8,7 +8,7 @@
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
-/// \file pdfdoc.h Interface of the wxPdfDocument class
+/// \file pdfdocument.h Interface of the wxPdfDocument class
 
 #ifndef _PDF_DOCUMENT_H_
 #define _PDF_DOCUMENT_H_
@@ -31,7 +31,7 @@
 #include "wx/pdflinks.h"
 #include "wx/pdfproperties.h"
 
-#define wxPDF_PRODUCER       wxT("wxPdfDocument 0.8.5")
+#define wxPDF_PRODUCER       wxT("wxPdfDocument 0.9.0")
 
 #define wxPDF_EPSILON        1e-6
 
@@ -2417,7 +2417,7 @@ public:
   * The state of a locked group cannot be changed through the user interface
   * of a viewer application. Producers can use this entry to prevent the visibility
   * of content that depends on these groups from being changed by users.
-  * \param layer	the layer that needs to be added to the array of locked OCGs
+  * \param layer the layer that needs to be added to the array of locked OCGs
   */
   virtual void LockLayer(wxPdfLayer* layer);
 
@@ -2454,6 +2454,15 @@ protected:
   /// Initialize
   virtual void Initialize(int orientation);
 
+  /// Save graphic state
+  virtual void SaveGraphicState();
+
+  /// Restore graphic state
+  virtual void RestoreGraphicState();
+
+  /// Clear graphic state
+  virtual void ClearGraphicState();
+
   /// Select font
   virtual bool SelectFont(const wxString& family,
                           const wxString& style = wxEmptyString,
@@ -2471,6 +2480,27 @@ protected:
 
   /// Force selecting the current font
   virtual void ForceCurrentFont();
+
+  /// Apply visual ordering
+  virtual wxString ApplyVisualOrdering(const wxString& txt);
+
+  /// Returns the length of a string in user unit.
+  /**
+  * A font must be selected.
+  * \param s The string whose length is to be computed
+  * \return int
+  * \note This method expects the text already to be preprocessed in respect to visual layout.
+  */
+  virtual double DoGetStringWidth(const wxString& s);
+
+  /// Prints a cell (rectangular area) with optional borders, background colour and character string.
+  /**
+  * \note This method expects the text already to be preprocessed in respect to visual layout.
+  */
+  virtual void DoCell(double w, double h = 0., const wxString& txt = wxEmptyString,
+                      int border = wxPDF_BORDER_NONE, int ln = 0, 
+                      int align = wxPDF_ALIGN_LEFT, int fill = 0, 
+                      const wxPdfLink& link = wxPdfLink(-1));
 
   /// Start document
   virtual void BeginPage(int orientation, wxSize pageSize);
@@ -2732,6 +2762,7 @@ private:
   int                  m_outlineRoot;         ///< number of root node
   int                  m_maxOutlineLevel;     ///< max. occuring outline level
 
+  wxArrayPtrVoid       m_graphicStates;       ///< array of graphic states
   wxString             m_fontPath;            ///< current default path for font files
   wxString             m_fontFamily;          ///< current font family
   int                  m_fontStyle;           ///< current font style

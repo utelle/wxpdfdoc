@@ -76,7 +76,7 @@ wxPdfEncoding::GlyphName2Unicode(const wxString& glyphName, wxUint32& unicode)
     unsigned long convUni = 0;
     if (glyphName.StartsWith(wxT("uni"), &glyphRest))
     {
-      if (glyphRest.Len() >= 4)
+      if (glyphRest.length() >= 4)
       {
         found = glyphRest.Mid(0,4).ToULong(&convUni, 16);
         if (found) unicode = convUni;
@@ -84,7 +84,7 @@ wxPdfEncoding::GlyphName2Unicode(const wxString& glyphName, wxUint32& unicode)
     }
     else if (glyphName.StartsWith(wxT("u"), &glyphRest))
     {
-      if (glyphRest.Len() >= 6)
+      if (glyphRest.length() >= 6)
       {
         found = glyphRest.Mid(0,6).ToULong(&convUni, 16);
         if (found) unicode = convUni;
@@ -126,6 +126,19 @@ wxPdfEncoding::Unicode2GlyphName(wxUint32 unicode, wxString& glyphName)
   return found;
 }
 
+wxArrayString
+wxPdfEncoding::GetKnownEncodings()
+{
+  wxArrayString knownEncodings;
+  size_t j = 0;
+  while (gs_encodingData[j].m_encodingName != NULL)
+  {
+    knownEncodings.Add(gs_encodingData[j].m_encodingName);
+    ++j;
+  }
+  return knownEncodings;
+}
+
 wxPdfEncoding::wxPdfEncoding()
 {
   m_encoding = wxEmptyString;
@@ -136,15 +149,18 @@ wxPdfEncoding::wxPdfEncoding()
   m_cmap.Alloc(256);
   m_cmapBase.Alloc(256);
   m_glyphNames.Alloc(256);
-  m_glyphNamesBase.Alloc(256);
   m_cmap.Insert(0, 0, 256);
   m_cmapBase.Insert(0, 0, 256);
   m_glyphNames.Insert(wxString(wxT(".notdef")), 0, 256);
-  m_glyphNamesBase.Insert(wxString(wxT(".notdef")), 0, 256);
+  m_encodingMap = NULL;
 }
 
 wxPdfEncoding::~wxPdfEncoding()
 {
+  if (m_encodingMap != NULL)
+  {
+    delete m_encodingMap;
+  }
 }
 
 wxPdfEncoding::wxPdfEncoding(const wxPdfEncoding &encoding)
@@ -157,7 +173,7 @@ wxPdfEncoding::wxPdfEncoding(const wxPdfEncoding &encoding)
   m_cmap = encoding.m_cmap;
   m_cmapBase = encoding.m_cmapBase;
   m_glyphNames = encoding.m_glyphNames;
-  m_glyphNamesBase = encoding.m_glyphNamesBase;
+  m_encodingMap = NULL;
 }
 
 wxPdfEncoding&
@@ -171,7 +187,7 @@ wxPdfEncoding::operator=(const wxPdfEncoding& encoding)
   m_cmap = encoding.m_cmap;
   m_cmapBase = encoding.m_cmapBase;
   m_glyphNames = encoding.m_glyphNames;
-  m_glyphNamesBase = encoding.m_glyphNamesBase;
+  m_encodingMap = NULL;
   return *this;
 }
 
@@ -179,19 +195,6 @@ bool
 wxPdfEncoding::IsOk() const
 {
   return !m_encoding.IsEmpty();
-}
-
-wxArrayString
-wxPdfEncoding::GetKnownEncodings() const
-{
-  wxArrayString knownEncodings;
-  size_t j = 0;
-  while (gs_encodingData[j].m_encodingName != NULL)
-  {
-    knownEncodings.Add(gs_encodingData[j].m_encodingName);
-    ++j;
-  }
-  return knownEncodings;
 }
 
 bool
@@ -318,8 +321,55 @@ wxPdfEncoding::GetCMap() const
   return m_cmap;
 }
 
+void
+wxPdfEncoding::InitializeEncodingMap()
+{
+  if (m_encodingMap == NULL)
+  {
+    CreateEncodingConvMap();
+  }
+}
+
+const wxPdfChar2GlyphMap*
+wxPdfEncoding::GetEncodingMap() const
+{
+  return m_encodingMap;
+}
+
 wxArrayString
 wxPdfEncoding::GetGlyphNames() const
 {
   return m_glyphNames;
+}
+
+void
+wxPdfEncoding::CreateEncodingConvMap()
+{
+  if (m_encodingMap == NULL)
+  {
+    m_encodingMap = new wxPdfChar2GlyphMap();
+    size_t n = m_cmap.GetCount();
+    size_t j;
+    for (j = 0; j < n; ++j)
+    {
+      (*m_encodingMap)[m_cmap[j]] = j;
+    }
+  }
+}
+
+// --- Encoding Checker
+
+wxPdfEncodingChecker::wxPdfEncodingChecker()
+{
+  m_encoding = wxEmptyString;
+}
+
+wxPdfEncodingChecker::~wxPdfEncodingChecker()
+{
+}
+
+wxString
+wxPdfEncodingChecker::GetEncodingName() const
+{
+  return m_encoding;
 }

@@ -24,6 +24,7 @@
 
 // includes
 
+#include "wx/pdfencoding.h"
 #include "wx/pdffontdatatype0.h"
 
 #include "wxmemdbg.h"
@@ -231,7 +232,7 @@ wxPdfFontDataType0::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyp
   int i;
   for (i = 32; i <= 126; i++)
   {
-    s += wxString::Format(wxT("%d "), (*m_cw)[i]);
+    s += wxString::Format(wxT("%u "), (*m_cw)[i]);
   }
   s += wxString(wxT("]"));
   if (HasHalfWidthRange())
@@ -243,16 +244,17 @@ wxPdfFontDataType0::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyp
 }
 
 double
-wxPdfFontDataType0::GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap, bool withKerning) const
+wxPdfFontDataType0::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
 {
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
+  wxString t = ConvertToValid(s);
   // Get width of a string in the current font
   double w = 0;
   wxPdfGlyphWidthMap::iterator charIter;
-  size_t i;
-  for (i = 0; i < s.Length(); i++)
+  wxString::const_iterator ch;
+  for (ch = t.begin(); ch != t.end(); ++ch)
   {
-    wxChar c = s[i];
+    wxChar c = *ch;
     if (c >= 0 && c < 128)
     {
       wxPdfGlyphWidthMap::iterator charIter = (*m_cw).find(c);
@@ -290,16 +292,35 @@ wxPdfFontDataType0::GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMa
   return w / 1000;
 }
 
+bool
+wxPdfFontDataType0::CanShow(const wxString& s, const wxPdfEncoding* encoding) const
+{
+  wxUnusedVar(encoding);
+  bool canShow = true;
+#if wxUSE_UNICODE
+  if (m_encodingChecker != NULL)
+  {
+    wxString::const_iterator ch = s.begin();
+    for (ch = s.begin(); canShow && ch != s.end(); ++ch)
+    {
+      canShow = (m_encodingChecker->IsIncluded((wxUint32) *ch));
+    }
+  }
+#endif
+  return canShow;
+}
+
 wxString
-wxPdfFontDataType0::ConvertCID2GID(const wxString& s, wxPdfChar2GlyphMap* convMap, 
+wxPdfFontDataType0::ConvertCID2GID(const wxString& s, 
+                                   const wxPdfEncoding* encoding, 
                                    wxPdfSortedArrayInt* usedGlyphs, 
-                                   wxPdfChar2GlyphMap* subsetGlyphs)
+                                   wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   // No conversion from cid to gid
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
-  return s;
+  return ConvertToValid(s);
 }
 
 #endif // wxUSE_UNICODE

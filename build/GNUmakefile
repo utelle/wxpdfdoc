@@ -75,7 +75,7 @@ WX_VERSION_MAJOR = $(shell echo $(WX_VERSION) | cut -c1,1)
 WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
 WX_CONFIG_FLAGS = $(WX_CONFIG_UNICODE_FLAG) $(WX_CONFIG_SHARED_FLAG) \
 	--toolkit=$(WX_PORT) --version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-PDFDOC_LIB_CXXFLAGS = $(VAR) $(VAR_3) -W -Wall -I../include `$(WX_CONFIG) \
+PDFDOC_LIB_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfannotation.o \
@@ -83,6 +83,7 @@ PDFDOC_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfcffdecoder.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfcffindex.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfcolour.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfdc.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfdecode.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfdocument.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfencoding.o \
@@ -103,6 +104,7 @@ PDFDOC_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdffontparsertype1.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdffontsubsetcff.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdffontsubsettruetype.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdffontvolt.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfform.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfgradient.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfgraphics.o \
@@ -125,9 +127,13 @@ PDFDOC_LIB_HEADERS =  \
 	include/wx/pdfbookmark.h \
 	include/wx/pdfcffdecoder.h \
 	include/wx/pdfcffindex.h \
+	include/wx/pdfcjkfontdata.h \
 	include/wx/pdfcolour.h \
 	include/wx/pdfcoonspatchmesh.h \
 	include/wx/pdfcorefontdata.h \
+	include/wx/pdfdc.h \
+	include/wx/pdfdc28.h \
+	include/wx/pdfdc29.h \
 	include/wx/pdfdoc.h \
 	include/wx/pdfdocdef.h \
 	include/wx/pdfdocument.h \
@@ -143,12 +149,14 @@ PDFDOC_LIB_HEADERS =  \
 	include/wx/pdffontdescription.h \
 	include/wx/pdffontdetails.h \
 	include/wx/pdffontextended.h \
+	include/wx/pdffontmacosx.h \
 	include/wx/pdffontmanager.h \
 	include/wx/pdffontparser.h \
 	include/wx/pdffontparsertruetype.h \
 	include/wx/pdffontparsertype1.h \
 	include/wx/pdffontsubsetcff.h \
 	include/wx/pdffontsubsettruetype.h \
+	include/wx/pdffontvolt.h \
 	include/wx/pdfform.h \
 	include/wx/pdfgradient.h \
 	include/wx/pdfgraphics.h \
@@ -167,12 +175,16 @@ PDFDOC_LIB_HEADERS =  \
 	include/wx/pdftemplate.h \
 	include/wx/pdfutility.h \
 	include/wx/pdfxml.h \
+	src/pdfcjkfontdata.inc \
 	src/pdfcmapdata.inc \
+	src/pdfcodepagedata.inc \
 	src/pdfcolourdata.inc \
 	src/pdfcorefontdata.inc \
 	src/pdfcorefontkerning.inc \
+	src/pdfdc28.inc \
+	src/pdfdc29.inc \
 	src/pdfglyphnames.inc
-PDFDOC_DLL_CXXFLAGS = $(VAR) $(VAR_3) -W -Wall -I../include -DWXMAKINGDLL_PDFDOC \
+PDFDOC_DLL_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include -DWXMAKINGDLL_PDFDOC \
 	-fPIC -DPIC `$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) \
 	$(CXXFLAGS)
 PDFDOC_DLL_OBJECTS =  \
@@ -181,6 +193,7 @@ PDFDOC_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfcffdecoder.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfcffindex.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfcolour.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfdc.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfdecode.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfdocument.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfencoding.o \
@@ -201,6 +214,7 @@ PDFDOC_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdffontparsertype1.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdffontsubsetcff.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdffontsubsettruetype.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdffontvolt.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfform.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfgradient.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfgraphics.o \
@@ -223,9 +237,13 @@ PDFDOC_DLL_HEADERS =  \
 	include/wx/pdfbookmark.h \
 	include/wx/pdfcffdecoder.h \
 	include/wx/pdfcffindex.h \
+	include/wx/pdfcjkfontdata.h \
 	include/wx/pdfcolour.h \
 	include/wx/pdfcoonspatchmesh.h \
 	include/wx/pdfcorefontdata.h \
+	include/wx/pdfdc.h \
+	include/wx/pdfdc28.h \
+	include/wx/pdfdc29.h \
 	include/wx/pdfdoc.h \
 	include/wx/pdfdocdef.h \
 	include/wx/pdfdocument.h \
@@ -241,12 +259,14 @@ PDFDOC_DLL_HEADERS =  \
 	include/wx/pdffontdescription.h \
 	include/wx/pdffontdetails.h \
 	include/wx/pdffontextended.h \
+	include/wx/pdffontmacosx.h \
 	include/wx/pdffontmanager.h \
 	include/wx/pdffontparser.h \
 	include/wx/pdffontparsertruetype.h \
 	include/wx/pdffontparsertype1.h \
 	include/wx/pdffontsubsetcff.h \
 	include/wx/pdffontsubsettruetype.h \
+	include/wx/pdffontvolt.h \
 	include/wx/pdfform.h \
 	include/wx/pdfgradient.h \
 	include/wx/pdfgraphics.h \
@@ -265,12 +285,16 @@ PDFDOC_DLL_HEADERS =  \
 	include/wx/pdftemplate.h \
 	include/wx/pdfutility.h \
 	include/wx/pdfxml.h \
+	src/pdfcjkfontdata.inc \
 	src/pdfcmapdata.inc \
+	src/pdfcodepagedata.inc \
 	src/pdfcolourdata.inc \
 	src/pdfcorefontdata.inc \
 	src/pdfcorefontkerning.inc \
+	src/pdfdc28.inc \
+	src/pdfdc29.inc \
 	src/pdfglyphnames.inc
-MINIMAL_CXXFLAGS = $(VAR) $(VAR_3) -W -Wall -I../include -I../samples \
+MINIMAL_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include -I../samples/minimal \
 	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_barcodes.o \
@@ -281,6 +305,7 @@ MINIMAL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_drawing.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_glyphwriting.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_gradients.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_indicfonts.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_jsform.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_kerning.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_labels.o \
@@ -300,7 +325,11 @@ MINIMAL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial7.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_wmf.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_xmlwrite.o
-MAKEFONT_CXXFLAGS = $(VAR) $(VAR_3) -W -Wall -I../include -I../makefont \
+DCSAMPLE_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include -I../samples/pdfdc \
+	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
+DCSAMPLE_OBJECTS =  \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/dcsample_printing.o
+MAKEFONT_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include -I../makefont \
 	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 MAKEFONT_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/makefont_makefont.o
@@ -390,10 +419,10 @@ __COMPONENT_LIB_LIBR = \
 	../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
 endif
 ifeq ($(WX_DEBUG),0)
-VAR_3 = 
+VAR_5 = 
 endif
 ifeq ($(WX_DEBUG),1)
-VAR_3 = -g
+VAR_5 = -g
 endif
 
 
@@ -403,7 +432,7 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX):
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ../samples/minimal ../makefont/makefont
+all: test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ../samples/minimal/minimal ../samples/pdfdc/printing ../makefont/makefont
 
 install: $(__install_pdfdoc_lib___depname) $(__install_pdfdoc_lib_headers___depname) $(__install_pdfdoc_dll___depname) $(__install_pdfdoc_dll_headers___depname)
 
@@ -415,7 +444,8 @@ clean:
 	rm -f ../lib/gcc_$(__pdfdoc_lib__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a
 	rm -f ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
 	rm -f ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
-	rm -f ../samples/minimal
+	rm -f ../samples/minimal/minimal
+	rm -f ../samples/pdfdc/printing
 	rm -f ../makefont/makefont
 
 test_for_selected_wxbuild: 
@@ -462,7 +492,7 @@ endif
 
 ifeq ($(WX_SHARED),1)
 ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so: make_dir_pdfdoc_dll  $(PDFDOC_DLL_OBJECTS)
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(PDFDOC_DLL_OBJECTS)  $(VAR_3) -L../lib $(LDFLAGS)  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(PDFDOC_DLL_OBJECTS)  $(VAR_5) -L../lib $(LDFLAGS)  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 endif
 
 ifeq ($(WX_SHARED),1)
@@ -499,11 +529,14 @@ uninstall_pdfdoc_dll_headers:
 	done
 endif
 
-../samples/minimal: $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_DEP)
-	$(CXX) -o $@ $(MINIMAL_OBJECTS)  $(VAR_3) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+../samples/minimal/minimal: $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_DEP)
+	$(CXX) -o $@ $(MINIMAL_OBJECTS)  $(VAR_5) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+
+../samples/pdfdc/printing: $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP)
+	$(CXX) -o $@ $(DCSAMPLE_OBJECTS)  $(VAR_5) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 ../makefont/makefont: $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP)
-	$(CXX) -o $@ $(MAKEFONT_OBJECTS)  $(VAR_3) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) -o $@ $(MAKEFONT_OBJECTS)  $(VAR_5) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfannotation.o: ../src/pdfannotation.cpp
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
@@ -518,6 +551,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfcffindex.o: ../src/pdfcffi
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfcolour.o: ../src/pdfcolour.cpp
+	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfdc.o: ../src/pdfdc.cpp
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfdecode.o: ../src/pdfdecode.cpp
@@ -580,6 +616,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdffontsubsetcff.o: ../src/pd
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdffontsubsettruetype.o: ../src/pdffontsubsettruetype.cpp
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
 
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdffontvolt.o: ../src/pdffontvolt.cpp
+	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
+
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfform.o: ../src/pdfform.cpp
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -635,6 +674,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfcffindex.o: ../src/pdfcffi
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfcolour.o: ../src/pdfcolour.cpp
+	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfdc.o: ../src/pdfdc.cpp
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfdecode.o: ../src/pdfdecode.cpp
@@ -697,6 +739,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdffontsubsetcff.o: ../src/pd
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdffontsubsettruetype.o: ../src/pdffontsubsettruetype.cpp
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
 
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdffontvolt.o: ../src/pdffontvolt.cpp
+	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
+
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfform.o: ../src/pdfform.cpp
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
 
@@ -739,86 +784,92 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfutility.o: ../src/pdfutili
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfxml.o: ../src/pdfxml.cpp
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_barcodes.o: ../samples/barcodes.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_barcodes.o: ../samples/minimal/barcodes.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_bookmark.o: ../samples/bookmark.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_bookmark.o: ../samples/minimal/bookmark.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_charting.o: ../samples/charting.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_charting.o: ../samples/minimal/charting.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_cjktest.o: ../samples/cjktest.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_cjktest.o: ../samples/minimal/cjktest.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_clipping.o: ../samples/clipping.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_clipping.o: ../samples/minimal/clipping.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_drawing.o: ../samples/drawing.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_drawing.o: ../samples/minimal/drawing.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_glyphwriting.o: ../samples/glyphwriting.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_glyphwriting.o: ../samples/minimal/glyphwriting.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_gradients.o: ../samples/gradients.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_gradients.o: ../samples/minimal/gradients.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_jsform.o: ../samples/jsform.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_indicfonts.o: ../samples/minimal/indicfonts.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_kerning.o: ../samples/kerning.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_jsform.o: ../samples/minimal/jsform.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_labels.o: ../samples/labels.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_kerning.o: ../samples/minimal/kerning.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_layers.o: ../samples/layers.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_labels.o: ../samples/minimal/labels.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_minimal.o: ../samples/minimal.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_layers.o: ../samples/minimal/layers.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_protection.o: ../samples/protection.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_minimal.o: ../samples/minimal/minimal.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_rotation.o: ../samples/rotation.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_protection.o: ../samples/minimal/protection.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_templates.o: ../samples/templates.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_rotation.o: ../samples/minimal/rotation.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_transformation.o: ../samples/transformation.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_templates.o: ../samples/minimal/templates.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_transparency.o: ../samples/transparency.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_transformation.o: ../samples/minimal/transformation.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial1.o: ../samples/tutorial1.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_transparency.o: ../samples/minimal/transparency.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial2.o: ../samples/tutorial2.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial1.o: ../samples/minimal/tutorial1.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial3.o: ../samples/tutorial3.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial2.o: ../samples/minimal/tutorial2.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial4.o: ../samples/tutorial4.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial3.o: ../samples/minimal/tutorial3.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial5.o: ../samples/tutorial5.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial4.o: ../samples/minimal/tutorial4.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial6.o: ../samples/tutorial6.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial5.o: ../samples/minimal/tutorial5.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial7.o: ../samples/tutorial7.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial6.o: ../samples/minimal/tutorial6.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_wmf.o: ../samples/wmf.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial7.o: ../samples/minimal/tutorial7.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
-gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_xmlwrite.o: ../samples/xmlwrite.cpp
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_wmf.o: ../samples/minimal/wmf.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_xmlwrite.o: ../samples/minimal/xmlwrite.cpp
+	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/dcsample_printing.o: ../samples/pdfdc/printing.cpp
+	$(CXX) -c -o $@ $(DCSAMPLE_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/makefont_makefont.o: ../makefont/makefont.cpp
 	$(CXX) -c -o $@ $(MAKEFONT_CXXFLAGS) $(CPPDEPS) $<

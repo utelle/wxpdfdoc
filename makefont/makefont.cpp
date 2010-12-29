@@ -78,7 +78,8 @@ protected:
 #if wxUSE_UNICODE
   bool MakeFontUFM(const wxString& fontFileName,
                    const wxString& ufmFileName,
-                   const wxString& type = wxT("TrueType"));
+                   const wxString& type = wxT("TrueType"),
+                   const wxString& volt = wxT(""));
   bool MakeFontImmediate(const wxString& fontFileName);
 
   void WriteStreamBuffer(wxOutputStream& stream, const char* buffer);
@@ -102,6 +103,7 @@ private:
   wxString m_encoding;
   wxString m_patchFile;
   wxString m_fontType;
+  wxString m_volt;
 };
 
 /// Fast string search (KMP method): initialization
@@ -463,8 +465,36 @@ MakeFont::CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font
     widthsNode->AddChild(node);
   }
   rootNode->AddChild(widthsNode);
+
+  wxXmlDocument voltData;
+  wxXmlNode* voltRoot = NULL;
+  if (!m_volt.IsEmpty())
+  {
+    wxFileSystem fs;
+    // Open volt data XML file
+    wxFSFile* xmlVoltData = fs.OpenFile(wxFileSystem::FileNameToURL(m_volt));
+    if (xmlVoltData != NULL)
+    {
+      // Load the XML file
+      bool loaded = voltData.Load(*(xmlVoltData->GetStream()));
+      delete xmlVoltData;
+      if (loaded)
+      {
+        if (voltData.IsOk() && voltData.GetRoot()->GetName().IsSameAs(wxT("volt")))
+        {
+          voltRoot = voltData.GetRoot();
+          rootNode->AddChild(voltRoot);
+        }
+      }
+    }
+  }
+
   fontMetrics.SetRoot(rootNode);
   fontMetrics.Save(xmlFileName);
+  if (voltRoot != NULL)
+  {
+    rootNode->RemoveChild(voltRoot);
+  }
 }
 
 /// Make wxPdfDocument font metrics file based on AFM file
@@ -1070,8 +1100,11 @@ MakeFont::WriteToUnicode(GlyphList& glyphs, wxMemoryOutputStream& toUnicode)
 bool
 MakeFont::MakeFontUFM(const wxString& fontFileName,
                       const wxString& ufmFileName,
-                      const wxString& type)
+                      const wxString& type,
+                      const wxString& volt)
 {
+  bool hasVolt = !volt.IsEmpty();
+  int paBase = 0xe000;
   bool cff = false;
   GlyphList glyphList(CompareGlyphListEntries);
   static size_t CC2GNSIZE = 131072; // 2*64kB
@@ -1194,7 +1227,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
           while (tkz.HasMoreTokens() && tkz.GetNextToken() != wxT(";"));
         }
       }
-      if (cc != -1)
+      if (cc != -1 || (hasVolt && glyphNumber > 0))
       {
         if (!hasCapHeight && !hasXCapHeight && cc == 'X' && tokenBoxHeight != wxEmptyString)
         {
@@ -1207,6 +1240,10 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
           fd.SetXHeight(boxHeight);
         }
 
+        if (cc == -1)
+        {
+          cc = paBase++;
+        }
         (*widths)[cc] = width;
         (*glyphs)[cc] = glyphNumber;
         // Set GID
@@ -1500,6 +1537,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, "u", "ufm",       "Unicode Font Metric file (UFM)",                  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_SWITCH, "i", "immediate", "Extract font metrics from ttf/otf font file",     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "f", "font",      "Font file (ttf, otf or pfb)",                     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, "v", "volt",      "Visual order layout table",                       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #else
   { wxCMD_LINE_OPTION, "f", "font",      "Font file (ttf or pfb)",                          wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #endif
@@ -1512,6 +1550,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, wxT("u"), wxT("ufm"),       wxT("Unicode Font Metric file (UFM)"),                  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_SWITCH, wxT("i"), wxT("immediate"), wxT("Extract font metrics from ttf/otf font file"),     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, wxT("f"), wxT("font"),      wxT("Font file (ttf, otf or pfb)"),                     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, wxT("v"), wxT("volt"),      wxT("Visual order layout table"),                       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #else
   { wxCMD_LINE_OPTION, wxT("f"), wxT("font"),      wxT("Font file (ttf or pfb)"),                          wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #endif
@@ -1525,7 +1564,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
 bool
 MakeFont::OnInit()
 {
-  m_version = wxT("1.3.0 (October 2009)");
+  m_version = wxT("1.5.0 (December 2010)");
   bool valid = false;
   //gets the parameters from cmd line
   wxCmdLineParser parser (cmdLineDesc, argc, argv);
@@ -1543,6 +1582,7 @@ MakeFont::OnInit()
     bool hasEnc       = parser.Found(wxT("enc"),   &m_encoding);
     bool hasPatch     = parser.Found(wxT("patch"), &m_patchFile);
     bool hasType      = parser.Found(wxT("type"),  &m_fontType);
+    bool hasVolt      = parser.Found(wxT("volt"),  &m_volt);
 
 #if wxUSE_UNICODE
     m_unicode = hasUfm || hasImmediate;
@@ -1552,9 +1592,9 @@ MakeFont::OnInit()
     m_unicode = false;
     m_immediate = false;
 #endif
-    valid = (hasImmediate && !hasAfm && !hasUfm) ||
-            (!hasImmediate && hasAfm && !hasUfm) ||
-            (!hasImmediate && !hasAfm && hasUfm);
+    valid = ( hasImmediate && !hasAfm && !hasUfm && !hasVolt) ||
+            (!hasImmediate &&  hasAfm && !hasUfm && !hasVolt) ||
+            (!hasImmediate && !hasAfm &&  hasUfm);
     if (valid)
     {
       if (hasAfm)
@@ -1606,7 +1646,11 @@ MakeFont::OnRun()
     {
       wxLogMessage(wxT("  UFM file : ") + m_ufmFile);
       wxLogMessage(wxT("  Font file: ") + m_fontFile);
-      valid = MakeFontUFM(m_fontFile, m_ufmFile, m_fontType);
+      if (!m_volt.IsEmpty())
+      {
+        wxLogMessage(wxT("  VOLT file: ") + m_volt);
+      }
+      valid = MakeFontUFM(m_fontFile, m_ufmFile, m_fontType, m_volt);
     }
   }
   else

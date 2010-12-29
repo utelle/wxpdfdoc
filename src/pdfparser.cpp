@@ -641,7 +641,7 @@ wxPdfParser::GetPageRotation (wxPdfDictionary* page)
   }
   else
   {
-	pageRotation = rotation->GetInt();
+    pageRotation = rotation->GetInt();
   }
   return pageRotation;
 }

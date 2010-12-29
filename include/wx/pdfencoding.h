@@ -19,6 +19,7 @@
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 #include "wx/pdfarraytypes.h"
+#include "wx/pdffontdata.h"
 
 /// Class representing a font encoding
 class WXDLLIMPEXP_PDFDOC wxPdfEncoding
@@ -41,12 +42,6 @@ public:
   * \return TRUE if the encoding is valid, FALSE otherwise
   */
   bool IsOk() const;
-
-  /// Get a list of known encodings
-  /**
-  * \return an array containing all known encodings
-  */
-  wxArrayString GetKnownEncodings() const;
 
   /// Set the encoding
   /**
@@ -78,6 +73,15 @@ public:
   */
   wxPdfArrayUint32 GetCMap() const;
 
+  /// Initialize the encoding map
+  void InitializeEncodingMap();
+
+  /// Get the encoding map
+  /**
+  * \return the encoding map
+  */
+  const wxPdfChar2GlyphMap* GetEncodingMap() const;
+
   /// Get the list of glyph names supported by the encoding
   /**
   * \return a list of glyph names
@@ -100,16 +104,52 @@ public:
   */
   static bool Unicode2GlyphName(wxUint32 unicode, wxString& glyphName);
 
+  /// Get a list of known encodings
+  /**
+  * \return an array containing all known encodings
+  */
+  static wxArrayString GetKnownEncodings();
+
+protected:
+  /// Create the encoding conversion map for user defined encodings
+  void CreateEncodingConvMap();
+
 private:
+  wxString            m_encoding;         ///< name of the encoding
+  wxString            m_baseEncoding;     ///< name of the base encoding
+  wxPdfArrayUint32    m_cmap;             ///< character map of the encoding
+  wxPdfArrayUint32    m_cmapBase;         ///< character map of the base encoding
+  wxArrayString       m_glyphNames;       ///< array of glyph names in the encoding
+  bool                m_specific;         ///< flag whether the encoding is specific
+  int                 m_firstChar;        ///< number of the first valid character
+  int                 m_lastChar;         ///< number of the last valid character
+  wxPdfChar2GlyphMap* m_encodingMap;      ///< Encoding conversion map
+};
+
+/// Class representing a font encoding checker
+class WXDLLIMPEXP_PDFDOC wxPdfEncodingChecker
+{
+public:
+  /// Default constructor
+  wxPdfEncodingChecker();
+
+  /// Destructor
+  virtual ~wxPdfEncodingChecker();
+
+  /// Get the name of the encoding used for checking
+  /**
+  * \return the name of the encoding
+  */
+  wxString GetEncodingName() const;
+
+  /// Check whether a given Unicode character is included in the encoding
+  /**
+  * \return TRUE if the Unicode character is included, FALSE otherwise
+  */
+  virtual bool IsIncluded(wxUint32 unicode) const = 0;
+
+protected:
   wxString         m_encoding;         ///< name of the encoding
-  wxString         m_baseEncoding;     ///< name of the base encoding
-  wxPdfArrayUint32 m_cmap;             ///< character map of the encoding
-  wxPdfArrayUint32 m_cmapBase;         ///< character map of the base encoding
-  wxArrayString    m_glyphNames;       ///< array of glyph names in the encoding
-  wxArrayString    m_glyphNamesBase;   ///< array of glyph names in the bease encoding
-  bool             m_specific;         ///< flag whether the encoding is specific
-  int              m_firstChar;        ///< number of the first valid character
-  int              m_lastChar;         ///< number of the last valid character
 };
 
 #endif

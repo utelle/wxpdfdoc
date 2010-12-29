@@ -60,17 +60,11 @@ wxPdfTemplate::~wxPdfTemplate()
 int
 wxPdfDocument::BeginTemplate(double x, double y, double w, double h)
 {
-  if (m_page <= 0)
-  {
-    wxLogError(wxString(wxT("wxPdfDocument::BeginTemplate: ")) +
-               wxString(_("You have to add a page first!")));
-    return 0;
-  }
-
   // Save settings
   m_templateId++;
   m_currentTemplate = new wxPdfTemplate(m_templateId);
 
+  m_currentTemplate->m_stateSave = m_state;
   m_currentTemplate->m_xSave = m_x;
   m_currentTemplate->m_ySave = m_y;
   m_currentTemplate->m_hSave = m_h;
@@ -81,6 +75,10 @@ wxPdfDocument::BeginTemplate(double x, double y, double w, double h)
   m_currentTemplate->m_lMarginSave = m_lMargin;
   m_currentTemplate->m_rMarginSave = m_rMargin;
 
+  if (m_page <= 0)
+  {
+    m_state = 2;
+  }
   SetAutoPageBreak(false);
         
   if (x <= 0) x = 0;
@@ -122,8 +120,12 @@ wxPdfDocument::EndTemplate()
       StopTransform();
     }
     m_inTemplate = false;
+    m_state = m_currentTemplate->m_stateSave;
+    if (m_currentTemplate->m_stateSave == 2)
+    {
+      SetXY(m_currentTemplate->m_xSave, m_currentTemplate->m_ySave);
+    }
     SetAutoPageBreak(m_currentTemplate->m_autoPageBreakSave, m_currentTemplate->m_bMarginSave);
-    SetXY(m_currentTemplate->m_xSave, m_currentTemplate->m_ySave);
     m_tMargin = m_currentTemplate->m_tMarginSave;
     m_lMargin = m_currentTemplate->m_lMarginSave;
     m_rMargin = m_currentTemplate->m_rMarginSave;
@@ -325,25 +327,25 @@ wxPdfDocument::ImportPage(unsigned int pageno, wxPdfPageBox pageBox)
     {
       wxPdfObject* resources = m_currentParser->GetPageResources(pageno-1);
       wxPdfArrayDouble* artBox = NULL;
-	    switch (pageBox)
-	    {
+      switch (pageBox)
+      {
         case wxPDF_PAGEBOX_MEDIABOX:
           artBox = m_currentParser->GetPageMediaBox(pageno-1);
-		      break;
+          break;
         case wxPDF_PAGEBOX_CROPBOX:
           artBox = m_currentParser->GetPageCropBox(pageno-1);
-		      break;
+          break;
         case wxPDF_PAGEBOX_BLEEDBOX:
           artBox = m_currentParser->GetPageBleedBox(pageno-1);
-		      break;
+          break;
         case wxPDF_PAGEBOX_TRIMBOX:
           artBox = m_currentParser->GetPageTrimBox(pageno-1);
-		      break;
+          break;
         case wxPDF_PAGEBOX_ARTBOX:
-	      default:
+        default:
           artBox = m_currentParser->GetPageArtBox(pageno-1);
-		      break;
-	    }
+          break;
+      }
       m_templateId++;
       wxPdfTemplate* pageTemplate = new wxPdfTemplate(m_templateId);
       pageTemplate->SetParser(m_currentParser);

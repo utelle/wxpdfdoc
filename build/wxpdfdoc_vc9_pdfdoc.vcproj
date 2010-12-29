@@ -2732,6 +2732,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\pdfdc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\pdfdecode.cpp"
 				>
 			</File>
@@ -2809,6 +2813,10 @@
 			</File>
 			<File
 				RelativePath="..\src\pdffontsubsettruetype.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\pdffontvolt.cpp"
 				>
 			</File>
 			<File
@@ -2902,7 +2910,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\wx\pdfcjkfontdata.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\pdfcjkfontdata.inc"
+				>
+			</File>
+			<File
 				RelativePath="..\src\pdfcmapdata.inc"
+				>
+			</File>
+			<File
+				RelativePath="..\src\pdfcodepagedata.inc"
 				>
 			</File>
 			<File
@@ -2927,6 +2947,26 @@
 			</File>
 			<File
 				RelativePath="..\src\pdfcorefontkerning.inc"
+				>
+			</File>
+			<File
+				RelativePath="..\include\wx\pdfdc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\wx\pdfdc28.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\pdfdc28.inc"
+				>
+			</File>
+			<File
+				RelativePath="..\include\wx\pdfdc29.h"
+				>
+			</File>
+			<File
+				RelativePath="..\src\pdfdc29.inc"
 				>
 			</File>
 			<File
@@ -2990,6 +3030,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\wx\pdffontmacosx.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\wx\pdffontmanager.h"
 				>
 			</File>
@@ -3011,6 +3055,10 @@
 			</File>
 			<File
 				RelativePath="..\include\wx\pdffontsubsettruetype.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\wx\pdffontvolt.h"
 				>
 			</File>
 			<File

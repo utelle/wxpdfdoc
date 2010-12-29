@@ -51,8 +51,10 @@ wxPdfLayer::wxPdfLayer(const wxString& name)
 {
   m_type = wxPDF_OCG_TYPE_LAYER;
   m_name = name;
-  m_parent = NULL;
   m_intent = wxPDF_OCG_INTENT_DEFAULT;
+  m_on = true;
+  m_onPanel = true;
+  m_parent = NULL;
   m_usage = NULL;
 }
 

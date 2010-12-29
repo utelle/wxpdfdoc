@@ -145,9 +145,11 @@ public :
   * For Type1 and non-Unicode TrueType fonts it is possible to overwrite the default encoding
   * of the font. It's the user's responsibility to ensure the font supports all characters
   * assigned by the encoding.
-  * \param encoding the encoding to use with this font
+  * \param encodingName the name of the encoding to use with this font
+  * \return TRUE if the encoding could be assigned, FALSE otherwise
+  * \note The encoding has to be registered to the font manager in advance
   */
-  bool SetEncoding(const wxPdfEncoding& encoding);
+  bool SetEncoding(const wxString& encodingName);
 
   /// Get encoding
   /**
@@ -158,6 +160,23 @@ public :
   * \return TRUE if an encoding is associated with the font, FALSE otherwise
   */
   bool GetEncoding(wxPdfEncoding& encoding);
+
+  /// Check whether the font oan show all characters of a given string
+  /**
+  * \param s the string to be checked
+  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  */
+  bool CanShow(const wxString& s);
+
+  /// Force string to valid string in respect of the current font encoding
+  /**
+  * The given string is converted in such a way that it contains only characters
+  * available in the current font encoding
+  * \param s the string to be converted
+  * \param replace the character used to replace invalid characters
+  * \return converted string
+  */
+  wxString ConvertToValid(const wxString& s, wxChar replace = wxT('?')) const;
 
   /// Get list of supported glyph names
   /**
@@ -171,11 +190,11 @@ private:
   /// Constructor creating a reference to the real font data
   wxPdfFont(wxPdfFontData* fontData, int fontStyle = wxPDF_FONTSTYLE_REGULAR);
 
-  bool           m_embed;     ///< Flag whether the font should be embedded
-  bool           m_subset;    ///< Flag whether the font should be subsetted
-  int            m_fontStyle; ///< Font style flags
-  wxPdfFontData* m_fontData;  ///< Real font data
-  wxPdfEncoding* m_encoding;  ///< Font encoding for Type1 fonts
+  bool                 m_embed;     ///< Flag whether the font should be embedded
+  bool                 m_subset;    ///< Flag whether the font should be subsetted
+  int                  m_fontStyle; ///< Font style flags
+  wxPdfFontData*       m_fontData;  ///< Real font data
+  const wxPdfEncoding* m_encoding;  ///< Font encoding for Type1 fonts
 
   friend class wxPdfFontExtended;
   friend class wxPdfFontManagerBase;

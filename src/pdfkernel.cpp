@@ -43,9 +43,93 @@
 
 #include "pdfcorefontdata.inc"
 
+class wxPdfGraphicState
+{
+public:
+  wxString          m_fontFamily;
+  int               m_fontStyle;
+  double            m_fontSizePt;
+  wxPdfFontDetails* m_fontDetails;
+
+  wxPdfColour       m_drawColour;
+  wxPdfColour       m_fillColour;
+  wxPdfColour       m_textColour;
+  bool              m_colourFlag;
+
+  double            m_lineWidth;
+  wxPdfLineStyle    m_lineStyle;
+  int               m_extGState;
+};
+
+void
+wxPdfDocument::SaveGraphicState()
+{
+  wxPdfGraphicState* state = new wxPdfGraphicState();
+  // Save font state
+  state->m_fontFamily = m_fontFamily;
+  state->m_fontStyle = m_fontStyle;
+  state->m_fontSizePt = m_fontSizePt;
+  state->m_fontDetails = m_currentFont;
+  // Save colour state
+  state->m_drawColour = m_drawColour;
+  state->m_fillColour = m_fillColour;
+  state->m_textColour = m_textColour;
+  state->m_colourFlag = m_colourFlag;
+  // Save graphics state
+  state->m_lineWidth = m_lineWidth;
+  state->m_lineStyle = m_lineStyle;
+  state->m_extGState = m_currentExtGState;
+  m_graphicStates.Add(state);
+}
+
+void
+wxPdfDocument::RestoreGraphicState()
+{
+  wxPdfGraphicState* state = NULL;
+  if (!m_graphicStates.IsEmpty())
+  {
+    state = (wxPdfGraphicState*) m_graphicStates.Last();
+    m_graphicStates.RemoveAt(m_graphicStates.GetCount()-1);
+  }
+  if (state != NULL)
+  {
+    // Restore font state
+    m_fontFamily = state->m_fontFamily;
+    m_fontStyle = state->m_fontStyle;
+    m_fontSizePt = state->m_fontSizePt;
+    m_fontSize    = m_fontSizePt / m_k;
+    m_currentFont = state->m_fontDetails;
+    // Restore colour state
+    m_drawColour = state->m_drawColour;
+    m_fillColour = state->m_fillColour;
+    m_textColour = state->m_textColour;
+    m_colourFlag = state->m_colourFlag;
+    // Restore graphics state
+    m_lineWidth = state->m_lineWidth;
+    m_lineStyle = state->m_lineStyle;
+    m_currentExtGState = state->m_extGState;
+    delete state;
+  }
+}
+
+void
+wxPdfDocument::ClearGraphicState()
+{
+  wxPdfGraphicState* state = NULL;
+  size_t n = m_graphicStates.GetCount();
+  size_t j;
+  for (j = 0; j < n; ++j)
+  {
+    state = (wxPdfGraphicState*) m_graphicStates[j];
+    delete state;
+  }
+  m_graphicStates.Clear();
+}
+
 // ----------------------------------------------------------------------------
 // wxPdfDocument: class representing a PDF document
 // ----------------------------------------------------------------------------
+
 
 bool
 wxPdfDocument::SelectFont(const wxString& family, const wxString& style, double size, bool setFont)
@@ -78,7 +162,7 @@ wxPdfDocument::SelectFont(const wxString& family, const wxString& style, double 
 bool
 wxPdfDocument::SelectFont(const wxString& family, int style, double size, bool setFont)
 {
-  wxString fontFamily = (!family.IsEmpty()) ? family : m_currentFont->GetFontFamily();
+  wxString fontFamily = (!family.IsEmpty()) ? family : (m_currentFont != NULL) ? m_currentFont->GetFontFamily() : wxString();
   bool selected = false;
   wxPdfFont regFont = wxPdfFontManager::GetFontManager()->GetFont(fontFamily, style);
   if (regFont.IsValid())
@@ -272,6 +356,29 @@ wxPdfDocument::ForceCurrentFont()
   }
 }
 
+wxString
+wxPdfDocument::ApplyVisualOrdering(const wxString& txt)
+{
+  wxString s;
+  if (m_currentFont != NULL)
+  {
+    wxPdfFontExtended font = m_currentFont->GetFont();
+    if (font.HasVoltData())
+    {
+      s = font.ApplyVoltData(txt);
+    }
+    else
+    {
+      s = txt;
+    }
+  }
+  else
+  {
+    s = txt;
+  }
+  return s;
+}
+
 void
 wxPdfDocument::EndDoc()
 {
@@ -346,7 +453,7 @@ wxPdfDocument::BeginPage(int orientation, wxSize pageSize)
   }
   if (orientation != m_defOrientation || pageSize != m_defPageSize)
   {
-    (*m_orientationChanges)[m_page] = true;
+    (*m_orientationChanges)[m_page] = orientation != m_defOrientation;
     if (orientation == wxPORTRAIT)
     {
       (*m_pageSizes)[m_page] = pageSize;
@@ -400,6 +507,7 @@ wxPdfDocument::EndPage()
     StopTransform();
   }
   m_state = 1;
+  ClearGraphicState();
 }
 
 void
@@ -662,9 +770,9 @@ wxPdfDocument::ReplaceNbPagesAlias()
 
 #if wxUSE_UNICODE
   wxMBConvUTF16BE conv;
-  size_t lenUni = conv.WC2MB(NULL, m_aliasNbPages, 0);
+  size_t lenUni = conv.FromWChar(NULL, 0, m_aliasNbPages, lenAsc);
   char* nbUni = new char[lenUni+3];
-  lenUni = conv.WC2MB(nbUni, m_aliasNbPages, lenUni+3);
+  lenUni = conv.FromWChar(nbUni, lenUni+3, m_aliasNbPages, lenAsc);
   size_t* fUni = makeFail(nbUni,lenUni);
 #endif
 
@@ -673,9 +781,9 @@ wxPdfDocument::ReplaceNbPagesAlias()
 #if wxUSE_UNICODE
   wxCharBuffer wpg(pg.ToAscii());
   const char* pgAsc = (const char*) wpg;
-  size_t lenPgUni = conv.WC2MB(NULL, pg, 0);
+  size_t lenPgUni = conv.FromWChar(NULL, 0, pg, lenPgAsc);
   char* pgUni = new char[lenPgUni+3];
-  lenPgUni = conv.WC2MB(pgUni, pg, lenPgUni+3);
+  lenPgUni = conv.FromWChar(pgUni, lenPgUni+3, pg, lenPgAsc);
 #else
   const char* pgAsc = pg.c_str();
 #endif
@@ -1147,7 +1255,7 @@ wxPdfDocument::PutFonts()
       size_t fontSize1 = font->WriteFontData(p);
   
       size_t fontLen = CalculateStreamLength(p->TellO());
-      OutAscii(wxString::Format(wxT("<</Length %d"), fontLen));
+      OutAscii(wxString::Format(wxT("<</Length %lu"), (unsigned long) fontLen));
       if (compressed)
       {
         Out("/Filter /FlateDecode");
@@ -1158,10 +1266,10 @@ wxPdfDocument::PutFonts()
       }
       else
       {
-        OutAscii(wxString::Format(wxT("/Length1 %d"), fontSize1));
+        OutAscii(wxString::Format(wxT("/Length1 %lu"), (unsigned long) fontSize1));
         if (extFont.HasSize2())
         {
-          OutAscii(wxString::Format(wxT("/Length2 %d /Length3 0"), extFont.GetSize2()));
+          OutAscii(wxString::Format(wxT("/Length2 %lu /Length3 0"), (unsigned long) extFont.GetSize2()));
         }
       }
       Out(">>");
@@ -1480,7 +1588,7 @@ wxPdfDocument::PutImages()
           p->Write(currentImage->GetData(),currentImage->GetDataSize());
         }
         dataLen = CalculateStreamLength(p->TellO());
-        OutAscii(wxString::Format(wxT("/Length %lu>>"), (unsigned int) dataLen));
+        OutAscii(wxString::Format(wxT("/Length %lu>>"), (unsigned long) dataLen));
         PutStream(*p);
 
         Out("endobj");
@@ -1550,7 +1658,7 @@ wxPdfDocument::PutImages()
           OutAscii(wxString(wxT("/Mask [")) + trns + wxString(wxT("]")));
         }
 
-        OutAscii(wxString::Format(wxT("/Length %d>>"), CalculateStreamLength(currentImage->GetDataSize())));
+        OutAscii(wxString::Format(wxT("/Length %lu>>"), (unsigned long) CalculateStreamLength(currentImage->GetDataSize())));
 
         wxMemoryOutputStream* p = new wxMemoryOutputStream();
         p->Write(currentImage->GetData(),currentImage->GetDataSize());
@@ -2093,9 +2201,9 @@ wxPdfDocument::ShowGlyph(wxUint32 glyph)
   {
 #if wxUSE_UNICODE
     wxMBConv* conv = m_currentFont->GetEncodingConv();
-    size_t len = conv->WC2MB(NULL, t, 0);
+    size_t len = conv->FromWChar(NULL, 0, t);
     char* mbstr = new char[len+3];
-    len = conv->WC2MB(mbstr, t, len+3);
+    len = conv->FromWChar(mbstr, len+3, t);
 #else
     size_t len = t.Length();;
     char* mbstr = new char[len+1];
@@ -2154,11 +2262,12 @@ wxPdfDocument::TextEscape(const wxString& s, bool newline)
   {
     wxString t = m_currentFont->ConvertCID2GID(s);
 #if wxUSE_UNICODE
+    size_t slen = s.length();
     wxMBConv* conv = m_currentFont->GetEncodingConv();
-    size_t len = conv->WC2MB(NULL, t, 0);
+    size_t len = conv->FromWChar(NULL, 0, t, slen);
     char* mbstr = new char[len+3];
-    len = conv->WC2MB(mbstr, t, len+3);
-  	if (len == wxCONV_FAILED)
+    len = conv->FromWChar(mbstr, len+3, t, slen);
+    if (len == wxCONV_FAILED)
     {
       len = strlen(mbstr);
     }
@@ -2288,13 +2397,14 @@ wxPdfDocument::OutTextstring(const wxString& s, bool newline)
   // Format a text string
   size_t ofs = CalculateStreamOffset();
 #if wxUSE_UNICODE
+  size_t slen = s.length();
   wxMBConvUTF16BE conv;
-  size_t len = conv.WC2MB(NULL, s, 0);
+  size_t len = conv.FromWChar(NULL, 0, s, slen);
   size_t lenbuf = CalculateStreamLength(len+2);
   char* mbstr = new char[lenbuf+3];
   mbstr[ofs+0] = '\xfe';
   mbstr[ofs+1] = '\xff';
-  len = 2 + conv.WC2MB(&mbstr[ofs+2], s, len+3);
+  len = 2 + conv.FromWChar(&mbstr[ofs+2], len+3, s, slen);
 #else
   size_t len = s.Length();;
   size_t lenbuf = CalculateStreamLength(len);
@@ -2490,7 +2600,7 @@ wxPdfDocument::OutLineRelative(double dx, double dy)
 void
 wxPdfDocument::OutCurve(double x1, double y1, double x2, double y2, double x3, double y3)
 {
-  // Draws a Bézier curve from last draw point
+  // Draws a Bezier curve from last draw point
   OutAscii(wxPdfUtility::Double2String(x1 * m_k,2) + wxString(wxT(" ")) +
            wxPdfUtility::Double2String(y1 * m_k,2) + wxString(wxT(" ")) +
            wxPdfUtility::Double2String(x2 * m_k,2) + wxString(wxT(" ")) +
@@ -2607,7 +2717,7 @@ wxPdfDocument::SetFillGradient(double x, double y, double w, double h, int gradi
     // paint the gradient
     OutAscii(wxString::Format(wxT("/Sh%d sh"), gradient));
     // restore previous Graphic State
-    Out("Q");
+    UnsetClipping();
   }
   else
   {

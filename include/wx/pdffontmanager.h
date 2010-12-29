@@ -204,7 +204,22 @@ public:
   * \return TRUE if the font could be initialized successfully, FALSE otherwise
   */
   bool InitializeFontData(const wxPdfFont& font);
-  
+
+  /// Register a font encoding
+  /**
+  * 
+  * \param encoding the encoding to be registered
+  * \return TRUE if the encoding could be registered successfully
+  */
+  bool RegisterEncoding(const wxPdfEncoding& encoding);
+
+  /// Get the encoding having the given name
+  /**
+  * \param encodingName name of the encoding
+  * \return the encoding 
+  */
+  const wxPdfEncoding* GetEncoding(const wxString& encodingName);
+
 private:
   /// Default constructor
   wxPdfFontManager();

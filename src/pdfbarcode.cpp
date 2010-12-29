@@ -163,7 +163,7 @@ wxPdfBarCodeCreator::Barcode(double x, double y, const wxString& barcode, double
     }
   }
   //Print text under barcode
-  m_document->SetFont(wxT("Arial"), wxT(""), 12);
+  m_document->SetFont(wxT("Helvetica"), wxT(""), 12);
   m_document->Text(x, y + h + 11 / m_document->GetScaleFactor(), locBarcode.Right(len));
   return true;
 }
@@ -211,7 +211,7 @@ wxPdfBarCodeCreator::Code39(double x, double y, const wxString& code, bool ext, 
 {
   wxString locCode = code;
   //Display code
-  m_document->SetFont(wxT("Arial"), wxT(""), 10);
+  m_document->SetFont(wxT("Helvetica"), wxT(""), 10);
   m_document->Text(x, y + h + 4, locCode);
 
   if (ext)
@@ -377,7 +377,7 @@ wxPdfBarCodeCreator::I25(double xpos, double ypos, const wxString& code, double 
     locCode = wxT("0") + locCode;
   }
 
-  m_document->SetFont(wxT("Arial"), wxT(""), 10);
+  m_document->SetFont(wxT("Helvetica"), wxT(""), 10);
   m_document->Text(xpos, ypos + height + 4, locCode);
   m_document->SetFillColour(0);
 
@@ -752,7 +752,7 @@ static wxString Code128RemoveFNC1(const wxString& code)
 
 static bool Code128IsNextDigits(const wxString& text, size_t textIndex, int numDigits)
 {
-  size_t len = text.Len();
+  size_t len = text.length();
   while (textIndex < len && numDigits > 0)
   {
     if (text[textIndex] == CODE128_FNC1)
@@ -796,7 +796,7 @@ static wxString Code128PackDigits(const wxString& text, size_t& textIndex, int n
 static wxString Code128MakeCode(const wxString& text, bool ucc)
 {
   wxString out = wxEmptyString;
-  size_t tLen = text.Len();
+  size_t tLen = text.length();
 
   // if no text is given return a valid raw barcode
   if (tLen == 0)
@@ -1246,7 +1246,7 @@ bool
 wxPdfBarCodeCreator::Code128C(double x, double y, const wxString& barcode, double h, double w)
 {
   // Check whether barcode text is valid
-  if (barcode.Len() % 2 != 0)
+  if (barcode.length() % 2 != 0)
   {
       wxLogError(wxString(wxT("wxPdfBarCodeCreator::Code128C: ")) +
                  wxString::Format(_("Invalid odd length for Code128C in '%s'."), barcode.c_str()));
@@ -1265,7 +1265,7 @@ wxPdfBarCodeCreator::Code128C(double x, double y, const wxString& barcode, doubl
   }
   wxString bcode = CODE128_START_C;
   size_t index = 0;
-  while (index < barcode.Len())
+  while (index < barcode.length())
   {
     bcode += Code128PackDigits(barcode, index, 2);
   }
@@ -1291,7 +1291,7 @@ wxPdfBarCodeCreator::Code128(double x, double y, const wxString& barcode, double
 
   bool ucc = false;
   wxString bcode = Code128MakeCode(barcode, ucc);
-  size_t len = bcode.Len();
+  size_t len = bcode.length();
   if (len == 0) return false;
 
   Code128AddCheck(bcode);
@@ -1316,7 +1316,7 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
         return false;
       }
       wxString sai = barcode.SubString(idx+1, end-1);
-      if (sai.Len() < 2)
+      if (sai.length() < 2)
       {
         wxLogError(wxString(wxT("wxPdfBarCodeCreator::EAN128: ")) +
                    wxString::Format(_("AI too short (%s)."), sai.c_str()));
@@ -1335,12 +1335,12 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
         return false;
       }
       sai = wxString::Format(wxT("%ld"), ai);
-      if (sai.Len() == 1)
+      if (sai.length() == 1)
       {
         sai.Prepend(wxT("0"));
       }
       idx = barcode.find(wxT('('), end);
-      size_t next = (idx == wxString::npos) ? barcode.Len() : idx;
+      size_t next = (idx == wxString::npos) ? barcode.length() : idx;
       uccCode += sai + barcode.SubString(end+1, next-1);
       if (len < 0)
       {
@@ -1349,7 +1349,7 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
           uccCode += CODE128_FNC1;
         }
       }
-      else if (next - end - 1 + sai.Len() != (size_t) len)
+      else if (next - end - 1 + sai.length() != (size_t) len)
       {
         wxLogError(wxString(wxT("wxPdfBarCodeCreator::EAN128: ")) +
                    wxString::Format(_("Invalid AI length (%s)."), sai.c_str()));
@@ -1376,7 +1376,7 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
 
   bool ucc = true;
   wxString bcode = Code128MakeCode(uccCode, ucc);
-  size_t len = bcode.Len();
+  size_t len = bcode.length();
   if (len == 0) return false;
 
   Code128AddCheck(bcode);
@@ -1400,7 +1400,7 @@ wxPdfBarCodeCreator::Code128Draw(double x, double y, const wxString& barcode, do
     {
       barWidth = bars[j] * w;
       m_document->Rect(xPos, y, barWidth, h, wxPDF_STYLE_FILL);
-			xPos += (bars[j]+bars[j+1]) * w;
+      xPos += (bars[j]+bars[j+1]) * w;
     }
   }
 }

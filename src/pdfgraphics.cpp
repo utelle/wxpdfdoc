@@ -609,6 +609,7 @@ wxPdfFlatPath::MeasurePathLength()
 void
 wxPdfDocument::ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfShapedTextMode mode)
 {
+  wxString voText = ApplyVisualOrdering(text);
   bool stretchToFit = (mode == wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT);
   bool repeat = (mode == wxPDF_SHAPEDTEXTMODE_REPEAT);
   double flatness = 0.25 / GetScaleFactor();
@@ -620,7 +621,7 @@ wxPdfDocument::ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfSh
   int type = 0;
   double next = 0;
   unsigned int currentChar = 0;
-  unsigned int length = (unsigned int) text.Length();
+  unsigned int length = (unsigned int) voText.Length();
   double height = GetFontSize() / GetScaleFactor();
 
   if (length == 0)
@@ -628,7 +629,7 @@ wxPdfDocument::ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfSh
     return;
   }
 
-  double factor = stretchToFit ? it.MeasurePathLength() / GetStringWidth(text) : 1.0;
+  double factor = stretchToFit ? it.MeasurePathLength() / DoGetStringWidth(voText) : 1.0;
   double nextAdvance = 0;
 
   while (currentChar < length && !it.IsDone())
@@ -641,7 +642,7 @@ wxPdfDocument::ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfSh
         moveX = lastX = points[0];
         moveY = lastY = points[1];
         SetXY(moveX, moveY);
-        nextAdvance = GetStringWidth(text.Mid(currentChar,1)) * 0.5;
+        nextAdvance = DoGetStringWidth(voText.Mid(currentChar,1)) * 0.5;
         next = nextAdvance;
         break;
       }
@@ -666,12 +667,12 @@ wxPdfDocument::ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfSh
           double angle = atan2(-dy, dx) * 45. / atan(1.);
           while (currentChar < length && distance >= next)
           {
-            wxString glyph = text.Mid(currentChar, 1);
+            wxString glyph = voText.Mid(currentChar, 1);
             double x = lastX + next*dx*r;
             double y = lastY + next*dy*r;
             double advance = nextAdvance;
-            nextAdvance = currentChar < length-1 ? GetStringWidth(text.Mid(currentChar+1,1)) * 0.5 : 
-                                                   (repeat) ? GetStringWidth(text.Mid(0,1)) * 0.5 : 0;
+            nextAdvance = currentChar < length-1 ? DoGetStringWidth(voText.Mid(currentChar+1,1)) * 0.5 : 
+                                                   (repeat) ? DoGetStringWidth(voText.Mid(0,1)) * 0.5 : 0;
             SetXY(x, y);
             StartTransform();
             Rotate(angle);
@@ -1358,7 +1359,7 @@ SolveTridiagonalGeneral(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b,
     wxLogDebug(wxString(wxT("SolveTridiagonal: "))+_("Mismatch of vector sizes."));
     return false;
   }
-	if (b[0] == 0.0)
+  if (b[0] == 0.0)
   {
     wxLogDebug(wxString(wxT("SolveTridiagonal: "))+_("Singular matrix."));
     return false;
@@ -1367,7 +1368,7 @@ SolveTridiagonalGeneral(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b,
   wxPdfArrayDouble gamma;
   gamma.SetCount(n);
   u.SetCount(n);
-			
+
   // Decomposition and forward substitution.
   double beta = b[0];
   u[0] = r[0] / beta;
@@ -1641,6 +1642,7 @@ wxPdfDocument::ClippingText(double x, double y, const wxString& txt, bool outlin
   }
   TextEscape(txt,false);
   Out(") Tj ET");
+  SaveGraphicState();
 }
 
 void
@@ -1652,6 +1654,7 @@ wxPdfDocument::ClippingRect(double x, double y, double w, double h, bool outline
            wxPdfUtility::Double2String(y*m_k,2) + wxString(wxT(" ")) +
            wxPdfUtility::Double2String(w*m_k,2) + wxString(wxT(" ")) +
            wxPdfUtility::Double2String(h*m_k,2) + wxString(wxT(" re W ")) + op);
+  SaveGraphicState();
 }
 
 void
@@ -1695,6 +1698,7 @@ wxPdfDocument::ClippingEllipse(double x, double y, double rx, double ry, bool ou
            wxPdfUtility::Double2String((y+ly)*m_k,2) + wxString(wxT(" ")) +
            wxPdfUtility::Double2String((x+rx)*m_k,2) + wxString(wxT(" ")) +
            wxPdfUtility::Double2String(y*m_k,2) + wxString(wxT(" c W ")) + op);
+  SaveGraphicState();
 }
 
 void
@@ -1713,12 +1717,14 @@ wxPdfDocument::ClippingPolygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble
   }
   OutLine(x[0], y[0]);
   OutAscii(wxString(wxT("h W ")) + op);
+  SaveGraphicState();
 }
 
 void
 wxPdfDocument::ClippingPath()
 {
   Out("q");
+  SaveGraphicState();
 }
 
 void
@@ -1804,6 +1810,7 @@ void
 wxPdfDocument::UnsetClipping()
 {
   Out("Q");
+  RestoreGraphicState();
 }
 
 void
@@ -1888,6 +1895,7 @@ wxPdfDocument::StartTransform()
   //save the current graphic state
   m_inTransform++;
   Out("q");
+  SaveGraphicState();
 }
 
 bool
@@ -2105,6 +2113,7 @@ wxPdfDocument::StopTransform()
   {
     m_inTransform--;
     Out("Q");
+    RestoreGraphicState();
   }
 }
 

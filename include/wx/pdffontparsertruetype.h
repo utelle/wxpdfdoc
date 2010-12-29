@@ -23,6 +23,8 @@
 #include "wx/pdffontdescription.h"
 #include "wx/pdffontparser.h"
 
+#include "wx/pdffontmacosx.h"
+
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontData;
 
 /// Class representing a table directory entry for TrueType fonts (For internal use only)
@@ -70,7 +72,7 @@ public:
   */
   wxPdfFontData* IdentifyFont(const wxString& fontFileName, int fontIndex);
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || defined(__WXMAC__)
   /// Identify font based on a wxFont object
   /**
   * \param font the wxFont font object to be identified
@@ -107,6 +109,15 @@ public:
 protected:
   /// Clear the table directory
   void ClearTableDirectory();
+
+  /// Lock font table
+  void LockTable(const wxString& tableName);
+
+  /// Release font table
+  void ReleaseTable();
+
+  /// Calculate a check sum
+  int CalculateChecksum(char* b, size_t length);
 
   /// Identify a font
   wxPdfFontData* IdentifyFont();
@@ -195,6 +206,8 @@ protected:
   size_t                m_directoryOffset;   ///< offset of the table directory
   wxPdfTableDirectory*  m_tableDirectory;    ///< table directory of the font
 
+  bool                  m_isMacCoreText;     ///< Flag whether a Mac Core Text font is to be parsed
+
 private:
   bool                  m_cff;               ///< Flag whether the font is in CFF format
   size_t                m_cffOffset;         ///< offset of the CFF table
@@ -212,6 +225,14 @@ private:
   wxPdfCMap*            m_cmap31;            ///< Reference of CMap (Type 3,1 - Unicode)
   wxPdfCMap*            m_cmapExt;           ///< Reference of CMap (Type Ext - Extended Unicode)
   wxPdfKernPairMap*     m_kp;                ///< list of kerning pairs
+
+  wxInputStream*        m_savedStream;       ///< Saved input stream
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+  CTFontRef             m_fontRef;           ///< Mac Core Text font reference
+  CFDataRef             m_tableRef;          ///< Font table reference
+#endif
+#endif
 };
 
 #endif

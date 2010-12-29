@@ -41,38 +41,24 @@ wxPdfFontExtended::wxPdfFontExtended()
 
 wxPdfFontExtended::wxPdfFontExtended(const wxPdfFont& font)
   : m_embed(font.m_embed), m_subset(font.m_subset), 
-    m_fontData(font.m_fontData), m_encoding(NULL), m_encodingMap(NULL)
+    m_fontData(font.m_fontData)
 {
   if (m_fontData != NULL)
   {
     m_fontData->IncrementRefCount();
   }
-  if (font.m_encoding != NULL)
-  {
-    if (m_encoding == NULL)
-    {
-      m_encoding = new wxPdfEncoding();
-    }
-    *m_encoding = *(font.m_encoding);
-  }
+  m_encoding = font.m_encoding;
 }
 
 wxPdfFontExtended::wxPdfFontExtended(const wxPdfFontExtended& font)
   : m_embed(font.m_embed), m_subset(font.m_subset), 
-    m_fontData(font.m_fontData), m_encoding(NULL), m_encodingMap(NULL)
+    m_fontData(font.m_fontData)
 { 
   if (m_fontData != NULL)
   {
     m_fontData->IncrementRefCount();
   }
-  if (font.m_encoding != NULL)
-  {
-    if (m_encoding == NULL)
-    {
-      m_encoding = new wxPdfEncoding();
-    }
-    *m_encoding = *(font.m_encoding);
-  }
+  m_encoding = font.m_encoding;
 }
 
 wxPdfFontExtended::~wxPdfFontExtended()
@@ -80,14 +66,6 @@ wxPdfFontExtended::~wxPdfFontExtended()
   if (m_fontData != NULL && m_fontData->DecrementRefCount() == 0)
   {
     delete m_fontData;
-  }
-  if (m_encoding != NULL)
-  {
-    delete m_encoding;
-  }
-  if (m_encodingMap != NULL)
-  {
-    delete m_encodingMap;
   }
 }
 
@@ -109,14 +87,7 @@ wxPdfFontExtended::operator=(const wxPdfFontExtended& font)
   {
     delete prevFontData;
   }
-  if (font.m_encoding != NULL)
-  {
-    if (m_encoding == NULL)
-    {
-      m_encoding = new wxPdfEncoding();
-    }
-    *m_encoding = *(font.m_encoding);
-  }
+  m_encoding = font.m_encoding;
   return *this;
 }
 
@@ -300,20 +271,7 @@ wxPdfFontExtended::GetStringWidth(const wxString& s, bool withKerning)
   double width = 0;
   if (m_fontData != NULL)
   {
-#if wxUSE_UNICODE
-    if (m_encoding != NULL && m_encodingMap == NULL)
-    {
-      CreateEncodingConvMap();
-    }
-    if (m_fontData->GetType().IsSameAs(wxT("Type1")) && m_encoding != NULL)
-    {
-      width = ((wxPdfFontDataType1*) m_fontData)->GetStringWidth(m_encoding->GetGlyphNames(), s, m_encodingMap, withKerning);
-    }
-    else
-#endif
-    {
-      width = m_fontData->GetStringWidth(s, m_encodingMap, withKerning);
-    }
+    width = m_fontData->GetStringWidth(s, m_encoding, withKerning);
   }
   return width;
 }
@@ -324,19 +282,24 @@ wxPdfFontExtended::GetKerningWidthArray(const wxString& s) const
   return m_fontData->GetKerningWidthArray(s);
 }
 
+bool
+wxPdfFontExtended::CanShow(const wxString& s) const
+{
+  bool canShow = false;
+  if (m_fontData != NULL)
+  {
+    canShow = m_fontData->CanShow(s, m_encoding);
+  }
+  return canShow;
+}
+
 wxString
 wxPdfFontExtended::ConvertCID2GID(const wxString& s, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
 {
   wxString sConv = wxEmptyString;
   if (m_fontData != NULL)
   {
-#if wxUSE_UNICODE
-    if (m_encoding != NULL && m_encodingMap == NULL)
-    {
-      CreateEncodingConvMap();
-    }
-#endif
-    sConv = m_fontData->ConvertCID2GID(s, m_encodingMap, usedGlyphs, subsetGlyphs);
+    sConv = m_fontData->ConvertCID2GID(s, m_encoding, usedGlyphs, subsetGlyphs);
   }
   return sConv;
 }
@@ -347,13 +310,7 @@ wxPdfFontExtended::ConvertGlyph(wxUint32 glyph, wxPdfSortedArrayInt* usedGlyphs,
   wxString sConv = wxEmptyString;
   if (m_fontData != NULL)
   {
-#if wxUSE_UNICODE
-    if (m_encoding != NULL && m_encodingMap == NULL)
-    {
-      CreateEncodingConvMap();
-    }
-#endif
-    sConv = m_fontData->ConvertGlyph(glyph, m_encodingMap, usedGlyphs, subsetGlyphs);
+    sConv = m_fontData->ConvertGlyph(glyph, m_encoding, usedGlyphs, subsetGlyphs);
   }
   return sConv;
 }
@@ -382,13 +339,7 @@ wxPdfFontExtended::WriteUnicodeMap(wxOutputStream* mapData, wxPdfSortedArrayInt*
   size_t maplen = 0;
   if (m_fontData != NULL)
   {
-#if wxUSE_UNICODE
-    if (m_encoding != NULL && m_encodingMap == NULL)
-    {
-      CreateEncodingConvMap();
-    }
-#endif
-    maplen = m_fontData->WriteUnicodeMap(mapData, m_encodingMap, usedGlyphs, subsetGlyphs);
+    maplen = m_fontData->WriteUnicodeMap(mapData, m_encoding, usedGlyphs, subsetGlyphs);
   }
   return maplen;
 }
@@ -412,34 +363,9 @@ wxPdfFontExtended::GetUserFont() const
   {
     m_fontData->IncrementRefCount();
   }
-  if (m_encoding != NULL)
-  {
-    userFont.m_encoding = new wxPdfEncoding();
-    *(userFont.m_encoding) = *m_encoding;
-  }
+  userFont.m_encoding = m_encoding;
   return userFont;
 }
-
-#if wxUSE_UNICODE
-void
-wxPdfFontExtended::CreateEncodingConvMap()
-{
-  if (m_encodingMap == NULL)
-  {
-    if (m_encoding != NULL)
-    {
-      m_encodingMap = new wxPdfChar2GlyphMap();
-      wxPdfArrayUint32 cMap = m_encoding->GetCMap();
-      size_t n = cMap.GetCount();
-      size_t j;
-      for (j = 0; j < n; ++j)
-      {
-        (*m_encodingMap)[cMap[j]] = j;
-      }
-    }
-  }
-}
-#endif
 
 bool
 wxPdfFontExtended::HasEncodingMap() const
@@ -470,3 +396,15 @@ wxPdfFontExtended::GetEncodingConv() const
   return conv;
 }
 #endif
+
+bool
+wxPdfFontExtended::HasVoltData() const
+{
+  return m_fontData->HasVoltData();
+}
+
+wxString
+wxPdfFontExtended::ApplyVoltData(const wxString& txt) const
+{
+  return (m_fontData->HasVoltData()) ? m_fontData->ApplyVoltData(txt) : txt;
+}

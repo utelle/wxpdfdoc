@@ -64,21 +64,31 @@ public:
   /// Get the width of a string
   /**
   * \param s the string for which the width should be calculated
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param withKerning flag indicating whether kerning should be taken into account
   * \return the width of the string
   */
-  virtual double GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap = NULL, bool withKerning = false) const;
+  virtual double GetStringWidth(const wxString& s, const wxPdfEncoding* encoding = NULL, bool withKerning = false) const;
+
+  /// Check whether the font oan show all characters of a given string
+  /**
+  * \param s the string to be checked
+  * \param encoding the character to glyph mapping
+  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  */
+  virtual bool CanShow(const wxString& s, const wxPdfEncoding* encoding = NULL) const;
 
   /// Convert character codes to glyph numbers
   /**
   * \param s the string to be converted
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertCID2GID(const wxString& s, wxPdfChar2GlyphMap* convMap = NULL, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding = NULL, 
+                                  wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Load the font metrics XML file
   /**

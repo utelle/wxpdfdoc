@@ -300,7 +300,7 @@ wxPdfImage::ParsePNG(wxInputStream* imageStream)
   }
 
   imageStream->Read(buffer,4);
-  m_parms = wxString::Format(wxT("/DecodeParms <</Predictor 15 /Colors %d /BitsPerComponent %d /Columns %d>>"), (ct==2 ? 3 : 1), bpc, w);
+  m_parms = wxString::Format(wxT("/DecodeParms <</Predictor 15 /Colors %d /BitsPerComponent %d /Columns %d>>"), (ct==2 ? 3 : 1), (int) bpc, w);
 
   // Scan chunks looking for palette, transparency and image data
   m_palSize  = 0;
@@ -1021,11 +1021,11 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
 
             if (k < numpoints)
             {
-              data += wxString::Format(wxT("%d %d l\n"), px, py);
+              data += wxString::Format(wxT("%d %d l\n"), (int) px, (int) py);
             }
             else
             {
-              data += wxString::Format(wxT("%d %d m\n"), px, py);
+              data += wxString::Format(wxT("%d %d m\n"), (int) px, (int) py);
             }
           }
 
@@ -1090,11 +1090,11 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
 
               if (k == numpoints)
               {
-                data += wxString::Format(wxT("%d %d m\n"), px, py);
+                data += wxString::Format(wxT("%d %d m\n"), (int) px, (int) py);
               }
               else
               {
-                data += wxString::Format(wxT("%d %d m\n"), px, py);
+                data += wxString::Format(wxT("%d %d m\n"), (int) px, (int) py);
               }
             }
 

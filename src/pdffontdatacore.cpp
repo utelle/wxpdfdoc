@@ -27,6 +27,7 @@
 #include "wx/pdfcorefontdata.h"
 #include "wx/pdffontdatacore.h"
 #include "wx/pdffontdescription.h"
+#include "wx/pdfencoding.h"
 
 #include "wxmemdbg.h"
 
@@ -100,7 +101,7 @@ wxPdfFontDataCore::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyph
   int i;
   for (i = 32; i <= 255; i++)
   {
-    s += wxString::Format(wxT("%d "), (*m_cw)[i]);
+    s += wxString::Format(wxT("%u "), (*m_cw)[i]);
   }
   s += wxString(wxT("]"));
   return s;
@@ -110,59 +111,95 @@ wxPdfFontDataCore::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyph
 wxMBConv*
 wxPdfFontDataCore::GetEncodingConv() const
 {
-  wxMBConv* conv;
-  if (m_name.IsSameAs(wxT("Symbol")) || m_name.IsSameAs(wxT("ZapfDingbats")))
-  {
-    conv = &wxConvISO8859_1;
-  }
-  else
-  {
-    conv = GetWinEncodingConv();
-  }
+  wxMBConv* conv = &wxConvISO8859_1;
   return conv;
 }
 #endif
 
 double
-wxPdfFontDataCore::GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap, bool withKerning) const
+wxPdfFontDataCore::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
 {
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   double w = 0;
   // Get width of a string in the current font
-#if wxUSE_UNICODE
-  wxCharBuffer wcb(s.mb_str(*GetEncodingConv()));
-  const char* str = (const char*) wcb;
-#else
-  const char* str = s.c_str();
-#endif
+  wxString t = ConvertCID2GID(s);
 
-  if (str != NULL)
+  wxString::const_iterator ch;
+  for (ch = t.begin(); ch != t.end(); ++ch)
   {
-    size_t i;
-    for (i = 0; i < s.Length(); i++)
+    w += (*m_cw)[*ch];
+  }
+  if (withKerning)
+  {
+    int kerningWidth = GetKerningWidth(t);
+    if (kerningWidth != 0)
     {
-      w += (*m_cw)[(unsigned char) str[i]];
-    }
-    if (withKerning)
-    {
-      int kerningWidth = GetKerningWidth(s);
-      if (kerningWidth != 0)
-      {
-        w += (double) kerningWidth;
-      }
+      w += (double) kerningWidth;
     }
   }
   return w / 1000;
 }
 
+bool
+wxPdfFontDataCore::CanShow(const wxString& s, const wxPdfEncoding* encoding) const
+{
+  bool canShow = true;
+  const wxPdfChar2GlyphMap* usedMap = NULL;
+  if (encoding != NULL)
+  {
+    usedMap = encoding->GetEncodingMap();
+  }
+  if (usedMap == NULL)
+  {
+    usedMap = m_encoding->GetEncodingMap();
+  }
+  if (usedMap != NULL)
+  {
+    wxPdfChar2GlyphMap::const_iterator charIter;
+    wxString::const_iterator ch;
+    for (ch = s.begin(); canShow && ch != s.end(); ++ch)
+    {
+      canShow = (usedMap->find(*ch) != usedMap->end());
+    }
+  }
+  return canShow;
+}
+
 wxString
-wxPdfFontDataCore::ConvertCID2GID(const wxString& s, wxPdfChar2GlyphMap* convMap, 
+wxPdfFontDataCore::ConvertCID2GID(const wxString& s, 
+                                  const wxPdfEncoding* encoding,
                                   wxPdfSortedArrayInt* usedGlyphs, 
-                                  wxPdfChar2GlyphMap* subsetGlyphs)
+                                  wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   // No conversion from cid to gid
-  wxUnusedVar(convMap);
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
-  return s;
+  const wxPdfChar2GlyphMap* convMap = FindEncodingMap(encoding);
+  wxString t;
+  if (convMap != NULL)
+  {
+    wxPdfChar2GlyphMap::const_iterator charIter;
+    wxString::const_iterator ch;
+    for (ch = s.begin(); ch != s.end(); ++ch)
+    {
+      charIter = (*convMap).find(*ch);
+      if (charIter != (*convMap).end())
+      {
+#if wxCHECK_VERSION(2,9,0)
+        t.Append(wxUniChar(charIter->second));
+#else
+        t.Append(wxChar(charIter->second));
+#endif
+      }
+      else
+      {
+        t += wxT("?");
+      }
+    }
+  }
+  else
+  {
+    t = s;
+  }
+  return t;
 }

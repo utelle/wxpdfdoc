@@ -27,15 +27,17 @@
 #include <wx/filesys.h>
 #include <wx/zstream.h>
 
+#include "wx/pdfencoding.h"
 #include "wx/pdffontdatatype1.h"
 #include "wx/pdffontparsertype1.h"
 
 #include "wxmemdbg.h"
 
-wxPdfFontDataType1::wxPdfFontDataType1()
+wxPdfFontDataType1::wxPdfFontDataType1(wxMemoryInputStream* pfbStream)
   : wxPdfFontData()
 {
   m_type  = wxT("Type1");
+  m_pfbStream = pfbStream;
   m_conv = NULL;
 
   m_embedRequired = false;
@@ -49,6 +51,10 @@ wxPdfFontDataType1::wxPdfFontDataType1()
 
 wxPdfFontDataType1::~wxPdfFontDataType1()
 {
+  if (m_pfbStream != NULL)
+  {
+    delete m_pfbStream;
+  }
   if (m_conv != NULL)
   {
     delete m_conv;
@@ -68,14 +74,7 @@ wxPdfFontDataType1::CreateDefaultEncodingConv()
   // Unicode build needs charset conversion
   if (m_conv == NULL)
   {
-    if (m_enc.Length() > 0)
-    {
-      m_conv = new wxCSConv(m_enc);
-    }
-    else
-    {
-      m_conv = new wxCSConv(wxFONTENCODING_ISO8859_1);
-    }
+    m_conv = new wxCSConv(wxFONTENCODING_ISO8859_1);
   }
 }
 #endif
@@ -209,81 +208,22 @@ wxPdfFontDataType1::Initialize()
 }
 
 double
-wxPdfFontDataType1::GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap, bool withKerning) const
+wxPdfFontDataType1::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
 {
   // Get width of a string in the current font
   double w = 0;
+  const wxPdfChar2GlyphMap* convMap = FindEncodingMap(encoding);
   if (convMap != NULL)
   {
-    wxUint16 glyph;
-    wxPdfGlyphWidthMap::iterator glyphIter;
-    wxPdfChar2GlyphMap::const_iterator charIter;
-    wxString::const_iterator ch;
-    for (ch = s.begin(); ch != s.end(); ++ch)
+    wxArrayString glyphNames;
+    if (encoding != NULL)
     {
-      charIter = (*convMap).find(*ch);
-      if (charIter != (*convMap).end())
-      {
-        glyph = charIter->second;
-      }
-      else
-      {
-        glyph = 32;
-      }
-      glyphIter = (*m_cw).find(glyph);
-      if (glyphIter != (*m_cw).end())
-      {
-        w += glyphIter->second;
-      }
-      else
-      {
-        w += m_desc.GetMissingWidth();
-      }
+      glyphNames = encoding->GetGlyphNames();
     }
-  }
-  else
-  {
-#if wxUSE_UNICODE
-    wxCharBuffer wcb(s.mb_str(*m_conv));
-    const char* str = (const char*) wcb;
-#else
-    const char* str = s.c_str();
-#endif
-
-    wxPdfGlyphWidthMap::iterator charIter;
-    size_t i;
-    for (i = 0; i < s.Length(); i++)
+    else
     {
-      charIter = (*m_cw).find((unsigned char) str[i]);
-      if (charIter != (*m_cw).end())
-      {
-        w += charIter->second;
-      }
-      else
-      {
-        w += m_desc.GetMissingWidth();
-      }
+      glyphNames = m_encoding->GetGlyphNames();
     }
-  }
-  if (withKerning)
-  {
-    int kerningWidth = GetKerningWidth(s);
-    if (kerningWidth != 0)
-    {
-      w += (double) kerningWidth;
-    }
-  }
-  return w / 1000;
-}
-
-#if wxUSE_UNICODE
-double
-wxPdfFontDataType1::GetStringWidth(const wxArrayString& glyphNames, const wxString& s, wxPdfChar2GlyphMap* convMap, bool withKerning) const
-{
-  // Get width of a string in the current font
-  double w = 0;
-  if (convMap != NULL)
-  {
     wxUint16 glyph;
     wxPdfGlyphWidthMap::iterator glyphIter;
     wxPdfFontType1GlyphWidthMap::iterator type1GlyphIter;
@@ -300,6 +240,7 @@ wxPdfFontDataType1::GetStringWidth(const wxArrayString& glyphNames, const wxStri
       {
         glyph = 32;
       }
+#if wxUSE_UNICODE
       if (m_glyphWidthMap != NULL)
       {
         type1GlyphIter = m_glyphWidthMap->find(glyphNames[glyph]);
@@ -313,6 +254,7 @@ wxPdfFontDataType1::GetStringWidth(const wxArrayString& glyphNames, const wxStri
         }
       }
       else
+#endif
       {
         glyphIter = (*m_cw).find(glyph);
         if (glyphIter != (*m_cw).end())
@@ -328,27 +270,6 @@ wxPdfFontDataType1::GetStringWidth(const wxArrayString& glyphNames, const wxStri
   }
   else
   {
-#if wxUSE_UNICODE
-    wxCharBuffer wcb(s.mb_str(*m_conv));
-    const char* str = (const char*) wcb;
-#else
-    const char* str = s.c_str();
-#endif
-
-    wxPdfGlyphWidthMap::iterator charIter;
-    size_t i;
-    for (i = 0; i < s.Length(); i++)
-    {
-      charIter = (*m_cw).find((unsigned char) str[i]);
-      if (charIter != (*m_cw).end())
-      {
-        w += charIter->second;
-      }
-      else
-      {
-        w += m_desc.GetMissingWidth();
-      }
-    }
   }
   if (withKerning)
   {
@@ -360,15 +281,34 @@ wxPdfFontDataType1::GetStringWidth(const wxArrayString& glyphNames, const wxStri
   }
   return w / 1000;
 }
-#endif
+
+bool
+wxPdfFontDataType1::CanShow(const wxString& s, const wxPdfEncoding* encoding) const
+{
+  bool canShow = true;
+  const wxPdfChar2GlyphMap* convMap = FindEncodingMap(encoding);
+  if (convMap != NULL)
+  {
+    wxString::const_iterator ch;
+    for (ch = s.begin(); canShow && ch != s.end(); ++ch)
+    {
+      canShow = (convMap->find(*ch) != convMap->end());
+    }
+  }
+  return canShow;
+}
 
 wxString
-wxPdfFontDataType1::ConvertCID2GID(const wxString& s, wxPdfChar2GlyphMap* convMap, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
+wxPdfFontDataType1::ConvertCID2GID(const wxString& s, 
+                                   const wxPdfEncoding* encoding, 
+                                   wxPdfSortedArrayInt* usedGlyphs, 
+                                   wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
 
   wxString t;
+  const wxPdfChar2GlyphMap* convMap = FindEncodingMap(encoding);
   if (convMap != NULL)
   {
     wxPdfChar2GlyphMap::const_iterator charIter;
@@ -378,11 +318,15 @@ wxPdfFontDataType1::ConvertCID2GID(const wxString& s, wxPdfChar2GlyphMap* convMa
       charIter = (*convMap).find(*ch);
       if (charIter != (*convMap).end())
       {
+#if wxCHECK_VERSION(2,9,0)
+        t.Append(wxUniChar(charIter->second));
+#else
         t.Append(wxChar(charIter->second));
+#endif
       }
       else
       {
-        t.Append(wxChar(wxT(' ')));
+        t += wxT(" ");
       }
     }
   }
@@ -403,7 +347,7 @@ wxPdfFontDataType1::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyp
   int i;
   for (i = 32; i <= 255; i++)
   {
-    s += wxString::Format(wxT("%d "), (*m_cw)[i]);
+    s += wxString::Format(wxT("%u "), (*m_cw)[i]);
   }
   s += wxString(wxT("]"));
   return s;
@@ -584,17 +528,25 @@ wxPdfFontDataType1::WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt*
 
   // Open font file
   wxFileSystem fs;
-  wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
+  wxFSFile* fontFile = NULL;
   wxInputStream* fontStream = NULL;
-  if (fontFile)
+  if (m_pfbStream == NULL)
   {
-    fontStream = fontFile->GetStream();
+    fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
+    if (fontFile)
+    {
+      fontStream = fontFile->GetStream();
+    }
+    else
+    {
+      // usually this should not happen since file accessability was already checked
+      wxLogError(wxString(wxT("wxPdfFontDataType1::WriteFontData: ")) +
+                 wxString::Format(_("Font file '%s' not found."), fileName.GetFullPath().c_str()));
+    }
   }
   else
   {
-    // usually this should not happen since file accessability was already checked
-    wxLogError(wxString(wxT("wxPdfFontDataType1::WriteFontData: ")) +
-               wxString::Format(_("Font file '%s' not found."), fileName.GetFullPath().c_str()));
+    fontStream = m_pfbStream;
   }
 
   if (fontStream != NULL)
@@ -619,28 +571,44 @@ wxPdfFontDataType1::WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt*
 }
 
 size_t
-wxPdfFontDataType1::WriteUnicodeMap(wxOutputStream* mapData, wxPdfChar2GlyphMap* convMap, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
+wxPdfFontDataType1::WriteUnicodeMap(wxOutputStream* mapData, 
+                                    const wxPdfEncoding* encoding, 
+                                    wxPdfSortedArrayInt* usedGlyphs, 
+                                    wxPdfChar2GlyphMap* subsetGlyphs)
 {
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
 
   wxPdfGlyphList glyphList(wxPdfFontData::CompareGlyphListEntries);
   wxPdfChar2GlyphMap::const_iterator charIter;
-  for (charIter = convMap->begin(); charIter != convMap->end(); ++charIter)
+  const wxPdfChar2GlyphMap* convMap = encoding->GetEncodingMap();
+  if (convMap == NULL)
   {
-    wxPdfGlyphListEntry* glEntry = new wxPdfGlyphListEntry();
-    glEntry->m_gid = charIter->second;
-    glEntry->m_uid = charIter->first;
-    glyphList.Add(glEntry);
+    convMap = m_encoding->GetEncodingMap();
   }
-  wxMemoryOutputStream toUnicode;
-  WriteToUnicode(glyphList, toUnicode, true);
-  wxMemoryInputStream inUnicode(toUnicode);
-  wxZlibOutputStream zUnicodeMap(*mapData);
-  zUnicodeMap.Write(inUnicode);
-  zUnicodeMap.Close();
+  if (convMap != NULL)
+  {
+    for (charIter = convMap->begin(); charIter != convMap->end(); ++charIter)
+    {
+      wxPdfGlyphListEntry* glEntry = new wxPdfGlyphListEntry();
+      glEntry->m_gid = charIter->second;
+      glEntry->m_uid = charIter->first;
+      glyphList.Add(glEntry);
+    }
+    wxMemoryOutputStream toUnicode;
+    WriteToUnicode(glyphList, toUnicode, true);
+    wxMemoryInputStream inUnicode(toUnicode);
+    wxZlibOutputStream zUnicodeMap(*mapData);
+    zUnicodeMap.Write(inUnicode);
+    zUnicodeMap.Close();
 
-  WX_CLEAR_ARRAY(glyphList);
+    WX_CLEAR_ARRAY(glyphList);
+  }
+  else
+  {
+    wxLogError(wxString(wxT("wxPdfFontDataType1::WriteUnicodeMap: ")) +
+               wxString::Format(_("Encoding not found.")));
+  }
 
   return 0;
 }

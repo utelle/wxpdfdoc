@@ -135,14 +135,9 @@ wxPdfFontParser::ReadString(int length)
 wxString
 wxPdfFontParser::ReadString(int length, wxInputStream* stream)
 {
-  wxString str = wxEmptyString;
   char* buffer = new char[length];
   stream->Read(buffer, length);
-  int j;
-  for (j = 0; j < length; j++)
-  {
-    str.Append(buffer[j]);
-  }
+  wxString str = wxString(buffer, wxConvISO8859_1, length);
   delete [] buffer;
   return str;
 }
@@ -150,15 +145,10 @@ wxPdfFontParser::ReadString(int length, wxInputStream* stream)
 wxString
 wxPdfFontParser::ReadUnicodeString(int length)
 {
-  wxString str = wxEmptyString;
+  wxMBConvUTF16BE conv;
   char* buffer = new char[length];
   m_inFont->Read(buffer, length);
-  int j, k;
-  for (j = 0; j < length/2; j++)
-  {
-    k = 2 * j;
-    str.Append(wxChar((buffer[k]>>8) | buffer[k+1]));
-  }
+  wxString str = wxString(buffer, conv, length);
   delete [] buffer;
   return str;
 }
@@ -173,7 +163,11 @@ wxPdfFontParser::ReadString(wxInputStream& fileStream)
   do
   {
     fileStream.Read(&c, 1);
+#if wxCHECK_VERSION(2,9,0)
+    if (c > 0) str += wxUniChar((unsigned int) c);
+#else
     if (c > 0) str += wxChar(c);
+#endif
     j++;
   }
   while (c > 0 && j < maxlen);

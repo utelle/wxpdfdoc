@@ -26,6 +26,7 @@
 
 #include "wx/pdfencoding.h"
 #include "wx/pdffont.h"
+#include "wx/pdffontextended.h"
 #include "wx/pdffontdata.h"
 #include "wx/pdffontdatatype1.h"
 #include "wx/pdffontmanager.h"
@@ -43,10 +44,6 @@ wxPdfFont::~wxPdfFont()
   if (m_fontData != NULL && m_fontData->DecrementRefCount() == 0)
   {
     delete m_fontData;
-  }
-  if (m_encoding != NULL)
-  {
-    delete m_encoding;
   }
 }
 
@@ -72,14 +69,7 @@ wxPdfFont::wxPdfFont(const wxPdfFont& font)
   {
     m_fontData->IncrementRefCount();
   }
-  if (font.m_encoding != NULL)
-  {
-    if (m_encoding == NULL)
-    {
-      m_encoding = new wxPdfEncoding();
-    }
-    *m_encoding = *(font.m_encoding);
-  }
+  m_encoding = font.m_encoding;
 }
 
 wxPdfFont& 
@@ -100,14 +90,7 @@ wxPdfFont::operator=(const wxPdfFont& font)
   {
     delete prevFontData;
   }
-  if (font.m_encoding != NULL)
-  {
-    if (m_encoding == NULL)
-    {
-      m_encoding = new wxPdfEncoding();
-    }
-    *m_encoding = *(font.m_encoding);
-  }
+  m_encoding = font.m_encoding;
   return *this;
 }
 
@@ -160,10 +143,42 @@ wxPdfFont::GetEncoding() const
 }
 
 bool
+wxPdfFont::CanShow(const wxString& s)
+{
+  bool canShow = false;
+  if (m_fontData != NULL && wxPdfFontManager::GetFontManager()->InitializeFontData(*this))
+  {
+    wxPdfFontExtended extendedFont(*this);
+    canShow = extendedFont.CanShow(s);
+  }
+  else
+  {
+    wxLogError(wxString(wxT("wxPdfFont::CanShow: ")) +
+               wxString(_("Error on initializing the font.")));
+  }
+  return canShow;
+}
+
+wxString
+wxPdfFont::ConvertToValid(const wxString& s, wxChar replace) const
+{
+  wxString t;
+  if (m_fontData != NULL && wxPdfFontManager::GetFontManager()->InitializeFontData(*this))
+  {
+    t = m_fontData->ConvertToValid(s, replace);
+  }
+  else
+  {
+    t = s;
+  }
+  return t;
+}
+
+bool
 wxPdfFont::GetGlyphNames(wxArrayString& glyphNames) const
 {
   bool ok = false;
-  if (m_fontData != NULL && m_fontData->Initialize())
+  if (m_fontData != NULL && wxPdfFontManager::GetFontManager()->InitializeFontData(*this))
   {
     ok = m_fontData->GetGlyphNames(glyphNames);
   }
@@ -174,7 +189,7 @@ double
 wxPdfFont::GetStringWidth(const wxString& s) const
 {
   double width = 0.0;
-  if (m_fontData != NULL && m_fontData->Initialize())
+  if (m_fontData != NULL && wxPdfFontManager::GetFontManager()->InitializeFontData(*this))
   {
     width = m_fontData->GetStringWidth(s);
   }
@@ -208,7 +223,7 @@ const wxPdfFontDescription
 wxPdfFont::GetDescription() const
 {
   wxPdfFontDescription fontDesc;
-  if (m_fontData != NULL && m_fontData->Initialize())
+  if (m_fontData != NULL && wxPdfFontManager::GetFontManager()->InitializeFontData(*this))
   {
     fontDesc = m_fontData->GetDescription();
   }
@@ -240,24 +255,22 @@ wxPdfFont::SetSubset(bool subset)
 }
 
 bool
-wxPdfFont::SetEncoding(const wxPdfEncoding& encoding)
+wxPdfFont::SetEncoding(const wxString& encodingName)
 {
   bool ok = false;
 #if wxUSE_UNICODE
+  const wxPdfEncoding* encoding = wxPdfFontManager::GetFontManager()->GetEncoding(encodingName);
   if (m_fontData != NULL)
   {
-    if (m_fontData->GetType().IsSameAs(wxT("Type1")) && encoding.IsOk())
+    if (m_fontData->GetType().IsSameAs(wxT("Type1")) && 
+        encoding != NULL && encoding->IsOk())
     {
       ok = wxPdfFontManager::GetFontManager()->InitializeFontData(*this);
       if (ok)
       {
         if (!((wxPdfFontDataType1*) m_fontData)->GetEncodingType().IsEmpty())
         {
-          if (m_encoding == NULL)
-          {
-            m_encoding = new wxPdfEncoding();
-          }
-          *m_encoding = encoding;
+          m_encoding = encoding;
           ok = true;
         }
         else
@@ -274,7 +287,7 @@ wxPdfFont::SetEncoding(const wxPdfEncoding& encoding)
     }
   }
 #else
-  wxUnusedVar(encoding);
+  wxUnusedVar(encodingName);
   wxLogDebug(wxString(wxT("wxPdfFont::SetEncoding: ")) +
              wxString(_("Setting a user defined encoding is not supported in ANSI build.")));
 #endif
@@ -289,6 +302,15 @@ wxPdfFont::GetEncoding(wxPdfEncoding& encoding)
   {
     encoding = *m_encoding;
     ok = true;
+  }
+  else if (m_fontData != NULL)
+  {
+    const wxPdfEncoding* baseEncoding = m_fontData->GetBaseEncoding();
+    if (baseEncoding != NULL)
+    {
+      encoding = *baseEncoding;
+      ok = true;
+    }
   }
   return ok;
 }

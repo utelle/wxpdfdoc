@@ -31,7 +31,7 @@ class WXDLLIMPEXP_PDFDOC wxPdfFontDataType1 : public wxPdfFontData
 {
 public:
   ///< Default constructor
-  wxPdfFontDataType1();
+  wxPdfFontDataType1(wxMemoryInputStream* pfbStream = NULL);
 
   /// Default destructor
   virtual ~wxPdfFontDataType1();
@@ -39,33 +39,31 @@ public:
   /// Get the width of a string
   /**
   * \param s the string for which the width should be calculated
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param withKerning flag indicating whether kerning should be taken into account
   * \return the width of the string
   */
-  virtual double GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap = NULL, bool withKerning = false) const;
+  virtual double GetStringWidth(const wxString& s, const wxPdfEncoding* encoding = NULL, bool withKerning = false) const;
 
-#if wxUSE_UNICODE
-  /// Get the width of a string
+  /// Check whether the font oan show all characters of a given string
   /**
-  * \param glyphNames the list of glyph names available in the font
-  * \param s the string for which the width should be calculated
-  * \param convMap the character to glyph mapping
-  * \param withKerning flag indicating whether kerning should be taken into account
-  * \return the width of the string
+  * \param s the string to be checked
+  * \param encoding the character to glyph mapping
+  * \return TRUE if the font can show all characters of the string, FALSE otherwise
   */
-  virtual double GetStringWidth(const wxArrayString& glyphNames, const wxString& s, wxPdfChar2GlyphMap* convMap = NULL, bool withKerning = false) const;
-#endif
+  virtual bool CanShow(const wxString& s, const wxPdfEncoding* encoding = NULL) const;
 
   /// Convert character codes to glyph numbers
   /**
   * \param s the string to be converted
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertCID2GID(const wxString& s, wxPdfChar2GlyphMap* convMap, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding, 
+                                  wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Load the font metrics XML file
   /**
@@ -115,17 +113,22 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written font data
   */
-  virtual size_t WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+  virtual size_t WriteFontData(wxOutputStream* fontData, 
+                               wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                               wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
   /// Write character/glyph to unicode mapping
   /**
   * \param mapData the output stream
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written data
   */
-  virtual size_t WriteUnicodeMap(wxOutputStream* mapData, wxPdfChar2GlyphMap* convMap = NULL, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+  virtual size_t WriteUnicodeMap(wxOutputStream* mapData, 
+                                 const wxPdfEncoding* encoding = NULL, 
+                                 wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                                 wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
 #if wxUSE_UNICODE
   /// Set the encoding type
@@ -179,7 +182,8 @@ protected:
   wxPdfFontType1GlyphWidthMap* m_glyphWidthMap;  ///< mapping of glyph widths
 #endif
 
-  wxMBConv* m_conv;   ///< Associated encoding converter
+  wxMemoryInputStream* m_pfbStream; ///< Font stream in PFB format
+  wxMBConv*            m_conv;      ///< Associated encoding converter
 };
 
 #endif

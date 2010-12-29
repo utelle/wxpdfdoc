@@ -888,6 +888,10 @@ SOURCE=..\src\pdfcolour.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\pdfdc.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\pdfdecode.cpp
 # End Source File
 # Begin Source File
@@ -965,6 +969,10 @@ SOURCE=..\src\pdffontsubsetcff.cpp
 # Begin Source File
 
 SOURCE=..\src\pdffontsubsettruetype.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\src\pdffontvolt.cpp
 # End Source File
 # Begin Source File
 
@@ -1056,6 +1064,10 @@ SOURCE=..\include\wx\pdfcffindex.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\include\wx\pdfcjkfontdata.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\include\wx\pdfcolour.h
 # End Source File
 # Begin Source File
@@ -1065,6 +1077,18 @@ SOURCE=..\include\wx\pdfcoonspatchmesh.h
 # Begin Source File
 
 SOURCE=..\include\wx\pdfcorefontdata.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\wx\pdfdc.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\wx\pdfdc28.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\wx\pdfdc29.h
 # End Source File
 # Begin Source File
 
@@ -1128,6 +1152,10 @@ SOURCE=..\include\wx\pdffontextended.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\include\wx\pdffontmacosx.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\include\wx\pdffontmanager.h
 # End Source File
 # Begin Source File
@@ -1149,6 +1177,10 @@ SOURCE=..\include\wx\pdffontsubsetcff.h
 # Begin Source File
 
 SOURCE=..\include\wx\pdffontsubsettruetype.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\wx\pdffontvolt.h
 # End Source File
 # Begin Source File
 

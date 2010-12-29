@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxpdfdoc-font-metrics type="TrueTypeUnicode">
+  <font-name>RaghuMalayalamSans</font-name>
+  <encoding></encoding>
+  <description>
+    <ascent>742</ascent>
+    <descent>-469</descent>
+    <cap-height>742</cap-height>
+    <flags>32</flags>
+    <font-bbox>[-500 -451 2003 752]</font-bbox>
+    <italic-angle>0</italic-angle>
+    <stem-v>70</stem-v>
+    <missing-width>500</missing-width>
+    <x-height>0</x-height>
+    <underline-position>-113</underline-position>
+    <underline-thickness>57</underline-thickness>
+  </description>
+  <diff></diff>
+  <file name="RaghuMalayalam.z" ctg="RaghuMalayalam.ctg.z" originalsize="120892"/>
+  <widths>
+    <char id="32" width="380"/>
+    <char id="33" width="255"/>
+    <char id="34" width="274"/>
+    <char id="35" width="518"/>
+    <char id="36" width="475"/>
+    <char id="37" width="577"/>
+    <char id="38" width="524"/>
+    <char id="39" width="162"/>
+    <char id="40" width="300"/>
+    <char id="41" width="295"/>
+    <char id="42" width="363"/>
+    <char id="43" width="459"/>
+    <char id="44" width="192"/>
+    <char id="45" width="447"/>
+    <char id="46" width="199"/>
+    <char id="47" width="377"/>
+    <char id="48" width="474"/>
+    <char id="49" width="288"/>
+    <char id="50" width="428"/>
+    <char id="51" width="413"/>
+    <char id="52" width="444"/>
+    <char id="53" width="414"/>
+    <char id="54" width="443"/>
+    <char id="55" width="391"/>
+    <char id="56" width="428"/>
+    <char id="57" width="443"/>
+    <char id="58" width="239"/>
+    <char id="59" width="239"/>
+    <char id="60" width="620"/>
+    <char id="61" width="505"/>
+    <char id="62" width="620"/>
+    <char id="63" width="417"/>
+    <char id="64" width="732"/>
+    <char id="91" width="267"/>
+    <char id="92" width="349"/>
+    <char id="93" width="267"/>
+    <char id="94" width="595"/>
+    <char id="95" width="585"/>
+    <char id="96" width="298"/>
+    <char id="123" width="323"/>
+    <char id="124" width="238"/>
+    <char id="125" width="319"/>
+    <char id="126" width="620"/>
+    <char id="3330" width="367"/>
+    <char id="3331" width="338"/>
+    <char id="3333" width="1219"/>
+    <char id="3334" width="1319"/>
+    <char id="3335" width="877"/>
+    <char id="3336" width="1517"/>
+    <char id="3337" width="584"/>
+    <char id="3338" width="1227"/>
+    <char id="3339" width="649"/>
+    <char id="3340" width="1018"/>
+    <char id="3342" width="1112"/>
+    <char id="3343" width="1113"/>
+    <char id="3344" width="1713"/>
+    <char id="3346" width="607"/>
+    <char id="3347" width="1067"/>
+    <char id="3348" width="1232"/>
+    <char id="3349" width="855"/>
+    <char id="3350" width="816"/>
+    <char id="3351" width="819"/>
+    <char id="3352" width="1111"/>
+    <char id="3353" width="947"/>
+    <char id="3354" width="872"/>
+    <char id="3355" width="1199"/>
+    <char id="3356" width="783"/>
+    <char id="3357" width="1504"/>
+    <char id="3358" width="1298"/>
+    <char id="3359" width="437"/>
+    <char id="3360" width="593"/>
+    <char id="3361" width="1103"/>
+    <char id="3362" width="1115"/>
+    <char id="3363" width="1246"/>
+    <char id="3364" width="920"/>
+    <char id="3365" width="775"/>
+    <char id="3366" width="605"/>
+    <char id="3367" width="875"/>
+    <char id="3368" width="875"/>
+    <char id="3370" width="773"/>
+    <char id="3371" width="966"/>
+    <char id="3372" width="1207"/>
+    <char id="3373" width="607"/>
+    <char id="3374" width="602"/>
+    <char id="3375" width="896"/>
+    <char id="3376" width="625"/>
+    <char id="3377" width="588"/>
+    <char id="3378" width="718"/>
+    <char id="3379" width="599"/>
+    <char id="3380" width="670"/>
+    <char id="3381" width="798"/>
+    <char id="3382" width="875"/>
+    <char id="3383" width="896"/>
+    <char id="3384" width="1103"/>
+    <char id="3385" width="1043"/>
+    <char id="3390" width="477"/>
+    <char id="3391" width="193"/>
+    <char id="3392" width="168"/>
+    <char id="3393" width="298"/>
+    <char id="3394" width="333"/>
+    <char id="3395" width="242"/>
+    <char id="3398" width="607"/>
+    <char id="3399" width="479"/>
+    <char id="3400" width="1199"/>
+    <char id="3402" width="1668"/>
+    <char id="3403" width="1539"/>
+    <char id="3404" width="641"/>
+    <char id="3405" width="24"/>
+    <char id="3415" width="643"/>
+    <char id="3424" width="649"/>
+    <char id="3425" width="1112"/>
+    <char id="3430" width="752"/>
+    <char id="3431" width="763"/>
+    <char id="3432" width="743"/>
+    <char id="3433" width="1131"/>
+    <char id="3434" width="625"/>
+    <char id="3435" width="943"/>
+    <char id="3436" width="1178"/>
+    <char id="3437" width="653"/>
+    <char id="3438" width="798"/>
+    <char id="3439" width="944"/>
+    <char id="8203" width="0"/>
+    <char id="8204" width="0"/>
+    <char id="8205" width="0"/>
+    <char id="8216" width="165"/>
+    <char id="8217" width="165"/>
+    <char id="8220" width="297"/>
+    <char id="8221" width="293"/>
+    <char id="9676" width="608"/>
+    <char id="57344" width="0"/>
+    <char id="57345" width="380"/>
+    <char id="57346" width="0"/>
+    <char id="57347" width="338"/>
+    <char id="57348" width="947"/>
+    <char id="57349" width="1319"/>
+    <char id="57350" width="944"/>
+    <char id="57351" width="625"/>
+    <char id="57352" width="1043"/>
+    <char id="57353" width="920"/>
+    <char id="57354" width="642"/>
+    <char id="57355" width="657"/>
+    <char id="57356" width="714"/>
+    <char id="57357" width="247"/>
+    <char id="57358" width="211"/>
+    <char id="57359" width="253"/>
+    <char id="57360" width="1358"/>
+    <char id="57361" width="2003"/>
+    <char id="57362" width="1224"/>
+    <char id="57363" width="855"/>
+    <char id="57364" width="464"/>
+    <char id="57365" width="605"/>
+    <char id="57366" width="1261"/>
+    <char id="57367" width="1536"/>
+    <char id="57368" width="1259"/>
+    <char id="57369" width="1402"/>
+    <char id="57370" width="1185"/>
+    <char id="57371" width="1510"/>
+    <char id="57372" width="1435"/>
+    <char id="57373" width="1881"/>
+    <char id="57374" width="1401"/>
+    <char id="57375" width="1771"/>
+    <char id="57376" width="1336"/>
+    <char id="57377" width="1820"/>
+    <char id="57378" width="1259"/>
+    <char id="57379" width="1534"/>
+    <char id="57380" width="1451"/>
+    <char id="57381" width="1424"/>
+    <char id="57382" width="1308"/>
+    <char id="57383" width="1236"/>
+    <char id="57384" width="1219"/>
+    <char id="57385" width="1118"/>
+    <char id="57386" width="1180"/>
+    <char id="57387" width="900"/>
+    <char id="57388" width="1219"/>
+    <char id="57389" width="1446"/>
+    <char id="57390" width="958"/>
+    <char id="57391" width="1377"/>
+    <char id="57392" width="1045"/>
+    <char id="57393" width="1130"/>
+    <char id="57394" width="1211"/>
+    <char id="57395" width="1606"/>
+    <char id="57396" width="1334"/>
+    <char id="57397" width="1052"/>
+    <char id="57398" width="1132"/>
+    <char id="57399" width="855"/>
+    <char id="57400" width="855"/>
+    <char id="57401" width="855"/>
+    <char id="57402" width="1111"/>
+    <char id="57403" width="819"/>
+    <char id="57404" width="819"/>
+    <char id="57405" width="1354"/>
+    <char id="57406" width="875"/>
+    <char id="57407" width="880"/>
+    <char id="57408" width="1103"/>
+    <char id="57409" width="1103"/>
+    <char id="57410" width="1103"/>
+    <char id="57411" width="1246"/>
+    <char id="57412" width="1246"/>
+    <char id="57413" width="919"/>
+    <char id="57414" width="819"/>
+    <char id="57415" width="773"/>
+    <char id="57416" width="772"/>
+    <char id="57417" width="772"/>
+    <char id="57418" width="769"/>
+    <char id="57419" width="1208"/>
+    <char id="57420" width="1212"/>
+    <char id="57421" width="1210"/>
+    <char id="57422" width="1219"/>
+    <char id="57423" width="1204"/>
+    <char id="57424" width="964"/>
+    <char id="57425" width="966"/>
+    <char id="57426" width="965"/>
+    <char id="57427" width="610"/>
+    <char id="57428" width="602"/>
+    <char id="57429" width="896"/>
+    <char id="57430" width="896"/>
+    <char id="57431" width="896"/>
+    <char id="57432" width="896"/>
+    <char id="57433" width="896"/>
+    <char id="57434" width="896"/>
+    <char id="57435" width="925"/>
+    <char id="57436" width="592"/>
+    <char id="57437" width="712"/>
+    <char id="57438" width="710"/>
+    <char id="57439" width="711"/>
+    <char id="57440" width="718"/>
+    <char id="57441" width="799"/>
+    <char id="57442" width="799"/>
+    <char id="57443" width="875"/>
+    <char id="57444" width="875"/>
+    <char id="57445" width="875"/>
+    <char id="57446" width="875"/>
+    <char id="57447" width="896"/>
+    <char id="57448" width="900"/>
+    <char id="57449" width="898"/>
+    <char id="57450" width="896"/>
+    <char id="57451" width="896"/>
+    <char id="57452" width="900"/>
+    <char id="57453" width="892"/>
+    <char id="57454" width="896"/>
+    <char id="57455" width="896"/>
+    <char id="57456" width="1103"/>
+    <char id="57457" width="1103"/>
+    <char id="57458" width="1103"/>
+    <char id="57459" width="1103"/>
+    <char id="57460" width="1103"/>
+    <char id="57461" width="1103"/>
+    <char id="57462" width="1103"/>
+    <char id="57463" width="1103"/>
+    <char id="57464" width="1043"/>
+    <char id="57465" width="670"/>
+    <char id="57466" width="670"/>
+    <char id="57467" width="800"/>
+    <char id="57468" width="670"/>
+    <char id="57469" width="947"/>
+    <char id="57470" width="0"/>
+    <char id="57471" width="730"/>
+    <char id="57472" width="548"/>
+    <char id="57473" width="441"/>
+    <char id="57474" width="390"/>
+  </widths>
+  <volt lang="ml">
+    <ruleset type="pre">
+      <!-- Common Indic Punctuation marks -->
+      <rule match="।" replace="|"/>
+      <!-- U+0964;replace with "|" -->
+      <rule match="॥" replace="||"/>
+      <!-- U+0964;replace with "|" -->
+      <!-- Re-order vowels -->
+      <!-- MALAYALAM -->
+      <!-- Chillus - old forms - remove ZWNJ after -->
+      <!-- This font Volt rules recognises e.g. "Na Halant(Virama)" as ChilluN -->
+      <rule match="(ണ|്|ന|്|ര|്|ല|്|ള|്)‍" replace="\1"/>
+      <!-- See Chillus in Unicode [http://en.wikipedia.org/wiki/Malayalam_script] -->
+      <rule match="ൺ" replace="ണ്"/>
+      <!-- [mlymChilluNn] -->
+      <rule match="ൻ" replace="ന്"/>
+      <!-- [mlymChilluN] -->
+      <rule match="ർ" replace="ര്"/>
+      <!-- [mlymChilluR] -->
+      <rule match="ൽ" replace="ല്"/>
+      <!-- [mlymChilluL] -->
+      <rule match="ൾ" replace="ള്"/>
+      <!-- [mlymChilluLl] -->
+      <!--
+    // Chillus -&#x0D7A-0D7E;not in font directly, but as&#xE005-E009
+    <rule match="&#x0D23;&#x0D4D;&#x200D;"
+          replace="&#x0D7A;" />
+    <rule match="&#x0D28;&#x0D4D;&#x200D;"
+          replace="&#x0D7B;" />
+    <rule match="&#x0D30;&#x0D4D;&#x200D;"
+          replace="&#x0D7C;" />
+    <rule match="&#x0D32;&#x0D4D;&#x200D;"
+          replace="&#x0D7D;" />
+    <rule match="&#x0D33;&#x0D4D;&#x200D;"
+          replace="&#x0D7E;" />
+
+    <rule match="&#x0D7F;"
+          replace="&#xE004;" />  // [mlymChilluK] 
+    <rule match="&#x0D7A;"
+          replace="&#xE005;" />  // [mlymChilluNn] 
+    <rule match="&#x0D7B;"
+          replace="&#xE006;" />  // [mlymChilluN] 
+    <rule match="&#x0D7C;"
+          replace="&#xE007;" />  // [mlymChilluR] 
+    <rule match="&#x0D7D;"
+          replace="&#xE008;" />  // [mlymChilluL] 
+    <rule match="&#x0D7E;"
+          replace="&#xE009;" />  // [mlymChilluLl] 
+-->
+      <!-- MALAYALAM double-part vowels [] -->
+      <rule match="ൊ" replace="ൊ"/>
+      <!-- 2-part Vowel -->
+      <rule match="ോ" replace="ോ"/>
+      <!-- 2-part Vowel -->
+      <rule match="ൌ" replace="ൌ"/>
+      <!-- 2-part Vowel -->
+      <!-- No nukta -->
+      <rule match="(.{1})(െ|േ|ൈ)" replace="\2\1"/>
+      <!-- vowel sign pre-based shift left -->
+      <rule match="(.{1})്(െ|േ|ൈ)" replace="\2\1്"/>
+      <!-- before CHAR HALANT -->
+    </ruleset>
+    <ruleset type="core">
+      <rule match="്‍" replace="~"/>
+      <rule match="്‌" replace="‘"/>
+      <rule match="‍്" replace="’"/>
+      <rule match="ക്ഷ" replace=""/>
+      <rule match="ജ്ഞ" replace=""/>
+      <rule match="ച്ച" replace=""/>
+      <rule match="ബ്ബ" replace=""/>
+      <rule match="ത്ത" replace=""/>
+      <rule match="ന്ന" replace=""/>
+      <rule match="ണ്ണ" replace=""/>
+      <rule match="മ്മ" replace=""/>
+      <rule match="ള്ള" replace=""/>
+      <rule match="ല്ല" replace=""/>
+      <rule match="ദ്ദ" replace=""/>
+      <rule match="ട്ട" replace=""/>
+      <rule match="ജ്ജ" replace=""/>
+      <rule match="പ്പ" replace=""/>
+      <rule match="ഗ്ഗ" replace=""/>
+      <rule match="ക്ക" replace=""/>
+      <rule match="റ്റ" replace=""/>
+      <rule match="ങ്ക" replace=""/>
+      <rule match="ങ്ങ" replace=""/>
+      <rule match="ക്ത" replace=""/>
+      <rule match="ഗ്മ" replace=""/>
+      <rule match="ഗ്" replace=""/>
+      <rule match="ഗ്ന" replace=""/>
+      <rule match="ഞ്ജ" replace=""/>
+      <rule match="ഞ്ഞ" replace=""/>
+      <rule match="ഞ്ച" replace=""/>
+      <rule match="ഞ്ഛ" replace=""/>
+      <rule match="ണ്മ" replace=""/>
+      <rule match="ണ്ഡ" replace=""/>
+      <rule match="ണ്ട" replace=""/>
+      <rule match="ത്സ" replace=""/>
+      <rule match="ത്ഥ" replace=""/>
+      <rule match="ത്മ" replace=""/>
+      <rule match="ത്ഭ" replace=""/>
+      <rule match="ത്ന" replace=""/>
+      <rule match="ദ്ധ" replace=""/>
+      <rule match="ന്ദ" replace=""/>
+      <rule match="ന്ത" replace=""/>
+      <rule match="ന്ധ" replace=""/>
+      <rule match="ന്പ" replace=""/>
+      <rule match="ന്മ" replace=""/>
+      <rule match="ന്ഥ" replace=""/>
+      <rule match="മ്പ" replace=""/>
+      <rule match="ശ്ച" replace=""/>
+      <rule match="സ്ഥ" replace=""/>
+      <rule match="ഹ്ന" replace=""/>
+      <rule match="ഹ്മ" replace=""/>
+      <rule match="ക്ല" replace=""/>
+      <rule match="ക്ള" replace=""/>
+      <rule match="ക്സ" replace=""/>
+      <rule match="ക്ട" replace=""/>
+      <rule match="ഘ്ന" replace=""/>
+      <rule match="ഗ്ല" replace=""/>
+      <rule match="ഗ്ള" replace=""/>
+      <rule match="ച്ഛ" replace=""/>
+      <rule match="ഡ്ഡ" replace=""/>
+      <rule match="ഡ്ഢ" replace=""/>
+      <rule match="ഡ്ജ" replace=""/>
+      <rule match="ണ്ഠ" replace=""/>
+      <rule match="ത്ല" replace=""/>
+      <rule match="പ്ന" replace=""/>
+      <rule match="പ്ല" replace=""/>
+      <rule match="പ്ള" replace=""/>
+      <rule match="പ്സ" replace=""/>
+      <rule match="പ്ത" replace=""/>
+      <rule match="ബ്ല" replace=""/>
+      <rule match="ബ്ള" replace=""/>
+      <rule match="ബ്ദ" replace=""/>
+      <rule match="ബ്ധ" replace=""/>
+      <rule match="ബ്ക" replace=""/>
+      <rule match="ഫ്ല" replace=""/>
+      <rule match="ഫ്ള" replace=""/>
+      <rule match="ഫ്ക" replace=""/>
+      <rule match="ഫ്ത" replace=""/>
+      <rule match="മ്ല" replace=""/>
+      <rule match="മ്ള" replace=""/>
+      <rule match="മ്ന" replace=""/>
+      <rule match="യ്യ" replace=""/>
+      <rule match="യ്മ" replace=""/>
+      <rule match="യ്പ" replace=""/>
+      <rule match="യ്ക" replace=""/>
+      <rule match="യ്ത" replace=""/>
+      <rule match="ല്ല" replace=""/>
+      <rule match="ല്പ" replace=""/>
+      <rule match="ല്ക" replace=""/>
+      <rule match="ല്മ" replace=""/>
+      <rule match="വ്വ" replace=""/>
+      <rule match="വ്ല" replace=""/>
+      <rule match="വ്ള" replace=""/>
+      <rule match="ശ്ശ" replace=""/>
+      <rule match="ശ്ല" replace=""/>
+      <rule match="ശ്ള" replace=""/>
+      <rule match="ശ്ന" replace=""/>
+      <rule match="ശ്മ" replace=""/>
+      <rule match="ഷ്പ" replace=""/>
+      <rule match="ഷ്ക" replace=""/>
+      <rule match="ഷ്ണ" replace=""/>
+      <rule match="ഷ്ട" replace=""/>
+      <rule match="ഷ്മ" replace=""/>
+      <rule match="ഷ്" replace=""/>
+      <rule match="ഷ്ഫ" replace=""/>
+      <rule match="ഷ്ഠ" replace=""/>
+      <rule match="ഷ്ത" replace=""/>
+      <rule match="സ്സ" replace=""/>
+      <rule match="സ്ല" replace=""/>
+      <rule match="സ്ള" replace=""/>
+      <rule match="സ്" replace=""/>
+      <rule match="സ്പ" replace=""/>
+      <rule match="സ്ത" replace=""/>
+      <rule match="സ്ക" replace=""/>
+      <rule match="സ്ന" replace=""/>
+      <rule match="സ്മ" replace=""/>
+      <rule match="ഹ്ല" replace=""/>
+      <rule match="ഹ്ള" replace=""/>
+      <rule match="ഴ്ത" replace=""/>
+      <rule match="ഴ്ക" replace=""/>
+      <rule match="ഴ്മ" replace=""/>
+      <rule match="്റ" replace=""/>
+      <rule match="ന്ര" replace=""/>
+      <rule match="ന്റ" replace=""/>
+      <rule match="ഴ്" replace=""/>
+      <rule match="യ്" replace=""/>
+      <rule match="യ്" replace=""/>
+      <rule match="്മ" replace=""/>
+      <rule match="’റ" replace=""/>
+      <rule match="’റ" replace=""/>
+      <rule match="’യ" replace=""/>
+      <rule match="’വ" replace=""/>
+      <rule match="്റ((ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))" replace="\1"/>
+      <rule match="്ര((ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))" replace="\1"/>
+      <rule match="്റ((|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||))" replace="\1"/>
+      <rule match="്ര((|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||))" replace="\1"/>
+      <rule match="്റ(( |◌))" replace="\1"/>
+      <rule match="്ര(( |◌))" replace="\1"/>
+      <rule match="((ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))്യ" replace="\1"/>
+      <rule match="((ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))‘യ" replace="\1"/>
+      <rule match="((|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||))്യ" replace="\1"/>
+      <rule match="((|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||))‘യ" replace="\1"/>
+      <rule match="(( |◌))്യ" replace="\1"/>
+      <rule match="(( |◌))‘യ" replace="\1"/>
+      <rule match="((ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))്വ" replace="\1"/>
+      <rule match="((ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))‘വ" replace="\1"/>
+      <rule match="((|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||))്വ" replace="\1"/>
+      <rule match="((|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||))‘വ" replace="\1"/>
+      <rule match="(( |◌))്വ" replace="\1"/>
+      <rule match="(( |◌))‘വ" replace="\1"/>
+      <rule match="ന്" replace=""/>
+      <rule match="ന~" replace=""/>
+      <rule match="ണ്" replace=""/>
+      <rule match="ണ~" replace=""/>
+      <rule match="ല്" replace=""/>
+      <rule match="ല~" replace=""/>
+      <rule match="ള്" replace=""/>
+      <rule match="ള~" replace=""/>
+      <rule match="റ്" replace=""/>
+      <rule match="റ~" replace=""/>
+      <rule match="ര്" replace=""/>
+      <rule match="ര~" replace=""/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="()" replace="\1"/>
+      <rule match="((ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))്((ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))" replace="\1്\3"/>
+      <rule match="ക(്|)" replace="ക\1"/>
+      <rule match="ഖ(്|)" replace="ഖ\1"/>
+      <rule match="ഗ(്|)" replace="ഗ\1"/>
+      <rule match="ഘ(്|)" replace="ഘ\1"/>
+      <rule match="ങ(്|)" replace="ങ\1"/>
+      <rule match="ച(്|)" replace="ച\1"/>
+      <rule match="ഛ(്|)" replace="ഛ\1"/>
+      <rule match="ജ(്|)" replace="ജ\1"/>
+      <rule match="ഝ(്|)" replace="ഝ\1"/>
+      <rule match="ഞ(്|)" replace="ഞ\1"/>
+      <rule match="ട(്|)" replace="ട\1"/>
+      <rule match="ഠ(്|)" replace="ഠ\1"/>
+      <rule match="ഡ(്|)" replace="ഡ\1"/>
+      <rule match="ഢ(്|)" replace="ഢ\1"/>
+      <rule match="ണ(്|)" replace="ണ\1"/>
+      <rule match="ത(്|)" replace="ത\1"/>
+      <rule match="ഥ(്|)" replace="ഥ\1"/>
+      <rule match="ദ(്|)" replace="ദ\1"/>
+      <rule match="ധ(്|)" replace="ധ\1"/>
+      <rule match="ന(്|)" replace="ന\1"/>
+      <rule match="പ(്|)" replace="പ\1"/>
+      <rule match="ഫ(്|)" replace="ഫ\1"/>
+      <rule match="ബ(്|)" replace="ബ\1"/>
+      <rule match="ഭ(്|)" replace="ഭ\1"/>
+      <rule match="മ(്|)" replace="മ\1"/>
+      <rule match="യ(്|)" replace="യ\1"/>
+      <rule match="ര(്|)" replace="ര\1"/>
+      <rule match="റ(്|)" replace="റ\1"/>
+      <rule match="ല(്|)" replace="ല\1"/>
+      <rule match="ള(്|)" replace="ള\1"/>
+      <rule match="ഴ(്|)" replace="ഴ\1"/>
+      <rule match="വ(്|)" replace="വ\1"/>
+      <rule match="ശ(്|)" replace="ശ\1"/>
+      <rule match="ഷ(്|)" replace="ഷ\1"/>
+      <rule match="സ(്|)" replace="സ\1"/>
+      <rule match="ഹ(്|)" replace="ഹ\1"/>
+      <rule match="(െ)" replace="\1െ"/>
+      <rule match="(െ)" replace="\1െ"/>
+      <rule match="(െ)" replace="\1െ"/>
+      <rule match="(െ)" replace="\1െ"/>
+      <rule match="(െ)" replace="\1െ"/>
+      <rule match="(േ)" replace="\1േ"/>
+      <rule match="(േ)" replace="\1േ"/>
+      <rule match="(േ)" replace="\1േ"/>
+      <rule match="(േ)" replace="\1േ"/>
+      <rule match="(േ)" replace="\1േ"/>
+      <rule match="(ൈ)" replace="\1ൈ"/>
+      <rule match="(ൈ)" replace="\1ൈ"/>
+      <rule match="(ൈ)" replace="\1ൈ"/>
+      <rule match="(ൈ)" replace="\1ൈ"/>
+      <rule match="(ൈ)" replace="\1ൈ"/>
+      <rule match="െ" replace=""/>
+      <rule match="െ" replace=""/>
+      <rule match="െ" replace=""/>
+      <rule match="െ" replace=""/>
+      <rule match="െ" replace=""/>
+      <rule match="േ" replace=""/>
+      <rule match="േ" replace=""/>
+      <rule match="േ" replace=""/>
+      <rule match="േ" replace=""/>
+      <rule match="േ" replace=""/>
+      <rule match="ൈ" replace=""/>
+      <rule match="ൈ" replace=""/>
+      <rule match="ൈ" replace=""/>
+      <rule match="ൈ" replace=""/>
+      <rule match="ൈ" replace=""/>
+      <rule match="(െ(ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))്" replace="\1്െ"/>
+      <rule match="(േ(ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))്" replace="\1്േ"/>
+      <rule match="(ൈ(ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ))്" replace="\1്ൈ"/>
+      <rule match="െക(്)" replace="ക\1"/>
+      <rule match="െഖ(്)" replace="ഖ\1"/>
+      <rule match="െഗ(്)" replace="ഗ\1"/>
+      <rule match="െഘ(്)" replace="ഘ\1"/>
+      <rule match="െങ(്)" replace="ങ\1"/>
+      <rule match="െച(്)" replace="ച\1"/>
+      <rule match="െഛ(്)" replace="ഛ\1"/>
+      <rule match="െജ(്)" replace="ജ\1"/>
+      <rule match="െഝ(്)" replace="ഝ\1"/>
+      <rule match="െഞ(്)" replace="ഞ\1"/>
+      <rule match="െട(്)" replace="ട\1"/>
+      <rule match="െഠ(്)" replace="ഠ\1"/>
+      <rule match="െഡ(്)" replace="ഡ\1"/>
+      <rule match="െഢ(്)" replace="ഢ\1"/>
+      <rule match="െണ(്)" replace="ണ\1"/>
+      <rule match="െത(്)" replace="ത\1"/>
+      <rule match="െഥ(്)" replace="ഥ\1"/>
+      <rule match="െദ(്)" replace="ദ\1"/>
+      <rule match="െധ(്)" replace="ധ\1"/>
+      <rule match="െന(്)" replace="ന\1"/>
+      <rule match="െപ(്)" replace="പ\1"/>
+      <rule match="െഫ(്)" replace="ഫ\1"/>
+      <rule match="െബ(്)" replace="ബ\1"/>
+      <rule match="െഭ(്)" replace="ഭ\1"/>
+      <rule match="െമ(്)" replace="മ\1"/>
+      <rule match="െയ(്)" replace="യ\1"/>
+      <rule match="െര(്)" replace="ര\1"/>
+      <rule match="െറ(്)" replace="റ\1"/>
+      <rule match="െല(്)" replace="ല\1"/>
+      <rule match="െള(്)" replace="ള\1"/>
+      <rule match="െഴ(്)" replace="ഴ\1"/>
+      <rule match="െവ(്)" replace="വ\1"/>
+      <rule match="െശ(്)" replace="ശ\1"/>
+      <rule match="െഷ(്)" replace="ഷ\1"/>
+      <rule match="െസ(്)" replace="സ\1"/>
+      <rule match="െഹ(്)" replace="ഹ\1"/>
+      <rule match="േക(്)" replace="ക\1"/>
+      <rule match="േഖ(്)" replace="ഖ\1"/>
+      <rule match="േഗ(്)" replace="ഗ\1"/>
+      <rule match="േഘ(്)" replace="ഘ\1"/>
+      <rule match="േങ(്)" replace="ങ\1"/>
+      <rule match="േച(്)" replace="ച\1"/>
+      <rule match="േഛ(്)" replace="ഛ\1"/>
+      <rule match="േജ(്)" replace="ജ\1"/>
+      <rule match="േഝ(്)" replace="ഝ\1"/>
+      <rule match="േഞ(്)" replace="ഞ\1"/>
+      <rule match="േട(്)" replace="ട\1"/>
+      <rule match="േഠ(്)" replace="ഠ\1"/>
+      <rule match="േഡ(്)" replace="ഡ\1"/>
+      <rule match="േഢ(്)" replace="ഢ\1"/>
+      <rule match="േണ(്)" replace="ണ\1"/>
+      <rule match="േത(്)" replace="ത\1"/>
+      <rule match="േഥ(്)" replace="ഥ\1"/>
+      <rule match="േദ(്)" replace="ദ\1"/>
+      <rule match="േധ(്)" replace="ധ\1"/>
+      <rule match="േന(്)" replace="ന\1"/>
+      <rule match="േപ(്)" replace="പ\1"/>
+      <rule match="േഫ(്)" replace="ഫ\1"/>
+      <rule match="േബ(്)" replace="ബ\1"/>
+      <rule match="േഭ(്)" replace="ഭ\1"/>
+      <rule match="േമ(്)" replace="മ\1"/>
+      <rule match="േയ(്)" replace="യ\1"/>
+      <rule match="േര(്)" replace="ര\1"/>
+      <rule match="േറ(്)" replace="റ\1"/>
+      <rule match="േല(്)" replace="ല\1"/>
+      <rule match="േള(്)" replace="ള\1"/>
+      <rule match="േഴ(്)" replace="ഴ\1"/>
+      <rule match="േവ(്)" replace="വ\1"/>
+      <rule match="േശ(്)" replace="ശ\1"/>
+      <rule match="േഷ(്)" replace="ഷ\1"/>
+      <rule match="േസ(്)" replace="സ\1"/>
+      <rule match="േഹ(്)" replace="ഹ\1"/>
+      <rule match="ൈക(്)" replace="ക\1"/>
+      <rule match="ൈഖ(്)" replace="ഖ\1"/>
+      <rule match="ൈഗ(്)" replace="ഗ\1"/>
+      <rule match="ൈഘ(്)" replace="ഘ\1"/>
+      <rule match="ൈങ(്)" replace="ങ\1"/>
+      <rule match="ൈച(്)" replace="ച\1"/>
+      <rule match="ൈഛ(്)" replace="ഛ\1"/>
+      <rule match="ൈജ(്)" replace="ജ\1"/>
+      <rule match="ൈഝ(്)" replace="ഝ\1"/>
+      <rule match="ൈഞ(്)" replace="ഞ\1"/>
+      <rule match="ൈട(്)" replace="ട\1"/>
+      <rule match="ൈഠ(്)" replace="ഠ\1"/>
+      <rule match="ൈഡ(്)" replace="ഡ\1"/>
+      <rule match="ൈഢ(്)" replace="ഢ\1"/>
+      <rule match="ൈണ(്)" replace="ണ\1"/>
+      <rule match="ൈത(്)" replace="ത\1"/>
+      <rule match="ൈഥ(്)" replace="ഥ\1"/>
+      <rule match="ൈദ(്)" replace="ദ\1"/>
+      <rule match="ൈധ(്)" replace="ധ\1"/>
+      <rule match="ൈന(്)" replace="ന\1"/>
+      <rule match="ൈപ(്)" replace="പ\1"/>
+      <rule match="ൈഫ(്)" replace="ഫ\1"/>
+      <rule match="ൈബ(്)" replace="ബ\1"/>
+      <rule match="ൈഭ(്)" replace="ഭ\1"/>
+      <rule match="ൈമ(്)" replace="മ\1"/>
+      <rule match="ൈയ(്)" replace="യ\1"/>
+      <rule match="ൈര(്)" replace="ര\1"/>
+      <rule match="ൈറ(്)" replace="റ\1"/>
+      <rule match="ൈല(്)" replace="ല\1"/>
+      <rule match="ൈള(്)" replace="ള\1"/>
+      <rule match="ൈഴ(്)" replace="ഴ\1"/>
+      <rule match="ൈവ(്)" replace="വ\1"/>
+      <rule match="ൈശ(്)" replace="ശ\1"/>
+      <rule match="ൈഷ(്)" replace="ഷ\1"/>
+      <rule match="ൈസ(്)" replace="സ\1"/>
+      <rule match="ൈഹ(്)" replace="ഹ\1"/>
+      <rule match="ു്" replace=""/>
+      <rule match="~" replace="്"/>
+      <rule match="‘" replace="്"/>
+      <rule match="’" replace="്"/>
+    </ruleset>
+    <ruleset type="post">
+      <!-- MALAYALAM Shift Reph to LEFT [E00E] (mlylmRaVattu)-->
+      <rule match="(.{1})്ര" replace="\1"/>
+      <!--&#x0D30;= Ra -->
+      <rule match="(.{1})്(െ|േ|ൈ)ര" replace="\2\1"/>
+      <!--&#x0D30;= Ra -->
+      <!-- = FullConsonants + FullConjuncts -->
+      <!-- = Add Chillu characters -->
+      <rule repeat="true" match="(ക|ഖ|ഗ|ഘ|ങ|ച|ഛ|ജ|ഝ|ഞ|ട|ഠ|ഡ|ഢ|ണ|ത|ഥ|ദ|ധ|ന|പ|ഫ|ബ|ഭ|മ|യ|ര|റ|ല|ള|ഴ|വ|ശ|ഷ|സ|ഹ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||)" replace="\1"/>
+      <!-- Clear unwanted ZWJ, ZWNJ -->
+      <!-- MALAYALAM -->
+      <rule match="(‌|‍)" replace=""/>
+    </ruleset>
+  </volt>
+</wxpdfdoc-font-metrics>

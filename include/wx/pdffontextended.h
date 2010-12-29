@@ -197,6 +197,13 @@ public:
   */
   wxArrayInt GetKerningWidthArray(const wxString& s) const;
 
+  /// Check whether the font oan show all characters of a given string
+  /**
+  * \param s the string to be checked
+  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  */
+  bool CanShow(const wxString& s) const;
+
   /// Convert character codes to glyph numbers
   /**
   * \param s the string to be converted
@@ -254,11 +261,6 @@ public:
   */
   wxPdfFont GetUserFont() const;
 
-#if wxUSE_UNICODE
-  /// Create the encoding conversion map for user defined encodings
-  void CreateEncodingConvMap();
-#endif
-
   /// Check whether the font has an encoding map
   /**
   * \return TRUE if the font has an encoding map, FALSE otherwise
@@ -273,17 +275,20 @@ public:
   virtual wxMBConv* GetEncodingConv() const;
 #endif
 
+  bool HasVoltData() const;
+
+  wxString ApplyVoltData(const wxString& txt) const;
+
 protected:
 
 private:
   // Constructor
   wxPdfFontExtended(const wxPdfFontData* fontData);
 
-  bool                m_embed;        ///< Flag whether the font should be embedded
-  bool                m_subset;       ///< Flag whether the font should be subsetted
-  wxPdfFontData*      m_fontData;     ///< Real font data
-  wxPdfEncoding*      m_encoding;     ///< Font encoding for Type1 fonts
-  wxPdfChar2GlyphMap* m_encodingMap;  ///< Encoding conversion map for Type1 fonts
+  bool                 m_embed;        ///< Flag whether the font should be embedded
+  bool                 m_subset;       ///< Flag whether the font should be subsetted
+  wxPdfFontData*       m_fontData;     ///< Real font data
+  const wxPdfEncoding* m_encoding;     ///< Font encoding for Type1 fonts
 
   friend class wxPdfFontManagerBase;
 };

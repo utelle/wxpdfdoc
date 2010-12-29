@@ -90,6 +90,9 @@ public:
   bool ReadPFX(wxInputStream* pfxFile, bool onlyNames);
 
 private:
+  /// Convert Mac Type1 font file to PFB format
+  wxMemoryOutputStream* ConvertMACtoPFB(wxInputStream* macFontStream);
+
   /// Check whether the font stream represents a Type1 font
   bool CheckType1Format(wxInputStream* stream, int& start, int& length);
 

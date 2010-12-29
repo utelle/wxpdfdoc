@@ -303,17 +303,18 @@ wxPdfFontDataOpenTypeUnicode::SetGlyphWidths(const wxPdfArrayUint16& glyphWidths
 }
 
 double
-wxPdfFontDataOpenTypeUnicode::GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap, bool withKerning) const
+wxPdfFontDataOpenTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
 {
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   // Get width of a string in the current font
   double w = 0;
 
   wxPdfGlyphWidthMap::iterator charIter;
-  size_t i;
-  for (i = 0; i < s.Length(); i++)
+  wxString::const_iterator ch;
+  for (ch = s.begin(); ch != s.end(); ++ch)
   {
-    charIter = m_cw->find(s[i]);
+    wxChar c = *ch;
+    charIter = m_cw->find(c);
     if (charIter != m_cw->end())
     {
       w += charIter->second;
@@ -334,12 +335,26 @@ wxPdfFontDataOpenTypeUnicode::GetStringWidth(const wxString& s, wxPdfChar2GlyphM
   return w / 1000;
 }
 
-wxString
-wxPdfFontDataOpenTypeUnicode::ConvertCID2GID(const wxString& s, wxPdfChar2GlyphMap* convMap, 
-                                             wxPdfSortedArrayInt* usedGlyphs, 
-                                             wxPdfChar2GlyphMap* subsetGlyphs)
+bool
+wxPdfFontDataOpenTypeUnicode::CanShow(const wxString& s, const wxPdfEncoding* encoding) const
 {
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
+  bool canShow = true;
+  wxString::const_iterator ch;
+  for (ch = s.begin(); canShow && ch != s.end(); ++ch)
+  {
+    canShow = (m_gn->find(*ch) != m_gn->end());
+  }
+  return canShow;
+}
+
+wxString
+wxPdfFontDataOpenTypeUnicode::ConvertCID2GID(const wxString& s, 
+                                             const wxPdfEncoding* encoding,
+                                             wxPdfSortedArrayInt* usedGlyphs, 
+                                             wxPdfChar2GlyphMap* subsetGlyphs) const
+{
+  wxUnusedVar(encoding);
   bool doSubsetting = usedGlyphs != NULL && subsetGlyphs != NULL;
   wxString t;
   wxPdfChar2GlyphMap::const_iterator charIter;
@@ -365,11 +380,19 @@ wxPdfFontDataOpenTypeUnicode::ConvertCID2GID(const wxString& s, wxPdfChar2GlyphM
           glyph = subsetGlyph;
         }
       }
+#if wxCHECK_VERSION(2,9,0)
+      t.Append(wxUniChar(glyph));
+#else
       t.Append(wxChar(glyph));
+#endif
     }
     else
     {
+#if wxCHECK_VERSION(2,9,0)
+      t.Append(wxUniChar(0));
+#else
       t.Append(wxChar(0));
+#endif
     }
   }
   return t;
@@ -377,11 +400,11 @@ wxPdfFontDataOpenTypeUnicode::ConvertCID2GID(const wxString& s, wxPdfChar2GlyphM
 
 wxString
 wxPdfFontDataOpenTypeUnicode::ConvertGlyph(wxUint32 glyph, 
-                                           wxPdfChar2GlyphMap* convMap, 
+                                           const wxPdfEncoding* encoding, 
                                            wxPdfSortedArrayInt* usedGlyphs, 
-                                           wxPdfChar2GlyphMap* subsetGlyphs)
+                                           wxPdfChar2GlyphMap* subsetGlyphs) const
 {
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   wxString t = wxEmptyString;
   if (m_gw != NULL && glyph < m_gw->size())
   {
@@ -401,11 +424,19 @@ wxPdfFontDataOpenTypeUnicode::ConvertGlyph(wxUint32 glyph,
         glyph = subsetGlyph;
       }
     }
+#if wxCHECK_VERSION(2,9,0)
+    t.Append(wxUniChar(glyph));
+#else
     t.Append(wxChar(glyph));
+#endif
   }
   else
   {
+#if wxCHECK_VERSION(2,9,0)
+    t.Append(wxUniChar(0));
+#else
     t.Append(wxChar(0));
+#endif
   }
   return t;
 }
@@ -446,6 +477,12 @@ wxPdfFontDataOpenTypeUnicode::GetWidthsAsString(bool subset, wxPdfSortedArrayInt
 size_t
 wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
 {
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+  bool doRelease = false;
+  CFDataRef tableRef;
+#endif
+#endif
   size_t fontSize1 = 0;
   wxFSFile* fontFile = NULL;
   wxInputStream* fontStream = NULL;
@@ -453,12 +490,30 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
   wxFileName fileName;
   if (m_fontFileName.IsEmpty())
   {
-#ifdef __WXMSW__
+#if defined(__WXMSW__)
     if (m_file.IsEmpty() && m_font.IsOk())
     {
       fontStream = wxPdfFontParserTrueType::LoadTrueTypeFontStream(m_font);
     }
     else
+#elif defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+    if (m_file.IsEmpty() && m_font.IsOk())
+    {
+#if wxCHECK_VERSION(2,9,0)
+      // wxWidgets 2.9.x or higher
+      CTFontRef fontRef = m_font.OSXGetCTFont();
+#else // wxWidgets 2.8.x
+      CTFontRef fontRef = (const void*) m_font.MacGetCTFont();
+#endif
+      tableRef  = CTFontCopyTable(m_fontRef, kCTFontTableCFF, 0);
+      const UInt8* tableData = CFDataGetBytePtr(tableRef);
+      CFIndex      tableLen  = CFDataGetLength(tableRef);
+      fontStream = new wxMemoryInputStream((const char*) tableData, (size_t) tableLen);
+      doRelease = true;
+    }
+    else
+#endif
 #endif
     {
       // Font data preprocessed by MakeFont
@@ -550,6 +605,14 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
         fontData->Write(*fontStream);
       }
     }
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+    if (doRelease)
+    {
+      CFRelease(tableRef);
+    }
+#endif
+#endif
   }
 
   if (fontFile != NULL)
@@ -561,9 +624,12 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
 }
 
 size_t
-wxPdfFontDataOpenTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData, wxPdfChar2GlyphMap* convMap, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
+wxPdfFontDataOpenTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData, 
+                                              const wxPdfEncoding* encoding, 
+                                              wxPdfSortedArrayInt* usedGlyphs, 
+                                              wxPdfChar2GlyphMap* subsetGlyphs)
 {
-  wxUnusedVar(convMap);
+  wxUnusedVar(encoding);
   wxPdfGlyphList glyphList(wxPdfFontData::CompareGlyphListEntries);
   wxPdfChar2GlyphMap::const_iterator charIter = m_gn->begin();
   for (charIter = m_gn->begin(); charIter != m_gn->end(); ++charIter)

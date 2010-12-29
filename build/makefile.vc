@@ -62,10 +62,10 @@ SHARED = 0
 ### Variables: ###
 
 COMPILER_PREFIX = vc
-PDFDOC_LIB_CXXFLAGS = /MD$(VAR_8) /DWIN32 $(____WX_SHARED) \
+PDFDOC_LIB_CXXFLAGS = /MD$(VAR_13) /DWIN32 $(____WX_SHARED) \
 	$(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) /D__WXMSW__ \
 	/I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) $(VAR_7) \
+	$(VAR_10) $(VAR_12) \
 	/Fd..\lib\vc_$(____pdfdoc_lib__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.pdb \
 	/W4 /I..\include /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_LIB_OBJECTS =  \
@@ -74,6 +74,7 @@ PDFDOC_LIB_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfcffdecoder.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfcffindex.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfcolour.obj \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfdc.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfdecode.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfdocument.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfencoding.obj \
@@ -94,6 +95,7 @@ PDFDOC_LIB_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdffontparsertype1.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdffontsubsetcff.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdffontsubsettruetype.obj \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdffontvolt.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfform.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfgradient.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfgraphics.obj \
@@ -108,10 +110,10 @@ PDFDOC_LIB_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdftemplate.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfutility.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfxml.obj
-PDFDOC_DLL_CXXFLAGS = /MD$(VAR_8) /DWIN32 $(____WX_SHARED) \
+PDFDOC_DLL_CXXFLAGS = /MD$(VAR_13) /DWIN32 $(____WX_SHARED) \
 	$(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) /D__WXMSW__ \
 	/I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) $(VAR_7) \
+	$(VAR_10) $(VAR_12) \
 	/Fd..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.pdb \
 	/W4 /I..\include /DWXMAKINGDLL_PDFDOC /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_DLL_OBJECTS =  \
@@ -120,6 +122,7 @@ PDFDOC_DLL_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfcffdecoder.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfcffindex.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfcolour.obj \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfdc.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfdecode.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfdocument.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfencoding.obj \
@@ -140,6 +143,7 @@ PDFDOC_DLL_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdffontparsertype1.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdffontsubsetcff.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdffontsubsettruetype.obj \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdffontvolt.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfform.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfgradient.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfgraphics.obj \
@@ -154,11 +158,11 @@ PDFDOC_DLL_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdftemplate.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfutility.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfxml.obj
-MINIMAL_CXXFLAGS = /MD$(VAR_8) /DWIN32 $(____WX_SHARED) $(__WXUNICODE_DEFINE_p) \
-	$(__WXDEBUG_DEFINE_p) /D__WXMSW__ \
+MINIMAL_CXXFLAGS = /MD$(VAR_13) /DWIN32 $(____WX_SHARED) \
+	$(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) /D__WXMSW__ \
 	/I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) $(VAR_7) /Fd..\samples\minimal.pdb /W4 /I..\include /D_CONSOLE \
-	/I..\samples /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_10) $(VAR_12) /Fd..\samples\minimal\minimal.pdb /W4 /I..\include \
+	/D_CONSOLE /I..\samples\minimal /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_bookmark.obj \
@@ -168,6 +172,7 @@ MINIMAL_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_drawing.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_glyphwriting.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_gradients.obj \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_indicfonts.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_jsform.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_kerning.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_labels.obj \
@@ -189,10 +194,19 @@ MINIMAL_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_xmlwrite.obj
 MINIMAL_RESOURCES =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res
-MAKEFONT_CXXFLAGS = /MD$(VAR_8) /DWIN32 $(____WX_SHARED) \
+DCSAMPLE_CXXFLAGS = /MD$(VAR_13) /DWIN32 $(____WX_SHARED) \
 	$(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) /D__WXMSW__ \
 	/I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) $(VAR_7) /Fd..\makefont\makefont.pdb /W4 /I..\include /D_CONSOLE \
+	$(VAR_10) $(VAR_12) /Fd..\samples\pdfdc\printing.pdb /W4 /I..\include \
+	/D_WINDOWS /I..\samples\pdfdc /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
+DCSAMPLE_OBJECTS =  \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.obj
+DCSAMPLE_RESOURCES =  \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
+MAKEFONT_CXXFLAGS = /MD$(VAR_13) /DWIN32 $(____WX_SHARED) \
+	$(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) /D__WXMSW__ \
+	/I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /I$(WX_DIR)\include $(VAR) \
+	$(VAR_10) $(VAR_12) /Fd..\makefont\makefont.pdb /W4 /I..\include /D_CONSOLE \
 	/I..\makefont /GR /EHsc $(CPPFLAGS) $(CXXFLAGS)
 MAKEFONT_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.obj
@@ -222,19 +236,25 @@ __pdfdoc_dll___depname = \
 ____pdfdoc_dll__DEBUGINFO_21 = 
 !endif
 !if "$(WX_DEBUG)" == "1"
-____pdfdoc_dll__DEBUGINFO_21 = $(VAR_9)
+____pdfdoc_dll__DEBUGINFO_21 = $(VAR_14)
 !endif
 !if "$(WX_DEBUG)" == "0"
 ____minimal__DEBUGINFO_32 = 
 !endif
 !if "$(WX_DEBUG)" == "1"
-____minimal__DEBUGINFO_32 = $(VAR_9)
+____minimal__DEBUGINFO_32 = $(VAR_14)
 !endif
 !if "$(WX_DEBUG)" == "0"
-____makefont__DEBUGINFO_45 = 
+____dcsample__DEBUGINFO_45 = 
 !endif
 !if "$(WX_DEBUG)" == "1"
-____makefont__DEBUGINFO_45 = $(VAR_9)
+____dcsample__DEBUGINFO_45 = $(VAR_14)
+!endif
+!if "$(WX_DEBUG)" == "0"
+____makefont__DEBUGINFO_58 = 
+!endif
+!if "$(WX_DEBUG)" == "1"
+____makefont__DEBUGINFO_58 = $(VAR_14)
 !endif
 !if "$(SHARED)" == "0"
 ____pdfdoc_lib__DIRNAME_SHARED_SUFFIX_FILENAMES = lib
@@ -255,22 +275,22 @@ ____WX_SHARED =
 ____WX_SHARED = /DWXUSINGDLL
 !endif
 !if "$(WX_SHARED)" == "0"
-____WX_SHARED_0 = 
+____WX_SHARED_1 = 
 !endif
 !if "$(WX_SHARED)" == "1"
-____WX_SHARED_0 = /d WXUSINGDLL
+____WX_SHARED_1 = /d WXUSINGDLL
 !endif
 !if "$(WX_UNICODE)" == "1"
 __WXUNICODE_DEFINE_p = /D_UNICODE
 !endif
 !if "$(WX_UNICODE)" == "1"
-__WXUNICODE_DEFINE_p_0 = /d _UNICODE
+__WXUNICODE_DEFINE_p_2 = /d _UNICODE
 !endif
 !if "$(WX_DEBUG)" == "1"
 __WXDEBUG_DEFINE_p = /D__WXDEBUG__
 !endif
 !if "$(WX_DEBUG)" == "1"
-__WXDEBUG_DEFINE_p_0 = /d __WXDEBUG__
+__WXDEBUG_DEFINE_p_2 = /d __WXDEBUG__
 !endif
 !if "$(WX_DEBUG)" == "0"
 VAR = /O2
@@ -279,40 +299,40 @@ VAR = /O2
 VAR = /Od
 !endif
 !if "$(WX_DEBUG)" == "0"
-VAR_5 = 
+VAR_10 = 
 !endif
 !if "$(WX_DEBUG)" == "1"
-VAR_5 = /Zi
+VAR_10 = /Zi
 !endif
 !if "$(WX_DEBUG)" == "0"
-VAR_6 = 
+VAR_11 = 
 !endif
 !if "$(WX_DEBUG)" == "1"
-VAR_6 = /DEBUG
+VAR_11 = /DEBUG
 !endif
 !if "$(WX_DEBUG)" == "0"
-VAR_7 = 
+VAR_12 = 
 !endif
 !if "$(WX_DEBUG)" == "1"
-VAR_7 = /D_DEBUG
+VAR_12 = /D_DEBUG
 !endif
 !if "$(WX_DEBUG)" == "0"
-______m = 
+p_1 = 
 !endif
 !if "$(WX_DEBUG)" == "1"
-______m = /d _DEBUG
+p_1 = /d _DEBUG
 !endif
 !if "$(WX_DEBUG)" == "0"
-VAR_8 = 
+VAR_13 = 
 !endif
 !if "$(WX_DEBUG)" == "1"
-VAR_8 = d
+VAR_13 = d
 !endif
 !if "$(WX_DEBUG)" == "0"
-VAR_9 = /opt:ref /opt:icf
+VAR_14 = /opt:ref /opt:icf
 !endif
 !if "$(WX_DEBUG)" == "1"
-VAR_9 = 
+VAR_14 = 
 !endif
 !if "$(WX_SHARED)" == "0"
 __COMPONENT_LIB_DEP = $(__pdfdoc_lib___depname)
@@ -363,7 +383,7 @@ vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX):
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ..\samples\minimal.exe ..\makefont\makefont.exe
+all: test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ..\samples\minimal\minimal.exe ..\samples\pdfdc\printing.exe ..\makefont\makefont.exe
 
 clean: 
 	-if exist vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.obj del vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.obj
@@ -374,9 +394,12 @@ clean:
 	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilk del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilk
 	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.pdb del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.pdb
 	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib
-	-if exist ..\samples\minimal.exe del ..\samples\minimal.exe
-	-if exist ..\samples\minimal.ilk del ..\samples\minimal.ilk
-	-if exist ..\samples\minimal.pdb del ..\samples\minimal.pdb
+	-if exist ..\samples\minimal\minimal.exe del ..\samples\minimal\minimal.exe
+	-if exist ..\samples\minimal\minimal.ilk del ..\samples\minimal\minimal.ilk
+	-if exist ..\samples\minimal\minimal.pdb del ..\samples\minimal\minimal.pdb
+	-if exist ..\samples\pdfdc\printing.exe del ..\samples\pdfdc\printing.exe
+	-if exist ..\samples\pdfdc\printing.ilk del ..\samples\pdfdc\printing.ilk
+	-if exist ..\samples\pdfdc\printing.pdb del ..\samples\pdfdc\printing.pdb
 	-if exist ..\makefont\makefont.exe del ..\makefont\makefont.exe
 	-if exist ..\makefont\makefont.ilk del ..\makefont\makefont.ilk
 	-if exist ..\makefont\makefont.pdb del ..\makefont\makefont.pdb
@@ -406,7 +429,7 @@ make_dir_pdfdoc_lib:
 
 !if "$(WX_SHARED)" == "1"
 ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll: make_dir_pdfdoc_dll  $(PDFDOC_DLL_OBJECTS)
-	link /DLL /NOLOGO /OUT:$@  /LIBPATH:$(WX_DIR)$(WXLIBPATH) $(VAR_6) /pdb:"..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.pdb" $(____pdfdoc_dll__DEBUGINFO_21) /LIBPATH:..$(WXLIBPATH) $(LDFLAGS) @<<
+	link /DLL /NOLOGO /OUT:$@  /LIBPATH:$(WX_DIR)$(WXLIBPATH) $(VAR_11) /pdb:"..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.pdb" $(____pdfdoc_dll__DEBUGINFO_21) /LIBPATH:..$(WXLIBPATH) $(LDFLAGS) @<<
 	$(PDFDOC_DLL_OBJECTS)   $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib oleacc.lib /IMPLIB:..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib
 <<
 !endif
@@ -414,13 +437,18 @@ make_dir_pdfdoc_lib:
 make_dir_pdfdoc_dll: 
 	if not exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES) mkdir ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)
 
-..\samples\minimal.exe: $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_DEP) vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res
-	link /NOLOGO /OUT:$@  /LIBPATH:$(WX_DIR)$(WXLIBPATH) $(VAR_6) /pdb:"..\samples\minimal.pdb" $(____minimal__DEBUGINFO_32) /LIBPATH:..$(WXLIBPATH) /SUBSYSTEM:CONSOLE $(LDFLAGS) @<<
+..\samples\minimal\minimal.exe: $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_DEP) vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res
+	link /NOLOGO /OUT:$@  /LIBPATH:$(WX_DIR)$(WXLIBPATH) $(VAR_11) /pdb:"..\samples\minimal\minimal.pdb" $(____minimal__DEBUGINFO_32) /LIBPATH:..$(WXLIBPATH) /SUBSYSTEM:CONSOLE $(LDFLAGS) @<<
 	$(MINIMAL_OBJECTS) $(MINIMAL_RESOURCES)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib oleacc.lib
 <<
 
+..\samples\pdfdc\printing.exe: $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP) vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
+	link /NOLOGO /OUT:$@  /LIBPATH:$(WX_DIR)$(WXLIBPATH) $(VAR_11) /pdb:"..\samples\pdfdc\printing.pdb" $(____dcsample__DEBUGINFO_45) /LIBPATH:..$(WXLIBPATH) /SUBSYSTEM:WINDOWS $(LDFLAGS) @<<
+	$(DCSAMPLE_OBJECTS) $(DCSAMPLE_RESOURCES)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib oleacc.lib
+<<
+
 ..\makefont\makefont.exe: $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP) vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res
-	link /NOLOGO /OUT:$@  /LIBPATH:$(WX_DIR)$(WXLIBPATH) $(VAR_6) /pdb:"..\makefont\makefont.pdb" $(____makefont__DEBUGINFO_45) /LIBPATH:..$(WXLIBPATH) /SUBSYSTEM:CONSOLE $(LDFLAGS) @<<
+	link /NOLOGO /OUT:$@  /LIBPATH:$(WX_DIR)$(WXLIBPATH) $(VAR_11) /pdb:"..\makefont\makefont.pdb" $(____makefont__DEBUGINFO_58) /LIBPATH:..$(WXLIBPATH) /SUBSYSTEM:CONSOLE $(LDFLAGS) @<<
 	$(MAKEFONT_OBJECTS) $(MAKEFONT_RESOURCES)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib oleacc.lib
 <<
 
@@ -438,6 +466,9 @@ vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfcffindex.obj: ..\sr
 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfcolour.obj: ..\src\pdfcolour.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfcolour.cpp
+
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfdc.obj: ..\src\pdfdc.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfdc.cpp
 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfdecode.obj: ..\src\pdfdecode.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfdecode.cpp
@@ -499,6 +530,9 @@ vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdffontsubsetcff.obj: 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdffontsubsettruetype.obj: ..\src\pdffontsubsettruetype.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdffontsubsettruetype.cpp
 
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdffontvolt.obj: ..\src\pdffontvolt.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdffontvolt.cpp
+
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfform.obj: ..\src\pdfform.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfform.cpp
 
@@ -555,6 +589,9 @@ vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfcffindex.obj: ..\sr
 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfcolour.obj: ..\src\pdfcolour.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfcolour.cpp
+
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfdc.obj: ..\src\pdfdc.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfdc.cpp
 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfdecode.obj: ..\src\pdfdecode.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfdecode.cpp
@@ -616,6 +653,9 @@ vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdffontsubsetcff.obj: 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdffontsubsettruetype.obj: ..\src\pdffontsubsettruetype.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdffontsubsettruetype.cpp
 
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdffontvolt.obj: ..\src\pdffontvolt.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdffontvolt.cpp
+
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfform.obj: ..\src\pdfform.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfform.cpp
 
@@ -658,93 +698,102 @@ vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfutility.obj: ..\src
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfxml.obj: ..\src\pdfxml.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfxml.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.obj: ..\samples\barcodes.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\barcodes.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.obj: ..\samples\minimal\barcodes.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\barcodes.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_bookmark.obj: ..\samples\bookmark.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\bookmark.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_bookmark.obj: ..\samples\minimal\bookmark.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\bookmark.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_charting.obj: ..\samples\charting.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\charting.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_charting.obj: ..\samples\minimal\charting.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\charting.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_cjktest.obj: ..\samples\cjktest.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\cjktest.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_cjktest.obj: ..\samples\minimal\cjktest.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\cjktest.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_clipping.obj: ..\samples\clipping.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\clipping.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_clipping.obj: ..\samples\minimal\clipping.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\clipping.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_drawing.obj: ..\samples\drawing.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\drawing.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_drawing.obj: ..\samples\minimal\drawing.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\drawing.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_glyphwriting.obj: ..\samples\glyphwriting.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\glyphwriting.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_glyphwriting.obj: ..\samples\minimal\glyphwriting.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\glyphwriting.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_gradients.obj: ..\samples\gradients.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\gradients.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_gradients.obj: ..\samples\minimal\gradients.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\gradients.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_jsform.obj: ..\samples\jsform.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\jsform.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_indicfonts.obj: ..\samples\minimal\indicfonts.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\indicfonts.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_kerning.obj: ..\samples\kerning.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\kerning.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_jsform.obj: ..\samples\minimal\jsform.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\jsform.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_labels.obj: ..\samples\labels.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\labels.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_kerning.obj: ..\samples\minimal\kerning.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\kerning.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_layers.obj: ..\samples\layers.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\layers.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_labels.obj: ..\samples\minimal\labels.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\labels.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.obj: ..\samples\minimal.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_layers.obj: ..\samples\minimal\layers.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\layers.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_protection.obj: ..\samples\protection.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\protection.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.obj: ..\samples\minimal\minimal.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\minimal.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_rotation.obj: ..\samples\rotation.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\rotation.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_protection.obj: ..\samples\minimal\protection.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\protection.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_templates.obj: ..\samples\templates.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\templates.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_rotation.obj: ..\samples\minimal\rotation.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\rotation.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_transformation.obj: ..\samples\transformation.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\transformation.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_templates.obj: ..\samples\minimal\templates.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\templates.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_transparency.obj: ..\samples\transparency.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\transparency.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_transformation.obj: ..\samples\minimal\transformation.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\transformation.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial1.obj: ..\samples\tutorial1.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\tutorial1.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_transparency.obj: ..\samples\minimal\transparency.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\transparency.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial2.obj: ..\samples\tutorial2.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\tutorial2.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial1.obj: ..\samples\minimal\tutorial1.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\tutorial1.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial3.obj: ..\samples\tutorial3.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\tutorial3.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial2.obj: ..\samples\minimal\tutorial2.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\tutorial2.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial4.obj: ..\samples\tutorial4.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\tutorial4.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial3.obj: ..\samples\minimal\tutorial3.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\tutorial3.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial5.obj: ..\samples\tutorial5.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\tutorial5.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial4.obj: ..\samples\minimal\tutorial4.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\tutorial4.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial6.obj: ..\samples\tutorial6.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\tutorial6.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial5.obj: ..\samples\minimal\tutorial5.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\tutorial5.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial7.obj: ..\samples\tutorial7.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\tutorial7.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial6.obj: ..\samples\minimal\tutorial6.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\tutorial6.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_wmf.obj: ..\samples\wmf.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\wmf.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_tutorial7.obj: ..\samples\minimal\tutorial7.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\tutorial7.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_xmlwrite.obj: ..\samples\xmlwrite.cpp
-	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\xmlwrite.cpp
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_wmf.obj: ..\samples\minimal\wmf.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\wmf.cpp
 
-vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res: ..\samples\minimal.rc
-	rc /fo$@  /d WIN32 $(____WX_SHARED_0) $(__WXUNICODE_DEFINE_p_0) $(__WXDEBUG_DEFINE_p_0) /d __WXMSW__ /i $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /i $(WX_DIR)\include $(______m) /i ..\include /d _CONSOLE /i ..\samples ..\samples\minimal.rc
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_xmlwrite.obj: ..\samples\minimal\xmlwrite.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\xmlwrite.cpp
+
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res: ..\samples\minimal\minimal.rc
+	rc /fo$@  /d WIN32 $(____WX_SHARED_1) $(__WXUNICODE_DEFINE_p_2) $(__WXDEBUG_DEFINE_p_2) /d __WXMSW__ /i $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /i $(WX_DIR)\include $(p_1) /i ..\include /d _CONSOLE /i ..\samples\minimal ..\samples\minimal\minimal.rc
+
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.obj: ..\samples\pdfdc\printing.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(DCSAMPLE_CXXFLAGS) ..\samples\pdfdc\printing.cpp
+
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res: ..\samples\pdfdc\printing.rc
+	rc /fo$@  /d WIN32 $(____WX_SHARED_1) $(__WXUNICODE_DEFINE_p_2) $(__WXDEBUG_DEFINE_p_2) /d __WXMSW__ /i $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /i $(WX_DIR)\include $(p_1) /i ..\include /d _WINDOWS /i ..\samples\pdfdc ..\samples\pdfdc\printing.rc
 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.obj: ..\makefont\makefont.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(MAKEFONT_CXXFLAGS) ..\makefont\makefont.cpp
 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res: ..\makefont\makefont.rc
-	rc /fo$@  /d WIN32 $(____WX_SHARED_0) $(__WXUNICODE_DEFINE_p_0) $(__WXDEBUG_DEFINE_p_0) /d __WXMSW__ /i $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /i $(WX_DIR)\include $(______m) /i ..\include /d _CONSOLE /i ..\makefont ..\makefont\makefont.rc
+	rc /fo$@  /d WIN32 $(____WX_SHARED_1) $(__WXUNICODE_DEFINE_p_2) $(__WXDEBUG_DEFINE_p_2) /d __WXMSW__ /i $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) /i $(WX_DIR)\include $(p_1) /i ..\include /d _CONSOLE /i ..\makefont ..\makefont\makefont.rc
 

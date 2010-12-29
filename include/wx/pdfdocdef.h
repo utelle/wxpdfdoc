@@ -74,6 +74,50 @@ verified to function properly. This means: wxPdfDocument still needs intensive t
 <b>If you find bugs please report them to the author!</b>
 
 <dl>
+<dt><b>0.9.0</b> - <i>December 2010</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets version 2.8.11 and version 2.9.1. 
+Compatibility with older wxWidgets versions is not guaranteed.
+
+This is the first release of wxPdfDocument containing a <b>PDF drawing context</b> (wxPdfDC).
+There are implementations for wxWidgets 2.8.x and 2.9.x; the matching implementation
+is selected automatically at compile time. Please report your experiences with wxPdfDC
+to the author of wxPdfDocument, be it bug reports, contributions or feature requests.
+
+\b Note: A <b>PDF graphics context</b> is planned for one of the next releases of wxPdfDocument.
+Most likely only wxWidgets 2.9.x will be supported since the internals of the base class
+wxGraphicsContext differ considerably between wxWidgets 2.8.x and 2.9.x.
+
+Added features:<br>
+- methods to draw Bezier splines through a list of points;
+the drawing sample has been extended to show the new functionality
+- PDF drawing context (wxPdfDC); not yet all methods are implemented
+- support for fonts with VOLT (Visual Ordering and Layout Tables) data
+(currently visual ordering only, preprocessing of the fonts required);
+fonts for 9 Indic scripts are included to demonstrate this feature
+
+General changes:<br>
+- increased output speed for method SaveAsFile (if large graphics files are involved)
+- all currently supported CJK font families are now registered automatically at startup of the font manager
+- MS CJK fonts aren't automatically registered as Type0 fonts,
+since this conflicts with registering these fonts as TrueType Unicode fonts
+- handling of image masks has been improved
+
+Fixed bugs:<br>
+- opening font files could fail if the file path contained non-latin characters
+Now wxFileSystem::FileNameToURL is used to create valid file names for use in method OpenFile of wxFileSystem
+- invalid format codes in method wxPdfUtility::Double2String could cause problems in MinGW environment
+- registering half-width CJK fonts didn't work
+- bug in page size handling
+- no file was written when Close was called before SaveAsFile
+- bug in the handling of transparency for image masks
+- uninitialized member variables in layer objects possibly causing invisibility of layers
+- cleaned up output formatting codes for building on 64-bit systems
+- compile time bugs for wxWidgets built with wxUSE_STL
+- several minor bugs
+
+</dd>
+
 <dt><b>0.8.5</b> - <i>October 2009</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets version 2.8.10. Some preparations were done
@@ -241,6 +285,10 @@ was influenced in that way.
 Many thanks go to <b>Ben Moores</b> who provided code for layers and patterns he wrote for
 his PDF extension for <b>Mapnik</b> (http://www.mapnik.org). This code has been extended
 based on ideas from the <b>iText Java library</b> and was incorporated into wxPdfDocument.
+
+Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of the PHP library \b mPDF
+(http://mpdf.bpm1.com); special thanks to <b>K Vinod Kumar</b> of the Centre for Development of Advanced
+Computing, Mumbai (http://www.cdacmumbai.in), for clearing license issues of the Raghu font series.
 
 Since wxPdfDocument is based on the great \b FPDF PHP class and several of the contributions to it
 found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank 
@@ -993,7 +1041,7 @@ If neither a row nor a cell background colour is specified the background is tra
   __declspec for the classes later declared with it. To hide this
   difference a separate macro for forward declarations is defined:
  */
-#if defined(__WINDOWS__) && defined(__GNUC__)
+#if defined(HAVE_VISIBILITY) || (defined(__WINDOWS__) && defined(__GNUC__))
   #define WXDLLIMPEXP_FWD_PDFDOC
 #else
   #define WXDLLIMPEXP_FWD_PDFDOC WXDLLIMPEXP_PDFDOC

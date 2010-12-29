@@ -25,6 +25,9 @@
 #include "wx/pdfarraytypes.h"
 #include "wx/pdffontdescription.h"
 
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfEncoding;
+class WXDLLIMPEXP_FWD_PDFDOC wxPdfEncodingChecker;
+
 WX_DECLARE_HASH_MAP_WITH_DECL(wxUint32, int, wxIntegerHash, wxIntegerEqual, wxPdfKernWidthMap, class WXDLLIMPEXP_PDFDOC);
 WX_DECLARE_HASH_MAP_WITH_DECL(wxUint32, wxPdfKernWidthMap*, wxIntegerHash, wxIntegerEqual, wxPdfKernPairMap, class WXDLLIMPEXP_PDFDOC);
 
@@ -300,6 +303,12 @@ public:
   */
   wxString GetEncoding() const;
 
+  /// Get encoding
+  /**
+  * \return the name of the font encoding
+  */
+  const wxPdfEncoding* GetBaseEncoding() const;
+
   /// Check whether the font has differences to WinAnsi encoding
   /**
   * \return TRUE if the font has differences to the WinAnsi encoding, FALSE otherwise
@@ -395,7 +404,7 @@ public:
 
   /// Set font CMap
   /**
-  * \param CMap descriptor
+  * \param cmap the CMap descriptor
   * \note For Type0 fonts only
   */
   void SetCMap(const wxString& cmap);
@@ -497,34 +506,69 @@ public:
   */
   virtual bool Initialize();
 
+  /// Check whether VOLT data are available
+  /**
+  * \return TRUE if the font data contain VOLT data, FALSE otherwise
+  */
+  virtual bool HasVoltData() const { return false; }
+
+  /// Applay VOLT data
+  /**
+  * \param s text string for which VOLT data should be applied
+  * \return text string modified according to the VOLT data
+  */
+  virtual wxString ApplyVoltData(const wxString& s) const { return s; }
+
   /// Get the width of a string
   /**
   * \param s the string for which the width should be calculated
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param withKerning flag indicating whether kerning should be taken into account
   * \return the width of the string
   */
-  virtual double GetStringWidth(const wxString& s, wxPdfChar2GlyphMap* convMap = NULL, bool withKerning = false) const;
+  virtual double GetStringWidth(const wxString& s, const wxPdfEncoding* encoding = NULL, bool withKerning = false) const;
+
+  /// Check whether the font can show all characters of a given string
+  /**
+  * \param s the string to be checked
+  * \param encoding the character to glyph mapping
+  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  */
+  virtual bool CanShow(const wxString& s, const wxPdfEncoding* encoding = NULL) const;
+
+  /// Force string to valid string in respect of the current font encoding
+  /**
+  * The given string is converted in such a way that it contains only characters
+  * available in the current font encoding
+  * \param s the string to be converted
+  * \param replace the character used to replace invalid characters
+  * \return converted string
+  */
+  virtual wxString ConvertToValid(const wxString& s, wxChar replace = wxT('?')) const;
 
   /// Convert character codes to glyph numbers
   /**
   * \param s the string to be converted
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertCID2GID(const wxString& s, wxPdfChar2GlyphMap* convMap = NULL, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding = NULL, 
+                                  wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Convert glyph number to string
   /**
   * \param glyph the glyph to be converted
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertGlyph(wxUint32 glyph, wxPdfChar2GlyphMap* convMap = NULL, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+  virtual wxString ConvertGlyph(wxUint32 glyph, const wxPdfEncoding* encoding = NULL, 
+                                wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                                wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Get the character width array as string
   /**
@@ -533,7 +577,9 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the string representation of the character widths
   */
-  virtual wxString GetWidthsAsString(bool subset = false, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
+  virtual wxString GetWidthsAsString(bool subset = false, 
+                                     wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                                     wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
   
   /// Get list of glyph names supported by this font
   /**
@@ -549,17 +595,22 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written font data
   */
-  virtual size_t WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+  virtual size_t WriteFontData(wxOutputStream* fontData, 
+                               wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                               wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
   /// Write character/glyph to unicode mapping
   /**
   * \param mapData the output stream
-  * \param convMap the character to glyph mapping
+  * \param encoding the character to glyph mapping
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written data
   */
-  virtual size_t WriteUnicodeMap(wxOutputStream* mapData, wxPdfChar2GlyphMap* convMap = NULL, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+  virtual size_t WriteUnicodeMap(wxOutputStream* mapData, 
+                                 const wxPdfEncoding* encoding = NULL, 
+                                 wxPdfSortedArrayInt* usedGlyphs = NULL, 
+                                 wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
   /// Set the font description
   /**
@@ -619,6 +670,9 @@ public:
   static wxString GetNodeContent(const wxXmlNode *node);
 
 protected:
+  /// Find the encoding map to be used for character to glyph conversion
+  const wxPdfChar2GlyphMap* FindEncodingMap(const wxPdfEncoding* encoding) const;
+
   /// Determine font style from font name
   static int FindStyleFromName(const wxString& name);
 
@@ -631,46 +685,48 @@ protected:
   /// Write a mapping from glyphs to unicode to a stream
   static void WriteToUnicode(wxPdfGlyphList& glyphs, wxMemoryOutputStream& toUnicode, bool simple = false);
 
-  wxString             m_type;      ///< Font type
-  wxString             m_family;    ///< Font family
-  wxString             m_alias;     ///< Font family alias
-  wxString             m_name;      ///< Font name
-  wxArrayString        m_fullNames; ///< List of full font names
-  int                  m_style;     ///< Font style flags
+  wxString              m_type;      ///< Font type
+  wxString              m_family;    ///< Font family
+  wxString              m_alias;     ///< Font family alias
+  wxString              m_name;      ///< Font name
+  wxArrayString         m_fullNames; ///< List of full font names
+  int                   m_style;     ///< Font style flags
 
-  bool                 m_initialized;     ///< Flag whether the font has been initialized
-  bool                 m_embedRequired;   ///< Flag whether embedding of the font is allowed and supported
-  bool                 m_embedSupported;  ///< Flag whether embedding of the font is allowed and supported
-  bool                 m_subsetSupported; ///< Flag whether subsetting of the font is allowed and supported
+  bool                  m_initialized;     ///< Flag whether the font has been initialized
+  bool                  m_embedRequired;   ///< Flag whether embedding of the font is allowed and supported
+  bool                  m_embedSupported;  ///< Flag whether embedding of the font is allowed and supported
+  bool                  m_subsetSupported; ///< Flag whether subsetting of the font is allowed and supported
 
-  wxString             m_fontFileName; ///< Qualified name of the font file
-  int                  m_fontIndex;    ///< Index of the font in case of a font collection
-  wxFont               m_font;         ///< Associated wxFont object (currently used by wxMSW only)
+  wxString              m_fontFileName; ///< Qualified name of the font file
+  int                   m_fontIndex;    ///< Index of the font in case of a font collection
+  wxFont                m_font;         ///< Associated wxFont object (currently used by wxMSW only)
 
-  wxPdfGlyphWidthMap*  m_cw;    ///< Mapping of character ids to character widths
-  wxPdfChar2GlyphMap*  m_gn;    ///< Mapping of character ids to glyph numbers
-  wxPdfKernPairMap*    m_kp;    ///< Kerning pair map
+  wxPdfGlyphWidthMap*   m_cw;    ///< Mapping of character ids to character widths
+  wxPdfChar2GlyphMap*   m_gn;    ///< Mapping of character ids to glyph numbers
+  wxPdfKernPairMap*     m_kp;    ///< Kerning pair map
 
-  wxPdfFontDescription m_desc;  ///< Font description
+  wxPdfFontDescription  m_desc;  ///< Font description
 
-  wxString             m_enc;   ///< Encoding
-  wxString             m_diffs; ///< Encoding differences
+  wxString              m_enc;   ///< Encoding
+  wxString              m_diffs; ///< Encoding differences
 
-  wxString             m_path;  ///< Path of font files
-  wxString             m_file;  ///< Filename of font program
-  wxString             m_ctg;   ///< Filename of char to glyph mapping
-  size_t               m_size1; ///< TrueType file size or Type1 file size 1
-  size_t               m_size2; ///< Type1 file size 2
+  wxString              m_path;  ///< Path of font files
+  wxString              m_file;  ///< Filename of font program
+  wxString              m_ctg;   ///< Filename of char to glyph mapping
+  size_t                m_size1; ///< TrueType file size or Type1 file size 1
+  size_t                m_size2; ///< Type1 file size 2
 
-  bool                 m_cff;             ///< Flag whether the font has a CFF table
-  size_t               m_cffOffset;       ///< Offset of the CFF table of a TrueType/OpenType font
-  size_t               m_cffLength;       ///< Lenght of the CFF table of a TrueType/OpenType font
+  bool                  m_cff;             ///< Flag whether the font has a CFF table
+  size_t                m_cffOffset;       ///< Offset of the CFF table of a TrueType/OpenType font
+  size_t                m_cffLength;       ///< Lenght of the CFF table of a TrueType/OpenType font
 
-  wxString             m_cmap;            ///< CMap of a CID font
-  wxString             m_ordering;        ///< Ordering of a CID font 
-  wxString             m_supplement;      ///< Supplement of a CID font
+  wxString              m_cmap;            ///< CMap of a CID font
+  wxString              m_ordering;        ///< Ordering of a CID font 
+  wxString              m_supplement;      ///< Supplement of a CID font
 
-  static wxMBConv*     ms_winEncoding;    ///< WinAnsi converter
+  wxPdfEncoding*        m_encoding;        ///< Encoding
+  wxPdfEncodingChecker* m_encodingChecker; ///< Encoding checker
+  static wxMBConv*      ms_winEncoding;    ///< WinAnsi converter
 
 private:
   /// Thread safe increment of the reference count
@@ -679,11 +735,15 @@ private:
   /// Thread safe decrement of the reference count
   int DecrementRefCount();
 
-  int                  m_refCount;        ///< Reference count
+  int                   m_refCount;        ///< Reference count
+
+  void SetEncoding(wxPdfEncoding* encoding);
+  void SetEncodingChecker(wxPdfEncodingChecker* encodingChecker);
 
   friend class WXDLLIMPEXP_FWD_PDFDOC wxPdfFont;
   friend class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontExtended;
   friend class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontListEntry;
+  friend class                        wxPdfFontManagerBase;
 };
 
 #endif

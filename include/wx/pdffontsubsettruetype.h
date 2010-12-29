@@ -28,7 +28,7 @@ class wxPdfFontSubsetTrueType : public wxPdfFontParserTrueType
 {
 public:
   /// Default constructor
-  wxPdfFontSubsetTrueType(const wxString& fileName, int fontIndex = 0);
+  wxPdfFontSubsetTrueType(const wxString& fileName, int fontIndex = 0, bool isMacCoreText = false);
 
   /// Default destructor
   virtual ~wxPdfFontSubsetTrueType();
@@ -59,9 +59,6 @@ protected:
 
   /// Write the subset of the font
   void WriteSubsetFont();
-
-  /// Calculate a check sum
-  int CalculateChecksum(char* b, size_t length);
 
   /// Write a short integer to the default output stream
   void WriteShort(int n);

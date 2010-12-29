@@ -46,6 +46,8 @@
 #define PFB_BLOCK_UNKNOWN 0x00
 #define PFB_BLOCK_ASCII   0x01
 #define PFB_BLOCK_BINARY  0x02
+#define PFB_BLOCK_DONE    0x03
+#define PFB_BLOCK_END     0x05
 #define PFB_BLOCK_MARKER  0x80
 
 wxPdfFontParserType1::wxPdfFontParserType1()
@@ -185,30 +187,51 @@ wxPdfFontParserType1::IdentifyFont(const wxString& fontFileName, int fontIndex)
   if (metricFile != NULL)
   {
     wxInputStream* metricStream = metricFile->GetStream();
+    wxMemoryInputStream* pfbStream = NULL;
 
     // Open font file
     wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameFont));
     if (fontFile != NULL)
     {
-      m_inFont = fontFile->GetStream();
-      m_inFont->SeekI(0);
-
-      // Identify single font
-      m_fontData = new wxPdfFontDataType1();
-
-      ok = ParseFont(fontFileName, m_inFont, metricStream, true);
-      if (ok)
+      if (fileNameFont.GetExt().IsEmpty())
       {
-        fontData = m_fontData;
-        fontData->SetFontFileName(m_fileName);
-        fontData->SetFontIndex(fontIndex);
+        wxMemoryOutputStream* pfbOutputStream = ConvertMACtoPFB(fontFile->GetStream());
+        if (pfbOutputStream != NULL)
+        {
+          pfbStream = new wxMemoryInputStream(*pfbOutputStream);
+          delete pfbOutputStream;
+          m_inFont = pfbStream;
+        }
+        else
+        {
+          m_inFont = NULL;
+        }
       }
       else
       {
-        delete m_fontData;
-        m_fontData = NULL;
-        wxLogError(wxString(wxT("wxPdfFontParserType1::IdentifyFont: ")) +
-                   wxString::Format(_("Reading of font directory failed for font file '%s'."), fontFileName.c_str()));
+        m_inFont = fontFile->GetStream();
+      }
+      if (m_inFont != NULL)
+      {
+        m_inFont->SeekI(0);
+
+        // Identify single font
+        m_fontData = new wxPdfFontDataType1(pfbStream);
+
+        ok = ParseFont(fontFileName, m_inFont, metricStream, true);
+        if (ok)
+        {
+          fontData = m_fontData;
+          fontData->SetFontFileName(m_fileName);
+          fontData->SetFontIndex(fontIndex);
+        }
+        else
+        {
+          delete m_fontData;
+          m_fontData = NULL;
+          wxLogError(wxString(wxT("wxPdfFontParserType1::IdentifyFont: ")) +
+                     wxString::Format(_("Reading of font directory failed for font file '%s'."), fontFileName.c_str()));
+        }
       }
       delete fontFile;
     }
@@ -1659,7 +1682,7 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
   // first character must be `('
   int embed = 0;
   int j;
-  char ch = (char) ReadByte(stream);
+  unsigned char ch = ReadByte(stream);
   while (!stream->Eof())
   {
     if (ch == '\\')
@@ -1671,36 +1694,40 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
       /*   - a one-, two-, or three-digit octal number                */
       /*   - none of the above in which case the backslash is ignored */
 
-      ch = (char) ReadByte(stream);
+      ch = ReadByte(stream);
       if (stream->Eof()) break;
       switch (ch)
       {
         /* skip `special' escape */
         case 'n':
           literalString.Append(wxT("\n"));
-          ch = (char) ReadByte(stream);
+          ch = ReadByte(stream);
           break;
         case 'r':
           literalString.Append(wxT("\r"));
-          ch = (char) ReadByte(stream);
+          ch = ReadByte(stream);
           break;
         case 't':
           literalString.Append(wxT("\t"));
-          ch = (char) ReadByte(stream);
+          ch = ReadByte(stream);
           break;
         case 'b':
           literalString.Append(wxT("\b"));
-          ch = (char) ReadByte(stream);
+          ch = ReadByte(stream);
           break;
         case 'f':
           literalString.Append(wxT("\f"));
-          ch = (char) ReadByte(stream);
+          ch = ReadByte(stream);
           break;
         case '\\':
         case '(':
         case ')':
+#if wxCHECK_VERSION(2,9,0)
+          literalString.Append(wxUniChar((unsigned int) ch));
+#else
           literalString.Append(wxChar(ch));
-          ch = (char) ReadByte(stream);
+#endif
+          ch = ReadByte(stream);
           break;
 
         default:
@@ -1710,9 +1737,13 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
           {
             if (!('0' <= ch && ch <= '7')) break;
             value = value * 8 + (ch - '0');
-            ch = (char) ReadByte(stream);
+            ch = ReadByte(stream);
           }
+#if wxCHECK_VERSION(2,9,0)
+          literalString.Append(wxUniChar(value));
+#else
           literalString.Append(wxChar(value));
+#endif
           break;
       }
     }
@@ -1720,21 +1751,29 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
     {
       if (embed > 0)
       {
+#if wxCHECK_VERSION(2,9,0)
+        literalString.Append(wxUniChar((unsigned int) ch));
+#else
         literalString.Append(wxChar(ch));
+#endif
       }
       embed++;
-      ch = (char) ReadByte(stream);
+      ch = ReadByte(stream);
     }
     else if (ch == ')')
     {
       embed--;
       if (embed == 0) break;
-      ch = (char) ReadByte(stream);
+      ch = ReadByte(stream);
     }
     else
     {
+#if wxCHECK_VERSION(2,9,0)
+      literalString.Append(wxUniChar((unsigned int) ch));
+#else
       literalString.Append(wxChar(ch));
-      ch = (char) ReadByte(stream);
+#endif
+      ch = ReadByte(stream);
     }
   }
   return literalString;
@@ -1746,30 +1785,38 @@ wxPdfFontParserType1::GetArray(wxInputStream* stream)
   wxString arrayString;
   SkipSpaces(stream);
   int embed = 0;
-  char ch = (char) ReadByte(stream);
-  char delimBeg = ch;
-  char delimEnd = (ch == '[') ? ']' : '}';
+  unsigned char ch = ReadByte(stream);
+  unsigned char delimBeg = ch;
+  unsigned char delimEnd = (ch == '[') ? ']' : '}';
   while (!stream->Eof())
   {
     if (ch == delimBeg)
     {
       if (embed > 0)
       {
+#if wxCHECK_VERSION(2,9,0)
+        arrayString.Append(wxUniChar((unsigned int) ch));
+#else
         arrayString.Append(wxChar(ch));
+#endif
       }
       embed++;
-      ch = (char) ReadByte(stream);
+      ch = ReadByte(stream);
     }
     else if (ch == delimEnd)
     {
       embed--;
       if (embed == 0) break;
-      ch = (char) ReadByte(stream);
+      ch = ReadByte(stream);
     }
     else
     {
+#if wxCHECK_VERSION(2,9,0)
+      arrayString.Append(wxUniChar((unsigned int) ch));
+#else
       arrayString.Append(wxChar(ch));
-      ch = (char) ReadByte(stream);
+#endif
+      ch = ReadByte(stream);
     }
   }
   return arrayString;
@@ -1852,7 +1899,7 @@ wxPdfFontParserType1::SkipToNextToken(wxInputStream* stream)
   SkipSpaces(stream);
   if (!stream->Eof())
   {
-    char ch = (char) ReadByte(stream);
+    unsigned char ch = ReadByte(stream);
 
     if (ch == '[' || ch == ']')
     {
@@ -1871,7 +1918,7 @@ wxPdfFontParserType1::SkipToNextToken(wxInputStream* stream)
       ch = stream->Peek();
       if (!stream->Eof() && ch == '<' )
       {
-        ch = (char) ReadByte(stream);
+        ch = ReadByte(stream);
       }
       else
       {
@@ -1880,7 +1927,7 @@ wxPdfFontParserType1::SkipToNextToken(wxInputStream* stream)
     }
     else if (ch == '>')
     {
-      ch = (char) ReadByte(stream);
+      ch = ReadByte(stream);
       if (stream->Eof() || ch != '>' )   /* >> */
       {
 //      FT_ERROR(( "ps_parser_skip_PS_token: unexpected closing delimiter `>'\n" ));
@@ -1900,11 +1947,15 @@ wxPdfFontParserType1::GetToken(wxInputStream* stream)
 {
   wxString str = wxEmptyString;
   SkipSpaces(stream);
-  char ch = (char) ReadByte(stream);
+  unsigned char ch = ReadByte(stream);
   if (ch == '/')
   {
-    str += wxChar(ch);
-    ch = (char) ReadByte(stream);
+#if wxCHECK_VERSION(2,9,0)
+    str.Append(wxUniChar((unsigned int) ch));
+#else
+    str.Append(wxChar(ch));
+#endif
+    ch = ReadByte(stream);
   }
   while (!stream->Eof())
   {
@@ -1917,7 +1968,11 @@ wxPdfFontParserType1::GetToken(wxInputStream* stream)
     {
       if (str.IsEmpty() && (ch == '[' || ch == ']' /* || ch == '{' || ch == '}' */ ))
       {
-        str += wxChar(ch);
+#if wxCHECK_VERSION(2,9,0)
+        str.Append(wxUniChar((unsigned int) ch));
+#else
+        str.Append(wxChar(ch));
+#endif
       }
       else
       {
@@ -1925,8 +1980,12 @@ wxPdfFontParserType1::GetToken(wxInputStream* stream)
       }
       break;
     }
-    str += wxChar(ch);
-    ch = (char) ReadByte(stream);
+#if wxCHECK_VERSION(2,9,0)
+    str.Append(wxUniChar((unsigned int) ch));
+#else
+    str.Append(wxChar(ch));
+#endif
+    ch = ReadByte(stream);
   }
   return str;
 }
@@ -2428,6 +2487,287 @@ wxPdfFontParserType1::ParsePrivate(wxInputStream* stream)
 {
   wxUnusedVar(stream);
   m_privateFound = true;
+}
+
+// --- Convert Mac format to PFB format
+
+// CRC table and routine copied from macutils-2.0b3
+
+static unsigned short crctab[256] = {
+  0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50A5, 0x60C6, 0x70E7,
+  0x8108, 0x9129, 0xA14A, 0xB16B, 0xC18C, 0xD1AD, 0xE1CE, 0xF1EF,
+  0x1231, 0x0210, 0x3273, 0x2252, 0x52B5, 0x4294, 0x72F7, 0x62D6,
+  0x9339, 0x8318, 0xB37B, 0xA35A, 0xD3BD, 0xC39C, 0xF3FF, 0xE3DE,
+  0x2462, 0x3443, 0x0420, 0x1401, 0x64E6, 0x74C7, 0x44A4, 0x5485,
+  0xA56A, 0xB54B, 0x8528, 0x9509, 0xE5EE, 0xF5CF, 0xC5AC, 0xD58D,
+  0x3653, 0x2672, 0x1611, 0x0630, 0x76D7, 0x66F6, 0x5695, 0x46B4,
+  0xB75B, 0xA77A, 0x9719, 0x8738, 0xF7DF, 0xE7FE, 0xD79D, 0xC7BC,
+  0x48C4, 0x58E5, 0x6886, 0x78A7, 0x0840, 0x1861, 0x2802, 0x3823,
+  0xC9CC, 0xD9ED, 0xE98E, 0xF9AF, 0x8948, 0x9969, 0xA90A, 0xB92B,
+  0x5AF5, 0x4AD4, 0x7AB7, 0x6A96, 0x1A71, 0x0A50, 0x3A33, 0x2A12,
+  0xDBFD, 0xCBDC, 0xFBBF, 0xEB9E, 0x9B79, 0x8B58, 0xBB3B, 0xAB1A,
+  0x6CA6, 0x7C87, 0x4CE4, 0x5CC5, 0x2C22, 0x3C03, 0x0C60, 0x1C41,
+  0xEDAE, 0xFD8F, 0xCDEC, 0xDDCD, 0xAD2A, 0xBD0B, 0x8D68, 0x9D49,
+  0x7E97, 0x6EB6, 0x5ED5, 0x4EF4, 0x3E13, 0x2E32, 0x1E51, 0x0E70,
+  0xFF9F, 0xEFBE, 0xDFDD, 0xCFFC, 0xBF1B, 0xAF3A, 0x9F59, 0x8F78,
+  0x9188, 0x81A9, 0xB1CA, 0xA1EB, 0xD10C, 0xC12D, 0xF14E, 0xE16F,
+  0x1080, 0x00A1, 0x30C2, 0x20E3, 0x5004, 0x4025, 0x7046, 0x6067,
+  0x83B9, 0x9398, 0xA3FB, 0xB3DA, 0xC33D, 0xD31C, 0xE37F, 0xF35E,
+  0x02B1, 0x1290, 0x22F3, 0x32D2, 0x4235, 0x5214, 0x6277, 0x7256,
+  0xB5EA, 0xA5CB, 0x95A8, 0x8589, 0xF56E, 0xE54F, 0xD52C, 0xC50D,
+  0x34E2, 0x24C3, 0x14A0, 0x0481, 0x7466, 0x6447, 0x5424, 0x4405,
+  0xA7DB, 0xB7FA, 0x8799, 0x97B8, 0xE75F, 0xF77E, 0xC71D, 0xD73C,
+  0x26D3, 0x36F2, 0x0691, 0x16B0, 0x6657, 0x7676, 0x4615, 0x5634,
+  0xD94C, 0xC96D, 0xF90E, 0xE92F, 0x99C8, 0x89E9, 0xB98A, 0xA9AB,
+  0x5844, 0x4865, 0x7806, 0x6827, 0x18C0, 0x08E1, 0x3882, 0x28A3,
+  0xCB7D, 0xDB5C, 0xEB3F, 0xFB1E, 0x8BF9, 0x9BD8, 0xABBB, 0xBB9A,
+  0x4A75, 0x5A54, 0x6A37, 0x7A16, 0x0AF1, 0x1AD0, 0x2AB3, 0x3A92,
+  0xFD2E, 0xED0F, 0xDD6C, 0xCD4D, 0xBDAA, 0xAD8B, 0x9DE8, 0x8DC9,
+  0x7C26, 0x6C07, 0x5C64, 0x4C45, 0x3CA2, 0x2C83, 0x1CE0, 0x0CC1,
+  0xEF1F, 0xFF3E, 0xCF5D, 0xDF7C, 0xAF9B, 0xBFBA, 0x8FD9, 0x9FF8,
+  0x6E17, 0x7E36, 0x4E55, 0x5E74, 0x2E93, 0x3EB2, 0x0ED1, 0x1EF0,
+};
+
+// Update a CRC check on the given buffer.
+
+static int
+crcbuf(int crc, unsigned int len, const char* buf)
+{
+  const unsigned char *ubuf = (const unsigned char *)buf;
+  while (len--)
+    crc = ((crc << 8) & 0xFF00) ^ crctab[((crc >> 8) & 0xFF) ^ *ubuf++];
+  return crc;
+}
+
+#define APPLESINGLE_MAGIC 0x00051600
+#define APPLEDOUBLE_MAGIC 0x00051607
+#define POST_TYPE         0x504F5354
+
+wxMemoryOutputStream*
+wxPdfFontParserType1::ConvertMACtoPFB(wxInputStream* macFontStream)
+{
+  wxMemoryOutputStream* pfbStream = NULL;
+  bool ok = true;
+  m_inFont = macFontStream;
+
+  // check magic number
+  SeekI(0);
+  int magic = ReadInt();
+
+  int resourceOffset = -1;
+  if (magic == APPLESINGLE_MAGIC || magic == APPLEDOUBLE_MAGIC)
+  {
+    // AppleSingle or AppleDouble file
+    int i, n;
+    SeekI(24);
+    n = ReadShort();
+    for (i = 0; i < n; ++i)
+    {
+      int type = ReadInt();
+      if (type == 0)
+      {
+        // bad entry descriptor
+        break;
+      }
+      if (type == 2)
+      {
+        // resource fork entry
+        resourceOffset = ReadInt();
+      }
+      else
+      {
+        ReadInt();
+      }
+      ReadInt();
+    }
+    ok = (resourceOffset >= 0);
+  }
+  else if ((magic & 0xFF000000) == 0)
+  {
+    // MacBinary (I or II) file
+
+    // Check "version" bytes at offsets 0 and 74
+    SeekI(0);
+    ok = (ReadByte() == 0);
+    if (ok)
+    {
+      SeekI(74);
+      ok = (ReadByte() == 0);
+    }
+
+    // Check file length
+    if (ok)
+    {
+      SeekI(1);
+      int i = ReadByte();
+      ok = (i >= 0 && i <= 63);
+    }
+    if (ok)
+    {
+      SeekI(83);
+      int i = ReadInt();
+      int j = ReadInt();
+      ok = (i >= 0 && j >= 0 && i < 0x800000 && j < 0x800000);
+    }
+
+    // Check CRC
+    if (ok)
+    {
+      char buf[124];
+      SeekI(0);
+      m_inFont->Read(buf, 124);
+      if (crcbuf(0, 124, buf) != ReadShort())
+      {
+        SeekI(82);
+        ok = (ReadByte() == 0);
+      }
+    }
+
+    // Calculate resource offset
+    if (ok)
+    {
+      SeekI(83);
+      int dataForkSize = ReadInt();
+      ReadInt();
+
+      // round data_fork_size up to multiple of 128
+      if (dataForkSize % 128 != 0)
+      {
+        dataForkSize += 128 - dataForkSize % 128;
+      }
+      resourceOffset = 128 + dataForkSize;
+    }
+  }
+  else
+  {
+    ok = false;
+  }
+
+  if (ok)
+  {
+    pfbStream = new wxMemoryOutputStream();
+    int resourceDataOffset, resourceMapOffset, typeListOffset;
+
+    // read offsets from resource fork header
+    SeekI(resourceOffset);
+    resourceDataOffset = resourceOffset + ReadInt();
+    resourceMapOffset = resourceOffset + ReadInt();
+
+    // read type list offset from resource map header
+    SeekI(resourceMapOffset + 24);
+    typeListOffset = resourceMapOffset + ReadShort();
+
+    // read type list
+    SeekI(typeListOffset);
+    int numTypes = ReadShort() + 1;
+
+    wxMemoryOutputStream* currentBlock = NULL;
+    unsigned char lastBlockType = 0xFF;
+    int numExtracted = 0;
+    // find POST type
+    while (numTypes--)
+    {
+      if (ReadInt() == POST_TYPE)
+      {
+        int nResource = 1 + ReadShort();
+        int listOffset = typeListOffset + ReadShort();
+        int posResource = 0;
+        int idWanted = 501;
+        bool secondTime = true;
+        SeekI(listOffset);
+        // Read resources sequentially, starting with ID 501
+        // until "end" resource or no next resource is found
+        while (posResource < nResource)
+        {
+          int offset = TellI();
+          int id = ReadShort();
+          if (id == idWanted)
+          {
+            ReadShort();
+            ReadByte();
+            numExtracted++;
+            unsigned char b1 = ReadByte();
+            unsigned char b2 = ReadByte();
+            unsigned char b3 = ReadByte();
+            int relOffset = (b1 << 16) | (b2 << 8) | b3;
+
+            SeekI(resourceDataOffset + relOffset);
+            int blockLen = ReadInt() - 2;   // subtract type field
+            unsigned char blockType = ReadByte();
+            ReadByte();
+
+            if (blockType != lastBlockType)
+            {
+              unsigned char b;
+              if (currentBlock != NULL)
+              {
+                wxMemoryInputStream block(*currentBlock);
+                // Write block marker
+                b = PFB_BLOCK_MARKER;
+                pfbStream->Write(&b, 1);
+                // Write block type
+                pfbStream->Write(&lastBlockType, 1);
+                // Write block size
+                int blockSize = currentBlock->TellO();
+                b = blockSize & 0xff;
+                pfbStream->Write(&b, 1);
+                b = (blockSize >> 8) & 0xff;
+                pfbStream->Write(&b, 1);
+                b = (blockSize >> 16) & 0xff;
+                pfbStream->Write(&b, 1);
+                b = (blockSize >> 24) & 0xff;
+                pfbStream->Write(&b, 1);
+                // Write block
+                pfbStream->Write(block);
+                delete currentBlock;
+              }
+              if (blockType != PFB_BLOCK_END)
+              {
+                currentBlock = new wxMemoryOutputStream();
+              }
+              else
+              {
+                b = PFB_BLOCK_MARKER;
+                pfbStream->Write(&b, 1);
+                b = PFB_BLOCK_DONE;
+                pfbStream->Write(&b, 1);
+                currentBlock = NULL;
+              }
+              lastBlockType = blockType;
+            }
+            if (blockType != PFB_BLOCK_END)
+            {
+              ReadBinary(*m_inFont, TellI(), blockLen, *currentBlock);
+            }
+            else
+            {
+              break;
+            }
+
+            secondTime = false;
+            ++idWanted;
+          }
+          SeekI(offset + 12);
+          posResource++;
+          if (posResource >= nResource && !secondTime)
+          {
+            SeekI(listOffset);
+            posResource = 0;
+          }
+        }
+        break;
+      }
+      else
+      {
+        ReadShort();
+        ReadShort();
+      }
+    }
+    if (numExtracted == 0)
+    {
+    }
+  }
+  return pfbStream;
 }
 
 #endif // wxUSE_UNICODE

@@ -102,76 +102,76 @@ typedef unsigned short UINT16;
 
 /// Class implementing the Rijndael cipher. (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfRijndael
-{	
+{
 public:
-	enum Direction { Encrypt , Decrypt };
-	enum Mode { ECB , CBC , CFB1 };
-	enum KeyLength { Key16Bytes , Key24Bytes , Key32Bytes };
-	//
-	// Creates a Rijndael cipher object
-	// You have to call init() before you can encrypt or decrypt stuff
-	//
-	wxPdfRijndael();
-	~wxPdfRijndael();
+  enum Direction { Encrypt , Decrypt };
+  enum Mode { ECB , CBC , CFB1 };
+  enum KeyLength { Key16Bytes , Key24Bytes , Key32Bytes };
+  //
+  // Creates a Rijndael cipher object
+  // You have to call init() before you can encrypt or decrypt stuff
+  //
+  wxPdfRijndael();
+  ~wxPdfRijndael();
 protected:
-	// Internal stuff
-	enum State { Valid , Invalid };
+  // Internal stuff
+  enum State { Valid , Invalid };
 
-	State     m_state;
-	Mode      m_mode;
-	Direction m_direction;
-	UINT8     m_initVector[MAX_IV_SIZE];
-	UINT32    m_uRounds;
-	UINT8     m_expandedKey[_MAX_ROUNDS+1][4][4];
+  State     m_state;
+  Mode      m_mode;
+  Direction m_direction;
+  UINT8     m_initVector[MAX_IV_SIZE];
+  UINT32    m_uRounds;
+  UINT8     m_expandedKey[_MAX_ROUNDS+1][4][4];
 public:
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// API
-	//////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////
+  // API
+  //////////////////////////////////////////////////////////////////////////////////////////
 
-	// init(): Initializes the crypt session
-	// Returns RIJNDAEL_SUCCESS or an error code
-	// mode      : Rijndael::ECB, Rijndael::CBC or Rijndael::CFB1
-	//             You have to use the same mode for encrypting and decrypting
-	// dir       : Rijndael::Encrypt or Rijndael::Decrypt
-	//             A cipher instance works only in one direction
-	//             (Well , it could be easily modified to work in both
-	//             directions with a single init() call, but it looks
-	//             useless to me...anyway , it is a matter of generating
-	//             two expanded keys)
-	// key       : array of unsigned octets , it can be 16 , 24 or 32 bytes long
-	//             this CAN be binary data (it is not expected to be null terminated)
-	// keyLen    : Rijndael::Key16Bytes , Rijndael::Key24Bytes or Rijndael::Key32Bytes
-	// initVector: initialization vector, you will usually use 0 here
-	int init(Mode mode,Direction dir,const UINT8 *key,KeyLength keyLen,UINT8 * initVector = 0);
-	// Encrypts the input array (can be binary data)
-	// The input array length must be a multiple of 16 bytes, the remaining part
-	// is DISCARDED.
-	// so it actually encrypts inputLen / 128 blocks of input and puts it in outBuffer
-	// Input len is in BITS!
-	// outBuffer must be at least inputLen / 8 bytes long.
-	// Returns the encrypted buffer length in BITS or an error code < 0 in case of error
-	int blockEncrypt(const UINT8 *input, int inputLen, UINT8 *outBuffer);
-	// Encrypts the input array (can be binary data)
-	// The input array can be any length , it is automatically padded on a 16 byte boundary.
-	// Input len is in BYTES!
-	// outBuffer must be at least (inputLen + 16) bytes long
-	// Returns the encrypted buffer length in BYTES or an error code < 0 in case of error
-	int padEncrypt(const UINT8 *input, int inputOctets, UINT8 *outBuffer);
-	// Decrypts the input vector
-	// Input len is in BITS!
-	// outBuffer must be at least inputLen / 8 bytes long
-	// Returns the decrypted buffer length in BITS and an error code < 0 in case of error
-	int blockDecrypt(const UINT8 *input, int inputLen, UINT8 *outBuffer);
-	// Decrypts the input vector
-	// Input len is in BYTES!
-	// outBuffer must be at least inputLen bytes long
-	// Returns the decrypted buffer length in BYTES and an error code < 0 in case of error
-	int padDecrypt(const UINT8 *input, int inputOctets, UINT8 *outBuffer);
+  // init(): Initializes the crypt session
+  // Returns RIJNDAEL_SUCCESS or an error code
+  // mode      : Rijndael::ECB, Rijndael::CBC or Rijndael::CFB1
+  //             You have to use the same mode for encrypting and decrypting
+  // dir       : Rijndael::Encrypt or Rijndael::Decrypt
+  //             A cipher instance works only in one direction
+  //             (Well , it could be easily modified to work in both
+  //             directions with a single init() call, but it looks
+  //             useless to me...anyway , it is a matter of generating
+  //             two expanded keys)
+  // key       : array of unsigned octets , it can be 16 , 24 or 32 bytes long
+  //             this CAN be binary data (it is not expected to be null terminated)
+  // keyLen    : Rijndael::Key16Bytes , Rijndael::Key24Bytes or Rijndael::Key32Bytes
+  // initVector: initialization vector, you will usually use 0 here
+  int init(Mode mode,Direction dir,const UINT8 *key,KeyLength keyLen,UINT8 * initVector = 0);
+  // Encrypts the input array (can be binary data)
+  // The input array length must be a multiple of 16 bytes, the remaining part
+  // is DISCARDED.
+  // so it actually encrypts inputLen / 128 blocks of input and puts it in outBuffer
+  // Input len is in BITS!
+  // outBuffer must be at least inputLen / 8 bytes long.
+  // Returns the encrypted buffer length in BITS or an error code < 0 in case of error
+  int blockEncrypt(const UINT8 *input, int inputLen, UINT8 *outBuffer);
+  // Encrypts the input array (can be binary data)
+  // The input array can be any length , it is automatically padded on a 16 byte boundary.
+  // Input len is in BYTES!
+  // outBuffer must be at least (inputLen + 16) bytes long
+  // Returns the encrypted buffer length in BYTES or an error code < 0 in case of error
+  int padEncrypt(const UINT8 *input, int inputOctets, UINT8 *outBuffer);
+  // Decrypts the input vector
+  // Input len is in BITS!
+  // outBuffer must be at least inputLen / 8 bytes long
+  // Returns the decrypted buffer length in BITS and an error code < 0 in case of error
+  int blockDecrypt(const UINT8 *input, int inputLen, UINT8 *outBuffer);
+  // Decrypts the input vector
+  // Input len is in BYTES!
+  // outBuffer must be at least inputLen bytes long
+  // Returns the decrypted buffer length in BYTES and an error code < 0 in case of error
+  int padDecrypt(const UINT8 *input, int inputOctets, UINT8 *outBuffer);
 protected:
-	void keySched(UINT8 key[_MAX_KEY_COLUMNS][4]);
-	void keyEncToDec();
-	void encrypt(const UINT8 a[16], UINT8 b[16]);
-	void decrypt(const UINT8 a[16], UINT8 b[16]);
+  void keySched(UINT8 key[_MAX_KEY_COLUMNS][4]);
+  void keyEncToDec();
+  void encrypt(const UINT8 a[16], UINT8 b[16]);
+  void decrypt(const UINT8 a[16], UINT8 b[16]);
 };
-	
+  
 #endif // _PDFRIJNDAEL_H_

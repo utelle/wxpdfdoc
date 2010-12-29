@@ -85,6 +85,7 @@ private:
   wxPdfParser*         m_parser;            ///< Associated parser
   wxPdfObject*         m_resources;         ///< Array of page resource objects
 
+  int                  m_stateSave;         ///< Saved document state
   double               m_xSave;             ///< Saved X position
   double               m_ySave;             ///< Saved Y position
   bool                 m_autoPageBreakSave; ///< State of auto page break

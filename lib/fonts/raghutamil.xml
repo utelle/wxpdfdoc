@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wxpdfdoc-font-metrics type="TrueTypeUnicode">
+  <font-name>RaghuTamilRoman</font-name>
+  <encoding></encoding>
+  <description>
+    <ascent>879</ascent>
+    <descent>-488</descent>
+    <cap-height>879</cap-height>
+    <flags>32</flags>
+    <font-bbox>[-374 -364 2422 879]</font-bbox>
+    <italic-angle>-3</italic-angle>
+    <stem-v>70</stem-v>
+    <missing-width>500</missing-width>
+    <x-height>0</x-height>
+    <underline-position>-188</underline-position>
+    <underline-thickness>59</underline-thickness>
+  </description>
+  <diff></diff>
+  <file name="RaghuTamil.z" ctg="RaghuTamil.ctg.z" originalsize="86596"/>
+  <widths>
+    <char id="32" width="438"/>
+    <char id="33" width="249"/>
+    <char id="34" width="340"/>
+    <char id="35" width="564"/>
+    <char id="36" width="504"/>
+    <char id="37" width="583"/>
+    <char id="38" width="542"/>
+    <char id="39" width="167"/>
+    <char id="40" width="360"/>
+    <char id="41" width="361"/>
+    <char id="42" width="362"/>
+    <char id="43" width="471"/>
+    <char id="44" width="225"/>
+    <char id="45" width="459"/>
+    <char id="46" width="173"/>
+    <char id="47" width="396"/>
+    <char id="48" width="491"/>
+    <char id="49" width="350"/>
+    <char id="50" width="478"/>
+    <char id="51" width="488"/>
+    <char id="52" width="494"/>
+    <char id="53" width="492"/>
+    <char id="54" width="516"/>
+    <char id="55" width="439"/>
+    <char id="56" width="492"/>
+    <char id="57" width="516"/>
+    <char id="58" width="267"/>
+    <char id="59" width="250"/>
+    <char id="60" width="641"/>
+    <char id="61" width="528"/>
+    <char id="62" width="641"/>
+    <char id="63" width="432"/>
+    <char id="64" width="802"/>
+    <char id="91" width="316"/>
+    <char id="92" width="361"/>
+    <char id="93" width="316"/>
+    <char id="94" width="598"/>
+    <char id="95" width="591"/>
+    <char id="96" width="293"/>
+    <char id="123" width="360"/>
+    <char id="124" width="212"/>
+    <char id="125" width="360"/>
+    <char id="126" width="652"/>
+    <char id="330" width="1552"/>
+    <char id="331" width="1568"/>
+    <char id="332" width="1523"/>
+    <char id="2946" width="0"/>
+    <char id="2947" width="932"/>
+    <char id="2949" width="950"/>
+    <char id="2950" width="1169"/>
+    <char id="2951" width="1018"/>
+    <char id="2952" width="730"/>
+    <char id="2953" width="848"/>
+    <char id="2954" width="1290"/>
+    <char id="2958" width="665"/>
+    <char id="2959" width="665"/>
+    <char id="2960" width="849"/>
+    <char id="2962" width="823"/>
+    <char id="2963" width="823"/>
+    <char id="2964" width="1530"/>
+    <char id="2965" width="726"/>
+    <char id="2969" width="936"/>
+    <char id="2970" width="644"/>
+    <char id="2972" width="847"/>
+    <char id="2974" width="1063"/>
+    <char id="2975" width="766"/>
+    <char id="2979" width="1512"/>
+    <char id="2980" width="751"/>
+    <char id="2984" width="726"/>
+    <char id="2985" width="1083"/>
+    <char id="2986" width="685"/>
+    <char id="2990" width="854"/>
+    <char id="2991" width="903"/>
+    <char id="2992" width="550"/>
+    <char id="2993" width="843"/>
+    <char id="2994" width="1007"/>
+    <char id="2995" width="924"/>
+    <char id="2996" width="854"/>
+    <char id="2997" width="897"/>
+    <char id="2999" width="1236"/>
+    <char id="3000" width="1281"/>
+    <char id="3001" width="1523"/>
+    <char id="3006" width="550"/>
+    <char id="3007" width="835"/>
+    <char id="3008" width="0"/>
+    <char id="3009" width="608"/>
+    <char id="3010" width="810"/>
+    <char id="3014" width="852"/>
+    <char id="3015" width="671"/>
+    <char id="3016" width="1121"/>
+    <char id="3018" width="1937"/>
+    <char id="3019" width="1774"/>
+    <char id="3020" width="2362"/>
+    <char id="3021" width="0"/>
+    <char id="3031" width="924"/>
+    <char id="3047" width="726"/>
+    <char id="3048" width="848"/>
+    <char id="3049" width="901"/>
+    <char id="3050" width="819"/>
+    <char id="3051" width="973"/>
+    <char id="3052" width="980"/>
+    <char id="3053" width="665"/>
+    <char id="3054" width="950"/>
+    <char id="3055" width="1063"/>
+    <char id="3056" width="812"/>
+    <char id="3057" width="801"/>
+    <char id="3058" width="894"/>
+    <char id="3059" width="851"/>
+    <char id="3060" width="854"/>
+    <char id="3061" width="1918"/>
+    <char id="3062" width="767"/>
+    <char id="3063" width="1159"/>
+    <char id="3064" width="1850"/>
+    <char id="3065" width="1019"/>
+    <char id="3066" width="749"/>
+    <char id="8204" width="0"/>
+    <char id="8205" width="0"/>
+    <char id="8216" width="166"/>
+    <char id="8217" width="166"/>
+    <char id="8220" width="300"/>
+    <char id="8221" width="301"/>
+    <char id="8319" width="833"/>
+    <char id="9676" width="608"/>
+    <char id="57344" width="0"/>
+    <char id="57345" width="438"/>
+    <char id="57346" width="833"/>
+    <char id="57347" width="833"/>
+    <char id="57348" width="609"/>
+    <char id="57349" width="1615"/>
+    <char id="57350" width="191"/>
+    <char id="57351" width="245"/>
+    <char id="57352" width="188"/>
+    <char id="57353" width="173"/>
+    <char id="57354" width="207"/>
+    <char id="57355" width="0"/>
+    <char id="57356" width="487"/>
+    <char id="57357" width="728"/>
+    <char id="57358" width="934"/>
+    <char id="57359" width="1245"/>
+    <char id="57360" width="936"/>
+    <char id="57361" width="1171"/>
+    <char id="57362" width="765"/>
+    <char id="57363" width="1066"/>
+    <char id="57364" width="1275"/>
+    <char id="57365" width="1565"/>
+    <char id="57366" width="1143"/>
+    <char id="57367" width="1444"/>
+    <char id="57368" width="766"/>
+    <char id="57369" width="766"/>
+    <char id="57370" width="952"/>
+    <char id="57371" width="947"/>
+    <char id="57372" width="1780"/>
+    <char id="57373" width="1833"/>
+    <char id="57374" width="2133"/>
+    <char id="57375" width="1836"/>
+    <char id="57376" width="1037"/>
+    <char id="57377" width="1336"/>
+    <char id="57378" width="1054"/>
+    <char id="57379" width="1353"/>
+    <char id="57380" width="1343"/>
+    <char id="57381" width="1396"/>
+    <char id="57382" width="1694"/>
+    <char id="57383" width="1407"/>
+    <char id="57384" width="685"/>
+    <char id="57385" width="941"/>
+    <char id="57386" width="1146"/>
+    <char id="57387" width="1226"/>
+    <char id="57388" width="883"/>
+    <char id="57389" width="1115"/>
+    <char id="57390" width="973"/>
+    <char id="57391" width="1052"/>
+    <char id="57392" width="1016"/>
+    <char id="57393" width="1098"/>
+    <char id="57394" width="1394"/>
+    <char id="57395" width="1194"/>
+    <char id="57396" width="1011"/>
+    <char id="57397" width="1245"/>
+    <char id="57398" width="1542"/>
+    <char id="57399" width="1326"/>
+    <char id="57400" width="1317"/>
+    <char id="57401" width="1445"/>
+    <char id="57402" width="1245"/>
+    <char id="57403" width="1124"/>
+    <char id="57404" width="1227"/>
+    <char id="57405" width="896"/>
+    <char id="57406" width="1134"/>
+    <char id="57407" width="1432"/>
+    <char id="57408" width="1230"/>
+    <char id="57409" width="1606"/>
+    <char id="57410" width="1873"/>
+    <char id="57411" width="1465"/>
+    <char id="57412" width="1281"/>
+    <char id="57413" width="1943"/>
+    <char id="57414" width="2237"/>
+    <char id="57415" width="1816"/>
+    <char id="57416" width="1615"/>
+    <char id="57417" width="1992"/>
+    <char id="57418" width="2258"/>
+    <char id="57419" width="1293"/>
+    <char id="57420" width="904"/>
+    <char id="57421" width="467"/>
+    <char id="57422" width="0"/>
+    <char id="57423" width="372"/>
+    <char id="57424" width="0"/>
+  </widths>
+  <volt lang="ta">
+    <ruleset type="pre">
+      <!-- Common Indic Punctuation marks -->
+      <rule match="।" replace="|"/>
+      <!-- U+0964;replace with "|" -->
+      <rule match="॥" replace="||"/>
+      <!-- U+0964;replace with "|" -->
+      <!-- Tamil numeral for Zero missing&#xAdded;mPDF 4.2 -->
+      <rule match="௦" replace="0"/>
+      <!-- U+0BEB;replace with "0" -->
+      <!-- Re-order vowels -->
+      <!-- TAMIL pre-based vowel [0ABF] -->
+      <!-- Shrii (Shree)-->
+      <rule match="ஶ்ரீ" replace=""/>
+      <!-- TAMIL double-part vowels [0BCA;&#x0BC6;&#x0BBE][0BCB;&#x0BC7;&#x0BBE][0BCC;&#x0BC6;&#x0BD7] -->
+      <rule match="ொ" replace="ொ"/>
+      <!-- convert to 2 parts -->
+      <rule match="ோ" replace="ோ"/>
+      <!-- pre-based is then shifted below -->
+      <rule match="ௌ" replace="ௌ"/>
+      <!-- No nukta -->
+      <!-- Doesn't seem to move most in front of halanted consonants -->
+      <rule match="(.{1})(ெேை)" replace="\2\1"/>
+      <!-- vowel sign pre-based shift left -->
+      <!-- ? Only for special case KSS (already moved to left of&#x0BB7;)-->
+      <rule match="க்(ெ|ே|ை)ஷ" replace="\1க்ஷ"/>
+    </ruleset>
+    <ruleset type="core">
+      <rule match="்‍" replace="ŋ"/>
+      <rule match="்‌" replace=""/>
+      <rule match="‍்" replace="Ŋ"/>
+      <rule match="க்ஷ" replace=""/>
+      <rule match="ஸ்ரீ" replace=""/>
+      <rule match="ஓம்" replace=""/>
+      <rule match="(ஸ)ு" replace="\1"/>
+      <rule match="(ஸ)ூ" replace="\1"/>
+      <rule match="கூ" replace=""/>
+      <rule match="ஜு" replace=""/>
+      <rule match="ஜூ" replace=""/>
+      <rule match="டி" replace=""/>
+      <rule match="லி" replace=""/>
+      <rule match="ஷி" replace=""/>
+      <rule match="ஷு" replace=""/>
+      <rule match="ஷூ" replace=""/>
+      <rule match="ஸி" replace=""/>
+      <rule match="ஹு" replace=""/>
+      <rule match="ஹூ" replace=""/>
+      <rule match="ி" replace=""/>
+      <rule match="ு" replace=""/>
+      <rule match="ூ" replace=""/>
+      <rule match="((ப|ய|ங|வ))ீ" replace="\1"/>
+      <rule match="((ம|ச|ஹ|ஜ|ழ|ற))ி" replace="\1"/>
+      <rule match="((ர|ள|ண|ன))ி" replace="\1"/>
+      <rule match="((க|த))ி" replace="\1"/>
+      <rule match="((ப|ய|ங|வ))ி" replace="\1"/>
+      <rule match="((ந|ஞ))ி" replace="\1"/>
+      <rule match="ண‌ை" replace=""/>
+      <rule match="ன‌ை" replace=""/>
+      <rule match="ல‌ை" replace=""/>
+      <rule match="ள‌ை" replace=""/>
+      <rule match="டீ" replace=""/>
+      <rule match="லீ" replace=""/>
+      <rule match="ஷீ" replace=""/>
+      <rule match="ஸீ" replace=""/>
+      <rule match="ீ" replace=""/>
+      <rule match="கு" replace=""/>
+      <rule match="ஙு" replace=""/>
+      <rule match="ஙூ" replace=""/>
+      <rule match="சு" replace=""/>
+      <rule match="சூ" replace=""/>
+      <rule match="ஞு" replace=""/>
+      <rule match="ஞூ" replace=""/>
+      <rule match="டு" replace=""/>
+      <rule match="டூ" replace=""/>
+      <rule match="ண‌ா" replace=""/>
+      <rule match="ணு" replace=""/>
+      <rule match="ணூ" replace=""/>
+      <rule match="து" replace=""/>
+      <rule match="தூ" replace=""/>
+      <rule match="நு" replace=""/>
+      <rule match="நூ" replace=""/>
+      <rule match="ன‌ா" replace=""/>
+      <rule match="னு" replace=""/>
+      <rule match="னூ" replace=""/>
+      <rule match="பு" replace=""/>
+      <rule match="பூ" replace=""/>
+      <rule match="மு" replace=""/>
+      <rule match="மூ" replace=""/>
+      <rule match="யு" replace=""/>
+      <rule match="யூ" replace=""/>
+      <rule match="ரு" replace=""/>
+      <rule match="ரூ" replace=""/>
+      <rule match="ற‌ா" replace=""/>
+      <rule match="று" replace=""/>
+      <rule match="றூ" replace=""/>
+      <rule match="லு" replace=""/>
+      <rule match="லூ" replace=""/>
+      <rule match="ளு" replace=""/>
+      <rule match="ளூ" replace=""/>
+      <rule match="ழு" replace=""/>
+      <rule match="ழூ" replace=""/>
+      <rule match="வு" replace=""/>
+      <rule match="வூ" replace=""/>
+      <rule match="ŋ" replace="்"/>
+      <rule match="" replace="்"/>
+      <rule match="Ŋ" replace="்"/>
+    </ruleset>
+  </volt>
+</wxpdfdoc-font-metrics>

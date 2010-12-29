@@ -789,6 +789,12 @@ wxPdfDocument::SetFont(const wxFont& font)
 void
 wxPdfDocument::SetFontSize(double size)
 {
+  if (m_currentFont == NULL)
+  {
+    wxLogError(wxString(wxT("wxPdfDocument::SetFontSize: ")) +
+               wxString(_("No font selected.")));
+    return;
+  }
   // Set font size in points
   if (m_fontSizePt == size)
   {
@@ -806,12 +812,25 @@ wxPdfDocument::SetFontSize(double size)
 wxPdfFont
 wxPdfDocument::GetCurrentFont() const
 {
+  if (m_currentFont == NULL)
+  {
+    wxLogError(wxString(wxT("wxPdfDocument::GetCurrentFont: ")) +
+               wxString(_("No font selected.")));
+    return wxPdfFont();
+  }
   return m_currentFont->GetUserFont();
 }
 
 const wxPdfFontDescription&
 wxPdfDocument::GetFontDescription() const
 {
+  if (m_currentFont == NULL)
+  {
+    wxLogError(wxString(wxT("wxPdfDocument::SetFontSize: ")) +
+               wxString(_("No font selected.")));
+    static wxPdfFontDescription dummy;
+    return dummy;
+  }
   return m_currentFont->GetDescription();
 }
 
@@ -864,6 +883,13 @@ wxPdfDocument::GetFontSize() const
 double
 wxPdfDocument::GetStringWidth(const wxString& s)
 {
+  wxString voText = ApplyVisualOrdering(s);
+  return DoGetStringWidth(voText);
+}
+
+double
+wxPdfDocument::DoGetStringWidth(const wxString& s)
+{
   double w = 0;
   if (m_currentFont != 0)
   {
@@ -876,6 +902,8 @@ void
 wxPdfDocument::Text(double x, double y, const wxString& txt)
 {
   // Output a string
+  wxString voText = ApplyVisualOrdering(txt);
+
   if (m_colourFlag)
   {
     Out("q ", false);
@@ -895,13 +923,13 @@ wxPdfDocument::Text(double x, double y, const wxString& txt)
              wxPdfUtility::Double2String(y*m_k,2) + wxString(wxT(" Td ")), false);
   }
   OutAscii(wxString::Format(wxT("%d Tr "), m_textRenderMode), false);
-  ShowText(txt);
+  ShowText(voText);
   Out("ET", false);
 
-  if ((m_decoration & wxPDF_FONTSTYLE_DECORATION_MASK) && txt.Length() > 0)
+  if ((m_decoration & wxPDF_FONTSTYLE_DECORATION_MASK) && voText.Length() > 0)
   {
     Out(" ", false);
-    OutAscii(DoDecoration(x, y, txt), false);
+    OutAscii(DoDecoration(x, y, voText), false);
   }
 
   if (m_colourFlag)
@@ -937,6 +965,13 @@ wxPdfDocument::AcceptPageBreak()
 
 void
 wxPdfDocument::Cell(double w, double h, const wxString& txt, int border, int ln, int align, int fill, const wxPdfLink& link)
+{
+  wxString voText = ApplyVisualOrdering(txt);
+  DoCell(w, h, voText, border, ln, align, fill, link);
+}
+
+void
+wxPdfDocument::DoCell(double w, double h, const wxString& txt, int border, int ln, int align, int fill, const wxPdfLink& link)
 {
   // Output a cell
   double x, y;
@@ -1029,7 +1064,7 @@ wxPdfDocument::Cell(double w, double h, const wxString& txt, int border, int ln,
   
   if (txt.Length() > 0)
   {
-    double width = GetStringWidth(txt);
+    double width = DoGetStringWidth(txt);
     double dx;
     if (align == wxPDF_ALIGN_RIGHT)
     {
@@ -1111,7 +1146,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
   }
 
   double wmax = (w - 2 * m_cMargin);
-  wxString s = txt;
+  wxString s = ApplyVisualOrdering(txt);
   s.Replace(wxT("\r"),wxT("")); // remove carriage returns
   int nb = (int) s.Length();
   if (nb > 0 && s[nb-1] == wxT('\n'))
@@ -1162,7 +1197,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
         m_ws = 0;
         Out("0 Tw");
       }
-      Cell(w,h,s.SubString(j,i-1),b,2,align,fill);
+      DoCell(w,h,s.SubString(j,i-1),b,2,align,fill);
       i++;
       sep = -1;
       j = i;
@@ -1185,7 +1220,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
       ls = len;
       ns++;
     }
-    len = GetStringWidth(s.SubString(j, i));
+    len = DoGetStringWidth(s.SubString(j, i));
 
     if (len > wmax)
     {
@@ -1201,7 +1236,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
           m_ws=0;
           Out("0 Tw");
         }
-        Cell(w,h,s.SubString(j,i-1),b,2,align,fill);
+        DoCell(w,h,s.SubString(j,i-1),b,2,align,fill);
       }
       else
       {
@@ -1210,7 +1245,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
           m_ws = (ns > 1) ? (wmax - ls)/(ns-1) : 0;
           OutAscii(wxPdfUtility::Double2String(m_ws*m_k,3)+wxString(wxT(" Tw")));
         }
-        Cell(w,h,s.SubString(j,sep-1),b,2,align,fill);
+        DoCell(w,h,s.SubString(j,sep-1),b,2,align,fill);
         i = sep + 1;
       }
       sep = -1;
@@ -1242,7 +1277,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
   {
     b = b | wxPDF_BORDER_BOTTOM;
   }
-  Cell(w,h,s.SubString(j,i-1),b,2,align,fill);
+  DoCell(w,h,s.SubString(j,i-1),b,2,align,fill);
   m_x = m_lMargin;
   return i;
 }
@@ -1289,7 +1324,7 @@ wxPdfDocument::LineCount(double w, const wxString& txt)
     {
       sep = i;
     }
-    len = GetStringWidth(s.SubString(j, i));
+    len = DoGetStringWidth(s.SubString(j, i));
 
     if (len > wmax)
     {
@@ -1369,14 +1404,15 @@ void
 wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, const wxPdfLink& link)
 {
   // Output text in flowing mode
-  wxString s = txt;
+  wxString s = ApplyVisualOrdering(txt);
+
   s.Replace(wxT("\r"),wxT("")); // remove carriage returns
   int nb = (int) s.Length();
 
   // handle single space character
   if ((nb == 1) && s[0] == wxT(' '))
   {
-    m_x += GetStringWidth(s);
+    m_x += DoGetStringWidth(s);
     return;
   }
 
@@ -1399,7 +1435,7 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
     if (c == wxT('\n'))
     {
       // Explicit line break
-      Cell(w, h, s.SubString(j,i-1), border, 2, wxPDF_ALIGN_LEFT, fill, link);
+      DoCell(w, h, s.SubString(j,i-1), border, 2, wxPDF_ALIGN_LEFT, fill, link);
       i++;
       sep = -1;
       j = i;
@@ -1417,7 +1453,7 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
     {
       sep = i;
     }
-    len = GetStringWidth(s.SubString(j, i));
+    len = DoGetStringWidth(s.SubString(j, i));
     if (len > wmax)
     {
       // Automatic line break
@@ -1445,11 +1481,11 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
         {
           i++;
         }
-        Cell(w, h,s.SubString(j, i-1), border, 2, wxPDF_ALIGN_LEFT, fill, link);
+        DoCell(w, h,s.SubString(j, i-1), border, 2, wxPDF_ALIGN_LEFT, fill, link);
       }
       else
       {
-        Cell(w, h, s.SubString(j, sep-1), border, 2, wxPDF_ALIGN_LEFT, fill, link);
+        DoCell(w, h, s.SubString(j, sep-1), border, 2, wxPDF_ALIGN_LEFT, fill, link);
         i = sep + 1;
       }
       sep = -1;
@@ -1471,7 +1507,7 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
   // Last chunk
   if (i != j)
   {
-    Cell(len, h, s.SubString(j,i-1), border, 0, wxPDF_ALIGN_LEFT, fill, link);
+    DoCell(len, h, s.SubString(j,i-1), border, 0, wxPDF_ALIGN_LEFT, fill, link);
   }
 
   // Following statement was in PHP code, but seems to be in error.
