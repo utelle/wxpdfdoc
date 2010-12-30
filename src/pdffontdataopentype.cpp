@@ -506,7 +506,7 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
 #else // wxWidgets 2.8.x
       CTFontRef fontRef = (const void*) m_font.MacGetCTFont();
 #endif
-      tableRef  = CTFontCopyTable(m_fontRef, kCTFontTableCFF, 0);
+      tableRef  = CTFontCopyTable(fontRef, kCTFontTableCFF, 0);
       const UInt8* tableData = CFDataGetBytePtr(tableRef);
       CFIndex      tableLen  = CFDataGetLength(tableRef);
       fontStream = new wxMemoryInputStream((const char*) tableData, (size_t) tableLen);

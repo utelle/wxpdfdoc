@@ -32,6 +32,16 @@
 #endif
 #endif
 
+// Additional includes
+#if wxPDFMACOSX_HAS_ATSU_TEXT
+// TODO: check which system headers need to be included if any
+#endif
+
+#if wxPDFMACOSX_HAS_CORE_TEXT
+#include <CoreFoundation/CoreFoundation.h>
+#include <ApplicationServices/ApplicationServices.h>
+#endif
+
 #endif
 
 #endif
