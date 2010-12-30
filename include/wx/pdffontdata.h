@@ -205,7 +205,7 @@ public:
   */
   void SetSubsetSupported(bool subsetSupported) { m_subsetSupported = subsetSupported; }
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || defined(__WXMAC__)
   /// Set associated wxFont object
   /**
   * \param font the wxFont to be associated with the font

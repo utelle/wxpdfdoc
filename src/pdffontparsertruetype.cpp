@@ -507,7 +507,7 @@ wxPdfFontParserTrueType::ReleaseTable()
 }
 
 int
-wxPdfFontParserTrueType::CalculateChecksum(char* b, size_t length)
+wxPdfFontParserTrueType::CalculateChecksum(const char* b, size_t length)
 {
   size_t len = length / 4;
   int d0 = 0;
@@ -981,11 +981,11 @@ wxPdfFontParserTrueType::ReadTableDirectory()
     CFIndex n;
     for (n = 0; n < nTables; ++n)
     {
-      CTFontTableTag tag = (CTFontTableTag)(uintptr_t) CFArrayGetValueAtIndex(tables, index);
+      CTFontTableTag tag = (CTFontTableTag)(uintptr_t) CFArrayGetValueAtIndex(tables, n);
       CFDataRef    tableRef  = CTFontCopyTable(m_fontRef, tag, 0);
       const UInt8* tableData = CFDataGetBytePtr(tableRef);
       CFIndex      tableLen  = CFDataGetLength(tableRef);
-      int checksum = CalculateChecksum((const char*) tableData, (size_t) tableLen)
+      int checksum = CalculateChecksum((const char*) tableData, (size_t) tableLen);
       CFRelease(tableRef);
       char asciiTag[5];
       asciiTag[0] = (tag >> 24) & 0xff;
@@ -998,7 +998,7 @@ wxPdfFontParserTrueType::ReadTableDirectory()
       tableLocation->m_checksum = checksum;
       tableLocation->m_offset = 0;
       tableLocation->m_length = tableLen;
-      (*m_tableDirectory)[tag] = tableLocation;
+      (*m_tableDirectory)[tableTag] = tableLocation;
     }
 #else
     ok = false;

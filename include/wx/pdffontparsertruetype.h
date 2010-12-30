@@ -117,7 +117,7 @@ protected:
   void ReleaseTable();
 
   /// Calculate a check sum
-  int CalculateChecksum(char* b, size_t length);
+  int CalculateChecksum(const char* b, size_t length);
 
   /// Identify a font
   wxPdfFontData* IdentifyFont();
