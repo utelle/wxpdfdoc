@@ -42,7 +42,11 @@
 #endif
 
 #ifdef __WXMAC__
-#include "wx/mac/printdlg.h"
+    #if wxMAJOR_VERSION > 2 || (wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 9)
+    #include <wx/osx/printdlg.h>
+    #else
+    #include <wx/mac/carbon/printdlg.h>
+    #endif
 #endif
 
 #include "printing.h"
