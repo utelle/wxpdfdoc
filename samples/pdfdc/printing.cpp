@@ -29,6 +29,8 @@
 #define wxTEST_POSTSCRIPT_IN_MSW 0
 
 #include <ctype.h>
+#include <wx/filename.h>
+#include <wx/stdpaths.h>
 #include "wx/metafile.h"
 #include "wx/print.h"
 #include "wx/printdlg.h"
@@ -83,6 +85,9 @@ bool WritePageHeader(wxPrintout *printout, wxDC *dc, const wxChar *text, float m
 bool MyApp::OnInit(void)
 {
     wxInitAllImageHandlers();
+
+    wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
+    wxSetWorkingDirectory(exePath.GetPath());
 
 #if wxCHECK_VERSION(2,9,0)
     m_testFont.Create(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
@@ -208,14 +213,14 @@ wxFrame(frame, wxID_ANY, title, pos, size)
 {
     canvas = NULL;
     m_angle = 30;
-    wxImage image( wxT("../samples/pdfdc/smile.jpg") );
+    wxImage image( wxT("smile.jpg") );
     image.SetAlpha();
     int i,j;
     for (i = 0; i < image.GetWidth(); i++)
        for (j = 0; j < image.GetHeight(); j++)
           image.SetAlpha( i, j, 50 );
     m_bitmap = wxBitmap(image);
-    m_imgUp.LoadFile(wxT("../samples/pdfdc/up.gif"));
+    m_imgUp.LoadFile(wxT("up.gif"));
 }
 
 void MyFrame::OnExit(wxCommandEvent& WXUNUSED(event))

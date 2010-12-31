@@ -19,6 +19,8 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/filename.h>
+#include <wx/stdpaths.h>
 #include <wx/tokenzr.h>
 #include <wx/txtstrm.h>
 #include <wx/wfstream.h>
@@ -257,10 +259,11 @@ PdfDocTutorial::OnRun()
   }
 
   // Set the font path
-  wxString fontPath = wxGetCwd() + wxT("/../lib/fonts");
+  wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
+  wxString fontPath = exePath.GetPathWithSep() + wxT("../../lib/fonts");
   wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
 
-  wxSetWorkingDirectory(wxGetCwd() + wxT("/../samples/minimal"));
+  wxSetWorkingDirectory(exePath.GetPath());
 
   // Show a menu on the console
   char c(' ');
