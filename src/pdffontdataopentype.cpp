@@ -479,8 +479,7 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
 {
 #if defined(__WXMAC__)
 #if wxPDFMACOSX_HAS_CORE_TEXT
-  bool doRelease = false;
-  CFDataRef tableRef;
+  wxCFRef<CFDataRef> tableRef;
 #endif
 #endif
   size_t fontSize1 = 0;
@@ -506,11 +505,10 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
 #else // wxWidgets 2.8.x
       CTFontRef fontRef = (const void*) m_font.MacGetCTFont();
 #endif
-      tableRef  = CTFontCopyTable(fontRef, kCTFontTableCFF, 0);
+      tableRef.reset(CTFontCopyTable(fontRef, kCTFontTableCFF, 0));
       const UInt8* tableData = CFDataGetBytePtr(tableRef);
       CFIndex      tableLen  = CFDataGetLength(tableRef);
       fontStream = new wxMemoryInputStream((const char*) tableData, (size_t) tableLen);
-      doRelease = true;
     }
     else
 #endif
@@ -605,14 +603,6 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
         fontData->Write(*fontStream);
       }
     }
-#if defined(__WXMAC__)
-#if wxPDFMACOSX_HAS_CORE_TEXT
-    if (doRelease)
-    {
-      CFRelease(tableRef);
-    }
-#endif
-#endif
   }
 
   if (fontFile != NULL)

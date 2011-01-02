@@ -790,11 +790,7 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
   {
     if (::FSpMakeFSRef(&fileSpecification, &fileReference) == noErr)
     {
-      char fullFontFilename[PATH_MAX];
-      if (::FSRefMakePath(&fileReference, reinterpret_cast<unsigned char*>(fullFontFilename), PATH_MAX) == noErr)
-      {
-        fontFileName =  wxString::FromUTF8(fullFontFilename);
-      }
+      fontFileName = wxMacFSRefToPath(&fileReference);
     }
   }
 
@@ -1012,11 +1008,11 @@ wxPdfFontManagerBase::RegisterSystemFonts()
     FcFontSetDestroy(fs);
   }
 #elif defined(__WXMAC__)
-  wxLogError(wxString(wxT("wxPdfFontManagerBase::RegisterSystemFonts: ")) +
-             wxString(_("Method is not yet implemented for platform WXMAC.")));
+  count += RegisterFontDirectory(wxT("/System/Library/Fonts"));
+  count += RegisterFontDirectory(wxT("/Library/Fonts"));
 #else
-  wxLogError(wxString(wxT("wxPdfFontManagerBase::RegisterSystemFonts: ")) +
-             wxString(_("Method is not available for your platform.")));
+  wxLogWarning(wxString(wxT("wxPdfFontManagerBase::RegisterSystemFonts: ")) +
+               wxString(_("Method is not available for your platform.")));
 #endif
   return count;
 }

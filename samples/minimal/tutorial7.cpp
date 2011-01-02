@@ -158,10 +158,10 @@ fontSample()
   wxPdfDocument pdf;
 
 #if wxUSE_UNICODE
-#if defined(__WXMSW__)
+#if defined(__WXMSW__) || defined(__WXMAC__)
   // TODO: using wxFont objects does not work in console application under Linux
-  const wxFont* myFont = wxSWISS_FONT;
-  wxPdfFontManager::GetFontManager()->RegisterFont(*myFont, wxT("Swiss"));
+  const wxFont* myFont = wxNORMAL_FONT;
+  wxPdfFontManager::GetFontManager()->RegisterFont(*myFont, wxT("Normal"));
 #endif
   pdf.AddFont(wxT("liz"), wxT(""), wxT("liz.otf"));
 #endif
@@ -199,10 +199,10 @@ fontSample()
   pdf.Cell(0,10,wxT("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
   pdf.Ln(10);
 
-#if defined(__WXMSW__)
+#if defined(__WXMSW__) || defined(__WXMAC__)
   // TODO: using wxFont objects does not work in console application under Linux
-  pdf.SetFont(wxT("Swiss"),wxT(""),16);
-  pdf.Cell(0,10,wxT("And this is wxFont wxSWISS_FONT:"));
+  pdf.SetFont(wxT("Normal"),wxT(""),16);
+  pdf.Cell(0,10,wxT("And this is wxFont wxNORMAL_FONT:"));
   pdf.Ln(10);
   pdf.Cell(0,10,wxT("abcdefghijklmnopqrstuvwxyz"));
   pdf.Ln(10);

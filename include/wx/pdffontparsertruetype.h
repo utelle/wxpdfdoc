@@ -230,7 +230,7 @@ private:
 #if defined(__WXMAC__)
 #if wxPDFMACOSX_HAS_CORE_TEXT
   CTFontRef             m_fontRef;           ///< Mac Core Text font reference
-  CFDataRef             m_tableRef;          ///< Font table reference
+  wxCFRef<CFDataRef>    m_tableRef;          ///< Font table reference
 #endif
 #endif
 };

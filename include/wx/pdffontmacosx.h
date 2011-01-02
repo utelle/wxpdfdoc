@@ -19,27 +19,19 @@
 #if defined(__WXMAC__)
 
 #if wxCHECK_VERSION(2,9,0)
-// wxWidgets 2.9.x or higher
-#define wxPDFMACOSX_HAS_CORE_TEXT wxOSX_USE_CORE_TEXT
-#define wxPDFMACOSX_HAS_ATSU_TEXT wxOSX_USE_ATSU_TEXT
+  // wxWidgets 2.9.x or higher
+  #include <wx/osx/private.h>
+  #define wxPDFMACOSX_HAS_CORE_TEXT wxOSX_USE_CORE_TEXT
+  #define wxPDFMACOSX_HAS_ATSU_TEXT wxOSX_USE_ATSU_TEXT
 #else // wxWidgets 2.8.x
-#ifndef __LP64__
-#define wxPDFMACOSX_HAS_CORE_TEXT 0
-#define wxPDFMACOSX_HAS_ATSU_TEXT 1
-#else
-#define wxPDFMACOSX_HAS_CORE_TEXT 1
-#define wxPDFMACOSX_HAS_ATSU_TEXT 0
-#endif
-#endif
-
-// Additional includes
-#if wxPDFMACOSX_HAS_ATSU_TEXT
-// TODO: check which system headers need to be included if any
-#endif
-
-#if wxPDFMACOSX_HAS_CORE_TEXT
-#include <CoreFoundation/CoreFoundation.h>
-#include <ApplicationServices/ApplicationServices.h>
+  #include <wx/mac/private.h>
+  #ifndef __LP64__
+    #define wxPDFMACOSX_HAS_CORE_TEXT 0
+    #define wxPDFMACOSX_HAS_ATSU_TEXT 1
+  #else
+    #define wxPDFMACOSX_HAS_CORE_TEXT 1
+    #define wxPDFMACOSX_HAS_ATSU_TEXT 0
+  #endif
 #endif
 
 #endif

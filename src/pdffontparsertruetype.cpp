@@ -477,7 +477,7 @@ wxPdfFontParserTrueType::LockTable(const wxString& tableName)
                               localTableName[1] << 16 |
                               localTableName[2] << 8 |
                               localTableName[3];
-    m_tableRef = CTFontCopyTable(m_fontRef, tableTag, 0);
+    m_tableRef.reset(CTFontCopyTable(m_fontRef, tableTag, 0));
     const UInt8* tableData = CFDataGetBytePtr(m_tableRef);
     CFIndex      tableLen  = CFDataGetLength(m_tableRef);
     m_savedStream = m_inFont;
@@ -498,7 +498,6 @@ wxPdfFontParserTrueType::ReleaseTable()
 #if wxPDFMACOSX_HAS_CORE_TEXT
   if (m_isMacCoreText)
   {
-    CFRelease(m_tableRef);
     delete m_inFont;
     m_inFont = m_savedStream;
   }
