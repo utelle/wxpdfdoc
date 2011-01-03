@@ -768,7 +768,7 @@ wxPdfFontData::CanShow(const wxString& s, const wxPdfEncoding* encoding) const
   bool canShow = true;
 #if wxUSE_UNICODE
   wxMBConv* conv = GetEncodingConv();
-  size_t len = conv->FromWChar(NULL, 0, s, s.length());
+  size_t len = conv->FromWChar(NULL, 0, s.wc_str(), s.length());
   canShow = (len != wxCONV_FAILED);
 #endif
   return canShow;

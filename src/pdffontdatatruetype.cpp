@@ -252,7 +252,7 @@ wxPdfFontDataTrueType::CanShow(const wxString& s, const wxPdfEncoding* encoding)
   bool canShow = true;
 #if wxUSE_UNICODE
   wxMBConv* conv = GetEncodingConv();
-  size_t len = conv->FromWChar(NULL, 0, s, s.length());
+  size_t len = conv->FromWChar(NULL, 0, s.wc_str(), s.length());
   canShow = (len != wxCONV_FAILED);
 #endif
   return canShow;
@@ -275,9 +275,9 @@ wxPdfFontDataTrueType::ConvertCID2GID(const wxString& s,
     size_t slen = s.length();
     wxString t = ConvertToValid(s);
     wxMBConv* conv = GetEncodingConv();
-    size_t len = conv->FromWChar(NULL, 0, t, slen);
+    size_t len = conv->FromWChar(NULL, 0, t.wc_str(), slen);
     char* mbstr = new char[len+3];
-    len = conv->FromWChar(mbstr, len+3, t, slen);
+    len = conv->FromWChar(mbstr, len+3, t.wc_str(), slen);
 #else
     size_t len = s.Length();;
     char* mbstr = new char[len+1];

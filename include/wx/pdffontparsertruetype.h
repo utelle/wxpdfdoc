@@ -123,7 +123,7 @@ protected:
   wxPdfFontData* IdentifyFont();
 
   /// Prepare the font data
-  void PrepareFontData(wxPdfFontData* fontData);
+  bool PrepareFontData(wxPdfFontData* fontData);
 
   /// Check whether the font is in compact font format (CFF)
   void CheckCff();

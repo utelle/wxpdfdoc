@@ -739,6 +739,7 @@ wxPdfFontParserTrueType::IdentifyFont()
     fontData->SetFamily(GetEnglishName(1));
     fontData->SetFullNames(GetUniqueNames(4));
     fontData->SetStyle(GetEnglishName(2));
+    m_fontName = fontData->GetName();
 
     CheckRestrictions();
     fontData->SetEmbedSupported(m_embedAllowed);
@@ -759,6 +760,7 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
     m_inFont = NULL;
     int fontIndex = fontData->GetFontIndex();
     m_fileName = fontData->GetFontFileName();
+    m_fontName = fontData->GetName();
     if (!m_fileName.IsEmpty())
     {
       wxFileName fileName(m_fileName);
@@ -856,7 +858,7 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
           }
           if (ok)
           {
-            PrepareFontData(fontData);
+            ok = PrepareFontData(fontData);
           }
           else
           {
@@ -893,41 +895,43 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
   return ok;
 }
 
-void
+bool
 wxPdfFontParserTrueType::PrepareFontData(wxPdfFontData* fontData)
 {
-  wxPdfGlyphWidthMap* widths = new wxPdfGlyphWidthMap();
-  wxPdfChar2GlyphMap* glyphs = new wxPdfChar2GlyphMap();
-
-  ReadMaps();
-
-  wxPdfCMap* cMap;
-  if (m_cmapExt != NULL)
-    cMap = m_cmapExt;
-  else if (!m_fontSpecific && m_cmap31 != NULL)
-    cMap = m_cmap31;
-  else if (m_fontSpecific && m_cmap10 != NULL)
-    cMap = m_cmap10;
-  else if (m_cmap31 != NULL)
-    cMap = m_cmap31;
-  else 
-    cMap = m_cmap10;
-  wxPdfCMap::iterator cMapIter;
-  int cc;
-  wxPdfCMapEntry* cMapEntry;
-  for (cMapIter = cMap->begin(); cMapIter != cMap->end(); cMapIter++)
+  bool ok = ReadMaps();
+  if (ok)
   {
-    cc = cMapIter->first;
-    cMapEntry = cMapIter->second;
-    (*widths)[cc] = cMapEntry->m_width;
-    (*glyphs)[cc] = cMapEntry->m_glyph;
-  }
+    wxPdfGlyphWidthMap* widths = new wxPdfGlyphWidthMap();
+    wxPdfChar2GlyphMap* glyphs = new wxPdfChar2GlyphMap();
 
-  fontData->SetGlyphWidthMap(widths);
-  fontData->SetChar2GlyphMap(glyphs);
-  fontData->SetGlyphWidths(m_glyphWidths);
-  fontData->SetKernPairMap(m_kp);
-  fontData->SetDescription(m_fd);
+    wxPdfCMap* cMap;
+    if (m_cmapExt != NULL)
+      cMap = m_cmapExt;
+    else if (!m_fontSpecific && m_cmap31 != NULL)
+      cMap = m_cmap31;
+    else if (m_fontSpecific && m_cmap10 != NULL)
+      cMap = m_cmap10;
+    else if (m_cmap31 != NULL)
+      cMap = m_cmap31;
+    else 
+      cMap = m_cmap10;
+    wxPdfCMap::iterator cMapIter;
+    int cc;
+    wxPdfCMapEntry* cMapEntry;
+    for (cMapIter = cMap->begin(); cMapIter != cMap->end(); cMapIter++)
+    {
+      cc = cMapIter->first;
+      cMapEntry = cMapIter->second;
+      (*widths)[cc] = cMapEntry->m_width;
+      (*glyphs)[cc] = cMapEntry->m_glyph;
+    }
+
+    fontData->SetGlyphWidthMap(widths);
+    fontData->SetChar2GlyphMap(glyphs);
+    fontData->SetGlyphWidths(m_glyphWidths);
+    fontData->SetKernPairMap(m_kp);
+    fontData->SetDescription(m_fd);
+  }
 
   m_inFont->SeekI(0);
   size_t len = (m_cff) ? m_cffLength : m_inFont->GetSize();
@@ -935,6 +939,7 @@ wxPdfFontParserTrueType::PrepareFontData(wxPdfFontData* fontData)
 #if wxUSE_UNICODE
   fontData->CreateDefaultEncodingConv();
 #endif
+  return ok;
 }
 
 bool
@@ -946,7 +951,8 @@ wxPdfFontParserTrueType::ReadTableDirectory()
   {
     m_inFont->SeekI(m_directoryOffset);
     int id = ReadInt();
-    if (id == 0x00010000 || id == 0x4F54544F)
+    //        TrueType            OpenType            Mac TrueType
+    if (id == 0x00010000 || id == 0x4F54544F || id == 0x74727565)
     {
       int num_tables = ReadUShort();
       SkipBytes(6);
@@ -1157,64 +1163,80 @@ wxPdfFontParserTrueType::ReadMaps()
   ReleaseTable();
 
   entry = m_tableDirectory->find(wxT("OS/2"));
-  if (entry == m_tableDirectory->end())
+  if (entry != m_tableDirectory->end())
   {
-    wxLogError(wxString(wxT("wxPdfFontParser::ReadMaps: ")) +
-               wxString::Format(_("Table 'OS/2' does not exist in '%s,%s'."), m_fileName.c_str(), m_style.c_str()));
-    return false;
-  }
-  tableLocation = entry->second;
-  LockTable(wxT("OS/2"));
-  m_inFont->SeekI(tableLocation->m_offset);
-  int version = ReadUShort();
-  os_2.m_xAvgCharWidth = ReadShort();
-  os_2.m_usWeightClass = ReadUShort();
-  os_2.m_usWidthClass = ReadUShort();
-  os_2.m_fsType = ReadShort();
-  os_2.m_ySubscriptXSize = ReadShort();
-  os_2.m_ySubscriptYSize = ReadShort();
-  os_2.m_ySubscriptXOffset = ReadShort();
-  os_2.m_ySubscriptYOffset = ReadShort();
-  os_2.m_ySuperscriptXSize = ReadShort();
-  os_2.m_ySuperscriptYSize = ReadShort();
-  os_2.m_ySuperscriptXOffset = ReadShort();
-  os_2.m_ySuperscriptYOffset = ReadShort();
-  os_2.m_yStrikeoutSize = ReadShort();
-  os_2.m_yStrikeoutPosition = ReadShort();
-  os_2.m_sFamilyClass = ReadShort();
-  m_inFont->Read(os_2.m_panose, 10);
-  SkipBytes(16);
-  m_inFont->Read(os_2.m_achVendID, 4);
-  os_2.m_fsSelection = ReadUShort();
-  os_2.m_usFirstCharIndex = ReadUShort();
-  os_2.m_usLastCharIndex = ReadUShort();
-  os_2.m_sTypoAscender = ReadShort();
-  os_2.m_sTypoDescender = ReadShort();
-  if (os_2.m_sTypoDescender > 0)
-  {
-    os_2.m_sTypoDescender = (short)(-os_2.m_sTypoDescender);
-  }
-  os_2.m_sTypoLineGap = ReadShort();
-  os_2.m_usWinAscent = ReadUShort();
-  os_2.m_usWinDescent = ReadUShort();
-  os_2.m_ulCodePageRange1 = 0;
-  os_2.m_ulCodePageRange2 = 0;
-  if (version > 0)
-  {
-    os_2.m_ulCodePageRange1 = ReadInt();
-    os_2.m_ulCodePageRange2 = ReadInt();
-  }
-  if (version > 1)
-  {
-    os_2.m_sxHeight = ReadShort();
-    os_2.m_sCapHeight = ReadShort();
+    tableLocation = entry->second;
+    LockTable(wxT("OS/2"));
+    m_inFont->SeekI(tableLocation->m_offset);
+    int version = ReadUShort();
+    os_2.m_xAvgCharWidth = ReadShort();
+    os_2.m_usWeightClass = ReadUShort();
+    os_2.m_usWidthClass = ReadUShort();
+    os_2.m_fsType = ReadShort();
+    os_2.m_ySubscriptXSize = ReadShort();
+    os_2.m_ySubscriptYSize = ReadShort();
+    os_2.m_ySubscriptXOffset = ReadShort();
+    os_2.m_ySubscriptYOffset = ReadShort();
+    os_2.m_ySuperscriptXSize = ReadShort();
+    os_2.m_ySuperscriptYSize = ReadShort();
+    os_2.m_ySuperscriptXOffset = ReadShort();
+    os_2.m_ySuperscriptYOffset = ReadShort();
+    os_2.m_yStrikeoutSize = ReadShort();
+    os_2.m_yStrikeoutPosition = ReadShort();
+    os_2.m_sFamilyClass = ReadShort();
+    m_inFont->Read(os_2.m_panose, 10);
+    if (version == 0)
+    {
+      SkipBytes(4);
+    }
+    else
+    {
+      SkipBytes(16);
+    }
+    m_inFont->Read(os_2.m_achVendID, 4);
+    os_2.m_fsSelection = ReadUShort();
+    os_2.m_usFirstCharIndex = ReadUShort();
+    os_2.m_usLastCharIndex = ReadUShort();
+    os_2.m_sTypoAscender = ReadShort();
+    os_2.m_sTypoDescender = ReadShort();
+    if (os_2.m_sTypoDescender > 0)
+    {
+      os_2.m_sTypoDescender = (short)(-os_2.m_sTypoDescender);
+    }
+    os_2.m_sTypoLineGap = ReadShort();
+    os_2.m_usWinAscent = ReadUShort();
+    os_2.m_usWinDescent = ReadUShort();
+    os_2.m_ulCodePageRange1 = 0;
+    os_2.m_ulCodePageRange2 = 0;
+    if (version > 0)
+    {
+      os_2.m_ulCodePageRange1 = ReadInt();
+      os_2.m_ulCodePageRange2 = ReadInt();
+    }
+    if (version > 1)
+    {
+      os_2.m_sxHeight = ReadShort();
+      os_2.m_sCapHeight = ReadShort();
+    }
+    else
+    {
+      os_2.m_sxHeight = 0;
+      os_2.m_sCapHeight = (int)(0.7 * head.m_unitsPerEm);
+    }
+    ReleaseTable();
   }
   else
   {
+    // TODO: check definition of hhea values, convert if necessary
+    os_2.m_sTypoAscender = hhea.m_ascender;
+    os_2.m_sTypoDescender = hhea.m_descender;
+    if (os_2.m_sTypoDescender > 0)
+    {
+      os_2.m_sTypoDescender = (short)(-os_2.m_sTypoDescender);
+    }
     os_2.m_sxHeight = 0;
     os_2.m_sCapHeight = (int)(0.7 * head.m_unitsPerEm);
   }
-  ReleaseTable();
 
   int underlinePosition = -100;
   int underlineThickness = 50;
@@ -1321,6 +1343,18 @@ wxPdfFontParserTrueType::ReadMaps()
     {
       map10 = offset;
     }
+    else if (platId == 0) // Apple Unicode
+    {
+      // Formats 0, 2, 4, 6, 8, 10, 12
+      if (platSpecId < 4)
+      {
+        map31 = offset;
+      }
+      else if (platSpecId == 4) // UCS32
+      {
+        mapExt = offset;
+      }
+    }
   }
   if (map10 > 0 && map30 <= 0)
   {
@@ -1383,7 +1417,14 @@ wxPdfFontParserTrueType::ReadMaps()
   flags |= m_fontSpecific ? 4 : 32;
   m_fd.SetFlags(flags);
 
-  return true;
+  bool ok = (m_cmap10 != NULL) || (m_cmap31 != NULL) || (m_cmapExt != NULL);
+  if (!ok)
+  {
+    wxLogError(wxString(wxT("wxPdfFontParserTrueType::ReadMaps: ")) +
+               wxString::Format(_("No valid 'cmap' table found for font '%s'."),  m_fontName.c_str()));
+  }
+
+  return ok;
 }
 
 bool

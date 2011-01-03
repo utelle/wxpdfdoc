@@ -153,6 +153,7 @@ public:
 
 protected:
   wxString              m_fileName; ///< File name of the font file
+  wxString              m_fontName; ///< Name of font
   wxInputStream*        m_inFont;   ///< Font file input stream
   wxString              m_style;    ///< Font style
 

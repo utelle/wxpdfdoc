@@ -770,9 +770,9 @@ wxPdfDocument::ReplaceNbPagesAlias()
 
 #if wxUSE_UNICODE
   wxMBConvUTF16BE conv;
-  size_t lenUni = conv.FromWChar(NULL, 0, m_aliasNbPages, lenAsc);
+  size_t lenUni = conv.FromWChar(NULL, 0, m_aliasNbPages.wc_str(), lenAsc);
   char* nbUni = new char[lenUni+3];
-  lenUni = conv.FromWChar(nbUni, lenUni+3, m_aliasNbPages, lenAsc);
+  lenUni = conv.FromWChar(nbUni, lenUni+3, m_aliasNbPages.wc_str(), lenAsc);
   size_t* fUni = makeFail(nbUni,lenUni);
 #endif
 
@@ -781,9 +781,9 @@ wxPdfDocument::ReplaceNbPagesAlias()
 #if wxUSE_UNICODE
   wxCharBuffer wpg(pg.ToAscii());
   const char* pgAsc = (const char*) wpg;
-  size_t lenPgUni = conv.FromWChar(NULL, 0, pg, lenPgAsc);
+  size_t lenPgUni = conv.FromWChar(NULL, 0, pg.wc_str(), lenPgAsc);
   char* pgUni = new char[lenPgUni+3];
-  lenPgUni = conv.FromWChar(pgUni, lenPgUni+3, pg, lenPgAsc);
+  lenPgUni = conv.FromWChar(pgUni, lenPgUni+3, pg.wc_str(), lenPgAsc);
 #else
   const char* pgAsc = pg.c_str();
 #endif
@@ -2201,9 +2201,9 @@ wxPdfDocument::ShowGlyph(wxUint32 glyph)
   {
 #if wxUSE_UNICODE
     wxMBConv* conv = m_currentFont->GetEncodingConv();
-    size_t len = conv->FromWChar(NULL, 0, t);
+    size_t len = conv->FromWChar(NULL, 0, t.wc_str());
     char* mbstr = new char[len+3];
-    len = conv->FromWChar(mbstr, len+3, t);
+    len = conv->FromWChar(mbstr, len+3, t.wc_str());
 #else
     size_t len = t.Length();;
     char* mbstr = new char[len+1];
@@ -2264,9 +2264,9 @@ wxPdfDocument::TextEscape(const wxString& s, bool newline)
 #if wxUSE_UNICODE
     size_t slen = s.length();
     wxMBConv* conv = m_currentFont->GetEncodingConv();
-    size_t len = conv->FromWChar(NULL, 0, t, slen);
+    size_t len = conv->FromWChar(NULL, 0, t.wc_str(), slen);
     char* mbstr = new char[len+3];
-    len = conv->FromWChar(mbstr, len+3, t, slen);
+    len = conv->FromWChar(mbstr, len+3, t.wc_str(), slen);
     if (len == wxCONV_FAILED)
     {
       len = strlen(mbstr);
@@ -2399,12 +2399,12 @@ wxPdfDocument::OutTextstring(const wxString& s, bool newline)
 #if wxUSE_UNICODE
   size_t slen = s.length();
   wxMBConvUTF16BE conv;
-  size_t len = conv.FromWChar(NULL, 0, s, slen);
+  size_t len = conv.FromWChar(NULL, 0, s.wc_str(), slen);
   size_t lenbuf = CalculateStreamLength(len+2);
   char* mbstr = new char[lenbuf+3];
   mbstr[ofs+0] = '\xfe';
   mbstr[ofs+1] = '\xff';
-  len = 2 + conv.FromWChar(&mbstr[ofs+2], len+3, s, slen);
+  len = 2 + conv.FromWChar(&mbstr[ofs+2], len+3, s.wc_str(), slen);
 #else
   size_t len = s.Length();;
   size_t lenbuf = CalculateStreamLength(len);
