@@ -125,6 +125,9 @@ protected:
   /// Prepare the font data
   bool PrepareFontData(wxPdfFontData* fontData);
 
+  /// Check whether the font contains all required tables
+  bool CheckTables();
+
   /// Check whether the font is in compact font format (CFF)
   void CheckCff();
 

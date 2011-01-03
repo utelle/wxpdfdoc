@@ -721,29 +721,32 @@ wxPdfFontParserTrueType::IdentifyFont()
 #if wxUSE_UNICODE
   if (ReadTableDirectory())
   {
-    CheckCff();
-    if (m_cff)
+    if (CheckTables())
     {
-      wxPdfFontDataOpenTypeUnicode* otfFontData =  new wxPdfFontDataOpenTypeUnicode();
-      otfFontData->SetCffOffset(m_cffOffset);
-      otfFontData->SetCffLength(m_cffLength);
-      fontData = otfFontData;
-    }
-    else
-    {
-      fontData = new wxPdfFontDataTrueTypeUnicode();
-    }
+      CheckCff();
+      if (m_cff)
+      {
+        wxPdfFontDataOpenTypeUnicode* otfFontData =  new wxPdfFontDataOpenTypeUnicode();
+        otfFontData->SetCffOffset(m_cffOffset);
+        otfFontData->SetCffLength(m_cffLength);
+        fontData = otfFontData;
+      }
+      else
+      {
+        fontData = new wxPdfFontDataTrueTypeUnicode();
+      }
 
-    // Get PostScript name, font family, font names and font style
-    fontData->SetName(GetBaseFont());
-    fontData->SetFamily(GetEnglishName(1));
-    fontData->SetFullNames(GetUniqueNames(4));
-    fontData->SetStyle(GetEnglishName(2));
-    m_fontName = fontData->GetName();
+      // Get PostScript name, font family, font names and font style
+      fontData->SetName(GetBaseFont());
+      fontData->SetFamily(GetEnglishName(1));
+      fontData->SetFullNames(GetUniqueNames(4));
+      fontData->SetStyle(GetEnglishName(2));
+      m_fontName = fontData->GetName();
 
-    CheckRestrictions();
-    fontData->SetEmbedSupported(m_embedAllowed);
-    fontData->SetSubsetSupported(m_subsetAllowed);
+      CheckRestrictions();
+      fontData->SetEmbedSupported(m_embedAllowed);
+      fontData->SetSubsetSupported(m_subsetAllowed);
+    }
   }
 #endif
   return fontData;
@@ -847,23 +850,31 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
       {
         if (ReadTableDirectory())
         {
-          CheckCff();
-          if (m_cff)
+          if (CheckTables())
           {
-            ok = fontData->GetType().IsSameAs(wxT("OpenTypeUnicode"));
-          }
-          else
-          {
-            ok = fontData->GetType().IsSameAs(wxT("TrueTypeUnicode"));
-          }
-          if (ok)
-          {
-            ok = PrepareFontData(fontData);
+            CheckCff();
+            if (m_cff)
+            {
+              ok = fontData->GetType().IsSameAs(wxT("OpenTypeUnicode"));
+            }
+            else
+            {
+              ok = fontData->GetType().IsSameAs(wxT("TrueTypeUnicode"));
+            }
+            if (ok)
+            {
+              ok = PrepareFontData(fontData);
+            }
+            else
+            {
+              wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
+                         wxString::Format(_("Wrong font data type '%s' for font file '%s'."), fontData->GetType().c_str(), m_fileName.c_str()));
+            }
           }
           else
           {
             wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
-                       wxString::Format(_("Wrong font data type '%s' for font file '%s'."), fontData->GetType().c_str(), m_fileName.c_str()));
+                       wxString::Format(_("Missing font tables for font file '%s'."), m_fileName.c_str()));
           }
         }
         else
@@ -1012,7 +1023,31 @@ wxPdfFontParserTrueType::ReadTableDirectory()
   }
   return ok;
 }
-    
+
+static const wxChar* checkTableNames[] = {
+  wxT("cmap"), wxT("head"), wxT("hhea"), wxT("hmtx"), wxT("name"),
+  wxT("post"), 
+  wxT("glyf"), wxT("loca"),
+  NULL
+};
+
+bool
+wxPdfFontParserTrueType::CheckTables()
+{
+  bool ok = true;
+  int maxTableCount = (m_tableDirectory->find(wxT("CFF ")) == m_tableDirectory->end()) ? 8 : 6;
+  int tableCount = 0;
+  while (ok && tableCount < maxTableCount && checkTableNames[tableCount] != NULL)
+  {
+    if (m_tableDirectory->find(checkTableNames[tableCount]) == m_tableDirectory->end())
+    {
+      ok = false;
+    }
+    ++tableCount;
+  }
+  return ok;
+}
+
 void
 wxPdfFontParserTrueType::CheckCff()
 {
@@ -1236,6 +1271,10 @@ wxPdfFontParserTrueType::ReadMaps()
     }
     os_2.m_sxHeight = 0;
     os_2.m_sCapHeight = (int)(0.7 * head.m_unitsPerEm);
+    if (os_2.m_sCapHeight > os_2.m_sTypoAscender)
+    {
+      os_2.m_sCapHeight = os_2.m_sTypoAscender;
+    }
   }
 
   int underlinePosition = -100;
