@@ -644,6 +644,7 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
     fontData->SetAlias(aliasName);
     if (!AddFont(fontData, regFont))
     {
+      delete fontData;
       wxLogDebug(wxString(wxT("wxPdfFontManagerBase::RegisterFont: ")) +
                  wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
     }
@@ -812,6 +813,7 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
     fontData->SetAlias(aliasName);
     if (!AddFont(fontData, regFont))
     {
+      delete fontData;
       wxLogDebug(wxString(wxT("wxPdfFontManagerBase::RegisterFont: ")) +
                  wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
     }

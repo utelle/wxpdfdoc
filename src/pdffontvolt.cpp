@@ -27,6 +27,8 @@
 
 #include "wx/pdffontvolt.h"
 
+#include "wxmemdbg.h"
+
 class wxPdfVoltRule
 {
 public :
@@ -39,6 +41,7 @@ public :
   wxPdfVoltRule(bool repeat, const wxString& match, const wxString& replace)
     : m_repeat(repeat), m_match(match), m_replace(replace)
   {
+    m_re.Compile(m_match);
   }
 
   ~wxPdfVoltRule()
@@ -49,6 +52,7 @@ public:
   bool     m_repeat;
   wxString m_match;
   wxString m_replace;
+  wxRegEx  m_re;
 };
 
 wxPdfVolt::wxPdfVolt()
@@ -110,17 +114,15 @@ wxPdfVolt::ProcessRules(const wxString& text)
   wxString str;
 #endif
   wxString processText = text;
-  wxRegEx re;
   size_t n = m_rules.GetCount();
   size_t j;
   for (j = 0; j < n; ++j)
   {
     wxPdfVoltRule* rule = (wxPdfVoltRule*) m_rules.Item(j);
-    re.Compile(rule->m_match);
     int matchCount;
     do
     {
-      matchCount = re.Replace(&processText, rule->m_replace);
+      matchCount = rule->m_re.Replace(&processText, rule->m_replace);
 #if 0
       str = wxEmptyString;
       wxString::const_iterator ch;

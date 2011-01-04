@@ -23,11 +23,6 @@
 #include "wx/pdfarraytypes.h"
 #include "wx/pdffontdata.h"
 
-// Forward declarations
-//class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontDescription;
-
-//class wxPdfKernPairDesc;
-
 /// Class representing the Adobe core fonts. (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfVolt
 {
@@ -35,32 +30,19 @@ public :
   /// Default constructor
   wxPdfVolt();
 
-#if 0
-  /// Constructor
-  /**
-  * \param family the family name of the font
-  * \param name the font name
-  * \param alias the alias name of the font or an empty string
-  * \param cwArray an array with the character widths 
-  * \param kpArray an array with kerning pairs
-  * \param desc a font description
-  */
-  wxPdfVolt(const wxString& family, const wxString& name, const wxString& alias,
-                    short* cwArray, const wxPdfKernPairDesc* kpArray,
-                    const wxPdfFontDescription& desc);
-#endif
-
   /// Default destructor
   virtual ~wxPdfVolt();
 
+  /// Load VOLT data
   void LoadVoltData(wxXmlNode* volt);
 
+  /// Process VOLT rules
   wxString ProcessRules(const wxString& text);
 
 protected:
 
 private:
-  wxArrayPtrVoid m_rules;
+  wxArrayPtrVoid m_rules; ///< Array of VOLT rules
 };
 
 #endif

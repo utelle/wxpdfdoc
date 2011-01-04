@@ -129,7 +129,7 @@ public:
   */
   virtual bool HasVoltData() const { return m_volt != NULL; }
 
-  /// Applay VOLT data
+  /// Apply VOLT data
   /**
   * \param s text string for which VOLT data should be applied
   * \return text string modified according to the VOLT data

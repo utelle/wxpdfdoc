@@ -2201,9 +2201,9 @@ wxPdfDocument::ShowGlyph(wxUint32 glyph)
   {
 #if wxUSE_UNICODE
     wxMBConv* conv = m_currentFont->GetEncodingConv();
-    size_t len = conv->FromWChar(NULL, 0, t.wc_str());
+    size_t len = conv->FromWChar(NULL, 0, t.wc_str(), 1);
     char* mbstr = new char[len+3];
-    len = conv->FromWChar(mbstr, len+3, t.wc_str());
+    len = conv->FromWChar(mbstr, len+3, t.wc_str(), 1);
 #else
     size_t len = t.Length();;
     char* mbstr = new char[len+1];
