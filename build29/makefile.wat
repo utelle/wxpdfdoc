@@ -112,19 +112,19 @@ VAR = -ot -ox
 !ifeq WX_DEBUG 1
 VAR = -od
 !endif
-VAR_4 =
+VAR_6 =
 !ifeq WX_DEBUG 0
-VAR_4 = -d0
+VAR_6 = -d0
 !endif
 !ifeq WX_DEBUG 1
-VAR_4 = -d2
+VAR_6 = -d2
 !endif
-VAR_5 =
+VAR_7 =
 !ifeq WX_DEBUG 0
-VAR_5 = 
+VAR_7 = 
 !endif
 !ifeq WX_DEBUG 1
-VAR_5 = debug all
+VAR_7 = debug all
 !endif
 __COMPONENT_LIB_DEP =
 !ifeq WX_SHARED 0
@@ -173,7 +173,7 @@ WXLIBPATH = \lib\$(COMPILER_PREFIX)_dll
 COMPILER_PREFIX = wat
 PDFDOC_LIB_CXXFLAGS = $(____WX_SHARED) -d_UNICODE $(__WXDEBUG_DEFINE_p) &
 	-d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) &
-	-i=$(WX_DIR)\include $(VAR) $(VAR_4) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
+	-i=$(WX_DIR)\include $(VAR) $(VAR_6) -wx -i=..\include $(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_LIB_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfannotation.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfbarcode.obj &
@@ -218,7 +218,7 @@ PDFDOC_LIB_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfxml.obj
 PDFDOC_DLL_CXXFLAGS = -bd $(____WX_SHARED) -d_UNICODE $(__WXDEBUG_DEFINE_p) &
 	-d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) &
-	-i=$(WX_DIR)\include $(VAR) $(VAR_4) -wx -i=..\include -dWXMAKINGDLL_PDFDOC &
+	-i=$(WX_DIR)\include $(VAR) $(VAR_6) -wx -i=..\include -dWXMAKINGDLL_PDFDOC &
 	$(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_DLL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfannotation.obj &
@@ -264,7 +264,7 @@ PDFDOC_DLL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfxml.obj
 MINIMAL_CXXFLAGS = $(____WX_SHARED) -d_UNICODE $(__WXDEBUG_DEFINE_p) &
 	-d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) &
-	-i=$(WX_DIR)\include $(VAR) $(VAR_4) -wx -i=..\include -i=..\samples\minimal &
+	-i=$(WX_DIR)\include $(VAR) $(VAR_6) -wx -i=..\include -i=..\samples\minimal &
 	$(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.obj &
@@ -297,16 +297,22 @@ MINIMAL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_xmlwrite.obj
 DCSAMPLE_CXXFLAGS = $(____WX_SHARED) -d_UNICODE $(__WXDEBUG_DEFINE_p) &
 	-d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) &
-	-i=$(WX_DIR)\include $(VAR) $(VAR_4) -wx -i=..\include -i=..\samples\pdfdc &
+	-i=$(WX_DIR)\include $(VAR) $(VAR_6) -wx -i=..\include -i=..\samples\pdfdc &
 	$(CPPFLAGS) $(CXXFLAGS)
 DCSAMPLE_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.obj
 MAKEFONT_CXXFLAGS = $(____WX_SHARED) -d_UNICODE $(__WXDEBUG_DEFINE_p) &
 	-d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) &
-	-i=$(WX_DIR)\include $(VAR) $(VAR_4) -wx -i=..\include -i=..\makefont &
+	-i=$(WX_DIR)\include $(VAR) $(VAR_6) -wx -i=..\include -i=..\makefont &
 	$(CPPFLAGS) $(CXXFLAGS)
 MAKEFONT_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.obj
+SHOWFONT_CXXFLAGS = $(____WX_SHARED) -d_UNICODE $(__WXDEBUG_DEFINE_p) &
+	-d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) &
+	-i=$(WX_DIR)\include $(VAR) $(VAR_6) -wx -i=..\include -i=..\showfont &
+	$(CPPFLAGS) $(CXXFLAGS)
+SHOWFONT_OBJECTS =  &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.obj
 
 
 all : watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)
@@ -315,7 +321,7 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX) :
 
 ### Targets: ###
 
-all : .SYMBOLIC test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ..\samples\minimal\minimal.exe ..\samples\pdfdc\printing.exe ..\makefont\makefont.exe
+all : .SYMBOLIC test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ..\samples\minimal\minimal.exe ..\samples\pdfdc\printing.exe ..\makefont\makefont.exe ..\showfont\showfont.exe
 
 clean : .SYMBOLIC 
 	-if exist watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.obj del watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.obj
@@ -329,6 +335,7 @@ clean : .SYMBOLIC
 	-if exist ..\samples\minimal\minimal.exe del ..\samples\minimal\minimal.exe
 	-if exist ..\samples\pdfdc\printing.exe del ..\samples\pdfdc\printing.exe
 	-if exist ..\makefont\makefont.exe del ..\makefont\makefont.exe
+	-if exist ..\showfont\showfont.exe del ..\showfont\showfont.exe
 
 test_for_selected_wxbuild :  
 	@if not exist $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h \
@@ -358,7 +365,7 @@ make_dir_pdfdoc_lib :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_5) libpath ..$(WXLIBPATH) $(LDFLAGS)
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) $(LDFLAGS)
 	@for %i in ($(PDFDOC_DLL_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll.lbc file %i
 	@for %i in ( wxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml.lib wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core.lib wxbase$(WX_VERSION)$(WXLIBPOSTFIX).lib wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll.lbc
@@ -375,7 +382,7 @@ make_dir_pdfdoc_dll :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_5) libpath ..$(WXLIBPATH) system nt ref 'main_' $(LDFLAGS)
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt ref 'main_' $(LDFLAGS)
 	@for %i in ($(MINIMAL_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal.lbc file %i
 	@for %i in ( $(__COMPONENT_LIB_LIBR) wxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml.lib wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core.lib wxbase$(WX_VERSION)$(WXLIBPOSTFIX).lib wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res
@@ -387,7 +394,7 @@ make_dir_pdfdoc_dll :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_5) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16' $(LDFLAGS)
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16' $(LDFLAGS)
 	@for %i in ($(DCSAMPLE_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc file %i
 	@for %i in ( $(__COMPONENT_LIB_LIBR) wxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml.lib wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core.lib wxbase$(WX_VERSION)$(WXLIBPOSTFIX).lib wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
@@ -399,12 +406,24 @@ make_dir_pdfdoc_dll :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc option quiet
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc name $^@
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc option caseexact
-	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_5) libpath ..$(WXLIBPATH) system nt ref 'main_' $(LDFLAGS)
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt ref 'main_' $(LDFLAGS)
 	@for %i in ($(MAKEFONT_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc file %i
 	@for %i in ( $(__COMPONENT_LIB_LIBR) wxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml.lib wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core.lib wxbase$(WX_VERSION)$(WXLIBPOSTFIX).lib wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res
 	@for %i in () do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc option stack=%i
 	wlink @watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont.lbc
+
+..\showfont\showfont.exe :  $(SHOWFONT_OBJECTS) $(__COMPONENT_LIB_DEP) watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.res
+	@%create watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc option quiet
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc name $^@
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc option caseexact
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt ref 'main_' $(LDFLAGS)
+	@for %i in ($(SHOWFONT_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc file %i
+	@for %i in ( $(__COMPONENT_LIB_LIBR) wxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml.lib wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core.lib wxbase$(WX_VERSION)$(WXLIBPOSTFIX).lib wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc library %i
+	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.res
+	@for %i in () do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc option stack=%i
+	wlink @watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont.lbc
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfannotation.obj :  .AUTODEPEND ..\src\pdfannotation.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(PDFDOC_LIB_CXXFLAGS) $<
@@ -750,4 +769,10 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.obj :  .AUTODE
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res :  .AUTODEPEND ..\makefont\makefont.rc
 	wrc -q -ad -bt=nt -r -fo=$^@  $(____WX_SHARED) -d_UNICODE $(__WXDEBUG_DEFINE_p) -d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include -i=..\include -i=..\makefont $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.obj :  .AUTODEPEND ..\showfont\showfont.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(SHOWFONT_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.res :  .AUTODEPEND ..\showfont\showfont.rc
+	wrc -q -ad -bt=nt -r -fo=$^@  $(____WX_SHARED) -d_UNICODE $(__WXDEBUG_DEFINE_p) -d__WXMSW__ -i=$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -i=$(WX_DIR)\include -i=..\include -i=..\showfont $<
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" ?>
+<makefile>
+
+    <!-- =============================================================== -->
+    <!--                    Support for samples data files:              -->
+    <!-- =============================================================== -->
+
+    <if cond="FORMAT_SUPPORTS_ACTIONS=='1'">
+        <define-rule name="wx-data" extends="copy-files">
+            <template>
+                <dependency-of>all</dependency-of>
+                <dstdir>$(BUILDDIR)</dstdir>
+                <srcdir>$(SRCDIR)</srcdir>
+            </template>
+
+            <!--
+            VS - FIXME:
+            Don't clean the files because it would wipe out sources files if
+            BUILDDIR==SRCDIR. This is same behaviour as in the old build system,
+            but it would be better to delete the files during "make clean" if
+            BUILDDIR!=SRCDIR.
+
+            <define-tag name="files">
+                <clean-files>
+                    $(' '.join(['$(BUILDDIR)$(DIRSEP)%s'%x for x in value.split()]))
+                </clean-files>
+            </define-tag>
+            -->
+        </define-rule>
+    </if>
+    <if cond="FORMAT_SUPPORTS_ACTIONS=='0'">
+        <!-- empty stub for project-files formats which don't support <command> -->
+        <define-rule name="wx-data" extends="action">
+            <define-tag name="dstdir"/>
+            <define-tag name="srcdir"/>
+            <define-tag name="files"/>
+        </define-rule>
+    </if>
+
+  <!-- =============================================================== -->
+  <!--                    Misc platform specialities:                  -->
+  <!-- =============================================================== -->
+
+  <if cond="FORMAT=='autoconf'">
+    <include file="mac_bundles.bkl"/>
+  </if>
+
+  
+</makefile>

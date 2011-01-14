@@ -31,7 +31,7 @@
 #include "wx/pdflinks.h"
 #include "wx/pdfproperties.h"
 
-#define wxPDF_PRODUCER       wxT("wxPdfDocument 0.9.0")
+#define wxPDF_PRODUCER       wxT("wxPdfDocument 0.9.1")
 
 #define wxPDF_EPSILON        1e-6
 

@@ -59,3 +59,18 @@ End Project Dependency
 
 ###############################################################################
 
+Project: "showfont"=wxpdfdoc_vc6_showfont.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+Begin Project Dependency
+Project_Dep_Name pdfdoc
+End Project Dependency
+}}}
+
+###############################################################################
+

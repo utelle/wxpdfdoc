@@ -55,6 +55,14 @@
     <if cond="FORMAT_SUPPORTS_CONDITIONS=='0'">pdfdoc_lib</if>
   </set>
 
+  <!-- =============================================================== -->
+  <!--                    Misc platform specialities:                  -->
+  <!-- =============================================================== -->
+
+  <if cond="FORMAT=='autoconf'">
+    <include file="mac_bundles.bkl"/>
+  </if>
+
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- Sample(s) settings                                                -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -69,6 +77,9 @@
     <wx-lib>xml</wx-lib>
     <wx-lib>core</wx-lib>
     <wx-lib>base</wx-lib>
+    <if cond="FORMAT=='autoconf'">
+      <wx-mac-app-bundle/>
+    </if>
   </template>
 
   <template id="pdfdoc_sample_dc">
@@ -81,6 +92,9 @@
     <wx-lib>xml</wx-lib>
     <wx-lib>core</wx-lib>
     <wx-lib>base</wx-lib>
+    <if cond="FORMAT=='autoconf'">
+      <wx-mac-app-bundle/>
+    </if>
   </template>
 
   <template id="pdfdoc_makefont">
@@ -93,6 +107,24 @@
     <wx-lib>xml</wx-lib>
     <wx-lib>core</wx-lib>
     <wx-lib>base</wx-lib>
+    <if cond="FORMAT=='autoconf'">
+      <wx-mac-app-bundle/>
+    </if>
+  </template>
+
+  <template id="pdfdoc_showfont">
+    <app-type>console</app-type>
+    <sources>$(fileList('showfont/*.cpp'))</sources>
+    <headers>$(fileList('showfont/*.h'))</headers>
+    <include>$(SRCDIR)/showfont</include>
+    <dirname>$(SRCDIR)/showfont</dirname>
+    <library>$(COMPONENT_LIB)</library>
+    <wx-lib>xml</wx-lib>
+    <wx-lib>core</wx-lib>
+    <wx-lib>base</wx-lib>
+    <if cond="FORMAT=='autoconf'">
+      <wx-mac-app-bundle/>
+    </if>
   </template>
 
   <!-- The sample of the component: as for the LIB target, this exe derives from a 
@@ -110,6 +142,11 @@
   <wxcode-sample id="makefont" template="pdfdoc_makefont">
     <exename>makefont</exename>
     <win32-res>makefont/makefont.rc</win32-res>
+  </wxcode-sample>
+
+  <wxcode-sample id="showfont" template="pdfdoc_showfont">
+    <exename>showfont</exename>
+    <win32-res>showfont/showfont.rc</win32-res>
   </wxcode-sample>
 
 </makefile>

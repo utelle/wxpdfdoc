@@ -227,7 +227,13 @@ wxPdfDC::SetFont(const wxFont& font)
   if (ok)
   {
     // TODO: point size adjustment is not always reliable
+#if wxABI_VERSION >= 20810
     double size = (double) font.GetPointSize() * GetFontPointSizeAdjustment(72.0);
+#else
+    // GetFontPointSizeAdjustment is not available in wxWidgets versions < 2.8.10
+    // TODO: apply a correction nevertheless?
+    double size = (double) font.GetPointSize();
+#endif    
     ok = m_pdfDocument->SetFont(regFont, styles, size);
   }
 }

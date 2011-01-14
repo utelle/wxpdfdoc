@@ -39,6 +39,7 @@ CXX = @CXX@
 CXXFLAGS = @CXXFLAGS@
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
+WX_VERSION = @WX_VERSION@
 WX_CXXFLAGS = @WX_CXXFLAGS@
 WX_LIBS = @WX_LIBS@
 WX_RESCOMP = @WX_RESCOMP@
@@ -309,6 +310,11 @@ MAKEFONT_CXXFLAGS = -I$(srcdir)/include -I$(srcdir)/makefont $(WX_CXXFLAGS) \
 MAKEFONT_OBJECTS =  \
 	makefont_makefont.o \
 	$(__makefont___win32rc)
+SHOWFONT_CXXFLAGS = -I$(srcdir)/include -I$(srcdir)/showfont $(WX_CXXFLAGS) \
+	$(CPPFLAGS) $(CXXFLAGS)
+SHOWFONT_OBJECTS =  \
+	showfont_showfont.o \
+	$(__showfont___win32rc)
 
 ### Conditionally set variables: ###
 
@@ -409,6 +415,9 @@ COND_USE_SOVERSOLARIS_1___pdfdoc_dll___so_symlinks_uninst_cmd = rm -f \
 @COND_PLATFORM_MAC_1@__minimal___mac_setfilecmd = \
 @COND_PLATFORM_MAC_1@	$(SETFILE) -t APPL \
 @COND_PLATFORM_MAC_1@	$(srcdir)/samples/minimal/minimal$(EXEEXT)
+@COND_PLATFORM_MACOSX_1@__minimal_app_Contents_PkgInfo___depname \
+@COND_PLATFORM_MACOSX_1@	= minimal.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@__minimal_bundle___depname = minimal_bundle
 @COND_PLATFORM_WIN32_1@__minimal___win32rc = minimal_minimal_rc.o
 @COND_PLATFORM_MAC_0@__dcsample___mac_setfilecmd = @true
 @COND_PLATFORM_MAC_1@__dcsample___mac_setfilecmd = \
@@ -417,26 +426,40 @@ COND_USE_SOVERSOLARIS_1___pdfdoc_dll___so_symlinks_uninst_cmd = rm -f \
 COND_PLATFORM_OS2_1___dcsample___os2_emxbindcmd = $(NM) printing$(EXEEXT) | if \
 	grep -q pmwin.763 ; then emxbind -ep printing$(EXEEXT) ; fi
 @COND_PLATFORM_OS2_1@__dcsample___os2_emxbindcmd = $(COND_PLATFORM_OS2_1___dcsample___os2_emxbindcmd)
+@COND_PLATFORM_MACOSX_1@__dcsample_app_Contents_PkgInfo___depname \
+@COND_PLATFORM_MACOSX_1@	= dcsample.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@__dcsample_bundle___depname = dcsample_bundle
 @COND_PLATFORM_WIN32_1@__dcsample___win32rc = dcsample_printing_rc.o
 @COND_PLATFORM_MAC_0@__makefont___mac_setfilecmd = @true
 @COND_PLATFORM_MAC_1@__makefont___mac_setfilecmd = \
 @COND_PLATFORM_MAC_1@	$(SETFILE) -t APPL \
 @COND_PLATFORM_MAC_1@	$(srcdir)/makefont/makefont$(EXEEXT)
+@COND_PLATFORM_MACOSX_1@__makefont_app_Contents_PkgInfo___depname \
+@COND_PLATFORM_MACOSX_1@	= makefont.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@__makefont_bundle___depname = makefont_bundle
 @COND_PLATFORM_WIN32_1@__makefont___win32rc = makefont_makefont_rc.o
+@COND_PLATFORM_MAC_0@__showfont___mac_setfilecmd = @true
+@COND_PLATFORM_MAC_1@__showfont___mac_setfilecmd = \
+@COND_PLATFORM_MAC_1@	$(SETFILE) -t APPL \
+@COND_PLATFORM_MAC_1@	$(srcdir)/showfont/showfont$(EXEEXT)
+@COND_PLATFORM_MACOSX_1@__showfont_app_Contents_PkgInfo___depname \
+@COND_PLATFORM_MACOSX_1@	= showfont.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@__showfont_bundle___depname = showfont_bundle
+@COND_PLATFORM_WIN32_1@__showfont___win32rc = showfont_showfont_rc.o
 @COND_WX_SHARED_0@__COMPONENT_LIB_DEP = $(__pdfdoc_lib___depname)
 @COND_WX_SHARED_1@__COMPONENT_LIB_DEP = $(__pdfdoc_dll___depname)
 @COND_WX_SHARED_0@__COMPONENT_LIB_LIBR = -L$(srcdir)/lib
 @COND_WX_SHARED_1@__COMPONENT_LIB_LIBR = -L$(srcdir)/lib
-COND_WX_SHARED_0___COMPONENT_LIB_LIBR_6 = \
+COND_WX_SHARED_0___COMPONENT_LIB_LIBR_9 = \
 	-lwxcode_$(WX_PORT)$(WXLIBPOSTFIX)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-@COND_WX_SHARED_0@__COMPONENT_LIB_LIBR_6 = $(COND_WX_SHARED_0___COMPONENT_LIB_LIBR_6)
-COND_WX_SHARED_1___COMPONENT_LIB_LIBR_6 = \
+@COND_WX_SHARED_0@__COMPONENT_LIB_LIBR_9 = $(COND_WX_SHARED_0___COMPONENT_LIB_LIBR_9)
+COND_WX_SHARED_1___COMPONENT_LIB_LIBR_9 = \
 	-lwxcode_$(WX_PORT)$(WXLIBPOSTFIX)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-@COND_WX_SHARED_1@__COMPONENT_LIB_LIBR_6 = $(COND_WX_SHARED_1___COMPONENT_LIB_LIBR_6)
+@COND_WX_SHARED_1@__COMPONENT_LIB_LIBR_9 = $(COND_WX_SHARED_1___COMPONENT_LIB_LIBR_9)
 
 ### Targets: ###
 
-all: $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) $(srcdir)/samples/minimal/minimal$(EXEEXT) $(srcdir)/samples/pdfdc/printing$(EXEEXT) $(srcdir)/makefont/makefont$(EXEEXT)
+all: $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) $(srcdir)/samples/minimal/minimal$(EXEEXT) $(__minimal_bundle___depname) $(srcdir)/samples/pdfdc/printing$(EXEEXT) $(__dcsample_bundle___depname) $(srcdir)/makefont/makefont$(EXEEXT) $(__makefont_bundle___depname) $(srcdir)/showfont/showfont$(EXEEXT) $(__showfont_bundle___depname)
 
 install: $(__install_pdfdoc_lib___depname) $(__install_pdfdoc_lib_headers___depname) $(__install_pdfdoc_dll___depname) $(__install_pdfdoc_dll_headers___depname)
 
@@ -453,8 +476,13 @@ clean:
 	rm -f $(srcdir)/lib/$(LIBPREFIX)wxcode_$(WX_PORT)$(WXLIBPOSTFIX)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).$(DLLIMP_SUFFIX)
 	rm -f $(srcdir)/lib/$(LIBPREFIX)wxcode_$(WX_PORT)$(WXLIBPOSTFIX)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).$(DLLIMP_SUFFIX) $(srcdir)/lib/$(DLLPREFIX)wxcode_$(WX_PORT)$(WXLIBPOSTFIX)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)$(__pdfdoc_dll___targetsuf2)
 	rm -f $(srcdir)/samples/minimal/minimal$(EXEEXT)
+	rm -rf minimal.app
 	rm -f $(srcdir)/samples/pdfdc/printing$(EXEEXT)
+	rm -rf dcsample.app
 	rm -f $(srcdir)/makefont/makefont$(EXEEXT)
+	rm -rf makefont.app
+	rm -f $(srcdir)/showfont/showfont$(EXEEXT)
+	rm -rf showfont.app
 
 distclean: clean
 	rm -f config.cache config.log config.status bk-deps bk-make-pch shared-ld-sh Makefile
@@ -516,20 +544,113 @@ distclean: clean
 @COND_WX_SHARED_1@	done
 
 $(srcdir)/samples/minimal/minimal$(EXEEXT): $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_DEP) $(__minimal___win32rc)
-	$(CXX) -o $@ $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_LIBR)  -L$(srcdir)/lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR_6) $(WX_LIBS) $(LIBS)
+	$(CXX) -o $@ $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_LIBR)  -L$(srcdir)/lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR_9) $(WX_LIBS) $(LIBS)
 	
 	$(__minimal___mac_setfilecmd)
 
+@COND_PLATFORM_MACOSX_1@minimal.app/Contents/PkgInfo: $(srcdir)/samples/minimal/minimal$(EXEEXT) $(srcdir)/build/Info.plist.in $(srcdir)/build/wxmac.icns
+@COND_PLATFORM_MACOSX_1@	mkdir -p minimal.app/Contents
+@COND_PLATFORM_MACOSX_1@	mkdir -p minimal.app/Contents/MacOS
+@COND_PLATFORM_MACOSX_1@	mkdir -p minimal.app/Contents/Resources
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	sed -e "s/IDENTIFIER/`echo $(srcdir) | sed -e 's,\.\./,,g' | sed -e 's,/,.,g'`/" \
+@COND_PLATFORM_MACOSX_1@	-e "s/EXECUTABLE/minimal/" \
+@COND_PLATFORM_MACOSX_1@	-e "s/VERSION/$(WX_VERSION)/" \
+@COND_PLATFORM_MACOSX_1@	$(srcdir)/build/Info.plist.in >minimal.app/Contents/Info.plist
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	echo -n "APPL????" >minimal.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	ln -f $(srcdir)/samples/minimal/minimal$(EXEEXT) minimal.app/Contents/MacOS/minimal
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	cp -f $(srcdir)/build/wxmac.icns minimal.app/Contents/Resources/wxmac.icns
+
+@COND_PLATFORM_MACOSX_1@minimal_bundle: $(__minimal_app_Contents_PkgInfo___depname)
+
 $(srcdir)/samples/pdfdc/printing$(EXEEXT): $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP) $(__dcsample___win32rc)
-	$(CXX) -o $@ $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_LIBR)  -L$(srcdir)/lib $(LDFLAGS_GUI) $(LDFLAGS)  $(__COMPONENT_LIB_LIBR_6) $(WX_LIBS) $(LIBS)
+	$(CXX) -o $@ $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_LIBR)  -L$(srcdir)/lib $(LDFLAGS_GUI) $(LDFLAGS)  $(__COMPONENT_LIB_LIBR_9) $(WX_LIBS) $(LIBS)
 	
 	$(__dcsample___mac_setfilecmd)
 	$(__dcsample___os2_emxbindcmd)
 
+@COND_PLATFORM_MACOSX_1@dcsample.app/Contents/PkgInfo: $(srcdir)/samples/pdfdc/printing$(EXEEXT) $(srcdir)/build/Info.plist.in $(srcdir)/build/wxmac.icns
+@COND_PLATFORM_MACOSX_1@	mkdir -p dcsample.app/Contents
+@COND_PLATFORM_MACOSX_1@	mkdir -p dcsample.app/Contents/MacOS
+@COND_PLATFORM_MACOSX_1@	mkdir -p dcsample.app/Contents/Resources
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	sed -e "s/IDENTIFIER/`echo $(srcdir) | sed -e 's,\.\./,,g' | sed -e 's,/,.,g'`/" \
+@COND_PLATFORM_MACOSX_1@	-e "s/EXECUTABLE/dcsample/" \
+@COND_PLATFORM_MACOSX_1@	-e "s/VERSION/$(WX_VERSION)/" \
+@COND_PLATFORM_MACOSX_1@	$(srcdir)/build/Info.plist.in >dcsample.app/Contents/Info.plist
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	echo -n "APPL????" >dcsample.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	ln -f $(srcdir)/samples/pdfdc/printing$(EXEEXT) dcsample.app/Contents/MacOS/dcsample
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	cp -f $(srcdir)/build/wxmac.icns dcsample.app/Contents/Resources/wxmac.icns
+
+@COND_PLATFORM_MACOSX_1@dcsample_bundle: $(__dcsample_app_Contents_PkgInfo___depname)
+
 $(srcdir)/makefont/makefont$(EXEEXT): $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP) $(__makefont___win32rc)
-	$(CXX) -o $@ $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_LIBR)  -L$(srcdir)/lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR_6) $(WX_LIBS) $(LIBS)
+	$(CXX) -o $@ $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_LIBR)  -L$(srcdir)/lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR_9) $(WX_LIBS) $(LIBS)
 	
 	$(__makefont___mac_setfilecmd)
+
+@COND_PLATFORM_MACOSX_1@makefont.app/Contents/PkgInfo: $(srcdir)/makefont/makefont$(EXEEXT) $(srcdir)/build/Info.plist.in $(srcdir)/build/wxmac.icns
+@COND_PLATFORM_MACOSX_1@	mkdir -p makefont.app/Contents
+@COND_PLATFORM_MACOSX_1@	mkdir -p makefont.app/Contents/MacOS
+@COND_PLATFORM_MACOSX_1@	mkdir -p makefont.app/Contents/Resources
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	sed -e "s/IDENTIFIER/`echo $(srcdir) | sed -e 's,\.\./,,g' | sed -e 's,/,.,g'`/" \
+@COND_PLATFORM_MACOSX_1@	-e "s/EXECUTABLE/makefont/" \
+@COND_PLATFORM_MACOSX_1@	-e "s/VERSION/$(WX_VERSION)/" \
+@COND_PLATFORM_MACOSX_1@	$(srcdir)/build/Info.plist.in >makefont.app/Contents/Info.plist
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	echo -n "APPL????" >makefont.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	ln -f $(srcdir)/makefont/makefont$(EXEEXT) makefont.app/Contents/MacOS/makefont
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	cp -f $(srcdir)/build/wxmac.icns makefont.app/Contents/Resources/wxmac.icns
+
+@COND_PLATFORM_MACOSX_1@makefont_bundle: $(__makefont_app_Contents_PkgInfo___depname)
+
+$(srcdir)/showfont/showfont$(EXEEXT): $(SHOWFONT_OBJECTS) $(__COMPONENT_LIB_DEP) $(__showfont___win32rc)
+	$(CXX) -o $@ $(SHOWFONT_OBJECTS) $(__COMPONENT_LIB_LIBR)  -L$(srcdir)/lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR_9) $(WX_LIBS) $(LIBS)
+	
+	$(__showfont___mac_setfilecmd)
+
+@COND_PLATFORM_MACOSX_1@showfont.app/Contents/PkgInfo: $(srcdir)/showfont/showfont$(EXEEXT) $(srcdir)/build/Info.plist.in $(srcdir)/build/wxmac.icns
+@COND_PLATFORM_MACOSX_1@	mkdir -p showfont.app/Contents
+@COND_PLATFORM_MACOSX_1@	mkdir -p showfont.app/Contents/MacOS
+@COND_PLATFORM_MACOSX_1@	mkdir -p showfont.app/Contents/Resources
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	sed -e "s/IDENTIFIER/`echo $(srcdir) | sed -e 's,\.\./,,g' | sed -e 's,/,.,g'`/" \
+@COND_PLATFORM_MACOSX_1@	-e "s/EXECUTABLE/showfont/" \
+@COND_PLATFORM_MACOSX_1@	-e "s/VERSION/$(WX_VERSION)/" \
+@COND_PLATFORM_MACOSX_1@	$(srcdir)/build/Info.plist.in >showfont.app/Contents/Info.plist
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	echo -n "APPL????" >showfont.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	ln -f $(srcdir)/showfont/showfont$(EXEEXT) showfont.app/Contents/MacOS/showfont
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	
+@COND_PLATFORM_MACOSX_1@	cp -f $(srcdir)/build/wxmac.icns showfont.app/Contents/Resources/wxmac.icns
+
+@COND_PLATFORM_MACOSX_1@showfont_bundle: $(__showfont_app_Contents_PkgInfo___depname)
 
 pdfdoc_lib_pdfannotation.o: $(srcdir)/src/pdfannotation.cpp
 	$(CXXC) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(srcdir)/src/pdfannotation.cpp
@@ -876,6 +997,12 @@ makefont_makefont.o: $(srcdir)/makefont/makefont.cpp
 makefont_makefont_rc.o: $(srcdir)/makefont/makefont.rc
 	$(WX_RESCOMP) -i$< -o$@  --include-dir $(srcdir)/include --include-dir $(srcdir)/makefont
 
+showfont_showfont.o: $(srcdir)/showfont/showfont.cpp
+	$(CXXC) -c -o $@ $(SHOWFONT_CXXFLAGS) $(srcdir)/showfont/showfont.cpp
+
+showfont_showfont_rc.o: $(srcdir)/showfont/showfont.rc
+	$(WX_RESCOMP) -i$< -o$@  --include-dir $(srcdir)/include --include-dir $(srcdir)/showfont
+
 
 # Include dependency info, if present:
 @IF_GNU_MAKE@-include ./.deps/*.d
@@ -883,4 +1010,5 @@ makefont_makefont_rc.o: $(srcdir)/makefont/makefont.rc
 .PHONY: all install uninstall clean distclean install_pdfdoc_lib \
 	uninstall_pdfdoc_lib install_pdfdoc_lib_headers \
 	uninstall_pdfdoc_lib_headers install_pdfdoc_dll uninstall_pdfdoc_dll \
-	install_pdfdoc_dll_headers uninstall_pdfdoc_dll_headers
+	install_pdfdoc_dll_headers uninstall_pdfdoc_dll_headers minimal_bundle \
+	dcsample_bundle makefont_bundle showfont_bundle

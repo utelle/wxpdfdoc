@@ -2,7 +2,7 @@ wxPdfDocument component info
 ----------------------------
 
 Website:      http://wxcode.sourceforge.net/components/wxpdfdoc
-Version:      0.9.0
+Version:      0.9.1
 Description:
 wxPdfDocument allows wxWidgets applications to generate PDF documents.
 The code is a port of FPDF - a free PHP class for generating PDF files
@@ -29,7 +29,7 @@ contains
 - configure28, Makefile28.in for wxWidgets 2.8.x
 - configure29, Makefile29.in for wxWidgets 2.9.x
 
-Rename the files appropriate for you for 'configure' resp. 'Makefile.in'.
+Rename the files appropriate for you to 'configure' resp. 'Makefile.in'.
 
 For makefile-based systems please inspect the makefile appropriate for
 your environment. At the beginning of the makefile you find several
@@ -75,6 +75,34 @@ Note: Recreating the configure script requires the following prerequisites:
 The autoconf-based systems also support a "make install" target which
 builds the library and then copies the headers of the component to
 /usr/local/include and the lib to /usr/local/lib.
+
+Executing the sample applications
+---------------------------------
+
+If you build the wxPdfDocument library as a shared object resp. DLL you
+have to take different measures on different platforms to execute the
+sample applications. The sample applications try to locate themselves
+using relative paths, but this might not work under all circumstances.
+
+wxMSW:
+Copy the wxPdfDocument DLL to the samples' directories or change the PATH
+environment variable appropriately. Set environment variable WXPDF_FONTPATH:
+
+set WXPDF_FONTPATH=<wxPdfDocument-path>\lib\fonts
+
+wxGTK:
+Set environment variables before starting the applications, i.e.
+
+LD_LIBRARY_PATH=<wxPdfDocument>/lib:$LD_LIBRARY_PATH WXPDF_FONTPATH=<wxPdfDocument>/lib/fonts ./application
+
+wxMAC:
+You should set environment variable WXPDF_FONTPATH:
+
+WXPDF_FONTPATH=<wxPdfDocument>/lib/fonts
+
+Since there isn't a working solution yet to generate fully functional Mac bundle
+build files via bakefile, it is probably necessary to copy the wxPdfDocument
+shared object to the appropriate subfolder of the application's bundle.
 
 Acknowledgements
 ----------------

@@ -75,7 +75,7 @@ WX_VERSION_MAJOR = $(shell echo $(WX_VERSION) | cut -c1,1)
 WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
 WX_CONFIG_FLAGS = $(WX_CONFIG_UNICODE_FLAG) $(WX_CONFIG_SHARED_FLAG) \
 	--toolkit=$(WX_PORT) --version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
-PDFDOC_LIB_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include `$(WX_CONFIG) \
+PDFDOC_LIB_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfannotation.o \
@@ -184,7 +184,7 @@ PDFDOC_LIB_HEADERS =  \
 	src/pdfdc28.inc \
 	src/pdfdc29.inc \
 	src/pdfglyphnames.inc
-PDFDOC_DLL_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include -DWXMAKINGDLL_PDFDOC \
+PDFDOC_DLL_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -DWXMAKINGDLL_PDFDOC \
 	-fPIC -DPIC `$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) \
 	$(CXXFLAGS)
 PDFDOC_DLL_OBJECTS =  \
@@ -294,7 +294,7 @@ PDFDOC_DLL_HEADERS =  \
 	src/pdfdc28.inc \
 	src/pdfdc29.inc \
 	src/pdfglyphnames.inc
-MINIMAL_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include -I../samples/minimal \
+MINIMAL_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -I../samples/minimal \
 	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_barcodes.o \
@@ -325,14 +325,18 @@ MINIMAL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_tutorial7.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_wmf.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_xmlwrite.o
-DCSAMPLE_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include -I../samples/pdfdc \
+DCSAMPLE_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -I../samples/pdfdc \
 	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 DCSAMPLE_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/dcsample_printing.o
-MAKEFONT_CXXFLAGS = $(VAR) $(VAR_5) -W -Wall -I../include -I../makefont \
+MAKEFONT_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -I../makefont \
 	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 MAKEFONT_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/makefont_makefont.o
+SHOWFONT_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -I../showfont \
+	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
+SHOWFONT_OBJECTS =  \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/showfont_showfont.o
 
 ### Conditionally set variables: ###
 
@@ -419,10 +423,10 @@ __COMPONENT_LIB_LIBR = \
 	../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
 endif
 ifeq ($(WX_DEBUG),0)
-VAR_5 = 
+VAR_7 = 
 endif
 ifeq ($(WX_DEBUG),1)
-VAR_5 = -g
+VAR_7 = -g
 endif
 
 
@@ -432,7 +436,7 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX):
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ../samples/minimal/minimal ../samples/pdfdc/printing ../makefont/makefont
+all: test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ../samples/minimal/minimal ../samples/pdfdc/printing ../makefont/makefont ../showfont/showfont
 
 install: $(__install_pdfdoc_lib___depname) $(__install_pdfdoc_lib_headers___depname) $(__install_pdfdoc_dll___depname) $(__install_pdfdoc_dll_headers___depname)
 
@@ -447,6 +451,7 @@ clean:
 	rm -f ../samples/minimal/minimal
 	rm -f ../samples/pdfdc/printing
 	rm -f ../makefont/makefont
+	rm -f ../showfont/showfont
 
 test_for_selected_wxbuild: 
 	@$(WX_CONFIG) $(WX_CONFIG_FLAGS)
@@ -492,7 +497,7 @@ endif
 
 ifeq ($(WX_SHARED),1)
 ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so: make_dir_pdfdoc_dll  $(PDFDOC_DLL_OBJECTS)
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(PDFDOC_DLL_OBJECTS)  $(VAR_5) -L../lib $(LDFLAGS)  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(PDFDOC_DLL_OBJECTS)  $(VAR_7) -L../lib $(LDFLAGS)  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 endif
 
 ifeq ($(WX_SHARED),1)
@@ -530,13 +535,16 @@ uninstall_pdfdoc_dll_headers:
 endif
 
 ../samples/minimal/minimal: $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_DEP)
-	$(CXX) -o $@ $(MINIMAL_OBJECTS)  $(VAR_5) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) -o $@ $(MINIMAL_OBJECTS)  $(VAR_7) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 ../samples/pdfdc/printing: $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP)
-	$(CXX) -o $@ $(DCSAMPLE_OBJECTS)  $(VAR_5) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) -o $@ $(DCSAMPLE_OBJECTS)  $(VAR_7) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 ../makefont/makefont: $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP)
-	$(CXX) -o $@ $(MAKEFONT_OBJECTS)  $(VAR_5) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+	$(CXX) -o $@ $(MAKEFONT_OBJECTS)  $(VAR_7) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
+
+../showfont/showfont: $(SHOWFONT_OBJECTS) $(__COMPONENT_LIB_DEP)
+	$(CXX) -o $@ $(SHOWFONT_OBJECTS)  $(VAR_7) -L../lib  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfannotation.o: ../src/pdfannotation.cpp
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
@@ -873,6 +881,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/dcsample_printing.o: ../samples/pdfdc/pr
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/makefont_makefont.o: ../makefont/makefont.cpp
 	$(CXX) -c -o $@ $(MAKEFONT_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/showfont_showfont.o: ../showfont/showfont.cpp
+	$(CXX) -c -o $@ $(SHOWFONT_CXXFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean install_pdfdoc_lib uninstall_pdfdoc_lib \
 	install_pdfdoc_lib_headers uninstall_pdfdoc_lib_headers install_pdfdoc_dll \

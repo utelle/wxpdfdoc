@@ -58,8 +58,9 @@ are supported, too.
 
 A \ref overview showing all available methods in alphabetical order is provided.
 A sample application including more than 20 examples demonstrates the different features.
-A separate detailed description is available for the \ref makefont. The chapter \ref writexml
-describes the supported tags of the simple XML markup language used by the method wxPdfDocument::WriteXml.
+Separate detailed descriptions are available for the \ref makefont and the \ref showfont.
+The chapter \ref writexml describes the supported tags of the simple XML markup language
+used by the method wxPdfDocument::WriteXml.
 
 wxPdfDocument is hosted as a component of <a href="http://wxcode.sourceforge.net"><b>wxCode</b></a>.
 For any remark, question or problem, you can leave a message on the appropriate \b wxCode
@@ -69,11 +70,34 @@ page. Or you can send a mail to me
 
 \section version Version history
 
-\todo Although all features were thoroughly tested individually, not all possible combinations were
-verified to function properly. This means: wxPdfDocument still needs intensive testing. 
-<b>If you find bugs please report them to the author!</b>
-
 <dl>
+<dt><b>0.9.1</b> - <i>January 2011</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets version 2.8.11 and version 2.9.1. 
+Compatibility with older wxWidgets versions is not guaranteed, but it should
+now work with all 2.8.x versions.
+
+Added features:<br>
+- added support for Apple Unicode TrueType fonts
+- added the \ref showfont
+
+General changes:<br>
+- optimized the processing speed of VOLT rules
+- modified the code for wxMac support
+- modified the sample tutorial7 to test the new wxMac font loading code
+- added check for valid 'cmap' table in wxPdfFontParserTrueType
+- added call to method wc_str for wxString parameters in calls to FromWChar
+- implemented method RegisterSystemFonts for wxMac
+- samples changed to set the executable path as the current working directory
+
+Fixed bugs:<br>
+- fixed a memory leak on registering a font identified by a wxFont object
+- fixed a bug in method ShowGlyph
+- fixed several wxMac compile time bugs (missing includes, some typos)
+- changed the wxMac print dialog includes in the printing sample
+
+</dd>
+
 <dt><b>0.9.0</b> - <i>December 2010</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets version 2.8.11 and version 2.9.1. 
@@ -273,7 +297,9 @@ Planning and basic PDF features implemented
 
 \section issues Known issues
 
-\li only partial graphics state management for nested transformations
+Currently there are no known issues regarding the functionality of the wxPdfDocument component.
+All features were thoroughly tested individually, but it's almost impossible to check all
+potential combinations. <b>If you find bugs please report them to the author!</b>
 
 \section acknowledgement Acknowledgements
 
@@ -709,6 +735,102 @@ Since wxPdfDocument version 0.8.0 automatic font subsetting is supported for
 TrueType und TrueType Unicode fonts. Since version 0.8.5 subsetting of OpenType Unicode
 fonts is supported as well. <b>Note</b>: The font license must allow embedding and
 subsetting.
+*/
+
+/** \page showfont ShowFont Utility
+
+\b ShowFont can be used to generate font samples in PDF form showing the Unicode
+coverage of the font similar in appearance to the Unicode charts. The concept of
+this application is based on <a href="http://fntsample.sourceforge.net">FntSample</a>,
+developed by Eugeniy Meshcheryakov for use with <a href="http://dejavu-fonts.org">DejaVu Fonts</a>
+project, but the code is written from scratch in C++ using <a href="http://www.wxwidgets.org">wxWidgets</a>
+and wxPdfDocument.
+
+\section useshowfont Usage
+
+<tt>showfont -f FONTFILE -o OUTPUTFILE [-n FONTINDEX] [-e ENCODING] [-i RANGES] [-x RANGES]</tt>
+
+<tt>showfont { -h | --help }</tt>
+
+<table border=0>
+<tr><td valign="top"><tt>-f&nbsp;FONTFILE</tt></td><td>The font file for which a sample should be generated.
+It can be the name of a \b TrueType, \b OpenType or \b Type1 font file, but wxPdfDocument's
+font description files are supported, too.</td></tr>
+<tr><td valign="top"><tt>-o&nbsp;OUTFILE</tt></td><td>The name of the file to which the PDF output is written.
+\note It should have the extension \b .pdf.</td></tr>
+<tr><td valign="top"><tt>-n&nbsp;INDEX</tt></td><td>The index of the font within the FONTFILE in case of
+TrueType Collections (.ttc) which contain multiple fonts. By default font with index 0 is used.</td></tr>
+
+<tr><td valign="top"><tt>-e&nbsp;ENCODING</tt></td><td>the font encoding of the font.
+\note This option is required only for \b Type1 fonts and is ignored for other font types.
+
+The encoding defines the association between a code (from 0 to 255) and an Unicode character.
+The first 128 are fixed and correspond to ASCII; the next 128 are variable. The following
+encodings are supported by \b ShowFont: 
+
+<table border="0">
+<tr bgcolor="#6699dd"><td><b>Encoding</b></td><td><b>Description</b></td><td>&nbsp;</td><td><b>Encoding</b></td><td><b>Description</b></td></tr>
+<tr bgcolor="#eeeeee"><td><tt>standard</tt></td><td>Adobe standard Latin encoding</td><td>&nbsp;</td><td><tt>iso-8859-1</tt></td><td>Western European / Latin-1</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>winansi</tt></td><td>Windows ANSI aka Windows Code Page 1252</td><td>&nbsp;</td><td><tt>iso-8859-2</tt></td><td>Central European / Latin-2</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>macroman</tt></td><td>Mac OS encoding for Latin</td><td>&nbsp;</td><td><tt>iso-8859-3</tt></td><td>South European / Latin-3</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>symbol</tt></td><td>Symbol set encoding</td><td>&nbsp;</td><td><tt>iso-8859-4</tt></td><td>Baltic</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>zapfdingbats</tt></td><td>ZapfDingbats encoding</td><td>&nbsp;</td><td><tt>iso-8859-5</tt></td><td>Cyrillic</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>cp-1250</tt></td><td>Central and East European Latin</td><td>&nbsp;</td><td><tt>iso-8859-6</tt></td><td>Arabic</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>cp-1251</tt></td><td>Cyrillic</td><td>&nbsp;</td><td><tt>iso-8859-7</tt></td><td>Greek</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>cp-1252</tt></td><td>Western European Latin</td><td>&nbsp;</td><td><tt>iso-8859-8</tt></td><td>Hebrew</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>cp-1253</tt></td><td>Greek</td><td>&nbsp;</td><td><tt>iso-8859-9</tt></td><td>Turkish</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>cp-1254</tt></td><td>Turkish</td><td>&nbsp;</td><td><tt>iso-8859-10</tt></td><td>Nordic</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>cp-1255</tt></td><td>Hebrew</td><td>&nbsp;</td><td><tt>iso-8859-11</tt></td><td>Thai</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>cp-1256</tt></td><td>Arabic</td><td>&nbsp;</td><td><tt>iso-8859-13</tt></td><td>Baltic Rim</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>cp-1257</tt></td><td>Baltic</td><td>&nbsp;</td><td><tt>iso-8859-14</tt></td><td>Celtic</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>cp-1258</tt></td><td>Vietnamese</td><td>&nbsp;</td><td><tt>iso-8859-15</tt></td><td>Western European / Latin-9</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>cp-874</tt></td><td>Thai</td><td>&nbsp;</td><td><tt>iso-8859-16</tt></td><td>South Eastern European / Latin-10</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>cp-932</tt></td><td>Japanese</td><td>&nbsp;</td><td><tt>koi8-r</tt></td><td>Russian</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>cp-936</tt></td><td>Simplified Chinese</td><td>&nbsp;</td><td><tt>koi8-u</tt></td><td>Ukrainian</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>cp-949</tt></td><td>Korean</td><td>&nbsp;</td><td></td><td></td></tr>
+<tr bgcolor="#eeeeee"><td><tt>cp-950</tt></td><td>Traditional Chinese</td><td>&nbsp;</td><td></td><td></td></tr>
+</table>
+
+</td></tr>
+
+<tr><td valign="top"><tt>-i RANGES</tt></td><td>Show character codes in RANGES. (see \ref showfontranges)</td></tr>
+<tr><td valign="top"><tt>-x RANGES</tt></td><td>Don't show character codes in RANGES. (see \ref showfontranges)</td></tr>
+
+<tr><td valign="top"><tt>-h | --help</tt></td><td>Display a usage information and exit.</td></tr>
+</table>
+
+\section showfontranges Ranges
+
+The parameter RANGES for \b -i (--include-range) and \b -x (--exclude-range) can be given
+as a list of one or more ranges delimited by a comma (,). 
+
+Each range can be given as a single integer or a pair of integers delimited by minus sign (-).
+
+Integers can be specified in decimal, hexadecimal (0x...) or octal (0...) format.
+
+One integer of a pair can be omitted (-N specifies all characters with codes less or equal
+to N, and N- all characters with codes greater or equal to N).
+
+\section showfontcolour Colours
+
+Character code cells can have one of several background colours:
+
+\li <tt>white</tt> = the character code is present in the font,
+\li <tt>light grey</tt> = the character code is defined in Unicode but not present in the font,
+\li <tt>blue-grey</tt> = the character code is a control character,
+\li <tt>dark grey</tt> = the character code is not defined in Unicode.
+
+\section showfontexample Examples
+
+Show all character codes of myfont.ttf in output file myfont.pdf:
+
+<tt>showfont -f myfont.ttf -o myfont.pdf</tt>
+
+Show all character codes of myfont.ttf less than or equal to U+05FF
+but exclude U+0300-U+036F in output file myfont.pdf:
+
+<tt>showfont -f myfont.ttf -o myfont.pdf -i -0x05FF -x 0x0300-0x036F</tt>
+
 */
 
 /** \page writexml Styling text using a simple markup language

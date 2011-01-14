@@ -739,6 +739,7 @@ private:
 
   void SetEncoding(wxPdfEncoding* encoding);
   void SetEncodingChecker(wxPdfEncodingChecker* encodingChecker);
+  wxPdfEncodingChecker* GetEncodingChecker() const;
 
   friend class WXDLLIMPEXP_FWD_PDFDOC wxPdfFont;
   friend class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontExtended;

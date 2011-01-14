@@ -259,6 +259,12 @@ wxPdfFontData::SetEncodingChecker(wxPdfEncodingChecker* encodingChecker)
   m_encodingChecker = encodingChecker;
 }
 
+wxPdfEncodingChecker*
+wxPdfFontData::GetEncodingChecker() const
+{
+  return m_encodingChecker;
+}
+
 void
 wxPdfFontData::SetType(const wxString& type)
 { 

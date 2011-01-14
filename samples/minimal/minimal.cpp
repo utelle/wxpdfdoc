@@ -87,6 +87,17 @@ public:
 bool
 PdfDocTutorial::OnInit()
 {
+  // Set the font path and working directory
+  wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
+#ifdef __WXMAC
+  wxString fontPath = exePath.GetPathWithSep() + wxT("../../../../../lib/fonts");
+  wxString cwdPath  = exePath.GetPathWithSep() + wxT("../../..");
+#else
+  wxString fontPath = exePath.GetPathWithSep() + wxT("../../lib/fonts");
+  wxString cwdPath  = exePath.GetPath();
+#endif
+  wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
+  wxSetWorkingDirectory(cwdPath);
   return true;
 }
 
@@ -257,13 +268,6 @@ PdfDocTutorial::OnRun()
   {
     wxImage::AddHandler(new wxPNGHandler());
   }
-
-  // Set the font path
-  wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
-  wxString fontPath = exePath.GetPathWithSep() + wxT("../../lib/fonts");
-  wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
-
-  wxSetWorkingDirectory(exePath.GetPath());
 
   // Show a menu on the console
   char c(' ');

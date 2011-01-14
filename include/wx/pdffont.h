@@ -168,6 +168,14 @@ public :
   */
   bool CanShow(const wxString& s);
 
+  /// Get list of supported unicode characters
+  /**
+  * \param unicodeCharacters list of supported unicode characters on return
+  * \return TRUE if the list could be determined, FALSE otherwise
+  * \note Any previous content of the Unicode character list will be deleted
+  */
+  bool GetSupportedUnicodeCharacters(wxPdfArrayUint32& unicodeCharacters) const;
+
   /// Force string to valid string in respect of the current font encoding
   /**
   * The given string is converted in such a way that it contains only characters

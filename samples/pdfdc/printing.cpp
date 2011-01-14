@@ -37,6 +37,7 @@
 #include "wx/image.h"
 #include "wx/accel.h"
 #include "wx/pdfdc.h"
+#include "wx/pdffontmanager.h"
 
 #if wxTEST_POSTSCRIPT_IN_MSW
 #include "wx/generic/printps.h"
@@ -84,10 +85,19 @@ bool WritePageHeader(wxPrintout *printout, wxDC *dc, const wxChar *text, float m
 
 bool MyApp::OnInit(void)
 {
-    wxInitAllImageHandlers();
+  wxInitAllImageHandlers();
 
-    wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
-    wxSetWorkingDirectory(exePath.GetPath());
+  // Set the font path and working directory
+  wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
+#ifdef __WXMAC
+  wxString fontPath = exePath.GetPathWithSep() + wxT("../../../../../lib/fonts");
+  wxString cwdPath  = exePath.GetPathWithSep() + wxT("../../..");
+#else
+  wxString fontPath = exePath.GetPathWithSep() + wxT("../../lib/fonts");
+  wxString cwdPath  = exePath.GetPath();
+#endif
+  wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
+  wxSetWorkingDirectory(cwdPath);
 
 #if wxCHECK_VERSION(2,9,0)
     m_testFont.Create(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);

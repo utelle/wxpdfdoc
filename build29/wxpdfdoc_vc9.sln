@@ -17,6 +17,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "makefont", "wxpdfdoc_vc9_ma
 		{811670D3-B094-569A-BF65-7EAED11DEC14} = {811670D3-B094-569A-BF65-7EAED11DEC14}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "showfont", "wxpdfdoc_vc9_showfont.vcproj", "{61EEBCEA-F486-5E7F-8688-8510E3BDE483}"
+	ProjectSection(ProjectDependencies) = postProject
+		{811670D3-B094-569A-BF65-7EAED11DEC14} = {811670D3-B094-569A-BF65-7EAED11DEC14}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Static Release Static|Win32 = Static Release Static|Win32
@@ -93,6 +98,22 @@ Global
 		{F0F4B8A2-EB5B-5D04-BAF4-431C2C1BB6DC}.DLL Debug Static|Win32.Build.0 = DLL Debug Static|Win32
 		{F0F4B8A2-EB5B-5D04-BAF4-431C2C1BB6DC}.DLL Debug DLL|Win32.ActiveCfg = DLL Debug DLL|Win32
 		{F0F4B8A2-EB5B-5D04-BAF4-431C2C1BB6DC}.DLL Debug DLL|Win32.Build.0 = DLL Debug DLL|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.Static Release Static|Win32.ActiveCfg = Static Release Static|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.Static Release Static|Win32.Build.0 = Static Release Static|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.Static Release DLL|Win32.ActiveCfg = Static Release DLL|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.Static Release DLL|Win32.Build.0 = Static Release DLL|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.Static Debug Static|Win32.ActiveCfg = Static Debug Static|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.Static Debug Static|Win32.Build.0 = Static Debug Static|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.Static Debug DLL|Win32.ActiveCfg = Static Debug DLL|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.Static Debug DLL|Win32.Build.0 = Static Debug DLL|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.DLL Release Static|Win32.ActiveCfg = DLL Release Static|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.DLL Release Static|Win32.Build.0 = DLL Release Static|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.DLL Release DLL|Win32.ActiveCfg = DLL Release DLL|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.DLL Release DLL|Win32.Build.0 = DLL Release DLL|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.DLL Debug Static|Win32.ActiveCfg = DLL Debug Static|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.DLL Debug Static|Win32.Build.0 = DLL Debug Static|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.DLL Debug DLL|Win32.ActiveCfg = DLL Debug DLL|Win32
+		{61EEBCEA-F486-5E7F-8688-8510E3BDE483}.DLL Debug DLL|Win32.Build.0 = DLL Debug DLL|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

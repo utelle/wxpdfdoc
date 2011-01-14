@@ -19,15 +19,16 @@
 #include "wx/wx.h"
 #endif
 
-#include "wx/cmdline.h"
-#include "wx/log.h"
-#include "wx/dynarray.h"
-#include "wx/tokenzr.h"
-#include "wx/mstream.h"
-#include "wx/txtstrm.h"
-#include "wx/wfstream.h"
-#include "wx/xml/xml.h"
-#include "wx/zstream.h"
+#include <wx/cmdline.h>
+#include <wx/log.h>
+#include <wx/dynarray.h>
+#include <wx/tokenzr.h>
+#include <wx/mstream.h>
+#include <wx/stdpaths.h>
+#include <wx/txtstrm.h>
+#include <wx/wfstream.h>
+#include <wx/xml/xml.h>
+#include <wx/zstream.h>
 
 #include "wx/pdfdoc.h"
 #include "wx/pdfarraytypes.h"
@@ -36,6 +37,7 @@
 #include "wx/pdffontdataopentype.h"
 #include "wx/pdffontdatatruetype.h"
 #include "wx/pdffontdatatype1.h"
+#include "wx/pdffontmanager.h"
 
 static int
 CompareInts(int n1, int n2)
@@ -644,7 +646,7 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
   {
     for (cc = 0; cc <= 255; cc++)
     {
-      (*widths)[cc] = 0;
+      (*widths)[cc] = 0xFFFF;
       (*glyphs)[cc] = 0;
     }
   }
@@ -869,7 +871,7 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
 
   for (cc = 0; cc <= 255; cc++)
   {
-    if ((*widths)[cc] == -1)
+    if ((*widths)[cc] == 0xFFFF)
     {
       if (cc2gn[cc] == wxT("Delta") && incWidth >= 0)
       {
@@ -1564,6 +1566,18 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
 bool
 MakeFont::OnInit()
 {
+  // Set the font path and working directory
+  wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
+#ifdef __WXMAC
+  wxString fontPath = exePath.GetPathWithSep() + wxT("../../../../../lib/fonts");
+  wxString cwdPath  = exePath.GetPathWithSep() + wxT("../../..");
+#else
+  wxString fontPath = exePath.GetPathWithSep() + wxT("../../lib/fonts");
+  wxString cwdPath  = exePath.GetPath();
+#endif
+  wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
+  wxSetWorkingDirectory(cwdPath);
+
   m_version = wxT("1.5.0 (December 2010)");
   bool valid = false;
   //gets the parameters from cmd line
@@ -1624,13 +1638,6 @@ int
 MakeFont::OnRun()
 {
   bool valid;
-  wxSetWorkingDirectory(wxGetCwd() + wxT("/../makefont"));
-#if 0
-  // Set the font path
-  wxString fontPath = wxGetCwd() + wxT("/../lib/fonts");
-  wxSetEnv(wxT("WXPDF_FONTPATH"), fontPath);
-#endif
-
   wxLogMessage(wxT("wxPdfDocument MakeFont Utility Version ") + m_version);
   wxLogMessage(wxT("*** Starting to create font support files for ..."));
 #if wxUSE_UNICODE

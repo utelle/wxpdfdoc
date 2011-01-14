@@ -769,7 +769,20 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
                  wxString::Format(_("Font file name not found for wxFont '%s'."), fontDesc.c_str()));
   }
 #elif defined(__WXMAC__)
-#if wxPDFMACOSX_HAS_ATSU_TEXT
+#if wxPDFMACOSX_HAS_CORE_TEXT
+  wxPdfFontParserTrueType fontParser;
+  wxPdfFontData* fontData = fontParser.IdentifyFont(font);
+  if (fontData != NULL)
+  {
+    fontData->SetAlias(aliasName);
+    if (!AddFont(fontData, regFont))
+    {
+      delete fontData;
+      wxLogDebug(wxString(wxT("wxPdfFontManagerBase::RegisterFont: ")) +
+                 wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
+    }
+  }
+#elif wxPDFMACOSX_HAS_ATSU_TEXT
   wxString fontFileName = wxEmptyString;
 
 #if wxCHECK_VERSION(2,9,0)
@@ -804,19 +817,6 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
     wxString fontDesc = font.GetNativeFontInfoUserDesc();
     wxLogWarning(wxString(wxT("wxPdfFontManagerBase::RegisterFont: ")) +
                  wxString::Format(_("Font file name not found for wxFont '%s'."), fontDesc.c_str()));
-  }
-#elif wxPDFMACOSX_HAS_CORE_TEXT
-  wxPdfFontParserTrueType fontParser;
-  wxPdfFontData* fontData = fontParser.IdentifyFont(font);
-  if (fontData != NULL)
-  {
-    fontData->SetAlias(aliasName);
-    if (!AddFont(fontData, regFont))
-    {
-      delete fontData;
-      wxLogDebug(wxString(wxT("wxPdfFontManagerBase::RegisterFont: ")) +
-                 wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
-    }
   }
 #else
   wxLogError(wxString(wxT("wxPdfFontManagerBase::RegisterFont: ")) +

@@ -53,7 +53,7 @@ COMPILER_PREFIX = gcc
 PDFDOC_LIB_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED) -D_UNICODE \
 	$(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) -W -Wall -I..\include $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_7) -W -Wall -I..\include $(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_LIB_OBJECTS =  \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfannotation.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfbarcode.o \
@@ -99,7 +99,7 @@ PDFDOC_LIB_OBJECTS =  \
 PDFDOC_DLL_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED) -D_UNICODE \
 	$(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) -W -Wall -I..\include -DWXMAKINGDLL_PDFDOC $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_7) -W -Wall -I..\include -DWXMAKINGDLL_PDFDOC $(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_DLL_OBJECTS =  \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfannotation.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfbarcode.o \
@@ -145,7 +145,7 @@ PDFDOC_DLL_OBJECTS =  \
 MINIMAL_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED) -D_UNICODE \
 	$(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) -W -Wall -I..\include -I..\samples\minimal $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_7) -W -Wall -I..\include -I..\samples\minimal $(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_bookmark.o \
@@ -179,17 +179,24 @@ MINIMAL_OBJECTS =  \
 DCSAMPLE_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED) -D_UNICODE \
 	$(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) -W -Wall -I..\include -I..\samples\pdfdc $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_7) -W -Wall -I..\include -I..\samples\pdfdc $(CPPFLAGS) $(CXXFLAGS)
 DCSAMPLE_OBJECTS =  \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing_rc.o
 MAKEFONT_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED) -D_UNICODE \
 	$(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
-	$(VAR_5) -W -Wall -I..\include -I..\makefont $(CPPFLAGS) $(CXXFLAGS)
+	$(VAR_7) -W -Wall -I..\include -I..\makefont $(CPPFLAGS) $(CXXFLAGS)
 MAKEFONT_OBJECTS =  \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont_rc.o
+SHOWFONT_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED) -D_UNICODE \
+	$(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
+	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
+	$(VAR_7) -W -Wall -I..\include -I..\showfont $(CPPFLAGS) $(CXXFLAGS)
+SHOWFONT_OBJECTS =  \
+	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.o \
+	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont_rc.o
 
 ### Conditionally set variables: ###
 
@@ -229,16 +236,16 @@ ifeq ($(WX_SHARED),1)
 ____WX_SHARED = -DWXUSINGDLL
 endif
 ifeq ($(WX_SHARED),0)
-____WX_SHARED_0 = 
+____WX_SHARED_2 = 
 endif
 ifeq ($(WX_SHARED),1)
-____WX_SHARED_0 = --define WXUSINGDLL
+____WX_SHARED_2 = --define WXUSINGDLL
 endif
 ifeq ($(WX_DEBUG),1)
 __WXDEBUG_DEFINE_p = -D__WXDEBUG__
 endif
 ifeq ($(WX_DEBUG),1)
-__WXDEBUG_DEFINE_p_2 = --define __WXDEBUG__
+__WXDEBUG_DEFINE_p_11 = --define __WXDEBUG__
 endif
 ifeq ($(WX_DEBUG),0)
 WXLIBPOSTFIX = u
@@ -273,10 +280,10 @@ ifeq ($(WX_SHARED),1)
 WXLIBPATH = \lib\$(COMPILER_PREFIX)_dll
 endif
 ifeq ($(WX_DEBUG),0)
-VAR_5 = 
+VAR_7 = 
 endif
 ifeq ($(WX_DEBUG),1)
-VAR_5 = -g
+VAR_7 = -g
 endif
 
 
@@ -286,7 +293,7 @@ gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX):
 
 ### Targets: ###
 
-all: test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ..\samples\minimal\minimal.exe ..\samples\pdfdc\printing.exe ..\makefont\makefont.exe
+all: test_for_selected_wxbuild $(__pdfdoc_lib___depname) $(__pdfdoc_dll___depname) ..\samples\minimal\minimal.exe ..\samples\pdfdc\printing.exe ..\makefont\makefont.exe ..\showfont\showfont.exe
 
 clean: 
 	-if exist gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.o del gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.o
@@ -297,6 +304,7 @@ clean:
 	-if exist ..\samples\minimal\minimal.exe del ..\samples\minimal\minimal.exe
 	-if exist ..\samples\pdfdc\printing.exe del ..\samples\pdfdc\printing.exe
 	-if exist ..\makefont\makefont.exe del ..\makefont\makefont.exe
+	-if exist ..\showfont\showfont.exe del ..\showfont\showfont.exe
 
 test_for_selected_wxbuild: 
 	@if not exist $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX)\wx\setup.h \
@@ -322,20 +330,23 @@ make_dir_pdfdoc_lib:
 
 ifeq ($(WX_SHARED),1)
 ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll: make_dir_pdfdoc_dll  $(PDFDOC_DLL_OBJECTS)
-	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(PDFDOC_DLL_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_5) -L..$(WXLIBPATH) -Wl,--out-implib=..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\libwxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.a $(LDFLAGS)  -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(PDFDOC_DLL_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -Wl,--out-implib=..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\libwxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.a $(LDFLAGS)  -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 endif
 
 make_dir_pdfdoc_dll: 
 	if not exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES) mkdir ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)
 
 ..\samples\minimal\minimal.exe: $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_DEP) gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal_rc.o
-	$(CXX) -o $@ $(MINIMAL_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_5) -L..$(WXLIBPATH)  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+	$(CXX) -o $@ $(MINIMAL_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH)  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 ..\samples\pdfdc\printing.exe: $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP) gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing_rc.o
-	$(CXX) -o $@ $(DCSAMPLE_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_5) -L..$(WXLIBPATH) -Wl,--subsystem,windows -mwindows $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+	$(CXX) -o $@ $(DCSAMPLE_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -Wl,--subsystem,windows -mwindows $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 ..\makefont\makefont.exe: $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP) gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont_rc.o
-	$(CXX) -o $@ $(MAKEFONT_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_5) -L..$(WXLIBPATH)  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+	$(CXX) -o $@ $(MAKEFONT_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH)  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+
+..\showfont\showfont.exe: $(SHOWFONT_OBJECTS) $(__COMPONENT_LIB_DEP) gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont_rc.o
+	$(CXX) -o $@ $(SHOWFONT_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH)  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_core -lwxbase$(WX_VERSION)$(WXLIBPOSTFIX) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfannotation.o: ../src/pdfannotation.cpp
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
@@ -668,19 +679,25 @@ gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_xmlwrite.o: ../samples/m
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal_rc.o: ../samples/minimal/minimal.rc
-	windres --use-temp-file -i$< -o$@  --define HAVE_W32API_H $(____WX_SHARED_0) --define _UNICODE $(__WXDEBUG_DEFINE_p_2) --define __WXMSW__ --include-dir $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) --include-dir $(WX_DIR)/include --include-dir ../include --include-dir ../samples/minimal
+	windres --use-temp-file -i$< -o$@  --define HAVE_W32API_H $(____WX_SHARED_2) --define _UNICODE $(__WXDEBUG_DEFINE_p_11) --define __WXMSW__ --include-dir $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) --include-dir $(WX_DIR)/include --include-dir ../include --include-dir ../samples/minimal
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.o: ../samples/pdfdc/printing.cpp
 	$(CXX) -c -o $@ $(DCSAMPLE_CXXFLAGS) $(CPPDEPS) $<
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing_rc.o: ../samples/pdfdc/printing.rc
-	windres --use-temp-file -i$< -o$@  --define HAVE_W32API_H $(____WX_SHARED_0) --define _UNICODE $(__WXDEBUG_DEFINE_p_2) --define __WXMSW__ --include-dir $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) --include-dir $(WX_DIR)/include --include-dir ../include --include-dir ../samples/pdfdc
+	windres --use-temp-file -i$< -o$@  --define HAVE_W32API_H $(____WX_SHARED_2) --define _UNICODE $(__WXDEBUG_DEFINE_p_11) --define __WXMSW__ --include-dir $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) --include-dir $(WX_DIR)/include --include-dir ../include --include-dir ../samples/pdfdc
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.o: ../makefont/makefont.cpp
 	$(CXX) -c -o $@ $(MAKEFONT_CXXFLAGS) $(CPPDEPS) $<
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont_rc.o: ../makefont/makefont.rc
-	windres --use-temp-file -i$< -o$@  --define HAVE_W32API_H $(____WX_SHARED_0) --define _UNICODE $(__WXDEBUG_DEFINE_p_2) --define __WXMSW__ --include-dir $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) --include-dir $(WX_DIR)/include --include-dir ../include --include-dir ../makefont
+	windres --use-temp-file -i$< -o$@  --define HAVE_W32API_H $(____WX_SHARED_2) --define _UNICODE $(__WXDEBUG_DEFINE_p_11) --define __WXMSW__ --include-dir $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) --include-dir $(WX_DIR)/include --include-dir ../include --include-dir ../makefont
+
+gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.o: ../showfont/showfont.cpp
+	$(CXX) -c -o $@ $(SHOWFONT_CXXFLAGS) $(CPPDEPS) $<
+
+gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont_rc.o: ../showfont/showfont.rc
+	windres --use-temp-file -i$< -o$@  --define HAVE_W32API_H $(____WX_SHARED_2) --define _UNICODE $(__WXDEBUG_DEFINE_p_11) --define __WXMSW__ --include-dir $(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) --include-dir $(WX_DIR)/include --include-dir ../include --include-dir ../showfont
 
 .PHONY: all clean
 

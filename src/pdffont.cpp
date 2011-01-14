@@ -159,6 +159,75 @@ wxPdfFont::CanShow(const wxString& s)
   return canShow;
 }
 
+static int wxCMPFUNC_CONV
+CompareUint32(wxUint32* n1, wxUint32* n2)
+{
+  return (*n1 > *n2) ? 1 : (*n1 < *n2) ? -1 : 0;
+}
+
+bool
+wxPdfFont::GetSupportedUnicodeCharacters(wxPdfArrayUint32& unicodeCharacters) const
+{
+  bool ok = false;
+#if wxUSE_UNICODE
+  if (m_fontData != NULL && wxPdfFontManager::GetFontManager()->InitializeFontData(*this))
+  {
+    size_t charCount = unicodeCharacters.GetCount();
+    size_t n = 0;
+    const wxPdfChar2GlyphMap* ctgMap = m_fontData->GetChar2GlyphMap();
+    if (ctgMap == NULL && m_encoding != NULL)
+    {
+      ctgMap = m_encoding->GetEncodingMap();
+    }
+    if (ctgMap != NULL)
+    {
+      size_t glyphCount = ctgMap->size();
+      if (glyphCount < charCount)
+      {
+        unicodeCharacters.RemoveAt(glyphCount, charCount-glyphCount);
+      }
+      else
+      {
+        unicodeCharacters.SetCount(glyphCount);
+      }
+      wxPdfChar2GlyphMap::const_iterator ccIter;
+      for (ccIter = ctgMap->begin(); ccIter != ctgMap->end(); ccIter++)
+      {
+        unicodeCharacters[n++] = ccIter->first;
+      }
+      unicodeCharacters.Sort(CompareUint32);
+      ok = true;
+    }
+    else
+    {
+      wxPdfEncodingChecker* encodingChecker = m_fontData->GetEncodingChecker();
+      if (encodingChecker != NULL)
+      {
+        wxUint32 cc;
+        for (cc = 0; cc < 0xffff; ++cc)
+        {
+          if (encodingChecker->IsIncluded(cc))
+          {
+            if (n < charCount)
+            {
+              unicodeCharacters[n++] = cc;
+            }
+            else
+            {
+              unicodeCharacters.Add(cc);
+            }
+          }
+        }
+        ok = true;
+      }
+    }
+  }
+#else
+  wxUnusedVar(unicodeCharacters);
+#endif
+  return ok;
+}
+
 wxString
 wxPdfFont::ConvertToValid(const wxString& s, wxChar replace) const
 {
