@@ -89,9 +89,9 @@ PdfDocTutorial::OnInit()
 {
   // Set the font path and working directory
   wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
-#ifdef __WXMAC
-  wxString fontPath = exePath.GetPathWithSep() + wxT("../../../../../lib/fonts");
-  wxString cwdPath  = exePath.GetPathWithSep() + wxT("../../..");
+#ifdef __WXMAC__
+  wxString fontPath = exePath.GetPathWithSep() + wxT("../../../lib/fonts");
+  wxString cwdPath  = exePath.GetPathWithSep() + wxT("../../../samples/minimal");
 #else
   wxString fontPath = exePath.GetPathWithSep() + wxT("../../lib/fonts");
   wxString cwdPath  = exePath.GetPath();
