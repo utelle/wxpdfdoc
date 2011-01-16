@@ -549,13 +549,8 @@ ShowFont::OnInit()
 {
   // Set the font path and working directory
   wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
-#ifdef __WXMAC__
-  wxString fontPath = exePath.GetPathWithSep() + wxT("../../../lib/fonts");
-  wxString cwdPath  = exePath.GetPathWithSep() + wxT("../../../showfont");
-#else
   wxString fontPath = exePath.GetPathWithSep() + wxT("../lib/fonts");
   wxString cwdPath  = exePath.GetPath();
-#endif
   wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
   wxSetWorkingDirectory(cwdPath);
 

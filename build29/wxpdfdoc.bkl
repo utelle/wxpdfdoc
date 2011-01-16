@@ -77,9 +77,6 @@
     <wx-lib>xml</wx-lib>
     <wx-lib>core</wx-lib>
     <wx-lib>base</wx-lib>
-    <if cond="FORMAT=='autoconf'">
-      <wx-mac-app-bundle/>
-    </if>
   </template>
 
   <template id="pdfdoc_sample_dc">
@@ -107,9 +104,6 @@
     <wx-lib>xml</wx-lib>
     <wx-lib>core</wx-lib>
     <wx-lib>base</wx-lib>
-    <if cond="FORMAT=='autoconf'">
-      <wx-mac-app-bundle/>
-    </if>
   </template>
 
   <template id="pdfdoc_showfont">
@@ -122,9 +116,6 @@
     <wx-lib>xml</wx-lib>
     <wx-lib>core</wx-lib>
     <wx-lib>base</wx-lib>
-    <if cond="FORMAT=='autoconf'">
-      <wx-mac-app-bundle/>
-    </if>
   </template>
 
   <!-- The sample of the component: as for the LIB target, this exe derives from a 
