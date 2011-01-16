@@ -227,7 +227,7 @@ wxPdfDC::SetFont(const wxFont& font)
   if (ok)
   {
     // TODO: point size adjustment is not always reliable
-#if wxABI_VERSION >= 20810
+#if wxCHECK_VERSION(2,8,10)
     double size = (double) font.GetPointSize() * GetFontPointSizeAdjustment(72.0);
 #else
     // GetFontPointSizeAdjustment is not available in wxWidgets versions < 2.8.10
@@ -814,7 +814,13 @@ wxPdfDC::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y,
 #endif
   wxFont old = m_font; 
   m_pdfDocument->SetTextColour(m_textForegroundColour.Red(), m_textForegroundColour.Green(), m_textForegroundColour.Blue());
+#if wxCHECK_VERSION(2,8,10)
   m_pdfDocument->SetFontSize(m_font.GetPointSize() * GetFontPointSizeAdjustment(72.0));
+#else
+  // GetFontPointSizeAdjustment is not available in wxWidgets versions < 2.8.10
+  // TODO: apply a correction nevertheless?
+  m_pdfDocument->SetFontSize(m_font.GetPointSize());
+#endif  
   m_pdfDocument->RotatedText(ScaleToPdf(LogicalToDeviceX(x)), ScaleToPdf(LogicalToDeviceY(y)), text, angle);
   SetFont(old);
 }
