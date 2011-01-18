@@ -423,10 +423,10 @@ COND_USE_SOVERSOLARIS_1___pdfdoc_dll___so_symlinks_uninst_cmd = rm -f \
 COND_PLATFORM_OS2_1___dcsample___os2_emxbindcmd = $(NM) printing$(EXEEXT) | if \
 	grep -q pmwin.763 ; then emxbind -ep printing$(EXEEXT) ; fi
 @COND_PLATFORM_OS2_1@__dcsample___os2_emxbindcmd = $(COND_PLATFORM_OS2_1___dcsample___os2_emxbindcmd)
+@COND_PLATFORM_WIN32_1@__dcsample___win32rc = dcsample_printing_rc.o
 @COND_PLATFORM_MACOSX_1@__dcsample_app_Contents_PkgInfo___depname \
 @COND_PLATFORM_MACOSX_1@	= dcsample.app/Contents/PkgInfo
 @COND_PLATFORM_MACOSX_1@__dcsample_bundle___depname = dcsample_bundle
-@COND_PLATFORM_WIN32_1@__dcsample___win32rc = dcsample_printing_rc.o
 @COND_PLATFORM_MAC_0@__makefont___mac_setfilecmd = @true
 @COND_PLATFORM_MAC_1@__makefont___mac_setfilecmd = \
 @COND_PLATFORM_MAC_1@	$(SETFILE) -t APPL \
@@ -542,25 +542,26 @@ $(srcdir)/samples/pdfdc/printing$(EXEEXT): $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB
 	$(__dcsample___mac_setfilecmd)
 	$(__dcsample___os2_emxbindcmd)
 
-@COND_PLATFORM_MACOSX_1@dcsample.app/Contents/PkgInfo: $(srcdir)/samples/pdfdc/printing$(EXEEXT) $(srcdir)/build/Info.plist.in $(srcdir)/build/wxmac.icns
-@COND_PLATFORM_MACOSX_1@	mkdir -p dcsample.app/Contents
-@COND_PLATFORM_MACOSX_1@	mkdir -p dcsample.app/Contents/MacOS
-@COND_PLATFORM_MACOSX_1@	mkdir -p dcsample.app/Contents/Resources
+@COND_PLATFORM_MACOSX_1@dcsample.app/Contents/PkgInfo: $(srcdir)/samples/pdfdc/printing$(EXEEXT) $(srcdir)/build/Info.plist.in $(srcdir)/build/wxmac.icns  $(srcdir)/samples/pdfdc/smile.jpg  $(srcdir)/samples/pdfdc/up.gif
+@COND_PLATFORM_MACOSX_1@	mkdir -p $(srcdir)/samples/pdfdc/dcsample.app/Contents
+@COND_PLATFORM_MACOSX_1@	mkdir -p $(srcdir)/samples/pdfdc/dcsample.app/Contents/MacOS
+@COND_PLATFORM_MACOSX_1@	mkdir -p $(srcdir)/samples/pdfdc/dcsample.app/Contents/Resources
 @COND_PLATFORM_MACOSX_1@	
 @COND_PLATFORM_MACOSX_1@	
 @COND_PLATFORM_MACOSX_1@	sed -e "s/IDENTIFIER/`echo $(srcdir) | sed -e 's,\.\./,,g' | sed -e 's,/,.,g'`/" \
 @COND_PLATFORM_MACOSX_1@	-e "s/EXECUTABLE/dcsample/" \
 @COND_PLATFORM_MACOSX_1@	-e "s/VERSION/$(WX_VERSION)/" \
-@COND_PLATFORM_MACOSX_1@	$(srcdir)/build/Info.plist.in >dcsample.app/Contents/Info.plist
+@COND_PLATFORM_MACOSX_1@	$(srcdir)/build/Info.plist.in > $(srcdir)/samples/pdfdc/dcsample.app/Contents/Info.plist
 @COND_PLATFORM_MACOSX_1@	
 @COND_PLATFORM_MACOSX_1@	
-@COND_PLATFORM_MACOSX_1@	echo -n "APPL????" >dcsample.app/Contents/PkgInfo
+@COND_PLATFORM_MACOSX_1@	echo -n "APPL????" >$(srcdir)/samples/pdfdc/dcsample.app/Contents/PkgInfo
 @COND_PLATFORM_MACOSX_1@	
 @COND_PLATFORM_MACOSX_1@	
-@COND_PLATFORM_MACOSX_1@	ln -f $(srcdir)/samples/pdfdc/printing$(EXEEXT) dcsample.app/Contents/MacOS/dcsample
+@COND_PLATFORM_MACOSX_1@	mv $(srcdir)/samples/pdfdc/printing$(EXEEXT) $(srcdir)/samples/pdfdc/dcsample.app/Contents/MacOS/dcsample
 @COND_PLATFORM_MACOSX_1@	
 @COND_PLATFORM_MACOSX_1@	
-@COND_PLATFORM_MACOSX_1@	cp -f $(srcdir)/build/wxmac.icns dcsample.app/Contents/Resources/wxmac.icns
+@COND_PLATFORM_MACOSX_1@	cp -f $(srcdir)/build/wxmac.icns $(srcdir)/samples/pdfdc/dcsample.app/Contents/Resources/wxmac.icns
+@COND_PLATFORM_MACOSX_1@	cp -f $(srcdir)/samples/pdfdc/smile.jpg  $(srcdir)/samples/pdfdc/up.gif $(srcdir)/samples/pdfdc/dcsample.app/Contents/Resources
 
 @COND_PLATFORM_MACOSX_1@dcsample_bundle: $(__dcsample_app_Contents_PkgInfo___depname)
 

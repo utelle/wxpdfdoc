@@ -100,9 +100,8 @@ You should set environment variable WXPDF_FONTPATH:
 
 WXPDF_FONTPATH=<wxPdfDocument>/lib/fonts
 
-Since there isn't a working solution yet to generate fully functional Mac bundle
-build files via bakefile, it is probably necessary to copy the wxPdfDocument
-shared object to the appropriate subfolder of the application's bundle.
+If wxPdfDocument has been built as a shared object you have to make it accessible,
+for example by copying it to /usr/local/lib.
 
 Acknowledgements
 ----------------
