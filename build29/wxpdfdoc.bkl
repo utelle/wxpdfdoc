@@ -3,7 +3,9 @@
 
   <set var="USE_UNSTABLE_VERSION">1</set>
   <set var="WX_UNICODE">1</set>
+<!--
   <set var="WX_MONOLITHIC">0</set>
+-->
   <set var="WX_VERSION_DEFAULT">29</set>
 <!--
   <set var="WX_VERSION_DEFAULT">28</set>
