@@ -18,9 +18,9 @@
   <br/><?php write_h1("News"); ?>
 
 <dl>
-<dt><b>October 2009</b></dt>
+<dt><b>December 2010</b></dt>
 <dd>
-<p>Version <b>0.8.5</b> of wxPdfDocument has been released and is available for
+<p>Version <b>0.9.0</b> of wxPdfDocument has been released and is available for
 <b><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=354159">download</a></b>.</p>
 
 <p>Since preprocessing of fonts is no longer necessary the file release <b><i><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=468705">wxPdfDocument Add-Ons</a></i></b>
@@ -51,7 +51,7 @@ generated with <b>wxPdfDocument</b>:</p>
 <li><a href="../../docs/wxpdfdoc/samples/tutorial4.pdf" target="_blank">Multi-columns</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/tutorial5.pdf" target="_blank">Tables</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/tutorial6.pdf" target="_blank">Links and flowing text</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/tutorial7.pdf" target="_blank">Font embedding</a> <b>(updated)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/tutorial7.pdf" target="_blank">Font embedding</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/bookmark.pdf" target="_blank">Document outline</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/cjktest.pdf" target="_blank">Chinese/Japanese/Korean</a> <font size="-1">(You need CJK support installed for Acrobat Reader)</font></li>
 <li><a href="../../docs/wxpdfdoc/samples/clipping.pdf" target="_blank">Using clipping areas</a></li>
@@ -62,7 +62,7 @@ generated with <b>wxPdfDocument</b>:</p>
 <li><a href="../../docs/wxpdfdoc/samples/wmf.pdf" target="_blank">Embedding Windows Meta File image</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/transformation.pdf" target="_blank">Geometric transformations</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/gradients.pdf" target="_blank">Color gradients</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/barcodes.pdf" target="_blank">Barcodes</a> <b>(updated)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/barcodes.pdf" target="_blank">Barcodes</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/charting.pdf" target="_blank">Simple charting examples</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/labels.pdf" target="_blank">Simple label printing examples</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/javascript.pdf" target="_blank">Document level JavaScript</a></li>
@@ -71,16 +71,19 @@ generated with <b>wxPdfDocument</b>:</p>
 <li><a href="../../docs/wxpdfdoc/samples/transparency.pdf" target="_blank">Alpha transparency and image masks</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/templates1.pdf" target="_blank">Internal templates</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/templates2.pdf" target="_blank">External templates</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/kerning.pdf" target="_blank">Kerning</a> <b>(new)</b></li>
-<li><a href="../../docs/wxpdfdoc/samples/twoencodings.pdf" target="_blank">Using a font with 2 different encodings</a> <b>(new)</b></li>
-<li><a href="../../docs/wxpdfdoc/samples/fontlist.pdf" target="_blank">List of usable system fonts</a> <b>(new)</b></li>
-<li><b>Layers</b> (Optional Content Groups) <b>(new)</b><br>
+<li><a href="../../docs/wxpdfdoc/samples/kerning.pdf" target="_blank">Kerning</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/twoencodings.pdf" target="_blank">Using a font with 2 different encodings</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/fontlist.pdf" target="_blank">List of usable system fonts</a></li>
+<li><b>Layers</b> (Optional Content Groups)<br>
 <a href="../../docs/wxpdfdoc/samples/layersordered.pdf" target="_blank">Ordered</a>, 
 <a href="../../docs/wxpdfdoc/samples/layersgrouped.pdf" target="_blank">Grouped</a>, 
 <a href="../../docs/wxpdfdoc/samples/layersnested.pdf" target="_blank">Nested</a>, 
 <a href="../../docs/wxpdfdoc/samples/layersautomatic.pdf" target="_blank">Automatic layers</a>, 
 <a href="../../docs/wxpdfdoc/samples/layersradiogroup.pdf" target="_blank">Radio group</a> </li>
-<li><a href="../../docs/wxpdfdoc/samples/glyphwriting.pdf" target="_blank">Direct glyph writing</a> <b>(new)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/glyphwriting.pdf" target="_blank">Direct glyph writing</a></li>
+<li><b>Indic script support</b> <b>(new)</b><br>
+<a href="../../docs/wxpdfdoc/samples/fullmoon.pdf" target="_blank">Full Moon in 9 Indic Scripts</a>, 
+<a href="../../docs/wxpdfdoc/samples/indicfonts.pdf" target="_blank">Indic Fonts and Languages</a></li>
 </ul>
 
 	<br/><?php write_h1("Known bugs"); ?>
@@ -91,7 +94,7 @@ generated with <b>wxPdfDocument</b>:</p>
 	<br/><?php write_h1("Future enhancements"); ?>
 <p>Enhancements planned for the next versions:
 <ul>
-<li><p>Version 0.9: wxWidgets printing support via wxPdfGraphicsContext based of wxPdfDocument.</p></li>
+<li><p>Version 0.9.1: wxWidgets printing support via wxPdfGraphicsContext based on wxPdfDocument.</p></li>
 </ul>
 </p>
     
