@@ -103,11 +103,12 @@ wxPdfDocument::CalculatePageSize(wxPaperSize format)
   {
     paperType = printPaperDatabase->FindPaperType(wxPAPER_A4);
   }
+  wxSize paperSize = paperType->GetSize();
   if (deletePaperDatabase)
   {
     delete printPaperDatabase;
   }
-  return paperType->GetSize();
+  return paperSize;
 }
 
 wxSize
