@@ -36,6 +36,23 @@ wxPdfDC::wxPdfDC(const wxPrintData& printData)
 {
 }
 
+wxPdfDC::wxPdfDC(wxPdfDocument* pdfDocument, double templateWidth, double templateHeight)
+  : wxDC(new wxPdfDCImpl(this, pdfDocument, templateWidth, templateHeight))
+{
+}
+
+wxPdfDocument*
+wxPdfDC::GetPdfDocument()
+{
+  return ((wxPdfDCImpl*) m_pimpl)->GetPdfDocument();
+}
+
+void
+wxPdfDC::SetResolution(int ppi)
+{
+  ((wxPdfDCImpl*) m_pimpl)->SetResolution(ppi);
+}
+
 static double
 angleByCoords(wxCoord xa, wxCoord ya, wxCoord xc, wxCoord yc)
 {
@@ -78,14 +95,22 @@ wxPdfDCImpl::wxPdfDCImpl(wxPdfDC* owner, const wxPrintData& data)
   m_ok = true;
 }
 
-
-
 wxPdfDCImpl::wxPdfDCImpl(wxPdfDC* owner, const wxString& file, int w, int h)
   : wxDCImpl(owner)
 {
   Init();
   m_printData.SetFilename(file);
   m_ok = true;
+}
+
+wxPdfDCImpl::wxPdfDCImpl(wxPdfDC* owner, wxPdfDocument* pdfDocument, double templateWidth, double templateHeight)
+  : wxDCImpl(owner)
+{
+  Init();
+  m_templateMode = true;
+  m_templateWidth = templateWidth;
+  m_templateHeight = templateHeight;
+  m_pdfDocument = pdfDocument;
 }
 
 wxPdfDCImpl::~wxPdfDCImpl()
@@ -99,6 +124,7 @@ wxPdfDCImpl::~wxPdfDCImpl()
 void
 wxPdfDCImpl::Init()
 {
+  m_templateMode = false;
   m_ppi = 72;
   m_pdfDocument = NULL;
   m_imageCount = 0;
@@ -151,7 +177,7 @@ wxPdfDCImpl::StartDoc(const wxString& message)
 {
   wxCHECK_MSG(m_ok, false, wxT("Invalid PDF DC"));
   wxUnusedVar(message);
-  if (m_pdfDocument == NULL)
+  if (!m_templateMode && m_pdfDocument == NULL)
   {
     m_pdfDocument = new wxPdfDocument(m_printData.GetOrientation(), wxString(wxT("pt")), m_printData.GetPaperId());
     m_pdfDocument->Open();
@@ -172,24 +198,30 @@ void
 wxPdfDCImpl::EndDoc()
 {
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
-  m_pdfDocument->SaveAsFile(m_printData.GetFilename());
-  delete m_pdfDocument;
-  m_pdfDocument = NULL;
+  if (!m_templateMode)
+  {
+    m_pdfDocument->SaveAsFile(m_printData.GetFilename());
+    delete m_pdfDocument;
+    m_pdfDocument = NULL;
+  }
 }
 
 void
 wxPdfDCImpl::StartPage()
 {
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
-  // Begin a new page
-  // Library needs it this way (always landscape) to size the page correctly
-  m_pdfDocument->AddPage(m_printData.GetOrientation());
-  wxPdfLineStyle style = m_pdfDocument->GetLineStyle();
-  style.SetWidth(1.0);
-  style.SetColour(wxPdfColour(0, 0, 0));
-  style.SetLineCap(wxPDF_LINECAP_ROUND);
-  style.SetLineJoin(wxPDF_LINEJOIN_MITER);
-  m_pdfDocument->SetLineStyle(style);
+  if (!m_templateMode)
+  {
+    // Begin a new page
+    // Library needs it this way (always landscape) to size the page correctly
+    m_pdfDocument->AddPage(m_printData.GetOrientation());
+    wxPdfLineStyle style = m_pdfDocument->GetLineStyle();
+    style.SetWidth(1.0);
+    style.SetColour(wxPdfColour(0, 0, 0));
+    style.SetLineCap(wxPDF_LINECAP_ROUND);
+    style.SetLineJoin(wxPDF_LINEJOIN_MITER);
+    m_pdfDocument->SetLineStyle(style);
+  }
 }
 
 void
@@ -238,8 +270,8 @@ wxPdfDCImpl::SetFont(const wxFont& font)
   if (ok)
   {
     // TODO: point size adjustment is not always reliable
-    double size = (double) font.GetPointSize() * GetFontPointSizeAdjustment(72.0);
-    ok = m_pdfDocument->SetFont(regFont, styles, size);
+    double size = (double) font.GetPointSize() * GetFontPointSizeAdjustment(72.0) * 4./3.;
+    ok = m_pdfDocument->SetFont(regFont, styles, ScaleToPdf(LogicalToDeviceXRel(size) * m_pdfDocument->GetScaleFactor()));
   }
 }
 
@@ -585,7 +617,7 @@ wxPdfDCImpl::DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
     SetupBrush();
     SetupPen();
     m_pdfDocument->Line(ScaleToPdf(LogicalToDeviceX(x1)), ScaleToPdf(LogicalToDeviceY(y1)), 
-                       ScaleToPdf(LogicalToDeviceX(x2)), ScaleToPdf(LogicalToDeviceY(y2)));
+                        ScaleToPdf(LogicalToDeviceX(x2)), ScaleToPdf(LogicalToDeviceY(y2)));
     CalcBoundingBox(x1, y1);
     CalcBoundingBox(x2, y2);
   }
@@ -677,7 +709,7 @@ wxPdfDCImpl::DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord width, wxCoord heig
     bool doDraw = (curPen != wxNullPen) && curPen.GetStyle() != wxTRANSPARENT;
     if (doDraw || doFill)
     {
-      m_pdfDocument->SetLineWidth(1); // pen width != 1 sometimes fools readers when closing paths
+      m_pdfDocument->SetLineWidth(ScaleToPdf(LogicalToDeviceXRel(1))); // pen width != 1 sometimes fools readers when closing paths
       int style = wxPDF_STYLE_FILL | wxPDF_STYLE_DRAWCLOSE;
       if (!(doDraw && doFill))
       {
@@ -701,8 +733,8 @@ wxPdfDCImpl::DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height
   SetupBrush();
   SetupPen();
   m_pdfDocument->Rect(ScaleToPdf(LogicalToDeviceX(x)), ScaleToPdf(LogicalToDeviceY(y)),
-                     ScaleToPdf(LogicalToDeviceXRel(width)), ScaleToPdf(LogicalToDeviceYRel(height)), 
-                     GetDrawingStyle()); 
+                      ScaleToPdf(LogicalToDeviceXRel(width)), ScaleToPdf(LogicalToDeviceYRel(height)), 
+                      GetDrawingStyle()); 
   CalcBoundingBox(x, y);
   CalcBoundingBox(x+width, y+height);
 }
@@ -723,8 +755,8 @@ wxPdfDCImpl::DoDrawRoundedRectangle(wxCoord x, wxCoord y,
   SetupBrush();
   SetupPen();
   m_pdfDocument->RoundedRect(ScaleToPdf(LogicalToDeviceX(x)), ScaleToPdf(LogicalToDeviceY(y)), 
-                            ScaleToPdf(LogicalToDeviceXRel(width)), ScaleToPdf(LogicalToDeviceYRel(height)), 
-                            ScaleToPdf(LogicalToDeviceXRel(radius)), wxPDF_CORNER_ALL, GetDrawingStyle());  
+                             ScaleToPdf(LogicalToDeviceXRel(width)), ScaleToPdf(LogicalToDeviceYRel(height)), 
+                             ScaleToPdf(LogicalToDeviceXRel(radius)), wxPDF_CORNER_ALL, GetDrawingStyle());  
   CalcBoundingBox(x, y);
   CalcBoundingBox(x+width, y+height);
 }
@@ -736,10 +768,10 @@ wxPdfDCImpl::DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
   SetupBrush();
   SetupPen();
   m_pdfDocument->Ellipse(ScaleToPdf(LogicalToDeviceX(x + width / 2.0)), 
-                        ScaleToPdf(LogicalToDeviceY(y + height / 2.0)), 
-                        ScaleToPdf(LogicalToDeviceXRel(width / 2.0)), 
-                        ScaleToPdf(LogicalToDeviceYRel(height / 2.0)), 
-                        0, 0, 360, GetDrawingStyle()); 
+                         ScaleToPdf(LogicalToDeviceY(y + height / 2.0)), 
+                         ScaleToPdf(LogicalToDeviceXRel(width / 2.0)), 
+                         ScaleToPdf(LogicalToDeviceYRel(height / 2.0)), 
+                         0, 0, 360, GetDrawingStyle()); 
   CalcBoundingBox(x-width, y-height);
   CalcBoundingBox(x+width, y+height);
 }
@@ -826,7 +858,8 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
 #endif
   wxFont old = m_font; 
   m_pdfDocument->SetTextColour(m_textForegroundColour.Red(), m_textForegroundColour.Green(), m_textForegroundColour.Blue());
-  m_pdfDocument->SetFontSize(m_font.GetPointSize() * GetFontPointSizeAdjustment(72.0));
+  double size = (double) m_font.GetPointSize() * GetFontPointSizeAdjustment(72.0) * 4./3.;
+  m_pdfDocument->SetFontSize(ScaleToPdf(LogicalToDeviceXRel(size)) * m_pdfDocument->GetScaleFactor());
   m_pdfDocument->RotatedText(ScaleToPdf(LogicalToDeviceX(x)), ScaleToPdf(LogicalToDeviceY(y)), text, angle);
   SetFont(old);
 }
@@ -861,25 +894,35 @@ wxPdfDCImpl::DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height,
 void
 wxPdfDCImpl::DoGetSize(int* width, int* height) const
 {
-  wxPaperSize id = m_printData.GetPaperId();
-
-  wxPrintPaperType *paper = wxThePrintPaperDatabase->FindPaperType(id);
-
-  if (!paper) paper = wxThePrintPaperDatabase->FindPaperType(wxPAPER_A4);
-
-  int w = 595;
-  int h = 842;
-  if (paper)
+  int w;
+  int h;
+  if (m_templateMode)
   {
-    w = paper->GetSizeDeviceUnits().x;
-    h = paper->GetSizeDeviceUnits().y;
+    w = wxRound(m_templateWidth * m_pdfDocument->GetScaleFactor());
+    h = wxRound(m_templateHeight * m_pdfDocument->GetScaleFactor());
   }
-
-  if (m_printData.GetOrientation() == wxLANDSCAPE)
+  else
   {
-    int tmp = w;
-    w = h;
-    h = tmp;
+    wxPaperSize id = m_printData.GetPaperId();
+
+    wxPrintPaperType *paper = wxThePrintPaperDatabase->FindPaperType(id);
+
+    if (!paper) paper = wxThePrintPaperDatabase->FindPaperType(wxPAPER_A4);
+
+    w = 595;
+    h = 842;
+    if (paper)
+    {
+      w = paper->GetSizeDeviceUnits().x;
+      h = paper->GetSizeDeviceUnits().y;
+    }
+
+    if (m_printData.GetOrientation() == wxLANDSCAPE)
+    {
+      int tmp = w;
+      w = h;
+      h = tmp;
+    }
   }
 
   if (width)
@@ -1089,7 +1132,7 @@ wxPdfDCImpl::SetupPen()
                              curPen.GetColour().Blue()));
     if (curPen.GetWidth())
     {
-      style.SetWidth(curPen.GetWidth());
+      style.SetWidth(ScaleToPdf(LogicalToDeviceXRel(curPen.GetWidth())));
     }
     switch (curPen.GetStyle())
     {
@@ -1127,7 +1170,7 @@ wxPdfDCImpl::SetupPen()
   else
   {
     m_pdfDocument->SetDrawColour(0, 0, 0);
-    m_pdfDocument->SetLineWidth(1.0);
+    m_pdfDocument->SetLineWidth(ScaleToPdf(LogicalToDeviceXRel(1.0)));
   }
 }
 

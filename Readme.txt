@@ -2,7 +2,7 @@ wxPdfDocument component info
 ----------------------------
 
 Website:      http://wxcode.sourceforge.net/components/wxpdfdoc
-Version:      0.9.1
+Version:      0.9.2
 Description:
 wxPdfDocument allows wxWidgets applications to generate PDF documents.
 The code is a port of FPDF - a free PHP class for generating PDF files
@@ -117,8 +117,8 @@ has been extended based on ideas from the iText Java library and was
 incorporated into wxPdfDocument.
 
 Support for Indic scripts is based on the efforts of Ian Back, creator of
-the PHP library mPDF (http://mpdf.bpm1.com); special thanks to K Vinod Kumar
-of the Centre for Development of Advanced Computing, Mumbai
+the PHP library mPDF (http://www.mpdf1.com/mpdf/); special thanks to K Vinod
+Kumar of the Centre for Development of Advanced Computing, Mumbai
 (http://www.cdacmumbai.in), for clearing license issues of the Raghu font
 series.
 

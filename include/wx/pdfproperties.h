@@ -73,12 +73,16 @@ enum
 };
 
 /// Permission options
-#define wxPDF_PERMISSION_NONE   0x0000  ///< Allow nothing
-#define wxPDF_PERMISSION_PRINT  0x0004  ///< Allow printing
-#define wxPDF_PERMISSION_MODIFY 0x0008  ///< Allow modifying
-#define wxPDF_PERMISSION_COPY   0x0010  ///< Allow text copying
-#define wxPDF_PERMISSION_ANNOT  0x0020  ///< Allow annotations
-#define wxPDF_PERMISSION_ALL    0x003C  ///< Allow anything
+#define wxPDF_PERMISSION_NONE     0x0000  ///< Allow nothing
+#define wxPDF_PERMISSION_PRINT    0x0004  ///< Allow printing
+#define wxPDF_PERMISSION_MODIFY   0x0008  ///< Allow modifying
+#define wxPDF_PERMISSION_COPY     0x0010  ///< Allow text copying
+#define wxPDF_PERMISSION_ANNOT    0x0020  ///< Allow annotations
+#define wxPDF_PERMISSION_FILLFORM 0x0100  ///< Allow filling forms
+#define wxPDF_PERMISSION_EXTRACT  0x0200  ///< Allow extract text and/or garphics
+#define wxPDF_PERMISSION_ASSEMBLE 0x0400  ///< Allow assemble document
+#define wxPDF_PERMISSION_HLPRINT  0x0800  ///< Allow high resolution print
+#define wxPDF_PERMISSION_ALL      0x0F3C  ///< Allow anything
 
 /// Encryption methods
 enum wxPdfEncryptionMethod

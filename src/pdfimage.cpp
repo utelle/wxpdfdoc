@@ -270,9 +270,9 @@ wxPdfImage::ParsePNG(wxInputStream* imageStream)
   }
   else
   {
-    // Alpha channel not supported
+    // Unknown colour type
     wxLogDebug(wxString(wxT("wxPdfImage::ParsePNG: ")) +
-               wxString::Format(_("Alpha channel not supported: '%s'."), m_name.c_str()));
+               wxString::Format(_("Unknown colour type: '%s'."), m_name.c_str()));
     return false;
   }
   

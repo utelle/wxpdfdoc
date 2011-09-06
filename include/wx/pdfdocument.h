@@ -2450,6 +2450,20 @@ public:
   */
   virtual void LeaveLayer();
 
+  /// Set message translation mode
+  /**
+  * Sets the message translation mode which controls the handling of msg tags in XML output
+  * \param translate flag specifying whether messages translation should be enabled
+  */
+  void SetMessageTranslateMode(bool translate) { m_translate = translate; }
+
+  /// Get message translation mode
+  /**
+  * Gets the message translation mode which controls the handling of msg tags in XML output
+  * \return TRUE if messages are translated, FALSE otherwise
+  */
+  bool GetMessageTranslateMode() { return m_translate; }
+
 protected:
   /// Initialize
   virtual void Initialize(int orientation);
@@ -2667,6 +2681,9 @@ protected:
   void OutImage(wxPdfImage* currentImage,
                 double x, double y, double w, double h, const wxPdfLink& link);
 
+  /// Write XML using XML node
+  void WriteXml(wxXmlNode* node);
+
   /// Prepare an XML cell for output
   void PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context);
 
@@ -2836,6 +2853,8 @@ private:
   wxPdfLayerRGMap*     m_rgLayers;            ///< array of radio group layers
   wxPdfLayerGroup*     m_lockedLayers;        ///< array of locked layers
   wxArrayInt           m_layerDepth;          ///< stack for nested layers
+
+  bool                 m_translate;           ///< flag whether messages in msg tags should be translated
 
   friend class wxPdfImage;
   friend class wxPdfTable;

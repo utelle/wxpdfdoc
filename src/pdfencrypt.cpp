@@ -420,7 +420,8 @@ wxPdfEncrypt::PadPassword(const wxString& password, unsigned char pswd[32])
 void
 wxPdfEncrypt::GenerateEncryptionKey(const wxString& userPassword,
                                     const wxString& ownerPassword,
-                                    int protection)
+                                    int protection,
+                                    const wxString& documentId)
 {
   unsigned char userpswd[32];
   unsigned char ownerpswd[32];
@@ -436,7 +437,10 @@ wxPdfEncrypt::GenerateEncryptionKey(const wxString& userPassword,
   ComputeOwnerKey(userpswd, ownerpswd, m_keyLength*8, m_rValue, false, m_oValue);
 
   // Compute encryption key and U value
-  m_documentId = CreateDocumentId();
+  if (documentId.IsEmpty())
+  {
+    m_documentId = CreateDocumentId();
+  }
   ComputeEncryptionKey(m_documentId, userpswd,
                        m_oValue, m_pValue, m_keyLength*8, m_rValue, m_uValue);
 }

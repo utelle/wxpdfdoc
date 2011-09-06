@@ -41,10 +41,12 @@ public:
   * \param userPassword password of the user
   * \param ownerPassword password of the owner
   * \param protection protection flags
+  * \param documentId optional document identification
   */
   void GenerateEncryptionKey(const wxString& userPassword,
                              const wxString& ownerPassword,
-                             int protection);
+                             int protection,
+                             const wxString& documentId = wxEmptyString);
 
   /// Authenticate a document
   /**

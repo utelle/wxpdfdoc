@@ -39,11 +39,11 @@ void OrderedLayers()
 
   // Layers appear in the order in that they were added to the document
   wxPdfLayer* l1 = pdf.AddLayer(wxT("Layer 1"));
-	wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
-	wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
-	wxPdfLayerMembership* m1 = pdf.AddLayerMembership();
-	m1->AddMember(l2);
-	m1->AddMember(l3);
+  wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
+  wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
+  wxPdfLayerMembership* m1 = pdf.AddLayerMembership();
+  m1->AddMember(l2);
+  m1->AddMember(l3);
 
   pdf.SetTextColour(wxPdfColour(wxString(wxT("red"))));
   pdf.SetFont(wxT("Helvetica"),wxT("B"),20);
@@ -55,15 +55,15 @@ void OrderedLayers()
   pdf.EnterLayer(l1);
   pdf.Cell(0,6,wxT("Text in layer 1"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(m1);
   pdf.Cell(0,6,wxT("Text in layer 2 or layer 3"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l3);
   pdf.Cell(0,6,wxT("Text in layer 3"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
 
   pdf.SaveAsFile(wxT("layersordered.pdf"));
 }
@@ -80,15 +80,15 @@ void GroupedLayers()
 
   // Layers appear in the order in that they were added to the document
   wxPdfLayer* l1 = pdf.AddLayer(wxT("Layer 1"));
-	wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
-	wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
+  wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
+  wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
   wxPdfLayer* l0 = pdf.AddLayerTitle(wxT("A group of two"));
   l0->AddChild(l2);
   l0->AddChild(l3);
 
   wxPdfLayerMembership* m1 = pdf.AddLayerMembership();
-	m1->AddMember(l2);
-	m1->AddMember(l3);
+  m1->AddMember(l2);
+  m1->AddMember(l3);
 
   pdf.SetTextColour(wxPdfColour(wxString(wxT("red"))));
   pdf.SetFont(wxT("Helvetica"),wxT("B"),20);
@@ -100,15 +100,15 @@ void GroupedLayers()
   pdf.EnterLayer(l1);
   pdf.Cell(0,6,wxT("Text in layer 1"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(m1);
   pdf.Cell(0,6,wxT("Text in layer 2 or layer 3"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l3);
   pdf.Cell(0,6,wxT("Text in layer 3"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
             
   pdf.SaveAsFile(wxT("layersgrouped.pdf"));
 }
@@ -126,8 +126,8 @@ void NestedLayers()
   // Layers appear in the order in that they were added to the document
   wxPdfLayer* l1 = pdf.AddLayer(wxT("Layer 1"));
   wxPdfLayer* l23 = pdf.AddLayer(wxT("Top Layer 2 3"));
-	wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
-	wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
+  wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
+  wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
   l23->AddChild(l2);
   l23->AddChild(l3);
 
@@ -141,17 +141,17 @@ void NestedLayers()
   pdf.EnterLayer(l1);
   pdf.Cell(0,6,wxT("Text in layer 1"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l23);
   pdf.EnterLayer(l2);
   pdf.Cell(0,6,wxT("Text in layer 2"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l3);
   pdf.Cell(0,6,wxT("Text in layer 3"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
+  pdf.LeaveLayer();
 
   pdf.SaveAsFile(wxT("layersnested.pdf"));
 }
@@ -168,10 +168,10 @@ void AutomaticLayers()
   // Layers appear in the order in that they were added to the document
   wxPdfLayer* l12 = pdf.AddLayer(wxT("Layer nesting"));
   wxPdfLayer* l1 = pdf.AddLayer(wxT("Layer 1"));
-	wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
+  wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
   wxPdfLayer* l34 = pdf.AddLayerTitle(wxT("Layer grouping"));
-	wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
-	wxPdfLayer* l4 = pdf.AddLayer(wxT("Layer 4"));
+  wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
+  wxPdfLayer* l4 = pdf.AddLayer(wxT("Layer 4"));
   l12->AddChild(l1);
   l12->AddChild(l2);
   l34->AddChild(l3);
@@ -187,19 +187,19 @@ void AutomaticLayers()
   pdf.EnterLayer(l1);
   pdf.Cell(0,6,wxT("Text in layer 1"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l2);
   pdf.Cell(0,6,wxT("Text in layer 2"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l3);
   pdf.Cell(0,6,wxT("Text in layer 3"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l4);
   pdf.Cell(0,6,wxT("Text in layer 4"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
 
   pdf.SaveAsFile(wxT("layersautomatic.pdf"));
 }
@@ -216,9 +216,9 @@ void LayerRadioGroup()
   // Layers appear in the order in that they were added to the document
   wxPdfLayer* lrg = pdf.AddLayerTitle(wxT("Layer radio group"));
   wxPdfLayer* l1 = pdf.AddLayer(wxT("Layer 1"));
-	wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
-	wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
-	wxPdfLayer* l4 = pdf.AddLayer(wxT("Layer 4"));
+  wxPdfLayer* l2 = pdf.AddLayer(wxT("Layer 2"));
+  wxPdfLayer* l3 = pdf.AddLayer(wxT("Layer 3"));
+  wxPdfLayer* l4 = pdf.AddLayer(wxT("Layer 4"));
   lrg->AddChild(l1);
   lrg->AddChild(l2);
   lrg->AddChild(l3);
@@ -245,18 +245,18 @@ void LayerRadioGroup()
   pdf.EnterLayer(l1);
   pdf.Cell(0,6,wxT("Text in layer 1"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l2);
   pdf.Cell(0,6,wxT("Text in layer 2"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l3);
   pdf.Cell(0,6,wxT("Text in layer 3"));
   pdf.Ln(15);
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.EnterLayer(l4);
   pdf.Cell(30,6,wxT("Text in layer 4"));
-	pdf.LeaveLayer();
+  pdf.LeaveLayer();
   pdf.SetTextColour(wxPdfColour(wxString(wxT("blue"))));
   pdf.SetFont(wxT("Courier"),wxT(""),12);
   pdf.Cell(0, 6, wxT("<< Zoom here (200% or more)!"));

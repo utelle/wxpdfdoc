@@ -249,6 +249,8 @@ wxPdfDocument::Initialize(int orientation)
   m_currentParser = NULL;
   m_currentSource = wxEmptyString;
 
+  m_translate = false;
+
   m_zapfdingbats = 0;
 }
 

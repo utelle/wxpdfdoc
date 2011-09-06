@@ -134,6 +134,7 @@ bool MyApp::OnInit(void)
 
     file_menu->Append(WXPRINT_PRINT, _T("&Print..."),              _T("Print"));
     file_menu->Append(WXPRINT_PDF, _T("PDF..."),              _T("PDF"));
+    file_menu->Append(WXPRINT_PDF_TPL, _T("PDF Template..."),              _T("PDF Template"));
     file_menu->Append(WXPRINT_PAGE_SETUP, _T("Page Set&up..."),              _T("Page setup"));
 #ifdef __WXMAC__
     file_menu->Append(WXPRINT_PAGE_MARGINS, _T("Page Margins..."), _T("Page margins"));
@@ -202,6 +203,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
 EVT_MENU(WXPRINT_QUIT, MyFrame::OnExit)
 EVT_MENU(WXPRINT_PRINT, MyFrame::OnPrint)
 EVT_MENU(WXPRINT_PDF, MyFrame::OnPDF)
+EVT_MENU(WXPRINT_PDF_TPL, MyFrame::OnPDFTemplate)
 EVT_MENU(WXPRINT_PREVIEW, MyFrame::OnPrintPreview)
 EVT_MENU(WXPRINT_PAGE_SETUP, MyFrame::OnPageSetup)
 EVT_MENU(WXPRINT_ABOUT, MyFrame::OnPrintAbout)
@@ -285,6 +287,42 @@ void MyFrame::OnPDF(wxCommandEvent& WXUNUSED(event))
       dc.EndDoc();
     }
   }
+#if defined(__WXMSW__)
+  ShellExecute(NULL, _T("open"), fileName.GetFullPath(), _T(""), _T(""), 0);
+#endif
+}
+
+void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
+{
+  wxFileName fileName;
+  fileName.SetPath(wxGetCwd());
+  fileName.SetFullName(wxT("template.pdf"));
+  
+  wxPdfDocument pdf;
+  pdf.AddPage();
+  pdf.SetFont(wxT("Helvetica"),wxT("B"),16);
+  pdf.Cell(40,10,wxT("Hello World!"));
+  double w = 75;
+  double h = 125;
+  int tpl = pdf.BeginTemplate(0, 0, w, h);
+
+  {
+    wxPdfDC dc(&pdf, w, h);
+    dc.SetMapMode(wxMM_METRIC);
+    dc.SetResolution(720);
+    bool ok = dc.StartDoc(_("Printing ..."));
+    if (ok)
+    {
+      dc.StartPage();
+      Draw(dc);
+      dc.EndPage();
+      dc.EndDoc();
+    }
+  }
+  pdf.EndTemplate();
+  pdf.UseTemplate(tpl, 40, 30);
+  pdf.SaveAsFile(fileName.GetFullPath());
+
 #if defined(__WXMSW__)
   ShellExecute(NULL, _T("open"), fileName.GetFullPath(), _T(""), _T(""), 0);
 #endif

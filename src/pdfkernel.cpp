@@ -1014,7 +1014,11 @@ wxPdfDocument::PutPages()
       }
     }
     Out("]");
-
+    // TODO: not sure whether writing the group dictionary is necessary
+    if (m_PDFVersion > wxT("1.3"))
+    {
+      Out("/Group <</Type /Group /S /Transparency /CS /DeviceRGB>>");
+    }
     OutAscii(wxString::Format(wxT("/Contents %d 0 R>>"), m_n+1));
     Out("endobj");
     
@@ -1034,7 +1038,7 @@ wxPdfDocument::PutPages()
 
     NewObj();
     OutAscii(wxString(wxT("<<")) + filter + wxString(wxT("/Length ")) + 
-             wxString::Format(wxT("%ld"), CalculateStreamLength(p->TellO())) + wxString(wxT(">>")));
+             wxString::Format(wxT("%lu"), (unsigned long) CalculateStreamLength(p->TellO())) + wxString(wxT(">>")));
     PutStream(*p);
     Out("endobj");
     if (m_compress)
@@ -1202,7 +1206,7 @@ wxPdfDocument::PutShaders()
         Out("/Decode[0 1 0 1 0 1 0 1 0 1]");
         Out("/BitsPerFlag 8");
         wxMemoryOutputStream* p = grad->GetBuffer();
-        OutAscii(wxString::Format(wxT("/Length %ld"), CalculateStreamLength(p->TellO())));
+        OutAscii(wxString::Format(wxT("/Length %lu"), (unsigned long) CalculateStreamLength(p->TellO())));
         Out(">>");
         PutStream(*p);
         Out("endobj");
@@ -1372,7 +1376,7 @@ wxPdfDocument::PutFonts()
         wxMemoryOutputStream* p = new wxMemoryOutputStream();
         /* size_t mapSize = */ font->WriteUnicodeMap(p);
         size_t mapLen = CalculateStreamLength(p->TellO());
-        OutAscii(wxString::Format(wxT("<</Length %ld"), mapLen));
+        OutAscii(wxString::Format(wxT("<</Length %lu"), (unsigned long) mapLen));
         Out("/Filter /FlateDecode");
         Out(">>");
         PutStream(*p);
@@ -1477,7 +1481,7 @@ wxPdfDocument::PutFonts()
       wxMemoryOutputStream* p = new wxMemoryOutputStream();
       /* size_t mapSize = */ font->WriteUnicodeMap(p);
       size_t mapLen = CalculateStreamLength(p->TellO());
-      OutAscii(wxString::Format(wxT("<</Length %ld"), mapLen));
+      OutAscii(wxString::Format(wxT("<</Length %lu"), (unsigned long) mapLen));
       if (compressed)
       {
         // Decompresses data encoded using the public-domain zlib/deflate compression
@@ -1770,7 +1774,7 @@ wxPdfDocument::PutTemplates()
       p = &(currentTemplate->m_buffer);
     }
 
-    OutAscii(wxString::Format(wxT("/Length %ld >>"), CalculateStreamLength(p->TellO())));
+    OutAscii(wxString::Format(wxT("/Length %lu >>"), (unsigned long) CalculateStreamLength(p->TellO())));
     PutStream(*p);
     Out("endobj");
     if (m_compress)
@@ -2085,7 +2089,7 @@ wxPdfDocument::PutPatterns()
                      wxString::Format(wxT("/I%d Do Q"), image->GetIndex());
     wxMemoryOutputStream* p = new wxMemoryOutputStream;
     p->Write(sdata.ToAscii(), sdata.Length());
-    OutAscii(wxString(wxT("/Length ")) + wxString::Format(wxT("%ld"), CalculateStreamLength(p->TellO())));
+    OutAscii(wxString(wxT("/Length ")) + wxString::Format(wxT("%lu"), (unsigned long) CalculateStreamLength(p->TellO())));
     Out(">>");
     PutStream(*p);
     delete p;

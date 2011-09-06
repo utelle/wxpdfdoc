@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <wxpdfdoc-font-metrics type="TrueTypeUnicode">
   <font-name>RaghuBengaliSans</font-name>
   <encoding></encoding>
@@ -633,6 +633,7 @@
       <!-- Re-order vowels -->
       <!-- BENGALI vowels [09BF;&#x09C7;&#x09C8] -->
       <!-- BENGALI double-part vowels [09CB;&#x09C7;&#x09BE][09CC;&#x09C7;&#x09D7] -->
+      <rule match="ৎ" replace="ত্‍"/>
       <rule match="ো" replace="ো"/>
       <!-- convert to 2 parts -->
       <rule match="ৌ" replace="ৌ"/>
@@ -643,6 +644,14 @@
       <!-- before NUKTA -->
       <rule match="(.{1})্(ি|ে|ৈ)" replace="\2\1্"/>
       <!-- before CHAR HALANT -->
+      <!-- .. and shifting left-based vowel further to the left in case 3 consonants together. -->
+      <rule match="(ক|খ|গ|ঘ|ঙ|চ|ছ|জ|ঝ|ট|ঠ|ড|ঢ|ণ|ত|থ|দ|ধ|ন|প|ফ|ব|ভ|ম|য|র|ল|শ|ষ|স|হ|ড়|ঢ়|য়)্(ি|ে|ৈ)" replace="\2\1্"/>
+      <!-- If left-based vowel has now been shifted to left of RA/Halant (09B0/09CD) -->
+      <!-- Convert here to above-line form (E068) as it would get missed later -->
+      <!-- e.g. 09B0 09CD 09AD 09C7 would be changed above => -->
+      <!-- e.g. 09C7 09B0 09CD 09AD. The 09B0 09CD should => E068 -->
+      <!-- ??? need to add 09BF as well (09BF|09C7|09C8) -->
+      <rule match="(ে|ৈ)র্" replace="\1"/>
     </ruleset>
     <ruleset type="core">
       <rule match="ক্ষ" replace=""/>

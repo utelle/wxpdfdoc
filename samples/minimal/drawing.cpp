@@ -318,7 +318,7 @@ drawing()
 
   pdf.Text(130, 120, wxT("Bezier spline for Sine function"));
   // Sinus points in [0,2PI].
-	// Fill point array with scaled in X,Y Sin values in [0, PI].
+  // Fill point array with scaled in X,Y Sin values in [0, PI].
   wxPdfArrayDouble xpSin, ypSin;
   double scaleX = 20;
   double scaleY = 20;

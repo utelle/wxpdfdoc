@@ -1419,10 +1419,10 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
     {
 #if 0
 // Debug
-		  size_t j;
+      size_t j;
       for (j = 0; j < CC2GNSIZE; j+=2)
       {
-	      wxLogMessage(wxT("C %ld G %ld"), j/2, cc2gn[j] * 256 + cc2gn[j+1]);
+        wxLogMessage(wxT("C %ld G %ld"), j/2, cc2gn[j] * 256 + cc2gn[j+1]);
       }
 #endif
       zOutCtgFile.Write(cc2gn, CC2GNSIZE);
@@ -1586,7 +1586,7 @@ MakeFont::OnInit()
   {
     bool hasAfm       = parser.Found(wxT("afm"),   &m_afmFile);
     bool hasUfm       = parser.Found(wxT("ufm"),   &m_ufmFile);
-	  bool hasImmediate = parser.Found(wxT("immediate"));
+    bool hasImmediate = parser.Found(wxT("immediate"));
     bool hasFont      = parser.Found(wxT("font"),  &m_fontFile);
     bool hasEnc       = parser.Found(wxT("enc"),   &m_encoding);
     bool hasPatch     = parser.Found(wxT("patch"), &m_patchFile);
@@ -1639,7 +1639,7 @@ MakeFont::OnRun()
   if (m_unicode)
   {
     if (m_immediate)
-	  {
+    {
       wxLogMessage(wxT("  Metrics  : Immediately from font file"));
       wxLogMessage(wxT("  Font file: ") + m_fontFile);
       valid = MakeFontImmediate(m_fontFile);

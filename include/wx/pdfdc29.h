@@ -22,6 +22,12 @@ public:
   // Recommended constructor
   wxPdfDC(const wxPrintData& printData);
 
+  wxPdfDC(wxPdfDocument* pdfDocument, double templateWidth, double templateHeight);
+
+  wxPdfDocument* GetPdfDocument();
+
+  void SetResolution(int ppi);
+
 private:
     DECLARE_DYNAMIC_CLASS(wxPdfDC)
 };
@@ -32,6 +38,7 @@ class WXDLLIMPEXP_PDFDOC wxPdfDCImpl: public wxDCImpl
 public:
   wxPdfDCImpl(wxPdfDC *owner);
   wxPdfDCImpl(wxPdfDC* owner, const wxPrintData& data);
+  wxPdfDCImpl(wxPdfDC* owner, wxPdfDocument* pdfDocument, double templateWidth, double templateHeight);
   wxPdfDCImpl(wxPdfDC* owner, const wxString& file, int w = 300, int h = 200);
   virtual ~wxPdfDCImpl();
 
@@ -183,6 +190,9 @@ private:
   void SetupBrush();
   double ScaleToPdf(wxCoord x) const;
 
+  bool           m_templateMode;
+  double         m_templateWidth;
+  double         m_templateHeight;
   double         m_ppi;
   wxPdfDocument* m_pdfDocument;
   int            m_imageCount;

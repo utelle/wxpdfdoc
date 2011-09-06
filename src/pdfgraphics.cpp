@@ -974,7 +974,7 @@ wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry,
   }
   if (doSector)
   {
-    OutLine(x0, y0);
+    OutLine(x0 / m_k, y0 / m_k);
 //    a0 = x0 + (rx * cos(t1));
 //    b0 = y0 + (ry * sin(t1));
 //    OutLine(a0, b0);

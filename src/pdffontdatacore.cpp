@@ -174,6 +174,7 @@ wxPdfFontDataCore::ConvertCID2GID(const wxString& s,
   // No conversion from cid to gid
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
+#if wxUSE_UNICODE
   const wxPdfChar2GlyphMap* convMap = FindEncodingMap(encoding);
   wxString t;
   if (convMap != NULL)
@@ -182,7 +183,8 @@ wxPdfFontDataCore::ConvertCID2GID(const wxString& s,
     wxString::const_iterator ch;
     for (ch = s.begin(); ch != s.end(); ++ch)
     {
-      charIter = (*convMap).find(*ch);
+      wxUint32 cc = (unsigned char) (*ch);
+      charIter = (*convMap).find(cc);
       if (charIter != (*convMap).end())
       {
 #if wxCHECK_VERSION(2,9,0)
@@ -202,4 +204,9 @@ wxPdfFontDataCore::ConvertCID2GID(const wxString& s,
     t = s;
   }
   return t;
+#else
+  // Return unchanged string in ANSI build
+  wxUnusedVar(encoding);
+  return s;
+#endif
 }

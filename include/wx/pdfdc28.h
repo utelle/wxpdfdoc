@@ -19,6 +19,7 @@ class WXDLLIMPEXP_PDFDOC wxPdfDC: public wxDC
 public:
   wxPdfDC();
   wxPdfDC(const wxPrintData& printData);
+  wxPdfDC(wxPdfDocument* pdfDocument, double templateWidth, double templateHeight);
   virtual ~wxPdfDC();
 
   wxPdfDocument* GetPdfDocument();
@@ -177,6 +178,9 @@ private:
   void SetupBrush();
   double ScaleToPdf(wxCoord x) const;
 
+  bool           m_templateMode;
+  double         m_templateWidth;
+  double         m_templateHeight;
   double         m_ppi;
   wxPdfDocument* m_pdfDocument;
   int            m_imageCount;

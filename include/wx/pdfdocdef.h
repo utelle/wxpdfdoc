@@ -71,6 +71,27 @@ page. Or you can send a mail to me
 \section version Version history
 
 <dl>
+<dt><b>0.9.2</b> - <i>September 2011</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.2. 
+Compatibility with older wxWidgets versions is not guaranteed, but it should
+work with all 2.8.x versions.
+
+General changes:<br>
+- added method wxPdfDC::GetPdfDocument for builds based on wxWidgets 2.9.x
+- added method wxPdfDocument::WriteXml for direct handling of wxXmlNode instances
+- added support for optionally activating/deactivating message translation (<b>msg</b> tag) in XML output method
+- added optional document id parameter for method wxPdfEncrypt::GenerateEncryptionKey
+
+Fixed bugs:<br>
+- fixed a bug in method wxPdfDocument::CalculatePageSize
+- fixed a bug in wxPdfFontDataCore::ConvertCID2GID
+- fixed several scaling bugs in wxPdfDC
+- fixed several warnings in pdfkernel regarding formatted output of size_t variables
+- fixed minor issues with Bengali font
+
+</dd>
+
 <dt><b>0.9.1</b> - <i>January 2011</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets version 2.8.11 and version 2.9.1. 
@@ -1149,7 +1170,7 @@ If neither a row nor a cell background colour is specified the background is tra
 #elif defined(WXMAKINGDLL_PDFDOC)
   #define WXDLLIMPEXP_PDFDOC WXEXPORT
   #define WXDLLIMPEXP_DATA_PDFDOC(type) WXEXPORT type
-#elif defined(WXUSINGDLL)
+#elif defined(WXUSINGDLL) && !defined(WXUSINGLIB_PDFDOC)
   #define WXDLLIMPEXP_PDFDOC WXIMPORT
   #define WXDLLIMPEXP_DATA_PDFDOC(type) WXIMPORT type
 #else // not making nor using DLL
