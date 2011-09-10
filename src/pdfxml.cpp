@@ -1079,7 +1079,8 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         wxString s;
         if (name == wxT("msg"))
         {
-          s = (m_translate) ? wxGetTranslation(GetNodeContent(child)) : GetNodeContent(child);
+          s = GetNodeContent(child);
+          if (m_translate) s = wxGetTranslation(s);
          }
         else
         {
@@ -1746,7 +1747,8 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         wxString s;
         if (name == wxT("msg"))
         {
-          s = (m_translate) ? wxGetTranslation(GetNodeContent(child)) : GetNodeContent(child);
+          s = GetNodeContent(child);
+          if (m_translate) s = wxGetTranslation(s);
         }
         else
         {
