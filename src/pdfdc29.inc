@@ -60,7 +60,7 @@ angleByCoords(wxCoord xa, wxCoord ya, wxCoord xc, wxCoord yc)
   double diffX = xa - xc, diffY = -(ya - yc), ret = 0;
   if (diffX == 0) // singularity
   {
-    ret = diffY > 0 ? 90 : -90;
+    ret = diffY > 0 ? 90 : 270;
   }
   else if (diffX >= 0) // quadrants 1, 4
   {
@@ -659,7 +659,7 @@ wxPdfDCImpl::DoDrawArc(wxCoord x1, wxCoord y1,
     {
       style = (doFill) ? wxPDF_STYLE_FILL : wxPDF_STYLE_DRAW;
     }
-    m_pdfDocument->Sector(xxc, yyc, r, start, end, style, false, 0.0);
+    m_pdfDocument->Ellipse(xxc, yyc, r, 0, 0, start, end, style, 8, false);
     wxCoord radius = (wxCoord) sqrt( (double)((x1-xc)*(x1-xc)+(y1-yc)*(y1-yc)) );
     CalcBoundingBox(xc-radius, yc-radius);
     CalcBoundingBox(xc+radius, yc+radius);
