@@ -183,8 +183,7 @@ wxPdfFontDataCore::ConvertCID2GID(const wxString& s,
     wxString::const_iterator ch;
     for (ch = s.begin(); ch != s.end(); ++ch)
     {
-      wxUint32 cc = (unsigned char) (*ch);
-      charIter = (*convMap).find(cc);
+      charIter = (*convMap).find(*ch);
       if (charIter != (*convMap).end())
       {
 #if wxCHECK_VERSION(2,9,0)

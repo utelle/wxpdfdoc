@@ -1126,6 +1126,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             ls = len;
             ns++;
           }
+          double lastlen = len;
           len = GetStringWidth(s.SubString(j, i));
 
           if (len > wmax)
@@ -1133,6 +1134,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             // Automatic line break
             if (sep == -1)
             {
+              ls = lastlen;
               if (context.GetLastLineWidth() > 0)
               {
                 if (context.GetLastChar() == wxT(' '))
@@ -1805,7 +1807,11 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             // Automatic line break
             if (sep == -1)
             {
-              if (wmax == context.GetCurrentLineWidth())
+              // Case 1: current line length exactly matches the maximum with
+              // Case 2: current line contains no spaces and line length plus epsilon exactly matches the maximum width
+              //         (line break in the middle of a word if the word is too long to fit on the line)
+              if (  wmax == context.GetCurrentLineWidth() || 
+                  ((wmax == context.GetCurrentLineWidth() + wxPDF_EPSILON) && context.GetCurrentLineSpaces() == 0))
               {
                 if (i == j)
                 {
@@ -1889,4 +1895,3 @@ wxPdfDocument::DoXmlAlign(wxPdfCellContext& context)
   }
   context.SetAligned();
 }
-

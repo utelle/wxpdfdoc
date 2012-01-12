@@ -441,6 +441,10 @@ wxPdfEncrypt::GenerateEncryptionKey(const wxString& userPassword,
   {
     m_documentId = CreateDocumentId();
   }
+  else
+  {
+    m_documentId = documentId;
+  }
   ComputeEncryptionKey(m_documentId, userpswd,
                        m_oValue, m_pValue, m_keyLength*8, m_rValue, m_uValue);
 }

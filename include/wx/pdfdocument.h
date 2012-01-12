@@ -1616,6 +1616,16 @@ public:
                             const wxPdfLink& link = wxPdfLink(-1),
                             int maskImage = 0);
 
+  /// Get x coordinate of bottom right corner of last inserted image
+  /**
+  */
+  virtual double GetLastImageBottomRightX() { return m_img_rb_x; }
+
+  /// Get y coordinate of bottom right corner of last inserted image
+  /**
+  */
+  virtual double GetLastImageBottomRightY() { return m_img_rb_y; }
+
   /// Performs a line break.
   /**
   * The current abscissa goes back to the left margin and the ordinate increases by the amount passed in parameter.
