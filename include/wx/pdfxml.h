@@ -96,6 +96,12 @@ public:
   /// Set flag that alignment has been taken care of
   void SetAligned() { m_aligned = true; }
 
+  /// Get cell fill style
+  int GetFillStyle() { return m_fillStyle; }
+
+  /// Set cell fill style
+  void SetFillStyle(int fillStyle) { m_fillStyle = fillStyle; }
+
   /// Get the number of contexts
   unsigned int GetContextCount() { return (unsigned int) m_contexts.GetCount(); }
 
@@ -142,6 +148,7 @@ private:
   wxArrayPtrVoid   m_contexts;        ///< list of contexts
   unsigned int     m_currentLine;     ///< index of current line
   bool             m_aligned;         ///< alignment flag
+  int              m_fillStyle;       ///< cell fill style
   wxPdfArrayDouble m_linewidth;       ///< list of line widths
   wxArrayInt       m_spaces;          ///< list of space counters
   wxChar           m_lastChar;        ///< last character of a chunk

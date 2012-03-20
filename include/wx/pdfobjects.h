@@ -53,6 +53,12 @@ public:
   /// Get generation number
   int GetGeneration() { return m_objGen; }
 
+  /// Set actual object id
+  void SetActualId(int actualId) { m_actualId = actualId; }
+
+  // Get actual object id
+  int GetActualId() { return m_actualId; }
+
   /// Flag this object as created through a indirect reference
   void SetCreatedIndirect(bool indirect) { m_indirect = indirect; }
 
@@ -93,6 +99,7 @@ protected:
   int  m_type;     ///< Object type
   int  m_objNum;   ///< Object number
   int  m_objGen;   ///< Object generation
+  int  m_actualId; ///< Actual object id
   bool m_indirect; ///< Flag whether created through indirect reference
 };
 

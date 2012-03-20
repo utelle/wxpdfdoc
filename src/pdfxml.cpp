@@ -65,6 +65,7 @@ wxPdfCellContext::wxPdfCellContext(double maxWidth, wxPdfAlignment hAlign, wxPdf
   m_currentLine = 0;
   m_currentContext = 0;
   m_aligned = false;
+  m_fillStyle = 0;
   m_lastChar = 0;
   m_spaceWidth = 0;
   m_lineDelta = 0;
@@ -955,6 +956,10 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         context.AddHeight(h);
       }
     }
+    else if (name == wxT("span"))
+    {
+      PrepareXmlCell(child, context);
+    }
     else if (name == wxT("font"))
     {
       // --- Font
@@ -1090,7 +1095,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         int nb = (int) s.Length();
         if (nb > 0 && s[nb-1] == wxT('\n'))
         {
-          nb--;
+          --nb;
         }
         int sep = -1;
         int i = 0;
@@ -1620,6 +1625,23 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         SetXY(x, y+h);
       }
     }
+    else if (name == wxT("span"))
+    {
+      int saveFillStyle = context.GetFillStyle();
+      wxPdfColour saveColor  = GetFillColour();
+      wxString strColor = child->GetPropVal(_T("color"), _T(""));
+      if (strColor.Length() > 0)
+      {
+        SetFillColour(wxPdfColour(strColor));
+        context.SetFillStyle(1);
+      }
+      WriteXmlCell(child, context);
+      if (strColor.Length() > 0)
+      {
+        context.SetFillStyle(saveFillStyle);
+        SetFillColour(saveColor);
+      }
+    }
     else if (name == wxT("font"))
     {
       // --- Font
@@ -1760,7 +1782,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         int nb = (int) s.Length();
         if (nb > 0 && s[nb-1] == wxT('\n'))
         {
-          nb--;
+          --nb;
         }
 
         int sep = -1;
@@ -1782,7 +1804,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
               m_ws = 0;
               Out("0 Tw");
             }
-            WriteCell(h,s.SubString(j,i-1), wxPDF_BORDER_NONE, 0, link);
+            WriteCell(h,s.SubString(j,i-1), wxPDF_BORDER_NONE, context.GetFillStyle(), link);
             i++;
             sep = -1;
             j = i;
@@ -1817,7 +1839,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
                 {
                   i++;
                 }
-                WriteCell(h,s.SubString(j,i-1), wxPDF_BORDER_NONE, 0, link);
+                WriteCell(h,s.SubString(j,i-1), wxPDF_BORDER_NONE, context.GetFillStyle(), link);
               }
               else
               {
@@ -1826,7 +1848,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             }
             else
             {
-              WriteCell(h,s.SubString(j,sep-1), wxPDF_BORDER_NONE, 0, link);
+              WriteCell(h,s.SubString(j,sep-1), wxPDF_BORDER_NONE, context.GetFillStyle(), link);
               i = sep + 1;
             }
             sep = -1;
@@ -1845,7 +1867,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
           }
         }
         // Last chunk
-        WriteCell(h,s.SubString(j,i-1), wxPDF_BORDER_NONE, 0, link);
+        WriteCell(h,s.SubString(j,i-1), wxPDF_BORDER_NONE, context.GetFillStyle(), link);
         context.AddCurrentLineWidth(-len);
         if (context.GetHAlign() == wxPDF_ALIGN_JUSTIFY && m_ws > 0)
         {

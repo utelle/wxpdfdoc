@@ -46,6 +46,7 @@ wxPdfObject::wxPdfObject(int type)
   m_type = type;
   m_objNum = -1;
   m_objGen = -1;
+  m_actualId = -1;
   m_indirect = false;
 }
 

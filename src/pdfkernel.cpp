@@ -1775,8 +1775,11 @@ wxPdfDocument::PutTemplates()
     }
 
     OutAscii(wxString::Format(wxT("/Length %lu >>"), (unsigned long) CalculateStreamLength(p->TellO())));
+    int nSave = m_n;
+    m_n = currentTemplate->GetObjIndex();
     PutStream(*p);
     Out("endobj");
+    m_n = nSave;
     if (m_compress)
     {
       delete p;
@@ -1798,6 +1801,7 @@ wxPdfDocument::PutImportedObjects()
       while ((entry = entry->GetNext()) != NULL)
       {
         wxPdfObject* resolvedObject = m_currentParser->ResolveObject(entry->GetObject());
+        resolvedObject->SetActualId(entry->GetActualObjectId());
         NewObj(entry->GetActualObjectId());
         WriteObjectValue(resolvedObject);
         Out("endobj");

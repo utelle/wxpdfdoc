@@ -477,6 +477,12 @@ wxPdfDocument::WriteObjectValue(wxPdfObject* obj, bool newline)
     case OBJTYPE_STRING:
       {
         // A string.
+        int nSave = m_n;
+        int actualId = obj->GetActualId();
+        if (actualId != -1)
+        {
+          m_n = actualId;
+        }
         if (((wxPdfString*) obj)->IsHexString())
         {
           OutHexTextstring(((wxPdfString*) obj)->GetValue(), newline);
@@ -484,6 +490,10 @@ wxPdfDocument::WriteObjectValue(wxPdfObject* obj, bool newline)
         else
         {
           OutRawTextstring(((wxPdfString*) obj)->GetValue(), newline);
+        }
+        if (actualId != -1)
+        {
+          m_n = nSave;
         }
       }
       break;
@@ -550,7 +560,17 @@ wxPdfDocument::WriteObjectValue(wxPdfObject* obj, bool newline)
         WriteObjectValue(stream->GetDictionary());
 
         // Write the stream
+        int nSave = m_n;
+        int actualId = obj->GetActualId();
+        if (actualId != -1)
+        {
+          m_n = actualId;
+        }
         PutStream(*buffer);
+        if (actualId != -1)
+        {
+          m_n = nSave;
+        }
 
         // Restore the 'Length' entry of the stream dictionary
         dictionary->Put(&lengthKey, originalLength);
