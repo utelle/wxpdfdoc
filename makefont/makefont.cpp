@@ -106,6 +106,7 @@ private:
   wxString m_patchFile;
   wxString m_fontType;
   wxString m_volt;
+  wxString m_outputDir;
 };
 
 /// Fast string search (KMP method): initialization
@@ -953,7 +954,7 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
         return false;
       }
       size_t len = ttfFile.GetLength();
-      wxFileOutputStream outFontFile(baseName + wxT(".z"));
+      wxFileOutputStream outFontFile(m_outputDir + baseName + wxT(".z"));
       wxZlibOutputStream zOutFontFile(outFontFile);
       zOutFontFile.Write(ttfFile);
       zOutFontFile.Close();
@@ -1005,7 +1006,7 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
         delete [] f;
         if (size2 >= 0)
         {
-          wxFileOutputStream outFontFile(baseName + wxT(".z"));
+          wxFileOutputStream outFontFile(m_outputDir + baseName + wxT(".z"));
           wxZlibOutputStream zOutFontFile(outFontFile);
           zOutFontFile.Write(buf1, size1);
           zOutFontFile.Write(buf2, size2);
@@ -1034,7 +1035,7 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
   }
 
   // Create XML file
-  CreateFontMetricsFile(baseName + wxT(".xml"), *afmFont, hasGlyphNumbers);
+  CreateFontMetricsFile(m_outputDir + baseName + wxT(".xml"), *afmFont, hasGlyphNumbers);
   wxLogMessage(wxT("Font definition file generated (") + baseName + wxT(".xml)."));
 
   //delete widths;
@@ -1372,7 +1373,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
       return false;
     }
     size_t len = fontFile.GetLength();
-    wxFileOutputStream outFontFile(baseName + wxT(".z"));
+    wxFileOutputStream outFontFile(m_outputDir + baseName + wxT(".z"));
     wxZlibOutputStream zOutFontFile(outFontFile);
     if (cff)
     {
@@ -1406,7 +1407,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
   if (embeddingAllowed)
   {
     // Create CID to GID map file
-    wxFileOutputStream outCtgFile(baseName + wxT(".ctg.z"));
+    wxFileOutputStream outCtgFile(m_outputDir + baseName + wxT(".ctg.z"));
     wxZlibOutputStream zOutCtgFile(outCtgFile);
     if (cff)
     {
@@ -1433,7 +1434,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
   }
 
   // Create XML file
-  CreateFontMetricsFile(baseName + wxT(".xml"), *ufmFont, cff);
+  CreateFontMetricsFile(m_outputDir + baseName + wxT(".xml"), *ufmFont, cff);
   wxLogMessage(wxT("Font definition file generated (") + baseName + wxT(".xml)."));
 
   if (cff)
@@ -1474,11 +1475,11 @@ MakeFont::MakeFontImmediate(const wxString& fontFileName)
     wxString baseName = fileName.GetName();
     if (loadedFont->EmbedSupported())
     {
-      wxFileOutputStream outFontFile(baseName + wxT(".z"));
+      wxFileOutputStream outFontFile(m_outputDir + baseName + wxT(".z"));
       loadedFont->WriteFontData(&outFontFile);
       outFontFile.Close();
       wxLogMessage(wxT("Font file compressed (") + baseName + wxT(".z)"));
-      wxFileOutputStream outCtgFile(baseName + wxT(".ctg.z"));
+      wxFileOutputStream outCtgFile(m_outputDir + baseName + wxT(".ctg.z"));
       if (!cff)
       {
         static size_t CC2GNSIZE = 131072; // 2*64kB
@@ -1521,7 +1522,7 @@ MakeFont::MakeFontImmediate(const wxString& fontFileName)
     }
 
     // Create XML file
-    CreateFontMetricsFile(baseName + wxT(".xml"), *loadedFont, cff);
+    CreateFontMetricsFile(m_outputDir + baseName + wxT(".xml"), *loadedFont, cff);
     wxLogMessage(wxT("Font definition file generated (") + baseName + wxT(".xml)."));
     delete loadedFont;
   }
@@ -1546,6 +1547,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, "e", "enc",       "Character encoding of the font (for AFM only)",   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "p", "patch",     "Patch file (for AFM only)",                       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "t", "type",      "Font type (type = otf, ttf or t1, default: ttf)", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, "o", "output",    "Path to output directory",                        wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #else
   { wxCMD_LINE_OPTION, wxT("a"), wxT("afm"),       wxT("Adobe Font Metric file (AFM)"),                    wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #if wxUSE_UNICODE
@@ -1559,6 +1561,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, wxT("e"), wxT("enc"),       wxT("Character encoding of the font (for AFM only)"),   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, wxT("p"), wxT("patch"),     wxT("Patch file (for AFM only)"),                       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, wxT("t"), wxT("type"),      wxT("Font type (type = otf, ttf or t1, default: ttf)"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, wxT("o"), wxT("output"),    wxT("Path to output directory"),                        wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #endif
   { wxCMD_LINE_NONE }
 };
@@ -1584,14 +1587,15 @@ MakeFont::OnInit()
   parser.SetLogo(logo);
   if (parser.Parse() == 0)
   {
-    bool hasAfm       = parser.Found(wxT("afm"),   &m_afmFile);
-    bool hasUfm       = parser.Found(wxT("ufm"),   &m_ufmFile);
+    bool hasAfm       = parser.Found(wxT("afm"),    &m_afmFile);
+    bool hasUfm       = parser.Found(wxT("ufm"),    &m_ufmFile);
     bool hasImmediate = parser.Found(wxT("immediate"));
-    bool hasFont      = parser.Found(wxT("font"),  &m_fontFile);
-    bool hasEnc       = parser.Found(wxT("enc"),   &m_encoding);
-    bool hasPatch     = parser.Found(wxT("patch"), &m_patchFile);
-    bool hasType      = parser.Found(wxT("type"),  &m_fontType);
-    bool hasVolt      = parser.Found(wxT("volt"),  &m_volt);
+    bool hasFont      = parser.Found(wxT("font"),   &m_fontFile);
+    bool hasEnc       = parser.Found(wxT("enc"),    &m_encoding);
+    bool hasPatch     = parser.Found(wxT("patch"),  &m_patchFile);
+    bool hasType      = parser.Found(wxT("type"),   &m_fontType);
+    bool hasVolt      = parser.Found(wxT("volt"),   &m_volt);
+    bool hasOutput    = parser.Found(wxT("output"), &m_outputDir);
 
 #if wxUSE_UNICODE
     m_unicode = hasUfm || hasImmediate;
@@ -1601,6 +1605,10 @@ MakeFont::OnInit()
     m_unicode = false;
     m_immediate = false;
 #endif
+    if (!hasOutput)
+    {
+      m_outputDir = wxEmptyString;
+    }
     valid = ( hasImmediate && !hasAfm && !hasUfm && !hasVolt) ||
             (!hasImmediate &&  hasAfm && !hasUfm && !hasVolt) ||
             (!hasImmediate && !hasAfm &&  hasUfm);
@@ -1635,6 +1643,27 @@ MakeFont::OnRun()
   bool valid;
   wxLogMessage(wxT("wxPdfDocument MakeFont Utility Version ") + m_version);
   wxLogMessage(wxT("*** Starting to create font support files for ..."));
+  if (!m_outputDir.IsEmpty())
+  {
+    wxFileName outputDirName(m_outputDir, wxEmptyString);
+    if (outputDirName.DirExists())
+    {
+      m_outputDir = outputDirName.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR);
+    }
+    else
+    {
+      wxLogMessage(wxT("*** Warning: Output directory doesn't exist: ") + m_outputDir);
+      m_outputDir = wxEmptyString;
+    }
+  }
+  if (!m_outputDir.IsEmpty())
+  {
+    wxLogMessage(wxT("  OutputDir: ") + m_outputDir);
+  }
+  else
+  {
+    wxLogMessage(wxT("  OutputDir: (current working directory)"));
+  }
 #if wxUSE_UNICODE
   if (m_unicode)
   {

@@ -1629,7 +1629,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
     {
       int saveFillStyle = context.GetFillStyle();
       wxPdfColour saveColor  = GetFillColour();
-      wxString strColor = child->GetPropVal(_T("color"), _T(""));
+      wxString strColor = GetXmlAttribute(child, wxT("color"), wxT(""));
       if (strColor.Length() > 0)
       {
         SetFillColour(wxPdfColour(strColor));

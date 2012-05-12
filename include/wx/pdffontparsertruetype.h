@@ -210,6 +210,12 @@ protected:
   wxPdfTableDirectory*  m_tableDirectory;    ///< table directory of the font
 
   bool                  m_isMacCoreText;     ///< Flag whether a Mac Core Text font is to be parsed
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+  CTFontRef             m_fontRef;           ///< Mac Core Text font reference
+  wxCFRef<CFDataRef>    m_tableRef;          ///< Font table reference
+#endif
+#endif
 
 private:
   bool                  m_cff;               ///< Flag whether the font is in CFF format
@@ -230,12 +236,6 @@ private:
   wxPdfKernPairMap*     m_kp;                ///< list of kerning pairs
 
   wxInputStream*        m_savedStream;       ///< Saved input stream
-#if defined(__WXMAC__)
-#if wxPDFMACOSX_HAS_CORE_TEXT
-  CTFontRef             m_fontRef;           ///< Mac Core Text font reference
-  wxCFRef<CFDataRef>    m_tableRef;          ///< Font table reference
-#endif
-#endif
 };
 
 #endif

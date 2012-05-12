@@ -48,6 +48,22 @@ wxPdfFontSubsetTrueType::~wxPdfFontSubsetTrueType()
   delete [] m_locaTable;
 }
 
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+
+void
+wxPdfFontSubsetTrueType::SetCTFontRef(const wxFont& font)
+{
+#if wxCHECK_VERSION(2,9,0)
+  m_fontRef = font.OSXGetCTFont();
+#else // wxWidgets 2.8.x
+  m_fontRef = (const void*) font.MacGetCTFont();
+#endif
+}
+
+#endif
+#endif
+
 wxMemoryOutputStream*
 wxPdfFontSubsetTrueType::CreateSubset(wxInputStream* inFont, wxPdfSortedArrayInt* usedGlyphs, bool includeCmap)
 {

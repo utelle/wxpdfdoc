@@ -27,6 +27,7 @@ public:
   wxPdfDocument* GetPdfDocument();
 
   void SetResolution(int ppi);
+  int GetResolution() const;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxPdfDC)
@@ -83,6 +84,8 @@ public:
   virtual void SetDeviceOrigin(wxCoord x, wxCoord y);
   virtual void SetAxisOrientation(bool xLeftRight, bool yBottomUp);
   virtual void SetLogicalFunction(wxRasterOperationMode function);
+
+  virtual void SetTextForeground(const wxColour& colour);
 #if 0
   virtual void ComputeScaleAndOrigin();
 #endif
@@ -178,6 +181,8 @@ protected:
                                wxCoord* externalLeading = NULL,
                                const wxFont* theFont = NULL) const;
 
+  virtual bool DoGetPartialTextExtents(const wxString& text, wxArrayInt& widths) const;
+
 public:
   int GetDrawingStyle();
   bool StretchBlt(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height,
@@ -188,12 +193,16 @@ private:
   int FindPdfFont(wxFont* font) const;
   void SetupPen();
   void SetupBrush();
-  double ScaleToPdf(wxCoord x) const;
+  double ScaleToPdf(double x) const;
+  double AdjustFontSize(double x) const;
+  void CalculateFontMetrics(wxPdfFontDescription* desc, double size,
+                            int* height, int* ascent, int* descent, int* extLeading) const;
 
   bool           m_templateMode;
   double         m_templateWidth;
   double         m_templateHeight;
   double         m_ppi;
+  double         m_ppiPdfFont;
   wxPdfDocument* m_pdfDocument;
   int            m_imageCount;
   wxPrintData    m_printData;

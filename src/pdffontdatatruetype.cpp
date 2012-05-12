@@ -899,6 +899,14 @@ wxPdfFontDataTrueTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
 
       // Assemble subset
       wxPdfFontSubsetTrueType subset(fontFullPath, 0, isMacCoreText);
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+      if (m_font.IsOk())
+      {
+        subset.SetCTFontRef(m_font);
+      }
+#endif
+#endif
       wxMemoryOutputStream* subsetStream = subset.CreateSubset(fontStream, usedGlyphs, false);
       if (deleteFontStream && fontStream != NULL)
       {

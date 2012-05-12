@@ -30,6 +30,7 @@
 
 #include <ctype.h>
 #include <wx/filename.h>
+#include "wx/mimetype.h"
 #include <wx/stdpaths.h>
 #include "wx/metafile.h"
 #include "wx/print.h"
@@ -287,9 +288,17 @@ void MyFrame::OnPDF(wxCommandEvent& WXUNUSED(event))
       dc.EndDoc();
     }
   }
-#if defined(__WXMSW__)
-  ShellExecute(NULL, _T("open"), fileName.GetFullPath(), _T(""), _T(""), 0);
-#endif
+
+  wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
+  if (fileType != NULL)
+  {
+    wxString cmd = fileType->GetOpenCommand(fileName.GetFullPath());
+    if (!cmd.IsEmpty())
+    {
+      wxExecute(cmd);
+    }
+    delete fileType;
+  }
 }
 
 void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
@@ -302,14 +311,14 @@ void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
   pdf.AddPage();
   pdf.SetFont(wxT("Helvetica"),wxT("B"),16);
   pdf.Cell(40,10,wxT("Hello World!"));
-  double w = 75;
-  double h = 125;
+  double w = 350 /*75*/;
+  double h = 350 /*125*/;
   int tpl = pdf.BeginTemplate(0, 0, w, h);
 
   {
     wxPdfDC dc(&pdf, w, h);
-    dc.SetMapMode(wxMM_METRIC);
-    dc.SetResolution(720);
+    //dc.SetMapMode(wxMM_METRIC);
+    //dc.SetResolution(720);
     bool ok = dc.StartDoc(_("Printing ..."));
     if (ok)
     {
@@ -320,7 +329,7 @@ void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
     }
   }
   pdf.EndTemplate();
-  pdf.UseTemplate(tpl, 40, 30);
+  pdf.UseTemplate(tpl, 40, 30, 75);
   pdf.SaveAsFile(fileName.GetFullPath());
 
 #if defined(__WXMSW__)

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-// Name:        pdffont_ttf.h
+// Name:        pdffontsubsettruetype.h
 // Purpose:     
 // Author:      Ulrich Telle
 // Modified by:
@@ -43,6 +43,12 @@ public:
   wxMemoryOutputStream* CreateSubset(wxInputStream* inFont,
                                      wxPdfSortedArrayInt* glyphsUsed,
                                      bool includeCmap = false);
+#if defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+  /// Set Mac Core Text font reference
+  void SetCTFontRef(const wxFont& font);                                 
+#endif
+#endif
 
 protected:
   /// Read 'loca' table

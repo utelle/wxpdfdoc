@@ -61,8 +61,8 @@ public:
   virtual void SetDeviceOrigin(wxCoord x, wxCoord y);
   virtual void SetAxisOrientation(bool xLeftRight, bool yBottomUp);
   virtual void SetLogicalFunction(int function);
-#if 0
   virtual void SetTextForeground(const wxColour& colour);
+#if 0
   virtual void SetTextBackground(const wxColour& colour);
   virtual void ComputeScaleAndOrigin();
 #endif
@@ -176,12 +176,16 @@ private:
   int FindPdfFont(wxFont* font) const;
   void SetupPen();
   void SetupBrush();
-  double ScaleToPdf(wxCoord x) const;
+  double ScaleToPdf(double x) const;
+  double AdjustFontSize(double x) const;
+  void CalculateFontMetrics(wxPdfFontDescription* desc, double size,
+                            int* height, int* ascent, int* descent, int* extLeading) const;
 
   bool           m_templateMode;
   double         m_templateWidth;
   double         m_templateHeight;
   double         m_ppi;
+  double         m_ppiPdfFont;
   wxPdfDocument* m_pdfDocument;
   int            m_imageCount;
   int            m_bkgMode;
