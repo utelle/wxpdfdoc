@@ -232,6 +232,7 @@ PDFDOC_LIB_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfocg.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfparser.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfpattern.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfprint.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfrijndael.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdftemplate.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfutility.obj &
@@ -278,6 +279,7 @@ PDFDOC_DLL_OBJECTS =  &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfocg.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfparser.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfpattern.obj &
+	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfprint.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfrijndael.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdftemplate.obj &
 	watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfutility.obj &
@@ -556,6 +558,9 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfparser.obj :  .AUT
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfpattern.obj :  .AUTODEPEND ..\src\pdfpattern.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(PDFDOC_LIB_CXXFLAGS) $<
 
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfprint.obj :  .AUTODEPEND ..\src\pdfprint.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(PDFDOC_LIB_CXXFLAGS) $<
+
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfrijndael.obj :  .AUTODEPEND ..\src\pdfrijndael.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(PDFDOC_LIB_CXXFLAGS) $<
 
@@ -677,6 +682,9 @@ watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfparser.obj :  .AUT
 	$(CXX) -bt=nt -zq -fo=$^@ $(PDFDOC_DLL_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfpattern.obj :  .AUTODEPEND ..\src\pdfpattern.cpp
+	$(CXX) -bt=nt -zq -fo=$^@ $(PDFDOC_DLL_CXXFLAGS) $<
+
+watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfprint.obj :  .AUTODEPEND ..\src\pdfprint.cpp
 	$(CXX) -bt=nt -zq -fo=$^@ $(PDFDOC_DLL_CXXFLAGS) $<
 
 watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfrijndael.obj :  .AUTODEPEND ..\src\pdfrijndael.cpp

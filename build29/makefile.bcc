@@ -120,6 +120,7 @@ PDFDOC_LIB_OBJECTS =  \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfocg.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfparser.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfpattern.obj \
+	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfprint.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfrijndael.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdftemplate.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfutility.obj \
@@ -166,6 +167,7 @@ PDFDOC_DLL_OBJECTS =  \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfocg.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfparser.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfpattern.obj \
+	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfprint.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfrijndael.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdftemplate.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfutility.obj \
@@ -533,6 +535,9 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfparser.obj: ..\src
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfpattern.obj: ..\src\pdfpattern.cpp
 	$(CXX) -q -c -P -o$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfpattern.cpp
 
+bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfprint.obj: ..\src\pdfprint.cpp
+	$(CXX) -q -c -P -o$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfprint.cpp
+
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfrijndael.obj: ..\src\pdfrijndael.cpp
 	$(CXX) -q -c -P -o$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfrijndael.cpp
 
@@ -655,6 +660,9 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfparser.obj: ..\src
 
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfpattern.obj: ..\src\pdfpattern.cpp
 	$(CXX) -q -c -P -o$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfpattern.cpp
+
+bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfprint.obj: ..\src\pdfprint.cpp
+	$(CXX) -q -c -P -o$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfprint.cpp
 
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfrijndael.obj: ..\src\pdfrijndael.cpp
 	$(CXX) -q -c -P -o$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfrijndael.cpp

@@ -62,9 +62,9 @@ public:
   virtual void SetAxisOrientation(bool xLeftRight, bool yBottomUp);
   virtual void SetLogicalFunction(int function);
   virtual void SetTextForeground(const wxColour& colour);
+  virtual void ComputeScaleAndOrigin();
 #if 0
   virtual void SetTextBackground(const wxColour& colour);
-  virtual void ComputeScaleAndOrigin();
 #endif
 
 #if 0
@@ -176,9 +176,13 @@ private:
   int FindPdfFont(wxFont* font) const;
   void SetupPen();
   void SetupBrush();
-  double ScaleToPdf(double x) const;
-  double AdjustFontSize(double x) const;
-  void CalculateFontMetrics(wxPdfFontDescription* desc, double size,
+  double ScaleLogicalToPdfX(wxCoord x) const;
+  double ScaleLogicalToPdfXRel(wxCoord x) const;
+  double ScaleLogicalToPdfY(wxCoord y) const;
+  double ScaleLogicalToPdfYRel(wxCoord y) const;
+  double ScaleFontSizeToPdf(int pointSize) const;
+  int ScalePdfToFontMetric(double metric) const;
+  void CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,
                             int* height, int* ascent, int* descent, int* extLeading) const;
 
   bool           m_templateMode;

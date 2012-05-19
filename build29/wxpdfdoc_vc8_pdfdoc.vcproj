@@ -1536,6 +1536,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\pdfprint.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\pdfrijndael.cpp"
 				>
 			</File>
@@ -1783,6 +1787,10 @@
 			</File>
 			<File
 				RelativePath="..\include\wx\pdfpattern.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\wx\pdfprint.h"
 				>
 			</File>
 			<File

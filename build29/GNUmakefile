@@ -115,6 +115,7 @@ PDFDOC_LIB_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfocg.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfparser.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfpattern.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfprint.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfrijndael.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdftemplate.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfutility.o \
@@ -168,6 +169,7 @@ PDFDOC_LIB_HEADERS =  \
 	include/wx/pdfobjects.h \
 	include/wx/pdfparser.h \
 	include/wx/pdfpattern.h \
+	include/wx/pdfprint.h \
 	include/wx/pdfproperties.h \
 	include/wx/pdfrijndael.h \
 	include/wx/pdfshape.h \
@@ -225,6 +227,7 @@ PDFDOC_DLL_OBJECTS =  \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfocg.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfparser.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfpattern.o \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfprint.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfrijndael.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdftemplate.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfutility.o \
@@ -278,6 +281,7 @@ PDFDOC_DLL_HEADERS =  \
 	include/wx/pdfobjects.h \
 	include/wx/pdfparser.h \
 	include/wx/pdfpattern.h \
+	include/wx/pdfprint.h \
 	include/wx/pdfproperties.h \
 	include/wx/pdfrijndael.h \
 	include/wx/pdfshape.h \
@@ -657,6 +661,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfparser.o: ../src/pdfparser
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfpattern.o: ../src/pdfpattern.cpp
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
 
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfprint.o: ../src/pdfprint.cpp
+	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
+
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_lib_pdfrijndael.o: ../src/pdfrijndael.cpp
 	$(CXX) -c -o $@ $(PDFDOC_LIB_CXXFLAGS) $(CPPDEPS) $<
 
@@ -778,6 +785,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfparser.o: ../src/pdfparser
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfpattern.o: ../src/pdfpattern.cpp
+	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfprint.o: ../src/pdfprint.cpp
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfrijndael.o: ../src/pdfrijndael.cpp

@@ -101,6 +101,7 @@ PDFDOC_LIB_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfocg.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfparser.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfpattern.obj \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfprint.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfrijndael.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdftemplate.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfutility.obj \
@@ -149,6 +150,7 @@ PDFDOC_DLL_OBJECTS =  \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfocg.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfparser.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfpattern.obj \
+	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfprint.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfrijndael.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdftemplate.obj \
 	vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfutility.obj \
@@ -572,6 +574,9 @@ vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfparser.obj: ..\src\
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfpattern.obj: ..\src\pdfpattern.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfpattern.cpp
 
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfprint.obj: ..\src\pdfprint.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfprint.cpp
+
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfrijndael.obj: ..\src\pdfrijndael.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_LIB_CXXFLAGS) ..\src\pdfrijndael.cpp
 
@@ -694,6 +699,9 @@ vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfparser.obj: ..\src\
 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfpattern.obj: ..\src\pdfpattern.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfpattern.cpp
+
+vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfprint.obj: ..\src\pdfprint.cpp
+	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfprint.cpp
 
 vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfrijndael.obj: ..\src\pdfrijndael.cpp
 	$(CXX) /c /nologo /TP /Fo$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfrijndael.cpp

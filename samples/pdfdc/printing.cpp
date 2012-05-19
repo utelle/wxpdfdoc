@@ -311,8 +311,8 @@ void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
   pdf.AddPage();
   pdf.SetFont(wxT("Helvetica"),wxT("B"),16);
   pdf.Cell(40,10,wxT("Hello World!"));
-  double w = 350 /*75*/;
-  double h = 350 /*125*/;
+  double w = /*350*/ 125;
+  double h = /*350*/ 125;
   int tpl = pdf.BeginTemplate(0, 0, w, h);
 
   {

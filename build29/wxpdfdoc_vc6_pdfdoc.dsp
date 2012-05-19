@@ -600,6 +600,10 @@ SOURCE=..\src\pdfpattern.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\src\pdfprint.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\src\pdfrijndael.cpp
 # End Source File
 # Begin Source File
@@ -809,6 +813,10 @@ SOURCE=..\include\wx\pdfparser.h
 # Begin Source File
 
 SOURCE=..\include\wx\pdfpattern.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\include\wx\pdfprint.h
 # End Source File
 # Begin Source File
 
