@@ -424,16 +424,16 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
   // merge info from printout with user / programmer choices in the dialog info
   m_printDialogData.SetMinPage(minPage);
   m_printDialogData.SetMaxPage(maxPage);
-  if ((m_printDialogData.GetFromPage() < minPage) || (m_printDialogData.GetFromPage() < 1))
+  if ((m_printDialogData.GetFromPage() < minPage ) ||  (m_printDialogData.GetFromPage() < 1 ))
   {
     m_printDialogData.SetFromPage(minPage);
   }
-  if ((m_printDialogData.GetToPage() > maxPage ) || (m_printDialogData.GetToPage() < 1))
+  if ((m_printDialogData.GetToPage() > maxPage ) || ( m_printDialogData.GetToPage() < 1 ))
   {
     m_printDialogData.SetToPage(maxPage);
   }
 
-  int numberofpages = m_printDialogData.GetToPage() - m_printDialogData.GetFromPage() + 1;
+  int numberofpages = m_printDialogData.GetToPage() - m_printDialogData.GetFromPage() +1;
   int printedPages = 0;
 
   // ---------------------------------------------------------------
@@ -441,11 +441,12 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
   // ---------------------------------------------------------------
   if (m_showProgressDialog)
   {
-    progressDialog = new wxProgressDialog(printout->GetTitle(),
-                                          _("Printing..."),
-                                          numberofpages,
-                                          parent,
-                                          wxPD_AUTO_HIDE|wxPD_APP_MODAL);
+    progressDialog = 
+      new wxProgressDialog(printout->GetTitle(),
+                           _("Printing..."),
+                           numberofpages,
+                           parent,
+                           wxPD_AUTO_HIDE|wxPD_APP_MODAL);
   }
 
   printout->OnBeginPrinting();
@@ -457,7 +458,7 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
     // print our range of chosen pages or until HasPage returns false
     int currentpage;
     for (currentpage  = m_printDialogData.GetFromPage();
-         (currentpage <= m_printDialogData.GetToPage()) && printout->HasPage(currentpage);
+         (currentpage <= m_printDialogData.GetToPage()) && printout->HasPage( currentpage );
          currentpage++)
     {
       if (m_showProgressDialog)
@@ -467,7 +468,7 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
         progressDialog->Update(printedPages++, msg);
       }
       dc->StartPage();
-      printout->OnPrintPage( currentpage );
+      printout->OnPrintPage(currentpage);
       dc->EndPage();
       wxYield();
     }
@@ -501,7 +502,7 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
   if (m_pdfPrintData.GetLaunchDocumentViewer() && !m_pdfPrintData.GetTemplateMode())
   {
     wxString fileURL;
-    if (wxIsAbsolutePath(m_pdfPrintData.GetFilename()))
+    if (wxIsAbsolutePath( m_pdfPrintData.GetFilename() ) )
     {
       fileURL = wxT("file://") + m_pdfPrintData.GetFilename();
     }
@@ -1446,6 +1447,146 @@ wxPdfPrintDialog::GetPrintDC()
 }
 
 // ---------------------------------------------------------------------------
+// wxPdfPageSetupDialogCanvas: paper drawing canvas
+// ---------------------------------------------------------------------------
+
+IMPLEMENT_CLASS(wxPdfPageSetupDialogCanvas, wxWindow)
+
+BEGIN_EVENT_TABLE(wxPdfPageSetupDialogCanvas, wxWindow)
+    EVT_PAINT(wxPdfPageSetupDialogCanvas::OnPaint)
+END_EVENT_TABLE()
+
+wxPdfPageSetupDialogCanvas::wxPdfPageSetupDialogCanvas(wxWindow* parent)
+  : wxWindow( parent, wxID_ANY, wxDefaultPosition, wxSize(300,200), wxBORDER_THEME)
+{
+  m_paperWidth = 210;
+  m_paperHeight = 297;
+  m_marginLeft = 25;
+  m_marginTop = 25;
+  m_marginRight = 25;
+  m_marginBottom = 25;
+}
+
+wxPdfPageSetupDialogCanvas::~wxPdfPageSetupDialogCanvas()
+{
+}
+
+void
+wxPdfPageSetupDialogCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
+{
+  wxPaintDC dc(this);
+
+  //------------------------------------------
+  // Get the sizes and bounds
+  //------------------------------------------
+
+  int px = m_paperWidth;
+  int py = m_paperHeight;
+  int ps = (px > py) ? px : py;
+
+  int w, h;
+  dc.GetSize(&w, &h);
+
+  double scale = ((double)h - 10.0 ) / (double)ps;
+
+  int rw = int( px * scale );
+  int rh = int( py * scale );
+  int rx = int( (w - rw) / 2 );
+  int ry = int( (h - rh) / 2 );
+
+  int ml = int( m_marginLeft * scale );
+  int mr = int( m_marginRight * scale );
+  int mt = int( m_marginTop * scale );
+  int mb = int( m_marginBottom * scale );
+
+  //------------------------------------------
+  // save current dc objects
+  //------------------------------------------
+
+  wxBrush restorebackground = dc.GetBackground();
+  wxBrush restorebrush = dc.GetBrush();
+  wxPen restorepen = dc.GetPen();
+
+  wxBrush* lightBrush = new wxBrush(wxColour(220,220,220), wxSOLID);
+
+  dc.SetBackground(*lightBrush);
+  dc.Clear();
+
+  int clipx, clipy, clipw, cliph;
+  dc.GetClippingBox(&clipx, &clipy, &clipw, &cliph);
+
+  //------------------------------------------
+  // Draw a 'shadow' paper
+  //------------------------------------------
+
+  wxBrush* shadowBrush = new wxBrush(wxColour(175,175,175), wxSOLID);
+
+  dc.SetBrush(*shadowBrush);
+  dc.SetPen(*wxTRANSPARENT_PEN);
+
+  dc.DrawRectangle(rx + 3, ry + 3, rw, rh);
+
+  //------------------------------------------
+  // Draw paper
+  //------------------------------------------
+
+  dc.SetBrush(*wxWHITE_BRUSH);
+  dc.SetPen(*wxBLACK_PEN);
+
+  dc.DrawRectangle(rx, ry, rw, rh);
+
+  //------------------------------------------
+  // Draw margins
+  //------------------------------------------
+
+  wxPen* dashpen = new wxPen(wxColour(255,0,125), 1 , wxUSER_DASH );
+  wxDash pDash[2] = { 3, 3 };
+  dashpen->SetDashes(2, pDash);
+  dc.SetPen(*dashpen);
+  dc.DrawLine(rx + ml, ry + 1, rx + ml, ( ry + rh ) - 2 ); // left margin
+  dc.DrawLine(rx + 1, ry + mt, ( rx + rw ) -1, ry + mt );  // top margin
+  dc.DrawLine((rx + rw) - mr, ry + 1, (rx + rw) - mr, ( ry + rh ) - 2 );// right margin
+  dc.DrawLine(rx + 1, (ry + rh) - mb, ( rx + rw ) -1, (ry + rh) - mb );  // bottom margin
+  dc.SetPen(*wxTRANSPARENT_PEN);
+
+  //------------------------------------------
+  // Draw fake content
+  //------------------------------------------
+
+  int linewidth = 4;
+
+  int sx = rx + ml + 2;
+  int sw = rw - ( ml + mr + 4 );
+  int sy = ry + mt + 2;
+  int sh = rh - ( mt + mb + 4 );
+  int smax = (ry + rh) - mb;
+
+  dc.SetBrush(*lightBrush);
+  dc.SetPen(*wxTRANSPARENT_PEN);
+  dc.SetClippingRegion( sx, sy, sw, sh );
+
+  while ( sy < smax )
+  {
+    dc.DrawRectangle(sx, sy, sw, linewidth);
+    sy += (linewidth + 3);
+  }
+
+  //------------------------------------------
+  // Restore DC objects
+  //------------------------------------------
+
+  dc.DestroyClippingRegion();
+  dc.SetClippingRegion(clipx, clipy, clipw, cliph);
+  dc.SetBrush(restorebrush);
+  dc.SetPen(restorepen);
+  dc.SetBackground(restorebackground);
+
+  delete lightBrush;
+  delete shadowBrush;
+  delete dashpen;
+}
+
+// ---------------------------------------------------------------------------
 // wxPdfPageSetupDialog: the page setup dialog
 // ---------------------------------------------------------------------------
 
@@ -1453,10 +1594,17 @@ IMPLEMENT_CLASS(wxPdfPageSetupDialog, wxDialog)
 
 BEGIN_EVENT_TABLE(wxPdfPageSetupDialog, wxDialog)
     EVT_BUTTON(wxID_OK, wxPdfPageSetupDialog::OnOK)
+    EVT_CHOICE(wxPDF_PAGEDIALOG_CTRLID_MARGINUNIT, wxPdfPageSetupDialog::OnMarginUnit)
+    EVT_CHOICE(wxPDF_PAGEDIALOG_CTRLID_PAPER, wxPdfPageSetupDialog::OnPaperType)
+    EVT_CHOICE(wxPDF_PAGEDIALOG_CTRLID_ORIENTATION, wxPdfPageSetupDialog::OnOrientation)
+    EVT_TEXT(wxPDF_PAGEDIALOG_CTRLID_MARGINLEFT, wxPdfPageSetupDialog::OnMarginText)
+    EVT_TEXT(wxPDF_PAGEDIALOG_CTRLID_MARGINRIGHT, wxPdfPageSetupDialog::OnMarginText)
+    EVT_TEXT(wxPDF_PAGEDIALOG_CTRLID_MARGINTOP, wxPdfPageSetupDialog::OnMarginText)
+    EVT_TEXT(wxPDF_PAGEDIALOG_CTRLID_MARGINBOTTOM, wxPdfPageSetupDialog::OnMarginText)
 END_EVENT_TABLE()
 
-wxPdfPageSetupDialog::wxPdfPageSetupDialog(wxWindow* parent, wxPageSetupDialogData* data)
-  : wxDialog(parent, wxID_ANY, _("Document Page Setup")) 
+wxPdfPageSetupDialog::wxPdfPageSetupDialog(wxWindow* parent, wxPageSetupDialogData* data, const wxString& title)
+  : wxDialog(parent, wxID_ANY, title) 
 {
   m_pageData = *data;
   Init();
@@ -1469,7 +1617,110 @@ wxPdfPageSetupDialog::~wxPdfPageSetupDialog()
 void
 wxPdfPageSetupDialog::Init()
 {
+  if (wxLocale::GetSystemLanguage() == wxLANGUAGE_ENGLISH_US)
+  {
+    m_defaultUnitSelection = 2;
+    m_defaultPaperId = wxPAPER_LETTER;
+  }
+  else
+  {
+    m_defaultUnitSelection = 0;
+    m_defaultPaperId = wxPAPER_A4;
+  }
+
   wxBoxSizer* mainsizer = new wxBoxSizer(wxVERTICAL);
+  wxBoxSizer* canvassizer = new wxBoxSizer(wxHORIZONTAL);
+
+  m_paperCanvas = new wxPdfPageSetupDialogCanvas(this);
+  canvassizer->Add(m_paperCanvas,1, wxEXPAND|wxALL, 0);
+
+  wxString* marginchoices = NULL;
+  wxString* orientchoices = NULL;
+  wxString* paperchoices  = NULL;
+
+  if (m_pageData.GetEnableMargins())
+  {
+    wxBoxSizer *marginsizer = new wxBoxSizer(wxVERTICAL);
+    marginsizer->Add(new wxStaticText(this, wxID_ANY, _("Margins")), 0, wxEXPAND|wxTOP, 15);
+    marginchoices = new wxString[3];
+    marginchoices[0] = _("Millimetres");
+    marginchoices[1] = _("Centimetres");
+    marginchoices[2] = _("Inches");
+
+    m_marginUnits = new wxChoice(this, wxPDF_PAGEDIALOG_CTRLID_MARGINUNIT, 
+                                 wxDefaultPosition, wxDefaultSize, 3, marginchoices);
+
+    marginsizer->Add(m_marginUnits, 0, wxEXPAND|wxALL, 0);
+
+    wxFlexGridSizer *marginflex = new wxFlexGridSizer(2, 2, 3, 3);
+    marginflex->AddGrowableCol(1);
+
+    marginflex->Add(new wxStaticText(this, wxID_ANY, _("Left")), 0, wxTOP|wxEXPAND, 3);
+    m_marginLeftText = new wxTextCtrl(this, wxPDF_PAGEDIALOG_CTRLID_MARGINLEFT, wxEmptyString, wxDefaultPosition, wxSize(50, -1));
+    m_marginLeftText->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    marginflex->Add(m_marginLeftText, 0, wxALL|wxEXPAND, 0);
+
+    marginflex->Add(new wxStaticText( this, wxID_ANY, _("Top")), 0, wxTOP|wxEXPAND, 3);
+    m_marginTopText = new wxTextCtrl(this, wxPDF_PAGEDIALOG_CTRLID_MARGINTOP, wxEmptyString, wxDefaultPosition, wxSize(50, -1));
+    m_marginTopText->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    marginflex->Add(m_marginTopText, 0, wxALL|wxEXPAND, 0);
+
+    marginflex->Add(new wxStaticText( this, wxID_ANY, _("Right") ), 0, wxTOP|wxEXPAND, 3);
+    m_marginRightText = new wxTextCtrl(this, wxPDF_PAGEDIALOG_CTRLID_MARGINRIGHT, wxEmptyString, wxDefaultPosition, wxSize(50, -1));
+    m_marginRightText->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    marginflex->Add(m_marginRightText, 0, wxALL|wxEXPAND, 0);
+
+    marginflex->Add(new wxStaticText( this, wxID_ANY, _("Bottom") ), 0, wxTOP|wxEXPAND, 3);
+    m_marginBottomText = new wxTextCtrl(this, wxPDF_PAGEDIALOG_CTRLID_MARGINBOTTOM, wxEmptyString, wxDefaultPosition, wxSize(50, -1));
+    m_marginBottomText->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    marginflex->Add(m_marginBottomText, 0, wxALL|wxEXPAND, 0);
+
+    marginsizer->Add(marginflex, 0, wxEXPAND|wxTOP, 5);
+    canvassizer->Add(marginsizer, 0, wxEXPAND|wxLEFT, 10);
+  }
+
+  mainsizer->Add(canvassizer, 0, wxEXPAND|wxALL, 10);
+
+  wxFlexGridSizer* papersizer = NULL;
+
+  if (m_pageData.GetEnableOrientation() || m_pageData.GetEnablePaper())
+  {
+    papersizer = new wxFlexGridSizer( 2,2,5,20 );
+    papersizer->AddGrowableCol(1);
+  }
+
+  if (m_pageData.GetEnablePaper())
+  {
+    papersizer->Add(new wxStaticText(this, wxID_ANY, _("Paper Size")), 0, wxTOP|wxEXPAND, 3);
+    size_t n = wxThePrintPaperDatabase->GetCount();
+    paperchoices  = new wxString [n];
+    for (size_t i = 0; i < n; ++i)
+    {
+      wxPrintPaperType *paper = wxThePrintPaperDatabase->Item(i);
+      paperchoices[i] = paper->GetName();
+    }
+
+    m_paperTypeChoice = new wxChoice(this, wxPDF_PAGEDIALOG_CTRLID_PAPER, 
+                                     wxDefaultPosition, wxDefaultSize, n, paperchoices);
+    papersizer->Add(m_paperTypeChoice,  1, wxEXPAND|wxALL, 0);
+  }
+
+  if (m_pageData.GetEnableOrientation())
+  {
+    papersizer->Add(new wxStaticText(this, wxID_ANY, _("Orientation")), 0, wxTOP|wxEXPAND, 3);
+    orientchoices = new wxString [2];
+    orientchoices[0] = _("Portrait");
+    orientchoices[1] = _("Landscape");
+
+    m_orientationChoice = new wxChoice(this, wxPDF_PAGEDIALOG_CTRLID_ORIENTATION, 
+                                       wxDefaultPosition, wxDefaultSize, 2, orientchoices);
+    papersizer->Add(m_orientationChoice,  1, wxEXPAND|wxALL, 0);
+  }
+
+  if (m_pageData.GetEnableOrientation() || m_pageData.GetEnablePaper())
+  {
+    mainsizer->Add(papersizer, 0, wxEXPAND|wxALL, 10);
+  }
 
   // Standard Dialog Buttons
   //wxBoxSizer* bottomsizer = new wxBoxSizer(wxHORIZONTAL);
@@ -1477,7 +1728,7 @@ wxPdfPageSetupDialog::Init()
   wxSizer* sizerBtn = CreateSeparatedButtonSizer(wxOK|wxCANCEL);
   if (sizerBtn)
   {
-    mainsizer->Add(sizerBtn, 0, wxEXPAND|wxALL, 10);
+    mainsizer->Add(sizerBtn, 0, wxEXPAND|wxALL, 10 );
   }
 
   SetAutoLayout(true);
@@ -1488,6 +1739,21 @@ wxPdfPageSetupDialog::Init()
 
   // Calls wxWindow::OnInitDialog and then wxPdfPrintDialog::TransferDataToWindow
   InitDialog();
+
+  if (marginchoices)
+  {
+    delete[] marginchoices;
+  }
+
+  if (orientchoices)
+  {
+    delete[] orientchoices;
+  }
+    
+  if (paperchoices)
+  {
+    delete[] paperchoices;
+  }
 }
 
 wxPageSetupDialogData&
@@ -1512,14 +1778,260 @@ wxPdfPageSetupDialog::OnOK(wxCommandEvent& WXUNUSED(event))
   EndModal(wxID_OK);
 }
 
+void
+wxPdfPageSetupDialog::OnMarginUnit(wxCommandEvent& WXUNUSED(event))
+{
+  TransferMarginsToControls();
+}
+
+void
+wxPdfPageSetupDialog::OnPaperType(wxCommandEvent& WXUNUSED(event))
+{
+  wxPrintPaperType *paper = wxThePrintPaperDatabase->FindPaperType(m_paperTypeChoice->GetStringSelection());
+  if (!paper)
+  {
+    wxLogError(_("Unknown Paper Type Selected"));
+    return;
+  }
+  m_paperId = paper->GetId();
+  wxSize pSize = paper->GetSizeMM();
+  m_pageWidth = pSize.GetWidth();
+  m_pageHeight = pSize.GetHeight();
+  if (m_pageData.GetEnableMargins())
+  {
+    TransferControlsToMargins();
+    TransferMarginsToControls();
+  }
+  UpdatePaperCanvas();
+}
+
+void
+wxPdfPageSetupDialog::OnOrientation(wxCommandEvent& WXUNUSED(event))
+{
+  if (m_orientationChoice->GetSelection() == 1)
+  {
+    m_orientation = wxLANDSCAPE;
+  }
+  else
+  {
+    m_orientation = wxPORTRAIT;
+  }
+  if (m_pageData.GetEnableMargins())
+  {
+    TransferControlsToMargins();
+    TransferMarginsToControls();
+  }
+  UpdatePaperCanvas();
+}
+
+void
+wxPdfPageSetupDialog::OnMarginText(wxCommandEvent& WXUNUSED(event))
+{
+  TransferControlsToMargins();
+  UpdatePaperCanvas();
+}
+
+void
+wxPdfPageSetupDialog::UpdatePaperCanvas()
+{
+  if (m_orientation == wxPORTRAIT)
+  {
+    m_paperCanvas->UpdatePageMetrics(m_pageWidth, m_pageHeight, m_marginLeft,
+                                     m_marginRight, m_marginTop, m_marginBottom);
+  }
+  else
+  {
+    m_paperCanvas->UpdatePageMetrics(m_pageHeight, m_pageWidth, m_marginLeft,
+                                     m_marginRight, m_marginTop, m_marginBottom);        
+  }
+
+  m_paperCanvas->Refresh();
+}
+
 bool
 wxPdfPageSetupDialog::TransferDataFromWindow()
 {
+  if (m_pageData.GetEnableMargins())
+  {
+    TransferControlsToMargins();
+    m_pageData.SetMarginTopLeft(wxPoint(m_marginLeft, m_marginTop));
+    m_pageData.SetMarginBottomRight(wxPoint(m_marginRight, m_marginBottom));
+  }
+
+  if (m_pageData.GetEnablePaper())
+  {
+    m_pageData.GetPrintData().SetPaperId(m_paperId);
+    m_pageData.SetPaperId(m_paperId);
+  }
+    
+  if ( m_pageData.GetEnableOrientation() )
+  {
+    m_pageData.GetPrintData().SetOrientation(m_orientation);
+  }
+
   return true;
 }
 
 bool
 wxPdfPageSetupDialog::TransferDataToWindow()
 {
+  // work out defaults
+  int useUnitSelection = false;
+
+  wxPrintData printData = m_pageData.GetPrintData();
+
+  m_paperId = printData.GetPaperId();
+  m_orientation = printData.GetOrientation();
+
+  wxPrintPaperType* paper = wxThePrintPaperDatabase->FindPaperType(m_paperId);
+  if (!paper)
+  {
+    paper = wxThePrintPaperDatabase->FindPaperType(m_defaultPaperId);
+    m_paperId = paper->GetId();
+  }
+
+  wxSize pSize = paper->GetSizeMM();
+  m_pageWidth = pSize.GetWidth();
+  m_pageHeight = pSize.GetHeight();
+
+  if ((m_orientation != wxPORTRAIT) && (m_orientation != wxLANDSCAPE))
+  {
+    m_orientation = wxPORTRAIT;
+  }
+
+  //double marginScale;
+
+  if (m_pageData.GetEnableMargins())
+  {
+    m_marginLeft    = m_pageData.GetMarginTopLeft().x;
+    m_marginTop     = m_pageData.GetMarginTopLeft().y;
+    m_marginRight   = m_pageData.GetMarginBottomRight().x;
+    m_marginBottom  = m_pageData.GetMarginBottomRight().y;
+    m_marginUnits->SetSelection(useUnitSelection);
+    TransferMarginsToControls();
+  }
+
+  if (m_orientation == wxLANDSCAPE)
+  {
+    m_orientationChoice->SetSelection(1);
+  }
+  else
+  {
+    m_orientationChoice->SetSelection(0);
+  }
+
+  m_paperTypeChoice->SetStringSelection(paper->GetName());
+  UpdatePaperCanvas();
   return true;
+}
+
+void
+wxPdfPageSetupDialog::TransferMarginsToControls()
+{
+  int unitSelection = m_marginUnits->GetSelection();
+  double marginScaleToUnit;
+  wxChar* formatS;
+    
+  switch (unitSelection)
+  {
+    case 0:
+      // mm
+      marginScaleToUnit = 1.0;
+      formatS = (wxChar*)wxT("%.0f");
+      break;
+    case 1:
+      // cm
+      marginScaleToUnit = 0.1;
+      formatS = (wxChar*)wxT("%#.1f");
+      break;
+    case 2:
+      // inch
+      marginScaleToUnit = 1.0 / 25.4;
+      formatS = (wxChar*)wxT("%#.2f");
+      break;
+    default:
+      wxLogError(_("Unknown margin unit format in margin to control transfer."));
+      return;
+  }
+
+  m_marginLeftText->ChangeValue(wxString::Format(formatS, (double) m_marginLeft * marginScaleToUnit));
+  m_marginTopText->ChangeValue(wxString::Format(formatS, (double) m_marginTop * marginScaleToUnit));
+  m_marginRightText->ChangeValue(wxString::Format(formatS, (double) m_marginRight * marginScaleToUnit));
+  m_marginBottomText->ChangeValue(wxString::Format(formatS, (double) m_marginBottom * marginScaleToUnit));
+}
+
+void
+wxPdfPageSetupDialog::TransferControlsToMargins()
+{   
+  int unitSelection = m_marginUnits->GetSelection();
+  double marginScaleToMM = 1.0;
+  //int defaultMargin = 10;
+  double strDbl;
+
+  int maxX, maxY;
+
+  if (m_orientation == wxPORTRAIT)
+  {
+    maxX = ( m_pageWidth / 2 ) -1;
+    maxY = ( m_pageHeight / 2 ) -1;
+  }
+  else
+  {
+    maxX = ( m_pageHeight / 2 ) -1;
+    maxY = ( m_pageWidth / 2 ) -1;
+  }
+
+  switch (unitSelection)
+  {
+    case 0:
+      marginScaleToMM = 1.0;
+      break;
+    case 1:
+      // cm
+      marginScaleToMM = 10.0;
+      break;
+    case 2:
+      // inch
+      marginScaleToMM = 25.4;
+      break;
+    default:
+      wxLogError(_("Unknown margin unit format in control to margin transfer."));
+      break;
+  }
+
+  if (m_marginLeftText->GetValue().ToDouble(&strDbl))
+  {
+    m_marginLeft = abs(wxRound( strDbl * marginScaleToMM ));
+    if (m_marginLeft > maxX)
+    {
+      m_marginLeft = maxX;
+    }
+  }
+
+  if (m_marginTopText->GetValue().ToDouble(&strDbl))
+  {
+    m_marginTop = abs(wxRound( strDbl * marginScaleToMM ));
+    if (m_marginTop > maxY)
+    {
+      m_marginTop = maxY;
+    }
+  }
+
+  if (m_marginRightText->GetValue().ToDouble(&strDbl))
+  {
+    m_marginRight = abs(wxRound( strDbl * marginScaleToMM ));
+    if (m_marginRight > maxX)
+    {
+      m_marginRight = maxX;
+    }
+  }
+
+  if (m_marginBottomText->GetValue().ToDouble(&strDbl))
+  {
+    m_marginBottom = abs(wxRound(strDbl * marginScaleToMM));
+    if (m_marginBottom > maxY)
+    {
+      m_marginBottom = maxY;
+    }
+  }
 }

@@ -1364,6 +1364,9 @@ wxPdfDCImpl::CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,
 {
   double em_height, em_ascent, em_descent, em_externalLeading;
   int hheaAscender, hheaDescender, hheaLineGap;
+
+  double size = (double) pointSize * (m_ppiPdfFont / 72.0); // adjust pointsize according to screenPPI
+  
   int os2sTypoAscender, os2sTypoDescender, os2sTypoLineGap, os2usWinAscent, os2usWinDescent;
     
   desc->GetOpenTypeMetrics(&hheaAscender, &hheaDescender, &hheaLineGap,

@@ -12,6 +12,9 @@
 #ifndef _PDF_PRINTING_H_
 #define _PDF_PRINTING_H_
 
+// wxPdfDocument headers
+#include "wx/pdfdocdef.h"
+
 #include <wx/defs.h>
 
 #include <wx/dialog.h>
@@ -22,13 +25,6 @@
 #include <wx/filepicker.h>
 
 #include "wx/pdfdc.h"
-
-// allow building of wxPdfPrinter outside
-// of the main wxPdfDocument build for testing
-#ifndef WXDLLIMPEXP_PDFDOC_EXTERNAL
-#define WXDLLIMPEXP_PDFDOC_EXTERNAL WXDLLIMPEXP_PDFDOC
-#endif
-
 
 #define wxPDF_PRINTER_DEFAULT_RESOLUTION 600
 
@@ -46,7 +42,7 @@
                                     |wxPDF_PRINTDIALOG_PROTECTION \
                                     |wxPDF_PRINTDIALOG_OPENDOC
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPrintData : public wxObject
+class WXDLLIMPEXP_PDFDOC wxPdfPrintData : public wxObject
 {
 public:
   wxPdfPrintData();
@@ -185,7 +181,7 @@ private:
 // wxPdfPrinter
 //----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPrinter : public wxPrinterBase
+class WXDLLIMPEXP_PDFDOC wxPdfPrinter : public wxPrinterBase
 {
 public:
   wxPdfPrinter();
@@ -216,7 +212,7 @@ private:
 // wxPrintout.
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPrintPreview : public wxPrintPreviewBase
+class WXDLLIMPEXP_PDFDOC wxPdfPrintPreview : public wxPrintPreviewBase
 {
 public:
   wxPdfPrintPreview(wxPrintout* printout,
@@ -277,7 +273,7 @@ private:
 };
 
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPrintPreviewImpl : public wxPrintPreviewBase
+class WXDLLIMPEXP_PDFDOC wxPdfPrintPreviewImpl : public wxPrintPreviewBase
 {
 public:
   wxPdfPrintPreviewImpl(wxPrintout* printout,
@@ -337,7 +333,7 @@ enum
 // wxPdfPrintDialog: populate wxPdfPrintData with user choices
 // -------------------------------------------------------------------------
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPrintDialog : public wxPrintDialogBase
+class WXDLLIMPEXP_PDFDOC wxPdfPrintDialog : public wxPrintDialogBase
 {
 public:
 
@@ -404,19 +400,77 @@ private:
   DECLARE_DYNAMIC_CLASS(wxPdfPrintDialog)
 };
 
+// ----------------------------------------------------------------------------
+// wxPdfPageSetupDialogCanvas: internal use only
+// ----------------------------------------------------------------------------
+
+class WXDLLIMPEXP_PDFDOC wxPdfPageSetupDialogCanvas : public wxWindow
+{
+
+  DECLARE_CLASS(wxPdfPageSetupDialogCanvas)
+
+public:
+  wxPdfPageSetupDialogCanvas(wxWindow *parent);
+
+  virtual ~wxPdfPageSetupDialogCanvas();
+
+  void OnPaint(wxPaintEvent& event);
+
+  void UpdatePageMetrics(int paperWidth, int paperHeight, int marginLeft,
+                         int marginRight, int marginTop, int marginBottom)
+  {
+    m_paperWidth   = paperWidth;
+    m_paperHeight  = paperHeight;
+    m_marginLeft   = marginLeft;
+    m_marginRight  = marginRight;
+    m_marginTop    = marginTop;
+    m_marginBottom = marginBottom;
+  }
+
+private:
+
+  int m_paperWidth;
+  int m_paperHeight;
+  int m_marginLeft;
+  int m_marginRight;
+  int m_marginTop;
+  int m_marginBottom;
+
+  DECLARE_EVENT_TABLE()
+  DECLARE_NO_COPY_CLASS(wxPdfPageSetupDialogCanvas)
+};
 
 // ----------------------------------------------------------------------------
 // wxPdfPageSetupDialog: a wxPdfDocument friendly page setup dialog
 // ----------------------------------------------------------------------------
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPageSetupDialog : public wxDialog
+enum
 {
+  wxPDF_PAGEDIALOG_CTRLID_MARGINUNIT = 30,
+  wxPDF_PAGEDIALOG_CTRLID_MARGINLEFT,
+  wxPDF_PAGEDIALOG_CTRLID_MARGINRIGHT,
+  wxPDF_PAGEDIALOG_CTRLID_MARGINTOP,
+  wxPDF_PAGEDIALOG_CTRLID_MARGINBOTTOM,
+  wxPDF_PAGEDIALOG_CTRLID_PAPER,
+  wxPDF_PAGEDIALOG_CTRLID_ORIENTATION,
+};
+
+class WXDLLIMPEXP_PDFDOC wxPdfPageSetupDialog : public wxDialog
+{
+  DECLARE_CLASS(wxPdfPageSetupDialog)
+
 public:
-  wxPdfPageSetupDialog(wxWindow* parent, wxPageSetupDialogData* data = NULL);
+  wxPdfPageSetupDialog(wxWindow *parent,
+                       wxPageSetupDialogData* data,
+                       const wxString& title = _("PDF Document Page Setup"));
 
   virtual ~wxPdfPageSetupDialog();
 
   void OnOK(wxCommandEvent& event);
+  void OnMarginUnit(wxCommandEvent& event);
+  void OnPaperType(wxCommandEvent& event);
+  void OnOrientation(wxCommandEvent& event);
+  void OnMarginText(wxCommandEvent& event);
 
   virtual bool TransferDataFromWindow();
   virtual bool TransferDataToWindow();
@@ -434,16 +488,33 @@ protected:
   wxTextCtrl*     m_marginRightText;
   wxTextCtrl*     m_marginBottomText;
   wxChoice*       m_paperTypeChoice;
-  wxPanel*        m_paperCanvas;
-
-  wxPageSetupDialogData m_pageData;
 
 private:
+  int             m_marginLeft;
+  int             m_marginTop;
+  int             m_marginRight;
+  int             m_marginBottom;
+#if wxCHECK_VERSION(2,9,0)
+  wxPrintOrientation m_orientation;
+#else
+  int             m_orientation;
+#endif
+  wxPaperSize     m_paperId;
+  wxPaperSize     m_defaultPaperId;
+  int             m_defaultUnitSelection;
+  int             m_pageWidth;
+  int             m_pageHeight;
+    
+  wxPdfPageSetupDialogCanvas*       m_paperCanvas;
+  wxPageSetupDialogData             m_pageData;
 
   void Init();
 
+  void TransferMarginsToControls();
+  void TransferControlsToMargins();
+  void UpdatePaperCanvas();
+    
   DECLARE_EVENT_TABLE()
-  DECLARE_DYNAMIC_CLASS(wxPdfPageSetupDialog)
   DECLARE_NO_COPY_CLASS(wxPdfPageSetupDialog)
 };
 
@@ -456,7 +527,7 @@ private:
 #if wxCHECK_VERSION(2,9,0)
 // 2.9.x implementation
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPreviewDCImpl : public wxDCImpl
+class WXDLLIMPEXP_PDFDOC wxPdfPreviewDCImpl : public wxDCImpl
 {
 public:
 
@@ -472,7 +543,7 @@ public:
 
   wxPdfDocument* GetPdfDocument() const
   {
-    return m_pdfdc->GetImpl()->GetPdfDocument();
+    return m_pdfdc->GetPdfDocument();
   }
 
   virtual wxRect GetPaperRect() const
@@ -511,7 +582,7 @@ public:
 
   virtual bool DoGetPartialTextExtents(const wxString& text, wxArrayInt& widths) const
   {
-    m_pdfdc->GetPartialTextExtents(text, widths);
+    return m_pdfdc->GetPartialTextExtents(text, widths);
   }
 
   virtual void GetMultiLineTextExtent(const wxString& string,
@@ -570,13 +641,13 @@ public:
   virtual void SetBackground(const wxBrush& brush) { m_dc.SetBackground(brush); }
   virtual const wxBrush& GetBackground() const { return m_dc.GetBackground(); }
   virtual void SetBackgroundMode(int mode){ m_dc.SetBackgroundMode(mode); }
-  virtual int GetBackgroundMode() const { m_dc.GetBackgroundMode(); }
+  virtual int GetBackgroundMode() const { return m_dc.GetBackgroundMode(); }
 
-  void SetTextForeground(const wxColour& colour) { m_dc.SetTextForeground(colour); }
-  const wxColour& GetTextForeground() const { return m_dc.GetTextForeground(); }
+  virtual void SetTextForeground(const wxColour& colour) { m_dc.SetTextForeground(colour); }
+  virtual const wxColour& GetTextForeground() const { return m_dc.GetTextForeground(); }
 
-  void SetTextBackground(const wxColour& colour) { m_dc.SetTextBackground(colour); }
-  const wxColour& GetTextBackground() const { return m_dc.GetTextBackground(); }
+  virtual void SetTextBackground(const wxColour& colour) { m_dc.SetTextBackground(colour); }
+  virtual const wxColour& GetTextBackground() const { return m_dc.GetTextBackground(); }
 
 #if wxUSE_PALETTE
   virtual void SetPalette(const wxPalette& palette) { m_dc.SetPalette(palette); }
@@ -783,7 +854,7 @@ private:
   wxDECLARE_NO_COPY_CLASS(wxPdfPreviewDCImpl);
 };
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPreviewDC : public wxDC
+class WXDLLIMPEXP_PDFDOC wxPdfPreviewDC : public wxDC
 {
 public:
   wxPdfPreviewDC(wxDC& dc, wxPdfDC* pdfdc)
@@ -800,7 +871,7 @@ private:
 // 2.8.x wxPdfPreview implementation
 /////////////////////////////////////////////////////////////////
 
-class WXDLLIMPEXP_PDFDOC_EXTERNAL wxPdfPreviewDC : public wxDC
+class WXDLLIMPEXP_PDFDOC wxPdfPreviewDC : public wxDC
 {
 public:
   wxPdfPreviewDC(wxDC& dc, wxPdfDC* pdfdc)
@@ -874,12 +945,12 @@ public:
   virtual bool IsOk() const { return m_dc.IsOk(); }
 
   virtual void CalcBoundingBox(wxCoord x, wxCoord y) { m_dc.CalcBoundingBox( x,  y); }
-  void ResetBoundingBox() { m_dc.ResetBoundingBox(); }
+  void ResetBoundingBox() { ((wxDC&) m_dc).ResetBoundingBox(); }
 
-  wxCoord MinX() const { return m_dc.MinX(); }
-  wxCoord MaxX() const { return m_dc.MaxX(); }
-  wxCoord MinY() const { return m_dc.MinY(); }
-  wxCoord MaxY() const { return m_dc.MaxY(); }
+  wxCoord MinX() const { return ((wxDC&) m_dc).MinX(); }
+  wxCoord MaxX() const { return ((wxDC&) m_dc).MaxX(); }
+  wxCoord MinY() const { return ((wxDC&) m_dc).MinY(); }
+  wxCoord MaxY() const { return ((wxDC&) m_dc).MaxY(); }
 
   virtual void SetFont(const wxFont& font)
   {
@@ -897,11 +968,11 @@ public:
   virtual void SetBackgroundMode(int mode){ m_dc.SetBackgroundMode(mode); }
   virtual int GetBackgroundMode() const { return m_dc.GetBackgroundMode(); }
 
-  void SetTextForeground(const wxColour& colour) { m_dc.SetTextForeground(colour); }
-  const wxColour& GetTextForeground() const { return m_dc.GetTextForeground(); }
+  virtual void SetTextForeground(const wxColour& colour) { m_dc.SetTextForeground(colour); }
+  virtual const wxColour& GetTextForeground() const { return m_dc.GetTextForeground(); }
 
-  void SetTextBackground(const wxColour& colour) { m_dc.SetTextBackground(colour); }
-  const wxColour& GetTextBackground() const { return m_dc.GetTextBackground(); }
+  virtual void SetTextBackground(const wxColour& colour) { m_dc.SetTextBackground(colour); }
+  virtual const wxColour& GetTextBackground() const { return m_dc.GetTextBackground(); }
 
 #if wxUSE_PALETTE
   virtual void SetPalette(const wxPalette& palette) { m_dc.SetPalette(palette); }
