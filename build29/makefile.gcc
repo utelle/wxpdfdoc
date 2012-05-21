@@ -152,6 +152,7 @@ MINIMAL_CXXFLAGS = -DHAVE_W32API_H $(____WX_SHARED) -D_UNICODE \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
 	$(VAR_7) -W -Wall -I..\include -I..\samples\minimal $(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  \
+	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_attachment.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_bookmark.o \
 	gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_charting.o \
@@ -221,6 +222,12 @@ endif
 ifeq ($(WX_SHARED),1)
 __pdfdoc_dll___depname = \
 	..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll
+endif
+ifeq ($(WX_MONOLITHIC),0)
+__WXLIB_HTML_NAME_p = -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_html
+endif
+ifeq ($(WX_MONOLITHIC),0)
+__WXLIB_RICHTEXT_NAME_p = -lwxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_richtext
 endif
 ifeq ($(SHARED),0)
 ____pdfdoc_lib__DIRNAME_SHARED_SUFFIX_FILENAMES = lib
@@ -357,7 +364,7 @@ make_dir_pdfdoc_dll:
 	$(CXX) -o $@ $(MINIMAL_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH)  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 ..\samples\pdfdc\printing.exe: $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP) gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing_rc.o
-	$(CXX) -o $@ $(DCSAMPLE_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -Wl,--subsystem,windows -mwindows $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
+	$(CXX) -o $@ $(DCSAMPLE_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -Wl,--subsystem,windows -mwindows $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_RICHTEXT_NAME_p) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
 
 ..\makefont\makefont.exe: $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP) gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont_rc.o
 	$(CXX) -o $@ $(MAKEFONT_OBJECTS)  -mthreads -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH)  $(LDFLAGS)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) -lwxtiff$(WX3RDPARTYLIBPOSTFIX) -lwxjpeg$(WX3RDPARTYLIBPOSTFIX) -lwxpng$(WX3RDPARTYLIBPOSTFIX) -lwxzlib$(WX3RDPARTYLIBPOSTFIX) -lwxregex$(WXLIBPOSTFIX) -lwxexpat$(WX3RDPARTYLIBPOSTFIX) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32
@@ -616,6 +623,9 @@ gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfutility.o: ../src/
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfxml.o: ../src/pdfxml.cpp
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_attachment.o: ../samples/minimal/attachment.cpp
+	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
 gccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.o: ../samples/minimal/barcodes.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<

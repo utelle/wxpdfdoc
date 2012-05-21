@@ -68,6 +68,7 @@ void templates2();
 void layers();
 
 void kerning();
+void attachment();
 
 #if defined(__WXMSW__)
 #if wxUSE_UNICODE
@@ -122,6 +123,7 @@ PdfDocTutorial::ShowGroup(int group)
         cout << "(1) Kerning example" << endl;
         cout << "(2) Glyph writing example" << endl;
         cout << "(3) Indic Fonts and Languages example" << endl;
+        cout << "(4) File attachment example" << endl;
         break;
       case 3:
         cout << "(1) Label printing example" << endl;
@@ -242,6 +244,7 @@ PdfDocTutorial::ShowGroup(int group)
 #else
         case '3': cout << endl << "'indicfonts' is available in Unicode build only!" << endl; break;
 #endif
+        case '4': cout << endl << "Running 'attachment' ..." << endl; attachment(); break;
 
 #if 0
         case 'z': cout << endl << "Running 'w' ..." << endl; w(); break;
@@ -275,7 +278,7 @@ PdfDocTutorial::OnRun()
     cout << "(2) Group 2: Protection, Diverse graphic operations, Charting" << endl;
     cout << "(3) Group 3: Label, Barcode, Javascript, Forms, Markup, Transparency," << endl;
     cout << "             Templates, Layers (ordering, grouping, nesting ...)" << endl;
-    cout << "(4) Group 4: Kerning, Direct glyph writing, Indic fonts" << endl;
+    cout << "(4) Group 4: Kerning, Direct glyph writing, Indic fonts, Attachments" << endl;
     cout << endl;
     cout << "(x) Exit program" << endl << endl << "Select program (Enter 1..4 or x): ";
 

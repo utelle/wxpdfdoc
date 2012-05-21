@@ -23,6 +23,7 @@
 #include <wx/printdlg.h>
 #include <wx/listctrl.h>
 #include <wx/filepicker.h>
+#include <wx/checkbox.h>
 
 #include "wx/pdfdc.h"
 
@@ -462,7 +463,7 @@ class WXDLLIMPEXP_PDFDOC wxPdfPageSetupDialog : public wxDialog
 public:
   wxPdfPageSetupDialog(wxWindow *parent,
                        wxPageSetupDialogData* data,
-                       const wxString& title = _("PDF Document Page Setup"));
+                       const wxString& title = wxEmptyString);
 
   virtual ~wxPdfPageSetupDialog();
 
@@ -596,6 +597,16 @@ public:
 
   virtual wxSize GetPPI() const { return m_pdfdc->GetPPI(); }
 
+private:
+
+  void UpdateBoundingBox() const
+  {
+    ((wxDCImpl*)this)->wxDCImpl::CalcBoundingBox(m_dc.MinX(), m_dc.MinY());
+    ((wxDCImpl*)this)->wxDCImpl::CalcBoundingBox(m_dc.MaxX(), m_dc.MaxY());
+  }
+
+public:
+
   //////////////////////////////////////////////////////////////////
   // Overrides passed to wxMemory DC
   //////////////////////////////////////////////////////////////////
@@ -619,12 +630,11 @@ public:
 
   virtual int GetDepth() const { return m_dc.GetDepth(); }
 
-  virtual void CalcBoundingBox(wxCoord x, wxCoord y) { m_dc.CalcBoundingBox( x,  y); }
-  void ResetBoundingBox() { m_dc.ResetBoundingBox(); }
-  wxCoord MinX() const { return m_dc.MinX(); }
-  wxCoord MaxX() const { return m_dc.MaxX(); }
-  wxCoord MinY() const { return m_dc.MinY(); }
-  wxCoord MaxY() const { return m_dc.MaxY(); }
+  virtual void CalcBoundingBox(wxCoord x, wxCoord y)
+  {
+    m_dc.CalcBoundingBox( x, y);
+    UpdateBoundingBox();
+  }
 
   virtual void SetFont(const wxFont& font)
   {
@@ -661,19 +671,26 @@ public:
   virtual void DoSetClippingRegion(wxCoord x, wxCoord y, wxCoord w, wxCoord h)
   {
     m_dc.DoSetClippingRegion(x,y,w,h);
+    UpdateBoundingBox();
   }
 
   virtual void DoSetDeviceClippingRegion(const wxRegion& region)
   {
     m_dc.DoSetDeviceClippingRegion(region);
+    UpdateBoundingBox();
   }
 
   virtual void DoGetClippingBox(wxCoord* x, wxCoord* y, wxCoord* w, wxCoord* h) const
   {
     m_dc.DoGetClippingBox(x, y, w, h);
+    UpdateBoundingBox();
   }
 
-  virtual void DestroyClippingRegion() { m_dc.DestroyClippingRegion(); }
+  virtual void DestroyClippingRegion()
+  {
+    m_dc.DestroyClippingRegion();
+    UpdateBoundingBox();
+  }
 
   virtual wxCoord DeviceToLogicalX(wxCoord x) const { return m_dc.DeviceToLogicalX(x); }
   virtual wxCoord DeviceToLogicalY(wxCoord y) const { return m_dc.DeviceToLogicalY(y); }
@@ -706,7 +723,9 @@ public:
   virtual bool DoFloodFill(wxCoord x, wxCoord y, const wxColour& col,
                            wxFloodFillStyle style = wxFLOOD_SURFACE)
   {
-    return m_dc.DoFloodFill(x, y, col, style);
+    bool rval = m_dc.DoFloodFill(x, y, col, style);
+    UpdateBoundingBox();
+    return rval;
   }
 
   virtual void DoGradientFillLinear(const wxRect& rect,
@@ -715,6 +734,7 @@ public:
                                     wxDirection nDirection = wxEAST)
   {
     m_dc.DoGradientFillLinear(rect, initialColour, destColour, nDirection);
+    UpdateBoundingBox();
   }
 
   virtual void DoGradientFillConcentric(const wxRect& rect,
@@ -723,21 +743,26 @@ public:
                                         const wxPoint& circleCenter)
   {
     m_dc.DoGradientFillConcentric(rect, initialColour, destColour, circleCenter);
+    UpdateBoundingBox();
   }
 
   virtual bool DoGetPixel(wxCoord x, wxCoord y, wxColour* col) const
   {
-    return m_dc.DoGetPixel(x,y, col);
+    bool rval = m_dc.DoGetPixel(x, y, col);
+    UpdateBoundingBox();
+    return rval;
   }
 
   virtual void DoDrawPoint(wxCoord x, wxCoord y)
   {
     m_dc.DoDrawPoint(x,y);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
   {
     m_dc.DoDrawLine(x1,y1,x2,y2);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawArc(wxCoord x1, wxCoord y1,
@@ -745,23 +770,27 @@ public:
                          wxCoord xc, wxCoord yc)
   {
     m_dc.DoDrawArc(x1,y1, x2,y2, xc, yc);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawCheckMark(wxCoord x, wxCoord y,
                                wxCoord w, wxCoord h)
   {
     m_dc.DoDrawCheckMark(x,y,w,h);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord w, wxCoord h,
                                  double sa, double ea)
   {
     m_dc.DoDrawEllipticArc(x,y,w,h,sa, ea);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawRectangle(wxCoord x, wxCoord y, wxCoord w, wxCoord h)
   {
     m_dc.DoDrawRectangle(x,y,w,h);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawRoundedRectangle(wxCoord x, wxCoord y,
@@ -769,38 +798,45 @@ public:
                                       double radius)
   {
     m_dc.DoDrawRoundedRectangle(x,y,w,h,radius);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawEllipse(wxCoord x, wxCoord y, wxCoord w, wxCoord h)
   {
     m_dc.DoDrawEllipse(x,y,w,h);
+    UpdateBoundingBox();
   }
 
   virtual void DoCrossHair(wxCoord x, wxCoord y)
   {
     m_dc.DoCrossHair(x,y);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawIcon(const wxIcon& icon, wxCoord x, wxCoord y)
   {
     m_dc.DoDrawIcon(icon, x,y);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawBitmap(const wxBitmap &bmp, wxCoord x, wxCoord y,
                             bool useMask = false)
   {
     m_dc.DoDrawBitmap(bmp, x,y, useMask);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawText(const wxString& text, wxCoord x, wxCoord y)
   {
     m_dc.DoDrawText(text, x, y);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawRotatedText(const wxString& text,
                                  wxCoord x, wxCoord y, double angle)
   {
     m_dc.DoDrawRotatedText(text, x, y, angle);
+    UpdateBoundingBox();
   }
 
   virtual bool DoBlit(wxCoord xdest, wxCoord ydest,
@@ -810,7 +846,9 @@ public:
                       bool useMask = false,
                       wxCoord xsrcMask = wxDefaultCoord, wxCoord ysrcMask = wxDefaultCoord)
   {
-    return m_dc.DoBlit(xdest, ydest,w,h,source,xsrc,ysrc,rop,useMask,xsrcMask,ysrcMask);
+    bool rval = m_dc.DoBlit(xdest, ydest, w, h, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask);
+    UpdateBoundingBox();
+    return rval;
   }
 
   virtual bool DoStretchBlit(wxCoord xdest, wxCoord ydest,
@@ -823,14 +861,17 @@ public:
                              wxCoord xsrcMask = wxDefaultCoord,
                              wxCoord ysrcMask = wxDefaultCoord)
   {
-    return m_dc.DoStretchBlit(xdest, ydest, dstWidth, dstHeight, source, xsrc, ysrc,
-                              srcWidth, srcHeight, rop, useMask, xsrcMask, ysrcMask);
+    bool rval = m_dc.DoStretchBlit(xdest, ydest, dstWidth, dstHeight, source, xsrc, ysrc,
+                                   srcWidth, srcHeight, rop, useMask, xsrcMask, ysrcMask);
+    UpdateBoundingBox();
+    return rval;
   }
 
   virtual void DoDrawLines(int n, wxPoint points[],
                            wxCoord xoffset, wxCoord yoffset)
   {
     m_dc.DoDrawLines(n, points,xoffset, yoffset);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawPolygon(int n, wxPoint points[],
@@ -838,6 +879,7 @@ public:
                              wxPolygonFillMode fillStyle = wxODDEVEN_RULE)
   {
     m_dc.DoDrawPolygon(n, points, xoffset, yoffset, fillStyle);
+    UpdateBoundingBox();
   }
 
   virtual void DoSetClippingRegionAsRegion(const wxRegion& region)
@@ -845,6 +887,7 @@ public:
     wxCoord x, y, w, h;
     region.GetBox(x, y, w, h);
     m_dc.DoSetClippingRegion(x, y, w, h);
+    UpdateBoundingBox();
   }
 
 private:
@@ -931,6 +974,16 @@ public:
     m_pdfdc->GetMultiLineTextExtent(string, width, height, heightLine, font);
   }
 
+private:
+
+  void UpdateBoundingBox() const
+  {
+    ((wxDC*)this)->wxDC::CalcBoundingBox( m_dc.MinX(), m_dc.MinY());
+    ((wxDC*)this)->wxDC::CalcBoundingBox( m_dc.MaxX(), m_dc.MaxY());
+  }
+
+public:
+
   //////////////////////////////////////////////////////////////////
   // Overrides passed to wxMemory DC
   //////////////////////////////////////////////////////////////////
@@ -944,13 +997,11 @@ public:
   virtual int GetDepth() const { return m_dc.GetDepth(); }
   virtual bool IsOk() const { return m_dc.IsOk(); }
 
-  virtual void CalcBoundingBox(wxCoord x, wxCoord y) { m_dc.CalcBoundingBox( x,  y); }
-  void ResetBoundingBox() { ((wxDC&) m_dc).ResetBoundingBox(); }
-
-  wxCoord MinX() const { return ((wxDC&) m_dc).MinX(); }
-  wxCoord MaxX() const { return ((wxDC&) m_dc).MaxX(); }
-  wxCoord MinY() const { return ((wxDC&) m_dc).MinY(); }
-  wxCoord MaxY() const { return ((wxDC&) m_dc).MaxY(); }
+  virtual void CalcBoundingBox(wxCoord x, wxCoord y)
+  {
+    m_dc.CalcBoundingBox(x, y);
+    UpdateBoundingBox();
+  }
 
   virtual void SetFont(const wxFont& font)
   {
@@ -978,7 +1029,11 @@ public:
   virtual void SetPalette(const wxPalette& palette) { m_dc.SetPalette(palette); }
 #endif // wxUSE_PALETTE
 
-  virtual void DestroyClippingRegion() { m_dc.DestroyClippingRegion(); }
+  virtual void DestroyClippingRegion()
+  {
+    m_dc.DestroyClippingRegion();
+    UpdateBoundingBox();
+  }
 
   virtual wxCoord DeviceToLogicalX(wxCoord x) const { return m_dc.DeviceToLogicalX(x); }
   virtual wxCoord DeviceToLogicalY(wxCoord y) const { return m_dc.DeviceToLogicalY(y); }
@@ -1016,7 +1071,9 @@ protected:
   virtual bool DoFloodFill(wxCoord x, wxCoord y, const wxColour& col,
                            int style = wxFLOOD_SURFACE)
   {
-    return m_dc.DoFloodFill(x,y, col, style);
+    bool rval = m_dc.DoFloodFill(x,y, col, style);
+    UpdateBoundingBox();
+    return rval;
   }
 
   virtual void DoGradientFillLinear(const wxRect& rect,
@@ -1025,6 +1082,7 @@ protected:
                                     wxDirection nDirection = wxEAST)
   {
     m_dc.DoGradientFillLinear(rect, initialColour, destColour, nDirection);
+    UpdateBoundingBox();
   }
 
   virtual void DoGradientFillConcentric(const wxRect& rect,
@@ -1033,21 +1091,26 @@ protected:
                                         const wxPoint& circleCenter)
   {
     m_dc.DoGradientFillConcentric(rect, initialColour, destColour, circleCenter);
+    UpdateBoundingBox();
   }
 
   virtual bool DoGetPixel(wxCoord x, wxCoord y, wxColour* col) const
   {
-    return m_dc.DoGetPixel(x,y, col);
+    bool rval = m_dc.DoGetPixel(x, y, col);
+    UpdateBoundingBox();
+    return rval;
   }
 
   virtual void DoDrawPoint(wxCoord x, wxCoord y)
   {
     m_dc.DoDrawPoint(x,y);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
   {
     m_dc.DoDrawLine(x1,y1,x2,y2);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawArc(wxCoord x1, wxCoord y1,
@@ -1055,23 +1118,27 @@ protected:
                          wxCoord xc, wxCoord yc)
   {
     m_dc.DoDrawArc(x1, y1, x2, y2, xc, yc);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawCheckMark(wxCoord x, wxCoord y,
                                wxCoord w, wxCoord h)
   {
     m_dc.DoDrawCheckMark(x,y,w,h);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord w, wxCoord h,
                                  double sa, double ea)
   {
     m_dc.DoDrawEllipticArc(x, y, w, h, sa, ea);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawRectangle(wxCoord x, wxCoord y, wxCoord w, wxCoord h)
   {
     m_dc.DoDrawRectangle(x, y, w, h);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawRoundedRectangle(wxCoord x, wxCoord y,
@@ -1079,38 +1146,45 @@ protected:
                                       double radius)
   {
     m_dc.DoDrawRoundedRectangle(x, y, w, h, radius);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawEllipse(wxCoord x, wxCoord y, wxCoord w, wxCoord h)
   {
     m_dc.DoDrawEllipse(x, y, w, h);
+    UpdateBoundingBox();
   }
 
   virtual void DoCrossHair(wxCoord x, wxCoord y)
   {
     m_dc.DoCrossHair(x, y);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawIcon(const wxIcon& icon, wxCoord x, wxCoord y)
   {
     m_dc.DoDrawIcon(icon, x, y);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawBitmap(const wxBitmap &bmp, wxCoord x, wxCoord y,
                             bool useMask = false)
   {
     m_dc.DoDrawBitmap(bmp, x, y, useMask);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawText(const wxString& text, wxCoord x, wxCoord y)
   {
     m_dc.DoDrawText(text, x, y);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawRotatedText(const wxString& text,
                                  wxCoord x, wxCoord y, double angle)
   {
     m_dc.DoDrawRotatedText(text, x, y, angle);
+    UpdateBoundingBox();
   }
 
   virtual bool DoBlit(wxCoord xdest, wxCoord ydest,
@@ -1120,7 +1194,9 @@ protected:
                       bool useMask = false,
                       wxCoord xsrcMask = wxDefaultCoord, wxCoord ysrcMask = wxDefaultCoord)
   {
-    return m_dc.DoBlit(xdest, ydest, w, h, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask);
+    bool rval = m_dc.DoBlit(xdest, ydest, w, h, source, xsrc, ysrc, rop, useMask, xsrcMask, ysrcMask);
+    UpdateBoundingBox();
+    return rval;
   }
 
   virtual void DoGetSize(int* w, int* h) const
@@ -1137,6 +1213,7 @@ protected:
                            wxCoord xoffset, wxCoord yoffset)
   {
     m_dc.DoDrawLines(n, points,xoffset, yoffset);
+    UpdateBoundingBox();
   }
 
   virtual void DoDrawPolygon(int n, wxPoint points[],
@@ -1144,6 +1221,7 @@ protected:
                              int fillStyle = wxODDEVEN_RULE)
   {
     m_dc.DoDrawPolygon(n, points, xoffset, yoffset, fillStyle);
+    UpdateBoundingBox();
   }
 
   virtual void DoSetClippingRegion(wxCoord x, wxCoord y,
@@ -1157,17 +1235,20 @@ protected:
     wxCoord x, y, w, h;
     region.GetBox(x, y, w, h);
     m_dc.DoSetClippingRegion(x, y, w, h);
+    UpdateBoundingBox();
   }
 
   virtual void DoSetDeviceClippingRegion(const wxRegion& region)
   {
     m_dc.DoSetDeviceClippingRegion(region);
+    UpdateBoundingBox();
   }
 
   virtual void DoGetClippingBox(wxCoord* x, wxCoord* y,
                                 wxCoord* w, wxCoord* h) const
   {
     m_dc.DoGetClippingBox(x, y, w, h);
+    UpdateBoundingBox();
   }
 
 private:

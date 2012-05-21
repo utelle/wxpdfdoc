@@ -37,20 +37,35 @@
 #include "wx/printdlg.h"
 #include "wx/image.h"
 #include "wx/accel.h"
+#include "wx/sizer.h"
+
 #include "wx/pdfdc.h"
 #include "wx/pdffontmanager.h"
+#include "wx/pdfprint.h"
 
 #if wxTEST_POSTSCRIPT_IN_MSW
-#include "wx/generic/printps.h"
-#include "wx/generic/prntdlgg.h"
+  #include "wx/generic/printps.h"
+  #include "wx/generic/prntdlgg.h"
 #endif
 
 #ifdef __WXMAC__
-    #if wxMAJOR_VERSION > 2 || (wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 9)
+  #if wxMAJOR_VERSION > 2 || (wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 9)
     #include <wx/osx/printdlg.h>
-    #else
+  #else
     #include <wx/mac/carbon/printdlg.h>
-    #endif
+  #endif
+#endif
+
+#if wxUSE_RICHTEXT
+  #include "wx/richtext/richtextctrl.h"
+  #include "wx/richtext/richtextstyles.h"
+  #include "wx/richtext/richtextprint.h"
+  #include "zebra.xpm"
+  #include "smiley.xpm"
+#endif
+
+#if wxUSE_HTML
+  #include <wx/html/htmprint.h>
 #endif
 
 #include "printing.h"
@@ -63,7 +78,6 @@
 #include "wx/html/forcelnk.h"
 FORCE_LINK(gnome_print)
 #endif
-
 
 // Declare a frame
 MyFrame   *frame = (MyFrame *) NULL;
@@ -152,23 +166,38 @@ bool MyApp::OnInit(void)
 
 #if defined(__WXMSW__) && wxTEST_POSTSCRIPT_IN_MSW
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_PRINT_PS, _T("Print PostScript..."),              _T("Print (PostScript)"));
-    file_menu->Append(WXPRINT_PAGE_SETUP_PS, _T("Page Setup PostScript..."),              _T("Page setup (PostScript)"));
-    file_menu->Append(WXPRINT_PREVIEW_PS, _T("Print Preview PostScript"),              _T("Preview (PostScript)"));
+    file_menu->Append(WXPRINT_PRINT_PS, _T("Print PostScript..."), _T("Print (PostScript)"));
+    file_menu->Append(WXPRINT_PAGE_SETUP_PS, _T("Page Setup PostScript..."), _T("Page setup (PostScript)"));
+    file_menu->Append(WXPRINT_PREVIEW_PS, _T("Print Preview PostScript"), _T("Preview (PostScript)"));
 #endif
 
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_ANGLEUP, _T("Angle up\tAlt-U"),                _T("Raise rotated text angle"));
-    file_menu->Append(WXPRINT_ANGLEDOWN, _T("Angle down\tAlt-D"),            _T("Lower rotated text angle"));
+    file_menu->Append(WXPRINT_ANGLEUP, _T("Angle up\tAlt-U"), _T("Raise rotated text angle"));
+    file_menu->Append(WXPRINT_ANGLEDOWN, _T("Angle down\tAlt-D"), _T("Lower rotated text angle"));
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_QUIT, _T("E&xit"),                _T("Exit program"));
+    file_menu->Append(WXPRINT_QUIT, _T("E&xit"), _T("Exit program"));
+
+    wxMenu *printing_menu = new wxMenu;
+    printing_menu->Append(WXPDFPRINT_PAGE_SETUP_ALL, _T("PDF Page Setup All..."), _T("PDF Page Setup (All)"));
+    printing_menu->Append(WXPDFPRINT_PAGE_SETUP_MINIMAL, _T("PDF Page Setup Minimal..."), _T("PDF Page Setup (Minimal)"));
+    printing_menu->Append(WXPDFPRINT_PRINT_DIALOG_ALL, _T("PDF Print Dialog All..."), _T("PDF Print Dialog (All)"));
+    printing_menu->Append(WXPDFPRINT_PRINT_DIALOG_MINIMAL, _T("PDF Print Dialog Minimal..."), _T("PDF Print Dialog (Minimal)"));
+#if wxUSE_RICHTEXT
+    printing_menu->Append(WXPDFPRINT_RICHTEXT_PRINT, _T("PDF RichText Print..."), _T("PDF RichText (Print)"));
+    printing_menu->Append(WXPDFPRINT_RICHTEXT_PREVIEW, _T("PDF RichText Preview..."), _T("PDF RichText (Preview)"));
+#endif
+#if wxUSE_HTML
+    printing_menu->Append(WXPDFPRINT_HTML_PRINT, _T("PDF Html Print..."), _T("PDF Html (Print)"));
+    printing_menu->Append(WXPDFPRINT_HTML_PREVIEW, _T("PDF Html Preview..."), _T("PDF Html (Preview)"));
+#endif
 
     wxMenu *help_menu = new wxMenu;
-    help_menu->Append(WXPRINT_ABOUT, _T("&About"),              _T("About this demo"));
+    help_menu->Append(WXPRINT_ABOUT, _T("&About"), _T("About this demo"));
 
     wxMenuBar *menu_bar = new wxMenuBar;
 
     menu_bar->Append(file_menu, _T("&File"));
+    menu_bar->Append(printing_menu, _T("wxPdf&Printing"));
     menu_bar->Append(help_menu, _T("&Help"));
 
     // Associate the menu bar with the frame
@@ -179,7 +208,11 @@ bool MyApp::OnInit(void)
     // Give it scrollbars: the virtual canvas is 20 * 50 = 1000 pixels in each direction
     canvas->SetScrollbars(20, 20, 50, 50);
 
+    wxBoxSizer *mainsizer = new wxBoxSizer( wxVERTICAL );
+    mainsizer->Add(canvas,1,wxALL|wxEXPAND, 0);
+
     frame->canvas = canvas;
+    frame->SetSizer(mainsizer);
 
     frame->Centre(wxBOTH);
     frame->Show();
@@ -218,6 +251,18 @@ EVT_MENU(WXPRINT_PAGE_MARGINS, MyFrame::OnPageMargins)
 #endif
 EVT_MENU(WXPRINT_ANGLEUP, MyFrame::OnAngleUp)
 EVT_MENU(WXPRINT_ANGLEDOWN, MyFrame::OnAngleDown)
+EVT_MENU(WXPDFPRINT_PAGE_SETUP_ALL, MyFrame::OnPdfPageSetupAll)
+EVT_MENU(WXPDFPRINT_PAGE_SETUP_MINIMAL, MyFrame::OnPdfPageSetupMinimal)
+EVT_MENU(WXPDFPRINT_PRINT_DIALOG_ALL, MyFrame::OnPdfPrintDialogAll)
+EVT_MENU(WXPDFPRINT_PRINT_DIALOG_MINIMAL, MyFrame::OnPdfPrintDialogMinimal)
+#if wxUSE_RICHTEXT
+EVT_MENU(WXPDFPRINT_RICHTEXT_PRINT, MyFrame::OnPdfRichTextPrint)
+EVT_MENU(WXPDFPRINT_RICHTEXT_PREVIEW, MyFrame::OnPdfRichTextPreview)
+#endif
+#if wxUSE_HTML
+EVT_MENU(WXPDFPRINT_HTML_PRINT, MyFrame::OnPdfHtmlPrint)
+EVT_MENU(WXPDFPRINT_HTML_PREVIEW, MyFrame::OnPdfHtmlPreview)
+#endif
 END_EVENT_TABLE()
 
 // Define my frame constructor
@@ -242,6 +287,12 @@ wxFrame(frame, wxID_ANY, title, pos, size)
       m_bitmap = wxBitmap(image);
       m_imgUp.LoadFile(rscPath + wxT("up.gif"));
     }
+#if wxUSE_RICHTEXT
+    m_richtext = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString);
+    m_richtext->Show(0);
+    m_richtextPrinting = new wxRichTextPrinting();
+    WriteRichTextBuffer();
+#endif
 }
 
 void MyFrame::OnExit(wxCommandEvent& WXUNUSED(event))
@@ -522,6 +573,773 @@ void MyFrame::Draw(wxDC& dc)
       dc.DrawBitmap(m_imgUp, 300, 250, true);
     }
 }
+
+void MyFrame::OnPdfPageSetupAll(wxCommandEvent&  WXUNUSED(event) )
+{
+   wxPageSetupDialogData* dialogData = new wxPageSetupDialogData;
+   dialogData->SetMarginTopLeft(wxPoint(25,25));
+   dialogData->SetMarginBottomRight(wxPoint(25,25));
+   dialogData->EnableMargins(true);
+   dialogData->EnablePaper(true);
+   dialogData->EnableOrientation(true);
+
+   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, dialogData);
+   if( dialog->ShowModal() == wxID_OK )
+   {
+     // dialogData now has user choices
+   }
+
+   delete dialog;
+   delete dialogData;
+}
+
+void MyFrame::OnPdfPageSetupMinimal(wxCommandEvent&  WXUNUSED(event) )
+{
+   wxPageSetupDialogData* dialogData = new wxPageSetupDialogData;
+   dialogData->SetMarginTopLeft(wxPoint(25,25));
+   dialogData->SetMarginBottomRight(wxPoint(25,25));
+   dialogData->EnableMargins(false);
+   dialogData->EnablePaper(true);
+   dialogData->EnableOrientation(false);
+
+   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, dialogData, _T("Minimal PDF Page Setup"));
+   if( dialog->ShowModal() == wxID_OK )
+   {
+     // dialogData now has user choices
+   }
+
+   delete dialog;
+   delete dialogData;
+}
+
+void MyFrame::OnPdfPrintDialogAll(wxCommandEvent&  WXUNUSED(event) )
+{
+   wxPageSetupDialogData* dialogData = new wxPageSetupDialogData;
+   dialogData->SetMarginTopLeft(wxPoint(25,25));
+   dialogData->SetMarginBottomRight(wxPoint(25,25));
+   dialogData->EnableMargins(true);
+   dialogData->EnablePaper(true);
+   dialogData->EnableOrientation(true);
+
+   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, dialogData);
+   if( dialog->ShowModal() == wxID_OK )
+   {
+      wxPdfPrintData* printData = new wxPdfPrintData( dialogData );
+      wxPdfPrintDialog* printDialog =  new wxPdfPrintDialog(this, printData );
+      if( printDialog->ShowModal() == wxID_OK )
+      {
+       // printData now has user info
+      }
+      delete printDialog;
+      delete printData;
+   }
+   delete dialog;
+   delete dialogData;
+}
+
+void MyFrame::OnPdfPrintDialogMinimal(wxCommandEvent&  WXUNUSED(event) )
+{
+    wxPdfPrintData* printData = new wxPdfPrintData();
+    // restrict what we see in dialog
+    printData->SetPrintDialogFlags( wxPDF_PRINTDIALOG_OPENDOC|wxPDF_PRINTDIALOG_FILEPATH );
+    wxPdfPrintDialog* printDialog =  new wxPdfPrintDialog(this, printData );
+    if( printDialog->ShowModal() == wxID_OK )
+    {
+      // printData now has user info
+    }
+    delete printDialog;
+   delete printData;
+}
+
+#if wxUSE_RICHTEXT
+void MyFrame::OnPdfRichTextPrint(wxCommandEvent&  WXUNUSED(event) )
+{
+   wxPageSetupDialogData dialogData = wxPageSetupDialogData();
+   dialogData.SetMarginTopLeft(wxPoint(25,25));
+   dialogData.SetMarginBottomRight(wxPoint(25,25));
+   dialogData.EnableMargins(true);
+   dialogData.EnablePaper(true);
+   dialogData.EnableOrientation(true);
+
+   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, &dialogData);
+   if( dialog->ShowModal() == wxID_OK )
+   {
+      dialogData = dialog->GetPageSetupData();
+      wxPdfPrintData printData = wxPdfPrintData( &dialogData );
+
+      wxPdfPrintDialog *printDialog =  new wxPdfPrintDialog(this, &printData );
+      if( printDialog->ShowModal() == wxID_OK )
+      {
+        printData = printDialog->GetPdfPrintData();
+        // printData now has user info.
+        // We will use richtextprinting as a convenient storage container for
+        // the copy richtext buffers. If we did not do this, we would need to handle
+        // deletion of the buffers in our code.
+        m_richtextPrinting->SetRichTextBufferPrinting(
+            new wxRichTextBuffer(m_richtext->GetBuffer())
+            );
+
+        wxRichTextPrintout *printPrintout = new wxRichTextPrintout(wxT("Demo PDF Printing"));
+        // richtext printout accepts margins in tenths of mm
+        printPrintout->SetMargins(
+                      10 * dialogData.GetMarginTopLeft().y,
+                      10 * dialogData.GetMarginBottomRight().y,
+                      10 * dialogData.GetMarginTopLeft().x,
+                      10 * dialogData.GetMarginBottomRight().x
+                      );
+
+        printPrintout->SetRichTextBuffer(  m_richtextPrinting->GetRichTextBufferPrinting() );
+
+        wxPdfPrinter *printer = new wxPdfPrinter( &printData );
+        // don't show a print dialog again - we have already done so
+        printer->Print(this, printPrintout, false);
+        delete printer;
+      }
+      delete printDialog;
+   }
+   delete dialog;
+}
+
+void MyFrame::OnPdfRichTextPreview(wxCommandEvent&  WXUNUSED(event) )
+{
+   wxPageSetupDialogData dialogData = wxPageSetupDialogData();
+   dialogData.SetMarginTopLeft(wxPoint(25,25));
+   dialogData.SetMarginBottomRight(wxPoint(25,25));
+   dialogData.EnableMargins(true);
+   dialogData.EnablePaper(true);
+   dialogData.EnableOrientation(true);
+
+   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, &dialogData);
+   if( dialog->ShowModal() == wxID_OK )
+   {
+      dialogData = dialog->GetPageSetupData();
+      wxPdfPrintData printData = wxPdfPrintData( &dialogData );
+      // We will use richtextprinting as a convenient storage container for
+      // the copy richtext buffers. If we did not do this, we would need to handle
+      // deletion of the buffers in our code.
+      m_richtextPrinting->SetRichTextBufferPrinting(
+        new wxRichTextBuffer(m_richtext->GetBuffer())
+      );
+      
+      m_richtextPrinting->SetRichTextBufferPreview(
+        new wxRichTextBuffer(m_richtext->GetBuffer())
+      );
+
+      wxRichTextPrintout *printPrintout = new wxRichTextPrintout(wxT("Demo PDF Printing"));   
+      // richtext printout accepts margins in tenths of mm
+      printPrintout->SetMargins(
+                      10 * dialogData.GetMarginTopLeft().y,
+                      10 * dialogData.GetMarginBottomRight().y,
+                      10 * dialogData.GetMarginTopLeft().x,
+                      10 * dialogData.GetMarginBottomRight().x
+                      );
+      printPrintout->SetRichTextBuffer(  m_richtextPrinting->GetRichTextBufferPrinting() );
+
+      wxRichTextPrintout *previewPrintout = new wxRichTextPrintout(wxT("Demo PDF Printing"));   
+      // richtext printout accepts margins in tenths of mm
+      previewPrintout->SetMargins(
+                      10 * dialogData.GetMarginTopLeft().y,
+                      10 * dialogData.GetMarginBottomRight().y,
+                      10 * dialogData.GetMarginTopLeft().x,
+                      10 * dialogData.GetMarginBottomRight().x
+                      );
+      previewPrintout->SetRichTextBuffer(  m_richtextPrinting->GetRichTextBufferPreview() );
+
+      wxPdfPrintPreview *preview = new wxPdfPrintPreview(previewPrintout, printPrintout, &printData);
+      if (preview->IsOk())
+      {
+        wxPreviewFrame *frame = new wxPreviewFrame(preview, this,
+                _("PDF Document RichText Preview"), wxDefaultPosition, wxSize(600,600));
+        frame->Centre(wxBOTH);
+        frame->Initialize();
+        frame->Show(true);
+      }
+      else
+      {
+        delete preview;
+      }
+   }
+   delete dialog;
+}
+
+void MyFrame::WriteRichTextBuffer()
+{
+    wxRichTextCtrl& r = *m_richtext;
+
+#if wxMAJOR_VERSION > 2 || (wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 9)
+
+    r.SetDefaultStyle(wxRichTextAttr());
+
+    r.BeginSuppressUndo();
+
+    r.Freeze();
+
+    r.BeginParagraphSpacing(0, 20);
+
+    r.BeginAlignment(wxTEXT_ALIGNMENT_CENTRE);
+    r.BeginBold();
+
+    r.BeginFontSize(14);
+
+    wxString lineBreak = (wxChar) 29;
+
+    r.WriteText(wxString(wxT("Welcome to wxRichTextCtrl, a wxWidgets control")) + lineBreak + wxT("for editing and presenting styled text and images\n"));
+    r.EndFontSize();
+
+    r.BeginItalic();
+    r.WriteText(wxT("by Julian Smart"));
+    r.EndItalic();
+
+    r.EndBold();
+    r.Newline();
+
+    r.WriteImage(wxBitmap(zebra_xpm));
+
+    r.Newline();
+    r.Newline();
+
+    r.EndAlignment();
+
+    r.BeginAlignment(wxTEXT_ALIGNMENT_LEFT);
+    wxRichTextAttr imageAttr;
+    imageAttr.GetTextBoxAttr().SetFloatMode(wxTEXT_BOX_ATTR_FLOAT_LEFT);
+    r.WriteText(wxString(wxT("This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side. This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side. This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side.")));
+    r.WriteImage(wxBitmap(zebra_xpm), wxBITMAP_TYPE_PNG, imageAttr);
+
+    imageAttr.GetTextBoxAttr().GetTop().SetValue(200);
+    imageAttr.GetTextBoxAttr().GetTop().SetUnits(wxTEXT_ATTR_UNITS_PIXELS);
+    imageAttr.GetTextBoxAttr().SetFloatMode(wxTEXT_BOX_ATTR_FLOAT_RIGHT);
+    r.WriteImage(wxBitmap(zebra_xpm), wxBITMAP_TYPE_PNG, imageAttr);
+    r.WriteText(wxString(wxT("This is a simple test for a floating right image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side. This is a simple test for a floating left image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side. This is a simple test for a floating left image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side.")));
+    r.EndAlignment();
+    r.Newline();
+
+    int i;
+    for ( i = 0; i < 10; ++i)
+    {
+
+        r.WriteText(wxT("What can you do with this thing? "));
+
+        r.WriteImage(wxBitmap(smiley_xpm));
+        r.WriteText(wxT(" Well, you can change text "));
+
+        r.BeginTextColour(wxColour(255, 0, 0));
+        r.WriteText(wxT("colour, like this red bit."));
+        r.EndTextColour();
+
+        wxRichTextAttr backgroundColourAttr;
+        backgroundColourAttr.SetBackgroundColour(*wxGREEN);
+        backgroundColourAttr.SetTextColour(wxColour(0, 0, 255));
+        r.BeginStyle(backgroundColourAttr);
+        r.WriteText(wxT(" And this blue on green bit."));
+        r.EndStyle();
+
+        r.WriteText(wxT(" Naturally you can make things "));
+        r.BeginBold();
+        r.WriteText(wxT("bold "));
+        r.EndBold();
+        r.BeginItalic();
+        r.WriteText(wxT("or italic "));
+        r.EndItalic();
+        r.BeginUnderline();
+        r.WriteText(wxT("or underlined."));
+        r.EndUnderline();
+
+        r.BeginFontSize(14);
+        r.WriteText(wxT(" Different font sizes on the same line is allowed, too."));
+        r.EndFontSize();
+
+        r.WriteText(wxT(" Next we'll show an indented paragraph."));
+
+        r.Newline();
+
+        r.BeginLeftIndent(60);
+        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.Newline();
+
+        r.EndLeftIndent();
+
+        r.WriteText(wxT("Next, we'll show a first-line indent, achieved using BeginLeftIndent(100, -40)."));
+
+        r.Newline();
+
+        r.BeginLeftIndent(100, -40);
+
+        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.Newline();
+
+        r.EndLeftIndent();
+
+        r.WriteText(wxT("Numbered bullets are possible, again using subindents:"));
+        r.Newline();
+
+        r.BeginNumberedBullet(1, 100, 60);
+        r.WriteText(wxT("This is my first item. Note that wxRichTextCtrl can apply numbering and bullets automatically based on list styles, but this list is formatted explicitly by setting indents."));
+        r.Newline();
+        r.EndNumberedBullet();
+
+        r.BeginNumberedBullet(2, 100, 60);
+        r.WriteText(wxT("This is my second item."));
+        r.Newline();
+        r.EndNumberedBullet();
+
+        r.WriteText(wxT("The following paragraph is right-indented:"));
+        r.Newline();
+
+        r.BeginRightIndent(200);
+
+        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.Newline();
+
+        r.EndRightIndent();
+
+        r.WriteText(wxT("The following paragraph is right-aligned with 1.5 line spacing:"));
+        r.Newline();
+
+        r.BeginAlignment(wxTEXT_ALIGNMENT_RIGHT);
+        r.BeginLineSpacing(wxTEXT_ATTR_LINE_SPACING_HALF);
+        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.Newline();
+        r.EndLineSpacing();
+        r.EndAlignment();
+
+        wxArrayInt tabs;
+        tabs.Add(400);
+        tabs.Add(600);
+        tabs.Add(800);
+        tabs.Add(1000);
+        wxRichTextAttr attr;
+        attr.SetFlags(wxTEXT_ATTR_TABS);
+        attr.SetTabs(tabs);
+        r.SetDefaultStyle(attr);
+
+        r.WriteText(wxT("This line contains tabs:\tFirst tab\tSecond tab\tThird tab"));
+        r.Newline();
+
+        r.WriteText(wxT("Other notable features of wxRichTextCtrl include:"));
+        r.Newline();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("Compatibility with wxTextCtrl API"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("Easy stack-based BeginXXX()...EndXXX() style setting in addition to SetStyle()"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("XML loading and saving"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("Undo/Redo, with batching option and Undo suppressing"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("Clipboard copy and paste"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("wxRichTextStyleSheet with named character and paragraph styles, and control for applying named styles"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("A design that can easily be extended to other content types, ultimately with text boxes, tables, controls, and so on"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        // Make a style suitable for showing a URL
+        wxRichTextAttr urlStyle;
+        urlStyle.SetTextColour(*wxBLUE);
+        urlStyle.SetFontUnderlined(true);
+
+        r.WriteText(wxT("wxRichTextCtrl can also display URLs, such as this one: "));
+        r.BeginStyle(urlStyle);
+        r.BeginURL(wxT("http://www.wxwidgets.org"));
+        r.WriteText(wxT("The wxWidgets Web Site"));
+        r.EndURL();
+        r.EndStyle();
+        r.WriteText(wxT(". Click on the URL to generate an event."));
+
+        r.Newline();
+
+        r.WriteText(wxT("Note: this sample content was generated programmatically from within the MyFrame constructor in the demo. The images were loaded from inline XPMs. Enjoy wxRichTextCtrl!\n"));
+    }
+    
+    r.EndParagraphSpacing();
+
+    // Add a text box
+    if (1)
+    {
+  
+      r.Newline();
+
+      wxRichTextAttr attr;
+      attr.GetTextBoxAttr().GetMargins().GetLeft().SetValue(20, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetMargins().GetTop().SetValue(20, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetMargins().GetRight().SetValue(20, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetMargins().GetBottom().SetValue(20, wxTEXT_ATTR_UNITS_PIXELS);
+
+      attr.GetTextBoxAttr().GetBorder().SetColour(*wxBLACK);
+      attr.GetTextBoxAttr().GetBorder().SetWidth(1, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetBorder().SetStyle(wxTEXT_BOX_ATTR_BORDER_SOLID);
+
+      wxRichTextBox* textBox = r.WriteTextBox(attr);
+      r.SetFocusObject(textBox);
+
+      r.WriteText(wxT("This is a text box. Just testing! Once more unto the breach, dear friends, once more..."));
+
+      r.SetFocusObject(NULL); // Set the focus back to the main buffer
+      r.SetInsertionPointEnd();
+    }
+    if(1)
+    {
+      // Add a table
+
+      r.Newline();
+
+      wxRichTextAttr attr;
+      attr.GetTextBoxAttr().GetMargins().GetLeft().SetValue(5, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetMargins().GetTop().SetValue(5, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetMargins().GetRight().SetValue(5, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetMargins().GetBottom().SetValue(5, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetPadding() = attr.GetTextBoxAttr().GetMargins();
+
+      attr.GetTextBoxAttr().GetBorder().SetColour(*wxBLACK);
+      attr.GetTextBoxAttr().GetBorder().SetWidth(1, wxTEXT_ATTR_UNITS_PIXELS);
+      attr.GetTextBoxAttr().GetBorder().SetStyle(wxTEXT_BOX_ATTR_BORDER_SOLID);
+
+      wxRichTextAttr cellAttr = attr;
+      cellAttr.GetTextBoxAttr().GetWidth().SetValue(200, wxTEXT_ATTR_UNITS_PIXELS);
+      cellAttr.GetTextBoxAttr().GetHeight().SetValue(150, wxTEXT_ATTR_UNITS_PIXELS);
+
+      wxRichTextTable* table = r.WriteTable(3, 2, attr, cellAttr);
+      int i, j;
+      for (j = 0; j < table->GetRowCount(); j++)
+      {
+          for (i = 0; i < table->GetColumnCount(); i++)
+          {
+              wxString msg = wxString::Format(wxT("This is cell %d, %d"), (j+1), (i+1));
+              r.SetFocusObject(table->GetCell(j, i));
+              r.WriteText(msg);
+          }
+      }
+      r.SetFocusObject(NULL); // Set the focus back to the main buffer
+      r.SetInsertionPointEnd();
+    }
+
+    r.Thaw();
+
+    r.EndSuppressUndo();
+
+#else
+// 2.8.x implementation
+    r.SetDefaultStyle(wxRichTextAttr());
+
+    r.BeginSuppressUndo();
+
+    r.BeginParagraphSpacing(0, 20);
+
+    r.BeginAlignment(wxTEXT_ALIGNMENT_CENTRE);
+    r.BeginBold();
+
+    r.BeginFontSize(14);
+
+    wxString lineBreak = (wxChar) 29;
+
+    r.WriteText(wxString(wxT("Welcome to wxRichTextCtrl, a wxWidgets control")) + lineBreak + wxT("for editing and presenting styled text and images\n"));
+    r.EndFontSize();
+    //r.Newline();
+
+    r.BeginItalic();
+    r.WriteText(wxT("by Julian Smart"));
+    r.EndItalic();
+
+    r.EndBold();
+    r.Newline();
+
+    r.WriteImage(wxBitmap(zebra_xpm));
+
+    r.Newline();
+    r.Newline();
+
+    r.EndAlignment();
+
+    int i;
+    for ( i = 0; i < 10; ++i)
+    {
+
+        r.WriteText(wxT("What can you do with this thing? "));
+
+        r.WriteImage(wxBitmap(smiley_xpm));
+        r.WriteText(wxT(" Well, you can change text "));
+
+        r.BeginTextColour(wxColour(255, 0, 0));
+        r.WriteText(wxT("colour, like this red bit."));
+        r.EndTextColour();
+
+        wxRichTextAttr backgroundColourAttr;
+        backgroundColourAttr.SetBackgroundColour(*wxGREEN);
+        backgroundColourAttr.SetTextColour(wxColour(0, 0, 255));
+        r.BeginStyle(backgroundColourAttr);
+        r.WriteText(wxT(" And this blue on green bit."));
+        r.EndStyle();
+
+        r.WriteText(wxT(" Naturally you can make things "));
+        r.BeginBold();
+        r.WriteText(wxT("bold "));
+        r.EndBold();
+        r.BeginItalic();
+        r.WriteText(wxT("or italic "));
+        r.EndItalic();
+        r.BeginUnderline();
+        r.WriteText(wxT("or underlined."));
+        r.EndUnderline();
+
+        r.BeginFontSize(14);
+        r.WriteText(wxT(" Different font sizes on the same line is allowed, too."));
+        r.EndFontSize();
+
+        r.WriteText(wxT(" Next we'll show an indented paragraph."));
+
+        r.Newline();
+
+        r.BeginLeftIndent(60);
+        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.Newline();
+
+        r.EndLeftIndent();
+
+        r.WriteText(wxT("Next, we'll show a first-line indent, achieved using BeginLeftIndent(100, -40)."));
+
+        r.Newline();
+
+        r.BeginLeftIndent(100, -40);
+
+        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.Newline();
+    
+        r.EndLeftIndent();
+    
+        r.WriteText(wxT("Numbered bullets are possible, again using subindents:"));
+        r.Newline();
+
+        r.BeginNumberedBullet(1, 100, 60);
+        r.WriteText(wxT("This is my first item. Note that wxRichTextCtrl can apply numbering and bullets automatically based on list styles, but this list is formatted explicitly by setting indents."));
+        r.Newline();
+
+        r.EndNumberedBullet();
+
+        r.BeginNumberedBullet(2, 100, 60);
+        r.WriteText(wxT("This is my second item."));
+        r.Newline();
+
+        r.EndNumberedBullet();
+
+        r.WriteText(wxT("The following paragraph is right-indented:"));
+        r.Newline();
+
+        r.BeginRightIndent(200);
+
+        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.Newline();
+
+        r.EndRightIndent();
+
+        r.WriteText(wxT("The following paragraph is right-aligned with 1.5 line spacing:"));
+        r.Newline();
+
+        r.BeginAlignment(wxTEXT_ALIGNMENT_RIGHT);
+        r.BeginLineSpacing(wxTEXT_ATTR_LINE_SPACING_HALF);
+        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.Newline();
+        r.EndLineSpacing();
+        r.EndAlignment();
+
+        wxArrayInt tabs;
+        tabs.Add(400);
+        tabs.Add(600);
+        tabs.Add(800);
+        tabs.Add(1000);
+        wxTextAttrEx attr;
+        attr.SetFlags(wxTEXT_ATTR_TABS);
+        attr.SetTabs(tabs);
+        r.SetDefaultStyle(attr);
+
+        r.WriteText(wxT("This line contains tabs:\tFirst tab\tSecond tab\tThird tab"));
+        r.Newline();
+
+        r.WriteText(wxT("Other notable features of wxRichTextCtrl include:"));
+        r.Newline();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("Compatibility with wxTextCtrl API"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("Easy stack-based BeginXXX()...EndXXX() style setting in addition to SetStyle()"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("XML loading and saving"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("Undo/Redo, with batching option and Undo suppressing"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("Clipboard copy and paste"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("wxRichTextStyleSheet with named character and paragraph styles, and control for applying named styles"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxT('*'), 100, 60);
+        r.WriteText(wxT("A design that can easily be extended to other content types, ultimately with text boxes, tables, controls, and so on"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        // Make a style suitable for showing a URL
+        wxRichTextAttr urlStyle;
+        urlStyle.SetTextColour(*wxBLUE);
+        urlStyle.SetFontUnderlined(true);
+
+        r.WriteText(wxT("wxRichTextCtrl can also display URLs, such as this one: "));
+        r.BeginStyle(urlStyle);
+        r.BeginURL(wxT("http://www.wxwidgets.org"));
+        r.WriteText(wxT("The wxWidgets Web Site"));
+        r.EndURL();
+        r.EndStyle();
+        r.WriteText(wxT(". Click on the URL to generate an event."));
+
+        r.Newline();
+
+        r.WriteText(wxT("Note: this sample content was generated programmatically from within the MyFrame constructor in the demo. The images were loaded from inline XPMs. Enjoy wxRichTextCtrl!"));
+
+        r.Newline();
+    }
+
+    r.EndParagraphSpacing();
+
+    r.EndSuppressUndo();
+
+#endif
+
+}
+
+#endif
+
+#if wxUSE_HTML
+void MyFrame::OnPdfHtmlPrint(wxCommandEvent&  WXUNUSED(event) )
+{
+  wxPageSetupDialogData dialogData = wxPageSetupDialogData();
+  dialogData.SetMarginTopLeft(wxPoint(25,25));
+  dialogData.SetMarginBottomRight(wxPoint(25,25));
+  dialogData.EnableMargins(false);
+  dialogData.EnablePaper(true);
+  dialogData.EnableOrientation(true);
+   
+  wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, &dialogData);
+  if( dialog->ShowModal() == wxID_OK )
+  {
+      dialogData = dialog->GetPageSetupData();
+      wxPdfPrintData printData = wxPdfPrintData( &dialogData );
+      
+      // restrict user choices in printdialog
+      printData.SetPrintDialogFlags( wxPDF_PRINTDIALOG_OPENDOC|wxPDF_PRINTDIALOG_FILEPATH );
+      // set launchviewer default to true
+      printData.SetLaunchDocumentViewer(true);
+      
+      wxPdfPrintDialog *printDialog =  new wxPdfPrintDialog(this, &printData );
+      if( printDialog->ShowModal() == wxID_OK )
+      {
+        printData = printDialog->GetPdfPrintData();
+        
+        wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxT("Demo PDF Printing"));   
+        printPrintout->SetMargins(
+                        dialogData.GetMarginTopLeft().y,
+                        dialogData.GetMarginBottomRight().y,
+                        dialogData.GetMarginTopLeft().x,
+                        dialogData.GetMarginBottomRight().x
+                        );
+        printPrintout->SetHtmlFile(wxT("test.html"));
+        printPrintout->SetStandardFonts(10, wxT("Arial"), wxT("Courier New"));
+        wxPdfPrinter *printer = new wxPdfPrinter( &printData );
+        // don't show a print dialog again - we have already done so
+        printer->Print(this, printPrintout, false);
+        delete printer;
+      }
+      delete printDialog;
+  }
+  delete dialog;
+}
+
+void MyFrame::OnPdfHtmlPreview(wxCommandEvent&  WXUNUSED(event) )
+{
+  wxPageSetupDialogData dialogData = wxPageSetupDialogData();
+  dialogData.SetMarginTopLeft(wxPoint(25,25));
+  dialogData.SetMarginBottomRight(wxPoint(25,25));
+  dialogData.EnableMargins(true);
+  dialogData.EnablePaper(true);
+  dialogData.EnableOrientation(true);
+   
+  wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, &dialogData);
+  if( dialog->ShowModal() == wxID_OK )
+  {
+      dialogData = dialog->GetPageSetupData();
+      wxPdfPrintData printData = wxPdfPrintData( &dialogData );
+    
+      wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxT("Demo PDF Printing"));   
+      printPrintout->SetMargins(
+                      dialogData.GetMarginTopLeft().y,
+                      dialogData.GetMarginBottomRight().y,
+                      dialogData.GetMarginTopLeft().x,
+                      dialogData.GetMarginBottomRight().x
+                      );
+      printPrintout->SetHtmlFile(wxT("test.html"));
+      printPrintout->SetStandardFonts(10, wxT("Arial"), wxT("Courier New"));
+      
+      wxHtmlPrintout *previewPrintout = new wxHtmlPrintout(wxT("Demo PDF Printing"));   
+      previewPrintout->SetMargins(
+                      dialogData.GetMarginTopLeft().y,
+                      dialogData.GetMarginBottomRight().y,
+                      dialogData.GetMarginTopLeft().x,
+                      dialogData.GetMarginBottomRight().x
+                      );
+      previewPrintout->SetHtmlFile(wxT("test.html"));
+      previewPrintout->SetStandardFonts(10, wxT("Arial"), wxT("Courier New"));
+      
+      wxPdfPrintPreview *preview = new wxPdfPrintPreview(previewPrintout, printPrintout, &printData);
+      if (preview->IsOk())
+      {
+        wxPreviewFrame *frame = new wxPreviewFrame(preview, this,
+                _("PDF Document Html Preview"), wxDefaultPosition, wxSize(600,600));
+        frame->Centre(wxBOTH);
+        frame->Initialize();
+        frame->Show(true);
+      }
+      else
+      {
+        delete preview;
+      }
+  }
+  delete dialog;
+}
+#endif
 
 void MyFrame::OnSize(wxSizeEvent& event )
 {

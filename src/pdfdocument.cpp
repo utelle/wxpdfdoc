@@ -157,6 +157,7 @@ wxPdfDocument::Initialize(int orientation)
   m_ocgs             = new wxPdfOcgMap();
   m_rgLayers         = new wxPdfLayerRGMap();
   m_lockedLayers     = NULL;
+  m_attachments      = new wxPdfAttachmentMap();
 
   m_outlineRoot      = -1;
   m_maxOutlineLevel  = 0;
@@ -453,6 +454,16 @@ wxPdfDocument::~wxPdfDocument()
   {
     delete m_lockedLayers;
   }
+
+  wxPdfAttachmentMap::iterator attach;
+  for (attach = m_attachments->begin(); attach != m_attachments->end(); ++attach)
+  {
+    if (attach->second != NULL)
+    {
+      delete attach->second;
+    }
+  }
+  delete m_attachments;
 
   delete m_orientationChanges;
   delete m_pageSizes;
@@ -2245,6 +2256,35 @@ void
 wxPdfDocument::AppendJavascript(const wxString& javascript)
 {
   m_javascript += javascript;
+}
+
+bool
+wxPdfDocument::AttachFile(const wxString& fileName, const wxString& attachName, const wxString& description)
+{
+  wxFileName attachFile(fileName);
+  bool ok = attachFile.FileExists();
+  if (ok)
+  {
+    wxArrayString* attachment = new wxArrayString();
+    attachment->Add(fileName);
+    if (!attachName.IsEmpty())
+    {
+      attachment->Add(attachName);
+    }
+    else
+    {
+      attachment->Add(attachFile.GetFullName());
+    }
+    attachment->Add(description);
+
+    int index = (int) (m_attachments->size() + 1);
+    (*m_attachments)[index] = attachment;
+  }
+  else
+  {
+    wxLogDebug(wxT("*** Attachment file '%s' does not exist."), fileName.c_str());
+  }
+  return ok;
 }
 
 // ---

@@ -177,6 +177,7 @@ MINIMAL_CXXFLAGS = -I$(BCCDIR)\include $(____WX_SHARED) -D_UNICODE \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
 	$(VAR_7) -I..\include -I..\samples\minimal $(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  \
+	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_attachment.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_bookmark.obj \
 	bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_charting.obj \
@@ -242,6 +243,12 @@ __pdfdoc_lib___depname = \
 !if "$(WX_SHARED)" == "1"
 __pdfdoc_dll___depname = \
 	..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll
+!endif
+!if "$(WX_MONOLITHIC)" == "0"
+__WXLIB_HTML_NAME_p = wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_html.lib
+!endif
+!if "$(WX_MONOLITHIC)" == "0"
+__WXLIB_RICHTEXT_NAME_p = wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_richtext.lib
 !endif
 !if "$(SHARED)" == "0"
 ____pdfdoc_lib__DIRNAME_SHARED_SUFFIX_FILENAMES = lib
@@ -411,7 +418,7 @@ make_dir_pdfdoc_dll:
 
 ..\samples\pdfdc\printing.exe: $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP)  bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
 	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -aa $(LDFLAGS) @&&|
-	c0w32.obj $(DCSAMPLE_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
+	c0w32.obj $(DCSAMPLE_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_RICHTEXT_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
 |
 
 ..\makefont\makefont.exe: $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP)  bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res
@@ -675,6 +682,9 @@ bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfutility.obj: ..\sr
 
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_dll_pdfxml.obj: ..\src\pdfxml.cpp
 	$(CXX) -q -c -P -o$@ $(PDFDOC_DLL_CXXFLAGS) ..\src\pdfxml.cpp
+
+bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_attachment.obj: ..\samples\minimal\attachment.cpp
+	$(CXX) -q -c -P -o$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\attachment.cpp
 
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_barcodes.obj: ..\samples\minimal\barcodes.cpp
 	$(CXX) -q -c -P -o$@ $(MINIMAL_CXXFLAGS) ..\samples\minimal\barcodes.cpp

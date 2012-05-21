@@ -435,6 +435,10 @@ LINK32=link.exe
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=..\samples\minimal\attachment.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\samples\minimal\barcodes.cpp
 # End Source File
 # Begin Source File

@@ -78,6 +78,8 @@
 
   <template id="gui_app" template="generic_app">
     <app-type>gui</app-type>
+    <wx-lib>html</wx-lib>
+    <wx-lib>richtext</wx-lib>
   </template>
 
   <!-- The samples of the component: as for the LIB target, this exe derives from a 

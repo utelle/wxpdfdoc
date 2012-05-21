@@ -35,6 +35,13 @@ class MyFrame: public wxFrame
     int      m_angle;
     MyFrame(wxFrame *frame, const wxString& title, const wxPoint& pos, const wxSize& size);
 
+// Need a richtext ctrl to create a richtext buffer.
+// Use wxRichTextPrinting as a convenient manager
+// for richtext buffers
+#if wxUSE_RICHTEXT
+    wxRichTextCtrl *m_richtext;
+    wxRichTextPrinting *m_richtextPrinting;
+#endif
     void Draw(wxDC& dc);
     void OnAngleUp(wxCommandEvent& event);
     void OnAngleDown(wxCommandEvent& event);
@@ -56,7 +63,27 @@ class MyFrame: public wxFrame
 
     void OnExit(wxCommandEvent& event);
     void OnPrintAbout(wxCommandEvent& event);
+
+// printing framework
+    void OnPdfPageSetupAll(wxCommandEvent& event);
+    void OnPdfPageSetupMinimal(wxCommandEvent& event);
+    void OnPdfPrintDialogAll(wxCommandEvent& event);
+    void OnPdfPrintDialogMinimal(wxCommandEvent& event);
+#if wxUSE_RICHTEXT
+    void OnPdfRichTextPrint(wxCommandEvent& event);
+    void OnPdfRichTextPreview(wxCommandEvent& event);
+#endif
+#if wxUSE_HTML
+    void OnPdfHtmlPrint(wxCommandEvent& event);
+    void OnPdfHtmlPreview(wxCommandEvent& event);
+#endif
+
 DECLARE_EVENT_TABLE()
+
+#if wxUSE_RICHTEXT
+private:
+    void WriteRichTextBuffer();
+#endif
 };
 
 // Define a new canvas which can receive some events
@@ -87,22 +114,27 @@ class MyPrintout: public wxPrintout
 
 };
 
-#define WXPRINT_QUIT            100
-#define WXPRINT_PRINT           101
-#define WXPRINT_PDF             102
-#define WXPRINT_PDF_TPL         103
-#define WXPRINT_PAGE_SETUP      104
-#define WXPRINT_PREVIEW         105
-
-#define WXPRINT_PRINT_PS        106
-#define WXPRINT_PAGE_SETUP_PS   107
-#define WXPRINT_PREVIEW_PS      108
-
-#define WXPRINT_ABOUT           109
-
-#define WXPRINT_ANGLEUP         110
-#define WXPRINT_ANGLEDOWN       111
-
-#ifdef __WXMAC__
-    #define WXPRINT_PAGE_MARGINS 112
-#endif
+enum
+{
+  WXPRINT_QUIT = 100,
+  WXPRINT_PRINT,
+  WXPRINT_PDF,
+  WXPRINT_PDF_TPL,
+  WXPRINT_PAGE_SETUP,
+  WXPRINT_PREVIEW,
+  WXPRINT_PRINT_PS,
+  WXPRINT_PAGE_SETUP_PS,
+  WXPRINT_PREVIEW_PS,
+  WXPRINT_ABOUT,
+  WXPRINT_ANGLEUP,
+  WXPRINT_ANGLEDOWN,
+  WXPRINT_PAGE_MARGINS,
+  WXPDFPRINT_PAGE_SETUP_ALL,
+  WXPDFPRINT_PAGE_SETUP_MINIMAL,
+  WXPDFPRINT_PRINT_DIALOG_ALL,
+  WXPDFPRINT_PRINT_DIALOG_MINIMAL,
+  WXPDFPRINT_RICHTEXT_PRINT,
+  WXPDFPRINT_RICHTEXT_PREVIEW,
+  WXPDFPRINT_HTML_PRINT,
+  WXPDFPRINT_HTML_PREVIEW
+};

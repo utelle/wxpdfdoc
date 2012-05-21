@@ -106,7 +106,10 @@ wxPdfPrintData::wxPdfPrintData(wxPrintData* printData)
   Init();
   m_printOrientation = printData->GetOrientation();
   m_paperId          = printData->GetPaperId();
-  m_filename         = printData->GetFilename();
+  if (!printData->GetFilename().IsEmpty())
+  {
+    m_filename       = printData->GetFilename();
+  }
   m_printQuality     = printData->GetQuality();
 }
 
@@ -116,11 +119,14 @@ wxPdfPrintData::wxPdfPrintData(wxPrintDialogData* printDialogData)
 
   wxPrintData printData = printDialogData->GetPrintData();
 
-  if( printData.IsOk() )
+  if (printData.IsOk())
   {
     m_printOrientation = printData.GetOrientation();
     m_paperId          = printData.GetPaperId();
-    m_filename         = printData.GetFilename();
+    if (!printData.GetFilename().IsEmpty())
+    {
+      m_filename       = printData.GetFilename();
+    }
     m_printQuality     = printData.GetQuality();
   }
 
@@ -140,7 +146,10 @@ wxPdfPrintData::wxPdfPrintData(wxPageSetupDialogData* pageSetupDialogData)
   {
     m_printOrientation = printData.GetOrientation();
     m_paperId          = printData.GetPaperId();
-    m_filename         = printData.GetFilename();
+    if (!printData.GetFilename().IsEmpty())
+    {
+      m_filename       = printData.GetFilename();
+    }
     m_printQuality     = printData.GetQuality();
   }
 }
@@ -1606,6 +1615,11 @@ END_EVENT_TABLE()
 wxPdfPageSetupDialog::wxPdfPageSetupDialog(wxWindow* parent, wxPageSetupDialogData* data, const wxString& title)
   : wxDialog(parent, wxID_ANY, title) 
 {
+  if (title.IsEmpty())
+  {
+    SetTitle(_("PDF Document Page Setup"));
+  }
+
   m_pageData = *data;
   Init();
 }
@@ -1899,25 +1913,27 @@ wxPdfPageSetupDialog::TransferDataToWindow()
     m_orientation = wxPORTRAIT;
   }
 
-  //double marginScale;
+  m_marginLeft    = m_pageData.GetMarginTopLeft().x;
+  m_marginTop     = m_pageData.GetMarginTopLeft().y;
+  m_marginRight   = m_pageData.GetMarginBottomRight().x;
+  m_marginBottom  = m_pageData.GetMarginBottomRight().y;
 
   if (m_pageData.GetEnableMargins())
   {
-    m_marginLeft    = m_pageData.GetMarginTopLeft().x;
-    m_marginTop     = m_pageData.GetMarginTopLeft().y;
-    m_marginRight   = m_pageData.GetMarginBottomRight().x;
-    m_marginBottom  = m_pageData.GetMarginBottomRight().y;
     m_marginUnits->SetSelection(useUnitSelection);
     TransferMarginsToControls();
   }
 
-  if (m_orientation == wxLANDSCAPE)
+  if (m_pageData.GetEnableOrientation())
   {
-    m_orientationChoice->SetSelection(1);
-  }
-  else
-  {
-    m_orientationChoice->SetSelection(0);
+    if (m_orientation == wxLANDSCAPE)
+    {
+      m_orientationChoice->SetSelection(1);
+    }
+    else
+    {
+      m_orientationChoice->SetSelection(0);
+    }
   }
 
   m_paperTypeChoice->SetStringSelection(paper->GetName());

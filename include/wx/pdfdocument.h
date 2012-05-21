@@ -113,6 +113,9 @@ WX_DECLARE_HASH_MAP_WITH_DECL(long, wxPdfOcg*, wxIntegerHash, wxIntegerEqual, wx
 /// Hashmap class for optional content groups
 WX_DECLARE_HASH_MAP_WITH_DECL(long, wxPdfLayerGroup*, wxIntegerHash, wxIntegerEqual, wxPdfLayerRGMap, class WXDLLIMPEXP_PDFDOC);
 
+/// Hashmap class for file attachments
+WX_DECLARE_HASH_MAP_WITH_DECL(long, wxArrayString*, wxIntegerHash, wxIntegerEqual, wxPdfAttachmentMap, class WXDLLIMPEXP_PDFDOC);
+
 /// Hashmap class for core fonts
 WX_DECLARE_STRING_HASH_MAP_WITH_DECL(int, wxPdfCoreFontMap, class WXDLLIMPEXP_PDFDOC);
 
@@ -2460,6 +2463,17 @@ public:
   */
   virtual void LeaveLayer();
 
+  /// Attach file
+  /**
+  * Attaches a file to the PDF document.
+  * \param fileName path to the file to attach
+  * \param attachName the name under which the file will be attached (dfeault: filename)
+  * \param description an optional description
+  */
+  virtual bool AttachFile(const wxString& fileName, 
+                          const wxString& attachName = wxEmptyString,
+                          const wxString& description = wxEmptyString);
+
   /// Set message translation mode
   /**
   * Sets the message translation mode which controls the handling of msg tags in XML output
@@ -2590,6 +2604,9 @@ protected:
 
   /// Add Javascript (document level)
   virtual void PutJavaScript();
+
+  /// Add attached files
+  virtual void PutFiles();
 
   /// Add resource dictionary
   virtual void PutResourceDict();
@@ -2863,6 +2880,10 @@ private:
   wxPdfLayerRGMap*     m_rgLayers;            ///< array of radio group layers
   wxPdfLayerGroup*     m_lockedLayers;        ///< array of locked layers
   wxArrayInt           m_layerDepth;          ///< stack for nested layers
+
+  // File attachments
+  int                  m_nAttachments;        ///< attachments object number
+  wxPdfAttachmentMap*  m_attachments;         ///< array of file attachments
 
   bool                 m_translate;           ///< flag whether messages in msg tags should be translated
 

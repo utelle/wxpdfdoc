@@ -21,6 +21,7 @@
 #include <wx/wx.h>
 #endif
 
+#include <wx/wfstream.h>
 #include <wx/zstream.h>
 
 #include "wx/pdfannotation.h"
@@ -601,6 +602,12 @@ wxPdfDocument::PutCatalog()
 {
   Out("/Type /Catalog");
   Out("/Pages 1 0 R");
+
+  if (!m_attachments->empty())
+  {
+    OutAscii(wxString::Format(wxT("/Names <</EmbeddedFiles %d 0 R>>"), m_nAttachments));
+  }
+
   if (m_zoomMode == wxPDF_ZOOM_FULLPAGE)
   {
     OutAscii(wxString::Format(wxT("/OpenAction [%d 0 R /Fit]"), m_firstPageId));
@@ -1998,6 +2005,73 @@ wxPdfDocument::PutBookmarks()
 }
 
 void
+wxPdfDocument::PutFiles()
+{
+  int count = (int) (m_attachments->size());
+  wxArrayString* attachment;
+  wxString fileName;
+  wxString attachName;
+  wxString description;
+  wxString nameTree;
+  int j;
+  for (j = 1; j <= count; ++j)
+  {
+    attachment = (*m_attachments)[j];
+    fileName = (*attachment)[0];
+    attachName = (*attachment)[1];
+    description = (*attachment)[2];
+
+    wxFileInputStream fileContent(fileName);
+    if (fileContent.IsOk())
+    {
+      NewObj();
+      nameTree += wxString::Format(wxT("(%04d) %d 0 R "), j, m_n);
+//      $s .= $this->_textstring(sprintf('%03d',$i)).' '.$this->n.' 0 R ';
+
+      Out("<<");
+      Out("/Type /Filespec");
+      Out("/F (", false);
+      Out((const char*) attachName.mb_str(*wxConvFileName), false);
+      Out(")");
+#if wxUSE_UNICODE
+      Out("/UF ", false);
+      OutTextstring(attachName);
+#endif
+      Out("/EF <</F ", false);
+      OutAscii(wxString::Format(wxT("%d 0 R>>"), m_n+1));
+      if (!description.IsEmpty())
+      {
+        Out("/Desc ", false);
+        OutTextstring(description);
+      }
+      Out(">>");
+      Out("endobj");
+
+      wxMemoryOutputStream* p = new wxMemoryOutputStream();
+      p->Write(fileContent);
+      size_t fileLen = CalculateStreamLength(p->TellO());
+
+      NewObj();
+      Out("<<");
+      Out("/Type /EmbeddedFile");
+      OutAscii(wxString::Format(wxT("/Length %lu"), (unsigned long) fileLen));
+      Out(">>");
+      PutStream(*p);
+      Out("endobj");
+      delete p;
+    }
+  }
+  NewObj();
+  m_nAttachments = m_n;
+  Out("<<");
+  Out("/Names [", false);
+  OutAscii(nameTree, false);
+  Out("]");
+  Out(">>");
+  Out("endobj");
+}
+
+void
 wxPdfDocument::PutEncryption()
 {
   Out("/Filter /Standard");
@@ -2148,6 +2222,7 @@ wxPdfDocument::PutResources()
 
   PutBookmarks();
   PutJavaScript();
+  PutFiles();
 
   if (m_encrypted)
   {

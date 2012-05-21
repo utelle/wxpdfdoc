@@ -301,6 +301,7 @@ PDFDOC_DLL_HEADERS =  \
 MINIMAL_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include -I../samples/minimal \
 	`$(WX_CONFIG) --cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  \
+	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_attachment.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_barcodes.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_bookmark.o \
 	gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_charting.o \
@@ -801,6 +802,9 @@ gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfutility.o: ../src/pdfutili
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/pdfdoc_dll_pdfxml.o: ../src/pdfxml.cpp
 	$(CXX) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(CPPDEPS) $<
+
+gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_attachment.o: ../samples/minimal/attachment.cpp
+	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
 
 gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/minimal_barcodes.o: ../samples/minimal/barcodes.cpp
 	$(CXX) -c -o $@ $(MINIMAL_CXXFLAGS) $(CPPDEPS) $<
