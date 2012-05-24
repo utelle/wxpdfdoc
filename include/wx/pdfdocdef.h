@@ -1178,6 +1178,13 @@ If neither a row nor a cell background colour is specified the background is tra
   #define WXDLLIMPEXP_DATA_PDFDOC(type) type
 #endif
 
+// Setting inheritance of wxPdfDocument
+// 0 = do not derive wxPdfDocument from wxObject (default)
+// 1 = derive wxPdfDocumentinherit from wxObject
+#ifndef WXPDFDOC_INHERIT_WXOBJECT
+#define WXPDFDOC_INHERIT_WXOBJECT 0
+#endif
+
 /*
   GCC warns about using __declspec on forward declarations
   while MSVC complains about forward declarations without

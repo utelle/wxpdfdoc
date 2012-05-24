@@ -141,7 +141,11 @@ WX_DECLARE_STRING_HASH_MAP_WITH_DECL(wxPdfIndirectObject*, wxPdfRadioGroupMap, c
 WX_DECLARE_STRING_HASH_MAP_WITH_DECL(wxPdfParser*, wxPdfParserMap, class WXDLLIMPEXP_PDFDOC);
 
 /// Class representing a PDF document.
+#if WXPDFDOC_INHERIT_WXOBJECT
+class WXDLLIMPEXP_PDFDOC wxPdfDocument : public wxObject
+#else
 class WXDLLIMPEXP_PDFDOC wxPdfDocument
+#endif
 {
 public:
   /// Constructor
@@ -2886,6 +2890,12 @@ private:
   wxPdfAttachmentMap*  m_attachments;         ///< array of file attachments
 
   bool                 m_translate;           ///< flag whether messages in msg tags should be translated
+
+private:
+#if WXPDFDOC_INHERIT_WXOBJECT
+  DECLARE_DYNAMIC_CLASS(wxPdfDocument)
+#endif
+  DECLARE_NO_COPY_CLASS(wxPdfDocument)
 
   friend class wxPdfImage;
   friend class wxPdfTable;

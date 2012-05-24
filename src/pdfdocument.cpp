@@ -41,13 +41,20 @@
 #include "wx/pdffontparser.h"
 #include "wx/pdfutility.h"
 
-#include "wxmemdbg.h"
+//#include "vld.h"
+
+#if WXPDFDOC_INHERIT_WXOBJECT
+IMPLEMENT_DYNAMIC_CLASS(wxPdfDocument, wxObject)
+#endif
 
 // ----------------------------------------------------------------------------
 // wxPdfDocument: class representing a PDF document
 // ----------------------------------------------------------------------------
 
 wxPdfDocument::wxPdfDocument(int orientation, const wxString& unit, wxPaperSize format)
+#if WXPDFDOC_INHERIT_WXOBJECT
+  : wxObject()
+#endif
 {
   m_yAxisOriginTop = true;
   SetScaleFactor(unit);
@@ -58,6 +65,9 @@ wxPdfDocument::wxPdfDocument(int orientation, const wxString& unit, wxPaperSize 
 }
 
 wxPdfDocument::wxPdfDocument(int orientation, double pageWidth, double pageHeight, const wxString& unit)
+#if WXPDFDOC_INHERIT_WXOBJECT
+  : wxObject()
+#endif
 {
   m_yAxisOriginTop = true;
   SetScaleFactor(unit);

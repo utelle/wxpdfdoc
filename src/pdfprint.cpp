@@ -229,10 +229,10 @@ wxPrintData*
 wxPdfPrintData::CreatePrintData() const
 {
   wxPrintData* printData = new wxPrintData();
-  printData->SetQuality(this->GetQuality());
-  printData->SetOrientation(this->GetOrientation());
-  printData->SetPaperId(this->GetPaperId());
-  printData->SetFilename(this->GetFilename());
+  printData->SetQuality(GetQuality());
+  printData->SetOrientation(GetOrientation());
+  printData->SetPaperId(GetPaperId());
+  printData->SetFilename(GetFilename());
   return printData;
 }
 
@@ -294,10 +294,6 @@ wxPdfPrinter::wxPdfPrinter()
   m_currentPrintout = NULL;
   sm_abortWindow = NULL;
   sm_abortIt = false;
-  wxPdfPrintData* printData = new wxPdfPrintData();
-  m_pdfPrintData = (*printData);
-  wxPrintDialogData* data = new wxPrintDialogData();
-  m_printDialogData = (*data);
   sm_lastError = wxPRINTER_NO_ERROR;
 }
 
@@ -307,8 +303,7 @@ wxPdfPrinter::wxPdfPrinter(wxPrintDialogData* printDialogData)
   sm_abortWindow = NULL;
   sm_abortIt = false;
   m_printDialogData = (*printDialogData);
-  wxPdfPrintData* printData = new wxPdfPrintData(printDialogData);
-  m_pdfPrintData = (*printData);    
+  m_pdfPrintData = wxPdfPrintData(printDialogData);
   sm_lastError = wxPRINTER_NO_ERROR;
 }
 
@@ -318,8 +313,6 @@ wxPdfPrinter::wxPdfPrinter(wxPdfPrintData* printData)
   sm_abortWindow = NULL;
   sm_abortIt = false;
   m_pdfPrintData = (*printData);
-  wxPrintDialogData* data = new wxPrintDialogData();
-  m_printDialogData = (*data);
   sm_lastError = wxPRINTER_NO_ERROR;
 }
 
@@ -328,10 +321,8 @@ wxPdfPrinter::wxPdfPrinter(wxPrintData* data)
   m_currentPrintout = NULL;
   sm_abortWindow = NULL;
   sm_abortIt = false;
-  wxPdfPrintData* printData = new wxPdfPrintData( data );
-  m_pdfPrintData = *printData;
-  wxPrintDialogData* dialogData = new wxPrintDialogData();
-  dialogData->SetPrintData(*data);
+  m_pdfPrintData = wxPdfPrintData( data );;
+  m_printDialogData.SetPrintData(*data);
   sm_lastError = wxPRINTER_NO_ERROR;
 }
 
@@ -368,6 +359,7 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
   {
     wxPrintData* dcPrintData = m_pdfPrintData.CreatePrintData();
     dc = new wxPdfDC(*dcPrintData);
+    delete dcPrintData;
   }
 
   if (m_pdfPrintData.GetMinPage() < 1)

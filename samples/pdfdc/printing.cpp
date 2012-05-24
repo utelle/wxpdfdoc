@@ -20,6 +20,8 @@
 #include "wx/wx.h"
 #endif
 
+//#include "vld.h"
+
 #if !wxUSE_PRINTING_ARCHITECTURE
 #error "You must set wxUSE_PRINTING_ARCHITECTURE to 1 in setup.h, and recompile the library."
 #endif
@@ -292,6 +294,13 @@ wxFrame(frame, wxID_ANY, title, pos, size)
     m_richtext->Show(0);
     m_richtextPrinting = new wxRichTextPrinting();
     WriteRichTextBuffer();
+#endif
+}
+
+MyFrame::~MyFrame()
+{
+#if wxUSE_RICHTEXT
+  delete m_richtextPrinting;
 #endif
 }
 
@@ -694,6 +703,7 @@ void MyFrame::OnPdfRichTextPrint(wxCommandEvent&  WXUNUSED(event) )
         // don't show a print dialog again - we have already done so
         printer->Print(this, printPrintout, false);
         delete printer;
+        delete printPrintout;
       }
       delete printDialog;
    }
