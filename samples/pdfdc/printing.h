@@ -34,6 +34,7 @@ class MyFrame: public wxFrame
     wxImage  m_imgUp;
     int      m_angle;
     MyFrame(wxFrame *frame, const wxString& title, const wxPoint& pos, const wxSize& size);
+    ~MyFrame();
 
 // Need a richtext ctrl to create a richtext buffer.
 // Use wxRichTextPrinting as a convenient manager
