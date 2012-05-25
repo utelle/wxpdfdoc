@@ -275,6 +275,7 @@ PDFDOC_DLL_HEADERS =  \
 MINIMAL_CXXFLAGS = -I$(srcdir)/include -I$(srcdir)/samples/minimal \
 	$(WX_CXXFLAGS) $(CPPFLAGS) $(CXXFLAGS)
 MINIMAL_OBJECTS =  \
+	minimal_attachment.o \
 	minimal_barcodes.o \
 	minimal_bookmark.o \
 	minimal_charting.o \
@@ -830,6 +831,9 @@ pdfdoc_dll_pdfutility.o: $(srcdir)/src/pdfutility.cpp
 
 pdfdoc_dll_pdfxml.o: $(srcdir)/src/pdfxml.cpp
 	$(CXXC) -c -o $@ $(PDFDOC_DLL_CXXFLAGS) $(srcdir)/src/pdfxml.cpp
+
+minimal_attachment.o: $(srcdir)/samples/minimal/attachment.cpp
+	$(CXXC) -c -o $@ $(MINIMAL_CXXFLAGS) $(srcdir)/samples/minimal/attachment.cpp
 
 minimal_barcodes.o: $(srcdir)/samples/minimal/barcodes.cpp
 	$(CXXC) -c -o $@ $(MINIMAL_CXXFLAGS) $(srcdir)/samples/minimal/barcodes.cpp

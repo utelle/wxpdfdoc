@@ -96,6 +96,10 @@ __pdfdoc_dll___depname =
 __pdfdoc_dll___depname = &
 	..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll
 !endif
+__WXLIB_ADV_NAME_p =
+!ifeq WX_MONOLITHIC 0
+__WXLIB_ADV_NAME_p = wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_adv.lib
+!endif
 __WXLIB_HTML_NAME_p =
 !ifeq WX_MONOLITHIC 0
 __WXLIB_HTML_NAME_p = wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_html.lib
@@ -427,7 +431,7 @@ make_dir_pdfdoc_dll :
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc option caseexact
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc  libpath $(WX_DIR)$(WXLIBPATH) $(VAR_7) libpath ..$(WXLIBPATH) system nt_win ref '_WinMain@16' $(LDFLAGS)
 	@for %i in ($(DCSAMPLE_OBJECTS)) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc file %i
-	@for %i in ( $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_RICHTEXT_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc library %i
+	@for %i in ( $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) $(__WXLIB_ADV_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_RICHTEXT_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib) do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc library %i
 	@%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc option resource=watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
 	@for %i in () do @%append watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc option stack=%i
 	wlink @watmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample.lbc

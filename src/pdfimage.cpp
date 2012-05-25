@@ -79,9 +79,17 @@ wxPdfImage::wxPdfImage(wxPdfDocument* document, int index, const wxString& filen
     fileURL = wxFileSystem::FileNameToURL(m_name);
   }
   m_imageFile = wxPdfImage::GetFileSystem()->OpenFile(fileURL);
-  wxString mimeType = m_imageFile->GetMimeType();
-  m_type = (mimeType != wxEmptyString) ? mimeType : type.Lower();
-  m_imageStream = (m_imageFile != NULL) ? m_imageFile->GetStream() : NULL;
+  if (m_imageFile != NULL)
+  {
+    wxString mimeType = m_imageFile->GetMimeType();
+    m_type = (mimeType != wxEmptyString) ? mimeType : type.Lower();
+    m_imageStream = m_imageFile->GetStream();
+  }
+  else
+  {
+    m_type = type.Lower();
+    m_imageStream = NULL;
+  }
 }
 
 wxPdfImage::wxPdfImage(wxPdfDocument* document, int index, const wxString& name, const wxImage& image)

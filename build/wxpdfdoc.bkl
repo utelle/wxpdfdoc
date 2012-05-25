@@ -78,6 +78,7 @@
 
   <template id="gui_app" template="generic_app">
     <app-type>gui</app-type>
+    <wx-lib>adv</wx-lib>
     <wx-lib>html</wx-lib>
     <wx-lib>richtext</wx-lib>
   </template>

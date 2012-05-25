@@ -258,6 +258,9 @@ ____dcsample__DEBUGINFO_45 =
 ____dcsample__DEBUGINFO_45 = $(VAR_19)
 !endif
 !if "$(WX_MONOLITHIC)" == "0"
+__WXLIB_ADV_NAME_p = wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_adv.lib
+!endif
+!if "$(WX_MONOLITHIC)" == "0"
 __WXLIB_HTML_NAME_p = wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_html.lib
 !endif
 !if "$(WX_MONOLITHIC)" == "0"
@@ -457,7 +460,7 @@ make_dir_pdfdoc_dll:
 
 ..\samples\pdfdc\printing.exe: $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP) vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
 	link /NOLOGO /OUT:$@  /LIBPATH:$(WX_DIR)$(WXLIBPATH) $(VAR_16) /pdb:"..\samples\pdfdc\printing.pdb" $(____dcsample__DEBUGINFO_45) /LIBPATH:..$(WXLIBPATH) /SUBSYSTEM:WINDOWS $(LDFLAGS) @<<
-	$(DCSAMPLE_OBJECTS) $(DCSAMPLE_RESOURCES)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_RICHTEXT_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib oleacc.lib
+	$(DCSAMPLE_OBJECTS) $(DCSAMPLE_RESOURCES)  $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) $(__WXLIB_ADV_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_RICHTEXT_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib shell32.lib comctl32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib oleacc.lib
 <<
 
 ..\makefont\makefont.exe: $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP) vcmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res

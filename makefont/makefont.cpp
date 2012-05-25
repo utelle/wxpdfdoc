@@ -1576,7 +1576,7 @@ MakeFont::OnInit()
   wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
   wxSetWorkingDirectory(cwdPath);
 
-  m_version = wxT("1.5.0 (December 2010)");
+  m_version = wxT("1.6.0 (June 2012)");
   bool valid = false;
   //gets the parameters from cmd line
   wxCmdLineParser parser (cmdLineDesc, argc, argv);

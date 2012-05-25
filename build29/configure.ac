@@ -10,7 +10,7 @@
 
 # Init this configure script with basic info about the component
 # (DON'T PUT ANYTHING BEFORE AC_INIT, JUST COMMENTS)
-AC_INIT([wxpdfdoc], [0.9.1], [utelle@users.sourceforge.net])
+AC_INIT([wxpdfdoc], [0.9.3], [utelle@users.sourceforge.net])
 AC_CONFIG_AUX_DIR(build)
 
 # ENABLES/DISABLES THE DEBUG MODE FOR THIS CONFIGURE SCRIPT
@@ -44,7 +44,7 @@ WXCODE_OPTIONS([debug,unicode,shared,toolkit,wxshared,wxversion])
 # argument 1: here put the minimum required version of wx
 # argument 2: here you must put a comma-separed list of all wx required libraries 
 #             except for base,core (e.g. "xml,net,adv"); leave empty if you use only core & base
-WXCODE_CHECKS([2.8.0], [core,base,xml])      # we need at least wxWidgets 2.8 to work
+WXCODE_CHECKS([2.8.0], [core,base,xml,adv,html,richtext])      # we need at least wxWidgets 2.8 to work
 
 # end in a nice way the configure script
 WXCODE_END

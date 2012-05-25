@@ -71,6 +71,29 @@ page. Or you can send a mail to me
 \section version Version history
 
 <dl>
+<dt><b>0.9.3</b> - <i>June 2012</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.3. 
+Compatibility with older wxWidgets versions is not guaranteed, but it should
+work with all 2.8.x versions.
+
+General changes:<br>
+- added methods to access the bottom right coordinates of the last inserted image
+- added span tag to XML markup
+- added method wxPdfDocument::AttachFile to attach files to PDF documents
+- added compile time option to derive wxPdfDocument from wxObject (makes interfacing to wxPerl easier)
+- integrated enhancements to wxPdfDC and MakeFont contributed by Mark Dootson
+- added support for the wxWidgets printing framework (contributed by Mark Dootson)
+- enhanced wxPdfDC sample application to demonstrate the integration with the printing framework (contributed by Mark Dootson)
+
+Fixed bugs:<br>
+- fixed a bug in pdffontdatacore.cpp (non-ASCII characters didn't show on OSX)
+- fixed a bug in pdfencrypt.cpp (setting a non-empty document id)
+- fixed a bug in pdfxml.cpp (force line break for words too long to fit on a line)
+- fixed in bug in handling external templates in conjunction with protection (crypting used the wrong object id for strings and streams)
+
+</dd>
+
 <dt><b>0.9.2</b> - <i>September 2011</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.2. 
@@ -337,6 +360,9 @@ Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of
 (http://mpdf.bpm1.com); special thanks to <b>K Vinod Kumar</b> of the Centre for Development of Advanced
 Computing, Mumbai (http://www.cdacmumbai.in), for clearing license issues of the Raghu font series.
 
+Kudos to <b>Mark Dootson</b> for contributing major enhancements of wxPdfDC and it's integration
+into the wxWidgets printing framework.
+
 Since wxPdfDocument is based on the great \b FPDF PHP class and several of the contributions to it
 found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank 
 
@@ -384,6 +410,7 @@ of a specific method the following alphabetical list shows all available methods
 \li wxPdfDocument::Annotate - add a text annotation
 \li wxPdfDocument::AppendJavascript - add document level JavaScript
 \li wxPdfDocument::Arrow - draw an arrow
+\li wxPdfDocument::AttachFile - add a file attachment
 \li wxPdfDocument::AxialGradient - define axial gradient shading
 
 \li wxPdfDocument::BeginTemplate - start template creation
@@ -424,6 +451,8 @@ of a specific method the following alphabetical list shows all available methods
 \li wxPdfDocument::GetFontStyles - get current font styles
 \li wxPdfDocument::GetFontSubsetting - get font embedding mode
 \li wxPdfDocument::GetImageScale - get image scale
+\li wxPdfDocument::GetLastImageBottomRightX - get the X coordinate of the bottom right corner of the last inserted image
+\li wxPdfDocument::GetLastImageBottomRightY - get the Y coordinate of the bottom right corner of the last inserted image
 \li wxPdfDocument::GetLeftMargin - get the left margin
 \li wxPdfDocument::GetLineHeight - get line height
 \li wxPdfDocument::GetLineStyle - get current line style
@@ -645,7 +674,7 @@ The second step consists in generating a wxPdfDocument font metrics XML file con
 all the information needed by wxPdfDocument; in addition, the font file is compressed.
 To do this, a utility program, \b makefont, is provided.
 
-<tt>makefont {-a font.afm | -u font.ufm | -i } [-f font.{ttf|pfb}] [-e encoding] [-p patch] [-t {ttf|otf|t1}]</tt>
+<tt>makefont {-a font.afm | -u font.ufm | -i } [-f font.{ttf|pfb}] [-e encoding] [-p patch] [-t {ttf|otf|t1}] [-o outdir]</tt>
 
 <table border=0>
 <tr><td><tt>-a font.afm</tt></td><td>AFM font metric file for \b TrueType or \b Type1 fonts</td></tr>
@@ -701,6 +730,7 @@ the euro symbol. To add it at position 164, create a file containing the line
 For TrueType Unicode and OpenType Unicode fonts this parameter is ignored.
 </td></tr>
 <tr><td><tt>-t {ttf|otf|t1}</tt></td><td>font type (ttf = TrueType, otf = OpenType, t1 = Type1). Only needed if omitting the font file.</td></tr>
+<tr><td><tt>-o outdir</tt></td><td>the output directory for all generated files (default: current working directory)</td></tr>
 </table>
 
 \b Note: in the case of a font with the same name as a standard one, for instance arial.ttf,
