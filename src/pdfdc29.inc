@@ -193,7 +193,7 @@ wxPdfDCImpl::StartDoc(const wxString& message)
   {
     m_pdfDocument = new wxPdfDocument(m_printData.GetOrientation(), wxString(wxT("pt")), m_printData.GetPaperId());
     m_pdfDocument->Open();
-    m_pdfDocument->SetCompression(false);
+    //m_pdfDocument->SetCompression(false);
     m_pdfDocument->SetAuthor(wxT("wxPdfDC"));
     m_pdfDocument->SetTitle(wxT("wxPdfDC"));
 

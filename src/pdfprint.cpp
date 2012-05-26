@@ -1658,7 +1658,7 @@ wxPdfPageSetupDialog::Init()
 
     marginsizer->Add(m_marginUnits, 0, wxEXPAND|wxALL, 0);
 
-    wxFlexGridSizer *marginflex = new wxFlexGridSizer(2, 2, 3, 3);
+    wxFlexGridSizer *marginflex = new wxFlexGridSizer(0, 2, 3, 3);
     marginflex->AddGrowableCol(1);
 
     marginflex->Add(new wxStaticText(this, wxID_ANY, _("Left")), 0, wxTOP|wxEXPAND, 3);
@@ -1691,7 +1691,7 @@ wxPdfPageSetupDialog::Init()
 
   if (m_pageData.GetEnableOrientation() || m_pageData.GetEnablePaper())
   {
-    papersizer = new wxFlexGridSizer( 2,2,5,20 );
+    papersizer = new wxFlexGridSizer( 0,2,5,20 );
     papersizer->AddGrowableCol(1);
   }
 
