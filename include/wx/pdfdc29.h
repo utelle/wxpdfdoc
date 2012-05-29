@@ -29,6 +29,9 @@ public:
   void SetResolution(int ppi);
   int GetResolution() const;
 
+  void SetMapModeStyle(wxPdfMapModeStyle style);
+  wxPdfMapModeStyle GetMapModeStyle();
+
 private:
     DECLARE_DYNAMIC_CLASS(wxPdfDC)
 };
@@ -187,6 +190,9 @@ public:
                   wxBitmap* bitmap);
   int IncreaseImageCounter() { return ++m_imageCount; }
 
+  void SetMapModeStyle(wxPdfMapModeStyle style) { m_mappingModeStyle = style; }
+  wxPdfMapModeStyle GetMapModeStyle() const { return m_mappingModeStyle; }
+
 private:
   int FindPdfFont(wxFont* font) const;
   void SetupPen();
@@ -208,6 +214,7 @@ private:
   wxPdfDocument* m_pdfDocument;
   int            m_imageCount;
   wxPrintData    m_printData;
+  wxPdfMapModeStyle m_mappingModeStyle;
 
   DECLARE_DYNAMIC_CLASS(wxPdfDCImpl);
 };

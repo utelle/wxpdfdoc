@@ -171,6 +171,9 @@ public:
                   wxBitmap* bitmap);
   int IncreaseImageCounter() { return ++m_imageCount; }
 
+  void SetMapModeStyle(wxPdfMapModeStyle style) { m_mappingModeStyle = style; }
+  wxPdfMapModeStyle GetMapModeStyle() { return m_mappingModeStyle; }
+
 private:
   void Init();
   int FindPdfFont(wxFont* font) const;
@@ -195,6 +198,7 @@ private:
   int            m_bkgMode;
   wxString       m_strFileName;
   wxPrintData    m_printData;
+  wxPdfMapModeStyle m_mappingModeStyle;
 
   DECLARE_DYNAMIC_CLASS(wxPdfDC);
 };

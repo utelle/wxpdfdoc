@@ -59,6 +59,18 @@ wxPdfDC::GetResolution() const
   return ((wxPdfDCImpl*) m_pimpl)->GetResolution();
 }
 
+void
+wxPdfDC::SetMapModeStyle(wxPdfMapModeStyle style)
+{
+  ((wxPdfDCImpl*) m_pimpl)->SetMapModeStyle(style);
+}
+
+wxPdfMapModeStyle
+wxPdfDC::GetMapModeStyle() const
+{
+  return ((wxPdfDCImpl*) m_pimpl)->GetMapModeStyle();
+}
+
 static double
 angleByCoords(wxCoord xa, wxCoord ya, wxCoord xc, wxCoord yc)
 {
@@ -140,6 +152,7 @@ wxPdfDCImpl::Init()
 
   wxScreenDC screendc;
   m_ppiPdfFont = screendc.GetPPI().GetHeight();
+  m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
 
   SetBackgroundMode(wxSOLID);
   
@@ -1347,8 +1360,43 @@ wxPdfDCImpl::ScaleLogicalToPdfYRel(wxCoord y) const
 double
 wxPdfDCImpl::ScaleFontSizeToPdf(int pointSize) const
 {
-  double fontScale = ( m_ppiPdfFont / m_ppi );
-  return (double) pointSize * fontScale * m_scaleY;
+  double fontScale;
+  double rval;
+  switch (m_mappingModeStyle)
+  {
+    case wxPDF_MAPMODESTYLE_MSW:
+      // as implemented in wxMSW
+      fontScale = (m_ppiPdfFont / m_ppi);
+      rval = (double) pointSize * fontScale * m_scaleY;
+      break;
+    case wxPDF_MAPMODESTYLE_GTK:
+      // as implemented in wxGTK / wxMAC / wxOSX
+      fontScale = (m_ppiPdfFont / m_ppi);
+      rval = (double) pointSize * fontScale * m_userScaleY;
+      break;
+    case wxPDF_MAPMODESTYLE_MAC:
+      // as implemented in wxGTK / wxMAC / wxOSX
+      fontScale = (m_ppiPdfFont / m_ppi);
+      rval = (double) pointSize * fontScale * m_userScaleY;
+      break;
+    case wxPDF_MAPMODESTYLE_PDF:
+      // an implementation where a font size of 12 gets a 12 point font if the
+      // mapping mode is wxMM_POINTS and suitable scaled for other modes
+      fontScale = (m_mappingMode == wxMM_TEXT) ? (m_ppiPdfFont / m_ppi) : (72.0 / m_ppi);
+      rval = (double) pointSize * fontScale * m_scaleY;
+      break;
+    default:
+      // standard and fall through
+#if defined( __WXMSW__)
+      fontScale = (m_ppiPdfFont / m_ppi);
+      rval = (double) pointSize * fontScale * m_scaleY;
+#else
+      fontScale = (m_ppiPdfFont / m_ppi);
+      rval = (double) pointSize * fontScale * m_userScaleY;
+#endif
+      break;
+  }
+  return rval;
 }
 
 int
@@ -1365,10 +1413,18 @@ wxPdfDCImpl::CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,
   double em_height, em_ascent, em_descent, em_externalLeading;
   int hheaAscender, hheaDescender, hheaLineGap;
 
-  double size = (double) pointSize * (m_ppiPdfFont / 72.0); // adjust pointsize according to screenPPI
-  
+  double size;
+  if ((m_mappingModeStyle == wxPDF_MAPMODESTYLE_PDF) && (m_mappingMode != wxMM_TEXT))
+  {
+    size = (double) pointSize;
+  }
+  else
+  {
+    size = (double) pointSize * (m_ppiPdfFont / 72.0);
+  }
+
   int os2sTypoAscender, os2sTypoDescender, os2sTypoLineGap, os2usWinAscent, os2usWinDescent;
-    
+
   desc->GetOpenTypeMetrics(&hheaAscender, &hheaDescender, &hheaLineGap,
                            &os2sTypoAscender, &os2sTypoDescender, &os2sTypoLineGap,
                            &os2usWinAscent, &os2usWinDescent);

@@ -331,7 +331,7 @@ wxPdfBarCodeCreator::EncodeCode39Ext(const wxString& code)
   size_t i;
   for (i = 0 ; i < code.Length(); i++)
   {
-    codeExt += code39_encode[code[i]];
+    codeExt += code39_encode[(long int) code[i]];
   }
   return codeExt;
 }
@@ -1395,7 +1395,7 @@ wxPdfBarCodeCreator::Code128Draw(double x, double y, const wxString& barcode, do
   wxString::const_iterator ch;
   for (ch = barcode.begin(); ch != barcode.end(); ++ch)
   {
-    bars = code128_bars[*ch];
+    bars = code128_bars[(long int) (*ch)];
     for (j = 0; j < 6 && bars[j] != 0; j = j+2)
     {
       barWidth = bars[j] * w;

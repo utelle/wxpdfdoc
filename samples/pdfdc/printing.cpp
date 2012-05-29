@@ -76,9 +76,12 @@
 #include "mondrian.xpm"
 #endif
 
+// Link to gnome_print disabled (causes a linking error when using wxWidgtes 2.9.3)
+#if 0
 #if wxUSE_LIBGNOMEPRINT
 #include "wx/html/forcelnk.h"
 FORCE_LINK(gnome_print)
+#endif
 #endif
 
 // Declare a frame
@@ -117,9 +120,9 @@ bool MyApp::OnInit(void)
   wxSetWorkingDirectory(cwdPath);
 
 #if wxCHECK_VERSION(2,9,0)
-    m_testFont.Create(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    m_testFont.Create(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial"));
 #else
-    m_testFont.Create(10, wxSWISS, wxNORMAL, wxNORMAL);
+    m_testFont.Create(10, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("Arial"));
 #endif
 
     g_printData = new wxPrintData;
@@ -149,14 +152,14 @@ bool MyApp::OnInit(void)
     // Make a menubar
     wxMenu *file_menu = new wxMenu;
 
-    file_menu->Append(WXPRINT_PRINT, _T("&Print..."),              _T("Print"));
-    file_menu->Append(WXPRINT_PDF, _T("PDF..."),              _T("PDF"));
-    file_menu->Append(WXPRINT_PDF_TPL, _T("PDF Template..."),              _T("PDF Template"));
-    file_menu->Append(WXPRINT_PAGE_SETUP, _T("Page Set&up..."),              _T("Page setup"));
+    file_menu->Append(WXPRINT_PRINT,        _T("&Print..."),       _T("Print"));
+    file_menu->Append(WXPRINT_PDF,          _T("PDF..."),          _T("PDF"));
+    file_menu->Append(WXPRINT_PDF_TPL,      _T("PDF Template..."), _T("PDF Template"));
+    file_menu->Append(WXPRINT_PAGE_SETUP,   _T("Page Set&up..."),  _T("Page setup"));
 #ifdef __WXMAC__
     file_menu->Append(WXPRINT_PAGE_MARGINS, _T("Page Margins..."), _T("Page margins"));
 #endif
-    file_menu->Append(WXPRINT_PREVIEW, _T("Print Pre&view"),              _T("Preview"));
+    file_menu->Append(WXPRINT_PREVIEW,      _T("Print Pre&view"),  _T("Preview"));
 
 #if wxUSE_ACCEL
     // Accelerators
@@ -168,16 +171,16 @@ bool MyApp::OnInit(void)
 
 #if defined(__WXMSW__) && wxTEST_POSTSCRIPT_IN_MSW
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_PRINT_PS, _T("Print PostScript..."), _T("Print (PostScript)"));
+    file_menu->Append(WXPRINT_PRINT_PS,      _T("Print PostScript..."),      _T("Print (PostScript)"));
     file_menu->Append(WXPRINT_PAGE_SETUP_PS, _T("Page Setup PostScript..."), _T("Page setup (PostScript)"));
-    file_menu->Append(WXPRINT_PREVIEW_PS, _T("Print Preview PostScript"), _T("Preview (PostScript)"));
+    file_menu->Append(WXPRINT_PREVIEW_PS,    _T("Print Preview PostScript"), _T("Preview (PostScript)"));
 #endif
 
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_ANGLEUP, _T("Angle up\tAlt-U"), _T("Raise rotated text angle"));
-    file_menu->Append(WXPRINT_ANGLEDOWN, _T("Angle down\tAlt-D"), _T("Lower rotated text angle"));
+    file_menu->Append(WXPRINT_ANGLEUP,       _T("Angle up\tAlt-U"),   _T("Raise rotated text angle"));
+    file_menu->Append(WXPRINT_ANGLEDOWN,     _T("Angle down\tAlt-D"), _T("Lower rotated text angle"));
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_QUIT, _T("E&xit"), _T("Exit program"));
+    file_menu->Append(WXPRINT_QUIT,          _T("E&xit"),             _T("Exit program"));
 
     wxMenu *printing_menu = new wxMenu;
     printing_menu->Append(WXPDFPRINT_PAGE_SETUP_ALL, _T("PDF Page Setup All..."), _T("PDF Page Setup (All)"));
@@ -339,6 +342,11 @@ void MyFrame::OnPDF(wxCommandEvent& WXUNUSED(event))
   printData.SetFilename(fileName.GetFullPath());
   {
     wxPdfDC dc(printData);
+    // set wxPdfDC mapping mode style so
+    // we can scale fonts and graphics
+    // coords with a single setting
+    dc.SetMapModeStyle(wxPDF_MAPMODESTYLE_PDF);
+    dc.SetMapMode(wxMM_POINTS);
     bool ok = dc.StartDoc(_("Printing ..."));
     if (ok)
     {
@@ -392,9 +400,16 @@ void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
   pdf.UseTemplate(tpl, 40, 30, 75);
   pdf.SaveAsFile(fileName.GetFullPath());
 
-#if defined(__WXMSW__)
-  ShellExecute(NULL, _T("open"), fileName.GetFullPath(), _T(""), _T(""), 0);
-#endif
+  wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
+  if (fileType != NULL)
+  {
+    wxString cmd = fileType->GetOpenCommand(fileName.GetFullPath());
+    if (!cmd.IsEmpty())
+    {
+      wxExecute(cmd);
+    }
+    delete fileType;
+  }
 }
 
 void MyFrame::OnPrintPreview(wxCommandEvent& WXUNUSED(event))
@@ -498,6 +513,44 @@ void MyFrame::Draw(wxDC& dc)
     // can check that different types of object are being drawn consistently
     // between the screen image, the print preview image (at various zoom
     // levels), and the printed page.
+    double fontScaleX, fontScaleY, coordScaleX, coordScaleY, baseScaleX, baseScaleY;
+    double txtPosScaleX, txtPosScaleY;
+    dc.GetUserScale(&baseScaleX, &baseScaleY);
+
+    wxClassInfo *cinfo = wxClassInfo::FindClass(wxT("wxPdfDC"));
+    if ((cinfo != NULL) &&
+        (dc.GetClassInfo()->IsKindOf(cinfo)) &&
+        (((wxPdfDC*) &dc)->GetMapModeStyle() == wxPDF_MAPMODESTYLE_PDF))
+    {
+      // We are in a special wxPdfDC mode where everything
+      // is mapped correctly using SetMapMode so we make
+      // all scaling factors effectively noops
+      fontScaleX = fontScaleY = coordScaleX = txtPosScaleX = txtPosScaleY = coordScaleY = ( 1.0 * baseScaleX );
+    }
+    else
+    {
+      // We need to use the base user scale to account for any
+      // zoom factor that may have been set before a call here.
+      // Our coords are in points
+      wxSize devicePPI = dc.GetPPI();
+      coordScaleX = baseScaleX * (double) devicePPI.GetWidth()  / 72.0;
+      coordScaleY = baseScaleY * (double) devicePPI.GetHeight() / 72.0;
+
+      // The font size will be scaled by the dc to screenres / 72.0
+      // we want the font size to be scaled back to points and be
+      // the correct size relative to our coord scale
+      // Note: wxGetScreenPPI returns the wrong number on wxMSW at least
+      wxScreenDC sdc;
+      fontScaleX = baseScaleX * (double) devicePPI.GetWidth()  / (double) sdc.GetPPI().GetWidth();
+      fontScaleY = baseScaleY * (double) devicePPI.GetHeight() / (double) sdc.GetPPI().GetHeight();
+
+      // When using draw text functions we will be using fontScale, but the x y pos needs
+      // to be in coord scale
+      txtPosScaleX = coordScaleX / fontScaleX;
+      txtPosScaleY = coordScaleY / fontScaleY;
+    }
+    dc.SetUserScale(coordScaleX, coordScaleY);
+
     dc.SetBackground(*wxWHITE_BRUSH);
     dc.Clear();
     dc.SetFont(wxGetApp().m_testFont);
@@ -507,6 +560,7 @@ void MyFrame::Draw(wxDC& dc)
     dc.SetPen(*wxBLACK_PEN);
     dc.SetBrush(*wxLIGHT_GREY_BRUSH);
 //    dc.SetBackground(*wxWHITE_BRUSH);
+
     dc.DrawRectangle(0, 0, 230, 350);
     dc.DrawLine(0, 0, 229, 349);
     dc.DrawLine(229, 0, 0, 349);
@@ -517,13 +571,17 @@ void MyFrame::Draw(wxDC& dc)
 
     dc.DrawRoundedRectangle(0, 20, 200, 80, 20);
 
-    dc.DrawText( wxT("Rectangle 200 by 80"), 40, 40);
+    dc.SetUserScale(fontScaleX, fontScaleY);
+    dc.DrawText(wxT("Rectangle 200 by 80"), 40 * txtPosScaleX, 40 * txtPosScaleY);
+    dc.SetUserScale(coordScaleX, coordScaleY);
 
     dc.SetPen( wxPen(*wxBLACK,0,wxDOT_DASH) );
     dc.DrawEllipse(50, 140, 100, 50);
     dc.SetPen(*wxRED_PEN);
 
-    dc.DrawText( wxT("Test message: this is in 10 point text"), 10, 180);
+    dc.SetUserScale(fontScaleX, fontScaleY);
+    dc.DrawText(wxT("Test message: this is in 10 point text"), 10 * txtPosScaleX, 180 * txtPosScaleY);
+    dc.SetUserScale(coordScaleX, coordScaleY);
     
 #if wxUSE_UNICODE
     //char *test = "Hebrew    שלום -- Japanese (日本語)";
@@ -562,11 +620,14 @@ void MyFrame::Draw(wxDC& dc)
     wxString str;
     int i = 0;
     str.Printf( wxT("---- Text at angle %d ----"), i );
-    dc.DrawRotatedText( str, 100, 300, i );
+    dc.SetUserScale(fontScaleX, fontScaleY);
+    dc.DrawRotatedText(str, 100 * txtPosScaleX, 300 * txtPosScaleY, i);
 
     i = m_angle;
     str.Printf( wxT("---- Text at angle %d ----"), i );
-    dc.DrawRotatedText( str, 100, 300, i );
+    dc.SetUserScale(fontScaleX, fontScaleY);
+    dc.DrawRotatedText(str, 100 * txtPosScaleX, 300 * txtPosScaleY, i);
+    dc.SetUserScale(coordScaleX, coordScaleY);
 
     wxIcon my_icon = wxICON(mondrian) ;
 
@@ -581,6 +642,7 @@ void MyFrame::Draw(wxDC& dc)
       dc.DrawBitmap(m_imgUp, 300, 200);
       dc.DrawBitmap(m_imgUp, 300, 250, true);
     }
+    dc.SetUserScale(baseScaleX, baseScaleY);
 }
 
 void MyFrame::OnPdfPageSetupAll(wxCommandEvent&  WXUNUSED(event) )
@@ -776,6 +838,23 @@ void MyFrame::WriteRichTextBuffer()
 {
     wxRichTextCtrl& r = *m_richtext;
 
+    r.SetFont(wxGetApp().m_testFont);
+    // load our images
+    // wxRichText does not know at what scale our bitmaps are meant to be displayed
+    // so we must scale them - they are designed at 96 dpi
+    wxScreenDC sdc;
+    wxImage imgZebra = wxBitmap(zebra_xpm).ConvertToImage();
+    wxImage imgSmile = wxBitmap(smiley_xpm).ConvertToImage();
+
+    imgZebra.Rescale(imgZebra.GetWidth() * sdc.GetPPI().GetWidth() / 96,
+                     imgZebra.GetHeight() * sdc.GetPPI().GetHeight() / 96,
+                     wxIMAGE_QUALITY_HIGH
+                    );
+    imgSmile.Rescale(imgSmile.GetWidth() * sdc.GetPPI().GetWidth() / 96,
+                     imgSmile.GetHeight() * sdc.GetPPI().GetHeight() / 96,
+                     wxIMAGE_QUALITY_HIGH
+                    );
+
 #if wxMAJOR_VERSION > 2 || (wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 9)
 
     r.SetDefaultStyle(wxRichTextAttr());
@@ -803,7 +882,7 @@ void MyFrame::WriteRichTextBuffer()
     r.EndBold();
     r.Newline();
 
-    r.WriteImage(wxBitmap(zebra_xpm));
+    r.WriteImage(imgZebra));
 
     r.Newline();
     r.Newline();
@@ -814,12 +893,12 @@ void MyFrame::WriteRichTextBuffer()
     wxRichTextAttr imageAttr;
     imageAttr.GetTextBoxAttr().SetFloatMode(wxTEXT_BOX_ATTR_FLOAT_LEFT);
     r.WriteText(wxString(wxT("This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side. This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side. This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side.")));
-    r.WriteImage(wxBitmap(zebra_xpm), wxBITMAP_TYPE_PNG, imageAttr);
+    r.WriteImage(imgZebra, wxBITMAP_TYPE_PNG, imageAttr);
 
     imageAttr.GetTextBoxAttr().GetTop().SetValue(200);
     imageAttr.GetTextBoxAttr().GetTop().SetUnits(wxTEXT_ATTR_UNITS_PIXELS);
     imageAttr.GetTextBoxAttr().SetFloatMode(wxTEXT_BOX_ATTR_FLOAT_RIGHT);
-    r.WriteImage(wxBitmap(zebra_xpm), wxBITMAP_TYPE_PNG, imageAttr);
+    r.WriteImage(imgZebra, wxBITMAP_TYPE_PNG, imageAttr);
     r.WriteText(wxString(wxT("This is a simple test for a floating right image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side. This is a simple test for a floating left image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side. This is a simple test for a floating left image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side.")));
     r.EndAlignment();
     r.Newline();
@@ -830,7 +909,7 @@ void MyFrame::WriteRichTextBuffer()
 
         r.WriteText(wxT("What can you do with this thing? "));
 
-        r.WriteImage(wxBitmap(smiley_xpm));
+        r.WriteImage(imgSmile);
         r.WriteText(wxT(" Well, you can change text "));
 
         r.BeginTextColour(wxColour(255, 0, 0));
@@ -1074,7 +1153,7 @@ void MyFrame::WriteRichTextBuffer()
     r.EndBold();
     r.Newline();
 
-    r.WriteImage(wxBitmap(zebra_xpm));
+    r.WriteImage(imgZebra);
 
     r.Newline();
     r.Newline();
@@ -1087,7 +1166,7 @@ void MyFrame::WriteRichTextBuffer()
 
         r.WriteText(wxT("What can you do with this thing? "));
 
-        r.WriteImage(wxBitmap(smiley_xpm));
+        r.WriteImage(imgSmile);
         r.WriteText(wxT(" Well, you can change text "));
 
         r.BeginTextColour(wxColour(255, 0, 0));
@@ -1292,6 +1371,7 @@ void MyFrame::OnPdfHtmlPrint(wxCommandEvent&  WXUNUSED(event) )
         // don't show a print dialog again - we have already done so
         printer->Print(this, printPrintout, false);
         delete printer;
+        delete printPrintout;
       }
       delete printDialog;
   }
@@ -1427,8 +1507,9 @@ void MyPrintout::DrawPageOne()
 
     // We know the graphic is 230x350. If we didn't know this, we'd need to
     // calculate it.
-    wxCoord maxX = 230;
-    wxCoord maxY = 350;
+    wxSize devicePPI = GetDC()->GetPPI();
+    wxCoord maxX = wxRound(230.0 * (double)devicePPI.GetWidth()  / 72.0);
+    wxCoord maxY = wxRound(350.0 * (double)devicePPI.GetHeight() / 72.0);
 
     // This sets the user scale and origin of the DC so that the image fits
     // within the paper rectangle (but the edges could be cut off by printers

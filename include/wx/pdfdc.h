@@ -21,6 +21,16 @@
 #include "wx/pdfdocument.h"
 #include "wx/pdffont.h"
 
+/// Enumeration of map mode styles
+enum wxPdfMapModeStyle
+{
+  wxPDF_MAPMODESTYLE_STANDARD = 1,
+  wxPDF_MAPMODESTYLE_MSW,
+  wxPDF_MAPMODESTYLE_GTK,
+  wxPDF_MAPMODESTYLE_MAC,
+  wxPDF_MAPMODESTYLE_PDF
+};
+
 #if wxCHECK_VERSION(2,9,0)
 // Interface of wxPdfDC for wxWidgets 2.9.x (and above)
 #include "wx/pdfdc29.h"

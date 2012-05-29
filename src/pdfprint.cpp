@@ -47,6 +47,7 @@
 #include <wx/printdlg.h>
 #include <wx/paper.h>
 #include <wx/filename.h>
+#include <wx/mimetype.h>
 #include <wx/tokenzr.h>
 #include <wx/imaglist.h>
 
@@ -502,16 +503,31 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
 
   if (m_pdfPrintData.GetLaunchDocumentViewer() && !m_pdfPrintData.GetTemplateMode())
   {
-    wxString fileURL;
-    if (wxIsAbsolutePath( m_pdfPrintData.GetFilename() ) )
+    wxFileName fileName = wxFileName(m_pdfPrintData.GetFilename());  
+    wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
+    if (fileType != NULL)
     {
-      fileURL = wxT("file://") + m_pdfPrintData.GetFilename();
+      wxString cmd = fileType->GetOpenCommand(fileName.GetFullPath());
+      if (!cmd.IsEmpty())
+      {
+        wxExecute(cmd);
+      }
+      delete fileType;
     }
     else
     {
-      fileURL = wxT("file://") + wxGetCwd() + wxFILE_SEP_PATH + m_pdfPrintData.GetFilename();
+      // fallback
+      wxString fileURL;
+      if (wxIsAbsolutePath(m_pdfPrintData.GetFilename()))
+      {
+        fileURL = wxT("file://") + m_pdfPrintData.GetFilename();
+      }
+      else
+      {
+        fileURL = wxT("file://") + wxGetCwd() + wxFILE_SEP_PATH + m_pdfPrintData.GetFilename();
+      }
+      wxLaunchDefaultBrowser(fileURL);
     }
-    wxLaunchDefaultBrowser(fileURL);
   }
 
   return (sm_lastError == wxPRINTER_NO_ERROR);
@@ -885,6 +901,7 @@ wxPdfPrintPreviewImpl::DetermineScaling()
       wxPrintData* pdata = m_pdfPrintData->CreatePrintData();
       m_pdfPreviewDC = new wxPdfDC(*pdata);
       m_pdfPreviewDC->StartDoc(wxT("unused name"));
+      delete pdata;
     }
   }
 
