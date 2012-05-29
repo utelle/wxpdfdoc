@@ -859,7 +859,10 @@ wxPdfDC::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y,
     wxPdfFontDescription desc = m_pdfDocument->GetFontDescription();
     int height, descent;
     CalculateFontMetrics(&desc, fontToUse->GetPointSize(), &height, NULL, &descent, NULL);
-    y+= (height - abs(descent));
+    if (m_mappingModeStyle != wxPDF_MAPMODESTYLE_PDF)
+    {
+      y += (height - abs(descent));
+    }
 
     m_pdfDocument->SetTextColour(m_textForegroundColour.Red(), m_textForegroundColour.Green(), m_textForegroundColour.Blue());
     m_pdfDocument->SetFontSize(ScaleFontSizeToPdf(fontToUse->GetPointSize()));
