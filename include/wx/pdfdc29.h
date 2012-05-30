@@ -30,7 +30,7 @@ public:
   int GetResolution() const;
 
   void SetMapModeStyle(wxPdfMapModeStyle style);
-  wxPdfMapModeStyle GetMapModeStyle();
+  wxPdfMapModeStyle GetMapModeStyle() const;
 
 private:
     DECLARE_DYNAMIC_CLASS(wxPdfDC)

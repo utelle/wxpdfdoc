@@ -806,7 +806,7 @@ wxPdfPrintPreviewImpl::wxPdfPrintPreviewImpl(wxPrintout* printout,
 wxPdfPrintPreviewImpl::wxPdfPrintPreviewImpl(wxPrintout* printout,
                                              wxPrintout* printoutForPrinting,
                                              wxPdfPrintData* pdfPrintData)
-  : wxPrintPreviewBase(printout, printoutForPrinting, pdfPrintData->CreatePrintData())
+  : wxPrintPreviewBase(printout, printoutForPrinting)
 {
   m_pdfPrintData = new wxPdfPrintData( pdfPrintData );
   m_pdfPreviewDC  = NULL;

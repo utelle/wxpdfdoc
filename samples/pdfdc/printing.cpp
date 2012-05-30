@@ -882,7 +882,7 @@ void MyFrame::WriteRichTextBuffer()
     r.EndBold();
     r.Newline();
 
-    r.WriteImage(imgZebra));
+    r.WriteImage(imgZebra);
 
     r.Newline();
     r.Newline();

@@ -172,7 +172,7 @@ public:
   int IncreaseImageCounter() { return ++m_imageCount; }
 
   void SetMapModeStyle(wxPdfMapModeStyle style) { m_mappingModeStyle = style; }
-  wxPdfMapModeStyle GetMapModeStyle() { return m_mappingModeStyle; }
+  wxPdfMapModeStyle GetMapModeStyle() const { return m_mappingModeStyle; }
 
 private:
   void Init();
