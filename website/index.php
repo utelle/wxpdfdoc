@@ -18,16 +18,17 @@
   <br/><?php write_h1("News"); ?>
 
 <dl>
-<dt><b>December 2010</b></dt>
+<dt><b>June 2012</b></dt>
 <dd>
-<p>Version <b>0.9.0</b> of wxPdfDocument has been released and is available for
+<p>Version <b>0.9.3</b> of wxPdfDocument has been released and is available for
 <b><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=354159">download</a></b>.</p>
 
-<p>Since preprocessing of fonts is no longer necessary the file release <b><i><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=468705">wxPdfDocument Add-Ons</a></i></b>
-has not been updated. The file release provides additional tools, fonts and applications which may be of interest to users of 
-prior versions of wxPdfDocument.</p>
+<p>The major new additions are enhancements to the wxPdfDC drawing context and full support for the wxWidgets printing framework.</p>
+
+<p>A package with precompiled Windows binaries for the wxPdfDocument utilities <b>MakeFont</b> and <b>ShowFont</b> has been added to the file release section <b><i><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=468705">wxPdfDocument Add-Ons</a></i></b>. The file release provides additional tools, fonts and applications which may be of interest to users of wxPdfDocument.</p>
 <p>Currently the following add-ons are provided for use with wxPdfDocument:</p>
 <ol>
+<li><b>wxpdfdoc-utilities-1.0.zip</b> - Precompiled Windows binaries for the wxPdfDocument utilities <b>MakeFont</b> and <b>ShowFont</b></li>
 <li><b>wxpdfdoc-dejavu-2.12.zip</b> - Preprocessed DejaVu Unicode fonts version 2.12</li>
 <li><b>wxpdfdoc-ttf2ufm.zip</b> - A modfied version of the utility TTF2UFM which allows to
 generate AFM and UFM files from TrueType or OpenType font files as needed for the wxPdfDocument
@@ -55,7 +56,7 @@ generated with <b>wxPdfDocument</b>:</p>
 <li><a href="../../docs/wxpdfdoc/samples/bookmark.pdf" target="_blank">Document outline</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/cjktest.pdf" target="_blank">Chinese/Japanese/Korean</a> <font size="-1">(You need CJK support installed for Acrobat Reader)</font></li>
 <li><a href="../../docs/wxpdfdoc/samples/clipping.pdf" target="_blank">Using clipping areas</a></li>
-<li><a href="../../docs/wxpdfdoc/samples/drawing.pdf" target="_blank">Graphics primitives</a> <b>(updated)</b></li>
+<li><a href="../../docs/wxpdfdoc/samples/drawing.pdf" target="_blank">Graphics primitives</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/protection1.pdf" target="_blank">Setting access permissions</a></li>
 <li><a href="../../docs/wxpdfdoc/samples/protection2.pdf" target="_blank">Setting password protection</a> <font size="-1">(User password: <i>Hello</i>, Owner password: <i>World</i>)</font></li>
 <li><a href="../../docs/wxpdfdoc/samples/rotation.pdf" target="_blank">Rotating text and image</a></li>
@@ -81,9 +82,10 @@ generated with <b>wxPdfDocument</b>:</p>
 <a href="../../docs/wxpdfdoc/samples/layersautomatic.pdf" target="_blank">Automatic layers</a>, 
 <a href="../../docs/wxpdfdoc/samples/layersradiogroup.pdf" target="_blank">Radio group</a> </li>
 <li><a href="../../docs/wxpdfdoc/samples/glyphwriting.pdf" target="_blank">Direct glyph writing</a></li>
-<li><b>Indic script support</b> <b>(new)</b><br>
+<li><b>Indic script support</b><br>
 <a href="../../docs/wxpdfdoc/samples/fullmoon.pdf" target="_blank">Full Moon in 9 Indic Scripts</a>, 
 <a href="../../docs/wxpdfdoc/samples/indicfonts.pdf" target="_blank">Indic Fonts and Languages</a></li>
+<li><a href="../../docs/wxpdfdoc/samples/attachment.pdf" target="_blank">File attachments</a> <b>(new)</b></li>
 </ul>
 
 	<br/><?php write_h1("Known bugs"); ?>
