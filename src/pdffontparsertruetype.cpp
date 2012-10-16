@@ -1222,14 +1222,7 @@ wxPdfFontParserTrueType::ReadMaps()
     os_2.m_yStrikeoutPosition = ReadShort();
     os_2.m_sFamilyClass = ReadShort();
     m_inFont->Read(os_2.m_panose, 10);
-    if (version == 0)
-    {
-      SkipBytes(4);
-    }
-    else
-    {
-      SkipBytes(16);
-    }
+    SkipBytes(16);
     m_inFont->Read(os_2.m_achVendID, 4);
     os_2.m_fsSelection = ReadUShort();
     os_2.m_usFirstCharIndex = ReadUShort();

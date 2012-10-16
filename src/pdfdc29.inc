@@ -1436,18 +1436,21 @@ wxPdfDCImpl::CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,
   {
     em_ascent  = os2usWinAscent;
     em_descent = os2usWinDescent;
-    em_externalLeading = (hheaLineGap - ((em_ascent + em_descent) - (hheaAscender - hheaDescender)));
+    em_externalLeading = (hheaLineGap - ((os2usWinAscent + os2usWinDescent) - (hheaAscender - hheaDescender)));
+    if (em_externalLeading < 0)
+    {
+      em_externalLeading = 0;
+    }
     em_height = em_ascent + em_descent;
   }
   else
   {
-    // magic numbers 1120 and 25 give reasonable defaults
-    // for core fonts etc.
+    // Magic numbers below give reasonable defaults for core fonts
     // This may need adjustment for CJK fonts ??
-    em_height  = 1120;
-    em_descent = desc->GetDescent();
-    em_ascent  = em_height + em_descent;
-    em_externalLeading = 25;
+    em_ascent  = 1325;
+    em_descent = 1.085 * desc->GetDescent();
+    em_height  = em_ascent + em_descent;
+    em_externalLeading = 33;   
   }
     
   if (ascent)
