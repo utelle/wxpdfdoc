@@ -123,6 +123,9 @@ private:
   /// Skip a PostScript procedure in the font stream
   void SkipProcedure(wxInputStream* stream);
 
+  /// Skip a PostScript array in the font stream
+  void SkipArray(wxInputStream* stream);
+
   /// Skip all bytes in the stream up to the next token
   void SkipToNextToken(wxInputStream* stream);
 
