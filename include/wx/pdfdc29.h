@@ -29,6 +29,8 @@ public:
   void SetResolution(int ppi);
   int GetResolution() const;
 
+  void SetImageType(wxBitmapType bitmapType, int quality = 75);
+
   void SetMapModeStyle(wxPdfMapModeStyle style);
   wxPdfMapModeStyle GetMapModeStyle() const;
 
@@ -54,6 +56,8 @@ public:
 
   void SetResolution(int ppi);
   int GetResolution() const;
+
+  void SetImageType(wxBitmapType bitmapType, int quality = 75);
 
   // implement base class pure virtuals
 
@@ -215,6 +219,9 @@ private:
   int            m_imageCount;
   wxPrintData    m_printData;
   wxPdfMapModeStyle m_mappingModeStyle;
+
+  bool m_jpegFormat;
+  int  m_jpegQuality;
 
   DECLARE_DYNAMIC_CLASS(wxPdfDCImpl);
 };

@@ -148,6 +148,13 @@ wxPdfDC::GetResolution() const
 }
 
 void
+wxPdfDC::SetImageType(wxBitmapType bitmapType, int quality)
+{
+  m_jpegFormat = (bitmapType == wxBITMAP_TYPE_JPEG);
+  m_jpegQuality = (quality >= 0) ? ((quality <= 100) ? quality : 75) : 75;
+}
+
+void
 wxPdfDC::Clear()
 {
   // Not yet implemented
@@ -244,6 +251,7 @@ wxPdfDC::SetFont(const wxFont& font)
   if (!ok)
   {
     regFont = wxPdfFontManager::GetFontManager()->RegisterFont(font, font.GetFaceName());
+    //regFont = wxPdfFontManager::GetFontManager()->RegisterFont(font);
     ok = regFont.IsValid();
   }
 
@@ -830,13 +838,13 @@ wxPdfDC::DoDrawBitmap(const wxBitmap& bitmap, wxCoord x, wxCoord y,
     SetBrush(wxBrush(m_textBackgroundColour, wxSOLID));
     DrawRectangle(xx, yy, ww, hh);        
     SetBrush(wxBrush(m_textForegroundColour, wxSOLID));
-    m_pdfDocument->Image(imgName, image, xx, yy, ww, hh, wxPdfLink(-1), idMask);
+    m_pdfDocument->Image(imgName, image, xx, yy, ww, hh, wxPdfLink(-1), idMask, m_jpegFormat, m_jpegQuality);
     SetBrush(saveBrush);
     SetPen(savePen);
   }
   else
   {
-    m_pdfDocument->Image(imgName, image, xx, yy, ww, hh, wxPdfLink(-1), idMask);
+    m_pdfDocument->Image(imgName, image, xx, yy, ww, hh, wxPdfLink(-1), idMask, m_jpegFormat, m_jpegQuality);
   }
 }
 

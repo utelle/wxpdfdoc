@@ -1542,11 +1542,13 @@ public:
   * \param h Height of the image in the page. If not specified or equal to zero, it is automatically calculated.
   * \param link URL or identifier returned by AddLink().
   * \param maskImage Id of an image mask created previously by ImageMask().
+  * \param jpegFormat Switch whether to save image as JPEG (true) or PNG (false, default).
+  * \param jpegQuality Quality in case of JPEG format (0 = poor, 100 = best, default 75).
   */
   virtual bool Image(const wxString& name, const wxImage& image,
                      double x, double y, double w = 0, double h = 0,
                      const wxPdfLink& link = wxPdfLink(-1),
-                     int maskImage = 0);
+                     int maskImage = 0, bool jpegFormat = false, int jpegQuality = 75);
 
   /**
   * Puts an image in the page

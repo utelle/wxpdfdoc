@@ -92,7 +92,8 @@ wxPdfImage::wxPdfImage(wxPdfDocument* document, int index, const wxString& filen
   }
 }
 
-wxPdfImage::wxPdfImage(wxPdfDocument* document, int index, const wxString& name, const wxImage& image)
+wxPdfImage::wxPdfImage(wxPdfDocument* document, int index, const wxString& name, const wxImage& image,
+                       bool jpegFormat)
 {
   m_document = document;
   m_index    = index;
@@ -115,7 +116,7 @@ wxPdfImage::wxPdfImage(wxPdfDocument* document, int index, const wxString& name,
   m_dataSize = 0;
   m_data     = NULL;
 
-  m_validWxImage = ConvertWxImage(image);
+  m_validWxImage = ConvertWxImage(image, jpegFormat);
 
   m_imageFile = NULL;
   m_imageStream = NULL;
@@ -158,20 +159,36 @@ wxPdfImage::~wxPdfImage()
 }
 
 bool
-wxPdfImage::ConvertWxImage(const wxImage& image)
+wxPdfImage::ConvertWxImage(const wxImage& image, bool jpegFormat)
 {
   bool isValid = false;
-  if (wxImage::FindHandler(wxBITMAP_TYPE_PNG) == NULL)
+  wxBitmapType bitmapType = (jpegFormat) ? wxBITMAP_TYPE_JPEG : wxBITMAP_TYPE_PNG;
+  if (wxImage::FindHandler(bitmapType) == NULL)
   {
-    wxImage::AddHandler(new wxPNGHandler());
+    if (jpegFormat)
+    {
+      wxImage::AddHandler(new wxJPEGHandler());
+    }
+    else
+    {
+      wxImage::AddHandler(new wxPNGHandler());
+    }
   }
   wxMemoryOutputStream os;
-  isValid = image.SaveFile(os, wxBITMAP_TYPE_PNG);
+  isValid = image.SaveFile(os, bitmapType);
   if (isValid)
   {
     wxMemoryInputStream is(os);
-    m_type = wxT("png");
-    isValid = ParsePNG(&is);
+    if (jpegFormat)
+    {
+      m_type = wxT("jpeg");
+      isValid = ParseJPG(&is);
+    }
+    else
+    {
+      m_type = wxT("png");
+      isValid = ParsePNG(&is);
+    }
   }
   return isValid;
 }
