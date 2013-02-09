@@ -160,6 +160,9 @@ wxPdfDCImpl::Init()
   m_ppiPdfFont = screendc.GetPPI().GetHeight();
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
 
+  m_jpegFormat = false;
+  m_jpegQuality = 75;
+
   SetBackgroundMode(wxSOLID);
   
   m_printData.SetOrientation(wxPORTRAIT);

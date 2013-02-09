@@ -105,6 +105,9 @@ wxPdfDC::Init()
   m_ppiPdfFont = screendc.GetPPI().GetHeight();
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
 
+  m_jpegFormat = false;
+  m_jpegQuality = 75;
+
   m_mappingMode = wxMM_TEXT;
 
   m_pdfDocument = NULL;
