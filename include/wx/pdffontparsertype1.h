@@ -171,6 +171,8 @@ private:
   /// Read a binary section from the font stream
   void ReadBinary(wxInputStream& inStream, int start, int size, wxOutputStream& outStream);
 
+  bool                         m_skipArray;            ///< Flag whether to skip arrays when parsing a dictionary
+
   wxPdfFontDescription         m_fontDesc;             ///< font description
   wxPdfFontDataType1*          m_fontData;             ///< font data
   wxArrayString                m_encodingVector;       ///< encoding vector of the font

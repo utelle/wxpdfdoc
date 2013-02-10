@@ -1335,6 +1335,7 @@ wxPdfFontParserType1::ReadPFX(wxInputStream* pfxFile, bool onlyNames)
   bool ok = CheckType1Format(pfxFile, start, length);
   if (ok)
   {
+    m_skipArray = true;
     ok = ParseDict(pfxFile, start, length, onlyNames);
     if (ok && !onlyNames)
     {
@@ -1343,6 +1344,7 @@ wxPdfFontParserType1::ReadPFX(wxInputStream* pfxFile, bool onlyNames)
       if (ok)
       {
         m_glyphWidthMap = new wxPdfFontType1GlyphWidthMap();
+        m_skipArray = true;
         ok = ParseDict(m_privateDict, 0, (int) m_privateDict->GetLength(), false);
       }
     }
@@ -1956,7 +1958,7 @@ wxPdfFontParserType1::SkipToNextToken(wxInputStream* stream)
 
     if (ch == '[')
     {
-      SkipArray(stream);
+      if (m_skipArray) SkipArray(stream);
     }
     else if (ch == ']')
     {
@@ -2395,7 +2397,7 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
     }
     return;
   }
-  long numSubrs, n, subr;
+  long numSubrs, n, subrno;
   token.ToLong(&numSubrs);
   token = GetToken(stream); // 'array'
 
@@ -2412,7 +2414,7 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
     }
 
     token = GetToken(stream); // subr index
-    if (token.ToLong(&subr))
+    if (token.ToLong(&subrno))
     token = GetToken(stream); // size
     long binarySize;
     token.ToLong(&binarySize);
@@ -2432,7 +2434,7 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
       }
       wxMemoryOutputStream subrDecoded;
       DecodeEExec(&subr, &subrDecoded, 4330, m_lenIV);
-      binarySize -= m_lenIV;
+      //binarySize -= m_lenIV;
       // skip lenIV bytes
       m_subrsIndex->Add(wxPdfCffIndexElement(subrDecoded));
     }
