@@ -724,7 +724,27 @@ wxPdfFontDataTrueTypeUnicode::ConvertCID2GID(const wxString& s,
   wxString::const_iterator ch;
   for (ch = s.begin(); ch != s.end(); ++ch)
   {
-    charIter = m_gn->find(*ch);
+    // Handle surrogates
+    if ((*ch < 0xd800) || (*ch > 0xdfff))
+    {
+      charIter = m_gn->find(*ch);
+    }
+    else
+    {
+      wxUint32 c1 = *ch;
+      ++ch;
+      wxUint32 c2 = *ch;
+      if ((c2 < 0xdc00) || (c2 > 0xdfff))
+      {
+        charIter = m_gn->end();
+        --ch;
+      }
+      else
+      {
+        wxUint32 cc = ((c1 - 0xd7c0) << 10) + (c2 - 0xdc00);
+        charIter = m_gn->find(cc);
+      }
+    }
     if (charIter != m_gn->end())
     {
       glyph = charIter->second;

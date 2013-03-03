@@ -459,7 +459,26 @@ ShowFont::DrawCharCode(double x, double y, wxUint32 charCode)
 #if wxCHECK_VERSION(2,9,0)
   glyph.Append(wxUniChar(charCode));
 #else
+#if SIZEOF_WCHAR_T == 2
+  if (charCode <= 0xffff)
+  {
+    glyph.Append(wxChar(charCode));
+  }
+  else if (charCode >= 0x110000)
+  {
+    glyph.Append(wxChar(0));
+  }
+  else
+  {
+    wchar_t surrogate[3];
+    surrogate[2] = 0;
+    surrogate[0] = (wxUint16) ((charCode >> 10) + 0xd7c0);
+    surrogate[1] = (wxUint16) ((charCode & 0x3ff) + 0xdc00);
+    glyph.Append(wxString(surrogate, wxMBConvUTF16(), 2));
+  }
+#else
   glyph.Append(wxChar(charCode));
+#endif
 #endif
   m_pdf->Cell(CELL_WIDTH, CELL_WIDTH, glyph, 0, 0, wxPDF_ALIGN_CENTER);
 }
@@ -529,7 +548,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, "o", "output",        "Save samples to OUTPUT file",                              wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
   { wxCMD_LINE_OPTION, "e", "encoding",      "Encoding of FONT (required for Type1 fonts)",              wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, "h", "help",          "Show this information message and exit",                   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_SWITCH, "n", "index",         "Font index in FONT",                                       wxCMD_LINE_VAL_NUMBER, wxCMD_LINE_PARAM_OPTIONAL   },
+  { wxCMD_LINE_OPTION, "n", "index",         "Font index in FONT",                                       wxCMD_LINE_VAL_NUMBER, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, "i", "include-range", "Show characters in range(s) (s1[-e1][,s2[-e2]...])",       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, "x", "exclude-range", "Don't show characters in range(s) (s1[-e1][,s2[-e2]...])", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
 #else
@@ -537,7 +556,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, wxT("o"), wxT("output"),        wxT("Save samples to OUTPUT file"),                              wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
   { wxCMD_LINE_OPTION, wxT("e"), wxT("encoding"),      wxT("Encoding of FONT (required for Type1 fonts)"),              wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, wxT("h"), wxT("help"),          wxT("Show this information message and exit"),                   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_SWITCH, wxT("n"), wxT("index"),         wxT("Font index in FONT"),                                       wxCMD_LINE_VAL_NUMBER, wxCMD_LINE_PARAM_OPTIONAL   },
+  { wxCMD_LINE_OPTION, wxT("n"), wxT("index"),         wxT("Font index in FONT"),                                       wxCMD_LINE_VAL_NUMBER, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, wxT("i"), wxT("include-range"), wxT("Show characters in range(s) (s1[-e1][,s2[-e2]...])"),       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, wxT("x"), wxT("exclude-range"), wxT("Don't show characters in range(s) (s1[-e1][,s2[-e2]...])"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
 #endif
@@ -554,7 +573,7 @@ ShowFont::OnInit()
   wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
   wxSetWorkingDirectory(cwdPath);
 
-  m_version = wxT("1.0.0 (January 2011)");
+  m_version = wxT("1.0.1 (March 2013)");
   m_ranges = NULL;
   bool valid = false;
   //gets the parameters from cmd line

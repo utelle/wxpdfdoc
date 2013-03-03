@@ -2345,7 +2345,7 @@ wxPdfDocument::TextEscape(const wxString& s, bool newline)
   {
     wxString t = m_currentFont->ConvertCID2GID(s);
 #if wxUSE_UNICODE
-    size_t slen = s.length();
+    size_t slen = t.length();
     wxMBConv* conv = m_currentFont->GetEncodingConv();
     size_t len = conv->FromWChar(NULL, 0, t.wc_str(), slen);
     char* mbstr = new char[len+3];
