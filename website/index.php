@@ -18,17 +18,17 @@
   <br/><?php write_h1("News"); ?>
 
 <dl>
-<dt><b>June 2012</b></dt>
+<dt><b>August 2013</b></dt>
 <dd>
-<p>Version <b>0.9.3</b> of wxPdfDocument has been released and is available for
+<p>Version <b>0.9.4</b> of wxPdfDocument has been released and is available for
 <b><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=354159">download</a></b>.</p>
 
-<p>The major new additions are enhancements to the wxPdfDC drawing context and full support for the wxWidgets printing framework.</p>
+<p>This is mainly a bug fixing release.</p>
 
 <p>A package with precompiled Windows binaries for the wxPdfDocument utilities <b>MakeFont</b> and <b>ShowFont</b> has been added to the file release section <b><i><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=468705">wxPdfDocument Add-Ons</a></i></b>. The file release provides additional tools, fonts and applications which may be of interest to users of wxPdfDocument.</p>
 <p>Currently the following add-ons are provided for use with wxPdfDocument:</p>
 <ol>
-<li><b>wxpdfdoc-utilities-1.0.zip</b> - Precompiled Windows binaries for the wxPdfDocument utilities <b>MakeFont</b> and <b>ShowFont</b></li>
+<li><b>wxpdfdoc-utilities-1.2.zip</b> - Precompiled Windows binaries for the wxPdfDocument utilities <b>MakeFont</b> and <b>ShowFont</b></li>
 <li><b>wxpdfdoc-dejavu-2.12.zip</b> - Preprocessed DejaVu Unicode fonts version 2.12</li>
 <li><b>wxpdfdoc-ttf2ufm.zip</b> - A modfied version of the utility TTF2UFM which allows to
 generate AFM and UFM files from TrueType or OpenType font files as needed for the wxPdfDocument
@@ -96,7 +96,7 @@ generated with <b>wxPdfDocument</b>:</p>
 	<br/><?php write_h1("Future enhancements"); ?>
 <p>Enhancements planned for the next versions:
 <ul>
-<li><p>Version 0.9.1: wxWidgets printing support via wxPdfGraphicsContext based on wxPdfDocument.</p></li>
+<li><p>Version 0.9.5: wxWidgets printing support via wxPdfGraphicsContext based on wxPdfDocument.</p></li>
 </ul>
 </p>
     

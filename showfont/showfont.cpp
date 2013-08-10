@@ -573,7 +573,7 @@ ShowFont::OnInit()
   wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
   wxSetWorkingDirectory(cwdPath);
 
-  m_version = wxT("1.0.1 (March 2013)");
+  m_version = wxT("1.0.2 (August 2013)");
   m_ranges = NULL;
   bool valid = false;
   //gets the parameters from cmd line

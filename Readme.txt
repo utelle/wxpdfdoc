@@ -2,7 +2,7 @@ wxPdfDocument component info
 ----------------------------
 
 Website:      http://wxcode.sourceforge.net/components/wxpdfdoc
-Version:      0.9.3
+Version:      0.9.4
 Description:
 wxPdfDocument allows wxWidgets applications to generate PDF documents.
 The code is a port of FPDF - a free PHP class for generating PDF files

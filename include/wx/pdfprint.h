@@ -68,7 +68,7 @@ public:
   wxPaperSize GetPaperId() const { return m_paperId; }
   void SetPaperId(wxPaperSize sizeId) { m_paperId = sizeId; }
 
-  wxPrintQuality GetQuality() const { return m_printQuality; }    
+  wxPrintQuality GetQuality() const { return m_printQuality; }
   void SetQuality(wxPrintQuality quality) { m_printQuality = quality; }
 
   wxString GetFilename() const { return m_filename; }
@@ -196,7 +196,7 @@ public:
   virtual bool Setup(wxWindow* parent);
 
   // our additions
-  void ShowProgressDialog(bool show) { m_showProgressDialog = show; } 
+  void ShowProgressDialog(bool show) { m_showProgressDialog = show; }
 
 private:
 
@@ -244,7 +244,7 @@ public:
   virtual wxFrame* GetFrame() const;
   virtual wxPreviewCanvas* GetCanvas() const;
   virtual bool PaintPage(wxPreviewCanvas* canvas, wxDC& dc);
-#if wxCHECK_VERSION(2,9,0)    
+#if wxCHECK_VERSION(2,9,0)
   virtual bool UpdatePageRendering();
 #endif
   virtual bool DrawBlankPage(wxPreviewCanvas* canvas, wxDC& dc);
@@ -505,7 +505,7 @@ private:
   int             m_defaultUnitSelection;
   int             m_pageWidth;
   int             m_pageHeight;
-    
+
   wxPdfPageSetupDialogCanvas*       m_paperCanvas;
   wxPageSetupDialogData             m_pageData;
 
@@ -514,7 +514,7 @@ private:
   void TransferMarginsToControls();
   void TransferControlsToMargins();
   void UpdatePaperCanvas();
-    
+
   DECLARE_EVENT_TABLE()
   DECLARE_NO_COPY_CLASS(wxPdfPageSetupDialog)
 };
@@ -549,8 +549,8 @@ public:
 
   virtual wxRect GetPaperRect() const
   {
-    int w = 0; 
-    int h = 0; 
+    int w = 0;
+    int h = 0;
     m_pdfdc->GetImpl()->DoGetSize(&w, &h);
     return wxRect(0,0,w,h);
   }
@@ -867,16 +867,27 @@ public:
     return rval;
   }
 
+#if wxCHECK_VERSION(2,9,5)
+  virtual void DoDrawLines(int n, const wxPoint points[],
+                           wxCoord xoffset, wxCoord yoffset)
+#else
   virtual void DoDrawLines(int n, wxPoint points[],
                            wxCoord xoffset, wxCoord yoffset)
+#endif // wxCHECK_VERSION
   {
     m_dc.DoDrawLines(n, points,xoffset, yoffset);
     UpdateBoundingBox();
   }
 
+#if wxCHECK_VERSION(2,9,5)
+  virtual void DoDrawPolygon(int n, const wxPoint points[],
+                             wxCoord xoffset, wxCoord yoffset,
+                             wxPolygonFillMode fillStyle = wxODDEVEN_RULE)
+#else
   virtual void DoDrawPolygon(int n, wxPoint points[],
                              wxCoord xoffset, wxCoord yoffset,
                              wxPolygonFillMode fillStyle = wxODDEVEN_RULE)
+#endif // wxCHECK_VERSION
   {
     m_dc.DoDrawPolygon(n, points, xoffset, yoffset, fillStyle);
     UpdateBoundingBox();

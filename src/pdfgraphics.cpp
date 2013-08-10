@@ -893,11 +893,11 @@ wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry,
     }
     else if ((style & wxPDF_STYLE_MASK) == wxPDF_STYLE_FILLDRAW)
     {
-      op = wxT("B");
+      op = (doSector) ? wxT("b") : wxT("B");
     }
     else
     {
-      op = wxT("S");
+      op = (doSector) ? wxT("s") : wxT("S");
     }
   }
 

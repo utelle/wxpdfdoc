@@ -670,7 +670,7 @@ wxPdfDC::DoDrawArc(wxCoord x1, wxCoord y1,
     {
       style = (doFill) ? wxPDF_STYLE_FILL : wxPDF_STYLE_DRAW;
     }
-    m_pdfDocument->Ellipse(xxc, yyc, r, 0, 0, start, end, style, 8, false);
+    m_pdfDocument->Ellipse(xxc, yyc, r, 0, 0, start, end, style, 8, doFill);
     wxCoord radius = (wxCoord) sqrt( (double)((x1-xc)*(x1-xc)+(y1-yc)*(y1-yc)) );
     CalcBoundingBox(xc-radius, yc-radius);
     CalcBoundingBox(xc+radius, yc+radius);

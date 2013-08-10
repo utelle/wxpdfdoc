@@ -71,6 +71,28 @@ page. Or you can send a mail to me
 \section version Version history
 
 <dl>
+<dt><b>0.9.4</b> - <i>August 2013</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.5. 
+Compatibility with older wxWidgets versions is not guaranteed, but it should
+work with all 2.8.x versions.
+
+General changes:<br>
+- added handling of Unicode surrogates for TrueType Unicode fonts (in wxPdfDocument library and in ShowFont utility)
+- added missing initialization for image format type to use in wxPdfDC
+- added support to write wxImage objects in JPEG format to PDF (instead of PNG format only)
+
+Fixed bugs:<br>
+- corrected the handling of sectors in method wxPdfDocument::Ellipse
+- fixed a bug in ShowFont (font index for TrueType collections was not selectable)
+- fixed a bug in the Type1 font parser (parsing /Subrs could hang)
+- fixed a bug in the Type1 font parser (endless loop when parsing Type1 multi master font files)
+- fixed a bug in TrueType font parser reading wrong values from OS/2 table version 0
+- adjusted default font metrics in wxPdfDC and external leading to always >= 0
+- fixed a GDI object leak in TrueType font parser (Windows only)
+
+</dd>
+
 <dt><b>0.9.3</b> - <i>June 2012</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.3. 
