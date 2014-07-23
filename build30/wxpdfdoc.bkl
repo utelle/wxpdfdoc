@@ -1,0 +1,137 @@
+<?xml version="1.0" ?>
+<makefile>
+
+  <set var="USE_UNSTABLE_VERSION">1</set>
+  <set var="WX_UNICODE">1</set>
+<!--
+  <set var="WX_MONOLITHIC">0</set>
+-->
+  <set var="WX_VERSION_DEFAULT">30</set>
+
+  <include file="presets/wxcode.bkl"/>
+
+  <!-- The wxPdfDoc settings -->
+  <!-- ===================== -->
+
+  <set-comp-name>pdfdoc</set-comp-name>
+
+  <set var="COMP_HDR_PART1">
+    $(fileList('include/wx/*.h'))
+  </set>
+  <set var="COMP_HDR">
+    $(COMP_HDR_PART1)
+    src/pdfcjkfontdata.inc
+    src/pdfcmapdata.inc
+    src/pdfcodepagedata.inc
+    src/pdfcolourdata.inc
+    src/pdfcorefontdata.inc
+    src/pdfcorefontkerning.inc
+    src/pdfdc28.inc
+    src/pdfdc29.inc
+    src/pdfglyphnames.inc
+  </set>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Library settings                                                  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <lib id="pdfdoc_lib" template="wxcode-lib" cond="WX_SHARED=='0'">
+  </lib>
+
+  <dll id="pdfdoc_dll" template="wxcode-dll" cond="WX_SHARED=='1'">
+    <wx-lib>xml</wx-lib>
+    <wx-lib>core</wx-lib>
+    <wx-lib>base</wx-lib>
+  </dll>
+
+  <set var="MSVC6PRJ_MERGED_TARGETS">
+    pdfdoc=pdfdoc_lib+pdfdoc_dll
+  </set>
+
+  <set var="COMPONENT_LIB">
+    <if cond="FORMAT_SUPPORTS_CONDITIONS=='1' and WX_SHARED=='0'">pdfdoc_lib</if>
+    <if cond="FORMAT_SUPPORTS_CONDITIONS=='1' and WX_SHARED=='1'">pdfdoc_dll</if>
+    <if cond="FORMAT_SUPPORTS_CONDITIONS=='0'">pdfdoc_lib</if>
+  </set>
+
+  <!-- =============================================================== -->
+  <!--                    Misc platform specialities:                  -->
+  <!-- =============================================================== -->
+
+  <if cond="FORMAT=='autoconf'">
+    <include file="mac_bundles.bkl"/>
+  </if>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Sample(s) settings                                                -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <template id="generic_app">
+    <library>$(COMPONENT_LIB)</library>
+    <wx-lib>xml</wx-lib>
+    <wx-lib>core</wx-lib>
+    <wx-lib>base</wx-lib>
+  </template>
+
+  <template id="console_app" template="generic_app">
+    <app-type>console</app-type>
+  </template>
+
+  <template id="gui_app" template="generic_app">
+    <app-type>gui</app-type>
+    <wx-lib>adv</wx-lib>
+    <wx-lib>html</wx-lib>
+    <wx-lib>richtext</wx-lib>
+  </template>
+
+  <!-- The samples of the component: as for the LIB target, this exe derives from a 
+       template contained in wxcode.bkl which can be modified here -->
+
+  <!-- Minimal sample showing the features of the library -->
+  <wxcode-sample id="minimal" template="console_app">
+    <sources>$(fileList('samples/minimal/*.cpp'))</sources>
+    <headers>$(fileList('samples/minimal/*.h'))</headers>
+    <include>$(SRCDIR)/samples/minimal</include>
+    <dirname>$(SRCDIR)/samples/minimal</dirname>
+    <exename>minimal</exename>
+    <win32-res>samples/minimal/minimal.rc</win32-res>
+  </wxcode-sample>
+
+  <!-- wxPdfDC sample -->
+  <wxcode-sample id="dcsample" template="gui_app">
+    <sources>$(fileList('samples/pdfdc/*.cpp'))</sources>
+    <headers>$(fileList('samples/pdfdc/*.h'))</headers>
+    <include>$(SRCDIR)/samples/pdfdc</include>
+    <dirname>$(SRCDIR)/samples/pdfdc</dirname>
+    <exename>printing</exename>
+    <win32-res>samples/pdfdc/printing.rc</win32-res>
+    <if cond="FORMAT=='autoconf'">
+      <set var="DCSAMPLE_RESOURCES">
+        $(SRCDIR)/samples/pdfdc/smile.jpg  $(SRCDIR)/samples/pdfdc/up.gif
+      </set>
+      <wx-mac-app-bundle resources="$(DCSAMPLE_RESOURCES)"/>
+    </if>
+  </wxcode-sample>
+
+  <!-- MakeFont utility -->
+  <wxcode-sample id="makefont" template="console_app">
+    <sources>makefont/makefont.cpp</sources>
+    <headers></headers>
+    <include>$(SRCDIR)/makefont</include>
+    <dirname>$(SRCDIR)/makefont</dirname>
+    <exename>makefont</exename>
+    <win32-res>makefont/makefont.rc</win32-res>
+  </wxcode-sample>
+
+  <!-- ShowFont utility -->
+  <wxcode-sample id="showfont" template="console_app">
+    <sources>$(fileList('showfont/*.cpp'))</sources>
+    <headers>$(fileList('showfont/*.h'))</headers>
+    <include>$(SRCDIR)/showfont</include>
+    <dirname>$(SRCDIR)/showfont</dirname>
+    <exename>showfont</exename>
+    <win32-res>showfont/showfont.rc</win32-res>
+  </wxcode-sample>
+
+</makefile>
+

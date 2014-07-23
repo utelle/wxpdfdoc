@@ -1,0 +1,76 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+Project: "pdfdoc"=wxpdfdoc_vc6_pdfdoc.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "minimal"=wxpdfdoc_vc6_minimal.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+Begin Project Dependency
+Project_Dep_Name pdfdoc
+End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "dcsample"=wxpdfdoc_vc6_dcsample.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+Begin Project Dependency
+Project_Dep_Name pdfdoc
+End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "makefont"=wxpdfdoc_vc6_makefont.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+Begin Project Dependency
+Project_Dep_Name pdfdoc
+End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "showfont"=wxpdfdoc_vc6_showfont.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+Begin Project Dependency
+Project_Dep_Name pdfdoc
+End Project Dependency
+}}}
+
+###############################################################################
+
