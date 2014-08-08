@@ -682,7 +682,7 @@ wxPdfFontSubsetCff::ReadOperandLength()
     {
       b0 = ReadByte();
     }
-    operandLength = TellI() - begin + 1;
+    operandLength = TellI() - begin;
   }
   return operandLength;
 }
