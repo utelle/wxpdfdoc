@@ -59,6 +59,10 @@
 #include "wx/pdfprint.h"
 #include <wx/intl.h>
 
+#if !wxCHECK_VERSION(2, 9, 0)
+    #define wxPENSTYLE_USER_DASH wxUSER_DASH
+#endif
+
 // ----------------------------------------------------------------------------
 // PdfPrint data
 // ----------------------------------------------------------------------------
@@ -1525,7 +1529,7 @@ wxPdfPageSetupDialogCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
   wxBrush restorebrush = dc.GetBrush();
   wxPen restorepen = dc.GetPen();
 
-  wxBrush* lightBrush = new wxBrush(wxColour(220,220,220), wxSOLID);
+  wxBrush* lightBrush = new wxBrush(wxColour(220,220,220));
 
   dc.SetBackground(*lightBrush);
   dc.Clear();
@@ -1537,7 +1541,7 @@ wxPdfPageSetupDialogCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
   // Draw a 'shadow' paper
   //------------------------------------------
 
-  wxBrush* shadowBrush = new wxBrush(wxColour(175,175,175), wxSOLID);
+  wxBrush* shadowBrush = new wxBrush(wxColour(175,175,175));
 
   dc.SetBrush(*shadowBrush);
   dc.SetPen(*wxTRANSPARENT_PEN);
@@ -1557,7 +1561,7 @@ wxPdfPageSetupDialogCanvas::OnPaint(wxPaintEvent& WXUNUSED(event))
   // Draw margins
   //------------------------------------------
 
-  wxPen* dashpen = new wxPen(wxColour(255,0,125), 1 , wxUSER_DASH );
+  wxPen* dashpen = new wxPen(wxColour(255,0,125), 1 , wxPENSTYLE_USER_DASH);
   wxDash pDash[2] = { 3, 3 };
   dashpen->SetDashes(2, pDash);
   dc.SetPen(*dashpen);
