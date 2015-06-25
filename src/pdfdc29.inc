@@ -883,7 +883,7 @@ wxPdfDCImpl::DoDrawBitmap(const wxBitmap& bitmap, wxCoord x, wxCoord y, bool use
     wxBrush saveBrush = m_brush;
     SetPen(*wxTRANSPARENT_PEN);
     SetBrush(m_textBackgroundColour);
-    DoDrawRectangle(xx, yy, ww, hh);
+    DoDrawRectangle(x, y, w, h);
     SetBrush(m_textForegroundColour);
     m_pdfDocument->Image(imgName, image, xx, yy, ww, hh, wxPdfLink(-1), idMask, m_jpegFormat, m_jpegQuality);
     SetBrush(saveBrush);
