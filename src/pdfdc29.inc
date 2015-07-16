@@ -706,23 +706,17 @@ wxPdfDCImpl::DoDrawArc(wxCoord x1, wxCoord y1,
   bool doDraw = (curPen != wxNullPen) && curPen.GetStyle() != wxTRANSPARENT;
   if (doDraw || doFill)
   {
-    double xx1 = x1;
-    double yy1 = y1;
-    double xx2 = x2;
-    double yy2 = y2;
-    double xxc = xc;
-    double yyc = yc;
-    double start = angleByCoords(xx1, yy1, xxc, yyc);
-    double end   = angleByCoords(xx2, yy2, xxc, yyc);
-    xx1 = ScaleLogicalToPdfX(xx1);
-    yy1 = ScaleLogicalToPdfY(yy1);
-    xx2 = ScaleLogicalToPdfX(xx2);
-    yy2 = ScaleLogicalToPdfY(yy2);
-    xxc = ScaleLogicalToPdfX(xxc);
-    yyc = ScaleLogicalToPdfY(yyc);
-    double rx = xx1 - xxc;
-    double ry = yy1 - yyc;
-    double r = sqrt(rx * rx + ry * ry);
+    const double start = angleByCoords(x1, y1, xc, yc);
+    const double end   = angleByCoords(x2, y2, xc, yc);
+    const double xx1 = ScaleLogicalToPdfX(x1);
+    const double yy1 = ScaleLogicalToPdfY(y1);
+    const double xx2 = ScaleLogicalToPdfX(x2);
+    const double yy2 = ScaleLogicalToPdfY(y2);
+    const double xxc = ScaleLogicalToPdfX(xc);
+    const double yyc = ScaleLogicalToPdfY(yc);
+    const double rx = xx1 - xxc;
+    const double ry = yy1 - yyc;
+    const double r = sqrt(rx * rx + ry * ry);
     int style = wxPDF_STYLE_FILLDRAW;
     if (!(doDraw && doFill))
     {
@@ -784,10 +778,10 @@ wxPdfDCImpl::DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord width, wxCoord heig
       {
         style = (doFill) ? wxPDF_STYLE_FILL : wxPDF_STYLE_DRAWCLOSE;
       }
-      m_pdfDocument->Ellipse(ScaleLogicalToPdfX(x + 0.5 * width),
-                             ScaleLogicalToPdfY(y + 0.5 * height),
-                             ScaleLogicalToPdfXRel(0.5 * width),
-                             ScaleLogicalToPdfYRel(0.5 * height),
+      m_pdfDocument->Ellipse(ScaleLogicalToPdfX(x + (width + 1) / 2),
+                             ScaleLogicalToPdfY(y + (height + 1) / 2),
+                             ScaleLogicalToPdfXRel((width + 1) / 2),
+                             ScaleLogicalToPdfYRel((height + 1) / 2),
                              0, sa, ea, style, 8, true);
       CalcBoundingBox(x, y);
       CalcBoundingBox(x+width, y+height);
@@ -825,7 +819,7 @@ wxPdfDCImpl::DoDrawRoundedRectangle(wxCoord x, wxCoord y,
   SetupPen();
   m_pdfDocument->RoundedRect(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(y),
                              ScaleLogicalToPdfXRel(width), ScaleLogicalToPdfYRel(height),
-                             ScaleLogicalToPdfXRel(radius), wxPDF_CORNER_ALL, GetDrawingStyle());
+                             ScaleLogicalToPdfXRel(wxRound(radius)), wxPDF_CORNER_ALL, GetDrawingStyle());
   CalcBoundingBox(x, y);
   CalcBoundingBox(x+width, y+height);
 }
@@ -836,10 +830,10 @@ wxPdfDCImpl::DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
   SetupBrush();
   SetupPen();
-  m_pdfDocument->Ellipse(ScaleLogicalToPdfX(x + width / 2.0),
-                         ScaleLogicalToPdfY(y + height / 2.0),
-                         ScaleLogicalToPdfXRel(width / 2.0),
-                         ScaleLogicalToPdfYRel(height / 2.0),
+  m_pdfDocument->Ellipse(ScaleLogicalToPdfX(x + (width + 1) / 2),
+                         ScaleLogicalToPdfY(y + (height + 1)/ 2),
+                         ScaleLogicalToPdfXRel((width + 1) / 2),
+                         ScaleLogicalToPdfYRel((height + 1) / 2),
                          0, 0, 360, GetDrawingStyle());
   CalcBoundingBox(x-width, y-height);
   CalcBoundingBox(x+width, y+height);
@@ -879,11 +873,11 @@ wxPdfDCImpl::DoDrawBitmap(const wxBitmap& bitmap, wxCoord x, wxCoord y, bool use
   wxCoord w = image.GetWidth();
   wxCoord h = image.GetHeight();
 
-  wxCoord ww = ScaleLogicalToPdfXRel(w);
-  wxCoord hh = ScaleLogicalToPdfYRel(h);
+  const double ww = ScaleLogicalToPdfXRel(w);
+  const double hh = ScaleLogicalToPdfYRel(h);
 
-  wxCoord xx = ScaleLogicalToPdfX(x);
-  wxCoord yy = ScaleLogicalToPdfY(y);
+  const double xx = ScaleLogicalToPdfX(x);
+  const double yy = ScaleLogicalToPdfY(y);
 
   wxString imgName = wxString::Format(wxT("pdfdcimg%d"), ++m_imageCount);
 
@@ -916,8 +910,8 @@ wxPdfDCImpl::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
   else
   {
     // this is a multiline text: split it and print the lines one by one
-    float charH = GetCharHeight();
-    float curY = y;
+    wxCoord charH = GetCharHeight();
+    wxCoord curY = y;
     wxStringTokenizer tok( text, "\n" );
     while( tok.HasMoreTokens() ) {
       wxString s = tok.GetNextToken();
@@ -1331,7 +1325,7 @@ wxPdfDCImpl::SetupPen()
   else
   {
     m_pdfDocument->SetDrawColour(0, 0, 0);
-    m_pdfDocument->SetLineWidth(ScaleLogicalToPdfXRel(1.0));
+    m_pdfDocument->SetLineWidth(ScaleLogicalToPdfXRel(1));
   }
 }
 
