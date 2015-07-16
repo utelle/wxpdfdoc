@@ -1229,13 +1229,26 @@ wxPdfDCImpl::DoGetTextExtent(const wxString& text,
     {
       *externalLeading = myExtLeading;
     }
-    *x = ScalePdfToFontMetric((double)const_cast<wxPdfDCImpl*>(this)->m_pdfDocument->GetStringWidth(text));
-    *y = myHeight;
+    if (x)
+    {
+      *x = ScalePdfToFontMetric((double)const_cast<wxPdfDCImpl*>(this)->m_pdfDocument->GetStringWidth(text));
+    }
+    if (y)
+    {
+      *y = myHeight;
+    }
     const_cast<wxPdfDCImpl*>(this)->SetFont(old);
   }
   else
   {
-    *x = *y = 0;
+    if (x)
+    {
+      *x = 0;
+    }
+    if (y)
+    {
+      *y = 0;
+    }
     if (descent)
     {
       *descent = 0;
