@@ -1030,17 +1030,14 @@ wxPdfDocument::PutPages()
     Out("endobj");
     
     // Page content
-    wxMemoryOutputStream* p;
+    wxMemoryOutputStream mos;
+    wxMemoryOutputStream* p = (*m_pages)[n];
     if (m_compress)
     {
-      p = new wxMemoryOutputStream();
-      wxZlibOutputStream q(*p);
-      wxMemoryInputStream tmp(*((*m_pages)[n]));
+      wxZlibOutputStream q(mos);
+      wxMemoryInputStream tmp(*p);
       q.Write(tmp);
-    }
-    else
-    {
-      p = (*m_pages)[n];
+      p = &mos;
     }
 
     NewObj();
@@ -1048,10 +1045,6 @@ wxPdfDocument::PutPages()
              wxString::Format(wxT("%lu"), (unsigned long) CalculateStreamLength(p->TellO())) + wxString(wxT(">>")));
     PutStream(*p);
     Out("endobj");
-    if (m_compress)
-    {
-      delete p;
-    }
   }
   // Pages root
   (*m_offsets)[0] = m_buffer->TellO();
@@ -1262,10 +1255,10 @@ wxPdfDocument::PutFonts()
       font->SetFileIndex(m_n);
 
       bool compressed = true;
-      wxMemoryOutputStream* p = new wxMemoryOutputStream();
-      size_t fontSize1 = font->WriteFontData(p);
+      wxMemoryOutputStream p;
+      size_t fontSize1 = font->WriteFontData(&p);
   
-      size_t fontLen = CalculateStreamLength(p->TellO());
+      size_t fontLen = CalculateStreamLength(p.TellO());
       OutAscii(wxString::Format(wxT("<</Length %lu"), (unsigned long) fontLen));
       if (compressed)
       {
@@ -1284,9 +1277,8 @@ wxPdfDocument::PutFonts()
         }
       }
       Out(">>");
-      PutStream(*p);
+      PutStream(p);
       Out("endobj");
-      delete p;
     }
   }
   
@@ -1380,14 +1372,13 @@ wxPdfDocument::PutFonts()
         // Embed ToUnicode Map
         // A specification of the mapping from CIDs to glyph indices
         NewObj();
-        wxMemoryOutputStream* p = new wxMemoryOutputStream();
-        /* size_t mapSize = */ font->WriteUnicodeMap(p);
-        size_t mapLen = CalculateStreamLength(p->TellO());
+        wxMemoryOutputStream p;
+        /* size_t mapSize = */ font->WriteUnicodeMap(&p);
+        size_t mapLen = CalculateStreamLength(p.TellO());
         OutAscii(wxString::Format(wxT("<</Length %lu"), (unsigned long) mapLen));
         Out("/Filter /FlateDecode");
         Out(">>");
-        PutStream(*p);
-        delete p;
+        PutStream(p);
         Out("endobj");
       }
     }
@@ -1485,9 +1476,9 @@ wxPdfDocument::PutFonts()
       // A specification of the mapping from CIDs to glyph indices
       NewObj();
       bool compressed = true;
-      wxMemoryOutputStream* p = new wxMemoryOutputStream();
-      /* size_t mapSize = */ font->WriteUnicodeMap(p);
-      size_t mapLen = CalculateStreamLength(p->TellO());
+      wxMemoryOutputStream mos;
+      /* size_t mapSize = */ font->WriteUnicodeMap(&mos);
+      size_t mapLen = CalculateStreamLength(mos.TellO());
       OutAscii(wxString::Format(wxT("<</Length %lu"), (unsigned long) mapLen));
       if (compressed)
       {
@@ -1496,8 +1487,7 @@ wxPdfDocument::PutFonts()
         Out("/Filter /FlateDecode");
       }
       Out(">>");
-      PutStream(*p);
-      delete p;
+      PutStream(mos);
       Out("endobj");
     }
     else if (type == wxT("Type0"))
@@ -1588,22 +1578,21 @@ wxPdfDocument::PutImages()
           Out("/Filter /FlateDecode");
         }
         size_t dataLen = currentImage->GetDataSize();
-        wxMemoryOutputStream* p = new wxMemoryOutputStream();
+        wxMemoryOutputStream p;
         if (m_compress)
         {
-          wxZlibOutputStream q(*p);
+          wxZlibOutputStream q(p);
           q.Write(currentImage->GetData(),currentImage->GetDataSize());
         }
         else
         {
-          p->Write(currentImage->GetData(),currentImage->GetDataSize());
+          p.Write(currentImage->GetData(),currentImage->GetDataSize());
         }
-        dataLen = CalculateStreamLength(p->TellO());
+        dataLen = CalculateStreamLength(p.TellO());
         OutAscii(wxString::Format(wxT("/Length %lu>>"), (unsigned long) dataLen));
-        PutStream(*p);
+        PutStream(p);
 
         Out("endobj");
-        delete p;
       }
       else
       {
@@ -1671,10 +1660,9 @@ wxPdfDocument::PutImages()
 
         OutAscii(wxString::Format(wxT("/Length %lu>>"), (unsigned long) CalculateStreamLength(currentImage->GetDataSize())));
 
-        wxMemoryOutputStream* p = new wxMemoryOutputStream();
-        p->Write(currentImage->GetData(),currentImage->GetDataSize());
-        PutStream(*p);
-        delete p;
+        wxMemoryOutputStream mos;
+        mos.Write(currentImage->GetData(),currentImage->GetDataSize());
+        PutStream(mos);
         Out("endobj");
 
         // Palette
@@ -1682,21 +1670,20 @@ wxPdfDocument::PutImages()
         {
           NewObj();
           unsigned int palLen = currentImage->GetPaletteSize();
-          p = new wxMemoryOutputStream();
+          wxMemoryOutputStream mos2;
           if (m_compress)
           {
-            wxZlibOutputStream q(*p);
+            wxZlibOutputStream q(mos2);
             q.Write(currentImage->GetPalette(),currentImage->GetPaletteSize());
           }
           else
           {
-            p->Write(currentImage->GetPalette(),currentImage->GetPaletteSize());
+            mos2.Write(currentImage->GetPalette(),currentImage->GetPaletteSize());
           }
-          palLen = (unsigned int) CalculateStreamLength(p->TellO());
+          palLen = (unsigned int) CalculateStreamLength(mos2.TellO());
           OutAscii(wxString(wxT("<<")) + filter + wxString::Format(wxT("/Length %d>>"), palLen));
-          PutStream(*p);
+          PutStream(mos2);
           Out("endobj");
-          delete p;
         }
       }
     }
@@ -1768,11 +1755,11 @@ wxPdfDocument::PutTemplates()
     }
     
     // Template data
-    wxMemoryOutputStream* p;
+    wxMemoryOutputStream mos, *p;
     if (m_compress)
     {
-      p = new wxMemoryOutputStream();
-      wxZlibOutputStream q(*p);
+      p = &mos;
+      wxZlibOutputStream q(mos);
       wxMemoryInputStream tmp(currentTemplate->m_buffer);
       q.Write(tmp);
     }
@@ -1787,10 +1774,6 @@ wxPdfDocument::PutTemplates()
     PutStream(*p);
     Out("endobj");
     m_n = nSave;
-    if (m_compress)
-    {
-      delete p;
-    }
   }
 }
 
@@ -2047,18 +2030,17 @@ wxPdfDocument::PutFiles()
       Out(">>");
       Out("endobj");
 
-      wxMemoryOutputStream* p = new wxMemoryOutputStream();
-      p->Write(fileContent);
-      size_t fileLen = CalculateStreamLength(p->TellO());
+      wxMemoryOutputStream mos;
+      mos.Write(fileContent);
+      size_t fileLen = CalculateStreamLength(mos.TellO());
 
       NewObj();
       Out("<<");
       Out("/Type /EmbeddedFile");
       OutAscii(wxString::Format(wxT("/Length %lu"), (unsigned long) fileLen));
       Out(">>");
-      PutStream(*p);
+      PutStream(mos);
       Out("endobj");
-      delete p;
     }
   }
   NewObj();
@@ -2165,12 +2147,11 @@ wxPdfDocument::PutPatterns()
                      wxPdfUtility::Double2String(pattern->GetWidth() * m_k, 4) + wxT(" 0 0 ") +
                      wxPdfUtility::Double2String(pattern->GetHeight() * m_k, 4) + wxT(" 0 0 cm ") +
                      wxString::Format(wxT("/I%d Do Q"), image->GetIndex());
-    wxMemoryOutputStream* p = new wxMemoryOutputStream;
-    p->Write(sdata.ToAscii(), sdata.Length());
-    OutAscii(wxString(wxT("/Length ")) + wxString::Format(wxT("%lu"), (unsigned long) CalculateStreamLength(p->TellO())));
+    wxMemoryOutputStream mos;
+    mos.Write(sdata.ToAscii(), sdata.Length());
+    OutAscii(wxString(wxT("/Length ")) + wxString::Format(wxT("%lu"), (unsigned long) CalculateStreamLength(mos.TellO())));
     Out(">>");
-    PutStream(*p);
-    delete p;
+    PutStream(mos);
     Out("endobj");
   }
 }
