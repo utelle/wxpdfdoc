@@ -32,6 +32,7 @@ enum wxPdfColourType
 };
 
 /// Forward declaration of classes
+class WXDLLIMPEXP_FWD_CORE wxColourDatabase;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfPattern;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfSpotColour;
 
