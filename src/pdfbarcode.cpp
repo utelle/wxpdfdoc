@@ -697,12 +697,12 @@ const wxChar CODE128_ENDBAR      = 107;
 
 // Code128 internal functions
 
-static bool Code128ValidChar(wxChar ch)
+static bool Code128ValidChar(int ch)
 {
   return (ch >= 0 && ch <= 127) || (ch >= CODE128_FNC1 && ch <= CODE128_FNC4);
 }
 
-static bool Code128ValidInCodeSetA(wxChar ch)
+static bool Code128ValidInCodeSetA(int ch)
 {
   return (ch >= 0 && ch <= 95) || (ch >= CODE128_FNC1 && ch <= CODE128_FNC4);
 }
