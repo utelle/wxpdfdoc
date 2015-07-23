@@ -1289,6 +1289,30 @@ wxPdfDCImpl::SetupPen()
     {
       style.SetWidth(ScaleLogicalToPdfXRel(curPen.GetWidth()));
     }
+    switch (curPen.GetJoin())
+    {
+      case wxJOIN_BEVEL:
+        style.SetLineJoin(wxPDF_LINEJOIN_BEVEL);
+        break;
+      case wxJOIN_MITER:
+        style.SetLineJoin(wxPDF_LINEJOIN_MITER);
+        break;
+      case wxJOIN_ROUND:
+        style.SetLineJoin(wxPDF_LINEJOIN_ROUND);
+        break;
+    }
+    switch (curPen.GetCap())
+    {
+      case wxCAP_BUTT:
+        style.SetLineCap(wxPDF_LINECAP_BUTT);
+        break;
+      case wxCAP_PROJECTING:
+        style.SetLineCap(wxPDF_LINECAP_SQUARE);
+        break;
+      case wxCAP_ROUND:
+        style.SetLineCap(wxPDF_LINECAP_ROUND);
+        break;
+    }
     switch (curPen.GetStyle())
     {
       case wxDOT:
