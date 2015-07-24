@@ -72,6 +72,10 @@
 
 #include "printing.h"
 
+#if !wxCHECK_VERSION(2, 9, 0)
+    #define wxPENSTYLE_DOT_DASH wxDOT_DASH
+#endif
+
 #ifndef __WXMSW__
 #include "mondrian.xpm"
 #endif
@@ -575,7 +579,7 @@ void MyFrame::Draw(wxDC& dc)
     dc.DrawText(wxT("Rectangle 200 by 80"), wxRound(40 * txtPosScaleX), wxRound(40 * txtPosScaleY));
     dc.SetUserScale(coordScaleX, coordScaleY);
 
-    dc.SetPen( wxPen(*wxBLACK,0,wxDOT_DASH) );
+    dc.SetPen( wxPen(*wxBLACK,0,wxPENSTYLE_DOT_DASH) );
     dc.DrawEllipse(50, 140, 100, 50);
     dc.SetPen(*wxRED_PEN);
 
@@ -1630,7 +1634,7 @@ void MyPrintout::DrawPageTwo()
         wxString words[7] = {_T("This "), _T("is "), _T("GetTextExtent "), _T("testing "), _T("string. "), _T("Enjoy "), _T("it!")};
         wxCoord w, h;
         wxCoord x = 200, y= 250;
-        wxFont fnt(15, wxSWISS, wxNORMAL, wxNORMAL);
+        wxFont fnt(15, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
         dc->SetFont(fnt);
 

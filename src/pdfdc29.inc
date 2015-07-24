@@ -681,7 +681,7 @@ void
 wxPdfDCImpl::DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
 {
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
-  if  (m_pen.GetStyle() != wxTRANSPARENT)
+  if  (m_pen.GetStyle() != wxPENSTYLE_TRANSPARENT)
   {
     SetupBrush();
     SetupPen();
@@ -700,10 +700,8 @@ wxPdfDCImpl::DoDrawArc(wxCoord x1, wxCoord y1,
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
   SetupBrush();
   SetupPen();
-  const wxBrush& curBrush = GetBrush();
-  const wxPen& curPen = GetPen();
-  bool doFill = (curBrush != wxNullBrush) && curBrush.GetStyle() != wxTRANSPARENT;
-  bool doDraw = (curPen != wxNullPen) && curPen.GetStyle() != wxTRANSPARENT;
+  bool doFill = GetBrush().IsNonTransparent();
+  bool doDraw = GetPen().IsNonTransparent();
   if (doDraw || doFill)
   {
     const double start = angleByCoords(x1, y1, xc, yc);
@@ -766,10 +764,8 @@ wxPdfDCImpl::DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord width, wxCoord heig
   {
     SetupBrush();
     SetupPen();
-    const wxBrush& curBrush = GetBrush();
-    const wxPen& curPen = GetPen();
-    bool doFill = (curBrush != wxNullBrush) && curBrush.GetStyle() != wxTRANSPARENT;
-    bool doDraw = (curPen != wxNullPen) && curPen.GetStyle() != wxTRANSPARENT;
+    bool doFill = GetBrush().IsNonTransparent();
+    bool doDraw = GetPen().IsNonTransparent();
     if (doDraw || doFill)
     {
       m_pdfDocument->SetLineWidth(ScaleLogicalToPdfXRel(1)); // pen width != 1 sometimes fools readers when closing paths
@@ -886,9 +882,9 @@ wxPdfDCImpl::DoDrawBitmap(const wxBitmap& bitmap, wxCoord x, wxCoord y, bool use
     wxPen savePen = m_pen;
     wxBrush saveBrush = m_brush;
     SetPen(*wxTRANSPARENT_PEN);
-    SetBrush(wxBrush(m_textBackgroundColour, wxSOLID));
+    SetBrush(m_textBackgroundColour);
     DoDrawRectangle(xx, yy, ww, hh);
-    SetBrush(wxBrush(m_textForegroundColour, wxSOLID));
+    SetBrush(m_textForegroundColour);
     m_pdfDocument->Image(imgName, image, xx, yy, ww, hh, wxPdfLink(-1), idMask, m_jpegFormat, m_jpegQuality);
     SetBrush(saveBrush);
     SetPen(savePen);
@@ -1387,19 +1383,17 @@ int
 wxPdfDCImpl::GetDrawingStyle()
 {
   int style = wxPDF_STYLE_NOOP;
-  const wxBrush &curBrush = GetBrush();
-  bool do_brush = (curBrush != wxNullBrush) && curBrush.GetStyle() != wxTRANSPARENT;
-  const wxPen &curPen = GetPen();
-  bool do_pen = (curPen != wxNullPen) && curPen.GetWidth() && curPen.GetStyle() != wxTRANSPARENT;
-  if (do_brush && do_pen)
+  bool doFill = GetBrush().IsNonTransparent();
+  bool doDraw = GetPen().IsNonTransparent();
+  if (doFill && doDraw)
   {
     style = wxPDF_STYLE_FILLDRAW;
   }
-  else if (do_pen)
+  else if (doDraw)
   {
     style = wxPDF_STYLE_DRAW;
   }
-  else if (do_brush)
+  else if (doFill)
   {
     style = wxPDF_STYLE_FILL;
   }
