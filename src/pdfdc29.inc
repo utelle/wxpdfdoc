@@ -583,7 +583,7 @@ wxPdfDCImpl::DoDrawPoint(wxCoord x, wxCoord y)
 
 #if wxUSE_SPLINES
 void
-wxPdfDCImpl::DoDrawSpline(wxList* points)
+wxPdfDCImpl::DoDrawSpline(const wxPointList* points)
 {
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
   SetPen( m_pen );
@@ -622,7 +622,7 @@ wxPdfDCImpl::DoDrawSpline(wxList* points)
   double x1, y1, x2, y2, cx1, cy1, cx4, cy4;
   double bx1, by1, bx2, by2, bx3, by3;
 
-  wxList::compatibility_iterator node = points->GetFirst();
+  wxPointList::compatibility_iterator node = points->GetFirst();
   wxPoint* p = (wxPoint*) node->GetData();
 
   x1 = ScaleLogicalToPdfX(p->x);
