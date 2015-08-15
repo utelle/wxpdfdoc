@@ -172,17 +172,19 @@ protected:
   virtual void DoDrawPolygon(int n, const wxPoint points[],
                              wxCoord xoffset, wxCoord yoffset,
                              wxPolygonFillMode fillStyle = wxODDEVEN_RULE);
+  virtual void DoDrawPolyPolygon(int n, const int count[], const wxPoint points[],
+                                 wxCoord xoffset, wxCoord yoffset,
+                                 wxPolygonFillMode fillStyle);
 #else
   virtual void DoDrawLines(int n, wxPoint points[],
                            wxCoord xoffset, wxCoord yoffset);
   virtual void DoDrawPolygon(int n, wxPoint points[],
                              wxCoord xoffset, wxCoord yoffset,
                              wxPolygonFillMode fillStyle = wxODDEVEN_RULE);
-#endif // wxCHECK_VERSION
-
   virtual void DoDrawPolyPolygon(int n, int count[], wxPoint points[],
                                  wxCoord xoffset, wxCoord yoffset,
                                  int fillStyle);
+#endif // wxCHECK_VERSION
 
   virtual void DoSetClippingRegionAsRegion(const wxRegion& region);
   virtual void DoSetClippingRegion(wxCoord x, wxCoord y,

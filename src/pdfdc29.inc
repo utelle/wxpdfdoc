@@ -1115,10 +1115,17 @@ wxPdfDCImpl::DoDrawPolygon(int n, wxPoint points[],
   m_pdfDocument->SetFillingRule(saveFillingRule);
 }
 
+#if wxCHECK_VERSION(2,9,5)
+void
+wxPdfDCImpl::DoDrawPolyPolygon(int n, const int count[], const wxPoint points[],
+                               wxCoord xoffset, wxCoord yoffset,
+                               wxPolygonFillMode fillStyle)
+#else // wx < 2.9.5
 void
 wxPdfDCImpl::DoDrawPolyPolygon(int n, int count[], wxPoint points[],
                                wxCoord xoffset, wxCoord yoffset,
                                int fillStyle)
+#endif // wxCHECK_VERSION
 {
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
   if (n > 0)
@@ -1137,7 +1144,7 @@ wxPdfDCImpl::DoDrawPolyPolygon(int n, int count[], wxPoint points[],
       wxPdfArrayDouble yp;
       for (i = 0; i < count[j]; ++i)
       {
-        wxPoint& point = points[ofs+i];
+        const wxPoint& point = points[ofs+i];
         xp.Add(ScaleLogicalToPdfX(xoffset + point.x));
         yp.Add(ScaleLogicalToPdfY(yoffset + point.y));
         CalcBoundingBox(point.x + xoffset, point.y + yoffset);
