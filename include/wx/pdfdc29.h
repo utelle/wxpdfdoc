@@ -35,7 +35,7 @@ public:
   wxPdfMapModeStyle GetMapModeStyle() const;
 
 private:
-    DECLARE_DYNAMIC_CLASS(wxPdfDC)
+  wxDECLARE_DYNAMIC_CLASS(wxPdfDC);
 };
 
 /// Class representing the PDF drawing context implementation
@@ -232,7 +232,7 @@ private:
   bool m_jpegFormat;
   int  m_jpegQuality;
 
-  DECLARE_DYNAMIC_CLASS(wxPdfDCImpl);
+  wxDECLARE_DYNAMIC_CLASS(wxPdfDCImpl);
 };
 
 #endif
