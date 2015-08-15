@@ -583,7 +583,7 @@ wxPdfDCImpl::DoDrawPoint(wxCoord x, wxCoord y)
 
 #if wxUSE_SPLINES
 void
-wxPdfDCImpl::DoDrawSpline(wxList* points)
+wxPdfDCImpl::DoDrawSpline(const wxPointList* points)
 {
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
   SetPen( m_pen );
@@ -622,7 +622,7 @@ wxPdfDCImpl::DoDrawSpline(wxList* points)
   double x1, y1, x2, y2, cx1, cy1, cx4, cy4;
   double bx1, by1, bx2, by2, bx3, by3;
 
-  wxList::compatibility_iterator node = points->GetFirst();
+  wxPointList::compatibility_iterator node = points->GetFirst();
   wxPoint* p = (wxPoint*) node->GetData();
 
   x1 = ScaleLogicalToPdfX(p->x);
@@ -1115,10 +1115,17 @@ wxPdfDCImpl::DoDrawPolygon(int n, wxPoint points[],
   m_pdfDocument->SetFillingRule(saveFillingRule);
 }
 
+#if wxCHECK_VERSION(2,9,5)
+void
+wxPdfDCImpl::DoDrawPolyPolygon(int n, const int count[], const wxPoint points[],
+                               wxCoord xoffset, wxCoord yoffset,
+                               wxPolygonFillMode fillStyle)
+#else // wx < 2.9.5
 void
 wxPdfDCImpl::DoDrawPolyPolygon(int n, int count[], wxPoint points[],
                                wxCoord xoffset, wxCoord yoffset,
                                int fillStyle)
+#endif // wxCHECK_VERSION
 {
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
   if (n > 0)
@@ -1137,7 +1144,7 @@ wxPdfDCImpl::DoDrawPolyPolygon(int n, int count[], wxPoint points[],
       wxPdfArrayDouble yp;
       for (i = 0; i < count[j]; ++i)
       {
-        wxPoint& point = points[ofs+i];
+        const wxPoint& point = points[ofs+i];
         xp.Add(ScaleLogicalToPdfX(xoffset + point.x));
         yp.Add(ScaleLogicalToPdfY(yoffset + point.y));
         CalcBoundingBox(point.x + xoffset, point.y + yoffset);
