@@ -5,7 +5,7 @@
 
 <bakefile-gen xmlns="http://www.bakefile.org/schema/bakefile-gen">
 
-  <include file="../../../build/bakefiles/presets/wxcode.bkgen"/>
+  <include file="../wxcode/bakefiles/presets/wxcode.bkgen"/>
 
   <input>wxpdfdoc.bkl</input>
 
