@@ -577,7 +577,7 @@ wxPdfDCImpl::DoDrawPoint(wxCoord x, wxCoord y)
   double xx = ScaleLogicalToPdfX(x);
   double yy = ScaleLogicalToPdfY(y);
   m_pdfDocument->SetFillColour(m_pdfDocument->GetDrawColour());
-  m_pdfDocument->Rect(xx-0.5, yy-0.5, xx+0.5, yy+0.5);
+  m_pdfDocument->Rect(xx-0.5, yy-0.5, 1.0, 1.0);
   CalcBoundingBox(x, y);
 }
 
@@ -740,48 +740,31 @@ wxPdfDCImpl::DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord width, wxCoord heig
                                double sa, double ea)
 {
   wxCHECK_RET(m_pdfDocument, wxT("Invalid PDF DC"));
-  if (sa >= 360 || sa <= -360)
+  SetupBrush();
+  SetupPen();
+  bool doFill = GetBrush().IsNonTransparent();
+  bool doDraw = GetPen().IsNonTransparent();
+  if (doDraw || doFill)
   {
-    sa -= int(sa/360)*360;
-  }
-  if (ea >= 360 || ea <=- 360)
-  {
-    ea -= int(ea/360)*360;
-  }
-  if (sa < 0)
-  {
-    sa += 360;
-  }
-  if (ea < 0)
-  {
-    ea += 360;
-  }
-  if (wxIsSameDouble(sa, ea))
-  {
-    DoDrawEllipse(x, y, width, height);
-  }
-  else
-  {
-    SetupBrush();
-    SetupPen();
-    bool doFill = GetBrush().IsNonTransparent();
-    bool doDraw = GetPen().IsNonTransparent();
-    if (doDraw || doFill)
+    m_pdfDocument->SetLineWidth(ScaleLogicalToPdfXRel(1)); // pen width != 1 sometimes fools readers when closing paths
+    if (doFill)
     {
-      m_pdfDocument->SetLineWidth(ScaleLogicalToPdfXRel(1)); // pen width != 1 sometimes fools readers when closing paths
-      int style = wxPDF_STYLE_FILL | wxPDF_STYLE_DRAWCLOSE;
-      if (!(doDraw && doFill))
-      {
-        style = (doFill) ? wxPDF_STYLE_FILL : wxPDF_STYLE_DRAWCLOSE;
-      }
       m_pdfDocument->Ellipse(ScaleLogicalToPdfX(x + (width + 1) / 2),
                              ScaleLogicalToPdfY(y + (height + 1) / 2),
                              ScaleLogicalToPdfXRel((width + 1) / 2),
                              ScaleLogicalToPdfYRel((height + 1) / 2),
-                             0, sa, ea, style, 8, true);
-      CalcBoundingBox(x, y);
-      CalcBoundingBox(x+width, y+height);
+                             0, sa, ea, wxPDF_STYLE_FILL, 8, true);
     }
+    if (doDraw)
+    {
+      m_pdfDocument->Ellipse(ScaleLogicalToPdfX(x + (width + 1) / 2),
+                             ScaleLogicalToPdfY(y + (height + 1) / 2),
+                             ScaleLogicalToPdfXRel((width + 1) / 2),
+                             ScaleLogicalToPdfYRel((height + 1) / 2),
+                             0, sa, ea, wxPDF_STYLE_DRAW, 8, false);
+    }
+    CalcBoundingBox(x, y);
+    CalcBoundingBox(x+width, y+height);
   }
 }
 
@@ -928,6 +911,7 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
     return;
   }
   wxFont old = m_font;
+  wxCoord originalY = y;
 
   wxPdfFontDescription desc = m_pdfDocument->GetFontDescription();
   int height, descent;
@@ -939,7 +923,7 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
 
   m_pdfDocument->SetTextColour(m_textForegroundColour.Red(), m_textForegroundColour.Green(), m_textForegroundColour.Blue());
   m_pdfDocument->SetFontSize(ScaleFontSizeToPdf(fontToUse->GetPointSize()));
-  m_pdfDocument->RotatedText(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(y), text, angle);
+  m_pdfDocument->RotatedText(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(y), ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(originalY), text, angle);
   SetFont(old);
 }
 
@@ -1310,11 +1294,12 @@ wxPdfDCImpl::SetupPen()
       case wxJOIN_BEVEL:
         style.SetLineJoin(wxPDF_LINEJOIN_BEVEL);
         break;
-      case wxJOIN_MITER:
-        style.SetLineJoin(wxPDF_LINEJOIN_MITER);
-        break;
       case wxJOIN_ROUND:
         style.SetLineJoin(wxPDF_LINEJOIN_ROUND);
+        break;
+      case wxJOIN_MITER:
+      default:
+        style.SetLineJoin(wxPDF_LINEJOIN_MITER);
         break;
     }
     switch (curPen.GetCap())
@@ -1326,6 +1311,7 @@ wxPdfDCImpl::SetupPen()
         style.SetLineCap(wxPDF_LINECAP_SQUARE);
         break;
       case wxCAP_ROUND:
+      default:
         style.SetLineCap(wxPDF_LINECAP_ROUND);
         break;
     }

@@ -31,7 +31,7 @@
 #include "wx/pdflinks.h"
 #include "wx/pdfproperties.h"
 
-#define wxPDF_PRODUCER       wxT("wxPdfDocument 0.9.4")
+#define wxPDF_PRODUCER       wxT("wxPdfDocument 0.9.5")
 
 #define wxPDF_EPSILON        1e-6
 
@@ -1312,6 +1312,17 @@ public:
   */
   virtual void RotatedText(double x, double y, const wxString& txt, double angle);
 
+  /// Prints a rotated text string with explicit rotation center
+  /**
+  * \param textX Abscissa of the origin
+  * \param textY Ordinate of the origin
+  * \param rotationX: abscissa of the rotation center.
+  * \param rotationY: ordinate of the rotation center.
+  * \param txt String to print
+  * \param angle: angle in degrees.
+  */
+  virtual void RotatedText(double textX, double textY, double rotationX, double rotationY, const wxString& txt, double angle);
+
   /// Whenever a page break condition is met,
   /**
   * Whenever a page break condition is met, the method is called, and the break is issued or not
@@ -2525,6 +2536,14 @@ protected:
   /// Force selecting the current font
   virtual void ForceCurrentFont();
 
+  /// Defines the size of the current font.
+  /**
+  * \param size The size (in points)
+  * \param setSize flag whether to actually set the font size in PDF output
+  * \see SetFont()
+  */
+  virtual void SetFontSize(double size, bool setSize);
+  
   /// Apply visual ordering
   virtual wxString ApplyVisualOrdering(const wxString& txt);
 

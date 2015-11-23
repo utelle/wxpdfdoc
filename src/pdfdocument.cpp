@@ -811,10 +811,16 @@ wxPdfDocument::SetFont(const wxFont& font)
 void
 wxPdfDocument::SetFontSize(double size)
 {
+  SetFontSize(size, true);
+}
+
+void
+wxPdfDocument::SetFontSize(double size, bool setSize)
+{
   if (m_currentFont == NULL)
   {
     wxLogError(wxString(wxT("wxPdfDocument::SetFontSize: ")) +
-               wxString(_("No font selected.")));
+      wxString(_("No font selected.")));
     return;
   }
   // Set font size in points
@@ -824,7 +830,7 @@ wxPdfDocument::SetFontSize(double size)
   }
   m_fontSizePt = size;
   m_fontSize = size / m_k;
-  if ( m_page > 0)
+  if (setSize && m_page > 0)
   {
     OutAscii(wxString::Format(wxT("BT /F%d "),m_currentFont->GetIndex()) +
              wxPdfUtility::Double2String(m_fontSizePt,2) + wxString(wxT(" Tf ET")));
@@ -974,6 +980,23 @@ wxPdfDocument::RotatedText(double x, double y, const wxString& txt, double angle
     StartTransform();
     Rotate(angle, x, y);
     Text(x, y, txt);
+    StopTransform();
+  }
+}
+
+void
+wxPdfDocument::RotatedText(double textX, double textY, double rotationX, double rotationY, const wxString& txt, double angle)
+{
+  // Text rotated around its origin
+  if (angle == 0)
+  {
+    Text(textX, textY, txt);
+  }
+  else
+  {
+    StartTransform();
+    Rotate(angle, rotationX, rotationY);
+    Text(textX, textY, txt);
     StopTransform();
   }
 }

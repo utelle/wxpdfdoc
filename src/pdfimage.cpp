@@ -219,13 +219,11 @@ wxPdfImage::Parse()
     {
       isValid = ParsePNG(m_imageStream);
     }
-#if wxUSE_LIBJPEG
     else if ((m_type.StartsWith(wxT("image/")) && m_type.EndsWith(wxT("jpeg"))) ||
              m_type == wxT("jpeg") || m_type == wxT("jpg"))
     {
       isValid = ParseJPG(m_imageStream);
     }
-#endif // wxUSE_LIBJPEG
 #if wxUSE_GIF
     else if ((m_type.StartsWith(wxT("image/")) && m_type.EndsWith(wxT("gif"))) || 
              m_type == wxT("gif"))
@@ -474,7 +472,6 @@ wxPdfImage::ParsePNG(wxInputStream* imageStream)
 bool
 wxPdfImage::ParseJPG(wxInputStream* imageStream)
 {
-#if wxUSE_LIBJPEG
   bool isValid = false;
   wxString colspace = wxT("");
 
@@ -646,9 +643,6 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
   }
 
   return isValid;
-#else // !wxUSE_LIBJPEG
-  return false;
-#endif // wxUSE_LIBJPEG/!wxUSE_LIBJPEG
 }
 
 // --- Parse GIF image file ---

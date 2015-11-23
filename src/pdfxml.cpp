@@ -794,36 +794,36 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       // --- Small font size
       static double ratio = 2./3.;
       double currentSize = GetFontSize();
-      SelectFont(wxT(""), wxT(""), currentSize * ratio, false);
+      SetFontSize(currentSize * ratio, false);
       double delta = (currentSize - GetFontSize()) * 0.5 * ratio / GetScaleFactor();
       SetXY(GetX(), GetY() + delta);
       PrepareXmlCell(child, context);
       SetXY(GetX(), GetY() - delta);
-      SelectFont(wxT(""), wxT(""), currentSize, false);
+      SetFontSize(currentSize, false);
     }
     else if (name == wxT("sup"))
     {
       // --- Superscript
       static double ratio = 2./3.;
       double currentSize = GetFontSize();
-      SelectFont(wxT(""), wxT(""), currentSize * ratio, false);
+      SetFontSize(currentSize * ratio, false);
       double delta = (currentSize - GetFontSize()) * ratio / GetScaleFactor();
       SetXY(GetX(), GetY() - delta);
       PrepareXmlCell(child, context);
       SetXY(GetX(), GetY() + delta);
-      SelectFont(wxT(""), wxT(""), currentSize, false);
+      SetFontSize(currentSize, false);
     }
     else if (name == wxT("sub"))
     {
       // --- Subscript
       static double ratio = 2./3.;
       double currentSize = GetFontSize();
-      SelectFont(wxT(""), wxT(""), currentSize * ratio, false);
+      SetFontSize(currentSize * ratio, false);
       double delta = (currentSize - GetFontSize()) * ratio / GetScaleFactor();
       SetXY(GetX(), GetY() + delta);
       PrepareXmlCell(child, context);
       SetXY(GetX(), GetY() - delta);
-      SelectFont(wxT(""), wxT(""), currentSize, false);
+      SetFontSize(currentSize, false);
     }
     else if (name == wxT("ul"))
     {
@@ -1021,7 +1021,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
 
       double headsize = (wxT('4') - name[1]) * 2;
       double currentFontSize = GetFontSize();
-      SelectFont(wxT(""), wxT(""), currentFontSize + headsize, false);
+      SetFontSize(currentFontSize + headsize, false);
       wxString addStyle = wxT("B");
       wxString style = GetFontStyle();
       if (!style.Contains(addStyle))
@@ -1036,7 +1036,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       }
       context.AddHeight(newContext->GetHeight());
       // reset
-      SelectFont(wxT(""), wxT(""), currentFontSize, false);
+      SetFontSize(currentFontSize, false);
       Ln();
     }
     else if (name == wxT("table"))

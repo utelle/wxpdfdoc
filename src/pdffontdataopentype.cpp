@@ -633,7 +633,6 @@ wxPdfFontDataOpenTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData,
         if (subsetGlyphs != NULL)
         {
           glEntry->m_gid = (*subsetGlyphs)[charIter->second];
-          charIter->second;
         }
         else
         {
