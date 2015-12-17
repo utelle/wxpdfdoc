@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>wxPdfDocument website</title>
+  <META NAME="keywords" CONTENT="Ulrich Telle, wxWidgets, wxPdfDocument">
+  <link href="wxwidgets.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h1>wxPdfDocument</h1>
+
+<table cellspacing="2" cellpadding="1" style="table-layout:fixed;" border="0">
+<tr><td valign="top" rowspan="5" width="175"><img src="image.png"></td>
+<td width="230"><b>Author:</b></td><td width=!100">Ulrich Telle</td><td rowspan="5" width="20">&nbsp;</td><td width="300"><b>wxWidgets supported ports:</b></td><td>wxMSW, wxGTK, wxMac</td></tr>
+<tr><td><b>Current maintainer:</b></td><td>Ulrich Telle</td><td><b>wxWidgets supported versions:</b></td><td>2.8.12, 3.0.x</td></tr>
+<tr><td><b>Latest version:</b></td><td>0.9.5</td><td><b>Build system:</b></td><td>Bakefile / Premake5</td></tr>
+<tr><td><b>Programming language:</b></td><td>C++</td><td><b>Code repository:</b></td><td><a href="https://github.com/utelle/wxpdfdoc">GitHub</a></td></tr>
+<tr><td><b>External dependencies:</b></td><td>none</td><td><b>API documentation:</b></td><td><a href="http://utelle.github.io/wxpdfdoc/docs/html/index.html">Doxygen</a></td></tr>
+<tr><td colspan="7">
+<p><b>wxPdfDocument</b> allows wxWidgets applications to generate PDF documents. The code is a port of FPDF - a free PHP class for generating PDF files - to C++ using the wxWidgets library. Several add-on PHP scripts found on the FPDF web site are incorporated into wxPdfDocument. Embedding of PNG, JPEG, GIF and WMF images is supported. In addition to the 14 standard Adobe fonts it is possible to use other Type1 or TrueType fonts - with or without embedding them into the generated document. In Unicode build CJK fonts are supported, too. Graphics primitives allow the creation of simple drawings.</p>
+</td></tr>
+</table>
+
+<p><b>Bugs</b> or other issues can be reported on the <a href="https://github.com/utelle/wxpdfdoc/issues">wxPdfDocument issues page on GitHub</a>.</p>
+
+
+<h1>Documentation</h1>
+
+<p>The doxygen-generated documentation for this component is available online
+  <a href="http://utelle.github.io/wxpdfdoc/docs/html/index.html">here</a>. Please let me know if you think something is missing.</p>
+
+<p>To get an impression what can be done with this component take a look at the sample documents
+generated with <b>wxPdfDocument</b>:</p>
+<ul>
+<li><a href="tutorial1.pdf" target="_blank">Hello world!</a></li>
+<li><a href="tutorial2.pdf" target="_blank">Header, footer, page break and image embedding</a></li>
+<li><a href="tutorial3.pdf" target="_blank">Line breaks and colors</a></li>
+<li><a href="tutorial4.pdf" target="_blank">Multi-columns</a></li>
+<li><a href="tutorial5.pdf" target="_blank">Tables</a></li>
+<li><a href="tutorial6.pdf" target="_blank">Links and flowing text</a></li>
+<li><a href="tutorial7.pdf" target="_blank">Font embedding</a></li>
+<li><a href="bookmark.pdf" target="_blank">Document outline</a></li>
+<li><a href="cjktest.pdf" target="_blank">Chinese/Japanese/Korean</a> <font size="-1">(You need CJK support installed for Acrobat Reader)</font></li>
+<li><a href="clipping.pdf" target="_blank">Using clipping areas</a></li>
+<li><a href="drawing.pdf" target="_blank">Graphics primitives</a></li>
+<li><a href="protection1.pdf" target="_blank">Setting access permissions</a></li>
+<li><a href="protection2.pdf" target="_blank">Setting password protection</a> <font size="-1">(User password: <i>Hello</i>, Owner password: <i>World</i>)</font></li>
+<li><a href="rotation.pdf" target="_blank">Rotating text and image</a></li>
+<li><a href="wmf.pdf" target="_blank">Embedding Windows Meta File image</a></li>
+<li><a href="transformation.pdf" target="_blank">Geometric transformations</a></li>
+<li><a href="gradients.pdf" target="_blank">Color gradients</a></li>
+<li><a href="barcodes.pdf" target="_blank">Barcodes</a></li>
+<li><a href="charting.pdf" target="_blank">Simple charting examples</a></li>
+<li><a href="labels.pdf" target="_blank">Simple label printing examples</a></li>
+<li><a href="javascript.pdf" target="_blank">Document level JavaScript</a></li>
+<li><a href="form.pdf" target="_blank">PDF forms example</a></li>
+<li><a href="xmlwrite.pdf" target="_blank">Text styling using simple markup language</a></li>
+<li><a href="transparency.pdf" target="_blank">Alpha transparency and image masks</a></li>
+<li><a href="templates1.pdf" target="_blank">Internal templates</a></li>
+<li><a href="templates2.pdf" target="_blank">External templates</a></li>
+<li><a href="kerning.pdf" target="_blank">Kerning</a></li>
+<li><a href="twoencodings.pdf" target="_blank">Using a font with 2 different encodings</a></li>
+<li><a href="fontlist.pdf" target="_blank">List of usable system fonts</a></li>
+<li><b>Layers</b> (Optional Content Groups)<br>
+<a href="layersordered.pdf" target="_blank">Ordered</a>, 
+<a href="layersgrouped.pdf" target="_blank">Grouped</a>, 
+<a href="layersnested.pdf" target="_blank">Nested</a>, 
+<a href="layersautomatic.pdf" target="_blank">Automatic layers</a>, 
+<a href="layersradiogroup.pdf" target="_blank">Radio group</a> </li>
+<li><a href="glyphwriting.pdf" target="_blank">Direct glyph writing</a></li>
+<li><b>Indic script support</b><br>
+<a href="fullmoon.pdf" target="_blank">Full Moon in 9 Indic Scripts</a>, 
+<a href="indicfonts.pdf" target="_blank">Indic Fonts and Languages</a></li>
+<li><a href="attachment.pdf" target="_blank">File attachments</a> <b>(new)</b></li>
+</ul>
+
+   
+<h1>Future enhancements</h1>
+
+<p>Enhancements planned for the next versions:
+<ul>
+<li><p>Version 0.9.6: wxWidgets printing support via wxPdfGraphicsContext based on wxPdfDocument.</p></li>
+</ul>
+</p>
+    
+<p>To submit a feature request please look at <a href="https://github.com/utelle/wxpdfdoc/issues">wxPdfDocument issues page on GitHub</a>.</p>
+
+<h1>Supporting further development</h1>
+
+<table><tr><td>
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="image" src="https://www.paypal.com/de_DE/i/btn/x-click-but04.gif" border="0" name="submit" alt="Make a donation through PayPal - fast, free of charge and secure!">
+<img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1">
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+</form>
+</td><td valign="top"><p>If you find <b>wxPdfDocument</b> useful and would like to support the further development of this <b>wxWidgets</b> component, you may make a <b>donation</b> by clicking on the button on the left.</p></td></tr></table>
+
+<hr>
+Copyright &copy; 2005-2015 Ulrich Telle
+
+</body>
+</html>
