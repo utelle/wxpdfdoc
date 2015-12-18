@@ -107,7 +107,6 @@
     <define-wxbase-lib-name>xml</define-wxbase-lib-name>
     <define-wxbase-lib-name>odbc</define-wxbase-lib-name>
 
-
     <!--   Libraries whose name is prefixed with 'wx' only          -->
     <define-global-tag name="define-wxlib-name">
         <set var="WXLIB_$(value.upper())_NAME">
@@ -126,11 +125,11 @@
     <define-wxlib-name>dbgrid</define-wxlib-name>
     <define-wxlib-name>gl</define-wxlib-name>
     <define-wxlib-name>aui</define-wxlib-name>
+    <define-wxlib-name>ribbon</define-wxlib-name>
+    <define-wxlib-name>propgrid</define-wxlib-name>
+    <define-wxlib-name>stc</define-wxlib-name>
     <define-wxlib-name>richtext</define-wxlib-name>
-
-
-
-
+    <define-wxlib-name>webview</define-wxlib-name>
 
     <!--                        WX TEMPLATE                         -->
     <!--                                                            -->
@@ -167,6 +166,8 @@
         <if cond="value=='dbgrid'"><sys-lib>$(WXLIB_DBGRID_NAME)</sys-lib></if>
         <if cond="value=='qa'"><sys-lib>$(WXLIB_QA_NAME)</sys-lib></if>
         <if cond="value=='aui'"><sys-lib>$(WXLIB_AUI_NAME)</sys-lib></if>
+        <if cond="value=='ribbon'"><sys-lib>$(WXLIB_RIBBON_NAME)</sys-lib></if>
+        <if cond="value=='propgrid'"><sys-lib>$(WXLIB_PROPGRID_NAME)</sys-lib></if>
         <if cond="value=='richtext'"><sys-lib>$(WXLIB_RICHTEXT_NAME)</sys-lib></if>
 
         <!-- wx-lib can be used also to link against contrib libraries

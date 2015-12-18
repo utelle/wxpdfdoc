@@ -49,7 +49,7 @@ WX_SHARED = 0
 WX_UNICODE = 1
 !endif
 
-# Use debug build of wxWidgets (linked with debug CRT)? [0,1]
+# Use debug build of wxWidgets (define __WXDEBUG__)? [0,1]
 !ifndef WX_DEBUG
 WX_DEBUG = 1
 !endif
@@ -82,7 +82,6 @@ SHARED = 0
 
 ### Variables: ###
 
-COMPILER_PREFIX = bcc
 PDFDOC_LIB_CXXFLAGS = -I$(BCCDIR)\include $(____WX_SHARED) \
 	$(__WXUNICODE_DEFINE_p) $(__WXDEBUG_DEFINE_p) -D__WXMSW__ \
 	-I$(WX_DIR)$(WXLIBPATH)\msw$(WXLIBPOSTFIX) -I$(WX_DIR)\include $(VAR) \
@@ -247,7 +246,7 @@ __pdfdoc_lib___depname = \
 !endif
 !if "$(WX_SHARED)" == "1"
 __pdfdoc_dll___depname = \
-	..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll
+	..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll
 !endif
 !if "$(WX_MONOLITHIC)" == "0"
 __WXLIB_ADV_NAME_p = wxmsw$(WX_VERSION)$(WXLIBPOSTFIX)_adv.lib
@@ -312,7 +311,7 @@ __COMPONENT_LIB_LIBR = \
 !endif
 !if "$(WX_SHARED)" == "1"
 __COMPONENT_LIB_LIBR = \
-	..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib
+	..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib
 !endif
 !if "$(WX_MONOLITHIC)" == "0"
 __WXLIB_XML_NAME_p = wxbase$(WX_VERSION)$(WXLIBPOSTFIX)_xml.lib
@@ -336,10 +335,10 @@ WXLIBPOSTFIX = d
 WXLIBPOSTFIX = ud
 !endif
 !if "$(WX_SHARED)" == "0"
-WXLIBPATH = \lib\$(COMPILER_PREFIX)_lib
+WXLIBPATH = \lib\bcc_lib
 !endif
 !if "$(WX_SHARED)" == "1"
-WXLIBPATH = \lib\$(COMPILER_PREFIX)_dll
+WXLIBPATH = \lib\bcc_dll
 !endif
 !if "$(WX_DEBUG)" == "0"
 VAR_7 = -v-
@@ -362,13 +361,13 @@ clean:
 	-if exist bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.res del bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.res
 	-if exist bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.csm del bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\*.csm
 	-if exist ..\lib\bcc_$(____pdfdoc_lib__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib del ..\lib\bcc_$(____pdfdoc_lib__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib
-	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll
-	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.tds del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.tds
-	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilc del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilc
-	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ild del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ild
-	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilf del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilf
-	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ils del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ils
-	-if exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib del ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib
+	-if exist ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll del ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll
+	-if exist ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.tds del ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.tds
+	-if exist ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilc del ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilc
+	-if exist ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ild del ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ild
+	-if exist ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilf del ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ilf
+	-if exist ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ils del ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.ils
+	-if exist ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib del ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.lib
 	-if exist ..\samples\minimal\minimal.exe del ..\samples\minimal\minimal.exe
 	-if exist ..\samples\minimal\minimal.tds del ..\samples\minimal\minimal.tds
 	-if exist ..\samples\minimal\minimal.ilc del ..\samples\minimal\minimal.ilc
@@ -418,34 +417,34 @@ make_dir_pdfdoc_lib:
 	if not exist ..\lib\bcc_$(____pdfdoc_lib__DIRNAME_SHARED_SUFFIX_FILENAMES) mkdir ..\lib\bcc_$(____pdfdoc_lib__DIRNAME_SHARED_SUFFIX_FILENAMES)
 
 !if "$(WX_SHARED)" == "1"
-..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll: make_dir_pdfdoc_dll  $(PDFDOC_DLL_OBJECTS)
+..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc.dll: make_dir_pdfdoc_dll  $(PDFDOC_DLL_OBJECTS)
 	ilink32 -Tpd -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) $(LDFLAGS) @&&|
-	c0d32.obj $(PDFDOC_DLL_OBJECTS),$@,, $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib oleacc.lib import32.lib cw32.lib,,
+	c0d32.obj $(PDFDOC_DLL_OBJECTS),$@,, $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib odbc32.lib oleacc.lib import32.lib cw32.lib,,
 |
-	implib -f ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc $@
+	implib -f ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)\wxcode_msw$(WX_VERSION)$(WXLIBPOSTFIX)_pdfdoc $@
 !endif
 
 make_dir_pdfdoc_dll: 
-	if not exist ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES) mkdir ..\lib\$(COMPILER_PREFIX)_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)
+	if not exist ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES) mkdir ..\lib\bcc_$(____pdfdoc_dll__DIRNAME_SHARED_SUFFIX_FILENAMES)
 
 ..\samples\minimal\minimal.exe: $(MINIMAL_OBJECTS) $(__COMPONENT_LIB_DEP)  bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res
 	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -ap $(LDFLAGS) @&&|
-	c0x32.obj $(MINIMAL_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res
+	c0x32.obj $(MINIMAL_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib odbc32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\minimal_minimal.res
 |
 
 ..\samples\pdfdc\printing.exe: $(DCSAMPLE_OBJECTS) $(__COMPONENT_LIB_DEP)  bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
 	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -aa $(LDFLAGS) @&&|
-	c0w32.obj $(DCSAMPLE_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) $(__WXLIB_ADV_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_RICHTEXT_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
+	c0w32.obj $(DCSAMPLE_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) $(__WXLIB_ADV_NAME_p) $(__WXLIB_HTML_NAME_p) $(__WXLIB_RICHTEXT_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib odbc32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\dcsample_printing.res
 |
 
 ..\makefont\makefont.exe: $(MAKEFONT_OBJECTS) $(__COMPONENT_LIB_DEP)  bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res
 	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -ap $(LDFLAGS) @&&|
-	c0x32.obj $(MAKEFONT_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res
+	c0x32.obj $(MAKEFONT_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib odbc32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\makefont_makefont.res
 |
 
 ..\showfont\showfont.exe: $(SHOWFONT_OBJECTS) $(__COMPONENT_LIB_DEP)  bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.res
 	ilink32 -Tpe -q  -L$(BCCDIR)\lib -L$(BCCDIR)\lib\psdk -L$(WX_DIR)$(WXLIBPATH) $(VAR_7) -L..$(WXLIBPATH) -ap $(LDFLAGS) @&&|
-	c0x32.obj $(SHOWFONT_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.res
+	c0x32.obj $(SHOWFONT_OBJECTS),$@,, $(__COMPONENT_LIB_LIBR) $(__WXLIB_XML_NAME_p) $(__WXLIB_CORE_NAME_p) $(__WXLIB_BASE_NAME_p) wxtiff$(WX3RDPARTYLIBPOSTFIX).lib wxjpeg$(WX3RDPARTYLIBPOSTFIX).lib wxpng$(WX3RDPARTYLIBPOSTFIX).lib wxzlib$(WX3RDPARTYLIBPOSTFIX).lib wxregex$(WXLIBPOSTFIX).lib wxexpat$(WX3RDPARTYLIBPOSTFIX).lib ole2w32.lib odbc32.lib oleacc.lib import32.lib cw32.lib,, bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\showfont_showfont.res
 |
 
 bccmsw$(WXLIBPOSTFIX)$(_BUILDDIR_SHARED_SUFFIX)\pdfdoc_lib_pdfannotation.obj: ..\src\pdfannotation.cpp

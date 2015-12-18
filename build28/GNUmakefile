@@ -29,7 +29,7 @@ RANLIB ?= ranlib
 LINK_DLL_FLAGS ?= -shared
 
 # C++ compiler 
-CXX = `$(WX_CONFIG) --cxx`
+CXX = g++
 
 # Standard flags for C++ 
 CXXFLAGS ?= 
@@ -40,26 +40,26 @@ CPPFLAGS ?=
 # Standard linker flags 
 LDFLAGS ?= 
 
-# Use debug build of wxWidgets (linked with debug CRT)? [0,1]
-WX_DEBUG ?= 1
-
 # Location and arguments of wx-config script 
 WX_CONFIG ?= wx-config
 
 # Port of the wx library to build against [gtk1,gtk2,msw,x11,motif,mgl,osx_cocoa,osx_carbon,dfb]
-WX_PORT ?= $(shell $(WX_CONFIG) --query-toolkit)
+WX_PORT ?= $(shell $(WX_CONFIG) --selected-config | cut -d '-' -f 1)
 
 # Use DLL build of wx library to use? [0,1]
-WX_SHARED ?= $(shell if test -z `$(WX_CONFIG) --query-linkage`; then echo 1; else echo 0; fi)
+WX_SHARED ?= $(shell if test -z `$(WX_CONFIG) --selected-config | cut -d '-' -f 5`; then echo 1; else echo 0; fi)
 
 # Compile Unicode build of wxWidgets? [0,1]
-WX_UNICODE ?= $(shell $(WX_CONFIG) --query-chartype | sed 's/unicode/1/;s/ansi/0/')
+WX_UNICODE ?= $(shell $(WX_CONFIG) --selected-config | cut -d '-' -f 2 | sed 's/unicode/1/;s/ansi/0/')
+
+# Use debug build of wxWidgets (define __WXDEBUG__)? [0,1]
+WX_DEBUG ?= $(shell $(WX_CONFIG) --selected-config | cut -d '-' -f 3 | sed 's/debug/1/;s/release/0/')
 
 # Version of the wx library to build against. 
 WX_VERSION ?= 28
 
 # Build this wxCode component as DLL or as static library? [0,1]
-SHARED ?= $(shell if test -z `$(WX_CONFIG) --query-linkage`; then echo 1; else echo 0; fi)
+SHARED ?= $(shell if test -z `$(WX_CONFIG) --selected-config | cut -d '-' -f 5`; then echo 1; else echo 0; fi)
 
 
 
@@ -70,11 +70,11 @@ SHARED ?= $(shell if test -z `$(WX_CONFIG) --query-linkage`; then echo 1; else e
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-COMPILER_PREFIX = gcc
 WX_VERSION_MAJOR = $(shell echo $(WX_VERSION) | cut -c1,1)
 WX_VERSION_MINOR = $(shell echo $(WX_VERSION) | cut -c2,2)
-WX_CONFIG_FLAGS = $(WX_CONFIG_UNICODE_FLAG) $(WX_CONFIG_SHARED_FLAG) \
-	--toolkit=$(WX_PORT) --version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
+WX_CONFIG_FLAGS = $(WX_CONFIG_DEBUG_FLAG) $(WX_CONFIG_UNICODE_FLAG) \
+	$(WX_CONFIG_SHARED_FLAG) --toolkit=$(WX_PORT) \
+	--version=$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR)
 PDFDOC_LIB_CXXFLAGS = $(VAR) $(VAR_7) -W -Wall -I../include `$(WX_CONFIG) \
 	--cxxflags $(WX_CONFIG_FLAGS)` $(CPPFLAGS) $(CXXFLAGS)
 PDFDOC_LIB_OBJECTS =  \
@@ -345,6 +345,12 @@ SHOWFONT_OBJECTS =  \
 
 ### Conditionally set variables: ###
 
+ifeq ($(WX_DEBUG),0)
+WX_CONFIG_DEBUG_FLAG = --debug=no
+endif
+ifeq ($(WX_DEBUG),1)
+WX_CONFIG_DEBUG_FLAG = --debug=yes
+endif
 ifeq ($(WX_UNICODE),0)
 WX_CONFIG_UNICODE_FLAG = --unicode=no
 endif
@@ -387,7 +393,7 @@ __uninstall_pdfdoc_lib_headers___depname = uninstall_pdfdoc_lib_headers
 endif
 ifeq ($(WX_SHARED),1)
 __pdfdoc_dll___depname = \
-	../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
+	../lib/gcc_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
 endif
 ifeq ($(WX_SHARED),1)
 __install_pdfdoc_dll___depname = install_pdfdoc_dll
@@ -425,7 +431,7 @@ __COMPONENT_LIB_LIBR = \
 endif
 ifeq ($(WX_SHARED),1)
 __COMPONENT_LIB_LIBR = \
-	../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
+	../lib/gcc_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
 endif
 ifeq ($(WX_DEBUG),0)
 VAR_7 = 
@@ -451,8 +457,8 @@ clean:
 	rm -f gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/*.o
 	rm -f gcc$(WX_PORT)$(_BUILDDIR_SHARED_SUFFIX)/*.d
 	rm -f ../lib/gcc_$(__pdfdoc_lib__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).a
-	rm -f ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
-	rm -f ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
+	rm -f ../lib/gcc_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
+	rm -f ../lib/gcc_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so
 	rm -f ../samples/minimal/minimal
 	rm -f ../samples/pdfdc/printing
 	rm -f ../makefont/makefont
@@ -501,15 +507,15 @@ uninstall_pdfdoc_lib_headers:
 endif
 
 ifeq ($(WX_SHARED),1)
-../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so: make_dir_pdfdoc_dll  $(PDFDOC_DLL_OBJECTS)
+../lib/gcc_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so: make_dir_pdfdoc_dll  $(PDFDOC_DLL_OBJECTS)
 	$(CXX) $(LINK_DLL_FLAGS) -fPIC -o $@ $(PDFDOC_DLL_OBJECTS)  $(VAR_7) -L../lib $(LDFLAGS)  `$(WX_CONFIG) $(WX_CONFIG_FLAGS) --libs xml,core,base`
 endif
 
 ifeq ($(WX_SHARED),1)
 install_pdfdoc_dll: $(__pdfdoc_dll___depname)
 	$(INSTALL) -d $(DESTDIR)$(prefix)/lib
-	$(INSTALL) -m 644 ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so $(DESTDIR)$(prefix)/lib
-	install -c ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so $(DESTDIR)$(prefix)/lib
+	$(INSTALL) -m 644 ../lib/gcc_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so $(DESTDIR)$(prefix)/lib
+	install -c ../lib/gcc_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)/libwxcode_$(WX_PORT)_pdfdoc-$(WX_VERSION_MAJOR).$(WX_VERSION_MINOR).so $(DESTDIR)$(prefix)/lib
 endif
 
 ifeq ($(WX_SHARED),1)
@@ -519,7 +525,7 @@ uninstall_pdfdoc_dll:
 endif
 
 make_dir_pdfdoc_dll: 
-	@mkdir -p ../lib/$(COMPILER_PREFIX)_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)
+	@mkdir -p ../lib/gcc_$(__pdfdoc_dll__DIRNAME_SHARED_SUFFIX)
 
 ifeq ($(WX_SHARED),1)
 install_pdfdoc_dll_headers: 

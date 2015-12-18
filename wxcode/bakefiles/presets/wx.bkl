@@ -10,7 +10,7 @@
 
     - WX_* : used to let the user of the generated makefile choose a wxWidgets
              build among those available; you can use them in your project to
-             e.g. build a target only if WX_DEBUG is 0 or if WX_PORT is "msw".
+             e.g. build a target only if WX_SHARED is 0 or if WX_PORT is "msw".
 
 
     VARIABLES:
@@ -24,13 +24,17 @@
 
     - wx, wx-lib: templates to be used respectively for <dll>/<exe> and <lib>
                   targets; they add all the wxWidgets-related settings (e.g. the
-                  include and library search paths, the __WXDEBUG__ symbol, etc)
+                  include and library search paths, the necessary preprocessor
+                  symbols, etc).
 
-    - wxconsole: to be used when building console-only libraries or apps
-                 (adds the wxUSE_GUI=0 define).
+    - wxgui: to be used when building GUI-mode applications.
+
+    - wxconsole: to be used when building console-only applications
+                 (NOTE: it doesn't add the wxUSE_GUI=0 define since you don't
+                 need it when compiling wxBase-only code).
 
     - wxlike: this template should be combined with "wx" or "wx-lib" and will
-              make your project build with the same Unicode, debug & shared
+              make your project build with the same Unicode & shared
               config as the wxWidgets build selected using the WX_* options.
 
 
@@ -87,10 +91,11 @@
 
         <wx-lib>richtext</wx-lib>
         <wx-lib>aui</wx-lib>
+        <wx-lib>ribbon</wx-lib>
+        <wx-lib>propgrid</wx-lib>
+        <wx-lib>stc</wx-lib>
         <wx-lib>qa</wx-lib>
-        <wx-lib>dbgrid</wx-lib>
         <wx-lib>gl</wx-lib>
-        <wx-lib>odbc</wx-lib>
         <wx-lib>xrc</wx-lib>
         <wx-lib>html</wx-lib>
         <wx-lib>media</wx-lib>
@@ -117,14 +122,14 @@
                          tag definitions.
     -->
     <set var="LIB_LIST">
-        base core net xml odbc xrc html adv media gl dbgrid qa aui richtext
+        base core net xml xrc html adv media gl qa aui ribbon propgrid richtext stc
     </set>
 
     <!-- NOTE: refer to the NET contrib using NETUTILS instead of NET
                (which is already in LIB_LIST)
     -->
     <set var="CONTRIBLIB_LIST">
-        applet deprecated fl foldbar gizmos mmedia netutils ogl plot stc svg
+        applet deprecated fl foldbar gizmos mmedia netutils ogl plot svg
     </set>
     <set var="ALLLIB_LIST">$(LIB_LIST) $(CONTRIBLIB_LIST)</set>
 
@@ -195,7 +200,7 @@
     <!-- Configuration for building the bakefile with               -->
     <!-- unicode strings or not (unicode or ansi).                  -->
     <if cond="not isdefined('WX_UNICODE')">
-        <set var="WX_UNICODE_DEFAULT" overwrite="0">0</set>
+        <set var="WX_UNICODE_DEFAULT" overwrite="0">1</set>
         <option name="WX_UNICODE">
             <values>0,1</values>
             <values-description>ANSI,Unicode</values-description>
@@ -219,7 +224,7 @@
     </if>
 
     <if cond="not isdefined('WX_VERSION')">
-        <set var="WX_VERSION_DEFAULT" overwrite="0">28</set>
+        <set var="WX_VERSION_DEFAULT" overwrite="0">30</set>
         <option name="WX_VERSION">
             <default-value>$(WX_VERSION_DEFAULT)</default-value>
             <description>
@@ -310,6 +315,11 @@
             <optimize>$(_OPT)</optimize>
             <debug-info>$(_DEBUGINFO)</debug-info>
         </if>
+    </template>
+
+    <!-- Template for building wx-based GUI applications -->
+    <template id="wxgui" template="wx">
+        <app-type>gui</app-type>
     </template>
 
     <!-- Template for building wx-based console applications -->
