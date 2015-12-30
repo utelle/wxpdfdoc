@@ -6,12 +6,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\samples\minimal.cpp">
+    <ClCompile Include="..\makefont\makefont.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\samples\minimal.rc">
+    <ResourceCompile Include="..\makefont\makefont.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
   </ItemGroup>

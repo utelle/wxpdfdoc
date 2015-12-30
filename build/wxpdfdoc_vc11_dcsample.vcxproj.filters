@@ -9,22 +9,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\wx\wxsqlite3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\wx\wxsqlite3def.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\wx\wxsqlite3dyn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\wx\wxsqlite3opt.h">
+    <ClInclude Include="..\samples\pdfdc\printing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\wxsqlite3.cpp">
+    <ClCompile Include="..\samples\pdfdc\printing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\samples\pdfdc\printing.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

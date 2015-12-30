@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Win64|Win32">
+      <Configuration>Debug Win64</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Win64|x64">
+      <Configuration>Debug Win64</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Win64|Win32">
+      <Configuration>Release Win64</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Win64|x64">
+      <Configuration>Release Win64</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Debug|Win32">
+      <Configuration>DLL Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Debug|x64">
+      <Configuration>DLL Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Debug Win64|Win32">
+      <Configuration>DLL Debug Win64</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Debug Win64|x64">
+      <Configuration>DLL Debug Win64</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Release|Win32">
+      <Configuration>DLL Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Release|x64">
+      <Configuration>DLL Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Release Win64|Win32">
+      <Configuration>DLL Release Win64</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DLL Release Win64|x64">
+      <Configuration>DLL Release Win64</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A4B82670-9085-817B-B99E-6F23A5CAB609}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>wxpdfdoc</RootNamespace>
+    <ProjectName>wxpdfdoc</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug Win64|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release Win64|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DLL Debug Win64|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='DLL Release Win64|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\lib\vc140_lib\</OutDir>
+    <IntDir>obj\Win32\Debug\wxpdfdoc\</IntDir>
+    <TargetName>wxpdfdocd</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
+    <OutDir>..\..\lib\vc140_lib\</OutDir>
+    <IntDir>obj\Win64\Debug\wxpdfdoc\</IntDir>
+    <TargetName>wxpdfdocd</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>..\..\lib\vc140_lib\</OutDir>
+    <IntDir>obj\Win32\Release\wxpdfdoc\</IntDir>
+    <TargetName>wxpdfdoc</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
+    <OutDir>..\..\lib\vc140_lib\</OutDir>
+    <IntDir>obj\Win64\Release\wxpdfdoc\</IntDir>
+    <TargetName>wxpdfdoc</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\lib\vc140_dll\</OutDir>
+    <IntDir>obj\Win32\DLL Debug\wxpdfdoc\</IntDir>
+    <TargetName>wxpdfdocd</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug Win64|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\lib\vc140_dll\</OutDir>
+    <IntDir>obj\Win64\DLL Debug\wxpdfdoc\</IntDir>
+    <TargetName>wxpdfdocd</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\lib\vc140_dll\</OutDir>
+    <IntDir>obj\Win32\DLL Release\wxpdfdoc\</IntDir>
+    <TargetName>wxpdfdoc</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release Win64|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\lib\vc140_dll\</OutDir>
+    <IntDir>obj\Win64\DLL Release\wxpdfdoc\</IntDir>
+    <TargetName>wxpdfdoc</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswud;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswud;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswu;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_lib\mswu;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_dll\mswud;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>wxbase30ud.lib;wxmsw30ud_richtext.lib;wxmsw30ud_aui.lib;wxmsw30ud_xrc.lib;wxmsw30ud_qa.lib;wxmsw30ud_html.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxbase30ud_xml.lib;wxbase30ud_net.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxtiffd.lib;wxexpatd.lib;wxregexud.lib;comctl32.lib;rpcrt4.lib;shell32.lib;gdi32.lib;kernel32.lib;user32.lib;comdlg32.lib;ole32.lib;oleaut32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\lib\vc140_dll\wxpdfdocd.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug Win64|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_dll\mswud;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>wxbase30ud.lib;wxmsw30ud_richtext.lib;wxmsw30ud_aui.lib;wxmsw30ud_xrc.lib;wxmsw30ud_qa.lib;wxmsw30ud_html.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxbase30ud_xml.lib;wxbase30ud_net.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxtiffd.lib;wxexpatd.lib;wxregexud.lib;comctl32.lib;rpcrt4.lib;shell32.lib;gdi32.lib;kernel32.lib;user32.lib;comdlg32.lib;ole32.lib;oleaut32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\lib\vc140_dll\wxpdfdocd.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_dll\mswu;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>wxbase30u.lib;wxmsw30u_richtext.lib;wxmsw30u_aui.lib;wxmsw30u_xrc.lib;wxmsw30u_qa.lib;wxmsw30u_html.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxbase30u_xml.lib;wxbase30u_net.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;wxtiff.lib;wxexpat.lib;wxregexu.lib;comctl32.lib;rpcrt4.lib;shell32.lib;gdi32.lib;kernel32.lib;user32.lib;comdlg32.lib;ole32.lib;oleaut32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\lib\vc140_dll\wxpdfdoc.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release Win64|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(WXWIN)\lib\vc_dll\mswu;$(WXWIN)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>wxbase30u.lib;wxmsw30u_richtext.lib;wxmsw30u_aui.lib;wxmsw30u_xrc.lib;wxmsw30u_qa.lib;wxmsw30u_html.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxbase30u_xml.lib;wxbase30u_net.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;wxtiff.lib;wxexpat.lib;wxregexu.lib;comctl32.lib;rpcrt4.lib;shell32.lib;gdi32.lib;kernel32.lib;user32.lib;comdlg32.lib;ole32.lib;oleaut32.lib;advapi32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(WXWIN)\lib\vc_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\lib\vc140_dll\wxpdfdoc.lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\wx\pdfannotation.h" />
+    <ClInclude Include="..\include\wx\pdfarraydouble.h" />
+    <ClInclude Include="..\include\wx\pdfarraytypes.h" />
+    <ClInclude Include="..\include\wx\pdfbarcode.h" />
+    <ClInclude Include="..\include\wx\pdfbookmark.h" />
+    <ClInclude Include="..\include\wx\pdfcffdecoder.h" />
+    <ClInclude Include="..\include\wx\pdfcffindex.h" />
+    <ClInclude Include="..\include\wx\pdfcjkfontdata.h" />
+    <ClInclude Include="..\include\wx\pdfcolour.h" />
+    <ClInclude Include="..\include\wx\pdfcoonspatchmesh.h" />
+    <ClInclude Include="..\include\wx\pdfcorefontdata.h" />
+    <ClInclude Include="..\include\wx\pdfdc.h" />
+    <ClInclude Include="..\include\wx\pdfdc28.h" />
+    <ClInclude Include="..\include\wx\pdfdc29.h" />
+    <ClInclude Include="..\include\wx\pdfdoc.h" />
+    <ClInclude Include="..\include\wx\pdfdocdef.h" />
+    <ClInclude Include="..\include\wx\pdfdocument.h" />
+    <ClInclude Include="..\include\wx\pdfencoding.h" />
+    <ClInclude Include="..\include\wx\pdfencrypt.h" />
+    <ClInclude Include="..\include\wx\pdffont.h" />
+    <ClInclude Include="..\include\wx\pdffontdata.h" />
+    <ClInclude Include="..\include\wx\pdffontdatacore.h" />
+    <ClInclude Include="..\include\wx\pdffontdataopentype.h" />
+    <ClInclude Include="..\include\wx\pdffontdatatruetype.h" />
+    <ClInclude Include="..\include\wx\pdffontdatatype0.h" />
+    <ClInclude Include="..\include\wx\pdffontdatatype1.h" />
+    <ClInclude Include="..\include\wx\pdffontdescription.h" />
+    <ClInclude Include="..\include\wx\pdffontdetails.h" />
+    <ClInclude Include="..\include\wx\pdffontextended.h" />
+    <ClInclude Include="..\include\wx\pdffontmacosx.h" />
+    <ClInclude Include="..\include\wx\pdffontmanager.h" />
+    <ClInclude Include="..\include\wx\pdffontparser.h" />
+    <ClInclude Include="..\include\wx\pdffontparsertruetype.h" />
+    <ClInclude Include="..\include\wx\pdffontparsertype1.h" />
+    <ClInclude Include="..\include\wx\pdffontsubsetcff.h" />
+    <ClInclude Include="..\include\wx\pdffontsubsettruetype.h" />
+    <ClInclude Include="..\include\wx\pdffontvolt.h" />
+    <ClInclude Include="..\include\wx\pdfform.h" />
+    <ClInclude Include="..\include\wx\pdfgradient.h" />
+    <ClInclude Include="..\include\wx\pdfgraphics.h" />
+    <ClInclude Include="..\include\wx\pdfimage.h" />
+    <ClInclude Include="..\include\wx\pdfinfo.h" />
+    <ClInclude Include="..\include\wx\pdflayer.h" />
+    <ClInclude Include="..\include\wx\pdflinestyle.h" />
+    <ClInclude Include="..\include\wx\pdflinks.h" />
+    <ClInclude Include="..\include\wx\pdfobjects.h" />
+    <ClInclude Include="..\include\wx\pdfparser.h" />
+    <ClInclude Include="..\include\wx\pdfpattern.h" />
+    <ClInclude Include="..\include\wx\pdfprint.h" />
+    <ClInclude Include="..\include\wx\pdfproperties.h" />
+    <ClInclude Include="..\include\wx\pdfrijndael.h" />
+    <ClInclude Include="..\include\wx\pdfshape.h" />
+    <ClInclude Include="..\include\wx\pdfspotcolour.h" />
+    <ClInclude Include="..\include\wx\pdftemplate.h" />
+    <ClInclude Include="..\include\wx\pdfutility.h" />
+    <ClInclude Include="..\include\wx\pdfxml.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\pdfannotation.cpp" />
+    <ClCompile Include="..\src\pdfbarcode.cpp" />
+    <ClCompile Include="..\src\pdfcffdecoder.cpp" />
+    <ClCompile Include="..\src\pdfcffindex.cpp" />
+    <ClCompile Include="..\src\pdfcolour.cpp" />
+    <ClCompile Include="..\src\pdfdc.cpp" />
+    <ClCompile Include="..\src\pdfdecode.cpp" />
+    <ClCompile Include="..\src\pdfdocument.cpp" />
+    <ClCompile Include="..\src\pdfencoding.cpp" />
+    <ClCompile Include="..\src\pdfencrypt.cpp" />
+    <ClCompile Include="..\src\pdffont.cpp" />
+    <ClCompile Include="..\src\pdffontdata.cpp" />
+    <ClCompile Include="..\src\pdffontdatacore.cpp" />
+    <ClCompile Include="..\src\pdffontdataopentype.cpp" />
+    <ClCompile Include="..\src\pdffontdatatruetype.cpp" />
+    <ClCompile Include="..\src\pdffontdatatype0.cpp" />
+    <ClCompile Include="..\src\pdffontdatatype1.cpp" />
+    <ClCompile Include="..\src\pdffontdescription.cpp" />
+    <ClCompile Include="..\src\pdffontdetails.cpp" />
+    <ClCompile Include="..\src\pdffontextended.cpp" />
+    <ClCompile Include="..\src\pdffontmanager.cpp" />
+    <ClCompile Include="..\src\pdffontparser.cpp" />
+    <ClCompile Include="..\src\pdffontparsertruetype.cpp" />
+    <ClCompile Include="..\src\pdffontparsertype1.cpp" />
+    <ClCompile Include="..\src\pdffontsubsetcff.cpp" />
+    <ClCompile Include="..\src\pdffontsubsettruetype.cpp" />
+    <ClCompile Include="..\src\pdffontvolt.cpp" />
+    <ClCompile Include="..\src\pdfform.cpp" />
+    <ClCompile Include="..\src\pdfgradient.cpp" />
+    <ClCompile Include="..\src\pdfgraphics.cpp" />
+    <ClCompile Include="..\src\pdfimage.cpp" />
+    <ClCompile Include="..\src\pdfkernel.cpp" />
+    <ClCompile Include="..\src\pdflayer.cpp" />
+    <ClCompile Include="..\src\pdfobjects.cpp" />
+    <ClCompile Include="..\src\pdfocg.cpp" />
+    <ClCompile Include="..\src\pdfparser.cpp" />
+    <ClCompile Include="..\src\pdfpattern.cpp" />
+    <ClCompile Include="..\src\pdfprint.cpp" />
+    <ClCompile Include="..\src\pdfrijndael.cpp" />
+    <ClCompile Include="..\src\pdftemplate.cpp" />
+    <ClCompile Include="..\src\pdfutility.cpp" />
+    <ClCompile Include="..\src\pdfxml.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\pdfcjkfontdata.inc" />
+    <None Include="..\src\pdfcmapdata.inc" />
+    <None Include="..\src\pdfcodepagedata.inc" />
+    <None Include="..\src\pdfcolourdata.inc" />
+    <None Include="..\src\pdfcorefontdata.inc" />
+    <None Include="..\src\pdfcorefontkerning.inc" />
+    <None Include="..\src\pdfdc28.inc" />
+    <None Include="..\src\pdfdc29.inc" />
+    <None Include="..\src\pdfglyphnames.inc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
