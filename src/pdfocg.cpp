@@ -311,8 +311,7 @@ wxPdfDocument::PutOCProperties()
   int offCount = 0;
   Out("/Order [");
   size_t n = m_ocgs->size();
-  size_t j;
-  for (j = 1; j <= n; ++j)
+  for (size_t j = 1; j <= n; ++j)
   {
     wxPdfOcgType ocgType = (*m_ocgs)[j]->GetType();
     if (ocgType == wxPDF_OCG_TYPE_LAYER || ocgType == wxPDF_OCG_TYPE_TITLE)
@@ -333,7 +332,7 @@ wxPdfDocument::PutOCProperties()
   if (offCount > 0)
   {
     Out("/OFF [", false);
-    for (j = 1; j <= n; ++j)
+    for (size_t j = 1; j <= n; ++j)
     {
       if ((*m_ocgs)[j]->GetType() == wxPDF_OCG_TYPE_LAYER)
       {
@@ -350,8 +349,7 @@ wxPdfDocument::PutOCProperties()
   if (m_rgLayers->size() > 0)
   {
     Out("/RBGroups [", false);
-    size_t j;
-    for (j = 1; j <= m_rgLayers->size(); ++j)
+    for (size_t j = 1; j <= m_rgLayers->size(); ++j)
     {
       Out("[", false);
       wxPdfArrayLayer layers = (*m_rgLayers)[j]->GetGroup();
@@ -369,8 +367,7 @@ wxPdfDocument::PutOCProperties()
   {
     wxPdfArrayLayer layers = m_lockedLayers->GetGroup();
     Out("/Locked [", false);
-    size_t j;
-    for (j = 0; j < layers.GetCount(); ++j)
+    for (size_t j = 0; j < layers.GetCount(); ++j)
     {
       OutAscii(wxString::Format(wxT("%d 0 R "), layers[j]->GetObjIndex()), false);
     }
