@@ -1642,7 +1642,6 @@ wxPdfFontParserTrueType::ReadKerning(int unitsPerEm)
     tableLocation = entry->second;
     LockTable(wxT("kern"));
     m_kp = new wxPdfKernPairMap();
-    wxPdfKernPairMap::iterator kp;
     wxPdfKernWidthMap* kwMap = NULL;
     wxPdfKernWidthMap::iterator kw;
     wxUint32 u1, u2;

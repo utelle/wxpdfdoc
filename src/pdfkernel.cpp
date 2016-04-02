@@ -930,8 +930,7 @@ wxPdfDocument::PutPages()
     Out("<</Type /Page");
     Out("/Parent 1 0 R");
 
-    wxPdfBoolHashMap::iterator oChange = (*m_orientationChanges).find(n);
-    if (oChange != (*m_orientationChanges).end())
+    if ((*m_orientationChanges).find(n) != (*m_orientationChanges).end())
     {
       wxSize pageSize = (*m_pageSizes)[n];
       double pageWidth = pageSize.GetWidth() / 254. * 72.;
@@ -970,12 +969,11 @@ wxPdfDocument::PutPages()
         else
         {
           wxPdfLink* link = (*m_links)[pl->GetLinkRef()];
-          wxPdfBoolHashMap::iterator oChange = (*m_orientationChanges).find(link->GetPage());
           double y = link->GetPosition()*m_k; 
           if (m_yAxisOriginTop)
           {
             double h = hPt;
-            if (oChange != (*m_orientationChanges).end())
+            if ((*m_orientationChanges).find(link->GetPage()) != (*m_orientationChanges).end())
             {
               wxSize pageSize = (*m_pageSizes)[link->GetPage()];
               h = pageSize.GetHeight() / 254. * 72.;
@@ -1743,10 +1741,9 @@ wxPdfDocument::PutTemplates()
           wxPdfImage* currentImage = image->second;
           OutAscii(wxString::Format(wxT("/I%d %d 0 R"), currentImage->GetIndex(), currentImage->GetObjIndex()));
         }
-        wxPdfTemplatesMap::iterator templateIter = currentTemplate->m_templates->begin();
-        for (templateIter = currentTemplate->m_templates->begin(); templateIter != currentTemplate->m_templates->end(); templateIter++)
+        for (wxPdfTemplatesMap::iterator templateIter2 = currentTemplate->m_templates->begin(); templateIter2 != currentTemplate->m_templates->end(); templateIter2++)
         {
-          wxPdfTemplate* tpl = templateIter->second;
+          wxPdfTemplate* tpl = templateIter2->second;
           OutAscii(m_templatePrefix + wxString::Format(wxT("%d %d 0 R"), tpl->GetIndex(), tpl->GetObjIndex()));
         }
         Out(">>");
