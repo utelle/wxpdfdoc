@@ -69,14 +69,14 @@ transparency()
   pdf.Rect(20, 20, 40, 40, wxPDF_STYLE_FILLDRAW);
 
   // draw jpeg image
-  pdf.Image(wxT("lena.jpg"), 30, 30, 40);
+  pdf.Image(wxT("flower.jpg"), 30, 30, 40);
 
   // restore full opacity
   pdf.SetAlpha();
 
   // print name
   pdf.SetFont(wxT("Helvetica"), wxT(""), 12);
-  pdf.Text(46,68,wxT("Lena"));
+  pdf.Text(46,68,wxT("Flower"));
 
   pdf.SaveAsFile(wxT("transparency.pdf"));
 }

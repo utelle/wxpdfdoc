@@ -421,10 +421,10 @@ found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like 
 - Moritz Wagner (Transformation)
 - Andreas Wuermser (Clipping, Gradients, Transformation)
 
-The wxPdfDocument encryption methods use the RSA Data Security, Inc. MD5 Message
-Digest Algorithm (RSA Data Security license) and the Rijndael cipher implementation
-of Szymon Stefanek (Public Domain). For detailed license information \see files
-pdfencrypt.cpp and pdfrijndael.h.
+The wxPdfDocument encryption methods use the MD5 Message Digest
+Algorithm implementation of Alexander Peslyak (Public Domain) and
+the Rijndael cipher implementation of Szymon Stefanek (Public Domain).
+For detailed license information \see files pdfencrypt.cpp and pdfrijndael.h.
 
 */
 
