@@ -1621,6 +1621,15 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         {
           Ln();
         }
+        //Check if there is enough space left on page, if not add page
+        double breakMargin = GetBreakMargin();
+        double pageHeight = GetPageHeight();
+        double yMax = pageHeight - breakMargin;
+        if (y + h > yMax)
+        {
+          AddPage();
+          y = GetY();
+        }
         Image(src, x+delta, y, w, h);
         SetXY(x, y+h);
       }
