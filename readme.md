@@ -73,7 +73,9 @@ Type `../configure --help` for more info.
 
 The autoconf-based system also supports a `make install` target which
 builds the library and then copies the headers of the component to
-`/usr/local/include` and the lib to `/usr/local/lib`.
+`/usr/local/include` and the lib to `/usr/local/lib` by default, you can use
+`pkg-config --cflags` and `--libs` to find the requires compilation and
+linking flags in general.
 
 ## <a name="execsamples"></a>Executing the sample applications
 
