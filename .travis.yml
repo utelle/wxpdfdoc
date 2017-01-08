@@ -1,0 +1,28 @@
+# This is the control file for Travis continuous integration system.
+#
+# It is used automatically for the repositories on Github if it's found in the
+# root directory of the project.
+language: cpp
+dist: trusty
+sudo: required
+compiler: gcc
+
+branches:
+    only:
+        - master
+
+before_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install -y libwxgtk3.0-dev
+    - autoreconf
+
+script:
+    - set -e && echo 'Configuring...' && echo -en 'travis_fold:start:script.configure\\r'
+    - ./configure
+    - echo -en 'travis_fold:end:script.configure\\r'
+    - echo 'Building...' && echo -en 'travis_fold:start:script.build\\r'
+    - make
+    - echo -en 'travis_fold:end:script.build\\r'
+    - echo 'Installing...' && echo -en 'travis_fold:start:script.install\\r'
+    - sudo make install
+    - echo -en 'travis_fold:end:script.install\\r'
