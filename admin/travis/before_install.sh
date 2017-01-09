@@ -21,6 +21,3 @@ case "$TRAVIS_OS_NAME" in
         exit 1
     ;;
 esac
-
-# Workaround for https://github.com/travis-ci/travis-ci/issues/6522
-set +e

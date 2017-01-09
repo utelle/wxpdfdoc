@@ -34,4 +34,7 @@ script:
     - echo -en 'travis_fold:end:script.build\\r'
     - echo 'Installing...' && echo -en 'travis_fold:start:script.install\\r'
     - sudo make install
-    - echo -en 'travis_fold:end:script.install\\r'
+    - set +e && echo -en 'travis_fold:end:script.install\\r'
+
+# The "set +e" is a workaround for https://github.com/travis-ci/travis-ci/issues/6522
+
