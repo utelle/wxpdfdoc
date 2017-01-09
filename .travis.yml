@@ -3,9 +3,16 @@
 # It is used automatically for the repositories on Github if it's found in the
 # root directory of the project.
 language: cpp
-dist: trusty
 sudo: required
-compiler: gcc
+
+matrix:
+    include:
+        - dist: trusty
+          compiler: gcc
+          env: WXGTK_PACKAGE=libwxgtk2.8-dev
+        - dist: trusty
+          compiler: gcc
+          env: WXGTK_PACKAGE=libwxgtk3.0-dev
 
 branches:
     only:
@@ -13,7 +20,7 @@ branches:
 
 before_install:
     - sudo apt-get -qq update
-    - sudo apt-get install -y libwxgtk3.0-dev
+    - sudo apt-get install -y $WXGTK_PACKAGE
     - autoreconf
 
 script:
