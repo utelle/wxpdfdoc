@@ -13,14 +13,15 @@ matrix:
         - dist: trusty
           compiler: gcc
           env: WXGTK_PACKAGE=libwxgtk3.0-dev
+        - os: osx
+          compiler: clang
 
 branches:
     only:
         - master
 
 before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -y $WXGTK_PACKAGE
+    - ./admin/travis/before_install.sh
     - autoreconf
 
 script:
