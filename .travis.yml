@@ -13,14 +13,16 @@ matrix:
         - dist: trusty
           compiler: gcc
           env: WXGTK_PACKAGE=libwxgtk3.0-dev
+        - os: osx
+          compiler: clang
+          env: CXXFLAGS=-Wno-potentially-evaluated-expression
 
 branches:
     only:
         - master
 
 before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -y $WXGTK_PACKAGE
+    - ./admin/travis/before_install.sh
     - autoreconf
 
 script:
@@ -32,4 +34,7 @@ script:
     - echo -en 'travis_fold:end:script.build\\r'
     - echo 'Installing...' && echo -en 'travis_fold:start:script.install\\r'
     - sudo make install
-    - echo -en 'travis_fold:end:script.install\\r'
+    - set +e && echo -en 'travis_fold:end:script.install\\r'
+
+# The "set +e" is a workaround for https://github.com/travis-ci/travis-ci/issues/6522
+
