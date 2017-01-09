@@ -15,6 +15,7 @@ matrix:
           env: WXGTK_PACKAGE=libwxgtk3.0-dev
         - os: osx
           compiler: clang
+          env: CXXFLAGS=-Wno-potentially-evaluated-expression
 
 branches:
     only:
