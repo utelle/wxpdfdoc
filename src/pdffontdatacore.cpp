@@ -2,9 +2,7 @@
 // Name:        pdffontdatacore.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-07
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -29,14 +27,12 @@
 #include "wx/pdffontdescription.h"
 #include "wx/pdfencoding.h"
 
-#include "wxmemdbg.h"
-
 wxPdfFontDataCore::wxPdfFontDataCore(const wxString& family, const wxString& alias, const wxString& name,
                                      short* cwArray, const wxPdfKernPairDesc* kpArray,
                                      const wxPdfFontDescription& desc)
   : wxPdfFontData()
 {
-  m_type   = wxT("core");
+  m_type   = wxS("core");
   m_family = family;
   m_alias  = alias;
   m_name   = name;
@@ -96,13 +92,13 @@ wxPdfFontDataCore::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyph
   wxUnusedVar(subset);
   wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
-  wxString s = wxString(wxT("["));
+  wxString s = wxString(wxS("["));
   int i;
   for (i = 32; i <= 255; i++)
   {
-    s += wxString::Format(wxT("%u "), (*m_cw)[i]);
+    s += wxString::Format(wxS("%u "), (*m_cw)[i]);
   }
-  s += wxString(wxT("]"));
+  s += wxString(wxS("]"));
   return s;
 }
 
@@ -193,7 +189,7 @@ wxPdfFontDataCore::ConvertCID2GID(const wxString& s,
       }
       else
       {
-        t += wxT("?");
+        t += wxS("?");
       }
     }
   }

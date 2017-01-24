@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:        pdfcodepagedata.inc
+// Purpose:     Definition of codepage tables
+// Author:      Ulrich Telle
+// Created:     2009-06-24
+// Copyright:   (c) Ulrich Telle
+// Licence:     wxWindows licence
+///////////////////////////////////////////////////////////////////////////////
+
 /// \file pdfcodepagedata.inc Definition of codepage tables.
 
 typedef struct _wxUniRangeDesc
@@ -3191,41 +3200,41 @@ static const struct wxPdfEncodingTableData
   const unsigned char*  m_encodingBase;
 } gs_encodingTableData[] =
 {
-  { wxT("standard"),     gs_standard_table,  gs_standard_tableSize,  NULL },
-  { wxT("winansi"),      gs_cp1252_table,    gs_cp1252_tableSize,    NULL },
-  { wxT("macroman"),     gs_macroman_table,  gs_macroman_tableSize,  NULL },
-  { wxT("symbol"),       gs_symbol_table,    gs_symbol_tableSize,    NULL },
-  { wxT("zapfdingbats"), gs_zdb_table,       gs_zdb_tableSize,       NULL },
-  { wxT("iso-8859-1"),   gs_8859_1_table,    gs_8859_1_tableSize,    NULL },
-  { wxT("iso-8859-2"),   gs_8859_2_table,    gs_8859_2_tableSize,    NULL },
-  { wxT("iso-8859-3"),   gs_8859_3_table,    gs_8859_3_tableSize,    NULL },
-  { wxT("iso-8859-4"),   gs_8859_4_table,    gs_8859_4_tableSize,    NULL },
-  { wxT("iso-8859-5"),   gs_8859_5_table,    gs_8859_5_tableSize,    NULL },
-  { wxT("iso-8859-6"),   gs_8859_6_table,    gs_8859_6_tableSize,    NULL },
-  { wxT("iso-8859-7"),   gs_8859_7_table,    gs_8859_7_tableSize,    NULL },
-  { wxT("iso-8859-8"),   gs_8859_8_table,    gs_8859_8_tableSize,    NULL },
-  { wxT("iso-8859-9"),   gs_8859_9_table,    gs_8859_9_tableSize,    NULL },
-  { wxT("iso-8859-10"),  gs_8859_10_table,   gs_8859_10_tableSize,   NULL },
-  { wxT("iso-8859-11"),  gs_8859_11_table,   gs_8859_11_tableSize,   NULL },
-  { wxT("iso-8859-13"),  gs_8859_13_table,   gs_8859_13_tableSize,   NULL },
-  { wxT("iso-8859-14"),  gs_8859_14_table,   gs_8859_14_tableSize,   NULL },
-  { wxT("iso-8859-15"),  gs_8859_15_table,   gs_8859_15_tableSize,   NULL },
-  { wxT("iso-8859-16"),  gs_8859_16_table,   gs_8859_16_tableSize,   NULL },
-  { wxT("cp-1250"),      gs_cp1250_table,    gs_cp1250_tableSize,    NULL },
-  { wxT("cp-1251"),      gs_cp1251_table,    gs_cp1251_tableSize,    NULL },
-  { wxT("cp-1252"),      gs_cp1252_table,    gs_cp1252_tableSize,    NULL },
-  { wxT("cp-1253"),      gs_cp1253_table,    gs_cp1253_tableSize,    NULL },
-  { wxT("cp-1254"),      gs_cp1254_table,    gs_cp1254_tableSize,    NULL },
-  { wxT("cp-1255"),      gs_cp1255_table,    gs_cp1255_tableSize,    NULL },
-  { wxT("cp-1256"),      gs_cp1256_table,    gs_cp1256_tableSize,    NULL },
-  { wxT("cp-1257"),      gs_cp1257_table,    gs_cp1257_tableSize,    NULL },
-  { wxT("cp-1258"),      gs_cp1258_table,    gs_cp1258_tableSize,    NULL },
-  { wxT("cp-874"),       gs_cp874_table,     gs_cp874_tableSize,     NULL },
-  { wxT("koi8-r"),       gs_koi8_r_table,    gs_koi8_r_tableSize,    NULL },
-  { wxT("koi8-u"),       gs_koi8_u_table,    gs_koi8_u_tableSize,    NULL },
-  { wxT("cp-932"),       NULL,               0,                      gs_cp932_table },
-  { wxT("cp-936"),       NULL,               0,                      gs_cp936_table },
-  { wxT("cp-949"),       NULL,               0,                      gs_cp949_table },
-  { wxT("cp-950"),       NULL,               0,                      gs_cp950_table },
+  { wxS("standard"),     gs_standard_table,  gs_standard_tableSize,  NULL },
+  { wxS("winansi"),      gs_cp1252_table,    gs_cp1252_tableSize,    NULL },
+  { wxS("macroman"),     gs_macroman_table,  gs_macroman_tableSize,  NULL },
+  { wxS("symbol"),       gs_symbol_table,    gs_symbol_tableSize,    NULL },
+  { wxS("zapfdingbats"), gs_zdb_table,       gs_zdb_tableSize,       NULL },
+  { wxS("iso-8859-1"),   gs_8859_1_table,    gs_8859_1_tableSize,    NULL },
+  { wxS("iso-8859-2"),   gs_8859_2_table,    gs_8859_2_tableSize,    NULL },
+  { wxS("iso-8859-3"),   gs_8859_3_table,    gs_8859_3_tableSize,    NULL },
+  { wxS("iso-8859-4"),   gs_8859_4_table,    gs_8859_4_tableSize,    NULL },
+  { wxS("iso-8859-5"),   gs_8859_5_table,    gs_8859_5_tableSize,    NULL },
+  { wxS("iso-8859-6"),   gs_8859_6_table,    gs_8859_6_tableSize,    NULL },
+  { wxS("iso-8859-7"),   gs_8859_7_table,    gs_8859_7_tableSize,    NULL },
+  { wxS("iso-8859-8"),   gs_8859_8_table,    gs_8859_8_tableSize,    NULL },
+  { wxS("iso-8859-9"),   gs_8859_9_table,    gs_8859_9_tableSize,    NULL },
+  { wxS("iso-8859-10"),  gs_8859_10_table,   gs_8859_10_tableSize,   NULL },
+  { wxS("iso-8859-11"),  gs_8859_11_table,   gs_8859_11_tableSize,   NULL },
+  { wxS("iso-8859-13"),  gs_8859_13_table,   gs_8859_13_tableSize,   NULL },
+  { wxS("iso-8859-14"),  gs_8859_14_table,   gs_8859_14_tableSize,   NULL },
+  { wxS("iso-8859-15"),  gs_8859_15_table,   gs_8859_15_tableSize,   NULL },
+  { wxS("iso-8859-16"),  gs_8859_16_table,   gs_8859_16_tableSize,   NULL },
+  { wxS("cp-1250"),      gs_cp1250_table,    gs_cp1250_tableSize,    NULL },
+  { wxS("cp-1251"),      gs_cp1251_table,    gs_cp1251_tableSize,    NULL },
+  { wxS("cp-1252"),      gs_cp1252_table,    gs_cp1252_tableSize,    NULL },
+  { wxS("cp-1253"),      gs_cp1253_table,    gs_cp1253_tableSize,    NULL },
+  { wxS("cp-1254"),      gs_cp1254_table,    gs_cp1254_tableSize,    NULL },
+  { wxS("cp-1255"),      gs_cp1255_table,    gs_cp1255_tableSize,    NULL },
+  { wxS("cp-1256"),      gs_cp1256_table,    gs_cp1256_tableSize,    NULL },
+  { wxS("cp-1257"),      gs_cp1257_table,    gs_cp1257_tableSize,    NULL },
+  { wxS("cp-1258"),      gs_cp1258_table,    gs_cp1258_tableSize,    NULL },
+  { wxS("cp-874"),       gs_cp874_table,     gs_cp874_tableSize,     NULL },
+  { wxS("koi8-r"),       gs_koi8_r_table,    gs_koi8_r_tableSize,    NULL },
+  { wxS("koi8-u"),       gs_koi8_u_table,    gs_koi8_u_tableSize,    NULL },
+  { wxS("cp-932"),       NULL,               0,                      gs_cp932_table },
+  { wxS("cp-936"),       NULL,               0,                      gs_cp936_table },
+  { wxS("cp-949"),       NULL,               0,                      gs_cp949_table },
+  { wxS("cp-950"),       NULL,               0,                      gs_cp950_table },
   { NULL,                NULL,               0,                      NULL } // sentinel empty entry
 };

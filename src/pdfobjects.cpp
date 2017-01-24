@@ -2,9 +2,7 @@
 // Name:        pdfobjects.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-07-13
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,8 +24,6 @@
 
 #include "wx/pdfobjects.h"
 #include "wx/pdfutility.h"
-
-#include "wxmemdbg.h"
 
 // --- Object queue for processing the resource tree
 
@@ -117,7 +113,7 @@ wxPdfBoolean::~wxPdfBoolean()
 wxString
 wxPdfBoolean::GetAsString()
 {
-  return (m_value) ? wxT("true") : wxT("false");
+  return (m_value) ? wxS("true") : wxS("false");
 }
 
 // --- String / Hex string
@@ -146,7 +142,7 @@ wxPdfNumber::wxPdfNumber(int value)
   : wxPdfObject(OBJTYPE_NUMBER)
 {
   m_value = value;
-  m_string = wxString::Format(wxT("%d"), value);
+  m_string = wxString::Format(wxS("%d"), value);
   m_isInt = true;
 }
 
@@ -244,7 +240,7 @@ wxPdfDictionary::wxPdfDictionary(const wxString& type)
   : wxPdfObject(OBJTYPE_DICTIONARY)
 {
   m_hashMap = new wxPdfDictionaryMap();
-  Put(wxT("Type"), new wxPdfName(type));
+  Put(wxS("Type"), new wxPdfName(type));
 }
 
 wxPdfDictionary::~wxPdfDictionary()

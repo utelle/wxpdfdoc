@@ -2,7 +2,6 @@
 // Name:        kerning.cpp
 // Purpose:     Demonstration of kerning in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-07-07
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -28,20 +27,27 @@
 * This example demonstrates the use of kerning.
 */
 
-void
-kerning()
+int
+kerning(bool testMode)
 {
   wxPdfDocument pdf;
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
   pdf.Open();
-  pdf.SetFont(wxT("Helvetica"),wxT(""),15);
+  pdf.SetFont(wxS("Helvetica"),wxS(""),15);
 
   // Page 1
   pdf.AddPage();
   pdf.SetKerning(false);
-  pdf.Cell(0,6,wxT("WATER AWAY (without kerning)"));
+  pdf.Cell(0,6,wxS("WATER AWAY (without kerning)"));
   pdf.Ln(6);
   pdf.SetKerning(true);
-  pdf.Cell(0,6,wxT("WATER AWAY (with kerning)"));
+  pdf.Cell(0,6,wxS("WATER AWAY (with kerning)"));
 
-  pdf.SaveAsFile(wxT("kerning.pdf"));
+  pdf.SaveAsFile(wxS("kerning.pdf"));
+
+  return 0;
 }

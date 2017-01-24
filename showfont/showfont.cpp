@@ -2,7 +2,6 @@
 // Name:        showfont.cpp
 // Purpose:     Utility for creating a font sample
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2011-01-04
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -153,11 +152,11 @@ ShowFont::AddRange(const wxString& range, bool include)
   wxString head, rlo, rhi;
   do
   {
-    head = tail.BeforeFirst(wxT(','));
-    tail = tail.AfterFirst(wxT(','));
-    rlo = head.BeforeFirst(wxT('-'));
-    rhi = head.AfterFirst(wxT('-'));
-    bool isRange = head.Find(wxT('-')) != wxNOT_FOUND;
+    head = tail.BeforeFirst(wxS(','));
+    tail = tail.AfterFirst(wxS(','));
+    rlo = head.BeforeFirst(wxS('-'));
+    rhi = head.AfterFirst(wxS('-'));
+    bool isRange = head.Find(wxS('-')) != wxNOT_FOUND;
     if (!rlo.IsEmpty())
     {
       ok = rlo.ToULong(&first,0);
@@ -225,28 +224,28 @@ ShowFont::IsInRange(wxUint32 charCode)
 bool
 ShowFont::ProcessFont(const wxString& fontFileName)
 {
-  m_sampleFont = wxPdfFontManager::GetFontManager()->RegisterFont(m_fontFile, wxT("SampleFont"), m_fontIndex);
+  m_sampleFont = wxPdfFontManager::GetFontManager()->RegisterFont(m_fontFile, wxS("SampleFont"), m_fontIndex);
   bool ok = m_sampleFont.IsValid();
   if (ok)
   {
     m_fontName = m_sampleFont.GetName();
-    if (m_hasEncoding && m_sampleFont.GetType().IsSameAs(wxT("Type1")))
+    if (m_hasEncoding && m_sampleFont.GetType().IsSameAs(wxS("Type1")))
     {
       ok = m_sampleFont.SetEncoding(m_encoding);
       if (!ok)
       {
-        wxLogMessage(wxT("Error: Invalid encoding '") + m_encoding + wxT("'."));
+        wxLogMessage(wxS("Error: Invalid encoding '") + m_encoding + wxS("'."));
       }
     }
     if (ok && !m_sampleFont.GetSupportedUnicodeCharacters(m_cids))
     {
-      wxLogMessage(wxT("Error: Unable to determine supported Unicode character list."));
+      wxLogMessage(wxS("Error: Unable to determine supported Unicode character list."));
       ok = false;
     }
   }
   else
   {
-    wxLogMessage(wxT("Error: Unable to read font file '") + fontFileName + wxT("'."));
+    wxLogMessage(wxS("Error: Unable to read font file '") + fontFileName + wxS("'."));
   }
   if (ok)
   {
@@ -261,10 +260,10 @@ void
 ShowFont::InitFonts()
 {
   wxPdfFontManager* fontManager = wxPdfFontManager::GetFontManager();
-  m_headerFont       = fontManager->GetFont(wxT("Helvetica"), wxPDF_FONTSTYLE_BOLD);
-  m_fontNameFont     = fontManager->GetFont(wxT("Times"),     wxPDF_FONTSTYLE_BOLD);
-  m_tableNumbersFont = fontManager->GetFont(wxT("Helvetica"), wxPDF_FONTSTYLE_REGULAR);
-  m_cellNumbersFont  = fontManager->GetFont(wxT("Courier"),   wxPDF_FONTSTYLE_REGULAR);
+  m_headerFont       = fontManager->GetFont(wxS("Helvetica"), wxPDF_FONTSTYLE_BOLD);
+  m_fontNameFont     = fontManager->GetFont(wxS("Times"),     wxPDF_FONTSTYLE_BOLD);
+  m_tableNumbersFont = fontManager->GetFont(wxS("Helvetica"), wxPDF_FONTSTYLE_REGULAR);
+  m_cellNumbersFont  = fontManager->GetFont(wxS("Courier"),   wxPDF_FONTSTYLE_REGULAR);
 }
 
 void
@@ -394,7 +393,7 @@ ShowFont::DrawPageHeader(const wxString& blockName)
   m_pdf->Cell(170, 5., blockName, wxPDF_BORDER_NONE, 0, wxPDF_ALIGN_CENTER);
 
   // Page number
-  wxString pageNumber = wxString::Format(wxT("%d"), m_pdf->PageNo());
+  wxString pageNumber = wxString::Format(wxS("%d"), m_pdf->PageNo());
   m_pdf->SetXY(95, 280);
   m_pdf->SetFont(m_headerFont, wxPDF_FONTSTYLE_BOLD, 10);
   m_pdf->Cell(20, 5., pageNumber, wxPDF_BORDER_NONE, 0, wxPDF_ALIGN_CENTER);
@@ -449,7 +448,7 @@ ShowFont::IsInBlock(wxUint32 charCode, const UnicodeBlock* block)
 void
 ShowFont::DrawCharCode(double x, double y, wxUint32 charCode)
 {
-  wxString hex = wxString::Format(wxT("%04X"), charCode);
+  wxString hex = wxString::Format(wxS("%04X"), charCode);
   m_pdf->SetFont(m_cellNumbersFont, wxPDF_FONTSTYLE_REGULAR, 8);
   m_pdf->SetXY(x, y + CELL_HEIGHT - 3.5);
   m_pdf->Cell(CELL_WIDTH, 3, hex, 0, 0, wxPDF_ALIGN_CENTER);
@@ -513,7 +512,7 @@ ShowFont::DrawTableGrid(wxUint32 colCount, wxUint32 blockStart)
   wxString hex;
   for (j = 0; j < 16; ++j)
   {
-    hex = wxString::Format(wxT("%01X"), j);
+    hex = wxString::Format(wxS("%01X"), j);
     m_pdf->SetXY(xMin - CELL_WIDTH - 1, TOP_MARGIN + (j + 0.35) * CELL_HEIGHT);
     m_pdf->Cell(CELL_WIDTH, 5, hex, 0, 0, wxPDF_ALIGN_RIGHT);
     m_pdf->SetXY(xMax + 1, TOP_MARGIN + (j + 0.35) * CELL_HEIGHT);
@@ -522,7 +521,7 @@ ShowFont::DrawTableGrid(wxUint32 colCount, wxUint32 blockStart)
 
   for (j = 0; j < colCount; ++j)
   {
-    hex = wxString::Format(wxT("%03X"), blockStart/16 + j);
+    hex = wxString::Format(wxS("%03X"), blockStart/16 + j);
     m_pdf->SetXY(xMin + j * CELL_WIDTH, TOP_MARGIN - 5);
     m_pdf->Cell(CELL_WIDTH, 5, hex, 0, 0, wxPDF_ALIGN_CENTER);
   }
@@ -552,13 +551,13 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, "i", "include-range", "Show characters in range(s) (s1[-e1][,s2[-e2]...])",       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, "x", "exclude-range", "Don't show characters in range(s) (s1[-e1][,s2[-e2]...])", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
 #else
-  { wxCMD_LINE_OPTION, wxT("f"), wxT("font"),          wxT("Create samples for FONT file"),                             wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
-  { wxCMD_LINE_OPTION, wxT("o"), wxT("output"),        wxT("Save samples to OUTPUT file"),                              wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
-  { wxCMD_LINE_OPTION, wxT("e"), wxT("encoding"),      wxT("Encoding of FONT (required for Type1 fonts)"),              wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_OPTION, wxT("h"), wxT("help"),          wxT("Show this information message and exit"),                   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_OPTION, wxT("n"), wxT("index"),         wxT("Font index in FONT"),                                       wxCMD_LINE_VAL_NUMBER, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_OPTION, wxT("i"), wxT("include-range"), wxT("Show characters in range(s) (s1[-e1][,s2[-e2]...])"),       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_OPTION, wxT("x"), wxT("exclude-range"), wxT("Don't show characters in range(s) (s1[-e1][,s2[-e2]...])"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
+  { wxCMD_LINE_OPTION, wxS("f"), wxS("font"),          wxS("Create samples for FONT file"),                             wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
+  { wxCMD_LINE_OPTION, wxS("o"), wxS("output"),        wxS("Save samples to OUTPUT file"),                              wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
+  { wxCMD_LINE_OPTION, wxS("e"), wxS("encoding"),      wxS("Encoding of FONT (required for Type1 fonts)"),              wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
+  { wxCMD_LINE_OPTION, wxS("h"), wxS("help"),          wxS("Show this information message and exit"),                   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
+  { wxCMD_LINE_OPTION, wxS("n"), wxS("index"),         wxS("Font index in FONT"),                                       wxCMD_LINE_VAL_NUMBER, wxCMD_LINE_PARAM_OPTIONAL   },
+  { wxCMD_LINE_OPTION, wxS("i"), wxS("include-range"), wxS("Show characters in range(s) (s1[-e1][,s2[-e2]...])"),       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
+  { wxCMD_LINE_OPTION, wxS("x"), wxS("exclude-range"), wxS("Don't show characters in range(s) (s1[-e1][,s2[-e2]...])"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
 #endif
   { wxCMD_LINE_NONE }
 };
@@ -568,42 +567,42 @@ ShowFont::OnInit()
 {
   // Set the font path and working directory
   wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
-  wxString fontPath = exePath.GetPathWithSep() + wxT("../lib/fonts");
+  wxString fontPath = exePath.GetPathWithSep() + wxS("../lib/fonts");
   wxString cwdPath  = exePath.GetPath();
   wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
   wxSetWorkingDirectory(cwdPath);
 
-  m_version = wxT("1.0.2 (August 2013)");
+  m_version = wxS("1.1.0 (January 2017)");
   m_ranges = NULL;
   bool valid = false;
   //gets the parameters from cmd line
   wxCmdLineParser parser (cmdLineDesc, argc, argv);
-  wxString logo = wxT("wxPdfDocument ShowFont Utility Version ") + m_version + 
-                  wxT("\n\nCreate font samples.\n") +
-                  wxT("Please specify file extensions in ALL file name parameters.\n");
+  wxString logo = wxS("wxPdfDocument ShowFont Utility Version ") + m_version + 
+                  wxS("\n\nCreate font samples.\n") +
+                  wxS("Please specify file extensions in ALL file name parameters.\n");
   parser.SetLogo(logo);
   if (parser.Parse() == 0)
   {
-    if (!parser.Found(wxT("help")))
+    if (!parser.Found(wxS("help")))
     {
-      valid = parser.Found(wxT("font"), &m_fontFile) && 
-              parser.Found(wxT("output"), &m_outputFile);
+      valid = parser.Found(wxS("font"), &m_fontFile) && 
+              parser.Found(wxS("output"), &m_outputFile);
       if (valid)
       {
         valid = m_fontFile != m_outputFile;
       }
-      m_hasEncoding = parser.Found(wxT("encoding"), &m_encoding);
-      if (!parser.Found(wxT("index"), &m_fontIndex))
+      m_hasEncoding = parser.Found(wxS("encoding"), &m_encoding);
+      if (!parser.Found(wxS("index"), &m_fontIndex))
       {
         m_fontIndex = 0;
       }
       wxString range;
-      if (valid && parser.Found(wxT("include-range"), &range))
+      if (valid && parser.Found(wxS("include-range"), &range))
       {
         valid = AddRange(range, true);
         if (valid) m_includes = range;
       }
-      if (valid && parser.Found(wxT("exclude-range"), &range))
+      if (valid && parser.Found(wxS("exclude-range"), &range))
       {
         valid = AddRange(range, false);
         if (valid) m_excludes = range;
@@ -637,28 +636,28 @@ ShowFont::OnExit()
 int
 ShowFont::OnRun()
 {
-  wxLogMessage(wxT("wxPdfDocument ShowFont Utility Version ") + m_version);
-  wxLogMessage(wxT("*** Starting to create font sample for ..."));
+  wxLogMessage(wxS("wxPdfDocument ShowFont Utility Version ") + m_version);
+  wxLogMessage(wxS("*** Starting to create font sample for ..."));
 
   if (ProcessFont(m_fontFile))
   {
     InitFonts();
     m_pdf = new wxPdfDocument();
     m_pdf->SetAutoPageBreak(false);
-    m_pdf->SetCreator(wxT("ShowFont ")+m_version);
-    m_pdf->SetTitle(wxT("Unicode coverage of font ")+m_fontName);
+    m_pdf->SetCreator(wxS("ShowFont ")+m_version);
+    m_pdf->SetTitle(wxS("Unicode coverage of font ")+m_fontName);
     wxString subject;
     if (!m_includes.IsEmpty())
     {
-      subject += wxT("Included code ranges: ") + m_includes;
+      subject += wxS("Included code ranges: ") + m_includes;
     }
     if (!m_excludes.IsEmpty())
     {
       if (!m_includes.IsEmpty())
       {
-        subject += wxT(" / ");
+        subject += wxS(" / ");
       }
-      subject += wxT("Excluded code ranges: ") + m_excludes;
+      subject += wxS("Excluded code ranges: ") + m_excludes;
     }
     if (!subject.IsEmpty())
     {
@@ -670,7 +669,7 @@ ShowFont::OnRun()
     delete m_pdf;
   }
 
-  wxLogMessage(wxT("*** wxPdfDocument ShowFont finished."));
+  wxLogMessage(wxS("*** wxPdfDocument ShowFont finished."));
 
   return 0;
 }

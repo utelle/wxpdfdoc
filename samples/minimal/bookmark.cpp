@@ -2,7 +2,6 @@
 // Name:        bookmark.cpp
 // Purpose:     Demonstration of bookmarks in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -27,28 +26,34 @@
 * This example demonstrates the use of bookmarks.
 */
 
-void
-bookmark()
+int
+bookmark(bool testMode)
 {
   wxPdfDocument pdf;
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
   pdf.Open();
-  pdf.SetFont(wxT("Helvetica"),wxT(""),15);
+  pdf.SetFont(wxS("Helvetica"),wxS(""),15);
   // Page 1
   pdf.AddPage();
-  pdf.Bookmark(wxT("Page 1"));
-  pdf.Bookmark(wxT("Paragraph 1"),1,-1);
-  pdf.Cell(0,6,wxT("Paragraph 1"));
+  pdf.Bookmark(wxS("Page 1"));
+  pdf.Bookmark(wxS("Paragraph 1"),1,-1);
+  pdf.Cell(0,6,wxS("Paragraph 1"));
   pdf.Ln(50);
-  pdf.Bookmark(wxT("Paragraph 2"),1,-1);
-  pdf.Cell(0,6,wxT("Paragraph 2"));
-  pdf.Annotate(60,30,wxT("First annotation on first page"));
-  pdf.Annotate(60,60,wxT("Second annotation on first page"));
+  pdf.Bookmark(wxS("Paragraph 2"),1,-1);
+  pdf.Cell(0,6,wxS("Paragraph 2"));
+  pdf.Annotate(60,30,wxS("First annotation on first page"));
+  pdf.Annotate(60,60,wxS("Second annotation on first page"));
   // Page 2
   pdf.AddPage();
-  pdf.Bookmark(wxT("Page 2"));
-  pdf.Bookmark(wxT("Paragraph 3"),1,-1);
-  pdf.Cell(0,6,wxT("Paragraph 3"));
-  pdf.Annotate(60,40,wxT("First annotation on second page"));
-  pdf.Annotate(90,40,wxT("Second annotation on second page"));
-  pdf.SaveAsFile(wxT("bookmark.pdf"));
+  pdf.Bookmark(wxS("Page 2"));
+  pdf.Bookmark(wxS("Paragraph 3"),1,-1);
+  pdf.Cell(0,6,wxS("Paragraph 3"));
+  pdf.Annotate(60,40,wxS("First annotation on second page"));
+  pdf.Annotate(90,40,wxS("Second annotation on second page"));
+  pdf.SaveAsFile(wxS("bookmark.pdf"));
+  return 0;
 }

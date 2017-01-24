@@ -1,3 +1,12 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:        pdfkerning.inc
+// Purpose:     Definition of kerning pairs for core fonts
+// Author:      Ulrich Telle
+// Created:     2009-06-24
+// Copyright:   (c) Ulrich Telle
+// Licence:     wxWindows licence
+///////////////////////////////////////////////////////////////////////////////
+
 /// \file pdfkerning.inc Definition of kerning pairs for core fonts.
 
 static const wxPdfKernPairDesc kpTableHelvetica[] =

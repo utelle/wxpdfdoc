@@ -2,7 +2,6 @@
 // Name:        jsform.cpp
 // Purpose:     Demonstration of JavaScript and interactive forms in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-01-21
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -34,20 +33,28 @@ public:
   void AutoPrint(bool showDialog = false)
   {
     // Embed some JavaScript to show the print dialog or start printing immediately
-    wxString param = (showDialog) ? wxT("true") : wxT("false");
-    AppendJavascript(wxString(wxT("print(")) + param + wxString(wxT(");")));
+    wxString param = (showDialog) ? wxS("true") : wxS("false");
+    AppendJavascript(wxString(wxS("print(")) + param + wxString(wxS(");")));
   }
 };
 
-void javascript()
+int
+javascript(bool testMode)
 {
   PdfAutoPrint pdf;
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
   pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"), wxT(""), 20);
-  pdf.Text(90, 50, wxT("Print me!"));
+  pdf.SetFont(wxS("Helvetica"), wxS(""), 20);
+  pdf.Text(90, 50, wxS("Print me!"));
   // Launch the print dialog
   pdf.AutoPrint(true);
-  pdf.SaveAsFile(wxT("javascript.pdf"));
+  pdf.SaveAsFile(wxS("javascript.pdf"));
+
+  return 0;
 }
 
 /**
@@ -56,85 +63,93 @@ void javascript()
 * This example demonstrates how create interactive forms in your PDF document.
 */
 
-void form()
+int
+form(bool testMode)
 {
   wxPdfDocument pdf;
-//  pdf.SetProtection(wxPDF_PERMISSION_PRINT | wxPDF_PERMISSION_MODIFY | wxPDF_PERMISSION_ANNOT);
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
+  //  pdf.SetProtection(wxPDF_PERMISSION_PRINT | wxPDF_PERMISSION_MODIFY | wxPDF_PERMISSION_ANNOT);
   pdf.SetFormColours(wxPdfColour(255,0,0), wxPdfColour(250,235,186), wxPdfColour(0,0,255));
   pdf.AddPage();
 
   // Title
-  pdf.SetFont(wxT("Helvetica"), wxT("U"), 16);
-  pdf.Cell(0, 5, wxT("Subscription form"), 0, 1, wxPDF_ALIGN_CENTER);
+  pdf.SetFont(wxS("Helvetica"), wxS("U"), 16);
+  pdf.Cell(0, 5, wxS("Subscription form"), 0, 1, wxPDF_ALIGN_CENTER);
   pdf.Ln(10);
-  pdf.SetFont(wxT(""), wxT(""), 12);
+  pdf.SetFont(wxS(""), wxS(""), 12);
 
   // First name
-  pdf.Cell(35, 5, wxT("First name:"));
+  pdf.Cell(35, 5, wxS("First name:"));
   pdf.SetFormBorderStyle(wxPDF_BORDER_UNDERLINE);
-  pdf.TextField(wxT("firstname"), pdf.GetX(), pdf.GetY(), 50, 5, wxT(""));
+  pdf.TextField(wxS("firstname"), pdf.GetX(), pdf.GetY(), 50, 5, wxS(""));
   pdf.Ln(6);
 
   // Last name
-  pdf.Cell(35, 5, wxT("Last name:"));
+  pdf.Cell(35, 5, wxS("Last name:"));
   pdf.SetFormBorderStyle(wxPDF_BORDER_UNDERLINE);
-  pdf.TextField(wxT("lastname"), pdf.GetX(), pdf.GetY(), 50, 5, wxT(""));
+  pdf.TextField(wxS("lastname"), pdf.GetX(), pdf.GetY(), 50, 5, wxS(""));
   pdf.Ln(6);
 
   // Title
-  pdf.Cell(35, 5, wxT("Title:"));
+  pdf.Cell(35, 5, wxS("Title:"));
   wxArrayString options;
-  options.Add(wxT(""));
-  options.Add(wxT("Dr."));
-  options.Add(wxT("Prof."));
+  options.Add(wxS(""));
+  options.Add(wxS("Dr."));
+  options.Add(wxS("Prof."));
   pdf.SetFormBorderStyle();
-  pdf.ComboBox(wxT("titlecombo"), pdf.GetX(), pdf.GetY(), 20,5, options);
+  pdf.ComboBox(wxS("titlecombo"), pdf.GetX(), pdf.GetY(), 20,5, options);
   pdf.Ln(8);
 
   // Gender
-  pdf.Cell(35, 5, wxT("Gender:"), 0, 0);
+  pdf.Cell(35, 5, wxS("Gender:"), 0, 0);
   double x = pdf.GetX();
   double y = pdf.GetY();
-  pdf.RadioButton(wxT("gender"), wxT("male"), x, y, 4);
-  pdf.RadioButton(wxT("gender"), wxT("female"), x+25, y, 4);
+  pdf.RadioButton(wxS("gender"), wxS("male"), x, y, 4);
+  pdf.RadioButton(wxS("gender"), wxS("female"), x+25, y, 4);
   pdf.SetXY(x+6, y);
-  pdf.Cell(20, 5, wxT("male"), 0, 0);
+  pdf.Cell(20, 5, wxS("male"), 0, 0);
   pdf.SetXY(x+31, y);
-  pdf.Cell(20, 5, wxT("female"), 0, 0);
+  pdf.Cell(20, 5, wxS("female"), 0, 0);
   pdf.Ln(8);
 
   // Adress
-  pdf.Cell(35, 5, wxT("Address:"));
+  pdf.Cell(35, 5, wxS("Address:"));
   pdf.SetFormBorderStyle();
-  pdf.TextField(wxT("address"), pdf.GetX(), pdf.GetY(), 60, 18, wxT(""), true);
+  pdf.TextField(wxS("address"), pdf.GetX(), pdf.GetY(), 60, 18, wxS(""), true);
   pdf.Ln(19);
 
   // E-mail
-  pdf.Cell(35, 5, wxT("E-mail:"));
+  pdf.Cell(35, 5, wxS("E-mail:"));
   pdf.SetFormBorderStyle();
-  pdf.TextField(wxT("email"), pdf.GetX(), pdf.GetY(), 50, 5, wxT(""));
+  pdf.TextField(wxS("email"), pdf.GetX(), pdf.GetY(), 50, 5, wxS(""));
   pdf.Ln(6);
 
   // Newsletter
-  pdf.Cell(35, 5, wxT("Receive our"), 0, 1);
-  pdf.Cell(35, 5, wxT("newsletter:"));
+  pdf.Cell(35, 5, wxS("Receive our"), 0, 1);
+  pdf.Cell(35, 5, wxS("newsletter:"));
   pdf.SetFormBorderStyle(wxPDF_BORDER_DASHED);
-  pdf.CheckBox(wxT("newsletter"), pdf.GetX(), pdf.GetY(), 5, false);
+  pdf.CheckBox(wxS("newsletter"), pdf.GetX(), pdf.GetY(), 5, false);
   pdf.Ln(10);
 
   // Date of the day
-  pdf.Cell(35, 5, wxT("Date: "));
+  pdf.Cell(35, 5, wxS("Date: "));
   pdf.SetFormBorderStyle();
-  pdf.TextField(wxT("date"), pdf.GetX(), pdf.GetY(), 30, 5, wxDateTime::Today().FormatISODate());
+  pdf.TextField(wxS("date"), pdf.GetX(), pdf.GetY(), 30, 5, wxDateTime::Today().FormatISODate());
   pdf.Ln(5);
-  pdf.Cell(35, 5,wxT("Signature:"));
+  pdf.Cell(35, 5,wxS("Signature:"));
   pdf.Ln(12);
 
   // Button to print
   pdf.SetX(95);
   pdf.SetFormBorderStyle();
-  pdf.PushButton(wxT("print"), pdf.GetX(), pdf.GetY(), 20,8, wxT("Print"), wxT("print(true);"));
+  pdf.PushButton(wxS("print"), pdf.GetX(), pdf.GetY(), 20,8, wxS("Print"), wxS("print(true);"));
 
-  pdf.SaveAsFile(wxT("form.pdf"));
+  pdf.SaveAsFile(wxS("form.pdf"));
+
+  return 0;
 }
 

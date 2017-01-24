@@ -2,7 +2,6 @@
 // Name:        pdfdc.cpp
 // Purpose:     Implementation of wxPdfDC
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2010-11-28
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

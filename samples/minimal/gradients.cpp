@@ -2,7 +2,6 @@
 // Name:        gradients.cpp
 // Purpose:     Demonstration of gradients in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-09-07
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -28,10 +27,15 @@
 * This example shows examples of linear and radial gradient shadings
 */
 
-void
-gradients()
+int
+gradients(bool testMode)
 {
   wxPdfDocument pdf;
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
   pdf.AddPage();
 
   // set colors for gradients (r,g,b) or (grey 0-255)
@@ -43,11 +47,11 @@ gradients()
   wxPdfColour cyan(0,255,255);
   wxPdfColour white(255,255,255);
   wxPdfColour black(0,0,0);
-  wxPdfColour navy(wxString(wxT("navy")));
-  wxPdfColour lightsteelblue(wxString(wxT("lightsteelblue")));
-  wxPdfColour light(wxString(wxT("#EEEEEE")));
-  wxPdfColour fcol(wxString(wxT("#440000")));
-  wxPdfColour tcol(wxString(wxT("#FF9090")));
+  wxPdfColour navy(wxString(wxS("navy")));
+  wxPdfColour lightsteelblue(wxString(wxS("lightsteelblue")));
+  wxPdfColour light(wxString(wxS("#EEEEEE")));
+  wxPdfColour fcol(wxString(wxS("#440000")));
+  wxPdfColour tcol(wxString(wxS("#FF9090")));
 
   // paint a linear gradient
   int grad1 = pdf.LinearGradient(red,blue);
@@ -127,7 +131,7 @@ gradients()
 
   // second page
   pdf.AddPage();
-  //pdf.Cell(0,5,wxT("Page 2"),0,1,'C');
+  //pdf.Cell(0,5,wxS("Page 2"),0,1,'C');
   pdf.Ln();
 
   wxPdfCoonsPatchMesh mesh3;
@@ -161,6 +165,8 @@ gradients()
   int coons3 = pdf.CoonsPatchGradient(mesh3, minCoord3, maxCoord3);
   pdf.SetFillGradient(10,25,190,200,coons3);
 
-  pdf.SaveAsFile(wxT("gradients.pdf"));
+  pdf.SaveAsFile(wxS("gradients.pdf"));
+
+  return 0;
 }
 

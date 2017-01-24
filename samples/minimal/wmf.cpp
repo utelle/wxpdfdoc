@@ -2,7 +2,6 @@
 // Name:        wmf.cpp
 // Purpose:     WMF: Test program for the wxPdfDocument class
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -19,6 +18,8 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/filename.h>
+
 #include "wx/pdfdoc.h"
 
 /**
@@ -27,11 +28,26 @@
 * This example shows the embedding of a WMF image file.
 */
 
-void wmf()
+int
+wmf(bool testMode)
 {
-  wxPdfDocument pdf;
-  pdf.AddPage();
-  pdf.Image(wxT("ringmaster.wmf"), 50, 10, 110, 0, wxT("wmf"));
-  pdf.SaveAsFile(wxT("wmf.pdf"));
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("ringmaster.wmf")))
+  {
+    wxPdfDocument pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    pdf.AddPage();
+    pdf.Image(wxS("ringmaster.wmf"), 50, 10, 110, 0, wxS("wmf"));
+    pdf.SaveAsFile(wxS("wmf.pdf"));
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 

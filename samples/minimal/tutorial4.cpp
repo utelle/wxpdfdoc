@@ -2,7 +2,6 @@
 // Name:        tutorial4.cpp
 // Purpose:     Tutorial 4: Test program for wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -19,6 +18,7 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/filename.h>
 #include <wx/wfstream.h>
 
 #include "wx/pdfdoc.h"
@@ -50,7 +50,7 @@ public:
   void Header()
   {
     // Page header
-    SetFont(wxT("Helvetica"),wxT("B"),15);
+    SetFont(wxS("Helvetica"),wxS("B"),15);
     double w = GetStringWidth(m_myTitle)+6;
     SetX((210-w)/2);
     SetDrawColour(wxColour(0,80,180));
@@ -67,9 +67,9 @@ public:
   {
     // Page footer
     SetY(-15);
-    SetFont(wxT("Helvetica"),wxT("I"),8);
+    SetFont(wxS("Helvetica"),wxS("I"),8);
     SetTextColour(128);
-    Cell(0,10,wxString::Format(wxT("Page %d"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
+    Cell(0,10,wxString::Format(wxS("Page %d"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
   }
 
   void SetCol(int col)
@@ -105,9 +105,9 @@ public:
   void ChapterTitle(int num, const wxString& label)
   {
     // Title
-    SetFont(wxT("Helvetica"),wxT(""),12);
+    SetFont(wxS("Helvetica"),wxS(""),12);
     SetFillColour(wxColour(200,220,255));
-    Cell(0,6,wxString::Format(wxT("Chapter  %d : "),num)+label,0,1,wxPDF_ALIGN_LEFT,1);
+    Cell(0,6,wxString::Format(wxS("Chapter  %d : "),num)+label,0,1,wxPDF_ALIGN_LEFT,1);
     Ln(4);
     // Save ordinate
     m_y0 = GetY();
@@ -123,13 +123,13 @@ public:
     ctxt[len] = '\0';
     wxString txt(ctxt,*wxConvCurrent);
     // Font
-    SetFont(wxT("Times"),wxT(""),12);
+    SetFont(wxS("Times"),wxS(""),12);
     // Output text in a 6 cm width column
     MultiCell(60,5,txt);
     Ln();
     // Mention
-    SetFont(wxT(""),wxT("I"));
-    Cell(0,5,wxT("(end of excerpt)"));
+    SetFont(wxS(""),wxS("I"));
+    Cell(0,5,wxS("(end of excerpt)"));
     // Go back to first column
     SetCol(0);
     delete [] ctxt;
@@ -152,14 +152,29 @@ private:
   wxString m_myTitle;
 };
 
-void
-tutorial4()
+int
+tutorial4(bool testMode)
 {
-  PdfTuto4 pdf;
-  pdf.SetMyTitle(wxT("20000 Leagues Under the Seas"));
-  pdf.SetAuthor(wxT("Jules Verne"));
-  pdf.PrintChapter(1,wxT("A RUNAWAY REEF"),wxT("20k_c1.txt"));
-  pdf.PrintChapter(2,wxT("THE PROS AND CONS"),wxT("20k_c2.txt"));
-  pdf.SaveAsFile(wxT("tutorial4.pdf"));
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("20k_c1.txt")) &&
+      wxFileName::IsFileReadable(wxS("20k_c2.txt")))
+  {
+    PdfTuto4 pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    pdf.SetMyTitle(wxS("20000 Leagues Under the Seas"));
+    pdf.SetAuthor(wxS("Jules Verne"));
+    pdf.PrintChapter(1,wxS("A RUNAWAY REEF"),wxS("20k_c1.txt"));
+    pdf.PrintChapter(2,wxS("THE PROS AND CONS"),wxS("20k_c2.txt"));
+    pdf.SaveAsFile(wxS("tutorial4.pdf"));
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 

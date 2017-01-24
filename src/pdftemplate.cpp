@@ -2,9 +2,7 @@
 // Name:        pdftemplate.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-07-13
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -141,7 +139,7 @@ wxPdfDocument::UseTemplate(int templateId, double x, double y, double w, double 
 {
   if (m_page <= 0)
   {
-    wxLogError(wxString(wxT("wxPdfDocument::UseTemplate: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::UseTemplate: ")) +
                wxString(_("You have to add a page first!")));
     return;
   }
@@ -154,7 +152,7 @@ wxPdfDocument::UseTemplate(int templateId, double x, double y, double w, double 
   }
   else
   {
-    wxLogWarning(wxString(wxT("wxPdfDocument::UseTemplate: ")) +
+    wxLogWarning(wxString(wxS("wxPdfDocument::UseTemplate: ")) +
       wxString::Format(_("Template %d does not exist!"), templateId));
     return;
   }
@@ -176,12 +174,12 @@ wxPdfDocument::UseTemplate(int templateId, double x, double y, double w, double 
   }
   double xTrans = (x - xScale * tpl->GetX()) * m_k;
   double yTrans = (y + h - yScale * tpl->GetY()) * m_k;
-  OutAscii(wxString(wxT("q ")) +
-           wxPdfUtility::Double2String(xScale, 4) + wxString(wxT(" 0 0 ")) +
-           wxPdfUtility::Double2String(yScale, 4) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String(xTrans, 2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String(yTrans, 2) +  wxString(wxT(" cm"))); // Translate
-  OutAscii(m_templatePrefix + wxString::Format(wxT("%d Do Q"), tpl->GetIndex()));
+  OutAscii(wxString(wxS("q ")) +
+           wxPdfUtility::Double2String(xScale, 4) + wxString(wxS(" 0 0 ")) +
+           wxPdfUtility::Double2String(yScale, 4) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String(xTrans, 2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String(yTrans, 2) +  wxString(wxS(" cm"))); // Translate
+  OutAscii(m_templatePrefix + wxString::Format(wxS("%d Do Q"), tpl->GetIndex()));
   tpl->m_used = true;
 }
     
@@ -209,7 +207,7 @@ wxPdfDocument::GetTemplateSize(int templateId, double& w, double& h)
   }
   else
   {
-    wxLogWarning(wxString(wxT("wxPdfDocument::UseTemplate: ")) +
+    wxLogWarning(wxString(wxS("wxPdfDocument::UseTemplate: ")) +
       wxString::Format(_("Template %d does not exist!"), templateId));
     w = 0;
     h = 0;
@@ -235,7 +233,7 @@ wxPdfDocument::GetTemplateBBox(int templateId, double& x, double& y, double& w, 
     y = 0;
     w = 0;
     h = 0;
-    wxLogWarning(wxString(wxT("wxPdfDocument::GetTemplateBBox: ")) +
+    wxLogWarning(wxString(wxS("wxPdfDocument::GetTemplateBBox: ")) +
                  wxString::Format(_("Template %d does not exist!"), templateId));
   }
 }
@@ -259,19 +257,19 @@ wxPdfDocument::SetTemplateBBox(int templateId, double x, double y, double w, dou
       }
       else
       {
-        wxLogWarning(wxString(wxT("wxPdfDocument::SetTemplateBBox: ")) +
+        wxLogWarning(wxString(wxS("wxPdfDocument::SetTemplateBBox: ")) +
                      wxString::Format(_("Invalid width and/or height, BBox not changed for template %d!"), templateId));
       }
     }
     else
     {
-      wxLogWarning(wxString(wxT("wxPdfDocument::SetTemplateBBox: ")) +
+      wxLogWarning(wxString(wxS("wxPdfDocument::SetTemplateBBox: ")) +
                    wxString::Format(_("Template %d has already been used, BBox can't be changed!"), templateId));
     }
   }
   else
   {
-    wxLogWarning(wxString(wxT("wxPdfDocument::SetTemplateBBox: ")) +
+    wxLogWarning(wxString(wxS("wxPdfDocument::SetTemplateBBox: ")) +
                  wxString::Format(_("Template %d does not exist!"), templateId));
   }
 }
@@ -291,7 +289,7 @@ wxPdfDocument::SetSourceFile(const wxString& filename, const wxString& password)
     }
     else
     {
-      wxLogError(wxString(wxT("wxPdfDocument::SetSourceFile: ")) +
+      wxLogError(wxString(wxS("wxPdfDocument::SetSourceFile: ")) +
                  wxString(_("Parser creation failed.")));
       m_currentSource = wxEmptyString;
       delete m_currentParser;
@@ -300,7 +298,7 @@ wxPdfDocument::SetSourceFile(const wxString& filename, const wxString& password)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetSourceFile: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::SetSourceFile: ")) +
                wxString(_("No source file name given.")));
   }
   return pageCount;
@@ -405,15 +403,15 @@ wxPdfDocument::ImportPage(unsigned int pageno, wxPdfPageBox pageBox)
         double angle = -rotationAngle * (atan(1.) / 45.);
         double c = cos(angle);
         double s = sin(angle);
-        wxString strRotation = wxString(wxT("q ")) + 
-                               wxPdfUtility::Double2String(  c,3) + wxString(wxT(" ")) +
-                               wxPdfUtility::Double2String(  s,3) + wxString(wxT(" ")) +
-                               wxPdfUtility::Double2String( -s,3) + wxString(wxT(" ")) +
-                               wxPdfUtility::Double2String(  c,3) + wxString(wxT(" ")) +
-                               wxPdfUtility::Double2String( cx,3) + wxString(wxT(" ")) + 
-                               wxPdfUtility::Double2String( cy,3) + wxString(wxT(" cm 1 0 0 1 ")) +
-                               wxPdfUtility::Double2String(-cx,3) + wxString(wxT(" ")) +
-                               wxPdfUtility::Double2String(-cy,3) + wxString(wxT(" cm "));
+        wxString strRotation = wxString(wxS("q ")) + 
+                               wxPdfUtility::Double2String(  c,3) + wxString(wxS(" ")) +
+                               wxPdfUtility::Double2String(  s,3) + wxString(wxS(" ")) +
+                               wxPdfUtility::Double2String( -s,3) + wxString(wxS(" ")) +
+                               wxPdfUtility::Double2String(  c,3) + wxString(wxS(" ")) +
+                               wxPdfUtility::Double2String( cx,3) + wxString(wxS(" ")) + 
+                               wxPdfUtility::Double2String( cy,3) + wxString(wxS(" cm 1 0 0 1 ")) +
+                               wxPdfUtility::Double2String(-cx,3) + wxString(wxS(" ")) +
+                               wxPdfUtility::Double2String(-cy,3) + wxString(wxS(" cm "));
         pageTemplate->m_buffer.Write((const char*) strRotation.ToAscii(), strRotation.Length());
       }
 
@@ -548,12 +546,12 @@ wxPdfDocument::WriteObjectValue(wxPdfObject* obj, bool newline)
 
         // Save the 'Length' entry of the stream dictionary
         wxPdfDictionary* dictionary = (wxPdfDictionary*) stream->GetDictionary();
-        wxPdfObject* originalLength = dictionary->Get(wxT("Length"));
+        wxPdfObject* originalLength = dictionary->Get(wxS("Length"));
 
         // Calculate the actual stream length and update the stream dictionary
         int streamLength = (int) CalculateStreamLength(buffer->TellO());
         wxPdfNumber actualLength(streamLength);
-        wxPdfName lengthKey(wxT("Length"));
+        wxPdfName lengthKey(wxS("Length"));
         dictionary->Put(&lengthKey, &actualLength);
 
         // Write the stream dictionary
@@ -596,7 +594,7 @@ wxPdfDocument::WriteObjectValue(wxPdfObject* obj, bool newline)
         {
           actualObjectId = mapEntry->second->GetActualObjectId();
         }
-        OutAscii(wxString::Format(wxT("%d 0 R"), actualObjectId), newline);
+        OutAscii(wxString::Format(wxS("%d 0 R"), actualObjectId), newline);
       }
       break;
 

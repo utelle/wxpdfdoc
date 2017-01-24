@@ -2,7 +2,6 @@
 // Name:        protection.cpp
 // Purpose:     Demonstration of access permissions in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -28,16 +27,22 @@
 * against copying text via cut & paste.
 */
 
-void
-protection1()
+int
+protection1(bool testMode)
 {
   wxPdfDocument pdf;
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
   pdf.SetProtection(wxPDF_PERMISSION_PRINT);
   pdf.Open();
   pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"));
-  pdf.Cell(0,10,wxString(wxT("You can print me but not copy my text.")),0,1);
-  pdf.SaveAsFile(wxT("protection1.pdf"));
+  pdf.SetFont(wxS("Helvetica"));
+  pdf.Cell(0,10,wxString(wxS("You can print me but not copy my text.")),0,1);
+  pdf.SaveAsFile(wxS("protection1.pdf"));
+  return 0;
 }
 
 /**
@@ -47,15 +52,21 @@ protection1()
 * against unauthorized access by using passwords with 128-bit encryption key.
 */
 
-void
-protection2()
+int
+protection2(bool testMode)
 {
   wxPdfDocument pdf;
-  pdf.SetProtection(wxPDF_PERMISSION_NONE, wxT("Hello"), wxT("World"), wxPDF_ENCRYPTION_RC4V2, 128);
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
+  pdf.SetProtection(wxPDF_PERMISSION_NONE, wxS("Hello"), wxS("World"), wxPDF_ENCRYPTION_RC4V2, 128);
   pdf.Open();
   pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"));
-  pdf.Cell(0,10,wxString(wxT("You can only view me on screen.")),0,1);
-  pdf.SaveAsFile(wxT("protection2.pdf"));
+  pdf.SetFont(wxS("Helvetica"));
+  pdf.Cell(0,10,wxString(wxS("You can only view me on screen.")),0,1);
+  pdf.SaveAsFile(wxS("protection2.pdf"));
+  return 0;
 }
 

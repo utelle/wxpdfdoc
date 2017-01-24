@@ -2,7 +2,6 @@
 // Name:        pdfgradient.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-06-11
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

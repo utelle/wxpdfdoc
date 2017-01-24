@@ -2,9 +2,7 @@
 // Name:        pdfparser.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-10-15
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -179,8 +177,8 @@ wxPdfParser::GetPageCount()
 }
 
 static const wxChar* gs_entryList[] = { 
-  wxT("Title"),   wxT("Author"),   wxT("Subject"),      wxT("Keywords"),
-  wxT("Creator"), wxT("Producer"), wxT("CreationDate"), wxT("ModDate"),
+  wxS("Title"),   wxS("Author"),   wxS("Subject"),      wxS("Keywords"),
+  wxS("Creator"), wxS("Producer"), wxS("CreationDate"), wxS("ModDate"),
   NULL
 }; //, "Trapped")
 
@@ -188,7 +186,7 @@ bool
 wxPdfParser::GetSourceInfo(wxPdfInfo& info)
 {
   bool ok = false;
-  wxPdfDictionary* infoDict = (wxPdfDictionary*) ResolveObject(m_trailer->Get(wxT("Info")));
+  wxPdfDictionary* infoDict = (wxPdfDictionary*) ResolveObject(m_trailer->Get(wxS("Info")));
   if (infoDict != NULL && infoDict->GetType() == OBJTYPE_DICTIONARY)
   {
     typedef void (wxPdfInfo::*InfoSetter) (const wxString& value);
@@ -245,11 +243,11 @@ wxPdfParser::ParseDocument()
     {
       if (SetupDecryptor())
       {
-        m_root = (wxPdfDictionary*) m_trailer->Get(wxT("Root"));
+        m_root = (wxPdfDictionary*) m_trailer->Get(wxS("Root"));
         m_root = (wxPdfDictionary*) ResolveObject(m_root);
         if (m_root != NULL)
         {
-          wxPdfName* versionEntry = (wxPdfName*) ResolveObject(m_root->Get(wxT("Version")));
+          wxPdfName* versionEntry = (wxPdfName*) ResolveObject(m_root->Get(wxS("Version")));
           if (versionEntry != NULL)
           {
             wxString version = versionEntry->GetName();
@@ -263,7 +261,7 @@ wxPdfParser::ParseDocument()
               delete versionEntry;
             }
           }
-          wxPdfDictionary* pages = (wxPdfDictionary*) ResolveObject(m_root->Get(wxT("Pages")));
+          wxPdfDictionary* pages = (wxPdfDictionary*) ResolveObject(m_root->Get(wxS("Pages")));
           ok = ParsePageTree(pages);
           delete pages;
         }
@@ -277,14 +275,14 @@ bool
 wxPdfParser::SetupDecryptor()
 {
   bool ok = true;
-  wxPdfObject* encDic = m_trailer->Get(wxT("Encrypt"));
+  wxPdfObject* encDic = m_trailer->Get(wxS("Encrypt"));
   if (encDic == NULL || encDic->GetType() == OBJTYPE_NULL)
   {
     return true;
   }
   wxPdfDictionary* enc = (wxPdfDictionary*) ResolveObject(encDic);
   wxPdfObject* obj;
-  wxPdfArray* documentIDs = (wxPdfArray*) ResolveObject(m_trailer->Get(wxT("ID")));
+  wxPdfArray* documentIDs = (wxPdfArray*) ResolveObject(m_trailer->Get(wxS("ID")));
   wxString documentID;
   if (documentIDs != NULL)
   {
@@ -300,85 +298,85 @@ wxPdfParser::SetupDecryptor()
   }
 
   wxString uValue = wxEmptyString;
-  obj = enc->Get(wxT("U"));
+  obj = enc->Get(wxS("U"));
   if (obj->GetType() == OBJTYPE_STRING)
   {
     uValue = ((wxPdfString*) obj)->GetValue();
     if (uValue.Length() != 32)
     {
-      wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                  wxString(_("Invalid length of U value.")));
       ok = false;
     }
   }
 
   wxString oValue = wxEmptyString;
-  obj = enc->Get(wxT("O"));
+  obj = enc->Get(wxS("O"));
   if (obj->GetType() == OBJTYPE_STRING)
   {
     oValue = ((wxPdfString*) obj)->GetValue();
     if (oValue.Length() != 32)
     {
-      wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                  wxString(_("Invalid length of O value.")));
       ok = false;
     }
   }
 
   int rValue = 0;
-  obj = enc->Get(wxT("R"));
+  obj = enc->Get(wxS("R"));
   if (obj->GetType() == OBJTYPE_NUMBER)
   {
     rValue = ((wxPdfNumber*) obj)->GetInt();
     if (rValue != 2 && rValue != 3)
     {
-      wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                  wxString::Format(_("Unknown encryption type (%d)."), rValue));
       ok = false;
     }
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+    wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                wxString(_("Illegal R value.")));
     ok = false;
   }
 
   int vValue = 0;
-  obj = enc->Get(wxT("V"));
+  obj = enc->Get(wxS("V"));
   if (obj != NULL && obj->GetType() == OBJTYPE_NUMBER)
   {
     vValue = ((wxPdfNumber*) obj)->GetInt();
     if (!((rValue == 2 && vValue == 1) || (rValue == 3 && vValue == 2)))
     {
-      wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                  wxString(_("Unsupported V value.")));
       ok = false;
     }
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+    wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                wxString(_("Illegal V value.")));
     ok = false;
   }
 
   int pValue = 0;
-  obj = enc->Get(wxT("P"));
+  obj = enc->Get(wxS("P"));
   if (obj->GetType() == OBJTYPE_NUMBER)
   {
     pValue = ((wxPdfNumber*) obj)->GetInt();
     // Check required permissions (Applications MUST respect the permission settings)
     if ((pValue & REQUIRED_PERMISSIONS) != REQUIRED_PERMISSIONS)
     {
-      wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                  wxString(_("Import of document not allowed due to missing permissions.")));
       ok = false;
     }
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+    wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                wxString(_("Illegal P value.")));
     ok = false;
   }
@@ -387,20 +385,20 @@ wxPdfParser::SetupDecryptor()
   if (rValue == 3)
   {
     // Get the key length if revision is 3
-    obj = enc->Get(wxT("Length"));
+    obj = enc->Get(wxS("Length"));
     if (obj->GetType() == OBJTYPE_NUMBER)
     {
       lengthValue = ((wxPdfNumber*) obj)->GetInt();
       if (lengthValue > 128 || lengthValue < 40 || lengthValue % 8 != 0)
       {
-        wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+        wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                    wxString(_("Illegal Length value.")));
         ok = false;
       }
     }
     else
     {
-      wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                  wxString(_("Illegal Length value.")));
       ok = false;
     }
@@ -417,7 +415,7 @@ wxPdfParser::SetupDecryptor()
     m_decryptor = new wxPdfEncrypt();
     if (!m_decryptor->Authenticate(documentID, m_password, uValue, oValue, pValue, lengthValue, rValue))
     {
-      wxLogError(wxString(wxT("wxPdfParser::SetupDecryptor: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::SetupDecryptor: ")) +
                  wxString(_("Bad password.")));
       ok = false;
     }
@@ -431,7 +429,7 @@ wxPdfParser::ParsePageTree(wxPdfDictionary* pages)
 {
   bool ok = false;
   // Get the kids dictionary
-  wxPdfArray* kids = (wxPdfArray*) ResolveObject(pages->Get(wxT("Kids")));
+  wxPdfArray* kids = (wxPdfArray*) ResolveObject(pages->Get(wxS("Kids")));
   if (kids != NULL)
   {
     size_t nKids = kids->GetSize();
@@ -440,8 +438,8 @@ wxPdfParser::ParsePageTree(wxPdfDictionary* pages)
     for (j = 0; j < nKids; j++)
     {
       wxPdfDictionary* page = (wxPdfDictionary*) ResolveObject(kids->Get(j));
-      wxPdfName* type = (wxPdfName*) page->Get(wxT("Type"));
-      if (type->GetName() == wxT("Pages"))
+      wxPdfName* type = (wxPdfName*) page->Get(wxS("Type"));
+      if (type->GetName() == wxS("Pages"))
       {
         // If one of the kids is an embedded
         // /Pages array, resolve it as well.
@@ -460,7 +458,7 @@ wxPdfParser::ParsePageTree(wxPdfDictionary* pages)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfParser::ParsePageTree: ")) +
+    wxLogError(wxString(wxS("wxPdfParser::ParsePageTree: ")) +
                wxString(_("Cannot find /Kids in current /Page-Dictionary")));
   }
   return ok;
@@ -485,14 +483,14 @@ wxPdfParser::GetPageResources(wxPdfObject* page)
 
   // If the current object has a resources dictionary associated with it,
   // we use it. Otherwise, we move back to its parent object.
-  wxPdfObject* resourceRef = ResolveObject(dic->Get(wxT("Resources")));
+  wxPdfObject* resourceRef = ResolveObject(dic->Get(wxS("Resources")));
   if (resourceRef != NULL)
   {
     resources = ResolveObject(resourceRef);
   }
   else
   {
-    wxPdfObject* parent = ResolveObject(dic->Get(wxT("Parent")));
+    wxPdfObject* parent = ResolveObject(dic->Get(wxS("Parent")));
     if (parent != NULL)
     {
       resources = GetPageResources(parent);
@@ -507,7 +505,7 @@ wxPdfParser::GetContent(unsigned int pageno, wxArrayPtrVoid& contents)
 {
   if (pageno < GetPageCount())
   {
-    wxPdfObject* content = ((wxPdfDictionary*) m_pages[pageno])->Get(wxT("Contents"));
+    wxPdfObject* content = ((wxPdfDictionary*) m_pages[pageno])->Get(wxS("Contents"));
     GetPageContent(content, contents);
   }
 }
@@ -544,17 +542,17 @@ wxPdfParser::GetPageContent(wxPdfObject* contentRef, wxArrayPtrVoid& contents)
 wxPdfArrayDouble*
 wxPdfParser::GetPageMediaBox(unsigned int pageno)
 {
-  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxT("MediaBox"));
+  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxS("MediaBox"));
   return box;
 }
 
 wxPdfArrayDouble*
 wxPdfParser::GetPageCropBox(unsigned int pageno)
 {
-  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxT("CropBox"));
+  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxS("CropBox"));
   if (box == NULL)
   {
-    box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxT("MediaBox"));
+    box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxS("MediaBox"));
   }
   return box;
 }
@@ -562,7 +560,7 @@ wxPdfParser::GetPageCropBox(unsigned int pageno)
 wxPdfArrayDouble*
 wxPdfParser::GetPageBleedBox(unsigned int pageno)
 {
-  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxT("BleedBox"));
+  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxS("BleedBox"));
   if (box == NULL)
   {
     box = GetPageCropBox(pageno);
@@ -573,7 +571,7 @@ wxPdfParser::GetPageBleedBox(unsigned int pageno)
 wxPdfArrayDouble*
 wxPdfParser::GetPageTrimBox(unsigned int pageno)
 {
-  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxT("TrimBox"));
+  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxS("TrimBox"));
   if (box == NULL)
   {
     box = GetPageCropBox(pageno);
@@ -584,7 +582,7 @@ wxPdfParser::GetPageTrimBox(unsigned int pageno)
 wxPdfArrayDouble*
 wxPdfParser::GetPageArtBox(unsigned int pageno)
 {
-  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxT("ArtBox"));
+  wxPdfArrayDouble* box = GetPageBox((wxPdfDictionary*) m_pages[pageno], wxS("ArtBox"));
   if (box == NULL)
   {
     box = GetPageCropBox(pageno);
@@ -599,7 +597,7 @@ wxPdfParser::GetPageBox(wxPdfDictionary* page, const wxString& boxIndex)
   wxPdfArray* box = (wxPdfArray*) ResolveObject(page->Get(boxIndex));
   if (box == NULL)
   {
-    wxPdfDictionary* parent = (wxPdfDictionary*) ResolveObject(page->Get(wxT("Parent")));
+    wxPdfDictionary* parent = (wxPdfDictionary*) ResolveObject(page->Get(wxS("Parent")));
     if (parent != NULL)
     {
       pageBox = GetPageBox(parent, boxIndex);
@@ -629,10 +627,10 @@ int
 wxPdfParser::GetPageRotation (wxPdfDictionary* page)
 { 
   int pageRotation = 0;
-  wxPdfNumber* rotation = (wxPdfNumber*) ResolveObject(page->Get(wxT("Rotate")));
+  wxPdfNumber* rotation = (wxPdfNumber*) ResolveObject(page->Get(wxS("Rotate")));
   if (rotation == NULL)
   {
-    wxPdfDictionary* parent = (wxPdfDictionary*) ResolveObject(page->Get(wxT("Parent")));
+    wxPdfDictionary* parent = (wxPdfDictionary*) ResolveObject(page->Get(wxS("Parent")));
     if (parent != NULL)
     {
       pageRotation = GetPageRotation(parent);
@@ -651,16 +649,16 @@ wxPdfParser::ParseXRef()
 {
   m_tokens->Seek(m_tokens->GetStartXRef());
   m_tokens->NextToken();
-  if (m_tokens->GetStringValue() != wxT("startxref"))
+  if (m_tokens->GetStringValue() != wxS("startxref"))
   {
-    wxLogError(wxString(wxT("wxPdfParser::ParseXRef: ")) +
+    wxLogError(wxString(wxS("wxPdfParser::ParseXRef: ")) +
                wxString(_("'startxref' not found.")));
     return false;
   }
   m_tokens->NextToken();
   if (m_tokens->GetTokenType() != /*PRTokeniser.*/ TOKEN_NUMBER)
   {
-    wxLogError(wxString(wxT("wxPdfParser::ParseXRef: ")) +
+    wxLogError(wxString(wxS("wxPdfParser::ParseXRef: ")) +
                wxString(_("'startxref' is not followed by a number.")));
     return false;
   }
@@ -675,7 +673,7 @@ wxPdfParser::ParseXRef()
     wxPdfDictionary* trailer2 = NULL;
     while (trailer1 != NULL)
     {
-      wxPdfNumber* prev = (wxPdfNumber*) trailer1->Get(wxT("Prev"));
+      wxPdfNumber* prev = (wxPdfNumber*) trailer1->Get(wxS("Prev"));
       trailer2 = trailer1;
       if (prev != NULL)
       {
@@ -699,9 +697,9 @@ wxPdfDictionary*
 wxPdfParser::ParseXRefSection()
 {
   m_tokens->NextValidToken();
-  if (m_tokens->GetStringValue() != wxT("xref"))
+  if (m_tokens->GetStringValue() != wxS("xref"))
   {
-    wxLogError(wxString(wxT("wxPdfParser::ParseXRefSection: ")) +
+    wxLogError(wxString(wxS("wxPdfParser::ParseXRefSection: ")) +
                wxString(_("xref subsection not found.")));
     return NULL;
   }
@@ -712,11 +710,11 @@ wxPdfParser::ParseXRefSection()
   while (true)
   {
     m_tokens->NextValidToken();
-    if (m_tokens->GetStringValue() == wxT("trailer"))
+    if (m_tokens->GetStringValue() == wxS("trailer"))
       break;
     if (m_tokens->GetTokenType() != TOKEN_NUMBER)
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseXRefSection: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseXRefSection: ")) +
                  wxString(_("Object number of the first object in this xref subsection not found.")));
       return NULL;
     }
@@ -724,7 +722,7 @@ wxPdfParser::ParseXRefSection()
     m_tokens->NextValidToken();
     if (m_tokens->GetTokenType() != TOKEN_NUMBER)
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseXRefSection: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseXRefSection: ")) +
                  wxString(_("Number of entries in this xref subsection not found.")));
       return NULL;
     }
@@ -754,18 +752,18 @@ wxPdfParser::ParseXRefSection()
       m_tokens->NextValidToken();
       gen = m_tokens->GetIntValue();
       m_tokens->NextValidToken();
-      if (m_tokens->GetStringValue() == wxT("n"))
+      if (m_tokens->GetStringValue() == wxS("n"))
       {
         if (xrefEntry.m_ofs_idx == 0 && xrefEntry.m_gen_ref == 0)
         {
           // TODO: if (pos == 0)
-          //   wxLogError(wxT("File position 0 cross-reference entry in this xref subsection"));
+          //   wxLogError(wxS("File position 0 cross-reference entry in this xref subsection"));
           xrefEntry.m_ofs_idx = pos;
           xrefEntry.m_gen_ref = gen;
           xrefEntry.m_type = 1;
         }
       }
-      else if (m_tokens->GetStringValue() == wxT("f"))
+      else if (m_tokens->GetStringValue() == wxS("f"))
       {
         if (xrefEntry.m_ofs_idx == 0 && xrefEntry.m_gen_ref == 0)
         {
@@ -776,17 +774,17 @@ wxPdfParser::ParseXRefSection()
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfParser:ReadXRefSection: ")) +
+        wxLogError(wxString(wxS("wxPdfParser:ReadXRefSection: ")) +
                    wxString(_("Invalid cross-reference entry in this xref subsection.")));
         return NULL;
       }
     }
   }
   wxPdfDictionary* trailer = (wxPdfDictionary*) ParseObject();
-  wxPdfNumber* xrefSize = (wxPdfNumber*) trailer->Get(wxT("Size"));
+  wxPdfNumber* xrefSize = (wxPdfNumber*) trailer->Get(wxS("Size"));
   ReserveXRef(xrefSize->GetInt());
 
-  wxPdfObject* xrs = trailer->Get(wxT("XRefStm"));
+  wxPdfObject* xrs = trailer->Get(wxS("XRefStm"));
   if (xrs != NULL && xrs->GetType() == OBJTYPE_NUMBER)
   {
     int loc = ((wxPdfNumber*) xrs)->GetInt();
@@ -815,7 +813,7 @@ wxPdfParser::ParseXRefStream(int ptr, bool setTrailer)
   {
     return false;
   }
-  if (!m_tokens->NextToken() || m_tokens->GetStringValue() != wxT("obj"))
+  if (!m_tokens->NextToken() || m_tokens->GetStringValue() != wxS("obj"))
   {
     return false;
   }
@@ -824,16 +822,16 @@ wxPdfParser::ParseXRefStream(int ptr, bool setTrailer)
   if (object->GetType() == OBJTYPE_STREAM)
   {
     stm = (wxPdfStream*) object;
-    if (((wxPdfName*) stm->Get(wxT("Type")))->GetName() != wxT("XRef"))
+    if (((wxPdfName*) stm->Get(wxS("Type")))->GetName() != wxS("XRef"))
     {
       delete object;
       return false;
     }
   }
-  int size = ((wxPdfNumber*) stm->Get(wxT("Size")))->GetInt();
+  int size = ((wxPdfNumber*) stm->Get(wxS("Size")))->GetInt();
   bool indexAllocated = false;
   wxPdfArray* index;
-  wxPdfObject* obj = stm->Get(wxT("Index"));
+  wxPdfObject* obj = stm->Get(wxS("Index"));
   if (obj == NULL)
   {
     indexAllocated = true;
@@ -845,9 +843,9 @@ wxPdfParser::ParseXRefStream(int ptr, bool setTrailer)
   {
     index = (wxPdfArray*) obj;
   }
-  wxPdfArray* w = (wxPdfArray*) stm->Get(wxT("W"));
+  wxPdfArray* w = (wxPdfArray*) stm->Get(wxS("W"));
   int prev = -1;
-  obj = stm->Get(wxT("Prev"));
+  obj = stm->Get(wxS("Prev"));
   if (obj != NULL)
   {
     prev = ((wxPdfNumber* )obj)->GetInt();
@@ -959,7 +957,7 @@ wxPdfParser::ParseDictionary()
       break;
     if (m_tokens->GetTokenType() != TOKEN_NAME)
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseDictionary: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseDictionary: ")) +
                  wxString(_("Dictionary key is not a name.")));
       break;
     }
@@ -968,7 +966,7 @@ wxPdfParser::ParseDictionary()
     int type = obj->GetType();
     if (-type == TOKEN_END_DICTIONARY)
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseDictionary: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseDictionary: ")) +
                  wxString(_("Unexpected '>>'.")));
       delete obj;
       delete name;
@@ -976,7 +974,7 @@ wxPdfParser::ParseDictionary()
     }
     if (-type == TOKEN_END_ARRAY)
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseDictionary: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseDictionary: ")) +
                  wxString(_("Unexpected ']'.")));
       delete obj;
       delete name;
@@ -1003,7 +1001,7 @@ wxPdfParser::ParseArray()
     }
     if (-type == TOKEN_END_DICTIONARY)
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseArray: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseArray: ")) +
                  wxString(_("Unexpected '>>'.")));
       delete obj;
       break;
@@ -1026,7 +1024,7 @@ wxPdfParser::ParseObject()
         wxPdfDictionary* dic = ParseDictionary();
         int pos = m_tokens->Tell();
         // be careful in the trailer. May not be a "next" token.
-        if (m_tokens->NextToken() && m_tokens->GetStringValue() == wxT("stream"))
+        if (m_tokens->NextToken() && m_tokens->GetStringValue() == wxS("stream"))
         {
           int ch = m_tokens->ReadChar();
           if (ch != '\n')
@@ -1087,7 +1085,7 @@ wxPdfParser::ParseObject()
     
     case TOKEN_BOOLEAN:
       {
-        obj = new wxPdfBoolean((m_tokens->GetStringValue() == wxT("true")));
+        obj = new wxPdfBoolean((m_tokens->GetStringValue() == wxS("true")));
       }
       break;
 
@@ -1167,7 +1165,7 @@ wxPdfParser::ParseDirectObject(int k)
     m_tokens->NextValidToken();
     if (m_tokens->GetTokenType() != TOKEN_NUMBER)
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseSingleObject: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseSingleObject: ")) +
                  wxString(_("Invalid object number.")));
       return NULL;
     }
@@ -1175,15 +1173,15 @@ wxPdfParser::ParseDirectObject(int k)
     m_tokens->NextValidToken();
     if (m_tokens->GetTokenType() != TOKEN_NUMBER)
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseSingleObject: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseSingleObject: ")) +
                  wxString(_("Invalid generation number.")));
       return NULL;
     }
     m_objGen = m_tokens->GetIntValue();
     m_tokens->NextValidToken();
-    if (m_tokens->GetStringValue() != wxT("obj"))
+    if (m_tokens->GetStringValue() != wxS("obj"))
     {
-      wxLogError(wxString(wxT("wxPdfParser::ParseSingleObject: ")) +
+      wxLogError(wxString(wxS("wxPdfParser::ParseSingleObject: ")) +
                  wxString(_("Token 'obj' expected.")));
       return NULL;
     }
@@ -1227,7 +1225,7 @@ wxPdfParser::ParseObjectStream(wxPdfStream* objStm, int idx)
 {
   wxPdfObject* obj = NULL;
 
-  wxPdfNumber* firstNumber = (wxPdfNumber*) ResolveObject(objStm->Get(wxT("First")));
+  wxPdfNumber* firstNumber = (wxPdfNumber*) ResolveObject(objStm->Get(wxS("First")));
   int first = firstNumber->GetInt();
   if (objStm->GetBuffer() == NULL)
   {
@@ -1252,7 +1250,7 @@ wxPdfParser::ParseObjectStream(wxPdfStream* objStm, int idx)
     int objCount = idx + 1;
     if (m_cacheObjects)
     {
-      wxPdfNumber* objCountNumber = (wxPdfNumber*) ResolveObject(objStm->Get(wxT("N")));
+      wxPdfNumber* objCountNumber = (wxPdfNumber*) ResolveObject(objStm->Get(wxS("N")));
       objCount = objCountNumber->GetInt();
     }
     int offset;
@@ -1302,7 +1300,7 @@ wxPdfParser::ParseObjectStream(wxPdfStream* objStm, int idx)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfParser::ParseOneObjStm: ")) +
+    wxLogError(wxString(wxS("wxPdfParser::ParseOneObjStm: ")) +
                wxString(_("Error reading ObjStm.")));
   }
 
@@ -1327,7 +1325,7 @@ wxPdfParser::GetStreamBytes(wxPdfStream* stream)
 
   size_t j;
   wxArrayPtrVoid filters;
-  wxPdfObject* filter = ResolveObject(stream->Get(wxT("Filter")));
+  wxPdfObject* filter = ResolveObject(stream->Get(wxS("Filter")));
   if (filter != NULL)
   {
     int type = filter->GetType();
@@ -1347,10 +1345,10 @@ wxPdfParser::GetStreamBytes(wxPdfStream* stream)
 
     // Read decode parameters if available
     wxArrayPtrVoid dp;
-    wxPdfObject* dpo = ResolveObject(stream->Get(wxT("DecodeParms")));
+    wxPdfObject* dpo = ResolveObject(stream->Get(wxS("DecodeParms")));
     if (dpo == NULL || (dpo->GetType() != OBJTYPE_DICTIONARY && dpo->GetType() != OBJTYPE_ARRAY))
     {
-      dpo = ResolveObject(stream->Get(wxT("DP")));
+      dpo = ResolveObject(stream->Get(wxS("DP")));
     }
     if (dpo != NULL)
     {
@@ -1375,7 +1373,7 @@ wxPdfParser::GetStreamBytes(wxPdfStream* stream)
     {
       osIn = stream->GetBuffer();
       wxPdfName* name = (wxPdfName*) filters[j];
-      if (name->GetName() == wxT("FlateDecode") || name->GetName() == wxT("Fl"))
+      if (name->GetName() == wxS("FlateDecode") || name->GetName() == wxS("Fl"))
       {
         osOut = FlateDecode(osIn);
         if (j < dp.GetCount())
@@ -1389,15 +1387,15 @@ wxPdfParser::GetStreamBytes(wxPdfStream* stream)
           }
         }
       }
-      else if(name->GetName() == wxT("ASCIIHexDecode") || name->GetName() == wxT("AHx"))
+      else if(name->GetName() == wxS("ASCIIHexDecode") || name->GetName() == wxS("AHx"))
       {
         osOut = ASCIIHexDecode(osIn);
       }
-      else if(name->GetName() == wxT("ASCII85Decode") || name->GetName() == wxT("A85"))
+      else if(name->GetName() == wxS("ASCII85Decode") || name->GetName() == wxS("A85"))
       {
         osOut = ASCII85Decode(osIn);
       }
-      else if(name->GetName() == wxT("LZWDecode"))
+      else if(name->GetName() == wxS("LZWDecode"))
       {
         osOut = LZWDecode(osIn);
         if (j < dp.GetCount())
@@ -1413,7 +1411,7 @@ wxPdfParser::GetStreamBytes(wxPdfStream* stream)
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfParser::GetStreamBytes: ")) +
+        wxLogError(wxString(wxS("wxPdfParser::GetStreamBytes: ")) +
                    wxString::Format(_("Filter '%s' not supported."), name->GetName().c_str()));
       }
       if (osOut != NULL)
@@ -1431,7 +1429,7 @@ wxPdfParser::GetStreamBytes(wxPdfStream* stream)
 void
 wxPdfParser::GetStreamBytesRaw(wxPdfStream* stream)
 {
-  wxPdfNumber* streamLength = (wxPdfNumber*) ResolveObject(stream->Get(wxT("Length")));
+  wxPdfNumber* streamLength = (wxPdfNumber*) ResolveObject(stream->Get(wxS("Length")));
   size_t size = streamLength->GetInt();
   m_tokens->Seek(stream->GetOffset());
   wxMemoryOutputStream* memoryBuffer = NULL;
@@ -1539,10 +1537,10 @@ wxPdfTokenizer::GetStartXRef()
   off_t pos = GetLength() - size;
   m_inputStream->SeekI(pos);
   wxString str = ReadString(1024);
-  size_t idx = str.rfind(wxString(wxT("startxref")));
+  size_t idx = str.rfind(wxString(wxS("startxref")));
   if (idx == wxString::npos)
   {
-    wxLogError(wxString(wxT("wxPdfTokenizer::GetStartXRef: ")) +
+    wxLogError(wxString(wxS("wxPdfTokenizer::GetStartXRef: ")) +
                wxString(_("PDF startxref not found.")));
   }
   return pos + (off_t) idx;
@@ -1554,7 +1552,7 @@ wxPdfTokenizer::CheckPdfHeader()
   wxString version = wxEmptyString;
   m_inputStream->SeekI(0);
   wxString str = ReadString(1024);
-  int idx = str.Find(wxT("%PDF-1."));
+  int idx = str.Find(wxS("%PDF-1."));
   if (idx >= 0)
   {
     m_inputStream->SeekI(idx);
@@ -1563,7 +1561,7 @@ wxPdfTokenizer::CheckPdfHeader()
   else
   {
     m_inputStream->SeekI(0);
-    wxLogError(wxString(wxT("wxPdfTokenizer::GetStartXref: ")) +
+    wxLogError(wxString(wxS("wxPdfTokenizer::GetStartXref: ")) +
                wxString(_("PDF header signature not found.")));
   }
   return version;
@@ -1628,7 +1626,7 @@ wxPdfTokenizer::NextToken()
       ch = ReadChar();
       if (ch != '>')
       {
-        wxLogError(wxString(wxT("wxPdfTokenizer::NextToken: ")) +
+        wxLogError(wxString(wxS("wxPdfTokenizer::NextToken: ")) +
                    wxString(_("'>' not expected.")));
         return false;
       }
@@ -1676,7 +1674,7 @@ wxPdfTokenizer::NextToken()
       }
       if (v1 < 0 || v2 < 0)
       {
-        wxLogError(wxString(wxT("wxPdfTokenizer::NextToken: ")) +
+        wxLogError(wxString(wxS("wxPdfTokenizer::NextToken: ")) +
                    wxString(_("Error reading string.")));
         return false;
       }
@@ -1791,7 +1789,7 @@ wxPdfTokenizer::NextToken()
       }
       if (ch == -1)
       {
-        wxLogError(wxString(wxT("wxPdfTokenizer::NextToken: ")) +
+        wxLogError(wxString(wxS("wxPdfTokenizer::NextToken: ")) +
                    wxString(_("Error reading string.")));
         return false;
       }
@@ -1826,7 +1824,7 @@ wxPdfTokenizer::NextToken()
   if (buffer != wxEmptyString)
   {
     m_stringValue.Append(buffer);
-    if (m_type == TOKEN_OTHER && (m_stringValue == wxT("true") || m_stringValue == wxT("false")))
+    if (m_type == TOKEN_OTHER && (m_stringValue == wxS("true") || m_stringValue == wxS("false")))
     {
       m_type = TOKEN_BOOLEAN;
     }
@@ -1870,7 +1868,7 @@ wxPdfTokenizer::NextValidToken()
       }
       default:
       {
-        if (m_type != TOKEN_OTHER || m_stringValue != wxT("R"))
+        if (m_type != TOKEN_OTHER || m_stringValue != wxS("R"))
         {
           Seek(ptr);
           m_type = TOKEN_NUMBER;
@@ -1887,7 +1885,7 @@ wxPdfTokenizer::NextValidToken()
       }
     }
   }
-  wxLogError(wxString(wxT("wxPdfTokenizer::NextValidToken: ")) +
+  wxLogError(wxString(wxS("wxPdfTokenizer::NextValidToken: ")) +
              wxString(_("Unexpected end of file.")));
 }
 

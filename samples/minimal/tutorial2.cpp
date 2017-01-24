@@ -2,7 +2,6 @@
 // Name:        tutorial2.cpp
 // Purpose:     Tutorial 2: Test program for wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -19,6 +18,7 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/filename.h>
 #include "wx/pdfdoc.h"
 
 /**
@@ -57,13 +57,13 @@ class PdfTuto2 : public wxPdfDocument
   void Header()
   {
     // Logo
-    Image(wxT("wxpdfdoc.png"),10,8,28);
+    Image(wxS("wxpdfdoc.png"),10,8,28);
     // Helvetica bold 15
-    SetFont(wxT("Helvetica"),wxT("B"),15);
+    SetFont(wxS("Helvetica"),wxS("B"),15);
     // Move to the right
     Cell(80);
     // Title
-    Cell(30,10,wxT("Title"),wxPDF_BORDER_FRAME,0,wxPDF_ALIGN_CENTER);
+    Cell(30,10,wxS("Title"),wxPDF_BORDER_FRAME,0,wxPDF_ALIGN_CENTER);
     // Line break
     Ln(20);
   }
@@ -74,27 +74,42 @@ class PdfTuto2 : public wxPdfDocument
     // Position at 1.5 cm from bottom
     SetY(-15);
     // Helvetica italic 8
-    SetFont(wxT("Helvetica"),wxT("I"),8);
+    SetFont(wxS("Helvetica"),wxS("I"),8);
     // Page number
-    Cell(0,10,wxString::Format(wxT("Page %d/{nb}"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
+    Cell(0,10,wxString::Format(wxS("Page %d/{nb}"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
   }
 };
 
-void
-tutorial2()
+int
+tutorial2(bool testMode)
 {
-  // Instantiation of inherited class
-  PdfTuto2 pdf;
-  pdf.AliasNbPages();
-  pdf.AddPage();
-  pdf.Image(wxT("smile.jpg"),70,40,12);
-  pdf.Image(wxT("apple.gif"),110,40,25);
-  pdf.SetFont(wxT("Times"),wxT(""),12);
-  int i;
-  for (i = 1; i <= 40; i++)
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("smile.jpg")) &&
+      wxFileName::IsFileReadable(wxS("apple.gif")))
   {
-    pdf.Cell(0,10,wxString::Format(wxT("Printing line number %d"),i),0,1);
+    // Instantiation of inherited class
+    PdfTuto2 pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    pdf.AliasNbPages();
+    pdf.AddPage();
+    pdf.Image(wxS("smile.jpg"), 70, 40, 12);
+    pdf.Image(wxS("apple.gif"), 110, 40, 25);
+    pdf.SetFont(wxS("Times"), wxS(""), 12);
+    int i;
+    for (i = 1; i <= 40; i++)
+    {
+      pdf.Cell(0, 10, wxString::Format(wxS("Printing line number %d"), i), 0, 1);
+    }
+    pdf.SaveAsFile(wxS("tutorial2.pdf"));
   }
-  pdf.SaveAsFile(wxT("tutorial2.pdf"));
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 

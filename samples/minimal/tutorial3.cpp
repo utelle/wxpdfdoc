@@ -2,7 +2,6 @@
 // Name:        tutorial3.cpp
 // Purpose:     Tutorial 3: Test program for wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -60,7 +59,7 @@ public:
   void Header()
   {
     // Helvetica bold 15
-    SetFont(wxT("Helvetica"),wxT("B"),15);
+    SetFont(wxS("Helvetica"),wxS("B"),15);
     // Calculate width of title and position
     double w = GetStringWidth(m_myTitle)+6;
     SetX((210-w)/2);
@@ -81,21 +80,21 @@ public:
     // Position at 1.5 cm from bottom
     SetY(-15);
     // Helvetica italic 8
-    SetFont(wxT("Helvetica"),wxT("I"),8);
+    SetFont(wxS("Helvetica"),wxS("I"),8);
     // Text color in gray
     SetTextColour(128);
     // Page number
-    Cell(0,10,wxString::Format(wxT("Page %d"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
+    Cell(0,10,wxString::Format(wxS("Page %d"),PageNo()),0,0,wxPDF_ALIGN_CENTER);
   }
 
   void ChapterTitle(int num, const wxString& label)
   {
     // Helvetica 12
-    SetFont(wxT("Helvetica"),wxT(""),12);
+    SetFont(wxS("Helvetica"),wxS(""),12);
     // Background color
     SetFillColour(wxColour(200,220,255));
     // Title
-    Cell(0,6,wxString::Format(wxT("Chapter %d : "),num) + label,0,1,wxPDF_ALIGN_LEFT,1);
+    Cell(0,6,wxString::Format(wxS("Chapter %d : "),num) + label,0,1,wxPDF_ALIGN_LEFT,1);
     // Line break
     Ln(4);
   }
@@ -110,14 +109,14 @@ public:
     ctxt[len] = '\0';
     wxString txt(ctxt,*wxConvCurrent);
     // Times 12
-    SetFont(wxT("Times"),wxT(""),12);
+    SetFont(wxS("Times"),wxS(""),12);
     // Output justified text
     MultiCell(0,5,txt);
     // Line break
     Ln();
     // Mention in italics
-    SetFont(wxT(""),wxT("I"));
-    Cell(0,5,wxT("(end of excerpt)"));
+    SetFont(wxS(""),wxS("I"));
+    Cell(0,5,wxS("(end of excerpt)"));
     delete [] ctxt;
   }
 
@@ -131,14 +130,20 @@ public:
   wxString m_myTitle;
 };
 
-void
-tutorial3()
+int
+tutorial3(bool testMode)
 {
   PdfTuto3 pdf;
-  pdf.SetMyTitle(wxT("20000 Leagues Under the Seas"));
-  pdf.SetAuthor(wxT("Jules Verne"));
-  pdf.PrintChapter(1,wxT("A RUNAWAY REEF"),wxT("20k_c1.txt"));
-  pdf.PrintChapter(2,wxT("THE PROS AND CONS"),wxT("20k_c2.txt"));
-  pdf.SaveAsFile(wxT("tutorial3.pdf"));
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
+  pdf.SetMyTitle(wxS("20000 Leagues Under the Seas"));
+  pdf.SetAuthor(wxS("Jules Verne"));
+  pdf.PrintChapter(1,wxS("A RUNAWAY REEF"),wxS("20k_c1.txt"));
+  pdf.PrintChapter(2,wxS("THE PROS AND CONS"),wxS("20k_c2.txt"));
+  pdf.SaveAsFile(wxS("tutorial3.pdf"));
+  return 0;
 } 
 

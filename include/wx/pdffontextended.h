@@ -2,7 +2,6 @@
 // Name:        pdffontextended.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-02-26
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

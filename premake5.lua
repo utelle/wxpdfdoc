@@ -2,8 +2,8 @@ dofile "premake/wxwidgets.lua"
 
 BUILDDIR = _OPTIONS["builddir"] or "build"
 
-workspace "wxspdfdoc"
-  configurations { "Debug", "Release", "DLL Debug", "DLL Release" }
+workspace "wxpdfdoc"
+  configurations { "Debug", "Release", "Debug wxDLL", "Release wxDLL", "DLL Debug", "DLL Release" }
   platforms { "Win32", "Win64" }
   location(BUILDDIR)
 
@@ -31,7 +31,7 @@ project "wxpdfdoc"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_pdfdoc"
   end
 
-  make_filters( "PDFDOC" )
+  make_filters( "PDFDOC", "wxpdfdoc" )
 
   files { "src/*.cpp", "src/*.inc", "include/wx/*.h" }
   vpaths {
@@ -39,7 +39,7 @@ project "wxpdfdoc"
     ["Source Files"] = { "**.cpp" }
   }
   includedirs { "include" }
-  flags { "Unicode" }  
+  characterset "Unicode"
 
 
 -- Minimal sample
@@ -53,7 +53,7 @@ project "minimal"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_minimal"
   end
 
-  use_filters( "PDFDOC" )
+  use_filters( "PDFDOC", "samples/minimal" )
 
   files { "samples/minimal/*.cpp", "samples/minimal/*.h", "samples/minimal/*.rc" }
   vpaths {
@@ -61,10 +61,10 @@ project "minimal"
     ["Source Files"] = { "**.cpp", "**.rc" }
   }
   includedirs { "samples/minimal", "include" }
-  flags { "Unicode", "WinMain" }  
+  characterset "Unicode"
+  flags { "WinMain" }  
   links { "wxpdfdoc" }
-  targetdir "samples/minimal"
-
+  
 -- wxPdfDC sample
 project "dcsample"
   location(BUILDDIR)
@@ -76,7 +76,7 @@ project "dcsample"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_dcsample"
   end
 
-  use_filters( "PDFDOC" )
+  use_filters( "PDFDOC", "samples/pdfdc" )
 
   files { "samples/pdfdc/*.cpp", "samples/pdfdc/*.h", "samples/pdfdc/*.rc" }
   vpaths {
@@ -84,9 +84,10 @@ project "dcsample"
     ["Source Files"] = { "**.cpp", "**.rc" }
   }
   includedirs { "samples/pdfdc", "include" }
-  flags { "Unicode", "WinMain" }  
+  characterset "Unicode"
+  flags { "WinMain" }  
   links { "wxpdfdoc" }
-  targetdir "samples/pdfdc"
+--  targetdir "samples/pdfdc"
 
 -- MakeFont utility
 project "makefont"
@@ -99,7 +100,7 @@ project "makefont"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_makefont"
   end
 
-  use_filters( "PDFDOC" )
+  use_filters( "PDFDOC", "makefont" )
 
   files { "makefont/*.cpp", "makefont/*.rc" }
   vpaths {
@@ -107,9 +108,10 @@ project "makefont"
     ["Source Files"] = { "**.cpp", "**.rc" }
   }
   includedirs { "include" }
-  flags { "Unicode", "WinMain" }  
+  characterset "Unicode"
+  flags { "WinMain" }  
   links { "wxpdfdoc" }
-  targetdir "makefont"
+--  targetdir "makefont"
 
 -- ShowFont utility
 project "showfont"
@@ -122,7 +124,7 @@ project "showfont"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_showfont"
   end
 
-  use_filters( "PDFDOC" )
+  use_filters( "PDFDOC", "showfont" )
 
   files { "showfont/*.cpp", "showfont/*.rc" }
   vpaths {
@@ -130,6 +132,7 @@ project "showfont"
     ["Source Files"] = { "**.cpp", "**.rc" }
   }
   includedirs { "include" }
-  flags { "Unicode", "WinMain" }  
+  characterset "Unicode"
+  flags { "WinMain" }  
   links { "wxpdfdoc" }
-  targetdir "showfont"
+--  targetdir "showfont"

@@ -2,9 +2,7 @@
 // Name:        pdffontsubsettruetype.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-11-20
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,8 +24,6 @@
 
 #include "wx/pdfarraytypes.h"
 #include "wx/pdffontsubsettruetype.h"
-
-#include "wxmemdbg.h"
 
 wxPdfFontSubsetTrueType::wxPdfFontSubsetTrueType(const wxString& fileName, 
                                                  int fontIndex, bool isMacCoreText)
@@ -75,7 +71,7 @@ wxPdfFontSubsetTrueType::CreateSubset(wxInputStream* inFont, wxPdfSortedArrayInt
   m_inFont->SeekI(0);
   m_directoryOffset = 0;
   wxString mainTag = ReadString(4);
-  if (mainTag == wxT("ttcf"))
+  if (mainTag == wxS("ttcf"))
   {
     SkipBytes(4);
     int dirCount = ReadInt();
@@ -109,20 +105,20 @@ wxPdfFontSubsetTrueType::ReadLocaTable()
   bool ok = false;
 
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("head"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("head"));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
-    LockTable(wxT("head"));
+    LockTable(wxS("head"));
     m_inFont->SeekI(tableLocation->m_offset + HEAD_LOCA_FORMAT_OFFSET);
     m_locaTableIsShort = (ReadUShort() == 0);
     ReleaseTable();
 
-    entry = m_tableDirectory->find(wxT("loca"));
+    entry = m_tableDirectory->find(wxS("loca"));
     if (entry != m_tableDirectory->end())
     {
       tableLocation = entry->second;
-      LockTable(wxT("loca"));
+      LockTable(wxS("loca"));
       m_inFont->SeekI(tableLocation->m_offset);
       m_locaTableSize = (m_locaTableIsShort) ? tableLocation->m_length / 2 : tableLocation->m_length / 4;
       m_locaTable = new int[m_locaTableSize];
@@ -136,13 +132,13 @@ wxPdfFontSubsetTrueType::ReadLocaTable()
     }
     else
     {
-      wxLogError(wxString(wxT("wxPdfFontSubsetTrueType::ReadLocaTable: ")) +
+      wxLogError(wxString(wxS("wxPdfFontSubsetTrueType::ReadLocaTable: ")) +
                  wxString::Format(_("Table 'loca' does not exist in '%s'."), m_fileName.c_str()));
     }
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontSubsetTrueType::ReadLocaTable: ")) +
+    wxLogError(wxString(wxS("wxPdfFontSubsetTrueType::ReadLocaTable: ")) +
                wxString::Format(_("Table 'head' does not exist in '%s'."), m_fileName.c_str()));
   }
   return ok;
@@ -153,11 +149,11 @@ wxPdfFontSubsetTrueType::CheckGlyphs()
 {
   bool ok = false;
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("glyf"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("glyf"));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
-    LockTable(wxT("glyf"));
+    LockTable(wxS("glyf"));
     int glyph0 = 0;
     if (m_usedGlyphs->Index(glyph0) == wxNOT_FOUND)
     {
@@ -174,7 +170,7 @@ wxPdfFontSubsetTrueType::CheckGlyphs()
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontSubsetTrueType::CheckGlyphs: ")) +
+    wxLogError(wxString(wxS("wxPdfFontSubsetTrueType::CheckGlyphs: ")) +
                wxString::Format(_("Table 'glyf' does not exist in '%s'."), m_fileName.c_str()));
   }
   return ok;
@@ -259,7 +255,7 @@ wxPdfFontSubsetTrueType::CreateNewTables()
   }
 
   // Copy used glyphs to new 'glyf' table
-  LockTable(wxT("glyf"));
+  LockTable(wxS("glyf"));
   int newGlyphOffset = 0;
   size_t glyphIndex = 0;
   for (k = 0; k < m_locaTableSize; k++)
@@ -306,19 +302,19 @@ wxPdfFontSubsetTrueType::CreateNewTables()
 }
 
 static const wxChar* tableNamesDefault[] = {
-  wxT("cvt "), wxT("fpgm"), wxT("glyf"), wxT("head"),
-  wxT("hhea"), wxT("hmtx"), wxT("loca"), wxT("maxp"), wxT("prep"),
+  wxS("cvt "), wxS("fpgm"), wxS("glyf"), wxS("head"),
+  wxS("hhea"), wxS("hmtx"), wxS("loca"), wxS("maxp"), wxS("prep"),
   NULL
 };
 static const wxChar* tableNamesCmap[] = {
-  wxT("cmap"), wxT("cvt "), wxT("fpgm"), wxT("glyf"), wxT("head"),
-  wxT("hhea"), wxT("hmtx"), wxT("loca"), wxT("maxp"), wxT("prep"),
+  wxS("cmap"), wxS("cvt "), wxS("fpgm"), wxS("glyf"), wxS("head"),
+  wxS("hhea"), wxS("hmtx"), wxS("loca"), wxS("maxp"), wxS("prep"),
   NULL
 };
 #if 0
 static const wxChar* tableNamesExtra[] = {
-  wxT("OS/2"), wxT("cmap"), wxT("cvt "), wxT("fpgm"), wxT("glyf"), wxT("head"),
-  wxT("hhea"), wxT("hmtx"), wxT("loca"), wxT("maxp"), wxT("name"), wxT("prep"),
+  wxS("OS/2"), wxS("cmap"), wxS("cvt "), wxS("fpgm"), wxS("glyf"), wxS("head"),
+  wxS("hhea"), wxS("hmtx"), wxS("loca"), wxS("maxp"), wxS("name"), wxS("prep"),
   NULL
 };
 #endif
@@ -344,7 +340,7 @@ wxPdfFontSubsetTrueType::WriteSubsetFont()
   for (k = 0; k < tableCount; k++)
   {
     wxString name = tableNames[k];
-    if (name != wxT("glyf") && name != wxT("loca"))
+    if (name != wxS("glyf") && name != wxS("loca"))
     {
       entry = m_tableDirectory->find(name);
       if (entry != m_tableDirectory->end())
@@ -373,12 +369,12 @@ wxPdfFontSubsetTrueType::WriteSubsetFont()
     {
       tableLocation = entry->second;
       WriteString(name);
-      if (name == wxT("glyf"))
+      if (name == wxS("glyf"))
       {
         WriteInt(CalculateChecksum(m_newGlyfTable, m_newGlyfTableSize));
         tableLength = (int) m_newGlyfTableRealSize;
       }
-      else if (name == wxT("loca"))
+      else if (name == wxS("loca"))
       {
         WriteInt(CalculateChecksum(m_newLocaTableStream, m_newLocaTableStreamSize));
         tableLength = (int) m_locaTableRealSize;
@@ -402,11 +398,11 @@ wxPdfFontSubsetTrueType::WriteSubsetFont()
     if (entry != m_tableDirectory->end())
     {
       tableLocation = entry->second;
-      if (name == wxT("glyf"))
+      if (name == wxS("glyf"))
       {
         m_outFont->Write(m_newGlyfTable, m_newGlyfTableSize);
       }
-      else if (name == wxT("loca"))
+      else if (name == wxS("loca"))
       {
         m_outFont->Write(m_newLocaTableStream, m_newLocaTableStreamSize);
       }

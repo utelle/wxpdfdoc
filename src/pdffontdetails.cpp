@@ -2,9 +2,7 @@
 // Name:        pdffontdetails.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-07
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,8 +26,6 @@
 #include "wx/pdffont.h"
 #include "wx/pdffontdetails.h"
 
-#include "wxmemdbg.h"
-
 static int
 CompareInts(int n1, int n2)
 {
@@ -43,8 +39,8 @@ wxPdfFontDetails::wxPdfFontDetails(int index, const wxPdfFont& font)
   {
     m_usedGlyphs = new wxPdfSortedArrayInt(CompareInts);
     m_usedGlyphs->Add(0);
-    if (m_font.GetType().IsSameAs(wxT("TrueTypeUnicode")) ||
-        m_font.GetType().IsSameAs(wxT("OpenTypeUnicode")))
+    if (m_font.GetType().IsSameAs(wxS("TrueTypeUnicode")) ||
+        m_font.GetType().IsSameAs(wxS("OpenTypeUnicode")))
     {
       m_subsetGlyphs = new wxPdfChar2GlyphMap();
       (*m_subsetGlyphs)[0] = 0;
@@ -163,19 +159,19 @@ wxPdfFontDetails::GetDescription() const
 wxString
 wxPdfFontDetails::CreateSubsetPrefix() const
 {
-  wxString prefix = wxT("WXP");
+  wxString prefix = wxS("WXP");
   int k;
   int code = m_index;
   for (k = 0; k < 3; k++)
   {
 #if wxCHECK_VERSION(2,9,0)
-    prefix += wxUniChar(wxT('A' + (code % 26)));
+    prefix += wxUniChar(wxS('A' + (code % 26)));
 #else
-    prefix += wxChar(wxT('A' + (code % 26)));
+    prefix += wxChar(wxS('A' + (code % 26)));
 #endif
     code /= 26;
   }
-  prefix += wxT("+");
+  prefix += wxS("+");
   return prefix;
 }
 

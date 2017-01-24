@@ -2,9 +2,7 @@
 // Name:        pdffont.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-10
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -30,8 +28,6 @@
 #include "wx/pdffontdata.h"
 #include "wx/pdffontdatatype1.h"
 #include "wx/pdffontmanager.h"
-
-#include "wxmemdbg.h"
 
 wxPdfFont::wxPdfFont() 
   : m_embed(false), m_subset(false), m_fontStyle(wxPDF_FONTSTYLE_REGULAR), 
@@ -103,19 +99,19 @@ wxPdfFont::IsValid() const
 wxString
 wxPdfFont::GetType() const
 {
-  return (m_fontData != NULL) ? m_fontData->GetType() : wxString(wxT(""));
+  return (m_fontData != NULL) ? m_fontData->GetType() : wxString(wxS(""));
 }
 
 wxString
 wxPdfFont::GetFamily() const
 {
-  return (m_fontData != NULL) ? m_fontData->GetFamily() : wxString(wxT(""));
+  return (m_fontData != NULL) ? m_fontData->GetFamily() : wxString(wxS(""));
 }
 
 wxString
 wxPdfFont::GetName() const
 {
-  return (m_fontData != NULL) ? m_fontData->GetName() : wxString(wxT(""));
+  return (m_fontData != NULL) ? m_fontData->GetName() : wxString(wxS(""));
 }
 
 int
@@ -130,7 +126,7 @@ wxPdfFont::GetEncoding() const
   wxString encoding = wxEmptyString;
   if (m_fontData != NULL)
   {
-    if (m_fontData->GetType().IsSameAs(wxT("Type1")) && m_encoding != NULL)
+    if (m_fontData->GetType().IsSameAs(wxS("Type1")) && m_encoding != NULL)
     {
       encoding = m_encoding->GetEncodingName();
     }
@@ -153,7 +149,7 @@ wxPdfFont::CanShow(const wxString& s)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFont::CanShow: ")) +
+    wxLogError(wxString(wxS("wxPdfFont::CanShow: ")) +
                wxString(_("Error on initializing the font.")));
   }
   return canShow;
@@ -264,7 +260,7 @@ wxPdfFont::GetStringWidth(const wxString& s) const
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFont::GetStringWidth: ")) +
+    wxLogError(wxString(wxS("wxPdfFont::GetStringWidth: ")) +
                wxString(_("Error on initializing the font.")));
   }
   return width;
@@ -298,7 +294,7 @@ wxPdfFont::GetDescription() const
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFont::GetDescription: ")) +
+    wxLogError(wxString(wxS("wxPdfFont::GetDescription: ")) +
                wxString(_("Error on initializing the font.")));
   }
   return fontDesc;
@@ -331,7 +327,7 @@ wxPdfFont::SetEncoding(const wxString& encodingName)
   const wxPdfEncoding* encoding = wxPdfFontManager::GetFontManager()->GetEncoding(encodingName);
   if (m_fontData != NULL)
   {
-    if (m_fontData->GetType().IsSameAs(wxT("Type1")) && 
+    if (m_fontData->GetType().IsSameAs(wxS("Type1")) && 
         encoding != NULL && encoding->IsOk())
     {
       ok = wxPdfFontManager::GetFontManager()->InitializeFontData(*this);
@@ -344,20 +340,20 @@ wxPdfFont::SetEncoding(const wxString& encodingName)
         }
         else
         {
-          wxLogDebug(wxString(wxT("wxPdfFont::SetEncoding: ")) +
+          wxLogDebug(wxString(wxS("wxPdfFont::SetEncoding: ")) +
                      wxString(_("Setting a user defined encoding is only supported for dynamically loaded Type1 fonts.")));
         }
       }
       else
       {
-        wxLogDebug(wxString(wxT("wxPdfFont::SetEncoding: ")) +
+        wxLogDebug(wxString(wxS("wxPdfFont::SetEncoding: ")) +
                    wxString(_("Loading of font data failed.")));
       }
     }
   }
 #else
   wxUnusedVar(encodingName);
-  wxLogDebug(wxString(wxT("wxPdfFont::SetEncoding: ")) +
+  wxLogDebug(wxString(wxS("wxPdfFont::SetEncoding: ")) +
              wxString(_("Setting a user defined encoding is not supported in ANSI build.")));
 #endif
   return ok;

@@ -2,7 +2,6 @@
 // Name:        pdfdocument.cpp
 // Purpose:     Implementation of wxPdfDocument (public methods)
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-04
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -54,6 +53,7 @@ wxPdfDocument::wxPdfDocument(int orientation, const wxString& unit, wxPaperSize 
   : wxObject()
 #endif
 {
+  m_creationDateSet = false;
   m_yAxisOriginTop = true;
   SetScaleFactor(unit);
 
@@ -67,6 +67,7 @@ wxPdfDocument::wxPdfDocument(int orientation, double pageWidth, double pageHeigh
   : wxObject()
 #endif
 {
+  m_creationDateSet = false;
   m_yAxisOriginTop = true;
   SetScaleFactor(unit);
   m_defPageSize = CalculatePageSize(pageWidth, pageHeight);
@@ -77,15 +78,15 @@ void
 wxPdfDocument::SetScaleFactor(const wxString& unit)
 {
   // Scale factor
-  if (unit == wxT("pt"))
+  if (unit == wxS("pt"))
   {
     m_k = 1.;
   }
-  else if (unit == wxT("in"))
+  else if (unit == wxS("in"))
   {
     m_k = 72.;
   }
-  else if (unit == wxT("cm"))
+  else if (unit == wxS("cm"))
   {
     m_k = 72. / 2.54;
   }
@@ -217,14 +218,14 @@ wxPdfDocument::Initialize(int orientation)
   m_inTransform = 0;
 
   // Page margins (1 cm)
-  double margin = 28.35 / m_k;
+  double margin = (72.0 / 25.4 * 10.0) / m_k;
   SetMargins(margin, margin);
   
   // Interior cell margin (1 mm)
   m_cMargin = margin / 10;
   
   // Line width (0.2 mm)
-  m_lineWidth = .567 / m_k;
+  m_lineWidth = (72.0 / 25.4 * 0.2) / m_k;
   
   // Automatic page break
   SetAutoPageBreak(true, 2*margin);
@@ -243,7 +244,7 @@ wxPdfDocument::Initialize(int orientation)
   SetCompression(true);
 
   // Set default PDF version number
-  m_PDFVersion = wxT("1.3");
+  m_PDFVersion = wxS("1.3");
   m_importVersion = m_PDFVersion;
 
   m_encrypted = false;
@@ -253,7 +254,7 @@ wxPdfDocument::Initialize(int orientation)
 
   m_inTemplate = false;
   m_templateId = 0;
-  m_templatePrefix = wxT("/TPL");
+  m_templatePrefix = wxS("/TPL");
 
   m_currentParser = NULL;
   m_currentSource = wxEmptyString;
@@ -505,9 +506,9 @@ wxPdfDocument::SetProtection(int permissions,
     {
       case wxPDF_ENCRYPTION_AESV2:
         revision = 4;
-        if (m_PDFVersion < wxT("1.6"))
+        if (m_PDFVersion < wxS("1.6"))
         {
-          m_PDFVersion = wxT("1.6");
+          m_PDFVersion = wxS("1.6");
         }
         break;
       case wxPDF_ENCRYPTION_RC4V2:
@@ -527,7 +528,7 @@ wxPdfDocument::SetProtection(int permissions,
     wxString ownerPswd = ownerPassword;
     if (ownerPswd.Length() == 0)
     {
-      ownerPswd = wxPdfUtility::GetUniqueId(wxT("wxPdfDoc"));
+      ownerPswd = wxPdfUtility::GetUniqueId(wxS("wxPdfDoc"));
     }
     m_encryptor->GenerateEncryptionKey(userPassword, ownerPswd, protection);
   }
@@ -606,7 +607,7 @@ wxPdfDocument::AddPage(int orientation, double pageWidth, double pageHeight)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::AddPage: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::AddPage: ")) +
                wxString::Format(_("Invalid page size (%.1f,%.1f)."), pageWidth, pageHeight));
   }
 }
@@ -616,7 +617,7 @@ wxPdfDocument::AddPage(int orientation, wxSize pageSize)
 {
   if (m_inTemplate)
   {
-    wxLogError(wxString(wxT("wxPdfDocument::AddPage: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::AddPage: ")) +
                wxString::Format(_("Adding pages in templates is impossible. Current template ID is %d."), m_templateId));
     return;
   }
@@ -666,7 +667,7 @@ wxPdfDocument::AddPage(int orientation, wxSize pageSize)
   
   // Set line width
   m_lineWidth = lw;
-  OutAscii(wxPdfUtility::Double2String(lw*m_k,2)+wxString(wxT(" w")));
+  OutAscii(wxPdfUtility::Double2String(lw*m_k,2)+wxString(wxS(" w")));
 
   // Set font
   if (currentFont != NULL)
@@ -698,7 +699,7 @@ wxPdfDocument::AddPage(int orientation, wxSize pageSize)
   if (m_lineWidth != lw)
   {
     m_lineWidth = lw;
-    OutAscii(wxPdfUtility::Double2String(lw*m_k,2)+wxString(wxT(" w")));
+    OutAscii(wxPdfUtility::Double2String(lw*m_k,2)+wxString(wxS(" w")));
   }
 
   // Restore font
@@ -733,7 +734,7 @@ wxPdfDocument::SetLineWidth(double width)
   m_lineWidth = width;
   if (m_page > 0)
   {
-    OutAscii(wxPdfUtility::Double2String(width*m_k,2)+ wxString(wxT(" w")));
+    OutAscii(wxPdfUtility::Double2String(width*m_k,2)+ wxString(wxS(" w")));
   }
 }
 
@@ -755,8 +756,8 @@ wxPdfDocument::AddFont(const wxString& family, const wxString& style, const wxSt
       wxString fileName = file;
       if (fileName.IsEmpty())
       {
-        fileName = family.Lower() + style.Lower() + wxString(wxT(".xml"));
-        fileName.Replace(wxT(" "),wxT(""));
+        fileName = family.Lower() + style.Lower() + wxString(wxS(".xml"));
+        fileName.Replace(wxS(" "),wxS(""));
       }
       regFont = wxPdfFontManager::GetFontManager()->RegisterFont(fileName, family);
       ok = regFont.IsValid();
@@ -819,7 +820,7 @@ wxPdfDocument::SetFontSize(double size, bool setSize)
 {
   if (m_currentFont == NULL)
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetFontSize: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::SetFontSize: ")) +
       wxString(_("No font selected.")));
     return;
   }
@@ -832,8 +833,8 @@ wxPdfDocument::SetFontSize(double size, bool setSize)
   m_fontSize = size / m_k;
   if (setSize && m_page > 0)
   {
-    OutAscii(wxString::Format(wxT("BT /F%d "),m_currentFont->GetIndex()) +
-             wxPdfUtility::Double2String(m_fontSizePt,2) + wxString(wxT(" Tf ET")));
+    OutAscii(wxString::Format(wxS("BT /F%d "),m_currentFont->GetIndex()) +
+             wxPdfUtility::Double2String(m_fontSizePt,2) + wxString(wxS(" Tf ET")));
   }
 }
 
@@ -842,7 +843,7 @@ wxPdfDocument::GetCurrentFont() const
 {
   if (m_currentFont == NULL)
   {
-    wxLogError(wxString(wxT("wxPdfDocument::GetCurrentFont: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::GetCurrentFont: ")) +
                wxString(_("No font selected.")));
     return wxPdfFont();
   }
@@ -854,7 +855,7 @@ wxPdfDocument::GetFontDescription() const
 {
   if (m_currentFont == NULL)
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetFontSize: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::GetFontDescription: ")) +
                wxString(_("No font selected.")));
     static wxPdfFontDescription dummy;
     return dummy;
@@ -875,23 +876,23 @@ wxPdfDocument::GetFontStyle() const
   int styles = GetFontStyles();
   if (styles & wxPDF_FONTSTYLE_BOLD)
   {
-    style += wxString(wxT("B"));
+    style += wxString(wxS("B"));
   }
   if (styles & wxPDF_FONTSTYLE_ITALIC)
   {
-    style += wxString(wxT("I"));
+    style += wxString(wxS("I"));
   }
   if (styles & wxPDF_FONTSTYLE_UNDERLINE)
   {
-    style += wxString(wxT("U"));
+    style += wxString(wxS("U"));
   }
   if (styles & wxPDF_FONTSTYLE_OVERLINE)
   {
-    style += wxString(wxT("O"));
+    style += wxString(wxS("O"));
   }
   if (styles & wxPDF_FONTSTYLE_STRIKEOUT)
   {
-    style += wxString(wxT("S"));
+    style += wxString(wxS("S"));
   }
   return style;
 }
@@ -940,17 +941,17 @@ wxPdfDocument::Text(double x, double y, const wxString& txt)
   }
   if (m_yAxisOriginTop)
   {
-    OutAscii(wxString(wxT("BT 1 0 0 -1 ")) +
-             wxPdfUtility::Double2String(x*m_k,2) + wxString(wxT(" ")) +
-             wxPdfUtility::Double2String(y*m_k,2) + wxString(wxT(" Tm ")), false);
+    OutAscii(wxString(wxS("BT 1 0 0 -1 ")) +
+             wxPdfUtility::Double2String(x*m_k,2) + wxString(wxS(" ")) +
+             wxPdfUtility::Double2String(y*m_k,2) + wxString(wxS(" Tm ")), false);
   }
   else
   {
-    OutAscii(wxString(wxT("BT ")) +
-             wxPdfUtility::Double2String(x*m_k,2) + wxString(wxT(" ")) +
-             wxPdfUtility::Double2String(y*m_k,2) + wxString(wxT(" Td ")), false);
+    OutAscii(wxString(wxS("BT ")) +
+             wxPdfUtility::Double2String(x*m_k,2) + wxString(wxS(" ")) +
+             wxPdfUtility::Double2String(y*m_k,2) + wxString(wxS(" Td ")), false);
   }
-  OutAscii(wxString::Format(wxT("%d Tr "), m_textRenderMode), false);
+  OutAscii(wxString::Format(wxS("%d Tr "), m_textRenderMode), false);
   ShowText(voText);
   Out("ET", false);
 
@@ -1037,7 +1038,7 @@ wxPdfDocument::DoCell(double w, double h, const wxString& txt, int border, int l
     if (ws > 0)
     {
       m_ws = ws;
-      OutAscii(wxPdfUtility::Double2String(ws*k,3)+wxString(wxT(" Tw")));
+      OutAscii(wxPdfUtility::Double2String(ws*k,3)+wxString(wxS(" Tw")));
     }
   }
   if ( w == 0)
@@ -1047,24 +1048,24 @@ wxPdfDocument::DoCell(double w, double h, const wxString& txt, int border, int l
   wxString s = wxEmptyString;
   if (fill == 1 || border == wxPDF_BORDER_FRAME)
   {
-    s = wxPdfUtility::Double2String(m_x*k,2) + wxString(wxT(" ")) +
-        wxPdfUtility::Double2String(m_y*k,2) + wxString(wxT(" ")) +
-        wxPdfUtility::Double2String(w*k,2) + wxString(wxT(" ")) +
+    s = wxPdfUtility::Double2String(m_x*k,2) + wxString(wxS(" ")) +
+        wxPdfUtility::Double2String(m_y*k,2) + wxString(wxS(" ")) +
+        wxPdfUtility::Double2String(w*k,2) + wxString(wxS(" ")) +
         wxPdfUtility::Double2String(h*k,2);
     if (fill == 1)
     {
       if (border == wxPDF_BORDER_FRAME)
       {
-        s += wxString(wxT(" re B "));
+        s += wxString(wxS(" re B "));
       }
       else
       {
-        s += wxString(wxT(" re f "));
+        s += wxString(wxS(" re f "));
       }
     }
     else
     {
-      s += wxString(wxT(" re S "));
+      s += wxString(wxS(" re S "));
     }
   }
   if (border != wxPDF_BORDER_NONE && border != wxPDF_BORDER_FRAME)
@@ -1073,38 +1074,38 @@ wxPdfDocument::DoCell(double w, double h, const wxString& txt, int border, int l
     y = m_y;
     if (border & wxPDF_BORDER_LEFT)
     {
-      s += wxPdfUtility::Double2String(x*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String(y*k,2) + wxString(wxT(" m ")) +
-           wxPdfUtility::Double2String(x*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String((y+h)*k,2) + wxString(wxT(" l S "));
+      s += wxPdfUtility::Double2String(x*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String(y*k,2) + wxString(wxS(" m ")) +
+           wxPdfUtility::Double2String(x*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String((y+h)*k,2) + wxString(wxS(" l S "));
     }
     if (border & wxPDF_BORDER_TOP)
     {
-      s += wxPdfUtility::Double2String(x*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String(y*k,2) + wxString(wxT(" m ")) +
-           wxPdfUtility::Double2String((x+w)*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String(y*k,2) + wxString(wxT(" l S "));
+      s += wxPdfUtility::Double2String(x*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String(y*k,2) + wxString(wxS(" m ")) +
+           wxPdfUtility::Double2String((x+w)*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String(y*k,2) + wxString(wxS(" l S "));
     }
     if (border & wxPDF_BORDER_RIGHT)
     {
-      s += wxPdfUtility::Double2String((x+w)*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String(y*k,2) + wxString(wxT(" m ")) +
-           wxPdfUtility::Double2String((x+w)*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String((y+h)*k,2) + wxString(wxT(" l S "));
+      s += wxPdfUtility::Double2String((x+w)*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String(y*k,2) + wxString(wxS(" m ")) +
+           wxPdfUtility::Double2String((x+w)*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String((y+h)*k,2) + wxString(wxS(" l S "));
     }
     if (border & wxPDF_BORDER_BOTTOM)
     {
-      s += wxPdfUtility::Double2String(x*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String((y+h)*k,2) + wxString(wxT(" m ")) +
-           wxPdfUtility::Double2String((x+w)*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String((y+h)*k,2) + wxString(wxT(" l S "));
+      s += wxPdfUtility::Double2String(x*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String((y+h)*k,2) + wxString(wxS(" m ")) +
+           wxPdfUtility::Double2String((x+w)*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String((y+h)*k,2) + wxString(wxS(" l S "));
     }
   }
   if (s.Length() > 0)
   {
     bool newline = txt.Length() == 0;
     OutAscii(s, newline);
-    s = wxT("");
+    s = wxS("");
   }
   
   if (txt.Length() > 0)
@@ -1125,32 +1126,32 @@ wxPdfDocument::DoCell(double w, double h, const wxString& txt, int border, int l
     }
     if (m_colourFlag)
     {
-      s += wxString(wxT("q ")) + m_textColour.GetColour(false) + wxString(wxT(" "));
+      s += wxString(wxS("q ")) + m_textColour.GetColour(false) + wxString(wxS(" "));
     }
     if (m_yAxisOriginTop)
     {
-      s += wxString(wxT("BT 1 0 0 -1 ")) +
-           wxPdfUtility::Double2String((m_x+dx)*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String((m_y+.5*h+.3*m_fontSize)*k,2) + wxString(wxT(" Tm "));
+      s += wxString(wxS("BT 1 0 0 -1 ")) +
+           wxPdfUtility::Double2String((m_x+dx)*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String((m_y+.5*h+.3*m_fontSize)*k,2) + wxString(wxS(" Tm "));
     }
     else
     {
-      s += wxString(wxT("BT ")) +
-           wxPdfUtility::Double2String((m_x+dx)*k,2) + wxString(wxT(" ")) +
-           wxPdfUtility::Double2String((m_y+.5*h+.3*m_fontSize)*k,2) + wxString(wxT(" Td "));
+      s += wxString(wxS("BT ")) +
+           wxPdfUtility::Double2String((m_x+dx)*k,2) + wxString(wxS(" ")) +
+           wxPdfUtility::Double2String((m_y+.5*h+.3*m_fontSize)*k,2) + wxString(wxS(" Td "));
     }
     OutAscii(s,false);
-    OutAscii(wxString::Format(wxT("%d Tr "), m_textRenderMode), false);
+    OutAscii(wxString::Format(wxS("%d Tr "), m_textRenderMode), false);
     ShowText(txt);
-    s = wxT(" ET");
+    s = wxS(" ET");
 
     if (m_decoration & wxPDF_FONTSTYLE_DECORATION_MASK)
     {
-      s += wxString(wxT(" ")) + DoDecoration(m_x+dx,m_y+.5*h+.3*m_fontSize,txt);
+      s += wxString(wxS(" ")) + DoDecoration(m_x+dx,m_y+.5*h+.3*m_fontSize,txt);
     }
     if (m_colourFlag)
     {
-      s += wxString(wxT(" Q"));
+      s += wxString(wxS(" Q"));
     }
     if (link.IsValid())
     {
@@ -1192,9 +1193,9 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
 
   double wmax = (w - 2 * m_cMargin);
   wxString s = ApplyVisualOrdering(txt);
-  s.Replace(wxT("\r"),wxT("")); // remove carriage returns
+  s.Replace(wxS("\r"),wxS("")); // remove carriage returns
   int nb = (int) s.Length();
-  if (nb > 0 && s[nb-1] == wxT('\n'))
+  if (nb > 0 && s[nb-1] == wxS('\n'))
   {
     nb--;
   }
@@ -1234,7 +1235,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
   {
     // Get next character
     c = s[i];
-    if (c == wxT('\n'))
+    if (c == wxS('\n'))
     {
       // Explicit line break
       if (m_ws > 0)
@@ -1259,7 +1260,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
       }
       continue;
     }
-    if (c == wxT(' '))
+    if (c == wxS(' '))
     {
       sep = i;
       ls = len;
@@ -1288,7 +1289,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
         if (align == wxPDF_ALIGN_JUSTIFY)
         {
           m_ws = (ns > 1) ? (wmax - ls)/(ns-1) : 0;
-          OutAscii(wxPdfUtility::Double2String(m_ws*m_k,3)+wxString(wxT(" Tw")));
+          OutAscii(wxPdfUtility::Double2String(m_ws*m_k,3)+wxString(wxS(" Tw")));
         }
         DoCell(w,h,s.SubString(j,sep-1),b,2,align,fill);
         i = sep + 1;
@@ -1338,9 +1339,9 @@ wxPdfDocument::LineCount(double w, const wxString& txt)
 
   double wmax = (w - 2 * m_cMargin);
   wxString s = txt;
-  s.Replace(wxT("\r"),wxT("")); // remove carriage returns
+  s.Replace(wxS("\r"),wxS("")); // remove carriage returns
   int nb = (int) s.Length();
-  if (nb > 0 && s[nb-1] == wxT('\n'))
+  if (nb > 0 && s[nb-1] == wxS('\n'))
   {
     nb--;
   }
@@ -1355,7 +1356,7 @@ wxPdfDocument::LineCount(double w, const wxString& txt)
   {
     // Get next character
     c = s[i];
-    if (c == wxT('\n'))
+    if (c == wxS('\n'))
     {
       // Explicit line break
       i++;
@@ -1365,7 +1366,7 @@ wxPdfDocument::LineCount(double w, const wxString& txt)
       nl++;
       continue;
     }
-    if (c == wxT(' '))
+    if (c == wxS(' '))
     {
       sep = i;
     }
@@ -1451,11 +1452,11 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
   // Output text in flowing mode
   wxString s = ApplyVisualOrdering(txt);
 
-  s.Replace(wxT("\r"),wxT("")); // remove carriage returns
+  s.Replace(wxS("\r"),wxS("")); // remove carriage returns
   int nb = (int) s.Length();
 
   // handle single space character
-  if ((nb == 1) && s[0] == wxT(' '))
+  if ((nb == 1) && s[0] == wxS(' '))
   {
     m_x += DoGetStringWidth(s);
     return;
@@ -1477,7 +1478,7 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
   {
     // Get next character
     c = s[i];
-    if (c == wxT('\n'))
+    if (c == wxS('\n'))
     {
       // Explicit line break
       DoCell(w, h, s.SubString(j,i-1), border, 2, wxPDF_ALIGN_LEFT, fill, link);
@@ -1494,7 +1495,7 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
       nl++;
       continue;
     }
-    if (c == wxT(' '))
+    if (c == wxS(' '))
     {
       sep = i;
     }
@@ -1569,7 +1570,7 @@ wxPdfDocument::WriteGlyphArray(wxPdfArrayDouble& x, wxPdfArrayDouble& y, wxPdfAr
   {
     // Check whether the current font is valid for this method
     wxString fontType = m_currentFont->GetType();
-    if (fontType.IsSameAs(wxT("TrueTypeUnicode")) || fontType.IsSameAs(wxT("OpenTypeUnicode")))
+    if (fontType.IsSameAs(wxS("TrueTypeUnicode")) || fontType.IsSameAs(wxS("OpenTypeUnicode")))
     {
       // if the arrays have different sizes use only the smallest size 
       size_t nx = x.GetCount();
@@ -1608,20 +1609,20 @@ wxPdfDocument::WriteGlyphArray(wxPdfArrayDouble& x, wxPdfArrayDouble& y, wxPdfAr
     else
     {
       ok = false;
-      wxLogError(wxString(wxT("wxPdfDocument::WriteGlyphArray: ")) +
+      wxLogError(wxString(wxS("wxPdfDocument::WriteGlyphArray: ")) +
                  wxString::Format(_("Font type '%s' not supported."), fontType.c_str()));
     }
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::WriteGlyphArray: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::WriteGlyphArray: ")) +
                wxString(_("No font selected.")));
   }
 #else
   wxUnusedVar(x);
   wxUnusedVar(y);
   wxUnusedVar(glyphs);
-  wxLogError(wxString(wxT("wxPdfDocument::WriteGlyphArray: ")) +
+  wxLogError(wxString(wxS("wxPdfDocument::WriteGlyphArray: ")) +
              wxString(_("Supported in Unicode build only.")));
 #endif // wxUSE_UNICODE
   return ok;
@@ -1691,7 +1692,7 @@ wxPdfDocument::Image(const wxString& name, const wxImage& img, double x, double 
       {
         if (maskImage <= 0)
         {
-          maskImage = ImageMask(name+wxString(wxT(".mask")), tempImage);
+          maskImage = ImageMask(name+wxString(wxS(".mask")), tempImage);
         }
         if(!tempImage.ConvertAlphaToMask(0))
         {
@@ -1704,7 +1705,7 @@ wxPdfDocument::Image(const wxString& name, const wxImage& img, double x, double 
         wxImage mask = tempImage.ConvertToMono(tempImage.GetMaskRed(), tempImage.GetMaskGreen(), tempImage.GetMaskBlue());
         // Invert the mask
         mask = mask.ConvertToMono(0, 0, 0);
-        maskImage = ImageMask(name+wxString(wxT(".mask")), mask);
+        maskImage = ImageMask(name+wxString(wxS(".mask")), mask);
       }
       // First use of image, get info
       tempImage.SetMask(false);
@@ -1807,7 +1808,7 @@ wxPdfDocument::ImageMask(const wxString& file, const wxString& type)
       return 0;
     }
     // Check whether this is a gray scale image (must be)
-    if (currentImage->GetColourSpace() != wxT("DeviceGray"))
+    if (currentImage->GetColourSpace() != wxS("DeviceGray"))
     {
       delete currentImage;
       return 0;
@@ -1819,9 +1820,9 @@ wxPdfDocument::ImageMask(const wxString& file, const wxString& type)
     currentImage = image->second;
     n = currentImage->GetIndex();
   }
-  if (m_PDFVersion < wxT("1.4"))
+  if (m_PDFVersion < wxS("1.4"))
   {
-    m_PDFVersion = wxT("1.4");
+    m_PDFVersion = wxS("1.4");
   }
   return n;
 }
@@ -1876,9 +1877,9 @@ wxPdfDocument::ImageMask(const wxString& name, const wxImage& img)
       currentImage = image->second;
       n = currentImage->GetIndex();
     }
-    if (m_PDFVersion < wxT("1.4"))
+    if (m_PDFVersion < wxS("1.4"))
     {
-      m_PDFVersion = wxT("1.4");
+      m_PDFVersion = wxS("1.4");
     }
   }
   return n;
@@ -1902,7 +1903,7 @@ wxPdfDocument::ImageMask(const wxString& name, wxInputStream& stream, const wxSt
       return 0;
     }
     // Check whether this is a gray scale image (must be)
-    if (currentImage->GetColourSpace() != wxT("DeviceGray"))
+    if (currentImage->GetColourSpace() != wxS("DeviceGray"))
     {
       delete currentImage;
       return 0;
@@ -1914,9 +1915,9 @@ wxPdfDocument::ImageMask(const wxString& name, wxInputStream& stream, const wxSt
     currentImage = image->second;
     n = currentImage->GetIndex();
   }
-  if (m_PDFVersion < wxT("1.4"))
+  if (m_PDFVersion < wxS("1.4"))
   {
-    m_PDFVersion = wxT("1.4");
+    m_PDFVersion = wxS("1.4");
   }
   return n;
 }
@@ -1968,7 +1969,7 @@ wxPdfDocument::SaveAsFile(const wxString& name)
   // Normalize parameters
   if(fileName.Length() == 0)
   {
-    fileName = wxT("doc.pdf");
+    fileName = wxS("doc.pdf");
   }
 
   wxFileOutputStream outfile(fileName);
@@ -2008,9 +2009,9 @@ void
 wxPdfDocument::SetViewerPreferences(int preferences)
 {
   m_viewerPrefs = (preferences > 0) ? preferences : 0;
-  if (((m_viewerPrefs & wxPDF_VIEWER_DISPLAYDOCTITLE) != 0) && (m_PDFVersion < wxT("1.4")))
+  if (((m_viewerPrefs & wxPDF_VIEWER_DISPLAYDOCTITLE) != 0) && (m_PDFVersion < wxS("1.4")))
   {
-    m_PDFVersion = wxT("1.4");
+    m_PDFVersion = wxS("1.4");
   }
 }
 
@@ -2047,6 +2048,16 @@ wxPdfDocument::SetCreator(const wxString& creator)
 {
   // Creator of document
   m_creator = creator;
+}
+
+void
+wxPdfDocument::SetCreationDate(const wxDateTime& creationDate)
+{
+  if (creationDate.IsValid())
+  {
+    m_creationDateSet = true;
+    m_creationDate = creationDate;
+  }
 }
 
 void
@@ -2317,7 +2328,7 @@ wxPdfDocument::AttachFile(const wxString& fileName, const wxString& attachName, 
   }
   else
   {
-    wxLogDebug(wxT("*** Attachment file '%s' does not exist."), fileName.c_str());
+    wxLogDebug(wxS("*** Attachment file '%s' does not exist."), fileName.c_str());
   }
   return ok;
 }
@@ -2344,7 +2355,7 @@ wxPdfDocument::AddPattern(const wxString& patternName, const wxImage& image, dou
   {
     if (image.IsOk() && width > 0 && height > 0)
     {
-      wxString imageName = wxString(wxT("pattern:")) + patternName;
+      wxString imageName = wxString(wxS("pattern:")) + patternName;
       wxPdfImage* currentImage = NULL;
       wxPdfImageHashMap::iterator imageIter = (*m_images).find(imageName);
       if (imageIter == (*m_images).end())
@@ -2354,7 +2365,7 @@ wxPdfDocument::AddPattern(const wxString& patternName, const wxImage& image, dou
         wxImage tempImage = image.Copy();
         if (tempImage.HasAlpha())
         {
-          maskImage = ImageMask(imageName+wxString(wxT(".mask")), tempImage);
+          maskImage = ImageMask(imageName+wxString(wxS(".mask")), tempImage);
           tempImage.ConvertAlphaToMask(0);
         }
         tempImage.SetMask(false);
@@ -2385,12 +2396,12 @@ wxPdfDocument::AddPattern(const wxString& patternName, const wxImage& image, dou
       isValid = false;
       if (!image.IsOk())
       {
-        wxLogError(wxString(wxT("wxPdfDocument::AddPattern: ")) +
+        wxLogError(wxString(wxS("wxPdfDocument::AddPattern: ")) +
                    wxString(_("Invalid image.")));
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfDocument::AddPattern: ")) +
+        wxLogError(wxString(wxS("wxPdfDocument::AddPattern: ")) +
                    wxString::Format(_("Invalid width (%.1f) and/or height (%.1f)."), width, height));
       }
     }
@@ -2457,7 +2468,7 @@ wxPdfDocument::SetDrawColour(const wxString& name, double tint)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetDrawColour: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::SetDrawColour: ")) +
                wxString::Format(_("Undefined spot colour: '%s'."), name.c_str()));
   }
 }
@@ -2477,7 +2488,7 @@ wxPdfDocument::SetDrawPattern(const wxString& name)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetDrawPattern: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::SetDrawPattern: ")) +
                wxString::Format(_("Undefined pattern: '%s'."), name.c_str()));
   }
 }
@@ -2551,7 +2562,7 @@ wxPdfDocument::SetFillColour(const wxString& name, double tint)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetFillColour: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::SetFillColour: ")) +
                wxString::Format(_("Undefined spot colour: '%s'."), name.c_str()));
   }
 }
@@ -2572,7 +2583,7 @@ wxPdfDocument::SetFillPattern(const wxString& name)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetFillPattern: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::SetFillPattern: ")) +
                wxString::Format(_("Undefined pattern: '%s'."), name.c_str()));
   }
 }
@@ -2589,7 +2600,7 @@ wxPdfDocument::GetPatternColour(const wxString& name)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::GetPatternColour: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::GetPatternColour: ")) +
                wxString::Format(_("Undefined pattern: '%s'."), name.c_str()));
   }
   return colour;
@@ -2648,7 +2659,7 @@ wxPdfDocument::SetTextColour(const wxString& name, double tint)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetTextColour: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::SetTextColour: ")) +
                wxString::Format(_("Undefined spot colour: '%s'."), name.c_str()));
   }
 }
@@ -2665,7 +2676,7 @@ wxPdfDocument::SetTextPattern(const wxString& name)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::SetFillPattern: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::SetFillPattern: ")) +
                wxString::Format(_("Undefined pattern: '%s'."), name.c_str()));
   }
 }

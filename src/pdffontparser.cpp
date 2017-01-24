@@ -2,9 +2,7 @@
 // Name:        pdffontparser.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2007-06-26
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,8 +24,6 @@
 #include <wx/zstream.h>
 
 #include "wx/pdffontparser.h"
-
-#include "wxmemdbg.h"
 
 // --- Font parser base
 
@@ -80,7 +76,7 @@ wxPdfFontParser::SkipBytes(int count, wxInputStream* stream)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParser::SkipBytes: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParser::SkipBytes: ")) +
                wxString(_("Input stream not set.")));
   }
 }

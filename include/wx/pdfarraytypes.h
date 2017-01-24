@@ -2,7 +2,6 @@
 // Name:        pdfarraytypes.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-08
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

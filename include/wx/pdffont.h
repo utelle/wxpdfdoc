@@ -2,7 +2,6 @@
 // Name:        pdffont.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-10
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -184,7 +183,7 @@ public :
   * \param replace the character used to replace invalid characters
   * \return converted string
   */
-  wxString ConvertToValid(const wxString& s, wxChar replace = wxT('?')) const;
+  wxString ConvertToValid(const wxString& s, wxChar replace = wxS('?')) const;
 
   /// Get list of supported glyph names
   /**

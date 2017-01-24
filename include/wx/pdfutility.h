@@ -2,7 +2,6 @@
 // Name:        pdfutility.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-05-20
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

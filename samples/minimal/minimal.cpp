@@ -2,7 +2,6 @@
 // Name:        minimal.cpp
 // Purpose:     Test program for the wxPdfDocument class
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-04
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -19,6 +18,8 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/cmdline.h>
+#include <wx/filefn.h>
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
 #include <wx/tokenzr.h>
@@ -32,49 +33,106 @@
 
 using namespace std;
 
-void tutorial1();
-void tutorial2();
-void tutorial3();
-void tutorial4();
-void tutorial5();
-void tutorial6();
-void tutorial7();
+int tutorial1(bool testMode = false);
+int tutorial2(bool testMode = false);
+int tutorial3(bool testMode = false);
+int tutorial4(bool testMode = false);
+int tutorial5(bool testMode = false);
+int tutorial6(bool testMode = false);
+int tutorial7(bool testMode = false);
 
-void bookmark();
+int bookmark(bool testMode = false);
 
 #if wxUSE_UNICODE
-void cjktest();
-void indicfonts();
+int cjktest(bool testMode = false);
+int indicfonts(bool testMode = false);
 #endif
 
-void protection1();
-void protection2();
-void clipping();
-void drawing();
-void rotation();
-void wmf();
-void transformation();
-void gradients();
-void charting();
+int protection1(bool testMode = false);
+int protection2(bool testMode = false);
+int clipping(bool testMode = false);
+int drawing(bool testMode = false);
+int rotation(bool testMode = false);
+int wmf(bool testMode = false);
+int transformation(bool testMode = false);
+int gradients(bool testMode = false);
+int charting(bool testMode = false);
 
-void labels();
-void barcodes();
-void javascript();
-void form();
-void xmlwrite();
-void transparency();
-void templates1();
-void templates2();
-void layers();
+int labels(bool testMode = false);
+int barcodes(bool testMode = false);
+int javascript(bool testMode = false);
+int form(bool testMode = false);
+int xmlwrite(bool testMode = false);
+int transparency(bool testMode = false);
+int templates1(bool testMode = false);
+int templates2(bool testMode = false);
+int layers(bool testMode = false);
 
-void kerning();
-void attachment();
+int kerning(bool testMode = false);
+int attachment(bool testMode = false);
 
 #if defined(__WXMSW__)
 #if wxUSE_UNICODE
-void glyphwriting();
+int glyphwriting(bool testMode = false);
 #endif
 #endif
+
+int
+runTests(bool testMode)
+{
+  int failed = 0;
+
+  // Group 1
+  failed += tutorial1(testMode);
+  failed += tutorial2(testMode);
+  failed += tutorial3(testMode);
+  failed += tutorial4(testMode);
+  failed += tutorial5(testMode);
+  failed += tutorial6(testMode);
+  failed += tutorial7(testMode);
+  failed += bookmark(testMode);
+#if wxUSE_UNICODE
+  failed += cjktest(testMode);
+#endif
+
+  // Group 2
+  failed += protection1(testMode);
+  failed += protection2(testMode);
+  failed += clipping(testMode);
+  failed += drawing(testMode);
+  failed += rotation(testMode);
+  failed += wmf(testMode);
+  failed += transformation(testMode);
+  failed += gradients(testMode);
+  failed += charting(testMode);
+
+  // Group 3
+  failed += labels(testMode);
+  failed += barcodes(testMode);
+  failed += javascript(testMode);
+  failed += form(testMode);
+  failed += xmlwrite(testMode);
+  failed += transparency(testMode);
+  failed += templates1(testMode);
+  failed += templates2(testMode);
+  failed += layers(testMode);
+
+  // Group 4
+  failed += kerning(testMode);
+#if 0  // Do not include in test mode
+#if defined(__WXMSW__)
+#if wxUSE_UNICODE
+  failed += glyphwriting(testMode);
+#endif
+#endif
+#endif
+#if wxUSE_UNICODE
+  failed += indicfonts(testMode);
+#endif
+  failed += attachment(testMode);
+
+  return failed;
+}
 
 class PdfDocTutorial : public wxAppConsole
 {
@@ -83,25 +141,96 @@ public:
   int OnRun();
   int OnExit();
   void ShowGroup(int group);
+
+  wxString m_workDirectory;
+  wxString m_fontDirectory;
+  bool     m_testMode;
+
+  int      m_rc;
 };
+
+static const wxCmdLineEntryDesc cmdLineDesc[] =
+{
+#if wxCHECK_VERSION(2,9,0)
+  { wxCMD_LINE_OPTION, "s", "sampledir", "wxPdfDocument samples directory",  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, "f", "fontdir",   "wxPdfDocument font directory",     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_SWITCH, "t", "testmode",  "Non-interactive testmode",         wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_SWITCH, "h", "help",      "Display help",                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
+#else
+  { wxCMD_LINE_OPTION, wxS("s"), wxS("sampledir"), wxS("wxPdfDocument samples directory"),  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, wxS("f"), wxS("fontdir"),   wxS("wxPdfDocument font directory"),     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_SWITCH, wxS("t"), wxS("testmode"),  wxS("Non-interactive testmode"),         wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_SWITCH, wxS("h"), wxS("help"),      wxS("Display help"),                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
+#endif
+  { wxCMD_LINE_NONE }
+};
+
 
 bool
 PdfDocTutorial::OnInit()
 {
-  // Set the font path and working directory
-  wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
-  wxString fontPath = exePath.GetPathWithSep() + wxT("../../lib/fonts");
-  wxString cwdPath  = exePath.GetPath();
-  wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
-  wxSetWorkingDirectory(cwdPath);
-  return true;
+  // Gets the parameters from cmd line
+  wxCmdLineParser parser(cmdLineDesc, argc, argv);
+  wxString logo = wxS("wxPdfDocument Minimal Sample\n");
+  parser.SetLogo(logo);
+  bool ok = parser.Parse() == 0;
+  if (ok)
+  {
+    parser.Found(wxS("sampledir"), &m_workDirectory);
+    parser.Found(wxS("fontdir"), &m_fontDirectory);
+    m_testMode = parser.Found(wxS("testmode"));
+    m_rc = 0;
+  }
+  else
+  {
+    parser.Usage();
+    m_rc = -1;
+  }
+
+  if (ok)
+  {
+    // Set the font path and working directory
+    if (!m_workDirectory.IsEmpty())
+    {
+      wxSetWorkingDirectory(m_workDirectory);
+    }
+    m_workDirectory = wxGetCwd();
+
+    if (m_fontDirectory.IsEmpty())
+    {
+      m_fontDirectory = wxS("../../lib/fonts");
+    }
+    wxPdfFontManager::GetFontManager()->AddSearchPath(m_fontDirectory);
+
+    // Check directories
+    if (!wxFileName::IsFileReadable(wxS("wxpdfdoc.png")))
+    {
+      wxLogError(wxS("The working directory seems not to be the directory of wxPdfDocument's minimal sample."));
+      m_rc = -2;
+      ok = false;
+    }
+
+    wxPathList fontPaths;
+    fontPaths.Add(m_fontDirectory);
+    fontPaths.AddEnvList(wxS("WXPDF_FONTPATH"));
+    wxString testFontFileName = fontPaths.FindValidPath(wxS("big5.xml"));
+    wxFileName testFont(testFontFileName);
+    if (testFontFileName.IsEmpty() || !testFont.IsOk() || !testFont.IsFileReadable())
+    {
+      wxLogError(wxS("The font directory of wxPdfDocument seems not to be accessible."));
+      m_rc = -3;
+      ok = false;
+    }
+  }
+
+  return ok;
 }
 
 int
 PdfDocTutorial::OnExit()
 {
   wxStockGDI::DeleteAll();
-  return 0;
+  return m_rc;
 }
 
 #include<locale.h>
@@ -267,25 +396,33 @@ PdfDocTutorial::OnRun()
     wxImage::AddHandler(new wxPNGHandler());
   }
 
-  // Show a menu on the console
-  char c(' ');
-  do
+  if (m_testMode)
   {
-    cout << "*** wxPdfDocument sample programs ***" << endl;
-    cout << endl;
-
-    cout << "(1) Group 1: Tutorial 1-7, Bookmarks, CJK" << endl;
-    cout << "(2) Group 2: Protection, Diverse graphic operations, Charting" << endl;
-    cout << "(3) Group 3: Label, Barcode, Javascript, Forms, Markup, Transparency," << endl;
-    cout << "             Templates, Layers (ordering, grouping, nesting ...)" << endl;
-    cout << "(4) Group 4: Kerning, Direct glyph writing, Indic fonts, Attachments" << endl;
-    cout << endl;
-    cout << "(x) Exit program" << endl << endl << "Select program (Enter 1..4 or x): ";
-
-    cin >> c;
-
-    switch (c)
+    // Non-interactive test mode
+    m_rc = runTests(m_testMode);
+  }
+  else
+  {
+    // Interactive mode
+    // Show a menu on the console
+    char c(' ');
+    do
     {
+      cout << "*** wxPdfDocument sample programs ***" << endl;
+      cout << endl;
+
+      cout << "(1) Group 1: Tutorial 1-7, Bookmarks, CJK" << endl;
+      cout << "(2) Group 2: Protection, Diverse graphic operations, Charting" << endl;
+      cout << "(3) Group 3: Label, Barcode, Javascript, Forms, Markup, Transparency," << endl;
+      cout << "             Templates, Layers (ordering, grouping, nesting ...)" << endl;
+      cout << "(4) Group 4: Kerning, Direct glyph writing, Indic fonts, Attachments" << endl;
+      cout << endl;
+      cout << "(x) Exit program" << endl << endl << "Select program (Enter 1..4 or x): ";
+
+      cin >> c;
+
+      switch (c)
+      {
       case '1':
       case '2':
       case '3':
@@ -302,10 +439,11 @@ PdfDocTutorial::OnRun()
       case '9':
       default:
         cout << endl << "Invalid choice!" << endl;
-    }
+      }
+    } while (c != 'x' && c != 'X');
   }
-  while (c != 'x' && c != 'X');
-  return 0;
+
+  return m_rc;
 }
 
 IMPLEMENT_APP_CONSOLE(PdfDocTutorial)

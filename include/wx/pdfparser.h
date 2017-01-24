@@ -2,7 +2,6 @@
 // Name:        pdfparser.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-05-15
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

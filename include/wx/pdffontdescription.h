@@ -2,7 +2,6 @@
 // Name:        pdffontdescription.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-10
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

@@ -2,7 +2,6 @@
 // Name:        pdffontdata.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-08
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -544,7 +543,7 @@ public:
   * \param replace the character used to replace invalid characters
   * \return converted string
   */
-  virtual wxString ConvertToValid(const wxString& s, wxChar replace = wxT('?')) const;
+  virtual wxString ConvertToValid(const wxString& s, wxChar replace = wxS('?')) const;
 
   /// Convert character codes to glyph numbers
   /**

@@ -2,9 +2,7 @@
 // Name:        pdfcffindex.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-07
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -25,8 +23,6 @@
 // includes
 
 #include "wx/pdfcffindex.h"
-
-#include "wxmemdbg.h"
 
 #include <wx/arrimpl.cpp> // this is a magic incantation which must be done!
 WX_DEFINE_OBJARRAY(wxPdfCffIndexArray);
@@ -123,7 +119,7 @@ void
 wxPdfCffIndexElement::Emit(wxMemoryOutputStream& buffer)
 {
 #if 0
-  wxLogDebug(wxT("Emit: offset=%d length=%d"), m_offset, m_length);
+  wxLogDebug(wxS("Emit: offset=%d length=%d"), m_offset, m_length);
 #endif
   char locBuffer[1024];
   m_buf->SeekI(m_offset);
@@ -140,7 +136,7 @@ wxPdfCffIndexElement::Emit(wxMemoryOutputStream& buffer)
     int kk;
     for (kk = 0; kk < bufferLength; kk++)
     {
-      str += wxString::Format(wxT(" %d"), locBuffer[kk]);
+      str += wxString::Format(wxS(" %d"), locBuffer[kk]);
       if (kk % 10 == 9)
       {
         wxLogDebug(str);

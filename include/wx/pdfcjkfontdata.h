@@ -2,7 +2,6 @@
 // Name:        pdfcjkfontdata.h
 // Purpose:     Definition of CJK font data structures
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2010-03-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

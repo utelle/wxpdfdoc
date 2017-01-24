@@ -2,7 +2,6 @@
 // Name:        pdfform.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-01-18
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

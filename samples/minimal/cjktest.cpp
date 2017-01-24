@@ -2,7 +2,6 @@
 // Name:        cjktest.cpp
 // Purpose:     Demonstration of CJK fonts in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -29,43 +28,56 @@
 * Remark: Only available in Unicode build. 
 */
 
-void
-cjktest()
+int
+cjktest(bool testMode)
 {
-  wxCSConv conv_we(wxT("cp-1252"));
+  int rc = 0;
+  wxCSConv conv_we(wxS("cp-1252"));
   wxString s_we("äöü",conv_we);
-  wxCSConv conv_cn(wxT("cp-950"));
+  wxCSConv conv_cn(wxS("cp-950"));
   wxString s_cn("²{®É®ğ·Å 18 C Àã«× 83 %",conv_cn);
   s_cn += s_we;
   wxPdfDocument pdf;
-  pdf.AddFontCJK(wxT("Big5"));
-  pdf.Open();
-  pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"), wxT(""),24);
-  pdf.Write(10,wxT("Chinese"));
-  pdf.Ln(12);
-  pdf.SetFont(wxT("Big5"),wxT(""),20);
-  pdf.Write(10,s_cn);
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
+  if (pdf.AddFontCJK(wxS("Big5")))
+  {
+    pdf.Open();
+    pdf.AddPage();
+    pdf.SetFont(wxS("Helvetica"), wxS(""),24);
+    pdf.Write(10,wxS("Chinese"));
+    pdf.Ln(12);
+    pdf.SetFont(wxS("Big5"),wxS(""),20);
+    pdf.Write(10,s_cn);
 
-  wxCSConv conv_jp(wxT("cp-932"));
-  wxString s_jp("9ƒ–Œ‚ÌŒöŠJƒeƒXƒg‚ğŒo‚ÄPHP 3.0‚Í1998”N6Œ‚ÉŒö®‚ÉƒŠƒŠ[ƒX‚³‚ê‚Ü‚µ‚½B",conv_jp);
-  pdf.AddFontCJK(wxT("SJIS"));
-  pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"), wxT(""),24);
-  pdf.Write(10,wxT("Japanese"));
-  pdf.Ln(12);
-  pdf.SetFont(wxT("SJIS"),wxT(""),18);
-  pdf.Write(8,s_jp);
+    wxCSConv conv_jp(wxS("cp-932"));
+    wxString s_jp("9ƒ–Œ‚ÌŒöŠJƒeƒXƒg‚ğŒo‚ÄPHP 3.0‚Í1998”N6Œ‚ÉŒö®‚ÉƒŠƒŠ[ƒX‚³‚ê‚Ü‚µ‚½B",conv_jp);
+    pdf.AddFontCJK(wxS("SJIS"));
+    pdf.AddPage();
+    pdf.SetFont(wxS("Helvetica"), wxS(""),24);
+    pdf.Write(10,wxS("Japanese"));
+    pdf.Ln(12);
+    pdf.SetFont(wxS("SJIS"),wxS(""),18);
+    pdf.Write(8,s_jp);
 
-  wxCSConv conv_kr(wxT("cp-949"));
-  wxString s_kr("PHP 3.0Àº 1998³â 6¿ù¿¡ °ø½ÄÀûÀ¸·Î ¸±¸®ÁîµÇ¾ú´Ù. °ø°³ÀûÀÎ Å×½ºÆ® ÀÌÈÄ¾à 9°³¿ù¸¸ÀÌ¾ú´Ù.",conv_kr);
-  pdf.AddFontCJK(wxT("UHC"));
-  pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"), wxT(""),24);
-  pdf.Write(10,wxT("Korean"));
-  pdf.Ln(12);
-  pdf.SetFont(wxT("UHC"),wxT(""),18);
-  pdf.Write(8,s_kr);
+    wxCSConv conv_kr(wxS("cp-949"));
+    wxString s_kr("PHP 3.0Àº 1998³â 6¿ù¿¡ °ø½ÄÀûÀ¸·Î ¸±¸®ÁîµÇ¾ú´Ù. °ø°³ÀûÀÎ Å×½ºÆ® ÀÌÈÄ¾à 9°³¿ù¸¸ÀÌ¾ú´Ù.",conv_kr);
+    pdf.AddFontCJK(wxS("UHC"));
+    pdf.AddPage();
+    pdf.SetFont(wxS("Helvetica"), wxS(""),24);
+    pdf.Write(10,wxS("Korean"));
+    pdf.Ln(12);
+    pdf.SetFont(wxS("UHC"),wxS(""),18);
+    pdf.Write(8,s_kr);
 
-  pdf.SaveAsFile(wxT("cjktest.pdf"));
+    pdf.SaveAsFile(wxS("cjktest.pdf"));
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }

@@ -2,7 +2,6 @@
 // Name:        pdffontvolt.cpp
 // Purpose:     Implementation of VOLT data handling
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2010-06-23
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -27,14 +26,12 @@
 
 #include "wx/pdffontvolt.h"
 
-#include "wxmemdbg.h"
-
 class wxPdfVoltRule
 {
 public :
   /// Default constructor
   wxPdfVoltRule()
-    : m_repeat(false), m_match(wxT("")), m_replace(wxT(""))
+    : m_repeat(false), m_match(wxS("")), m_replace(wxS(""))
   {
   }
 
@@ -77,23 +74,23 @@ wxPdfVolt::LoadVoltData(wxXmlNode* volt)
   wxXmlNode* child = volt->GetChildren();
   while (child)
   {
-    if (child->GetName() == wxT("ruleset"))
+    if (child->GetName() == wxS("ruleset"))
     {
       wxXmlNode* rule = child->GetChildren();
       while (rule)
       {
-        if (rule->GetName() == wxT("rule"))
+        if (rule->GetName() == wxS("rule"))
         {
 #if wxCHECK_VERSION(2,9,0)
-          repeat  = rule->GetAttribute(wxT("repeat"), wxT("false"));
-          match   = rule->GetAttribute(wxT("match"), wxT(""));
-          replace = rule->GetAttribute(wxT("replace"), wxT(""));
+          repeat  = rule->GetAttribute(wxS("repeat"), wxS("false"));
+          match   = rule->GetAttribute(wxS("match"), wxS(""));
+          replace = rule->GetAttribute(wxS("replace"), wxS(""));
 #else
-          repeat  = rule->GetPropVal(wxT("repeat"), wxT("false"));
-          match   = rule->GetPropVal(wxT("match"), wxT(""));
-          replace = rule->GetPropVal(wxT("replace"), wxT(""));
+          repeat  = rule->GetPropVal(wxS("repeat"), wxS("false"));
+          match   = rule->GetPropVal(wxS("match"), wxS(""));
+          replace = rule->GetPropVal(wxS("replace"), wxS(""));
 #endif
-          doRepeat = repeat.IsSameAs(wxT("true"));
+          doRepeat = repeat.IsSameAs(wxS("true"));
           wxPdfVoltRule* voltRule = new wxPdfVoltRule(doRepeat, match, replace);
           m_rules.Add(voltRule);
         }
@@ -108,7 +105,7 @@ wxString
 wxPdfVolt::ProcessRules(const wxString& text)
 {
 #if 0
-  wxFFileOutputStream dbgOut( wxT("d:/temp/pdfdoc-indic-dbg.txt"), wxT("a"));
+  wxFFileOutputStream dbgOut( wxS("d:/temp/pdfdoc-indic-dbg.txt"), wxS("a"));
   wxTextOutputStream dbgIndic( dbgOut );
 
   wxString str;
@@ -128,9 +125,9 @@ wxPdfVolt::ProcessRules(const wxString& text)
       wxString::const_iterator ch;
       for (ch = processText.begin(); ch != processText.end(); ++ch)
       {
-        str += wxString::Format(wxT(" %04x"), *ch);
+        str += wxString::Format(wxS(" %04x"), *ch);
       }
-      str += wxT("\n");
+      str += wxS("\n");
       dbgIndic.WriteString(str);
 #endif
     }

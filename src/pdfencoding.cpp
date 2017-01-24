@@ -2,9 +2,7 @@
 // Name:        pdfencoding.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-05-30
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -26,8 +24,6 @@
 #include <wx/string.h>
 
 #include "wx/pdfencoding.h"
-
-#include "wxmemdbg.h"
 
 #include "pdfglyphnames.inc"
 #include "pdfcmapdata.inc"
@@ -74,7 +70,7 @@ wxPdfEncoding::GlyphName2Unicode(const wxString& glyphName, wxUint32& unicode)
   {
     wxString glyphRest;
     unsigned long convUni = 0;
-    if (glyphName.StartsWith(wxT("uni"), &glyphRest))
+    if (glyphName.StartsWith(wxS("uni"), &glyphRest))
     {
       if (glyphRest.length() >= 4)
       {
@@ -82,7 +78,7 @@ wxPdfEncoding::GlyphName2Unicode(const wxString& glyphName, wxUint32& unicode)
         if (found) unicode = convUni;
       }
     }
-    else if (glyphName.StartsWith(wxT("u"), &glyphRest))
+    else if (glyphName.StartsWith(wxS("u"), &glyphRest))
     {
       if (glyphRest.length() >= 6)
       {
@@ -151,7 +147,7 @@ wxPdfEncoding::wxPdfEncoding()
   m_glyphNames.Alloc(256);
   m_cmap.Insert(0, 0, 256);
   m_cmapBase.Insert(0, 0, 256);
-  m_glyphNames.Insert(wxString(wxT(".notdef")), 0, 256);
+  m_glyphNames.Insert(wxString(wxS(".notdef")), 0, 256);
   m_encodingMap = NULL;
 }
 
@@ -201,7 +197,7 @@ bool
 wxPdfEncoding::SetEncoding(const wxString& encoding)
 {
   wxString encodingName = encoding.Lower();
-  bool isWinAnsi = encodingName.IsSameAs(wxT("winansi"));
+  bool isWinAnsi = encodingName.IsSameAs(wxS("winansi"));
   bool found = false;
   size_t j = 0;
   while (!found && gs_encodingData[j].m_encodingName != NULL)
@@ -248,11 +244,11 @@ wxPdfEncoding::SetEncoding(const wxString& encoding)
       {
         if (k > 40 && isWinAnsi)
         {
-          m_glyphNames[k] = wxString(wxT("bullet"));
+          m_glyphNames[k] = wxString(wxS("bullet"));
         }
         else
         {
-          m_glyphNames[k] = wxString(wxT(".notdef"));
+          m_glyphNames[k] = wxString(wxS(".notdef"));
         }
       }
     }
@@ -270,11 +266,11 @@ wxPdfEncoding::SetEncoding(const wxString& encoding)
       {
         if (isWinAnsi)
         {
-          m_glyphNames[k] = wxString(wxT("bullet"));
+          m_glyphNames[k] = wxString(wxS("bullet"));
         }
         else
         {
-          m_glyphNames[k] = wxString(wxT(".notdef"));
+          m_glyphNames[k] = wxString(wxS(".notdef"));
         }
       }
     }
@@ -306,10 +302,10 @@ wxPdfEncoding::GetDifferences() const
     {
       if (i != last+1)
       {
-        diffs += wxString::Format(wxT("%d "), i);
+        diffs += wxString::Format(wxS("%d "), i);
       }
       last = i;
-      diffs = diffs + wxString(wxT("/")) + m_glyphNames[i] + wxString(wxT(" "));
+      diffs = diffs + wxString(wxS("/")) + m_glyphNames[i] + wxString(wxS(" "));
     }
   }
   return diffs;

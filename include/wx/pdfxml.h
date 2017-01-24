@@ -2,7 +2,6 @@
 // Name:        pdfxml.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-12-03
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

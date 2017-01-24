@@ -2,7 +2,6 @@
 // Name:        glyphwriting.cpp
 // Purpose:     WMF: Test program for the wxPdfDocument class
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -39,20 +38,27 @@
 * on disk. Without these fonts the sample will not show proper results.
 */
 
-void glyphwriting()
+int
+glyphwriting(bool testMode)
 {
+  int rc = 0;
   double scaleFactor = 0.15;
-  wxFileInputStream sampleFile(wxT("glyphsample.txt"));
+  wxFileInputStream sampleFile(wxS("glyphsample.txt"));
   if (sampleFile.Ok())
   {
     wxTextInputStream text(sampleFile);
 
     wxPdfDocument pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
     pdf.AddPage();
-    pdf.SetFont(wxT("helvetica"), wxT(""), 16);
-    pdf.Text(10, 10, wxT("Direct glyph writing (sample text from the ICU project)"));
-    pdf.SetFont(wxT("helvetica"), wxT(""), 10);
-    pdf.Text(10, 15, wxT("Unicode text based on complex scripts may be preprocessed for PDF output with ICU or similar tools."));
+    pdf.SetFont(wxS("helvetica"), wxS(""), 16);
+    pdf.Text(10, 10, wxS("Direct glyph writing (sample text from the ICU project)"));
+    pdf.SetFont(wxS("helvetica"), wxS(""), 10);
+    pdf.Text(10, 15, wxS("Unicode text based on complex scripts may be preprocessed for PDF output with ICU or similar tools."));
 
     double xp = 0, yp = 0;
     double x, y;
@@ -65,14 +71,18 @@ void glyphwriting()
     {
       line = text.ReadLine();
       line.Trim();
-      wxStringTokenizer tkz(line, wxT(" "));
+      wxStringTokenizer tkz(line, wxS(" "));
       int n = (int) tkz.CountTokens();
       if (n == 1)
       {
-        wxStringTokenizer tkz2(line, wxT("="));
+        wxStringTokenizer tkz2(line, wxS("="));
         wxString fontName = tkz2.GetNextToken();
         wxString fontFile = tkz2.GetNextToken();
-        pdf.AddFont(fontName, wxT(""), fontFile);
+        if (!pdf.AddFont(fontName, wxS(""), fontFile))
+        {
+          wxLogMessage(wxString(wxS("Error: Unable to load font file '")) + fontFile + wxString(wxS("'.")));
+          break;
+        }
       }
       else if (n == 5)
       {
@@ -97,7 +107,7 @@ void glyphwriting()
         token = tkz.GetNextToken();
         if (count > 0)
         {
-          pdf.SetFont(token, wxT(""), 14);
+          pdf.SetFont(token, wxS(""), 14);
         }
       }
       else if (n == 3)
@@ -115,12 +125,13 @@ void glyphwriting()
       }
     }
 
-    pdf.SaveAsFile(wxT("glyphwriting.pdf"));
+    pdf.SaveAsFile(wxS("glyphwriting.pdf"));
   }
   else
   {
     wxLogMessage(_("Error: Unable to read 'glyphsample.txt'."));
-    return;
+    rc = 1;
   }
+  return rc;
 }
 

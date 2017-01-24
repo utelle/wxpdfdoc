@@ -2,9 +2,7 @@
 // Name:        pdffontdata.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-07
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -28,8 +26,6 @@
 #include "wx/pdfencoding.h"
 #include "wx/pdffontdata.h"
 #include "wx/pdffont.h"
-
-#include "wxmemdbg.h"
 
 wxString
 wxPdfFontData::GetNodeContent(const wxXmlNode *node)
@@ -69,7 +65,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
   while (child)
   {
     // parse the children
-    if (child->GetName() == wxT("ascent"))
+    if (child->GetName() == wxS("ascent"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -78,7 +74,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetAscent(number);
       }
     }
-    else if (child->GetName() == wxT("descent"))
+    else if (child->GetName() == wxS("descent"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -87,7 +83,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetDescent(number);
       }
     }
-    else if (child->GetName() == wxT("cap-height"))
+    else if (child->GetName() == wxS("cap-height"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -96,7 +92,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetCapHeight(number);
       }
     }
-    else if (child->GetName() == wxT("flags"))
+    else if (child->GetName() == wxS("flags"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -105,16 +101,16 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetFlags(number);
       }
     }
-    else if (child->GetName() == wxT("font-bbox"))
+    else if (child->GetName() == wxS("font-bbox"))
     {
       value = GetNodeContent(child);
-      if (value.Length() > 0 && value[0] == wxT('[') && value.Last() == wxT(']'))
+      if (value.Length() > 0 && value[0] == wxS('[') && value.Last() == wxS(']'))
       {
         bFontbbox = true;
         fontDescription.SetFontBBox(value);
       }
     }
-    else if (child->GetName() == wxT("italic-angle"))
+    else if (child->GetName() == wxS("italic-angle"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -123,7 +119,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetItalicAngle(number);
       }
     }
-    else if (child->GetName() == wxT("stem-v"))
+    else if (child->GetName() == wxS("stem-v"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -132,7 +128,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetStemV(number);
       }
     }
-    else if (child->GetName() == wxT("missing-width"))
+    else if (child->GetName() == wxS("missing-width"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -141,7 +137,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetMissingWidth(number);
       }
     }
-    else if (child->GetName() == wxT("x-height"))
+    else if (child->GetName() == wxS("x-height"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -150,7 +146,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetXHeight(number);
       }
     }
-    else if (child->GetName() == wxT("underline-position"))
+    else if (child->GetName() == wxS("underline-position"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -159,7 +155,7 @@ wxPdfFontData::GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& f
         fontDescription.SetUnderlinePosition(number);
       }
     }
-    else if (child->GetName() == wxT("underline-thickness"))
+    else if (child->GetName() == wxS("underline-thickness"))
     {
       value = GetNodeContent(child);
       if (value.ToLong(&number))
@@ -179,7 +175,7 @@ wxPdfFontData::wxPdfFontData()
 {
   m_refCount = 0;
 
-  m_type   = wxT("unknown");
+  m_type   = wxS("unknown");
   m_family = wxEmptyString;
   m_alias  = wxEmptyString;
   m_name   = wxEmptyString;
@@ -334,12 +330,12 @@ void
 wxPdfFontData::SetStyle(const wxString& style)
 {
   wxString lcStyle = style.Lower();
-  bool italic = (lcStyle.Find(wxT("italic"))  != wxNOT_FOUND) || 
-                (lcStyle.Find(wxT("oblique")) != wxNOT_FOUND) ||
-                lcStyle.IsSameAs(wxT("i")) || lcStyle.IsSameAs(wxT("bi")) || lcStyle.IsSameAs(wxT("ib"));
-  bool bold = (lcStyle.Find(wxT("bold"))  != wxNOT_FOUND) || 
-              (lcStyle.Find(wxT("black")) != wxNOT_FOUND) ||
-              lcStyle.IsSameAs(wxT("b")) || lcStyle.IsSameAs(wxT("bi")) || lcStyle.IsSameAs(wxT("ib"));
+  bool italic = (lcStyle.Find(wxS("italic"))  != wxNOT_FOUND) || 
+                (lcStyle.Find(wxS("oblique")) != wxNOT_FOUND) ||
+                lcStyle.IsSameAs(wxS("i")) || lcStyle.IsSameAs(wxS("bi")) || lcStyle.IsSameAs(wxS("ib"));
+  bool bold = (lcStyle.Find(wxS("bold"))  != wxNOT_FOUND) || 
+              (lcStyle.Find(wxS("black")) != wxNOT_FOUND) ||
+              lcStyle.IsSameAs(wxS("b")) || lcStyle.IsSameAs(wxS("bi")) || lcStyle.IsSameAs(wxS("ib"));
   m_style = wxPDF_FONTSTYLE_REGULAR;
   if (bold)
   {
@@ -398,7 +394,7 @@ wxPdfFontData::GetBBoxTopPosition() const
 {
   long top = 1000;
   wxString bBox = m_desc.GetFontBBox();
-  wxStringTokenizer tkz(bBox, wxT(" []"), wxTOKEN_STRTOK);
+  wxStringTokenizer tkz(bBox, wxS(" []"), wxTOKEN_STRTOK);
   if (tkz.CountTokens() >= 4)
   {
     tkz.GetNextToken();
@@ -593,8 +589,8 @@ wxPdfFontData::GetKernPairMap() const
 int
 wxPdfFontData::GetKerningWidth(const wxString& s) const
 {
-  bool translateChar2Glyph = m_type.IsSameAs(wxT("TrueTypeUnicode")) || 
-                             m_type.IsSameAs(wxT("OpenTypeUnicode"));
+  bool translateChar2Glyph = m_type.IsSameAs(wxS("TrueTypeUnicode")) || 
+                             m_type.IsSameAs(wxS("OpenTypeUnicode"));
   int width = 0;
   if (m_kp != NULL && s.length())
   {
@@ -642,8 +638,8 @@ wxPdfFontData::GetKerningWidth(const wxString& s) const
 wxArrayInt
 wxPdfFontData::GetKerningWidthArray(const wxString& s) const
 {
-  bool translateChar2Glyph = m_type.IsSameAs(wxT("TrueTypeUnicode")) || 
-                             m_type.IsSameAs(wxT("OpenTypeUnicode"));
+  bool translateChar2Glyph = m_type.IsSameAs(wxS("TrueTypeUnicode")) || 
+                             m_type.IsSameAs(wxS("OpenTypeUnicode"));
   wxArrayInt widths;
   int pos = 0;
   if (m_kp != NULL && s.length())
@@ -788,7 +784,7 @@ wxPdfFontData::ConvertToValid(const wxString& s, wxChar replace) const
   {
     if (m_encodingChecker->IsIncluded((wxUint32) replace))
     {
-      replace = wxT('?');
+      replace = wxS('?');
     }
     wxString::const_iterator ch = s.begin();
     for (ch = s.begin(); ch != s.end(); ++ch)
@@ -860,11 +856,11 @@ wxPdfFontData::FindStyleFromName(const wxString& name)
 {
   int style = wxPDF_FONTSTYLE_REGULAR;
   wxString lcName = name.Lower();
-  if (lcName.Find(wxT("bold")) != wxNOT_FOUND)
+  if (lcName.Find(wxS("bold")) != wxNOT_FOUND)
   {
     style |= wxPDF_FONTSTYLE_BOLD;
   }
-  if (lcName.Find(wxT("italic")) != wxNOT_FOUND || lcName.Find(wxT("oblique")) != wxNOT_FOUND)
+  if (lcName.Find(wxS("italic")) != wxNOT_FOUND || lcName.Find(wxS("oblique")) != wxNOT_FOUND)
   {
     style |= wxPDF_FONTSTYLE_ITALIC;
   }
@@ -887,7 +883,7 @@ wxPdfFontData::WriteStreamBuffer(wxOutputStream& stream, const char* buffer)
 void
 wxPdfFontData::WriteToUnicode(wxPdfGlyphList& glyphs, wxMemoryOutputStream& toUnicode, bool simple)
 {
-  wxString gidFormat = (simple) ? wxString(wxT("<%02x>")) : wxString(wxT("<%04x>"));
+  wxString gidFormat = (simple) ? wxString(wxS("<%02x>")) : wxString(wxS("<%04x>"));
   WriteStreamBuffer(toUnicode, "/CIDInit /ProcSet findresource begin\n");
   WriteStreamBuffer(toUnicode, "12 dict begin\n");
   WriteStreamBuffer(toUnicode, "begincmap\n");
@@ -920,14 +916,14 @@ wxPdfFontData::WriteToUnicode(wxPdfGlyphList& glyphs, wxMemoryOutputStream& toUn
         WriteStreamBuffer(toUnicode, "endbfrange\n");
       }
       size = (numGlyphs-k > 100) ? 100 : numGlyphs - k;
-      wxString sizeStr = wxString::Format(wxT("%u"), size);
+      wxString sizeStr = wxString::Format(wxS("%u"), size);
       WriteStreamBuffer(toUnicode, sizeStr.ToAscii());
       WriteStreamBuffer(toUnicode, " beginbfrange\n");
     }
     size--;
     wxPdfGlyphListEntry* entry = glyphs[k];
     wxString fromTo = wxString::Format(gidFormat, entry->m_gid);
-    wxString uniChr = wxString::Format(wxT("<%04x>"), entry->m_uid);
+    wxString uniChr = wxString::Format(wxS("<%04x>"), entry->m_uid);
     WriteStreamBuffer(toUnicode, fromTo.ToAscii());
     WriteStreamBuffer(toUnicode, fromTo.ToAscii());
     WriteStreamBuffer(toUnicode, uniChr.ToAscii());

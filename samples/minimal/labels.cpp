@@ -2,7 +2,6 @@
 // Name:        labels.cpp
 // Purpose:     Example of label printing
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-11-26
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -78,22 +77,22 @@ typedef struct tPdfLabelFormat
 
 static PdfLabelFormat s_averyLabels[] =
 {
-  {  wxT("5160"),  wxPAPER_LETTER, wxT("mm"), 1.762, 10.7,    3, 10,  3.175,  0.,   66.675, 25.4,   8 },
-  {  wxT("5161"),  wxPAPER_LETTER, wxT("mm"), 0.967, 10.7,    2, 10,  3.967,  0.,  101.6,   25.4,   8 },
-  {  wxT("5162"),  wxPAPER_LETTER, wxT("mm"), 0.97,  20.224,  2,  7,  4.762,  0.,  100.807, 35.72,  8 },
-  {  wxT("5163"),  wxPAPER_LETTER, wxT("mm"), 1.762, 10.7,   2,  5,  3.175,  0.,  101.6,   50.8,   8 },
-  {  wxT("5164"),  wxPAPER_LETTER, wxT("in"), 0.148,  0.5,    2,  3,  0.2031, 0.,    4.0,    3.33, 12 },
-  {  wxT("8600"),  wxPAPER_LETTER, wxT("mm"), 7.1,   19,     3, 10,  9.5,    3.1,  66.6,   25.4,   8 },
-  {  wxT("L7163"), wxPAPER_A4,     wxT("mm"), 5.0,   15,     2,  7, 25.0,    0.,   99.1,   38.1,   9 },
+  {  wxS("5160"),  wxPAPER_LETTER, wxS("mm"), 1.762, 10.7,    3, 10,  3.175,  0.,   66.675, 25.4,   8 },
+  {  wxS("5161"),  wxPAPER_LETTER, wxS("mm"), 0.967, 10.7,    2, 10,  3.967,  0.,  101.6,   25.4,   8 },
+  {  wxS("5162"),  wxPAPER_LETTER, wxS("mm"), 0.97,  20.224,  2,  7,  4.762,  0.,  100.807, 35.72,  8 },
+  {  wxS("5163"),  wxPAPER_LETTER, wxS("mm"), 1.762, 10.7,   2,  5,  3.175,  0.,  101.6,   50.8,   8 },
+  {  wxS("5164"),  wxPAPER_LETTER, wxS("in"), 0.148,  0.5,    2,  3,  0.2031, 0.,    4.0,    3.33, 12 },
+  {  wxS("8600"),  wxPAPER_LETTER, wxS("mm"), 7.1,   19,     3, 10,  9.5,    3.1,  66.6,   25.4,   8 },
+  {  wxS("L7163"), wxPAPER_A4,     wxS("mm"), 5.0,   15,     2,  7, 25.0,    0.,   99.1,   38.1,   9 },
   // Last sentinel entry (do not delete)
-  { wxT(""),      wxPAPER_NONE,   wxT("mm"), 0.0,    0,     0,  0,  0.0,    0.,    0.0,    0.0,   0 },
+  { wxS(""),      wxPAPER_NONE,   wxS("mm"), 0.0,    0,     0,  0,  0.0,    0.,    0.0,    0.0,   0 },
 };
 
 class PdfLabel : public wxPdfDocument
 {
 public:
   /// Constructor
-  PdfLabel (const PdfLabelFormat& format, const wxString& unit = wxT("mm"), int posX = 1, int  posY = 1)
+  PdfLabel (const PdfLabelFormat& format, const wxString& unit = wxS("mm"), int posX = 1, int  posY = 1)
     : wxPdfDocument(wxPORTRAIT, format.metric, format.paperSize)
   {
     m_charSize   = 10;
@@ -101,8 +100,8 @@ public:
     m_xCount     = 1;
     m_yCount     = 1;
     
+    SetFontName(wxS("Helvetica"));
     SetFormat(format);
-    SetFontName(wxT("Helvetica"));
     SetMargins(0,0); 
     SetAutoPageBreak(false); 
 
@@ -146,7 +145,7 @@ public:
   /// Changes the font
   void SetFontName(const wxString& fontname)
   {
-    if (fontname != wxT(""))
+    if (fontname != wxS(""))
     {
       m_fontName = fontname;
       SetFont(m_fontName);
@@ -172,7 +171,7 @@ public:
   {
     PdfLabelFormat* tFormat = &s_averyLabels[0];
     int j = 0;
-    for (j = 0; wxString(wxT("")).Cmp(s_averyLabels[j].name) != 0; j++)
+    for (j = 0; wxString(wxS("")).Cmp(s_averyLabels[j].name) != 0; j++)
     {
       if (format == s_averyLabels[j].name)
       {
@@ -191,11 +190,11 @@ protected:
   double ConvertMetric (double value, const wxString& src, const wxString& dest)
   {
     double retValue = value;
-    if (src == wxT("in") && dest == wxT("mm"))
+    if (src == wxS("in") && dest == wxS("mm"))
     {
       retValue *= (1000./ 39.37008);
     }
-    else if (src == wxT("mm") && dest == wxT("in"))
+    else if (src == wxS("mm") && dest == wxS("in"))
     {
       retValue *= (39.37008 / 1000.);
     }
@@ -258,27 +257,35 @@ private:
   int      m_yCount;
 };
 
-void
-labels()
+int
+labels(bool testMode)
 {
   // To create the object, 2 possibilities:
   // either pass a custom format via an array
   // or use a built-in AVERY name
   //
   // Example of custom format; we start at the second column
-  // PdfLabelFormat perso1 = { wxT("perso1"), wxPAPER_A4, wxT("mm"), 1.,         1.,        2,  7,  0.,     0.,     99.1,  38.1,   14 },
-  // PdfLabel pdf(perso1, wxT("mm"), 1, 2);
+  // PdfLabelFormat perso1 = { wxS("perso1"), wxPAPER_A4, wxS("mm"), 1.,         1.,        2,  7,  0.,     0.,     99.1,  38.1,   14 },
+  // PdfLabel pdf(perso1, wxS("mm"), 1, 2);
   //
   // Standard format
-  PdfLabel pdf(PdfLabel::FindFormat(wxT("L7163")), wxT("mm"), 1, 2);
+  PdfLabel pdf(PdfLabel::FindFormat(wxS("L7163")), wxS("mm"), 1, 2);
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
   pdf.AddPage();
+  pdf.SetFont(wxS("Helvetica"), wxS(""), 10.0);
 
   // Print labels
   int i;
   for (i = 1; i <= 40; i++)
   {
-    pdf.AddLabel(wxString::Format(wxT("Laurent %d\nImmeuble Titi\nav. fragonard\n06000, NICE, FRANCE"), i));
+    pdf.AddLabel(wxString::Format(wxS("Laurent %d\nImmeuble Titi\nav. fragonard\n06000, NICE, FRANCE"), i));
   }
-  pdf.SaveAsFile(wxT("labels.pdf"));
+  pdf.SaveAsFile(wxS("labels.pdf"));
+
+  return 0;
 }
 

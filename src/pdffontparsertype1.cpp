@@ -2,9 +2,7 @@
 // Name:        pdffontparsertype1.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-07-26
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -38,8 +36,6 @@
 #include "wx/pdffontparsertype1.h"
 #include "wx/pdfencoding.h"
 #include "wx/pdfutility.h"
-
-#include "wxmemdbg.h"
 
 // --- Type1 font parser
 
@@ -101,22 +97,22 @@ wxPdfFontParserType1::ParseFont(const wxString& fileName, wxInputStream* fontFil
         // Initialize char width array
         // TODO: Handle different Type1 encodings
         wxArrayString glyphNames;
-        if (!m_encoding.IsSameAs(wxT("ArrayEncoding")))
+        if (!m_encoding.IsSameAs(wxS("ArrayEncoding")))
         {
           wxPdfEncoding encoding;
-          if (m_encoding.IsSameAs(wxT("StandardEncoding")))
+          if (m_encoding.IsSameAs(wxS("StandardEncoding")))
           {
-            encoding.SetEncoding(wxT("standard"));
+            encoding.SetEncoding(wxS("standard"));
           }
-          else if (m_encoding.IsSameAs(wxT("ISOLatin1Encoding")))
+          else if (m_encoding.IsSameAs(wxS("ISOLatin1Encoding")))
           {
-            encoding.SetEncoding(wxT("isolatin1"));
+            encoding.SetEncoding(wxS("isolatin1"));
           }
-          else if (m_encoding.IsSameAs(wxT("ExpertEncoding")))
+          else if (m_encoding.IsSameAs(wxS("ExpertEncoding")))
           {
-            encoding.SetEncoding(wxT("winansi"));
+            encoding.SetEncoding(wxS("winansi"));
           }
-          m_fontData->SetEncoding(wxT("cp-1252"));
+          m_fontData->SetEncoding(wxS("cp-1252"));
           glyphNames = encoding.GetGlyphNames();
         }
         else
@@ -151,7 +147,7 @@ wxPdfFontParserType1::ParseFont(const wxString& fileName, wxInputStream* fontFil
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserType1::ParseFont: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserType1::ParseFont: ")) +
                wxString::Format(_("'%s' is not a valid Type1 Font file."), m_fileName.c_str()));
   }
 
@@ -171,14 +167,14 @@ wxPdfFontParserType1::IdentifyFont(const wxString& fontFileName, int fontIndex)
   // Check for existance of metric file
   wxFSFile* metricFile = NULL;
   wxFileName fileNameMetric(fontFileName);
-  fileNameMetric.SetExt(wxT("afm"));
+  fileNameMetric.SetExt(wxS("afm"));
   if (fileNameMetric.IsFileReadable())
   {
     metricFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameMetric));
   }
   else
   {
-    fileNameMetric.SetExt(wxT("pfm"));
+    fileNameMetric.SetExt(wxS("pfm"));
     if (fileNameMetric.IsFileReadable())
     {
       metricFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameMetric));
@@ -229,7 +225,7 @@ wxPdfFontParserType1::IdentifyFont(const wxString& fontFileName, int fontIndex)
         {
           delete m_fontData;
           m_fontData = NULL;
-          wxLogError(wxString(wxT("wxPdfFontParserType1::IdentifyFont: ")) +
+          wxLogError(wxString(wxS("wxPdfFontParserType1::IdentifyFont: ")) +
                      wxString::Format(_("Reading of font directory failed for font file '%s'."), fontFileName.c_str()));
         }
       }
@@ -237,14 +233,14 @@ wxPdfFontParserType1::IdentifyFont(const wxString& fontFileName, int fontIndex)
     }
     else
     {
-      wxLogError(wxString(wxT("wxPdfFontParserType1::IdentifyFont: ")) +
+      wxLogError(wxString(wxS("wxPdfFontParserType1::IdentifyFont: ")) +
                  wxString::Format(_("Font file '%s' not accessible."), fontFileName.c_str()));
     }
     delete metricFile;
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserType1::IdentifyFont: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserType1::IdentifyFont: ")) +
                wxString::Format(_("Metric file of font file '%s' not accessible."), fontFileName.c_str()));
   }
   return fontData;
@@ -255,7 +251,7 @@ wxPdfFontParserType1::LoadFontData(wxPdfFontData* fontData)
 {
   wxFileSystem fs;
   bool ok = false;
-  if (fontData->GetType().IsSameAs(wxT("Type1")))
+  if (fontData->GetType().IsSameAs(wxS("Type1")))
   {
     m_fileName = fontData->GetFontFileName();
     m_fontData = (wxPdfFontDataType1*) fontData;
@@ -264,14 +260,14 @@ wxPdfFontParserType1::LoadFontData(wxPdfFontData* fontData)
     // Check for existance of metric file
     wxFSFile* metricFile = NULL;
     wxFileName fileNameMetric(m_fileName);
-    fileNameMetric.SetExt(wxT("afm"));
+    fileNameMetric.SetExt(wxS("afm"));
     if (fileNameMetric.IsFileReadable())
     {
       metricFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameMetric));
     }
     else
     {
-      fileNameMetric.SetExt(wxT("pfm"));
+      fileNameMetric.SetExt(wxS("pfm"));
       if (fileNameMetric.IsFileReadable())
       {
         metricFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileNameMetric));
@@ -292,20 +288,20 @@ wxPdfFontParserType1::LoadFontData(wxPdfFontData* fontData)
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfFontParserType1::LoadFontData: ")) +
+        wxLogError(wxString(wxS("wxPdfFontParserType1::LoadFontData: ")) +
                    wxString::Format(_("Font file '%s' not accessible."), m_fileName.c_str()));
       }
       delete metricFile;
     }
     else
     {
-      wxLogError(wxString(wxT("wxPdfFontParserType1::LoadFontData: ")) +
+      wxLogError(wxString(wxS("wxPdfFontParserType1::LoadFontData: ")) +
                  wxString::Format(_("Metric file of font file '%s' not accessible."), m_fileName.c_str()));
     }
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserType1::LoadFontData: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserType1::LoadFontData: ")) +
                wxString::Format(_("Type1 font parser called for wrong font type '%s'."), fontData->GetType().c_str()));
   }
   return ok;
@@ -337,7 +333,7 @@ wxPdfFontParserType1::MetricIsAFM(wxInputStream* stream)
     stream->SeekI(0);
     stream->Read(buffer, 16);
     keyword = wxString::From8BitData(buffer, 16);
-    ok = keyword.IsSameAs(wxT("StartFontMetrics"));
+    ok = keyword.IsSameAs(wxS("StartFontMetrics"));
     stream->SeekI(0);
   }
   return ok;
@@ -409,36 +405,36 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
       line = text.ReadLine();
       line.Trim();
 
-      wxStringTokenizer tkz(line, wxT(" "));
+      wxStringTokenizer tkz(line, wxS(" "));
       int count = tkz.CountTokens();
       if (count < 2) continue;
       code  = tkz.GetNextToken(); // 0
       param = tkz.GetNextToken(); // 1
       if (inHeader)
       {
-        if (code.IsSameAs(wxT("FontName")))
+        if (code.IsSameAs(wxS("FontName")))
         {
           m_fontData->SetName(param);
         }
-        else if (code.IsSameAs(wxT("FullName")))
+        else if (code.IsSameAs(wxS("FullName")))
         {
           wxArrayString fullNames;
           fullNames.Add(param);
           m_fontData->SetFullNames(fullNames);
         }
-        else if (code.IsSameAs(wxT("FamilyName")))
+        else if (code.IsSameAs(wxS("FamilyName")))
         {
           m_fontData->SetFamily(param);
         }
-        else if (code.IsSameAs(wxT("Weight")))
+        else if (code.IsSameAs(wxS("Weight")))
         {
           wxString weight = param.Lower();
-          if (!hasStemV && (weight.IsSameAs(wxT("black")) || weight.IsSameAs(wxT("bold"))))
+          if (!hasStemV && (weight.IsSameAs(wxS("black")) || weight.IsSameAs(wxS("bold"))))
           {
             fd.SetStemV(120);
           }
         }
-        else if (code.IsSameAs(wxT("ItalicAngle")))
+        else if (code.IsSameAs(wxS("ItalicAngle")))
         {
           double italic;
           param.ToDouble(&italic);
@@ -449,69 +445,69 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
             flags += 1 << 6;
           }
         }
-        else if (code.IsSameAs(wxT("Ascender")))
+        else if (code.IsSameAs(wxS("Ascender")))
         {
           long ascent;
           param.ToLong(&ascent);
           fd.SetAscent(ascent);
         }
-        else if (code.IsSameAs(wxT("Descender")))
+        else if (code.IsSameAs(wxS("Descender")))
         {
           param.ToLong(&nParam);
           fd.SetDescent(nParam);
         }
-        else if (code.IsSameAs(wxT("UnderlineThickness")))
+        else if (code.IsSameAs(wxS("UnderlineThickness")))
         {
           param.ToLong(&nParam);
           fd.SetUnderlineThickness(nParam);
         }
-        else if (code.IsSameAs(wxT("UnderlinePosition")))
+        else if (code.IsSameAs(wxS("UnderlinePosition")))
         {
           param.ToLong(&nParam);
           fd.SetUnderlinePosition(nParam);
         }
-        else if (code.IsSameAs(wxT("IsFixedPitch")))
+        else if (code.IsSameAs(wxS("IsFixedPitch")))
         {
-          if (param == wxT("true"))
+          if (param == wxS("true"))
           {
             flags += 1 << 0;
           }
         }
-        else if (code.IsSameAs(wxT("FontBBox")))
+        else if (code.IsSameAs(wxS("FontBBox")))
         {
           hasFontBBox = true;
           wxString bbox2 = tkz.GetNextToken();
           wxString bbox3 = tkz.GetNextToken();
           wxString bbox4 = tkz.GetNextToken();
-          wxString bBox = wxT("[") + param + wxT(" ") + bbox2 + wxT(" ") + bbox3 + wxT(" ") + bbox4 + wxT("]");
+          wxString bBox = wxS("[") + param + wxS(" ") + bbox2 + wxS(" ") + bbox3 + wxS(" ") + bbox4 + wxS("]");
           fd.SetFontBBox(bBox);
         }
-        else if (code.IsSameAs(wxT("CapHeight")))
+        else if (code.IsSameAs(wxS("CapHeight")))
         {
           hasCapHeight = true;
           long capHeight;
           param.ToLong(&capHeight);
           fd.SetCapHeight(capHeight);
         }
-        else if (code.IsSameAs(wxT("XHeight")))
+        else if (code.IsSameAs(wxS("XHeight")))
         {
           hasXHeight = true;
           long xHeight;
           param.ToLong(&xHeight);
           fd.SetXHeight(xHeight);
         }
-        else if (code.IsSameAs(wxT("StdVW")))
+        else if (code.IsSameAs(wxS("StdVW")))
         {
           hasStemV = true;
           long stemV;
           param.ToLong(&stemV);
           fd.SetStemV(stemV);
         }
-        else if (code.IsSameAs(wxT("EncodingScheme")))
+        else if (code.IsSameAs(wxS("EncodingScheme")))
         {
           encodingScheme = param;
         }
-        else if (code.IsSameAs(wxT("StartCharMetrics")))
+        else if (code.IsSameAs(wxS("StartCharMetrics")))
         {
           inHeader = false;
           inMetrics = true;
@@ -519,7 +515,7 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
       }
       else if (inMetrics)
       {
-        if (code.IsSameAs(wxT("C")))
+        if (code.IsSameAs(wxS("C")))
         {
           width = -1;
           glyphNumber = 0;
@@ -531,32 +527,32 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
           while (tkz.HasMoreTokens())
           {
             token = tkz.GetNextToken();
-            if (token.IsSameAs(wxT("WX"))) // Character width
+            if (token.IsSameAs(wxS("WX"))) // Character width
             {
               param = tkz.GetNextToken(); // Width
               param.ToLong(&width);
               dummy = tkz.GetNextToken(); // Semicolon
 
-              if (!hasMissingWidth && glyphname.IsSameAs(wxT(".notdef")))
+              if (!hasMissingWidth && glyphname.IsSameAs(wxS(".notdef")))
               {
                 hasMissingWidth = true;
                 m_missingWidth = width;
                 fd.SetMissingWidth(width);
               }
             }
-            else if (token.IsSameAs(wxT("N"))) // Glyph name
+            else if (token.IsSameAs(wxS("N"))) // Glyph name
             {
               glyphname = tkz.GetNextToken(); // Glyph name
               dummy = tkz.GetNextToken(); // Semicolon
             }
-            else if (token.IsSameAs(wxT("G"))) // Glyph number
+            else if (token.IsSameAs(wxS("G"))) // Glyph number
             {
               hasGlyphNumbers = true;
               param = tkz.GetNextToken(); // Number
               param.ToLong(&glyphNumber);
               dummy = tkz.GetNextToken(); // Semicolon
             }
-            else if (token.IsSameAs(wxT("B"))) // Character bounding box
+            else if (token.IsSameAs(wxS("B"))) // Character bounding box
             {
               dummy = tkz.GetNextToken(); // x left
               dummy = tkz.GetNextToken(); // y bottom
@@ -567,12 +563,12 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
 
               if (!tokenBoxHeight.IsEmpty())
               {
-                if (!hasCapHeight && !hasXCapHeight && glyphname.IsSameAs(wxT("X")))
+                if (!hasCapHeight && !hasXCapHeight && glyphname.IsSameAs(wxS("X")))
                 {
                   hasXCapHeight = true;
                   fd.SetCapHeight(boxHeight);
                 }
-                if (!hasXHeight && glyphname.IsSameAs(wxT("x")))
+                if (!hasXHeight && glyphname.IsSameAs(wxS("x")))
                 {
                   hasXHeight = true;
                   fd.SetXHeight(boxHeight);
@@ -581,13 +577,13 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
             }
             else
             {
-              while (tkz.HasMoreTokens() && tkz.GetNextToken() != wxT(";"))
+              while (tkz.HasMoreTokens() && tkz.GetNextToken() != wxS(";"))
               {
               }
             }
           }
         }
-        else if (code.IsSameAs(wxT("EndCharMetrics")))
+        else if (code.IsSameAs(wxS("EndCharMetrics")))
         {
           inMetrics = false;
           inKerning = true;
@@ -595,7 +591,7 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
       }
       else if (inKerning)
       {
-        if (code.IsSameAs(wxT("KPX")))
+        if (code.IsSameAs(wxS("KPX")))
         {
           if (kpMap == NULL)
           {
@@ -638,8 +634,8 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
     type1Font->SetDiffs(diffs);
 #endif
 
-    if (m_encoding.IsSameAs(wxT("StandardEncoding"))   ||
-        m_encoding.IsSameAs(wxT("ISOLatin1Encoding")))
+    if (m_encoding.IsSameAs(wxS("StandardEncoding"))   ||
+        m_encoding.IsSameAs(wxS("ISOLatin1Encoding")))
     {
       // Non-symbolic font
       flags += 1 << 5;
@@ -657,7 +653,7 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
     }
     if (!hasFontBBox)
     {
-      wxString fbb = wxString::Format(wxT("[0 %d 1000 %d]"), fd.GetDescent()-100, fd.GetAscent()+100);
+      wxString fbb = wxString::Format(wxS("[0 %d 1000 %d]"), fd.GetDescent()-100, fd.GetAscent()+100);
       fd.SetFontBBox(fbb);
     }
     m_fontData->SetDescription(fd);
@@ -825,262 +821,262 @@ static int WinClass[] =
 // Windows character names.  Give a name to the used locations for when the all flag is specified.
 static wxString WinChars[] =
 {
-  wxT("W00"),              // 00
-  wxT("W01"),              // 01
-  wxT("W02"),              // 02
-  wxT("W03"),              // 03
-  wxT("macron"),           // 04
-  wxT("breve"),            // 05
-  wxT("dotaccent"),        // 06
-  wxT("W07"),              // 07
-  wxT("ring"),             // 08
-  wxT("W09"),              // 09
-  wxT("W0a"),              // 0a
-  wxT("W0b"),              // 0b
-  wxT("W0c"),              // 0c
-  wxT("W0d"),              // 0d
-  wxT("W0e"),              // 0e
-  wxT("W0f"),              // 0f
-  wxT("hungarumlaut"),     // 10
-  wxT("ogonek"),           // 11
-  wxT("caron"),            // 12
-  wxT("W13"),              // 13
-  wxT("W14"),              // 14
-  wxT("W15"),              // 15
-  wxT("W16"),              // 16
-  wxT("W17"),              // 17
-  wxT("W18"),              // 18
-  wxT("W19"),              // 19
-  wxT("W1a"),              // 1a
-  wxT("W1b"),              // 1b
-  wxT("W1c"),              // 1c
-  wxT("W1d"),              // 1d
-  wxT("W1e"),              // 1e
-  wxT("W1f"),              // 1f
-  wxT("space"),            // 20
-  wxT("exclam"),           // 21
-  wxT("quotedbl"),         // 22
-  wxT("numbersign"),       // 23
-  wxT("dollar"),           // 24
-  wxT("percent"),          // 25
-  wxT("ampersand"),        // 26
-  wxT("quotesingle"),      // 27
-  wxT("parenleft"),        // 28
-  wxT("parenright"),       // 29
-  wxT("asterisk"),         // 2A
-  wxT("plus"),             // 2B
-  wxT("comma"),            // 2C
-  wxT("hyphen"),           // 2D
-  wxT("period"),           // 2E
-  wxT("slash"),            // 2F
-  wxT("zero"),             // 30
-  wxT("one"),              // 31
-  wxT("two"),              // 32
-  wxT("three"),            // 33
-  wxT("four"),             // 34
-  wxT("five"),             // 35
-  wxT("six"),              // 36
-  wxT("seven"),            // 37
-  wxT("eight"),            // 38
-  wxT("nine"),             // 39
-  wxT("colon"),            // 3A
-  wxT("semicolon"),        // 3B
-  wxT("less"),             // 3C
-  wxT("equal"),            // 3D
-  wxT("greater"),          // 3E
-  wxT("question"),         // 3F
-  wxT("at"),               // 40
-  wxT("A"),                // 41
-  wxT("B"),                // 42
-  wxT("C"),                // 43
-  wxT("D"),                // 44
-  wxT("E"),                // 45
-  wxT("F"),                // 46
-  wxT("G"),                // 47
-  wxT("H"),                // 48
-  wxT("I"),                // 49
-  wxT("J"),                // 4A
-  wxT("K"),                // 4B
-  wxT("L"),                // 4C
-  wxT("M"),                // 4D
-  wxT("N"),                // 4E
-  wxT("O"),                // 4F
-  wxT("P"),                // 50
-  wxT("Q"),                // 51
-  wxT("R"),                // 52
-  wxT("S"),                // 53
-  wxT("T"),                // 54
-  wxT("U"),                // 55
-  wxT("V"),                // 56
-  wxT("W"),                // 57
-  wxT("X"),                // 58
-  wxT("Y"),                // 59
-  wxT("Z"),                // 5A
-  wxT("bracketleft"),      // 5B
-  wxT("backslash"),        // 5C
-  wxT("bracketright"),     // 5D
-  wxT("asciicircum"),      // 5E
-  wxT("underscore"),       // 5F
-  wxT("grave"),            // 60
-  wxT("a"),                // 61
-  wxT("b"),                // 62
-  wxT("c"),                // 63
-  wxT("d"),                // 64
-  wxT("e"),                // 65
-  wxT("f"),                // 66
-  wxT("g"),                // 67
-  wxT("h"),                // 68
-  wxT("i"),                // 69
-  wxT("j"),                // 6A
-  wxT("k"),                // 6B
-  wxT("l"),                // 6C
-  wxT("m"),                // 6D
-  wxT("n"),                // 6E
-  wxT("o"),                // 6F
-  wxT("p"),                // 70
-  wxT("q"),                // 71
-  wxT("r"),                // 72
-  wxT("s"),                // 73
-  wxT("t"),                // 74
-  wxT("u"),                // 75
-  wxT("v"),                // 76
-  wxT("w"),                // 77
-  wxT("x"),                // 78
-  wxT("y"),                // 79
-  wxT("z"),                // 7A
-  wxT("braceleft"),        // 7B
-  wxT("bar"),              // 7C
-  wxT("braceright"),       // 7D
-  wxT("asciitilde"),       // 7E
-  wxT("W7f"),              // 7F
-  wxT("euro"),             // 80
-  wxT("W81"),              // 81
-  wxT("quotesinglbase"),   // 82
-  wxT("florin"),           // 83
-  wxT("quotedblbase"),     // 84
-  wxT("ellipsis"),         // 85
-  wxT("dagger"),           // 86
-  wxT("daggerdbl"),        // 87
-  wxT("circumflex"),       // 88
-  wxT("perthousand"),      // 89
-  wxT("Scaron"),           // 8A
-  wxT("guilsinglleft"),    // 8B
-  wxT("OE"),               // 8C
-  wxT("W8d"),              // 8D
-  wxT("Zcaron"),           // 8E
-  wxT("W8f"),              // 8F
-  wxT("W90"),              // 90
-  wxT("quoteleft"),        // 91
-  wxT("quoteright"),       // 92
-  wxT("quotedblleft"),     // 93
-  wxT("quotedblright"),    // 94
-  wxT("bullet"),           // 95
-  wxT("endash"),           // 96
-  wxT("emdash"),           // 97
-  wxT("tilde"),            // 98
-  wxT("trademark"),        // 99
-  wxT("scaron"),           // 9A
-  wxT("guilsinglright"),   // 9B
-  wxT("oe"),               // 9C
-  wxT("W9d"),              // 9D
-  wxT("zcaron"),           // 9E
-  wxT("Ydieresis"),        // 9F
-  wxT("reqspace"),         // A0
-  wxT("exclamdown"),       // A1
-  wxT("cent"),             // A2
-  wxT("sterling"),         // A3
-  wxT("currency"),         // A4
-  wxT("yen"),              // A5
-  wxT("brokenbar"),        // A6
-  wxT("section"),          // A7
-  wxT("dieresis"),         // A8
-  wxT("copyright"),        // A9
-  wxT("ordfeminine"),      // AA
-  wxT("guillemotleft"),    // AB
-  wxT("logicalnot"),       // AC
-  wxT("syllable"),         // AD
-  wxT("registered"),       // AE
-  wxT("macron"),           // AF
-  wxT("degree"),           // B0
-  wxT("plusminus"),        // B1
-  wxT("twosuperior"),      // B2
-  wxT("threesuperior"),    // B3
-  wxT("acute"),            // B4
-  wxT("mu"),               // B5
-  wxT("paragraph"),        // B6
-  wxT("periodcentered"),   // B7
-  wxT("cedilla"),          // B8
-  wxT("onesuperior"),      // B9
-  wxT("ordmasculine"),     // BA
-  wxT("guillemotright"),   // BB
-  wxT("onequarter"),       // BC
-  wxT("onehalf"),          // BD
-  wxT("threequarters"),    // BE
-  wxT("questiondown"),     // BF
-  wxT("Agrave"),           // C0
-  wxT("Aacute"),           // C1
-  wxT("Acircumflex"),      // C2
-  wxT("Atilde"),           // C3
-  wxT("Adieresis"),        // C4
-  wxT("Aring"),            // C5
-  wxT("AE"),               // C6
-  wxT("Ccedilla"),         // C7
-  wxT("Egrave"),           // C8
-  wxT("Eacute"),           // C9
-  wxT("Ecircumflex"),      // CA
-  wxT("Edieresis"),        // CB
-  wxT("Igrave"),           // CC
-  wxT("Iacute"),           // CD
-  wxT("Icircumflex"),      // CE
-  wxT("Idieresis"),        // CF
-  wxT("Eth"),              // D0
-  wxT("Ntilde"),           // D1
-  wxT("Ograve"),           // D2
-  wxT("Oacute"),           // D3
-  wxT("Ocircumflex"),      // D4
-  wxT("Otilde"),           // D5
-  wxT("Odieresis"),        // D6
-  wxT("multiply"),         // D7
-  wxT("Oslash"),           // D8
-  wxT("Ugrave"),           // D9
-  wxT("Uacute"),           // DA
-  wxT("Ucircumflex"),      // DB
-  wxT("Udieresis"),        // DC
-  wxT("Yacute"),           // DD
-  wxT("Thorn"),            // DE
-  wxT("germandbls"),       // DF
-  wxT("agrave"),           // E0
-  wxT("aacute"),           // E1
-  wxT("acircumflex"),      // E2
-  wxT("atilde"),           // E3
-  wxT("adieresis"),        // E4
-  wxT("aring"),            // E5
-  wxT("ae"),               // E6
-  wxT("ccedilla"),         // E7
-  wxT("egrave"),           // E8
-  wxT("eacute"),           // E9
-  wxT("ecircumflex"),      // EA
-  wxT("edieresis"),        // EB
-  wxT("igrave"),           // EC
-  wxT("iacute"),           // ED
-  wxT("icircumflex"),      // EE
-  wxT("idieresis"),        // EF
-  wxT("eth"),              // F0
-  wxT("ntilde"),           // F1
-  wxT("ograve"),           // F2
-  wxT("oacute"),           // F3
-  wxT("ocircumflex"),      // F4
-  wxT("otilde"),           // F5
-  wxT("odieresis"),        // F6
-  wxT("divide"),           // F7
-  wxT("oslash"),           // F8
-  wxT("ugrave"),           // F9
-  wxT("uacute"),           // FA
-  wxT("ucircumflex"),      // FB
-  wxT("udieresis"),        // FC
-  wxT("yacute"),           // FD
-  wxT("thorn"),            // FE
-  wxT("ydieresis")         // FF
+  wxS("W00"),              // 00
+  wxS("W01"),              // 01
+  wxS("W02"),              // 02
+  wxS("W03"),              // 03
+  wxS("macron"),           // 04
+  wxS("breve"),            // 05
+  wxS("dotaccent"),        // 06
+  wxS("W07"),              // 07
+  wxS("ring"),             // 08
+  wxS("W09"),              // 09
+  wxS("W0a"),              // 0a
+  wxS("W0b"),              // 0b
+  wxS("W0c"),              // 0c
+  wxS("W0d"),              // 0d
+  wxS("W0e"),              // 0e
+  wxS("W0f"),              // 0f
+  wxS("hungarumlaut"),     // 10
+  wxS("ogonek"),           // 11
+  wxS("caron"),            // 12
+  wxS("W13"),              // 13
+  wxS("W14"),              // 14
+  wxS("W15"),              // 15
+  wxS("W16"),              // 16
+  wxS("W17"),              // 17
+  wxS("W18"),              // 18
+  wxS("W19"),              // 19
+  wxS("W1a"),              // 1a
+  wxS("W1b"),              // 1b
+  wxS("W1c"),              // 1c
+  wxS("W1d"),              // 1d
+  wxS("W1e"),              // 1e
+  wxS("W1f"),              // 1f
+  wxS("space"),            // 20
+  wxS("exclam"),           // 21
+  wxS("quotedbl"),         // 22
+  wxS("numbersign"),       // 23
+  wxS("dollar"),           // 24
+  wxS("percent"),          // 25
+  wxS("ampersand"),        // 26
+  wxS("quotesingle"),      // 27
+  wxS("parenleft"),        // 28
+  wxS("parenright"),       // 29
+  wxS("asterisk"),         // 2A
+  wxS("plus"),             // 2B
+  wxS("comma"),            // 2C
+  wxS("hyphen"),           // 2D
+  wxS("period"),           // 2E
+  wxS("slash"),            // 2F
+  wxS("zero"),             // 30
+  wxS("one"),              // 31
+  wxS("two"),              // 32
+  wxS("three"),            // 33
+  wxS("four"),             // 34
+  wxS("five"),             // 35
+  wxS("six"),              // 36
+  wxS("seven"),            // 37
+  wxS("eight"),            // 38
+  wxS("nine"),             // 39
+  wxS("colon"),            // 3A
+  wxS("semicolon"),        // 3B
+  wxS("less"),             // 3C
+  wxS("equal"),            // 3D
+  wxS("greater"),          // 3E
+  wxS("question"),         // 3F
+  wxS("at"),               // 40
+  wxS("A"),                // 41
+  wxS("B"),                // 42
+  wxS("C"),                // 43
+  wxS("D"),                // 44
+  wxS("E"),                // 45
+  wxS("F"),                // 46
+  wxS("G"),                // 47
+  wxS("H"),                // 48
+  wxS("I"),                // 49
+  wxS("J"),                // 4A
+  wxS("K"),                // 4B
+  wxS("L"),                // 4C
+  wxS("M"),                // 4D
+  wxS("N"),                // 4E
+  wxS("O"),                // 4F
+  wxS("P"),                // 50
+  wxS("Q"),                // 51
+  wxS("R"),                // 52
+  wxS("S"),                // 53
+  wxS("T"),                // 54
+  wxS("U"),                // 55
+  wxS("V"),                // 56
+  wxS("W"),                // 57
+  wxS("X"),                // 58
+  wxS("Y"),                // 59
+  wxS("Z"),                // 5A
+  wxS("bracketleft"),      // 5B
+  wxS("backslash"),        // 5C
+  wxS("bracketright"),     // 5D
+  wxS("asciicircum"),      // 5E
+  wxS("underscore"),       // 5F
+  wxS("grave"),            // 60
+  wxS("a"),                // 61
+  wxS("b"),                // 62
+  wxS("c"),                // 63
+  wxS("d"),                // 64
+  wxS("e"),                // 65
+  wxS("f"),                // 66
+  wxS("g"),                // 67
+  wxS("h"),                // 68
+  wxS("i"),                // 69
+  wxS("j"),                // 6A
+  wxS("k"),                // 6B
+  wxS("l"),                // 6C
+  wxS("m"),                // 6D
+  wxS("n"),                // 6E
+  wxS("o"),                // 6F
+  wxS("p"),                // 70
+  wxS("q"),                // 71
+  wxS("r"),                // 72
+  wxS("s"),                // 73
+  wxS("t"),                // 74
+  wxS("u"),                // 75
+  wxS("v"),                // 76
+  wxS("w"),                // 77
+  wxS("x"),                // 78
+  wxS("y"),                // 79
+  wxS("z"),                // 7A
+  wxS("braceleft"),        // 7B
+  wxS("bar"),              // 7C
+  wxS("braceright"),       // 7D
+  wxS("asciitilde"),       // 7E
+  wxS("W7f"),              // 7F
+  wxS("euro"),             // 80
+  wxS("W81"),              // 81
+  wxS("quotesinglbase"),   // 82
+  wxS("florin"),           // 83
+  wxS("quotedblbase"),     // 84
+  wxS("ellipsis"),         // 85
+  wxS("dagger"),           // 86
+  wxS("daggerdbl"),        // 87
+  wxS("circumflex"),       // 88
+  wxS("perthousand"),      // 89
+  wxS("Scaron"),           // 8A
+  wxS("guilsinglleft"),    // 8B
+  wxS("OE"),               // 8C
+  wxS("W8d"),              // 8D
+  wxS("Zcaron"),           // 8E
+  wxS("W8f"),              // 8F
+  wxS("W90"),              // 90
+  wxS("quoteleft"),        // 91
+  wxS("quoteright"),       // 92
+  wxS("quotedblleft"),     // 93
+  wxS("quotedblright"),    // 94
+  wxS("bullet"),           // 95
+  wxS("endash"),           // 96
+  wxS("emdash"),           // 97
+  wxS("tilde"),            // 98
+  wxS("trademark"),        // 99
+  wxS("scaron"),           // 9A
+  wxS("guilsinglright"),   // 9B
+  wxS("oe"),               // 9C
+  wxS("W9d"),              // 9D
+  wxS("zcaron"),           // 9E
+  wxS("Ydieresis"),        // 9F
+  wxS("reqspace"),         // A0
+  wxS("exclamdown"),       // A1
+  wxS("cent"),             // A2
+  wxS("sterling"),         // A3
+  wxS("currency"),         // A4
+  wxS("yen"),              // A5
+  wxS("brokenbar"),        // A6
+  wxS("section"),          // A7
+  wxS("dieresis"),         // A8
+  wxS("copyright"),        // A9
+  wxS("ordfeminine"),      // AA
+  wxS("guillemotleft"),    // AB
+  wxS("logicalnot"),       // AC
+  wxS("syllable"),         // AD
+  wxS("registered"),       // AE
+  wxS("macron"),           // AF
+  wxS("degree"),           // B0
+  wxS("plusminus"),        // B1
+  wxS("twosuperior"),      // B2
+  wxS("threesuperior"),    // B3
+  wxS("acute"),            // B4
+  wxS("mu"),               // B5
+  wxS("paragraph"),        // B6
+  wxS("periodcentered"),   // B7
+  wxS("cedilla"),          // B8
+  wxS("onesuperior"),      // B9
+  wxS("ordmasculine"),     // BA
+  wxS("guillemotright"),   // BB
+  wxS("onequarter"),       // BC
+  wxS("onehalf"),          // BD
+  wxS("threequarters"),    // BE
+  wxS("questiondown"),     // BF
+  wxS("Agrave"),           // C0
+  wxS("Aacute"),           // C1
+  wxS("Acircumflex"),      // C2
+  wxS("Atilde"),           // C3
+  wxS("Adieresis"),        // C4
+  wxS("Aring"),            // C5
+  wxS("AE"),               // C6
+  wxS("Ccedilla"),         // C7
+  wxS("Egrave"),           // C8
+  wxS("Eacute"),           // C9
+  wxS("Ecircumflex"),      // CA
+  wxS("Edieresis"),        // CB
+  wxS("Igrave"),           // CC
+  wxS("Iacute"),           // CD
+  wxS("Icircumflex"),      // CE
+  wxS("Idieresis"),        // CF
+  wxS("Eth"),              // D0
+  wxS("Ntilde"),           // D1
+  wxS("Ograve"),           // D2
+  wxS("Oacute"),           // D3
+  wxS("Ocircumflex"),      // D4
+  wxS("Otilde"),           // D5
+  wxS("Odieresis"),        // D6
+  wxS("multiply"),         // D7
+  wxS("Oslash"),           // D8
+  wxS("Ugrave"),           // D9
+  wxS("Uacute"),           // DA
+  wxS("Ucircumflex"),      // DB
+  wxS("Udieresis"),        // DC
+  wxS("Yacute"),           // DD
+  wxS("Thorn"),            // DE
+  wxS("germandbls"),       // DF
+  wxS("agrave"),           // E0
+  wxS("aacute"),           // E1
+  wxS("acircumflex"),      // E2
+  wxS("atilde"),           // E3
+  wxS("adieresis"),        // E4
+  wxS("aring"),            // E5
+  wxS("ae"),               // E6
+  wxS("ccedilla"),         // E7
+  wxS("egrave"),           // E8
+  wxS("eacute"),           // E9
+  wxS("ecircumflex"),      // EA
+  wxS("edieresis"),        // EB
+  wxS("igrave"),           // EC
+  wxS("iacute"),           // ED
+  wxS("icircumflex"),      // EE
+  wxS("idieresis"),        // EF
+  wxS("eth"),              // F0
+  wxS("ntilde"),           // F1
+  wxS("ograve"),           // F2
+  wxS("oacute"),           // F3
+  wxS("ocircumflex"),      // F4
+  wxS("otilde"),           // F5
+  wxS("odieresis"),        // F6
+  wxS("divide"),           // F7
+  wxS("oslash"),           // F8
+  wxS("ugrave"),           // F9
+  wxS("uacute"),           // FA
+  wxS("ucircumflex"),      // FB
+  wxS("udieresis"),        // FC
+  wxS("yacute"),           // FD
+  wxS("thorn"),            // FE
+  wxS("ydieresis")         // FF
 };
 
 static const wxUint16 gs_winchar_map[256] =
@@ -1173,7 +1169,7 @@ wxPdfFontParserType1::ReadPFM(wxInputStream& pfmFile)
       hdr.extlen != 30 ||                       // Check length of PostScript extension
       hdr.fontname < 75 /* && hdr.fontname > 512 */)  // Font name specified
   {
-    wxLogError(wxString(wxT("wxPdfFontParserType1::ReadPFM: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserType1::ReadPFM: ")) +
                wxString(_("Not a valid Type1 PFM file")));
     return false;
   }
@@ -1210,22 +1206,22 @@ wxPdfFontParserType1::ReadPFM(wxInputStream& pfmFile)
   // The .pfm is missing full name, so construct from font name by changing
   // the hyphen to a space.  This actually works in a lot of cases.
   wxString fullName = fontName;
-  fullName.Replace(wxT("-"), wxT(" "));
+  fullName.Replace(wxS("-"), wxS(" "));
   if (hdr.face != 0)
   {
     pfmFile.SeekI(hdr.face);
     ReadString(pfmFile);
   }
 
-  wxString encodingScheme = (hdr.charset != 0) ? wxString(wxT("FontSpecific")) : wxString(wxT("AdobeStandardEncoding"));
+  wxString encodingScheme = (hdr.charset != 0) ? wxString(wxS("FontSpecific")) : wxString(wxS("AdobeStandardEncoding"));
 
   int stemV = (hdr.weight > 475 || 
-               fontNameLower.Find(wxT("bold")) != wxNOT_FOUND ||
-               fontNameLower.Find(wxT("black")) != wxNOT_FOUND)  ? 120 : 80;
+               fontNameLower.Find(wxS("bold")) != wxNOT_FOUND ||
+               fontNameLower.Find(wxS("black")) != wxNOT_FOUND)  ? 120 : 80;
   fd.SetStemV(stemV);
 
   int italicAngle = 0;
-  if (hdr.italic != 0 || fontNameLower.Find(wxT("italic")) != wxNOT_FOUND)
+  if (hdr.italic != 0 || fontNameLower.Find(wxS("italic")) != wxNOT_FOUND)
   {
     italicAngle = int(ext.slant / 10);
     // -12.00 - this is a typical value
@@ -1238,7 +1234,7 @@ wxPdfFontParserType1::ReadPFM(wxInputStream& pfmFile)
   int bbox2 = -(ext.descender+5);
   int bbox3 = hdr.maxwidth+10;
   int bbox4 = hdr.ascent+5;
-  wxString bBox = wxString::Format(wxT("[%d %d %d %d]"), bbox1, bbox2, bbox3, bbox4);
+  wxString bBox = wxString::Format(wxS("[%d %d %d %d]"), bbox1, bbox2, bbox3, bbox4);
   fd.SetFontBBox(bBox);
 
   fd.SetAscent(ext.ascender);
@@ -1368,12 +1364,12 @@ wxPdfFontParserType1::CheckType1Format(wxInputStream* stream, int& start, int& l
   // Check header
   start = TellI(stream);
   wxString str = ReadString(14, stream);
-  bool ok = str.IsSameAs(wxT("%!PS-AdobeFont"));
+  bool ok = str.IsSameAs(wxS("%!PS-AdobeFont"));
   if (!ok)
   {
     SeekI(start, stream);
     str = ReadString(10, stream);
-    ok = str.IsSameAs(wxT("%!FontType"));
+    ok = str.IsSameAs(wxS("%!FontType"));
   }
   if (ok)
   {
@@ -1418,7 +1414,7 @@ wxPdfFontParserType1::GetPrivateDict(wxInputStream* stream, int start)
     while(!found && stream->TellI() < limit)
     {
       token = GetToken(stream);
-      if (token.IsSameAs(wxT("eexec")))
+      if (token.IsSameAs(wxS("eexec")))
       {
         found = true;
       }
@@ -1465,7 +1461,7 @@ wxPdfFontParserType1::GetPrivateDict(wxInputStream* stream, int start)
     m_privateDict = new wxMemoryInputStream(privateDict);
     delete eexecStream;
 #if 0
-    wxFileOutputStream pfbPrivateDict(wxT("pfbprivdict.dat"));
+    wxFileOutputStream pfbPrivateDict(wxS("pfbprivdict.dat"));
     wxMemoryInputStream tmp(privateDict);
     pfbPrivateDict.Write(tmp);
     pfbPrivateDict.Close();
@@ -1697,23 +1693,23 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
       {
         /* skip `special' escape */
         case 'n':
-          literalString.Append(wxT("\n"));
+          literalString.Append(wxS("\n"));
           ch = ReadByte(stream);
           break;
         case 'r':
-          literalString.Append(wxT("\r"));
+          literalString.Append(wxS("\r"));
           ch = ReadByte(stream);
           break;
         case 't':
-          literalString.Append(wxT("\t"));
+          literalString.Append(wxS("\t"));
           ch = ReadByte(stream);
           break;
         case 'b':
-          literalString.Append(wxT("\b"));
+          literalString.Append(wxS("\b"));
           ch = ReadByte(stream);
           break;
         case 'f':
-          literalString.Append(wxT("\f"));
+          literalString.Append(wxS("\f"));
           ch = ReadByte(stream);
           break;
         case '\\':
@@ -1842,7 +1838,7 @@ wxPdfFontParserType1::SkipString(wxInputStream* stream)
   }
   if (!stream->Eof() && ch != '>')
   {
-    wxLogError(wxString(wxT("wxPdfFontParserType1::SkipString: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserType1::SkipString: ")) +
                wxString(_("skip_string: missing closing delimiter `>'")));
   }
 }
@@ -1890,7 +1886,7 @@ wxPdfFontParserType1::SkipProcedure(wxInputStream* stream)
   }
   if (!endFound)
   {
-    wxLogError(wxString(wxT("wxPdfFontParserType1::SkipProcedure: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserType1::SkipProcedure: ")) +
                wxString(_("Invalid file format")));
   }
 }
@@ -1938,7 +1934,7 @@ wxPdfFontParserType1::SkipArray(wxInputStream* stream)
   }
   if (!endFound)
   {
-    wxLogError(wxString(wxT("wxPdfFontParserType1::SkipArray: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserType1::SkipArray: ")) +
                wxString(_("Invalid file format")));
   }
 }
@@ -1985,7 +1981,7 @@ wxPdfFontParserType1::SkipToNextToken(wxInputStream* stream)
       if (stream->Eof() || ch != '>' )   /* >> */
       {
 //      FT_ERROR(( "ps_parser_skip_PS_token: unexpected closing delimiter `>'\n" ));
-        wxLogError(wxString(wxT("wxPdfFontParserType1::SkipToNextToken: ")) +
+        wxLogError(wxString(wxS("wxPdfFontParserType1::SkipToNextToken: ")) +
                    wxString(_("Invalid File Format")));
       }
     }
@@ -2069,56 +2065,56 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
     wxString token = GetToken(stream);
     // Check for the keywords 'eexec' or 'closefile',
     // either of those terminates a section
-    if (token.IsSameAs(wxT("eexec")) ||
-        token.IsSameAs(wxT("closefile")))
+    if (token.IsSameAs(wxS("eexec")) ||
+        token.IsSameAs(wxS("closefile")))
     {
       break;
     }
-    else if (token.IsSameAs(wxT("FontDirectory")))
+    else if (token.IsSameAs(wxS("FontDirectory")))
     {
       // Check whether the keyword 'FontDictionary' occurred after a Private
       // dictionary (in that case only the charstrings are taken from the
       // base font of a synthetic font
       if (m_privateFound) m_fontDirAfterPrivate = true;
     }
-    else if (!token.IsEmpty() && token.GetChar(0) >= wxT('0') && token.GetChar(0) <= wxT('9'))
+    else if (!token.IsEmpty() && token.GetChar(0) >= wxS('0') && token.GetChar(0) <= wxS('9'))
     {
       // The token is an integer
       token.ToLong(&intValue);
       haveInteger = true;
     }
-    else if ((token.StartsWith(wxT("RD")) || token.StartsWith(wxT("-|"))) && haveInteger )
+    else if ((token.StartsWith(wxS("RD")) || token.StartsWith(wxS("-|"))) && haveInteger )
     {
       // The keywords 'RD' or '-|' are not encountered directly in valid fonts,
       // since they are handled by one of the methods ParseSubrs and ParseCharStrings
       stream->SeekI(intValue+1, wxFromCurrent);
       haveInteger = false;
     }
-    else if (!token.IsEmpty() && token.GetChar(0) == wxT('/'))
+    else if (!token.IsEmpty() && token.GetChar(0) == wxS('/'))
     {
       // Parse keyword value pairs
       wxString param;
       if (!m_privateFound)
       {
-        if (token.IsSameAs(wxT("/FontMatrix")))
+        if (token.IsSameAs(wxS("/FontMatrix")))
         {
           ParseFontMatrix(stream);
         }
-        else if (token.IsSameAs(wxT("/Encoding")))
+        else if (token.IsSameAs(wxS("/Encoding")))
         {
           ParseEncoding(stream);
         }
-        else if (token.IsSameAs(wxT("/Private")))
+        else if (token.IsSameAs(wxS("/Private")))
         {
           m_privateFound = true;
         }
-        else if (token.IsSameAs(wxT("/FontName")))
+        else if (token.IsSameAs(wxS("/FontName")))
         {
           hasFontName = true;
           param = GetToken(stream);
           m_fontData->SetName(param.substr(1));
         }
-        else if (token.IsSameAs(wxT("/FullName")))
+        else if (token.IsSameAs(wxS("/FullName")))
         {
           hasFullName = true;
           param = GetLiteralString(stream);
@@ -2126,13 +2122,13 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
           fullNames.Add(param);
           m_fontData->SetFullNames(fullNames);
         }
-        else if (token.IsSameAs(wxT("/FamilyName")))
+        else if (token.IsSameAs(wxS("/FamilyName")))
         {
           hasFamilyName = true;
           param = GetLiteralString(stream);
           m_fontData->SetFamily(param);
         }
-        else if (token.IsSameAs(wxT("/Weight")))
+        else if (token.IsSameAs(wxS("/Weight")))
         {
           hasWeight = true;
           param = GetLiteralString(stream);
@@ -2141,7 +2137,7 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
 
 #if 0
   // For now most parameters are read from the metric file
-        else if (token.IsSameAs(wxT("/ItalicAngle")))
+        else if (token.IsSameAs(wxS("/ItalicAngle")))
         {
           param = GetToken(stream);
           double italic = wxPdfUtility::String2Double(param);
@@ -2152,22 +2148,22 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
             flags += 1 << 6;
           }
         }
-        else if (token.IsSameAs(wxT("/isFixedPitch")))
+        else if (token.IsSameAs(wxS("/isFixedPitch")))
         {
           param = GetToken(stream);
-          if (param.IsSameAs(wxT("true")))
+          if (param.IsSameAs(wxS("true")))
           {
             flags += 1 << 0;
           }
         }
-        else if (token.IsSameAs(wxT("/UnderlinePosition")))
+        else if (token.IsSameAs(wxS("/UnderlinePosition")))
         {
           param = GetToken(stream);
           long nParam;
           param.ToLong(&nParam);
           m_fontDesc.SetUnderlinePosition(nParam);
         }
-        else if (token.IsSameAs(wxT("/UnderlineThickness")))
+        else if (token.IsSameAs(wxS("/UnderlineThickness")))
         {
           param = GetToken(stream);
           long nParam;
@@ -2175,7 +2171,7 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
           m_fontDesc.SetUnderlineThickness(nParam);
         }
 #endif
-        else if (token.IsSameAs(wxT("/FSType")))
+        else if (token.IsSameAs(wxS("/FSType")))
         {
           hasFSType = true;
           param = GetToken(stream);
@@ -2189,16 +2185,16 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
 // so set the font data flag to 'false'
           m_fontData->SetSubsetSupported(false);
         }
-        else if (token.IsSameAs(wxT("/FontBBox")))
+        else if (token.IsSameAs(wxS("/FontBBox")))
         {
           if (!hasFontBBox)
           {
             param = GetArray(stream);
-            if (param.Find(wxT('{')) == wxNOT_FOUND &&
-                param.Find(wxT('[')) == wxNOT_FOUND)
+            if (param.Find(wxS('{')) == wxNOT_FOUND &&
+                param.Find(wxS('[')) == wxNOT_FOUND)
             {
               hasFontBBox = true;
-              m_fontDesc.SetFontBBox(wxString(wxT("["))+param+wxString(wxT("]")));
+              m_fontDesc.SetFontBBox(wxString(wxS("["))+param+wxString(wxS("]")));
             }
           }
           else
@@ -2216,17 +2212,17 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
         // If the keyword 'FontDirectory' is encountered after the keyword
         // '/Private', the font file represents a synthetic font and all
         // keywords except '/CharStrings' are ignored 
-        if (token.IsSameAs(wxT("/CharStrings")))
+        if (token.IsSameAs(wxS("/CharStrings")))
         {
           ParseCharStrings(stream);
         }
         else if (!m_fontDirAfterPrivate)
         {
-          if (token.IsSameAs(wxT("/Subrs")))
+          if (token.IsSameAs(wxS("/Subrs")))
           {
             ParseSubrs(stream);
           }
-          else if (token.IsSameAs(wxT("/lenIV")))
+          else if (token.IsSameAs(wxS("/lenIV")))
           {
             param = GetToken(stream);
             long lenIV;
@@ -2268,7 +2264,7 @@ wxPdfFontParserType1::ParseFontMatrix(wxInputStream* stream)
   // If the font matrix is not [ 0.001 0 0 0.001 0 0]
   // font metrics need to be transformed accordingly
   int unitsPerEm;
-  wxStringTokenizer tkz(matrix, wxT(" "));
+  wxStringTokenizer tkz(matrix, wxS(" "));
   int count = tkz.CountTokens();
   if (count == 6)
   {
@@ -2314,7 +2310,7 @@ wxPdfFontParserType1::ParseEncoding(wxInputStream* stream)
     SkipSpaces(stream);
     // Allocate table with count entries
     m_encodingVector.Alloc(count);
-    m_encodingVector.Insert(wxT(".notdef"), 0, count);
+    m_encodingVector.Insert(wxS(".notdef"), 0, count);
 
     // For each entry a record of the form 'charcode /charname' is read,
     // i.e. look for a number followed by an immediate name.
@@ -2330,11 +2326,11 @@ wxPdfFontParserType1::ParseEncoding(wxInputStream* stream)
         break;
       }
       token = GetToken(stream);
-      if (token.IsSameAs(wxT("def")) || token.IsSameAs(wxT("]")))
+      if (token.IsSameAs(wxS("def")) || token.IsSameAs(wxS("]")))
       {
         break;
       }
-      if ((wxT('0') <= token[0] && token[0] <= wxT('9')) || onlyImmediates)
+      if ((wxS('0') <= token[0] && token[0] <= wxS('9')) || onlyImmediates)
       {
         if (onlyImmediates)
         {
@@ -2345,7 +2341,7 @@ wxPdfFontParserType1::ParseEncoding(wxInputStream* stream)
           token.ToLong(&code);
           token = GetToken(stream);
         }
-        if (token[0] == wxT('/') && n < count)
+        if (token[0] == wxS('/') && n < count)
         {
           m_encodingVector[code] = token;
           n++;
@@ -2357,16 +2353,16 @@ wxPdfFontParserType1::ParseEncoding(wxInputStream* stream)
         SkipToNextToken(stream);
       }
     }
-    m_encoding = wxT("ArrayEncoding");
+    m_encoding = wxS("ArrayEncoding");
     m_fontData->SetEncodingType(m_encoding);
     m_fontData->SetEncodingMap(m_encodingVector);
   }
   else
   {
     token = GetToken(stream);
-    if (token.IsSameAs(wxT("StandardEncoding"))   ||
-        token.IsSameAs(wxT("ExpertEncoding"))     ||
-        token.IsSameAs(wxT("ISOLatin1Encoding")))
+    if (token.IsSameAs(wxS("StandardEncoding"))   ||
+        token.IsSameAs(wxS("ExpertEncoding"))     ||
+        token.IsSameAs(wxS("ISOLatin1Encoding")))
     {
       m_encoding = token;
       m_fontData->SetEncodingType(m_encoding);
@@ -2379,13 +2375,13 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
 {
   // test for empty array
   wxString token = GetToken(stream);
-  if (token[0] == wxT('['))
+  if (token[0] == wxS('['))
   {
     SkipToNextToken(stream);
     token = GetToken(stream);
-    if (token[0] != wxT(']'))
+    if (token[0] != wxS(']'))
     {
-      wxLogError(wxString(wxT("wxPdfFontParserType1::ParseSubrs: ")) +
+      wxLogError(wxString(wxS("wxPdfFontParserType1::ParseSubrs: ")) +
                  wxString(_("Invalid Type1 format")));
     }
     return;
@@ -2401,7 +2397,7 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
     token = GetToken(stream);
     /* If the next token isn't `dup', we are also done.  This */
     /* happens when there are `holes' in the Subrs array.     */
-    if (!token.IsSameAs(wxT("dup")))
+    if (!token.IsSameAs(wxS("dup")))
     {
       break;
     }
@@ -2421,7 +2417,7 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
     {
       if (binarySize < m_lenIV)
       {
-        wxLogError(wxString(wxT("wxPdfFontParserType1::ParseSubrs: ")) +
+        wxLogError(wxString(wxS("wxPdfFontParserType1::ParseSubrs: ")) +
                    wxString(_("Invalid Type1 file format")));
         break;
       }
@@ -2442,7 +2438,7 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
     /* `noaccess' & `put'.  We position the parser right     */
     /* before the next `dup', if any.                        */
     token = GetToken(stream); // `NP' or `|' or `noaccess'
-    if (token.IsSameAs(wxT("noaccess")))
+    if (token.IsSameAs(wxS("noaccess")))
     {
       // skip 'put'
       token = GetToken(stream);
@@ -2481,17 +2477,17 @@ wxPdfFontParserType1::ParseCharStrings(wxInputStream* stream)
 
     // All charstrings have been read when the keyword `def' or `end' is found
     token = GetToken(stream);
-    if (token.IsSameAs(wxT("def")))
+    if (token.IsSameAs(wxS("def")))
     {
       // Ignore 'def' if no charstring has been seen yet
       if (n > 0) break;
     }
-    if (token.IsSameAs(wxT("end")))
+    if (token.IsSameAs(wxS("end")))
     {
       break;
     }
 
-    if (token[0] == wxT('/'))
+    if (token[0] == wxS('/'))
     {
       wxString glyphName = token.substr(1);
       token = GetToken(stream);
@@ -2508,7 +2504,7 @@ wxPdfFontParserType1::ParseCharStrings(wxInputStream* stream)
         {
           if (binarySize < m_lenIV)
           {
-            wxLogError(wxString(wxT("wxPdfFontParserType1::ParseCharStrings: ")) +
+            wxLogError(wxString(wxS("wxPdfFontParserType1::ParseCharStrings: ")) +
                        wxString(_("Invalid Type1 file format")));
             break;
           }
@@ -2530,7 +2526,7 @@ wxPdfFontParserType1::ParseCharStrings(wxInputStream* stream)
         {
           (*m_glyphWidthMap)[glyphName] = (wxUint16) width;
         }
-        if (glyphName.IsSameAs(wxT("/.notdef")))
+        if (glyphName.IsSameAs(wxS("/.notdef")))
         {
           notdefFound = true;
         }
@@ -2538,7 +2534,7 @@ wxPdfFontParserType1::ParseCharStrings(wxInputStream* stream)
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfFontParserType1::ParseCharStrings: ")) +
+        wxLogError(wxString(wxS("wxPdfFontParserType1::ParseCharStrings: ")) +
                    wxString(_("Invalid Type1 file format")));
         break;
       }

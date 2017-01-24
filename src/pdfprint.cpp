@@ -2,10 +2,8 @@
 // Name:        wx/pdfprint.h
 // Purpose:     wxPdfPrinter, wxPdfPrintNativeData
 // Author:      Mark Dootson
-// Modified by:
-// Created:     11 May 2012
-// SVN-ID:      $Id$
-// Copyright:   (c) 2012 Ulrich Telle
+// Created:     2012-05-11
+// Copyright:   (c) 2012 Ulrich Telle, Mark Dootson
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 
@@ -162,11 +160,11 @@ wxPdfPrintData::wxPdfPrintData(wxPageSetupDialogData* pageSetupDialogData)
 void
 wxPdfPrintData::Init()
 {
-  m_documentTitle     = wxT("PDF Document");
+  m_documentTitle     = wxS("PDF Document");
   m_documentSubject   = wxEmptyString;
   m_documentAuthor    = wxEmptyString;
   m_documentKeywords  = wxEmptyString;
-  m_documentCreator   = wxT("wxPdfDC");
+  m_documentCreator   = wxS("wxPdfDC");
   m_protectionEnabled = false;
   m_userPassword      = wxEmptyString;
   m_ownerPassword     = wxEmptyString;
@@ -176,7 +174,7 @@ wxPdfPrintData::Init()
 
   m_printOrientation  = wxPORTRAIT;
   m_paperId           = wxPAPER_A4;
-  m_filename          = wxT("default.pdf");
+  m_filename          = wxS("default.pdf");
   m_printQuality      = wxPDF_PRINTER_DEFAULT_RESOLUTION;
 
   m_printFromPage = 1;
@@ -388,7 +386,7 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
   // update the document if it is present
   // we need a startdoc to get a valid dc
 
-  dc->StartDoc(wxT("PDF Document"));
+  dc->StartDoc(wxS("PDF Document"));
   m_pdfPrintData.UpdateDocument( dc->GetPdfDocument() );
 
   // ---------------------------------------------------------------
@@ -508,7 +506,7 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
   if (m_pdfPrintData.GetLaunchDocumentViewer() && !m_pdfPrintData.GetTemplateMode())
   {
     wxFileName fileName = wxFileName(m_pdfPrintData.GetFilename());  
-    wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
+    wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxS("pdf"));
     if (fileType != NULL)
     {
       wxString cmd = fileType->GetOpenCommand(fileName.GetFullPath());
@@ -524,11 +522,11 @@ bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
       wxString fileURL;
       if (wxIsAbsolutePath(m_pdfPrintData.GetFilename()))
       {
-        fileURL = wxT("file://") + m_pdfPrintData.GetFilename();
+        fileURL = wxS("file://") + m_pdfPrintData.GetFilename();
       }
       else
       {
-        fileURL = wxT("file://") + wxGetCwd() + wxFILE_SEP_PATH + m_pdfPrintData.GetFilename();
+        fileURL = wxS("file://") + wxGetCwd() + wxFILE_SEP_PATH + m_pdfPrintData.GetFilename();
       }
       wxLaunchDefaultBrowser(fileURL);
     }
@@ -880,16 +878,16 @@ wxPdfPrintPreviewImpl::DetermineScaling()
       switch ((int) m_pdfPrintData->GetTemplateDocument()->GetScaleFactor())
       {
         case 1:
-          scaleMode = wxT("pt");
+          scaleMode = wxS("pt");
           break;
         case 72:
-          scaleMode = wxT("in");
+          scaleMode = wxS("in");
           break;
         case 28:
-          scaleMode = wxT("cm");
+          scaleMode = wxS("cm");
           break;
         default:
-          scaleMode = wxT("mm");
+          scaleMode = wxS("mm");
           break;
       }
 
@@ -904,7 +902,7 @@ wxPdfPrintPreviewImpl::DetermineScaling()
     {
       wxPrintData* pdata = m_pdfPrintData->CreatePrintData();
       m_pdfPreviewDC = new wxPdfDC(*pdata);
-      m_pdfPreviewDC->StartDoc(wxT("unused name"));
+      m_pdfPreviewDC->StartDoc(wxS("unused name"));
       delete pdata;
     }
   }
@@ -966,7 +964,7 @@ wxPdfPrintPreviewImpl::RenderPageIntoDCImpl(wxDC& dc, int pageNum)
 
   if (!m_previewPrintout->OnBeginDocument(m_printDialogData.GetFromPage(), m_printDialogData.GetToPage()))
   {
-    wxMessageBox(wxT("Could not start document preview."), wxT("Print Preview Failure"), wxOK);
+    wxMessageBox(wxS("Could not start document preview."), wxS("Print Preview Failure"), wxOK);
     return false;
   }
 
@@ -996,7 +994,7 @@ wxPdfPrintPreviewImpl::RenderPage(int pageNum)
 
   if (!m_previewCanvas)
   {
-    wxFAIL_MSG(wxT("wxPrintPreviewBase::RenderPage: must use wxPrintPreviewBase::SetCanvas to let me know about the canvas!"));
+    wxFAIL_MSG(wxS("wxPrintPreviewBase::RenderPage: must use wxPrintPreviewBase::SetCanvas to let me know about the canvas!"));
     return false;
   }
 
@@ -1014,14 +1012,14 @@ wxPdfPrintPreviewImpl::RenderPage(int pageNum)
         delete m_previewBitmap;
         m_previewBitmap = NULL;
       }
-      wxMessageBox(wxT("Sorry, not enough memory to create a preview."), wxT("Print Preview Failure"), wxOK);
+      wxMessageBox(wxS("Sorry, not enough memory to create a preview."), wxS("Print Preview Failure"), wxOK);
       return false;
     }
   }
 
   if (!RenderPageIntoBitmapImpl(*m_previewBitmap, pageNum))
   {
-    wxMessageBox(wxT("Could not start document preview."), wxT("Print Preview Failure"), wxOK);
+    wxMessageBox(wxS("Could not start document preview."), wxS("Print Preview Failure"), wxOK);
 
     delete m_previewBitmap;
     m_previewBitmap = NULL;
@@ -1032,11 +1030,11 @@ wxPdfPrintPreviewImpl::RenderPage(int pageNum)
   wxString status;
   if (m_maxPage != 0)
   {
-    status = wxString::Format(wxT("Page %d of %d"), pageNum, m_maxPage);
+    status = wxString::Format(wxS("Page %d of %d"), pageNum, m_maxPage);
   }
   else
   {
-    status = wxString::Format(wxT("Page %d"), pageNum);
+    status = wxString::Format(wxS("Page %d"), pageNum);
   }
 
   if (m_previewFrame)
@@ -1966,17 +1964,17 @@ wxPdfPageSetupDialog::TransferMarginsToControls()
     case 0:
       // mm
       marginScaleToUnit = 1.0;
-      formatS = (wxChar*)wxT("%.0f");
+      formatS = (wxChar*)wxS("%.0f");
       break;
     case 1:
       // cm
       marginScaleToUnit = 0.1;
-      formatS = (wxChar*)wxT("%#.1f");
+      formatS = (wxChar*)wxS("%#.1f");
       break;
     case 2:
       // inch
       marginScaleToUnit = 1.0 / 25.4;
-      formatS = (wxChar*)wxT("%#.2f");
+      formatS = (wxChar*)wxS("%#.2f");
       break;
     default:
       wxLogError(_("Unknown margin unit format in margin to control transfer."));

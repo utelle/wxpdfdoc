@@ -2,7 +2,6 @@
 // Name:        pdffontvolt.h
 // Purpose:     Definition of VOLT font data
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2010-09-21
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

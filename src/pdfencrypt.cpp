@@ -2,9 +2,7 @@
 // Name:        pdfencrypt.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-17
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -757,7 +755,7 @@ wxPdfEncrypt::AES(unsigned char* key, unsigned int keylen,
   // It is a good idea to check the error code
   if (len < 0)
   {
-    wxLogError(wxString(wxT("wxPdfEncrypt::AES: ")) +
+    wxLogError(wxString(wxS("wxPdfEncrypt::AES: ")) +
                wxString(_("Error on encrypting.")));
   }
 }

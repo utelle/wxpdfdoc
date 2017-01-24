@@ -2,7 +2,6 @@
 // Name:        attachment.cpp
 // Purpose:     Demonstration of file attachments in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2012-05-20
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -19,6 +18,8 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/filename.h>
+
 #include "wx/pdfdoc.h"
 
 /**
@@ -27,13 +28,27 @@
 * This example shows how to attach a file to a PDF document.
 */
 
-void
-attachment()
+int
+attachment(bool testMode)
 {
-  wxPdfDocument pdf;
-  pdf.AttachFile(wxT("attached.txt"), wxT(""), wxT("A simple text file"));
-  pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"),wxT(""),14);
-  pdf.Write(5,wxT("This PDF contains an attached file."));
-  pdf.SaveAsFile(wxT("attachment.pdf"));
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("attached.txt")))
+  {
+    wxPdfDocument pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    pdf.AttachFile(wxS("attached.txt"), wxS(""), wxS("A simple text file"));
+    pdf.AddPage();
+    pdf.SetFont(wxS("Helvetica"),wxS(""),14);
+    pdf.Write(5,wxS("This PDF contains an attached file."));
+    pdf.SaveAsFile(wxS("attachment.pdf"));
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }

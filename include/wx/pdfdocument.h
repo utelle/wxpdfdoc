@@ -2,7 +2,6 @@
 // Name:        pdfdocument.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-04
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -31,7 +30,7 @@
 #include "wx/pdflinks.h"
 #include "wx/pdfproperties.h"
 
-#define wxPDF_PRODUCER       wxT("wxPdfDocument 0.9.5")
+#define wxPDF_PRODUCER       wxS("wxPdfDocument 0.9.6")
 
 #define wxPDF_EPSILON        1e-6
 
@@ -162,11 +161,11 @@ public:
   * \param format Defines the page format. All known wxWidgets paper types are allowed. (Default: wxPAPER_A4)
   */
   wxPdfDocument(int orientation = wxPORTRAIT, 
-                const wxString& unit = wxString(wxT("mm")), 
+                const wxString& unit = wxString(wxS("mm")), 
                 wxPaperSize format = wxPAPER_A4);
 
   wxPdfDocument(int orientation, double pageWidth, double pageHeight,
-                const wxString& unit = wxString(wxT("mm")));
+                const wxString& unit = wxString(wxS("mm")));
 
   virtual ~wxPdfDocument();
 
@@ -413,14 +412,23 @@ public:
   * \see SetAuthor(), SetKeywords(), SetSubject(), SetTitle()
   */
   virtual void SetCreator(const wxString& creator);
-  
+
+  /// Defines the creation timestamp of the document.
+  /**
+  * Optionally the creation date can be specified with this method.
+  * If this method is not called the default is the current date and time.
+  * \param creationDate The date and time to be used as the creation timestamp.
+  * \see SetAuthor(), SetKeywords(), SetSubject(), SetTitle()
+  */
+  virtual void SetCreationDate(const wxDateTime& creationDate);
+
   /// Defines an alias for the total number of pages.
   /**
   * It will be substituted as the document is closed.
   * \param alias The alias. Default value: {nb}.
   * \see PageNo(), Footer()
   */
-  virtual void AliasNbPages(const wxString& alias = wxString(wxT("{nb}")));
+  virtual void AliasNbPages(const wxString& alias = wxString(wxS("{nb}")));
 
   /// This method begins the generation of the PDF document.
   /**
@@ -2913,6 +2921,9 @@ private:
   bool                 m_translate;           ///< flag whether messages in msg tags should be translated
 
 private:
+  bool                 m_creationDateSet;     ///< flag whether the creation date was explicitly specified
+  wxDateTime           m_creationDate;        ///< creation date for the final PDF document
+
 #if WXPDFDOC_INHERIT_WXOBJECT
   DECLARE_DYNAMIC_CLASS(wxPdfDocument)
 #endif

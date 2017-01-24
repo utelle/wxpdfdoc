@@ -2,7 +2,6 @@
 // Name:        pdfpattern.cpp
 // Purpose:     Implementation of pattern handling
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-06-18
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -21,9 +20,7 @@
 #include <wx/wx.h>
 #endif
 
-//#include "wx/pdfcolour.h"
 #include "wx/pdfpattern.h"
-//#include "wx/pdfutility.h"
 
 wxPdfPattern::wxPdfPattern(int index, double width, double height)
   : m_objIndex(0), m_index(index), m_width(width), m_height(height)

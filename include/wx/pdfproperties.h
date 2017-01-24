@@ -2,7 +2,6 @@
 // Name:        pdfproperties.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-07-13
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

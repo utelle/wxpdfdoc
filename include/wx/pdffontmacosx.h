@@ -2,7 +2,6 @@
 // Name:        pdffontmacosx.h
 // Purpose:     Definition of Mac OS X specific font data handling
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2010-09-30
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

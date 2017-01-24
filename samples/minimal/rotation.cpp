@@ -2,7 +2,6 @@
 // Name:        rotation.cpp
 // Purpose:     Demonstration of rotation in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -19,6 +18,8 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/filename.h>
+
 #include "wx/pdfdoc.h"
 
 /**
@@ -27,14 +28,28 @@
 * This example shows the effects of rotating text and an image.
 */
 
-void
-rotation()
+int
+rotation(bool testMode)
 {
-  wxPdfDocument pdf;
-  pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"),wxT(""),20);
-  pdf.RotatedImage(wxT("circle.png"),85,60,40,16,45);
-  pdf.RotatedText(100,60,wxT("Hello!"),45);
-  pdf.SaveAsFile(wxT("rotation.pdf"));
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("circle.png")))
+  {
+    wxPdfDocument pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    pdf.AddPage();
+    pdf.SetFont(wxS("Helvetica"),wxS(""),20);
+    pdf.RotatedImage(wxS("circle.png"),85,60,40,16,45);
+    pdf.RotatedText(100,60,wxS("Hello!"),45);
+    pdf.SaveAsFile(wxS("rotation.pdf"));
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 

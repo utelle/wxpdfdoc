@@ -2,7 +2,6 @@
 // Name:        tutorial6.cpp
 // Purpose:     Tutorial 6: Test program for wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-02-12
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -18,6 +17,8 @@
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
+
+#include <wx/filename.h>
 
 #include "wx/pdfdoc.h"
 
@@ -48,33 +49,47 @@
 *
 */
 
-void
-tutorial6()
+int
+tutorial6(bool testMode)
 {
-  wxString xmlString =
-    wxString(wxT("You can now easily print text mixing different styles : <b>bold</b>, <i>italic</i>, ")) +
-    wxString(wxT("<u>underlined</u>, or <b><i><u>all at once</u></i></b>!<br/>You can also insert links ")) +
-    wxString(wxT("on text, such as <a href=\"http://www.fpdf.org\">www.fpdf.org</a>, or on an image: click on the logo."));
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("logo.png")))
+  {
+    wxString xmlString =
+      wxString(wxS("You can now easily print text mixing different styles : <b>bold</b>, <i>italic</i>, ")) +
+      wxString(wxS("<u>underlined</u>, or <b><i><u>all at once</u></i></b>!<br/>You can also insert links ")) +
+      wxString(wxS("on text, such as <a href=\"http://www.fpdf.org\">www.fpdf.org</a>, or on an image: click on the logo."));
 
-  wxPdfDocument pdf;
-  // First page
-  pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"), wxT(""), 20.0);
-  pdf.StartTransform();
-  pdf.Write(5, wxT("To find out what's new in this tutorial, click "));
-  pdf.SetFont(wxT(""), wxT("U"));
-  int link = pdf.AddLink();
-  pdf.Write(5, wxT("here"), wxPdfLink(link));
-  pdf.SetFont(wxT(""));
-  pdf.StopTransform();
-  // Second page
-  pdf.AddPage();
-  pdf.SetLink(link);
-  pdf.Image(wxT("logo.png"), 10, 10, 30, 0, wxT(""),wxPdfLink(wxT("http://www.fpdf.org")));
-  pdf.SetLeftMargin(45);
-  pdf.SetFontSize(14);
-  pdf.WriteXml(xmlString);
+    wxPdfDocument pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    // First page
+    pdf.AddPage();
+    pdf.SetFont(wxS("Helvetica"), wxS(""), 20.0);
+    pdf.StartTransform();
+    pdf.Write(5, wxS("To find out what's new in this tutorial, click "));
+    pdf.SetFont(wxS(""), wxS("U"));
+    int link = pdf.AddLink();
+    pdf.Write(5, wxS("here"), wxPdfLink(link));
+    pdf.SetFont(wxS(""));
+    pdf.StopTransform();
+    // Second page
+    pdf.AddPage();
+    pdf.SetLink(link);
+    pdf.Image(wxS("logo.png"), 10, 10, 30, 0, wxS(""),wxPdfLink(wxS("http://www.fpdf.org")));
+    pdf.SetLeftMargin(45);
+    pdf.SetFontSize(14);
+    pdf.WriteXml(xmlString);
 
-  pdf.SaveAsFile(wxT("tutorial6.pdf"));
+    pdf.SaveAsFile(wxS("tutorial6.pdf"));
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 

@@ -2,9 +2,7 @@
 // Name:        pdffontdescription.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-10
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -25,8 +23,6 @@
 // includes
 
 #include "wx/pdffontdescription.h"
-
-#include "wxmemdbg.h"
 
 wxPdfFontDescription::wxPdfFontDescription()
   : m_ascent(0), m_descent(0), m_capHeight(0), m_flags(0),

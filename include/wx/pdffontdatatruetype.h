@@ -2,7 +2,6 @@
 // Name:        pdffontdatatruetype.h
 // Purpose:    Definition of font data for TrueType fonts
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-05-15
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

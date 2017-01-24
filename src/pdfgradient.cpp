@@ -2,7 +2,6 @@
 // Name:        pdfgradient.cpp
 // Purpose:     Implementation of wxPdfDocument gradient classes
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-06-11
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -190,7 +189,7 @@ wxPdfCoonsPatchGradient::wxPdfCoonsPatchGradient(const wxPdfCoonsPatchMesh& mesh
     for (k = 0; k < nc; k++)
     {
       // each colour component as 8 bit
-      wxStringTokenizer tkz(colours[k].GetColourValue(), wxT(" "));
+      wxStringTokenizer tkz(colours[k].GetColourValue(), wxS(" "));
       while ( tkz.HasMoreTokens() )
       {
         ch = ((int) (wxPdfUtility::String2Double(tkz.GetNextToken()) * 255)) & 0xFF;

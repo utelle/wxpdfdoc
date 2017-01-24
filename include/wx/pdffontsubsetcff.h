@@ -2,7 +2,6 @@
 // Name:        pdffontsubsetcfft.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-06-24
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

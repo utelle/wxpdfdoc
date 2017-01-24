@@ -2,7 +2,6 @@
 // Name:        indictest.cpp
 // Purpose:     Demonstration of Indic fonts in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2010-12-15
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -31,19 +30,28 @@
 * Remark: Only available in Unicode build. 
 */
 
-static void
+static int
 writeFullMoon(wxPdfDocument& pdf, const wxString& txt1, const wxString& txt2, const wxString& fontName)
 {
-  pdf.AddFont(fontName);
-  pdf.SetFont(fontName, wxT(""), 22);
-  pdf.Cell(40, 12, txt1);
-  pdf.Cell(100, 12, txt2);
-  pdf.Ln(13);
+  int rc = 0;
+  if (pdf.AddFont(fontName))
+  {
+    pdf.SetFont(fontName, wxS(""), 22);
+    pdf.Cell(40, 12, txt1);
+    pdf.Cell(100, 12, txt2);
+    pdf.Ln(13);
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 
-static void
-fullmoon()
+static int
+fullmoon(bool testMode)
 {
+  int rc = 0;
   wxString hindi1("११११", wxConvUTF8);
   wxString hindi2("पूर्ण चाँद", wxConvUTF8);
   wxString bengali1("১১১১", wxConvUTF8);
@@ -63,31 +71,44 @@ fullmoon()
   wxString malayalam1("൧൧൧൧", wxConvUTF8);
   wxString malayalam2("പൂറ്ണ്ണചന്ദ്റന്", wxConvUTF8);
 
+  int failed = 0;
   wxPdfDocument pdf;
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
   pdf.Open();
   pdf.SetTopMargin(20);
   pdf.SetLeftMargin(20);
   pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"), wxT("B"),24);
-  pdf.Write(10,wxT("Full Moon in 9 Indic Scripts"));
+  pdf.SetFont(wxS("Helvetica"), wxS("B"),24);
+  pdf.Write(10,wxS("Full Moon in 9 Indic Scripts"));
   pdf.Ln(15);
-  writeFullMoon(pdf, hindi1, hindi2, wxT("RaghuHindi"));
-  writeFullMoon(pdf, bengali1, bengali2, wxT("RaghuBengali"));
-  writeFullMoon(pdf, punjabi1, punjabi2, wxT("RaghuPunjabi"));
-  writeFullMoon(pdf, gujarati1, gujarati2, wxT("RaghuGujarati"));
-  writeFullMoon(pdf, oriya1, oriya2, wxT("RaghuOriya"));
-  writeFullMoon(pdf, tamil1, tamil2, wxT("RaghuTamil"));
-  writeFullMoon(pdf, telugu1, telugu2, wxT("RaghuTelugu"));
-  writeFullMoon(pdf, kannada1, kannada2, wxT("RaghuKannada"));
-  writeFullMoon(pdf, malayalam1, malayalam2, wxT("RaghuMalayalam"));
+  failed += writeFullMoon(pdf, hindi1, hindi2, wxS("RaghuHindi"));
+  failed += writeFullMoon(pdf, bengali1, bengali2, wxS("RaghuBengali"));
+  failed += writeFullMoon(pdf, punjabi1, punjabi2, wxS("RaghuPunjabi"));
+  failed += writeFullMoon(pdf, gujarati1, gujarati2, wxS("RaghuGujarati"));
+  failed += writeFullMoon(pdf, oriya1, oriya2, wxS("RaghuOriya"));
+  failed += writeFullMoon(pdf, tamil1, tamil2, wxS("RaghuTamil"));
+  failed += writeFullMoon(pdf, telugu1, telugu2, wxS("RaghuTelugu"));
+  failed += writeFullMoon(pdf, kannada1, kannada2, wxS("RaghuKannada"));
+  failed += writeFullMoon(pdf, malayalam1, malayalam2, wxS("RaghuMalayalam"));
 
-  pdf.SaveAsFile(wxT("fullmoon.pdf"));
+  pdf.SaveAsFile(wxS("fullmoon.pdf"));
+
+  if (failed > 0)
+  {
+    rc = 1;
+  }
+  return rc;
 }
 
-static void
+static int
 writesample(wxPdfDocument& pdf, const wxString& header, const wxString& sampleFile, const wxString& fontName)
 {
-  pdf.SetFont(wxT("Helvetica"), wxT("B"), 16);
+  int rc = 0;
+  pdf.SetFont(wxS("Helvetica"), wxS("B"), 16);
   pdf.Write(10,header);
   pdf.Ln(14);
 
@@ -99,41 +120,81 @@ writesample(wxPdfDocument& pdf, const wxString& header, const wxString& sampleFi
   wxString sampleText(ctxt, wxConvUTF8);
   delete [] ctxt;
 
-  pdf.AddFont(fontName);
-  pdf.SetFont(fontName, wxT(""), 15);
-  pdf.MultiCell(160, 7, sampleText, 0, wxPDF_ALIGN_LEFT);
-  pdf.Ln();
+  if (pdf.AddFont(fontName))
+  {
+    pdf.SetFont(fontName, wxS(""), 15);
+    pdf.MultiCell(160, 7, sampleText, 0, wxPDF_ALIGN_LEFT);
+    pdf.Ln();
+  }
+  else
+  {
+    rc = 1;
+  }
+
+  return rc;
 }
 
-static void
-samples()
+static int
+samples(bool testMode)
 {
-  wxPdfDocument pdf;
-  pdf.Open();
-  pdf.SetTopMargin(30);
-  pdf.SetLeftMargin(30);
-  pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"), wxT("B"),32);
-  pdf.Write(10,wxT("Indic Fonts and Languages"));
-  pdf.Ln(17);
-  writesample(pdf, wxT("Assamese (as)"), wxT("indic-assamese.txt"), wxT("RaghuBengali"));
-  writesample(pdf, wxT("Bengali (bn)"), wxT("indic-bengali.txt"), wxT("RaghuBengali"));
-  writesample(pdf, wxT("Gujarati (gu)"), wxT("indic-gujarati.txt"), wxT("RaghuGujarati"));
-  writesample(pdf, wxT("Hindi (hi)"), wxT("indic-hindi.txt"), wxT("RaghuHindi"));
-  writesample(pdf, wxT("Kannada (kn)"), wxT("indic-kannada.txt"), wxT("RaghuKannada"));
-  writesample(pdf, wxT("Malayalam (ml)"), wxT("indic-malayalam.txt"), wxT("RaghuMalayalam"));
-  writesample(pdf, wxT("Nepali (ne) - Devanagari"), wxT("indic-nepali.txt"), wxT("RaghuHindi"));
-  writesample(pdf, wxT("Oriya (or)"), wxT("indic-oriya.txt"), wxT("RaghuOriya"));
-  writesample(pdf, wxT("Punjabi (pa)"), wxT("indic-punjabi.txt"), wxT("RaghuPunjabi"));
-  writesample(pdf, wxT("Tamil (ta)"), wxT("indic-tamil.txt"), wxT("RaghuTamil"));
-  writesample(pdf, wxT("Telugu (te)"), wxT("indic-telugu.txt"), wxT("RaghuTelugu"));
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("indic-assamese.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-bengali.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-gujarati.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-hindi.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-kannada.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-malayalam.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-nepali.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-oriya.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-punjabi.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-tamil.txt")) &&
+      wxFileName::IsFileReadable(wxS("indic-telugu.txt")))
+  {
+    int failed = 0;
+    wxPdfDocument pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    pdf.Open();
+    pdf.SetTopMargin(30);
+    pdf.SetLeftMargin(30);
+    pdf.AddPage();
+    pdf.SetFont(wxS("Helvetica"), wxS("B"),32);
+    pdf.Write(10,wxS("Indic Fonts and Languages"));
+    pdf.Ln(17);
+    failed += writesample(pdf, wxS("Assamese (as)"), wxS("indic-assamese.txt"), wxS("RaghuBengali"));
+    failed += writesample(pdf, wxS("Bengali (bn)"), wxS("indic-bengali.txt"), wxS("RaghuBengali"));
+    failed += writesample(pdf, wxS("Gujarati (gu)"), wxS("indic-gujarati.txt"), wxS("RaghuGujarati"));
+    failed += writesample(pdf, wxS("Hindi (hi)"), wxS("indic-hindi.txt"), wxS("RaghuHindi"));
+    failed += writesample(pdf, wxS("Kannada (kn)"), wxS("indic-kannada.txt"), wxS("RaghuKannada"));
+    failed += writesample(pdf, wxS("Malayalam (ml)"), wxS("indic-malayalam.txt"), wxS("RaghuMalayalam"));
+    failed += writesample(pdf, wxS("Nepali (ne) - Devanagari"), wxS("indic-nepali.txt"), wxS("RaghuHindi"));
+    failed += writesample(pdf, wxS("Oriya (or)"), wxS("indic-oriya.txt"), wxS("RaghuOriya"));
+    failed += writesample(pdf, wxS("Punjabi (pa)"), wxS("indic-punjabi.txt"), wxS("RaghuPunjabi"));
+    failed += writesample(pdf, wxS("Tamil (ta)"), wxS("indic-tamil.txt"), wxS("RaghuTamil"));
+    failed += writesample(pdf, wxS("Telugu (te)"), wxS("indic-telugu.txt"), wxS("RaghuTelugu"));
 
-  pdf.SaveAsFile(wxT("indicfonts.pdf"));
+    pdf.SaveAsFile(wxS("indicfonts.pdf"));
+
+    if (failed > 0)
+    {
+      rc = 1;
+    }
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 
-void
-indicfonts()
+int
+indicfonts(bool testMode)
 {
-  fullmoon();
-  samples();
+  int failed = 0;
+  failed += fullmoon(testMode);
+  failed += samples(testMode);
+  return failed;
 }

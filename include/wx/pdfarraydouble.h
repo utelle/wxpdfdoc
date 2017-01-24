@@ -2,7 +2,6 @@
 // Name:        pdfarraydouble.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-05-25
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

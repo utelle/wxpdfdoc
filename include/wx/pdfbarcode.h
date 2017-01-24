@@ -2,7 +2,6 @@
 // Name:        pdfbarcode.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-09-12
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

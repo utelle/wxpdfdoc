@@ -2,7 +2,6 @@
 // Name:        pdfcorefontdata.h
 // Purpose:     Definition of core font data structures
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-02-25
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

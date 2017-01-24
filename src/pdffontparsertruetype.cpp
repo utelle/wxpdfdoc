@@ -2,9 +2,7 @@
 // Name:        pdffontparsertruetype.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-03-04
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -31,8 +29,6 @@
 #include "wx/pdffontdatatruetype.h"
 #include "wx/pdffontparsertruetype.h"
 #include "wx/pdfencoding.h"
-
-#include "wxmemdbg.h"
 
 // --- Windows specific loading of TrueType font data
 
@@ -102,7 +98,7 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
     BYTE uShortBuf[2];
     if (GetFontData(hdc, 0, 4, uShortBuf, 2) == GDI_ERROR)
     {
-      wxLogError(wxString(wxT("ExtractFontData: ")) +
+      wxLogError(wxString(wxS("ExtractFontData: ")) +
                  wxString::Format(_("Error %d on reading number of tables from TTC."), GetLastError()));
       return false;
     }
@@ -113,14 +109,14 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
     BYTE* fontHeader = new BYTE[headerSize];
     if (!fontHeader)
     {
-      wxLogError(wxString(wxT("ExtractFontData: ")) +
+      wxLogError(wxString(wxS("ExtractFontData: ")) +
                  wxString(_("Out of memory while extracting from TTC.")));
       return false;
     }
     if (GetFontData(hdc, 0, 0, fontHeader, headerSize) == GDI_ERROR)
     {
       delete [] fontHeader;
-      wxLogError(wxString(wxT("ExtractFontData: ")) +
+      wxLogError(wxString(wxS("ExtractFontData: ")) +
                  wxString::Format(_("Error %d on reading font header from TTC."), GetLastError()));
       return false;
     }
@@ -148,7 +144,7 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
     if (buffer == NULL)
     {
       delete [] fontHeader;
-      wxLogError(wxString(wxT("ExtractFontData: ")) +
+      wxLogError(wxString(wxS("ExtractFontData: ")) +
                  wxString(_("Out of memory while extracting from TTC.")));
       return false;
     }
@@ -172,7 +168,7 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
       {
         delete [] buffer;
         delete [] fontHeader;
-        wxLogError(wxString(wxT("ExtractFontData: ")) +
+        wxLogError(wxString(wxS("ExtractFontData: ")) +
                    wxString::Format(_("Error %d on reading table data from TTC."), GetLastError()));
         return false;
       }
@@ -211,13 +207,13 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
         else
         {
           delete [] buffer;
-          wxLogError(wxString(wxT("ExtractFontData: ")) +
+          wxLogError(wxString(wxS("ExtractFontData: ")) +
                      wxString::Format(_("Error %d on extracting font data."), GetLastError()));
         }
       }
       else
       {
-        wxLogError(wxString(wxT("ExtractFontData: ")) +
+        wxLogError(wxString(wxS("ExtractFontData: ")) +
                    wxString(_("Out of memory.")));
       }
     }
@@ -460,8 +456,8 @@ wxPdfFontParserTrueType::ClearTableDirectory()
 }
 
 static const wxChar* tableNamesDefault[] = {
-  wxT("cvt "), wxT("fpgm"), wxT("glyf"), wxT("head"),
-  wxT("hhea"), wxT("hmtx"), wxT("loca"), wxT("maxp"), wxT("prep"),
+  wxS("cvt "), wxS("fpgm"), wxS("glyf"), wxS("head"),
+  wxS("hhea"), wxS("hmtx"), wxS("loca"), wxS("maxp"), wxS("prep"),
   NULL
 };
 
@@ -540,10 +536,10 @@ wxPdfFontParserTrueType::GetCollectionFontCount(const wxString& fontFileName)
     m_inFont->SeekI(0);
 
     // Check for TrueType collection
-    if (fileName.GetExt().Lower().IsSameAs(wxT("ttc")))
+    if (fileName.GetExt().Lower().IsSameAs(wxS("ttc")))
     {
       wxString mainTag = ReadString(4);
-      if (mainTag == wxT("ttcf"))
+      if (mainTag == wxS("ttcf"))
       {
         SkipBytes(4);
         count = ReadInt();
@@ -571,12 +567,12 @@ wxPdfFontParserTrueType::IdentifyFont(const wxString& fontFileName, int fontInde
     m_inFont->SeekI(0);
 
     // Check for TrueType collection
-    if (fileName.GetExt().Lower().IsSameAs(wxT("ttc")))
+    if (fileName.GetExt().Lower().IsSameAs(wxS("ttc")))
     {
       if (fontIndex >= 0)
       {
         wxString mainTag = ReadString(4);
-        if (mainTag == wxT("ttcf"))
+        if (mainTag == wxS("ttcf"))
         {
           SkipBytes(4);
           int dirCount = ReadInt();
@@ -587,21 +583,21 @@ wxPdfFontParserTrueType::IdentifyFont(const wxString& fontFileName, int fontInde
           }
           else
           {
-            wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: ")) +
+            wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
                        wxString::Format(_("Font index %d out of range for font file '%s'."), fontIndex, fontFileName.c_str()));
             ok = false;
           }
         }
         else
         {
-          wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: '")) + 
+          wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: '")) + 
                      wxString::Format(_("Font file '%s' not a valid TrueType collection (TTC) file."), fontFileName.c_str()));
           ok = false;
         }
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: ")) +
+        wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
                    wxString::Format(_("Font index %d out of range for font file '%s'."), fontIndex, fontFileName.c_str()));
         ok = false;
       }
@@ -623,7 +619,7 @@ wxPdfFontParserTrueType::IdentifyFont(const wxString& fontFileName, int fontInde
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: ")) +
+        wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
                    wxString::Format(_("Reading of font directory failed for font file '%s'."), fontFileName.c_str()));
       }
     }
@@ -631,7 +627,7 @@ wxPdfFontParserTrueType::IdentifyFont(const wxString& fontFileName, int fontInde
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
                wxString::Format(_("Font file '%s' not accessible."), fontFileName.c_str()));
   }
   return fontData;
@@ -664,7 +660,7 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: ")) +
+        wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
                    wxString::Format(_("Reading of font directory failed for font file '%s'."), font.GetFaceName().c_str()));
       }
     }
@@ -672,7 +668,7 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
                wxString::Format(_("Font file '%s' not accessible."), font.GetFaceName().c_str()));
   }
   return fontData;
@@ -707,7 +703,7 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserTrueType::IdentifyFont: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
                wxString::Format(_("Reading of font directory failed for font file '%s'."), font.GetFaceName().c_str()));
   }
 #endif
@@ -813,7 +809,7 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
       {
         // Check whether the font file is a TrueType collection
         wxString mainTag = ReadString(4);
-        if (mainTag == wxT("ttcf"))
+        if (mainTag == wxS("ttcf"))
         {
           SkipBytes(4);
           int dirCount = ReadInt();
@@ -825,7 +821,7 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
           }
           else
           {
-            wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
+            wxLogError(wxString(wxS("wxPdfFontParserTrueType::LoadFontData: ")) +
                        wxString::Format(_("Font index %d out of range for font file '%s'."), fontIndex, m_fileName.c_str()));
           }
         }
@@ -835,14 +831,14 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
           ok = (fontIndex == 0);
           if (!ok)
           {
-            wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: '")) + 
+            wxLogError(wxString(wxS("wxPdfFontParserTrueType::LoadFontData: '")) + 
                        wxString::Format(_("Font file '%s' not a valid TrueType collection (TTC) file."), m_fileName.c_str()));
           }
         }
       }
       else
       {
-        wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
+        wxLogError(wxString(wxS("wxPdfFontParserTrueType::LoadFontData: ")) +
                    wxString::Format(_("Font index %d out of range for font file '%s'."), fontIndex, m_fileName.c_str()));
       }
 
@@ -856,11 +852,11 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
             CheckCff();
             if (m_cff)
             {
-              ok = fontData->GetType().IsSameAs(wxT("OpenTypeUnicode"));
+              ok = fontData->GetType().IsSameAs(wxS("OpenTypeUnicode"));
             }
             else
             {
-              ok = fontData->GetType().IsSameAs(wxT("TrueTypeUnicode"));
+              ok = fontData->GetType().IsSameAs(wxS("TrueTypeUnicode"));
             }
             if (ok)
             {
@@ -868,19 +864,19 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
             }
             else
             {
-              wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
+              wxLogError(wxString(wxS("wxPdfFontParserTrueType::LoadFontData: ")) +
                          wxString::Format(_("Wrong font data type '%s' for font file '%s'."), fontData->GetType().c_str(), m_fileName.c_str()));
             }
           }
           else
           {
-            wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
+            wxLogError(wxString(wxS("wxPdfFontParserTrueType::LoadFontData: ")) +
                        wxString::Format(_("Missing font tables for font file '%s'."), m_fileName.c_str()));
           }
         }
         else
         {
-          wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
+          wxLogError(wxString(wxS("wxPdfFontParserTrueType::LoadFontData: ")) +
                      wxString::Format(_("Reading of font directory failed for font file '%s'."), m_fileName.c_str()));
         }
       }
@@ -895,13 +891,13 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
     }
     else
     {
-      wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
+      wxLogError(wxString(wxS("wxPdfFontParserTrueType::LoadFontData: ")) +
                  wxString::Format(_("Font file '%s' not accessible."), m_fileName.c_str()));
     }
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserTrueType::LoadFontData: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserTrueType::LoadFontData: ")) +
                wxString(_("No font data instance given.")));
   }
   return ok;
@@ -983,7 +979,7 @@ wxPdfFontParserTrueType::ReadTableDirectory()
     {
       if (!m_fileName.IsEmpty())
       {
-        wxLogError(wxString(wxT("wxPdfFontParserTrueType::ReadTableDirectory: '")) + 
+        wxLogError(wxString(wxS("wxPdfFontParserTrueType::ReadTableDirectory: '")) + 
                    wxString::Format(_("Font file '%s' not a valid TrueType (TTF) or OpenType (OTF) file."), m_fileName.c_str()));
       }
       ok = false;
@@ -1026,9 +1022,9 @@ wxPdfFontParserTrueType::ReadTableDirectory()
 }
 
 static const wxChar* checkTableNames[] = {
-  wxT("cmap"), wxT("head"), wxT("hhea"), wxT("hmtx"), wxT("name"),
-  wxT("post"), 
-  wxT("glyf"), wxT("loca"),
+  wxS("cmap"), wxS("head"), wxS("hhea"), wxS("hmtx"), wxS("name"),
+  wxS("post"), 
+  wxS("glyf"), wxS("loca"),
   NULL
 };
 
@@ -1036,7 +1032,7 @@ bool
 wxPdfFontParserTrueType::CheckTables()
 {
   bool ok = true;
-  int maxTableCount = (m_tableDirectory->find(wxT("CFF ")) == m_tableDirectory->end()) ? 8 : 6;
+  int maxTableCount = (m_tableDirectory->find(wxS("CFF ")) == m_tableDirectory->end()) ? 8 : 6;
   int tableCount = 0;
   while (ok && tableCount < maxTableCount && checkTableNames[tableCount] != NULL)
   {
@@ -1053,7 +1049,7 @@ void
 wxPdfFontParserTrueType::CheckCff()
 {
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("CFF "));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("CFF "));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
@@ -1073,11 +1069,11 @@ void
 wxPdfFontParserTrueType::CheckRestrictions()
 {
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("OS/2"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("OS/2"));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
-    LockTable(wxT("OS/2"));
+    LockTable(wxS("OS/2"));
     m_inFont->SeekI(tableLocation->m_offset+8);
     short fsType = ReadShort();
     bool rl = (fsType & 0x0002) != 0; // restricted license
@@ -1101,11 +1097,11 @@ wxPdfFontParserTrueType::GetBaseFont()
 {
   wxString fontName = wxEmptyString;
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("name"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("name"));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
-    LockTable(wxT("name"));
+    LockTable(wxS("name"));
     m_inFont->SeekI(tableLocation->m_offset+2);
     int numRecords = ReadUShort();
     int startOfStorage = ReadUShort();
@@ -1135,13 +1131,13 @@ wxPdfFontParserTrueType::GetBaseFont()
     if (fontName.IsEmpty())
     {
       wxFileName::SplitPath(m_fileName, NULL, &fontName, NULL);
-      fontName.Replace(wxT(" "), wxT("-"));
+      fontName.Replace(wxS(" "), wxS("-"));
     }
     ReleaseTable();
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserTrueType::GetBaseFont: "))+
+    wxLogError(wxString(wxS("wxPdfFontParserTrueType::GetBaseFont: "))+
                wxString::Format(_("Table 'name' does not exist in font file '%s'."), m_fileName.c_str()));
   }
   return fontName;
@@ -1156,15 +1152,15 @@ wxPdfFontParserTrueType::ReadMaps()
   int realOS2TypoDescender;
 
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("head"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("head"));
   if (entry == m_tableDirectory->end())
   {
-    wxLogError(wxString(wxT("wxPdfFontParser::ReadMaps: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParser::ReadMaps: ")) +
                wxString::Format(_("Table 'head' does not exist in '%s,%s'."), m_fileName.c_str(), m_style.c_str()));
     return false;
   }
   tableLocation = entry->second;
-  LockTable(wxT("head"));
+  LockTable(wxS("head"));
   m_inFont->SeekI(tableLocation->m_offset+16);
   head.m_flags = ReadUShort();
   head.m_unitsPerEm = ReadUShort();
@@ -1176,15 +1172,15 @@ wxPdfFontParserTrueType::ReadMaps()
   head.m_macStyle = ReadUShort();
   ReleaseTable();
 
-  entry = m_tableDirectory->find(wxT("hhea"));
+  entry = m_tableDirectory->find(wxS("hhea"));
   if (entry == m_tableDirectory->end())
   {
-    wxLogError(wxString(wxT("wxPdfFontParser::ReadMaps: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParser::ReadMaps: ")) +
                wxString::Format(_("Table 'hhea' does not exist in '%s,%s'."), m_fileName.c_str(), m_style.c_str()));
     return false;
   }
   tableLocation = entry->second;
-  LockTable(wxT("hhea"));
+  LockTable(wxS("hhea"));
   m_inFont->SeekI(tableLocation->m_offset+4);
   hhea.m_ascender = ReadShort();
   hhea.m_descender = ReadShort();
@@ -1199,11 +1195,11 @@ wxPdfFontParserTrueType::ReadMaps()
   hhea.m_numberOfHMetrics = ReadUShort();
   ReleaseTable();
 
-  entry = m_tableDirectory->find(wxT("OS/2"));
+  entry = m_tableDirectory->find(wxS("OS/2"));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
-    LockTable(wxT("OS/2"));
+    LockTable(wxS("OS/2"));
     m_inFont->SeekI(tableLocation->m_offset);
     int version = ReadUShort();
     os_2.m_xAvgCharWidth = ReadShort();
@@ -1287,7 +1283,7 @@ wxPdfFontParserTrueType::ReadMaps()
   int underlineThickness = 50;
 
   double italicAngle;
-  entry = m_tableDirectory->find(wxT("post"));
+  entry = m_tableDirectory->find(wxS("post"));
   if (entry == m_tableDirectory->end())
   {
     static double pi = 4. * atan(1.0);
@@ -1298,7 +1294,7 @@ wxPdfFontParserTrueType::ReadMaps()
   else
   {
     tableLocation = entry->second;
-    LockTable(wxT("post"));
+    LockTable(wxS("post"));
     m_inFont->SeekI(tableLocation->m_offset+4);
     short mantissa = ReadShort();
     int fraction = ReadUShort();
@@ -1341,22 +1337,22 @@ wxPdfFontParserTrueType::ReadMaps()
   }
   m_fd.SetFlags(flags);
 
-  wxString fbb = wxString::Format(wxT("[%d %d %d %d]"),
+  wxString fbb = wxString::Format(wxS("[%d %d %d %d]"),
                    (int) (head.m_xMin * 1000 / head.m_unitsPerEm),
                    (int) (head.m_yMin * 1000 / head.m_unitsPerEm),
                    (int) (head.m_xMax * 1000 / head.m_unitsPerEm),
                    (int) (head.m_yMax * 1000 / head.m_unitsPerEm));
   m_fd.SetFontBBox(fbb);
 
-  entry = m_tableDirectory->find(wxT("cmap"));
+  entry = m_tableDirectory->find(wxS("cmap"));
   if (entry == m_tableDirectory->end())
   {
-    wxLogError(wxString(wxT("wxPdfFontParser::ReadMaps: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParser::ReadMaps: ")) +
                wxString::Format(_("Table 'cmap' does not exist in '%s,%s'."), m_fileName.c_str(), m_style.c_str()));
     return false;
   }
   tableLocation = entry->second;
-  LockTable(wxT("cmap"));
+  LockTable(wxS("cmap"));
   m_inFont->SeekI(tableLocation->m_offset);
   SkipBytes(2);
   int num_tables = ReadUShort();
@@ -1465,7 +1461,7 @@ wxPdfFontParserTrueType::ReadMaps()
   bool ok = (m_cmap10 != NULL) || (m_cmap31 != NULL) || (m_cmapExt != NULL);
   if (!ok)
   {
-    wxLogError(wxString(wxT("wxPdfFontParserTrueType::ReadMaps: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserTrueType::ReadMaps: ")) +
                wxString::Format(_("No valid 'cmap' table found for font '%s'."),  m_fontName.c_str()));
   }
 
@@ -1476,15 +1472,15 @@ bool
 wxPdfFontParserTrueType::ReadGlyphWidths(int numberOfHMetrics, int unitsPerEm)
 {
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("hmtx"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("hmtx"));
   if (entry == m_tableDirectory->end())
   {
-    wxLogError(wxString(wxT("wxPdfFontParser::ReadGlyphWidths: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParser::ReadGlyphWidths: ")) +
                wxString::Format(_("Table 'hmtx' does not exist in '%s,%s'."), m_fileName.c_str(), m_style.c_str()));
     return false;
   }
   tableLocation = entry->second;
-  LockTable(wxT("hmtx"));
+  LockTable(wxS("hmtx"));
   m_inFont->SeekI(tableLocation->m_offset);
 
   m_glyphWidths.SetCount(numberOfHMetrics);
@@ -1574,7 +1570,7 @@ wxPdfFontParserTrueType::ReadFormat4()
       r->m_width = GetGlyphWidth(r->m_glyph);
       int idx = m_fontSpecific ? ((j & 0xff00) == 0xf000 ? j & 0xff : j) : j;
       (*h)[idx] = r;
-//      wxLogMessage(wxT("C %ld G %ld"), idx, glyph);
+//      wxLogMessage(wxS("C %ld G %ld"), idx, glyph);
     }
   }
 
@@ -1636,11 +1632,11 @@ void
 wxPdfFontParserTrueType::ReadKerning(int unitsPerEm)
 {
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("kern"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("kern"));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
-    LockTable(wxT("kern"));
+    LockTable(wxS("kern"));
     m_kp = new wxPdfKernPairMap();
     wxPdfKernWidthMap* kwMap = NULL;
     wxPdfKernWidthMap::iterator kw;
@@ -1721,11 +1717,11 @@ wxPdfFontParserTrueType::GetNames(int id, bool namesOnly)
 {
   wxArrayString names;
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("name"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("name"));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
-    LockTable(wxT("name"));
+    LockTable(wxS("name"));
     m_inFont->SeekI(tableLocation->m_offset+2);
     int numRecords = ReadUShort();
     int startOfStorage = ReadUShort();
@@ -1753,9 +1749,9 @@ wxPdfFontParserTrueType::GetNames(int id, bool namesOnly)
         }
         if (!namesOnly)
         {
-          names.Add(wxString::Format(wxT("%d"), platformID));
-          names.Add(wxString::Format(wxT("%d"), platformEncodingID));
-          names.Add(wxString::Format(wxT("%d"), languageID));
+          names.Add(wxString::Format(wxS("%d"), platformID));
+          names.Add(wxString::Format(wxS("%d"), platformEncodingID));
+          names.Add(wxString::Format(wxS("%d"), languageID));
         }
         names.Add(name);
         m_inFont->SeekI(pos);
@@ -1765,7 +1761,7 @@ wxPdfFontParserTrueType::GetNames(int id, bool namesOnly)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParser::GetNames: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParser::GetNames: ")) +
                wxString::Format(_("Table 'name' does not exist in '%s,%s'."), m_fileName.c_str(), m_style.c_str()));
   }
   return names;
@@ -1776,11 +1772,11 @@ wxPdfFontParserTrueType::GetEnglishName(int id)
 {
   wxString englishName = wxEmptyString;
   wxPdfTableDirectoryEntry* tableLocation;
-  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxT("name"));
+  wxPdfTableDirectory::iterator entry = m_tableDirectory->find(wxS("name"));
   if (entry != m_tableDirectory->end())
   {
     tableLocation = entry->second;
-    LockTable(wxT("name"));
+    LockTable(wxS("name"));
     m_inFont->SeekI(tableLocation->m_offset+2);
     int numRecords = ReadUShort();
     int startOfStorage = ReadUShort();
@@ -1826,7 +1822,7 @@ wxPdfFontParserTrueType::GetEnglishName(int id)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfFontParserTrueType::GetEnglishName: ")) +
+    wxLogError(wxString(wxS("wxPdfFontParserTrueType::GetEnglishName: ")) +
                wxString::Format(_("Table 'name' does not exist in '%s,%s'."), m_fileName.c_str(), m_style.c_str()));
   }
   return englishName;

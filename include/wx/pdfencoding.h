@@ -2,7 +2,6 @@
 // Name:        pdfencoding.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-05-30
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

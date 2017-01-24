@@ -75,8 +75,20 @@ AC_CONFIG_LINKS([samples/pdfdc/smile.jpg:samples/pdfdc/smile.jpg
     samples/minimal/pattern1.png:samples/minimal/pattern1.png
     samples/minimal/pattern2.png:samples/minimal/pattern2.png
     samples/minimal/radial_gradient_coords.jpg:samples/minimal/radial_gradient_coords.jpg
+    samples/minimal/ringmaster.wmf:samples/minimal/ringmaster.wmf
     samples/minimal/smile.jpg:samples/minimal/smile.jpg
     samples/minimal/wxpdfdoc.png:samples/minimal/wxpdfdoc.png
+    samples/minimal/indic-assamese.txt:samples/minimal/indic-assamese.txt
+    samples/minimal/indic-bengali.txt:samples/minimal/indic-bengali.txt
+    samples/minimal/indic-gujarati.txt:samples/minimal/indic-gujarati.txt
+    samples/minimal/indic-hindi.txt:samples/minimal/indic-hindi.txt
+    samples/minimal/indic-kannada.txt:samples/minimal/indic-kannada.txt
+    samples/minimal/indic-malayalam.txt:samples/minimal/indic-malayalam.txt
+    samples/minimal/indic-nepali.txt:samples/minimal/indic-nepali.txt
+    samples/minimal/indic-oriya.txt:samples/minimal/indic-oriya.txt
+    samples/minimal/indic-punjabi.txt:samples/minimal/indic-punjabi.txt
+    samples/minimal/indic-tamil.txt:samples/minimal/indic-tamil.txt
+    samples/minimal/indic-telugu.txt:samples/minimal/indic-telugu.txt
 ])
 
 AC_CONFIG_FILES([Makefile])

@@ -2,9 +2,7 @@
 // Name:        pdfform.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-01-18
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -161,7 +159,7 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
   if (m_offsets->count(objectId-1) == 0)
   {
     (*m_offsets)[objectId-1] = m_buffer->TellO();
-    OutAscii(wxString::Format(wxT("%d %d obj"), objectId, generationId));
+    OutAscii(wxString::Format(wxS("%d %d obj"), objectId, generationId));
     switch (object->GetType())
     {
       case wxPDF_OBJECT_RADIOGROUP:
@@ -171,23 +169,23 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
 // Currently radio button groups do not function
           Out("<<");
           Out("/FT /Btn");
-          OutAscii(wxString::Format(wxT("/Ff %d"), (1 << 14) | (1 << 15)));
+          OutAscii(wxString::Format(wxS("/Ff %d"), (1 << 14) | (1 << 15)));
 //          Out("/F 4");
           Out("/T ", false);
           OutAsciiTextstring(obj->GetName());
 #if 0
-          OutAscii(wxString(wxT("/BS << /W ") + 
+          OutAscii(wxString(wxS("/BS << /W ") + 
                    Double2String(obj->GetBorderWidth() +
-                   wxString(wxT("/S/")) + obj->GetBorderStyle() + 
-                   wxString(wxT(">>")));
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS(">>")));
 #endif
-//          OutAscii(wxString(wxT("/MK <</BC [")) + obj->GetBorder() +
-//                   wxString(wxT("]/BG [")) + obj->GetBackground() + wxString(wxT("] /CA ")), false);
-//          OutAsciiTextstring(wxString(wxT("4")), false);
+//          OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorder() +
+//                   wxString(wxS("]/BG [")) + obj->GetBackground() + wxString(wxS("] /CA ")), false);
+//          OutAsciiTextstring(wxString(wxS("4")), false);
 //          Out(">>");
           Out("/DR 2 0 R");
           Out("/DA ", false);
-//          OutAsciiTextstring(wxString::Format(wxT("/F%d 9 Tf "), m_zapfdingbats) + obj->GetTextColour());
+//          OutAsciiTextstring(wxString::Format(wxS("/F%d 9 Tf "), m_zapfdingbats) + obj->GetTextColour());
 //          Out("/AP <</N <</Yes <<>>>> >>");
 //          Out("/AS /Off");
           Out("/V /V1");
@@ -198,7 +196,7 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           for (j = 0; j < kids.GetCount(); j++)
           {
             radio = static_cast<wxPdfRadioButton*>(kids[j]);
-            OutAscii(wxString::Format(wxT("%d %d R "), radio->GetObjectId(), radio->GetGenerationId()), false);
+            OutAscii(wxString::Format(wxS("%d %d R "), radio->GetObjectId(), radio->GetGenerationId()), false);
           }
           Out("]");
           Out(">>");
@@ -222,28 +220,28 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           {
             yPos = m_h - yPos;
           }
-          OutAscii(wxString(wxT("/Rect [")) +
-                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxT("]")));
+          OutAscii(wxString(wxS("/Rect [")) +
+                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxS("]")));
           Out("/FT /Btn");
           Out("/Ff 0");
           Out("/F 4");
           Out("/T ", false);
           OutAsciiTextstring(obj->GetName());
           // Border style
-          OutAscii(wxString(wxT("/BS << /W ")) + 
+          OutAscii(wxString(wxS("/BS << /W ")) + 
                    wxPdfUtility::Double2String(obj->GetBorderWidth(), 2) +
-                   wxString(wxT("/S/")) + obj->GetBorderStyle() + 
-                   wxString(wxT(">>")));
-          OutAscii(wxString(wxT("/MK <</BC [")) + obj->GetBorderColour() +
-                   wxString(wxT("]/BG [")) + obj->GetBackgroundColour() + wxString(wxT("] /CA ")), false);
-          OutAsciiTextstring(wxString(wxT("4")), false);
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS(">>")));
+          OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
+                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + wxString(wxS("] /CA ")), false);
+          OutAsciiTextstring(wxString(wxS("4")), false);
           Out(">>");
           Out("/DR 2 0 R");
           Out("/DA ", false);
-          OutAsciiTextstring(wxString::Format(wxT("/F%d 9 Tf "), m_zapfdingbats) + obj->GetTextColour());
+          OutAsciiTextstring(wxString::Format(wxS("/F%d 9 Tf "), m_zapfdingbats) + obj->GetTextColour());
           Out("/AP <</N <</Yes <<>>>> >>");
           Out("/AS /Off");
           if (obj->GetValue())
@@ -272,28 +270,28 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           {
             yPos = m_h - yPos;
           }
-          OutAscii(wxString(wxT("/Rect [")) +
-                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxT("]")));
+          OutAscii(wxString(wxS("/Rect [")) +
+                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxS("]")));
           Out("/FT /Ch");
           Out("/Ff 67764224");
           Out("/F 4");
           Out("/T ", false);
           OutAsciiTextstring(obj->GetName());
-          OutAscii(wxString(wxT("/MK <</BC [")) + obj->GetBorderColour() +
-                   wxString(wxT("]/BG [")) + obj->GetBackgroundColour() + wxString(wxT("]>>")));
+          OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
+                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + wxString(wxS("]>>")));
           // Border style
-          OutAscii(wxString(wxT("/BS << /W ")) + 
+          OutAscii(wxString(wxS("/BS << /W ")) + 
                    wxPdfUtility::Double2String(obj->GetBorderWidth(), 2) +
-                   wxString(wxT("/S/")) + obj->GetBorderStyle() + 
-                   wxString(wxT(">>")));
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS(">>")));
           Out("/DR 2 0 R");
           Out("/DA ", false);
-          OutAsciiTextstring(wxString::Format(wxT("/F%d "), obj->GetFontIndex()) +
+          OutAsciiTextstring(wxString::Format(wxS("/F%d "), obj->GetFontIndex()) +
                              wxPdfUtility::Double2String(obj->GetFontSize(),2) +
-                             wxString(wxT(" Tf ")) + obj->GetTextColour()); 
+                             wxString(wxS(" Tf ")) + obj->GetTextColour()); 
           wxArrayString options = obj->GetValue();
           Out("/DV ", false);
           OutTextstring(options[0]);
@@ -325,11 +323,11 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           {
             yPos = m_h - yPos;
           }
-          OutAscii(wxString(wxT("/Rect [")) +
-                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxT("]")));
+          OutAscii(wxString(wxS("/Rect [")) +
+                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxS("]")));
           Out("/FT /Btn");
           Out("/Ff 65536"); // (1 << 16),
           Out("/F 4");
@@ -338,16 +336,16 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           Out("/T ", false);
           OutAsciiTextstring(obj->GetName());
           Out("/BS << /W 1 /S /B >>");
-          OutAscii(wxString(wxT("/MK <</BC [")) + obj->GetBorderColour() +
-                   wxString(wxT("]/BG [")) + obj->GetBackgroundColour() + 
-                   wxString(wxT("] /CA ")), false);
+          OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
+                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + 
+                   wxString(wxS("] /CA ")), false);
           OutTextstring(obj->GetCaption(), false);
           Out(">>");
           Out("/DR 2 0 R");
           Out("/DA ", false);
-          OutAsciiTextstring(wxString::Format(wxT("/F%d "), obj->GetFontIndex()) +
+          OutAsciiTextstring(wxString::Format(wxS("/F%d "), obj->GetFontIndex()) +
                              wxPdfUtility::Double2String(obj->GetFontSize(),2) + 
-                             wxString(wxT(" Tf ")) + obj->GetTextColour()); 
+                             wxString(wxS(" Tf ")) + obj->GetTextColour()); 
           Out("/A <</S /JavaScript /JS", false);
           OutTextstring(obj->GetAction());
           Out(">>");
@@ -367,41 +365,41 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           {
             yPos = m_h - yPos;
           }
-          OutAscii(wxString(wxT("/Rect [")) +
-                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxT("]")));
+          OutAscii(wxString(wxS("/Rect [")) +
+                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxS("]")));
           Out("/FT /Btn");
           Out("/Ff 49152");
           Out("/F 4");
           wxPdfRadioGroup* parent = obj->GetParent();
 #if 0
 // TODO: integrate radio button groups into PDF document
-          OutAscii(wxString::Format(wxT("/Parent [%d %d R]"), parent->GetObjectId(), parent->GetGenerationId()));
+          OutAscii(wxString::Format(wxS("/Parent [%d %d R]"), parent->GetObjectId(), parent->GetGenerationId()));
 //          Out("/P ??? 0 R /H /T ");
 #endif
           Out("/T ", false);
           OutAsciiTextstring(parent->GetName());
           Out("/AS /Off");
-          OutAscii(wxString(wxT("/MK <</BC [")) + obj->GetBorderColour() +
-                   wxString(wxT("]/BG [")) + obj->GetBackgroundColour() + 
-                   wxString(wxT("] /CA ")), false);
-          OutAsciiTextstring(wxString(wxT("l")), false);
+          OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
+                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + 
+                   wxString(wxS("] /CA ")), false);
+          OutAsciiTextstring(wxString(wxS("l")), false);
           Out(">>");
           // Border style
-          OutAscii(wxString(wxT("/BS << /W ")) + 
+          OutAscii(wxString(wxS("/BS << /W ")) + 
                    wxPdfUtility::Double2String(obj->GetBorderWidth(), 2) +
-                   wxString(wxT("/S/")) + obj->GetBorderStyle() + 
-                   wxString(wxT(">>")));
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS(">>")));
           Out("/DR 2 0 R");
           Out("/DA ", false);
-          OutAsciiTextstring(wxString::Format(wxT("/F%d 9 Tf "), m_zapfdingbats) + obj->GetTextColour());
-          OutAscii(wxString::Format(wxT("/AP <</N <</V%d <<>> >> >>"), obj->GetIndex()));
+          OutAsciiTextstring(wxString::Format(wxS("/F%d 9 Tf "), m_zapfdingbats) + obj->GetTextColour());
+          OutAscii(wxString::Format(wxS("/AP <</N <</V%d <<>> >> >>"), obj->GetIndex()));
           // Set first button in group as selected
           if (obj->GetIndex() == 1)
           {
-            OutAscii(wxString::Format(wxT("/V /V%d"), obj->GetIndex()));
+            OutAscii(wxString::Format(wxS("/V /V%d"), obj->GetIndex()));
           }
           Out(">>");
           Out("endobj");
@@ -419,11 +417,11 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           {
             yPos = m_h - yPos;
           }
-          OutAscii(wxString(wxT("/Rect [")) +
-                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxT(" ")) +
-                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxT("]")));
+          OutAscii(wxString(wxS("/Rect [")) +
+                   wxPdfUtility::Double2String(obj->GetX()*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String(yPos*m_k,2) + wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((obj->GetX() + obj->GetWidth())*m_k,2) +  wxString(wxS(" ")) +
+                   wxPdfUtility::Double2String((yPos - obj->GetHeight())*m_k,2) + wxString(wxS("]")));
           Out("/FT /Tx");
           if (obj->GetMultiLine())
           {
@@ -437,19 +435,19 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           Out("/DV ", false);
           OutTextstring(obj->GetValue()); // Default value
 // Maximal length of text input
-//          OutAscii(wxString::Format(wxT("/MaxLen %d"), obj->GetMaxLength());
-          OutAscii(wxString(wxT("/MK <</BC [")) + obj->GetBorderColour() +
-                   wxString(wxT("]/BG [")) + obj->GetBackgroundColour() + wxString(wxT("]>>")));
+//          OutAscii(wxString::Format(wxS("/MaxLen %d"), obj->GetMaxLength());
+          OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
+                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + wxString(wxS("]>>")));
           // Border style
-          OutAscii(wxString(wxT("/BS << /W ")) + 
+          OutAscii(wxString(wxS("/BS << /W ")) + 
                    wxPdfUtility::Double2String(obj->GetBorderWidth(), 2) +
-                   wxString(wxT("/S/")) + obj->GetBorderStyle() + 
-                   wxString(wxT(">>")));
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS(">>")));
           Out("/DR 2 0 R");
           Out("/DA ", false);
-          OutAsciiTextstring(wxString::Format(wxT("/F%d "), obj->GetFontIndex()) +
+          OutAsciiTextstring(wxString::Format(wxS("/F%d "), obj->GetFontIndex()) +
                              wxPdfUtility::Double2String(obj->GetFontSize(),2) + 
-                             wxString(wxT(" Tf ")) + obj->GetTextColour()); 
+                             wxString(wxS(" Tf ")) + obj->GetTextColour()); 
           Out(">>");
           Out("endobj");
         }
@@ -614,8 +612,8 @@ wxPdfDocument::SetFormColours(const wxPdfColour& borderColour,
                               const wxPdfColour& backgroundColour, 
                               const wxPdfColour& textColour)
 {
-  m_formBorderColour     = borderColour.GetColour(false).BeforeLast(wxT(' '));
-  m_formBackgroundColour = backgroundColour.GetColour(false).BeforeLast(wxT(' '));
+  m_formBorderColour     = borderColour.GetColour(false).BeforeLast(wxS(' '));
+  m_formBackgroundColour = backgroundColour.GetColour(false).BeforeLast(wxS(' '));
   m_formTextColour       = textColour.GetColour(false);
 }
 
@@ -624,12 +622,12 @@ wxPdfDocument::SetFormBorderStyle(wxPdfBorderStyle borderStyle, double borderWid
 {
   switch (borderStyle)
   {
-    case wxPDF_BORDER_DASHED:    m_formBorderStyle = wxString(wxT("D")); break;
-    case wxPDF_BORDER_BEVELED:   m_formBorderStyle = wxString(wxT("B")); break;
-    case wxPDF_BORDER_INSET:     m_formBorderStyle = wxString(wxT("I")); break;
-    case wxPDF_BORDER_UNDERLINE: m_formBorderStyle = wxString(wxT("U")); break;
+    case wxPDF_BORDER_DASHED:    m_formBorderStyle = wxString(wxS("D")); break;
+    case wxPDF_BORDER_BEVELED:   m_formBorderStyle = wxString(wxS("B")); break;
+    case wxPDF_BORDER_INSET:     m_formBorderStyle = wxString(wxS("I")); break;
+    case wxPDF_BORDER_UNDERLINE: m_formBorderStyle = wxString(wxS("U")); break;
     case wxPDF_BORDER_SOLID:
-    default:                     m_formBorderStyle = wxString(wxT("S")); break;
+    default:                     m_formBorderStyle = wxString(wxS("S")); break;
   }
   m_formBorderWidth = (borderWidth >= 0) ? borderWidth * m_k : 1;
 }
@@ -646,7 +644,7 @@ wxPdfDocument::LoadZapfDingBats()
     double saveSize = m_fontSizePt;
 
     // Select font ZapfDingBats
-    SelectFont(wxT("ZapfDingBats"), wxT(""), 9, false);
+    SelectFont(wxS("ZapfDingBats"), wxS(""), 9, false);
     m_zapfdingbats = m_currentFont->GetIndex();
 
     // Restore current font

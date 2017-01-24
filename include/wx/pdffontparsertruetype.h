@@ -2,7 +2,6 @@
 // Name:        pdffontparsertruetype.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-03-04
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

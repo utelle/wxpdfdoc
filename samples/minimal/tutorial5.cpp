@@ -2,7 +2,6 @@
 // Name:        tutorial5.cpp
 // Purpose:     Tutorial 5: Test program for wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -19,6 +18,7 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/filename.h>
 #include <wx/tokenzr.h>
 #include <wx/txtstrm.h>
 #include <wx/wfstream.h>
@@ -66,7 +66,7 @@ public:
       {
         wxArrayString* row = new wxArrayString;
         data.Add(row);
-        wxStringTokenizer tkz(line, wxT(";"));
+        wxStringTokenizer tkz(line, wxS(";"));
         while ( tkz.HasMoreTokens() )
         {
           wxString token = tkz.GetNextToken();
@@ -123,7 +123,7 @@ public:
       Ln();
     }
     // Closure line
-    Cell((w[0]+w[1]+w[2]+w[3]),0,wxT(""),wxPDF_BORDER_TOP);
+    Cell((w[0]+w[1]+w[2]+w[3]),0,wxS(""),wxPDF_BORDER_TOP);
   }
 
   // Colored table
@@ -134,7 +134,7 @@ public:
     SetTextColour(255);
     SetDrawColour(wxColour(128,0,0));
     SetLineWidth(.3);
-    SetFont(wxT(""),wxT("B"));
+    SetFont(wxS(""),wxS("B"));
     //Header
     double w[4] = {40,35,40,45};
     size_t i;
@@ -146,7 +146,7 @@ public:
     // Color and font restoration
     SetFillColour(wxColour(224,235,255));
     SetTextColour(0);
-    SetFont(wxT(""));
+    SetFont(wxS(""));
     // Data
     int fill = 0;
     size_t j;
@@ -160,36 +160,50 @@ public:
       Ln();
       fill = 1 - fill;
     }
-    Cell((w[0]+w[1]+w[2]+w[3]),0,wxT(""),wxPDF_BORDER_TOP);
+    Cell((w[0]+w[1]+w[2]+w[3]),0,wxS(""),wxPDF_BORDER_TOP);
   }
 };
 
-void
-tutorial5()
+int
+tutorial5(bool testMode)
 {
-  PdfTuto5 pdf;
-  // Column titles
-  wxArrayString header;
-  wxArrayPtrVoid data;
-  header.Add(wxT("Country"));
-  header.Add(wxT("Capital"));
-  header.Add(wxT("Area (sq km)"));
-  header.Add(wxT("Pop. (thousands)"));
-  // Data loading
-  pdf.LoadData(wxT("countries.txt"),data);
-  pdf.SetFont(wxT("Helvetica"),wxT(""),14);
-  pdf.AddPage();
-  pdf.BasicTable(header,data);
-  pdf.AddPage();
-  pdf.ImprovedTable(header,data);
-  pdf.AddPage();
-  pdf.FancyTable(header,data);
-  pdf.SaveAsFile(wxT("tutorial5.pdf"));
-  size_t j;
-  for (j = 0; j < data.GetCount(); j++)
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("countries.txt")))
   {
-    wxArrayString* row = (wxArrayString*) data[j];
-    delete row;
+    PdfTuto5 pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    // Column titles
+    wxArrayString header;
+    wxArrayPtrVoid data;
+    header.Add(wxS("Country"));
+    header.Add(wxS("Capital"));
+    header.Add(wxS("Area (sq km)"));
+    header.Add(wxS("Pop. (thousands)"));
+    // Data loading
+    pdf.LoadData(wxS("countries.txt"),data);
+    pdf.SetFont(wxS("Helvetica"),wxS(""),14);
+    pdf.AddPage();
+    pdf.BasicTable(header,data);
+    pdf.AddPage();
+    pdf.ImprovedTable(header,data);
+    pdf.AddPage();
+    pdf.FancyTable(header,data);
+    pdf.SaveAsFile(wxS("tutorial5.pdf"));
+    size_t j;
+    for (j = 0; j < data.GetCount(); j++)
+    {
+      wxArrayString* row = (wxArrayString*) data[j];
+      delete row;
+    }
   }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 

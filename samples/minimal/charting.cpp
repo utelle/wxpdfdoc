@@ -2,7 +2,6 @@
 // Name:        charting.cpp
 // Purpose:     Examples of simple charting in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-11-23
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -33,7 +32,7 @@ class PdfCharting : public wxPdfDocument
 public:
   void PieChart(double width, double height, int nData, const wxString* label, double* data, const wxColour* colors)
   {
-    SetFont(wxT("Helvetica"), wxT(""), 10);
+    SetFont(wxS("Helvetica"), wxS(""), 10);
     double margin = 2;
     double hLegend = 5;
 
@@ -99,7 +98,7 @@ public:
       localColour = wxColour(155,155,155);
     }
 
-    SetFont(wxT("Helvetica"), wxT(""), 10);
+    SetFont(wxS("Helvetica"), wxS(""), 10);
 
     // Determine maximal legend width and sum of data values
     double maxValue = data[0];
@@ -143,7 +142,7 @@ public:
     {
       xpos = xDiag + tickLen * i;
       Line(xpos, yDiag, xpos, yDiag + hDiag);
-      wxString val = wxString::Format(wxT("%.2f"), i * tickRange);
+      wxString val = wxString::Format(wxS("%.2f"), i * tickRange);
       xpos -= GetStringWidth(val) / 2;
       ypos = yDiag + hDiag;
       Text(xpos, ypos + 2*margin, val);
@@ -165,40 +164,45 @@ public:
   }
 };
 
-void
-charting()
+int
+charting(bool testMode)
 {
   PdfCharting pdf;
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
 
   // Show examples of a simple pie chart and a simple bar chart
   pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"),wxT(""),12);
+  pdf.SetFont(wxS("Helvetica"),wxS(""),12);
 
   int nData = 4;
   wxColour colors[] = { wxColour(92,172,238), wxColour(67,205,128), wxColour(255,99,71), wxColour(255,215,0)};
-  wxString labels[] = { wxT("Job 1"), wxT("Job 2"),wxT("Job 3"),wxT("Job 4") };
+  wxString labels[] = { wxS("Job 1"), wxS("Job 2"),wxS("Job 3"),wxS("Job 4") };
   double pieData[] = { 30., 20., 40., 10. };
 
   pdf.SetX(40);
-  pdf.MultiCell(0,4.5, wxT("Pie Chart Sample"));
+  pdf.MultiCell(0,4.5, wxS("Pie Chart Sample"));
   pdf.Ln(5);
   pdf.SetX(pdf.GetX()+30);
   pdf.PieChart(125, 70, nData, labels, pieData, colors);
 
-  pdf.SetFont(wxT("Helvetica"),wxT(""),12);
+  pdf.SetFont(wxS("Helvetica"),wxS(""),12);
   pdf.SetXY(40,110);
-  pdf.MultiCell(0,4.5, wxT("Bar Chart Sample"));
+  pdf.MultiCell(0,4.5, wxS("Bar Chart Sample"));
   pdf.SetXY(40,120);
   nData = 3;
   double barData[] = { 50., 80., 25. };
-  wxString label[] = { wxT("Job 1"), wxT("Job 2"), wxT("Job 3") };
+  wxString label[] = { wxS("Job 1"), wxS("Job 2"), wxS("Job 3") };
   pdf.BarDiagram(70, 35, nData, label, barData, wxColour(176,196,222), 100, 2);
 
 
   // Show available marker symbols
   pdf.AddPage();
 
-  pdf.Cell(40.,0., wxT("Marker symbols and arrows"));
+  pdf.Cell(40.,0., wxS("Marker symbols and arrows"));
   pdf.Marker(25., 80., wxPDF_MARKER_CIRCLE, 15.0);
   pdf.Arrow(35.,85., 70., 105., 0.5, 8., 3.);
   pdf.Marker(78., 109., wxPDF_MARKER_CIRCLE, 10.0);
@@ -237,12 +241,12 @@ charting()
 
   pdf.SetAlpha(1, 0.5);
   int j;
-  pdf.SetFillColour(wxPdfColour(wxString(wxT("#BBBBBB"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxS("#BBBBBB"))));
   for (j = 0; j < 3; j++)
   {
     pdf.Rect(55, 53+2*j*12, 100, 12, wxPDF_STYLE_FILL);
   }
-  pdf.SetFillColour(wxPdfColour(wxString(wxT("#DDDDDD"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxS("#DDDDDD"))));
   for (j = 0; j < 3; j++)
   {
     pdf.Rect(55, 53+2*(j+1)*12-12, 100, 12, wxPDF_STYLE_FILL);
@@ -252,7 +256,7 @@ charting()
   wxPdfArrayDouble dash;
   dash.Add(3.);
   dash.Add(3.);
-  wxPdfLineStyle dashStyle(0.2, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash, 0., wxPdfColour(wxString(wxT("gray"))));
+  wxPdfLineStyle dashStyle(0.2, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash, 0., wxPdfColour(wxString(wxS("gray"))));
   pdf.SetLineStyle(dashStyle);
   for (j = 1; j < 6; j++)
   {
@@ -266,8 +270,8 @@ charting()
   double xdata[]  = { 10,  20, 30,  40,  50,  60, 70, 80,  90, 100 };
   double ydata[]  = { 10, 120, 80, 190, 260, 170, 60, 40,  20, 230 };
   double ydata2[] = { 10,  70, 40, 120, 200,  60, 80, 40,  20,   5 };
-  wxPdfColour fcol(wxString(wxT("#440000")));
-  wxPdfColour tcol(wxString(wxT("#FF9090")));
+  wxPdfColour fcol(wxString(wxS("#440000")));
+  wxPdfColour tcol(wxString(wxS("#FF9090")));
   int grad = pdf.LinearGradient(fcol, tcol, wxPDF_LINEAR_GRADIENT_REFLECTION_LEFT);
   for (j = 0; j < 10; j++)
   {
@@ -275,7 +279,7 @@ charting()
   }
 
   wxPdfArrayDouble solid;
-  wxPdfLineStyle solidStyle(0.1, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, solid, 0., wxPdfColour(wxString(wxT("blue"))));
+  wxPdfLineStyle solidStyle(0.1, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, solid, 0., wxPdfColour(wxString(wxS("blue"))));
   pdf.SetLineStyle(solidStyle);
   wxPdfArrayDouble xl, yl;
   for (j = 0; j < 10; j++)
@@ -284,14 +288,14 @@ charting()
   }
   xl.Add(xdata[9]+50); yl.Add(125);
   xl.Add(xdata[0]+50); yl.Add(125);
-  pdf.SetDrawColour(wxPdfColour(wxString(wxT("navy"))));
-  pdf.SetFillColour(wxPdfColour(wxString(wxT("skyblue"))));
+  pdf.SetDrawColour(wxPdfColour(wxString(wxS("navy"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxS("skyblue"))));
   pdf.SetAlpha(0.75,0.5);
   pdf.Polygon(xl, yl, wxPDF_STYLE_FILLDRAW);
 
   pdf.SetAlpha(0.75,1);
-  pdf.SetDrawColour(wxPdfColour(wxString(wxT("blue"))));
-  pdf.SetFillColour(wxPdfColour(wxString(wxT("lightblue"))));
+  pdf.SetDrawColour(wxPdfColour(wxString(wxS("blue"))));
+  pdf.SetFillColour(wxPdfColour(wxString(wxS("lightblue"))));
   pdf.SetLineWidth(0.1);
   for (j = 0; j < 10; j++)
   {
@@ -299,5 +303,7 @@ charting()
   }
   pdf.SetAlpha();
 
-  pdf.SaveAsFile(wxT("charting.pdf"));
+  pdf.SaveAsFile(wxS("charting.pdf"));
+
+  return 0;
 }

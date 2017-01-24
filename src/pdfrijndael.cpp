@@ -2,7 +2,6 @@
 // Name:        pdfrijndael.cpp
 // Purpose:
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2006-11-25
 // Copyright:   (c) Ulrich Telle (Copyright for original code see below)
 // Licence:     wxWindows licence

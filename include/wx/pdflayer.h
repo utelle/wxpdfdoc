@@ -2,7 +2,6 @@
 // Name:        pdflayer.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-07-01
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

@@ -2,7 +2,6 @@
 // Name:        pdfcffindex.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-01
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

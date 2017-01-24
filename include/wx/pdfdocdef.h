@@ -2,7 +2,6 @@
 // Name:        pdfdocdef.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-04
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -62,15 +61,29 @@ Separate detailed descriptions are available for the \ref makefont and the \ref 
 The chapter \ref writexml describes the supported tags of the simple XML markup language
 used by the method wxPdfDocument::WriteXml.
 
-wxPdfDocument is hosted as a component of <a href="http://wxcode.sourceforge.net"><b>wxCode</b></a>.
-For any remark, question or problem, you can leave a message on the appropriate \b wxCode
-tracker accessible from the <a href="http://wxcode.sourceforge.net/support.php"> wxCode support</a>
-page. Or you can send a mail to me 
+wxPdfDocument is hosted at <a href="https://github.com/utelle/wxpdfdoc"><b>GitHub</b></a> since end of 2015.
+For any remark, question or problem, you can leave a message on the <a href="https://github.com/utelle/wxpdfdoc/issues">wxPdfDocument issue tracker</a>
+Or you can send a mail to the author
 <a href="&#109;&#97;&#105;&#108;&#116;&#111;:&#117;&#108;&#114;&#105;&#99;&#104;&#46;&#116;&#101;&#108;&#108;&#101;&#64;&#103;&#109;&#120;&#46;&#100;&#101;">directly</a>.
 
 \section version Version history
 
 <dl>
+<dt><b>0.9.6</b> - <i>January 2017</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 3.1.0.
+
+General changes:<br>
+- Overhauled the build system
+- Added continuous integration (Travis CI)
+- Replaced all occurrences of macro \b wxT by \b wxS
+
+Fixed bugs:<br>
+- Replaced MD5 implementation to resolve a license incompatibility issue
+- Replaced image in transparency sample to resolve a potential license issue
+
+</dd>
+
 <dt><b>0.9.5</b> - <i>December 2015</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 3.0.2. 
@@ -788,16 +801,16 @@ You have to copy the generated file(s) to the font directory.
 
 The last step is the most simple. You just need to call the AddFont() method. For instance: 
  
-<tt>pdf.AddFont(wxT("Comic"),wxT(""),wxT("comic.xml"));</tt>
+<tt>pdf.AddFont(wxS("Comic"),wxS(""),wxS("comic.xml"));</tt>
   
 or simply: 
  
-<tt>pdf.AddFont(wxT("Comic"));</tt>
+<tt>pdf.AddFont(wxS("Comic"));</tt>
   
 And the font is now available (in regular and underlined styles), usable like the others.
 If we had worked with Comic Sans MS Bold (comicbd.ttf), we would have put: 
  
-<tt>pdf.AddFont(wxT("Comic"),wxT("B"),wxT("comicbd.xml"));</tt>
+<tt>pdf.AddFont(wxS("Comic"),wxS("B"),wxS("comicbd.xml"));</tt>
   
 \section mkfontreduce Reducing the size of TrueType fonts
 

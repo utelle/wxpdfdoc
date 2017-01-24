@@ -2,7 +2,6 @@
 // Name:        pdfbarcode.cpp
 // Purpose:     Implementation of wxPdfBarCodeCreator
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-09-12
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -53,12 +52,12 @@ wxPdfBarCodeCreator::GetCheckDigit(const wxString& barcode)
   int sum = 0;
   for ( i = 1; i <= 11; i += 2)
   {
-    digit = barcode[i] - wxT('0');
+    digit = barcode[i] - wxS('0');
     sum += 3 * digit;
   }
   for (i = 0; i <= 10; i += 2)
   {
-    digit = barcode[i] - wxT('0');
+    digit = barcode[i] - wxS('0');
     sum += digit;
   }
   r = sum % 10;
@@ -66,7 +65,7 @@ wxPdfBarCodeCreator::GetCheckDigit(const wxString& barcode)
   {
     r = 10 - r;
   }
-  wxChar rChar = wxT('0') + r;
+  wxChar rChar = wxS('0') + r;
   return rChar;
 }
 
@@ -78,31 +77,31 @@ wxPdfBarCodeCreator::TestCheckDigit(const wxString& barcode)
   int sum = 0;
   for (i = 1; i <= 11; i += 2)
   {
-    digit = barcode[i] - wxT('0');
+    digit = barcode[i] - wxS('0');
     sum += 3 * digit;
   }
   for (i = 0; i <= 10; i += 2)
   {
-    digit = barcode[i] - wxT('0');
+    digit = barcode[i] - wxS('0');
     sum += digit;
   }
-  digit = barcode[12] - wxT('0');
+  digit = barcode[12] - wxS('0');
   return (sum + digit) % 10 == 0;
 }
 
 // Code and parity constants for EAN13 and UPC_A
 static wxString bc_codes[3][10] = { 
   {
-    wxT("0001101"),wxT("0011001"),wxT("0010011"),wxT("0111101"),wxT("0100011"),
-    wxT("0110001"),wxT("0101111"),wxT("0111011"),wxT("0110111"),wxT("0001011")
+    wxS("0001101"),wxS("0011001"),wxS("0010011"),wxS("0111101"),wxS("0100011"),
+    wxS("0110001"),wxS("0101111"),wxS("0111011"),wxS("0110111"),wxS("0001011")
   },
   {
-    wxT("0100111"),wxT("0110011"),wxT("0011011"),wxT("0100001"),wxT("0011101"),
-    wxT("0111001"),wxT("0000101"),wxT("0010001"),wxT("0001001"),wxT("0010111")
+    wxS("0100111"),wxS("0110011"),wxS("0011011"),wxS("0100001"),wxS("0011101"),
+    wxS("0111001"),wxS("0000101"),wxS("0010001"),wxS("0001001"),wxS("0010111")
   },
   {
-    wxT("1110010"),wxT("1100110"),wxT("1101100"),wxT("1000010"),wxT("1011100"),
-    wxT("1001110"),wxT("1010000"),wxT("1000100"),wxT("1001000"),wxT("1110100")
+    wxS("1110010"),wxS("1100110"),wxS("1101100"),wxS("1000010"),wxS("1011100"),
+    wxS("1001110"),wxS("1010000"),wxS("1000100"),wxS("1001000"),wxS("1110100")
   } };
 static int bc_parities[10][6] = {
   { 0, 0, 0, 0, 0, 0 },
@@ -122,10 +121,10 @@ wxPdfBarCodeCreator::Barcode(double x, double y, const wxString& barcode, double
   //Padding
   int padlen = len - 1 - (int) barcode.Length();
   wxString locBarcode = barcode;
-  locBarcode.Pad(padlen, wxT('0'), false); //str_pad($barcode,$len-1,'0',STR_PAD_LEFT);
+  locBarcode.Pad(padlen, wxS('0'), false); //str_pad($barcode,$len-1,'0',STR_PAD_LEFT);
   if (len == 12)
   {
-    locBarcode = wxT("0") + locBarcode;
+    locBarcode = wxS("0") + locBarcode;
   }
   //Add or control the check digit
   if (locBarcode.Length() == 12)
@@ -138,80 +137,80 @@ wxPdfBarCodeCreator::Barcode(double x, double y, const wxString& barcode, double
     return false;
   }
   //Convert digits to bars
-  wxString code = wxT("101");
-  int digit = locBarcode[0] - wxT('0');
+  wxString code = wxS("101");
+  int digit = locBarcode[0] - wxS('0');
   int* p = bc_parities[digit];
   unsigned int i;
   for (i = 1; i <= 6; i++)
   {
-    digit = locBarcode[i] - wxT('0');
+    digit = locBarcode[i] - wxS('0');
     code += bc_codes[p[i-1]][digit];
   }
-  code += wxT("01010");
+  code += wxS("01010");
   for (i = 7; i <= 12; i++)
   {
-    digit = locBarcode[i] - wxT('0');
+    digit = locBarcode[i] - wxS('0');
     code += bc_codes[2][digit];
   }
-  code += wxT("101");
+  code += wxS("101");
   //Draw bars
   for (i = 0; i < code.Length(); i++)
   {
-    if (code[i] == wxT('1'))
+    if (code[i] == wxS('1'))
     {
       m_document->Rect(x + i * w, y, w, h, wxPDF_STYLE_FILL);
     }
   }
   //Print text under barcode
-  m_document->SetFont(wxT("Helvetica"), wxT(""), 12);
+  m_document->SetFont(wxS("Helvetica"), wxS(""), 12);
   m_document->Text(x, y + h + 11 / m_document->GetScaleFactor(), locBarcode.Right(len));
   return true;
 }
 
 // Character set constant for Code39
-static wxString code39_chars = wxT("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%*");
+static wxString code39_chars = wxS("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-. $/+%*");
 
 //Conversion tables for Code39
 static wxString code39_narrowEncoding[] = {
-  wxT("101001101101"), wxT("110100101011"), wxT("101100101011"),
-  wxT("110110010101"), wxT("101001101011"), wxT("110100110101"),
-  wxT("101100110101"), wxT("101001011011"), wxT("110100101101"),
-  wxT("101100101101"), wxT("110101001011"), wxT("101101001011"),
-  wxT("110110100101"), wxT("101011001011"), wxT("110101100101"),
-  wxT("101101100101"), wxT("101010011011"), wxT("110101001101"),
-  wxT("101101001101"), wxT("101011001101"), wxT("110101010011"),
-  wxT("101101010011"), wxT("110110101001"), wxT("101011010011"),
-  wxT("110101101001"), wxT("101101101001"), wxT("101010110011"),
-  wxT("110101011001"), wxT("101101011001"), wxT("101011011001"),
-  wxT("110010101011"), wxT("100110101011"), wxT("110011010101"),
-  wxT("100101101011"), wxT("110010110101"), wxT("100110110101"),
-  wxT("100101011011"), wxT("110010101101"), wxT("100110101101"),
-  wxT("100100100101"), wxT("100100101001"), wxT("100101001001"),
-  wxT("101001001001"), wxT("100101101101") };
+  wxS("101001101101"), wxS("110100101011"), wxS("101100101011"),
+  wxS("110110010101"), wxS("101001101011"), wxS("110100110101"),
+  wxS("101100110101"), wxS("101001011011"), wxS("110100101101"),
+  wxS("101100101101"), wxS("110101001011"), wxS("101101001011"),
+  wxS("110110100101"), wxS("101011001011"), wxS("110101100101"),
+  wxS("101101100101"), wxS("101010011011"), wxS("110101001101"),
+  wxS("101101001101"), wxS("101011001101"), wxS("110101010011"),
+  wxS("101101010011"), wxS("110110101001"), wxS("101011010011"),
+  wxS("110101101001"), wxS("101101101001"), wxS("101010110011"),
+  wxS("110101011001"), wxS("101101011001"), wxS("101011011001"),
+  wxS("110010101011"), wxS("100110101011"), wxS("110011010101"),
+  wxS("100101101011"), wxS("110010110101"), wxS("100110110101"),
+  wxS("100101011011"), wxS("110010101101"), wxS("100110101101"),
+  wxS("100100100101"), wxS("100100101001"), wxS("100101001001"),
+  wxS("101001001001"), wxS("100101101101") };
 
 static wxString code39_wideEncoding[] = {
-  wxT("101000111011101"), wxT("111010001010111"), wxT("101110001010111"),
-  wxT("111011100010101"), wxT("101000111010111"), wxT("111010001110101"),
-  wxT("101110001110101"), wxT("101000101110111"), wxT("111010001011101"),
-  wxT("101110001011101"), wxT("111010100010111"), wxT("101110100010111"),
-  wxT("111011101000101"), wxT("101011100010111"), wxT("111010111000101"),
-  wxT("101110111000101"), wxT("101010001110111"), wxT("111010100011101"),
-  wxT("101110100011101"), wxT("101011100011101"), wxT("111010101000111"),
-  wxT("101110101000111"), wxT("111011101010001"), wxT("101011101000111"),
-  wxT("111010111010001"), wxT("101110111010001"), wxT("101010111000111"),
-  wxT("111010101110001"), wxT("101110101110001"), wxT("101011101110001"),
-  wxT("111000101010111"), wxT("100011101010111"), wxT("111000111010101"),
-  wxT("100010111010111"), wxT("111000101110101"), wxT("100011101110101"),
-  wxT("100010101110111"), wxT("111000101011101"), wxT("100011101011101"),
-  wxT("100010001000101"), wxT("100010001010001"), wxT("100010100010001"), 
-  wxT("101000100010001"), wxT("100010111011101") };
+  wxS("101000111011101"), wxS("111010001010111"), wxS("101110001010111"),
+  wxS("111011100010101"), wxS("101000111010111"), wxS("111010001110101"),
+  wxS("101110001110101"), wxS("101000101110111"), wxS("111010001011101"),
+  wxS("101110001011101"), wxS("111010100010111"), wxS("101110100010111"),
+  wxS("111011101000101"), wxS("101011100010111"), wxS("111010111000101"),
+  wxS("101110111000101"), wxS("101010001110111"), wxS("111010100011101"),
+  wxS("101110100011101"), wxS("101011100011101"), wxS("111010101000111"),
+  wxS("101110101000111"), wxS("111011101010001"), wxS("101011101000111"),
+  wxS("111010111010001"), wxS("101110111010001"), wxS("101010111000111"),
+  wxS("111010101110001"), wxS("101110101110001"), wxS("101011101110001"),
+  wxS("111000101010111"), wxS("100011101010111"), wxS("111000111010101"),
+  wxS("100010111010111"), wxS("111000101110101"), wxS("100011101110101"),
+  wxS("100010101110111"), wxS("111000101011101"), wxS("100011101011101"),
+  wxS("100010001000101"), wxS("100010001010001"), wxS("100010100010001"), 
+  wxS("101000100010001"), wxS("100010111011101") };
 
 bool
 wxPdfBarCodeCreator::Code39(double x, double y, const wxString& code, bool ext, bool cks, double w, double h, bool wide)
 {
   wxString locCode = code;
   //Display code
-  m_document->SetFont(wxT("Helvetica"), wxT(""), 10);
+  m_document->SetFont(wxS("Helvetica"), wxS(""), 10);
   m_document->Text(x, y + h + 4, locCode);
 
   if (ext)
@@ -233,7 +232,7 @@ wxPdfBarCodeCreator::Code39(double x, double y, const wxString& code, bool ext, 
     bool valid = true;
     for (j = 0; valid && j < locCode.Length(); j++)
     {
-      valid = valid && locCode[j] != wxT('*') && code39_chars.Find(locCode[j]) >= 0;
+      valid = valid && locCode[j] != wxS('*') && code39_chars.Find(locCode[j]) >= 0;
     }
     if (!valid)
     {
@@ -249,15 +248,15 @@ wxPdfBarCodeCreator::Code39(double x, double y, const wxString& code, bool ext, 
   }
 
   //Add start and stop characters
-  locCode = wxT("*") + locCode + wxT("*");
+  locCode = wxS("*") + locCode + wxS("*");
 
   wxString* encoding = wide ? code39_wideEncoding : code39_narrowEncoding;
 
   //Inter-character spacing
-  wxString gap = (w > 0.29) ? wxT("00") : wxT("0");
+  wxString gap = (w > 0.29) ? wxS("00") : wxS("0");
 
   //Convert to bars
-  wxString encode = wxT("");
+  wxString encode = wxS("");
   size_t i;
   for (i = 0; i< locCode.Length(); i++)
   {
@@ -289,45 +288,45 @@ wxPdfBarCodeCreator::ChecksumCode39(const wxString& code)
 
 // Encoding table for Code39 Extended
 static wxString code39_encode[] = {
-  wxT("%U"), wxT("$A"), wxT("$B"), wxT("$C"),
-  wxT("$D"), wxT("$E"), wxT("$F"), wxT("$G"),
-  wxT("$H"), wxT("$I"), wxT("$J"), wxT("$K"),
-  wxT("$L"), wxT("$M"), wxT("$N"), wxT("$O"),
-  wxT("$P"), wxT("$Q"), wxT("$R"), wxT("$S"),
-  wxT("$T"), wxT("$U"), wxT("$V"), wxT("$W"),
-  wxT("$X"), wxT("$Y"), wxT("$Z"), wxT("%A"),
-  wxT("%B"), wxT("%C"), wxT("%D"), wxT("%E"),
-  wxT(" "),  wxT("/A"), wxT("/B"), wxT("/C"),
-  wxT("/D"), wxT("/E"), wxT("/F"), wxT("/G"),
-  wxT("/H"), wxT("/I"), wxT("/J"), wxT("/K"),
-  wxT("/L"), wxT("-"),  wxT("."),  wxT("/O"),
-  wxT("0"),  wxT("1"),  wxT("2"),  wxT("3"),
-  wxT("4"),  wxT("5"),  wxT("6"),  wxT("7"),
-  wxT("8"),  wxT("9"),  wxT("/Z"), wxT("%F"),
-  wxT("%G"), wxT("%H"), wxT("%I"), wxT("%J"),
-  wxT("%V"), wxT("A"),  wxT("B"),  wxT("C"),
-  wxT("D"),  wxT("E"),  wxT("F"),  wxT("G"),
-  wxT("H"),  wxT("I"),  wxT("J"),  wxT("K"),
-  wxT("L"),  wxT("M"),  wxT("N"),  wxT("O"),
-  wxT("P"),  wxT("Q"),  wxT("R"),  wxT("S"),
-  wxT("T"),  wxT("U"),  wxT("V"),  wxT("W"),
-  wxT("X"),  wxT("Y"),  wxT("Z"),  wxT("%K"),
-  wxT("%L"), wxT("%M"), wxT("%N"), wxT("%O"),
-  wxT("%W"), wxT("+A"), wxT("+B"), wxT("+C"),
-  wxT("+D"), wxT("+E"), wxT("+F"), wxT("+G"),
-  wxT("+H"), wxT("+I"), wxT("+J"), wxT("+K"),
-  wxT("+L"), wxT("+M"), wxT("+N"), wxT("+O"),
-  wxT("+P"), wxT("+Q"), wxT("+R"), wxT("+S"),
-  wxT("+T"), wxT("+U"), wxT("+V"), wxT("+W"),
-  wxT("+X"), wxT("+Y"), wxT("+Z"), wxT("%P"),
-  wxT("%Q"), wxT("%R"), wxT("%S"), wxT("%T") };
+  wxS("%U"), wxS("$A"), wxS("$B"), wxS("$C"),
+  wxS("$D"), wxS("$E"), wxS("$F"), wxS("$G"),
+  wxS("$H"), wxS("$I"), wxS("$J"), wxS("$K"),
+  wxS("$L"), wxS("$M"), wxS("$N"), wxS("$O"),
+  wxS("$P"), wxS("$Q"), wxS("$R"), wxS("$S"),
+  wxS("$T"), wxS("$U"), wxS("$V"), wxS("$W"),
+  wxS("$X"), wxS("$Y"), wxS("$Z"), wxS("%A"),
+  wxS("%B"), wxS("%C"), wxS("%D"), wxS("%E"),
+  wxS(" "),  wxS("/A"), wxS("/B"), wxS("/C"),
+  wxS("/D"), wxS("/E"), wxS("/F"), wxS("/G"),
+  wxS("/H"), wxS("/I"), wxS("/J"), wxS("/K"),
+  wxS("/L"), wxS("-"),  wxS("."),  wxS("/O"),
+  wxS("0"),  wxS("1"),  wxS("2"),  wxS("3"),
+  wxS("4"),  wxS("5"),  wxS("6"),  wxS("7"),
+  wxS("8"),  wxS("9"),  wxS("/Z"), wxS("%F"),
+  wxS("%G"), wxS("%H"), wxS("%I"), wxS("%J"),
+  wxS("%V"), wxS("A"),  wxS("B"),  wxS("C"),
+  wxS("D"),  wxS("E"),  wxS("F"),  wxS("G"),
+  wxS("H"),  wxS("I"),  wxS("J"),  wxS("K"),
+  wxS("L"),  wxS("M"),  wxS("N"),  wxS("O"),
+  wxS("P"),  wxS("Q"),  wxS("R"),  wxS("S"),
+  wxS("T"),  wxS("U"),  wxS("V"),  wxS("W"),
+  wxS("X"),  wxS("Y"),  wxS("Z"),  wxS("%K"),
+  wxS("%L"), wxS("%M"), wxS("%N"), wxS("%O"),
+  wxS("%W"), wxS("+A"), wxS("+B"), wxS("+C"),
+  wxS("+D"), wxS("+E"), wxS("+F"), wxS("+G"),
+  wxS("+H"), wxS("+I"), wxS("+J"), wxS("+K"),
+  wxS("+L"), wxS("+M"), wxS("+N"), wxS("+O"),
+  wxS("+P"), wxS("+Q"), wxS("+R"), wxS("+S"),
+  wxS("+T"), wxS("+U"), wxS("+V"), wxS("+W"),
+  wxS("+X"), wxS("+Y"), wxS("+Z"), wxS("%P"),
+  wxS("%Q"), wxS("%R"), wxS("%S"), wxS("%T") };
 
 wxString
 wxPdfBarCodeCreator::EncodeCode39Ext(const wxString& code)
 {
 
   //Encode characters in extended mode
-  wxString codeExt = wxT("");
+  wxString codeExt = wxS("");
   size_t i;
   for (i = 0 ; i < code.Length(); i++)
   {
@@ -343,7 +342,7 @@ wxPdfBarCodeCreator::DrawCode39(const wxString& code, double x, double y, double
   size_t i;
   for (i = 0; i < code.Length(); i++)
   {
-    if (code[i] == wxT('1'))
+    if (code[i] == wxS('1'))
     {
       m_document->Rect(x + i * w, y, w, h, wxPDF_STYLE_FILL);
     }
@@ -351,11 +350,11 @@ wxPdfBarCodeCreator::DrawCode39(const wxString& code, double x, double y, double
 }
 
 // Character and barcode constants for I25
-static wxString i25_chars = wxT("0123456789AZ");
+static wxString i25_chars = wxS("0123456789AZ");
 static wxString i25_barChar[] = {
-  wxT("nnwwn"), wxT("wnnnw"), wxT("nwnnw"), wxT("wwnnn"), wxT("nnwnw"), 
-  wxT("wnwnn"), wxT("nwwnn"), wxT("nnnww"), wxT("wnnwn"), wxT("nwnwn"),
-  wxT("nn"), wxT("wn") };
+  wxS("nnwwn"), wxS("wnnnw"), wxS("nwnnw"), wxS("wwnnn"), wxS("nnwnw"), 
+  wxS("wnwnn"), wxS("nwwnn"), wxS("nnnww"), wxS("wnnwn"), wxS("nwnwn"),
+  wxS("nn"), wxS("wn") };
 
 bool
 wxPdfBarCodeCreator::I25(double xpos, double ypos, const wxString& code, double basewidth, double height)
@@ -374,15 +373,15 @@ wxPdfBarCodeCreator::I25(double xpos, double ypos, const wxString& code, double 
   // add leading zero if code-length is odd
   if (locCode.Length() % 2 != 0)
   {
-    locCode = wxT("0") + locCode;
+    locCode = wxS("0") + locCode;
   }
 
-  m_document->SetFont(wxT("Helvetica"), wxT(""), 10);
+  m_document->SetFont(wxS("Helvetica"), wxS(""), 10);
   m_document->Text(xpos, ypos + height + 4, locCode);
   m_document->SetFillColour(0);
 
   // add start and stop codes
-  locCode = wxT("AA") + locCode + wxT("ZA");
+  locCode = wxS("AA") + locCode + wxS("ZA");
 
   size_t i;
   for (i = 0; i < locCode.Length(); i += 2)
@@ -392,7 +391,7 @@ wxPdfBarCodeCreator::I25(double xpos, double ypos, const wxString& code, double 
     int digitSpace = i25_chars.Find(locCode[i+1]);
 
     // create a wide/narrow-sequence (first digit=bars, second digit=spaces)
-    wxString seq = wxT("");
+    wxString seq = wxS("");
     size_t j;
     for (j = 0; j < i25_barChar[digitBar].Length(); j++)
     {
@@ -401,7 +400,7 @@ wxPdfBarCodeCreator::I25(double xpos, double ypos, const wxString& code, double 
     for (j = 0; j < seq.Length(); j++)
     {
       // set lineWidth depending on value
-      lineWidth = (seq[j] == wxT('n')) ? narrow : wide;
+      lineWidth = (seq[j] == wxS('n')) ? narrow : wide;
       // draw every second value, because the second digit of the pair is represented by the spaces
       if (j % 2 == 0)
       {
@@ -451,7 +450,7 @@ wxPdfBarCodeCreator::PostNet(double x, double y, const wxString& zipcode)
   {
     if (i != 5)
     {
-      digit = zipcode[i] - wxT('0');
+      digit = zipcode[i] - wxS('0');
       ZipCodeDrawDigitBars(x, y, barSpacing, halfBarHeight, fullBarHeight, digit);
       x += fiveBarSpacing;
     }
@@ -479,7 +478,7 @@ wxPdfBarCodeCreator::ZipCodeValidate(const wxString& zipcode)
     size_t i;
     for (i = 0; valid && i < zipcode.Length(); i++ )
     {
-      if ((i != 5 && !wxIsdigit(zipcode[i])) || (i == 5 && zipcode[5] != wxT('-')))
+      if ((i != 5 && !wxIsdigit(zipcode[i])) || (i == 5 && zipcode[5] != wxS('-')))
       {
         valid = false;
       }
@@ -504,7 +503,7 @@ wxPdfBarCodeCreator::ZipCodeCheckSumDigit(const wxString& zipcode)
   {
     if (i != 5)
     {
-      sum += (zipcode[i] - wxT('0'));
+      sum += (zipcode[i] - wxS('0'));
     }
   }
 
@@ -766,7 +765,7 @@ static bool Code128IsNextDigits(const wxString& text, size_t textIndex, int numD
     while (n-- > 0)
     {
       wxChar c = text[textIndex++];
-      if (c < wxT('0') || c > wxT('9'))
+      if (c < wxS('0') || c > wxS('9'))
         return false;
       --numDigits;
     }
@@ -786,8 +785,8 @@ static wxString Code128PackDigits(const wxString& text, size_t& textIndex, int n
       continue;
     }
     numDigits -= 2;
-    int c1 = text[textIndex++] - wxT('0');
-    int c2 = text[textIndex++] - wxT('0');
+    int c1 = text[textIndex++] - wxS('0');
+    int c2 = text[textIndex++] - wxS('0');
     code += wxChar(c1 * 10 + c2);
   }
   return code;
@@ -815,7 +814,7 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
   {
     if (*ch > 127 && *ch != CODE128_FNC1)
     {
-      wxLogError(wxString(wxT("wxPdfBarCodeCreator::Code128RawText: ")) +
+      wxLogError(wxString(wxS("wxPdfBarCodeCreator::Code128RawText: ")) +
                  wxString::Format(_("There are illegal characters for barcode 128 in '%s'."), text.c_str()));
       return out;
     }
@@ -1166,7 +1165,7 @@ wxPdfBarCodeCreator::Code128A(double x, double y, const wxString& barcode, doubl
   {
     if (!Code128ValidInCodeSetA(*ch))
     {
-      wxLogError(wxString(wxT("wxPdfBarCodeCreator::Code128A: ")) +
+      wxLogError(wxString(wxS("wxPdfBarCodeCreator::Code128A: ")) +
                  wxString::Format(_("There are illegal characters for Code128A in '%s'."), barcode.c_str()));
       return false;
     }
@@ -1210,7 +1209,7 @@ wxPdfBarCodeCreator::Code128B(double x, double y, const wxString& barcode, doubl
   {
     if (!Code128ValidInCodeSetB(*ch))
     {
-      wxLogError(wxString(wxT("wxPdfBarCodeCreator::Code128B: ")) +
+      wxLogError(wxString(wxS("wxPdfBarCodeCreator::Code128B: ")) +
                  wxString::Format(_("There are illegal characters for Code128B in '%s'."), barcode.c_str()));
       return false;
     }
@@ -1248,7 +1247,7 @@ wxPdfBarCodeCreator::Code128C(double x, double y, const wxString& barcode, doubl
   // Check whether barcode text is valid
   if (barcode.length() % 2 != 0)
   {
-      wxLogError(wxString(wxT("wxPdfBarCodeCreator::Code128C: ")) +
+      wxLogError(wxString(wxS("wxPdfBarCodeCreator::Code128C: ")) +
                  wxString::Format(_("Invalid odd length for Code128C in '%s'."), barcode.c_str()));
       return false;
   }
@@ -1258,7 +1257,7 @@ wxPdfBarCodeCreator::Code128C(double x, double y, const wxString& barcode, doubl
   {
     if (!Code128ValidInCodeSetC(*ch))
     {
-      wxLogError(wxString(wxT("wxPdfBarCodeCreator::Code128C: ")) +
+      wxLogError(wxString(wxS("wxPdfBarCodeCreator::Code128C: ")) +
                  wxString::Format(_("There are illegal characters for Code128C in '%s'."), barcode.c_str()));
       return false;
     }
@@ -1283,7 +1282,7 @@ wxPdfBarCodeCreator::Code128(double x, double y, const wxString& barcode, double
   {
     if (!Code128ValidChar(*ch))
     {
-      wxLogError(wxString(wxT("wxPdfBarCodeCreator::Code128: ")) +
+      wxLogError(wxString(wxS("wxPdfBarCodeCreator::Code128: ")) +
                  wxString::Format(_("There are illegal characters for Code128 in '%s'."), barcode.c_str()));
       return false;
     }
@@ -1303,22 +1302,22 @@ bool
 wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double h, double w)
 {
   wxString uccCode = wxEmptyString;
-  if (barcode[0] == wxT('('))
+  if (barcode[0] == wxS('('))
   {
     size_t idx = 0;
     while (idx != wxString::npos)
     {
-      size_t end = barcode.find(wxT(')'), idx);
+      size_t end = barcode.find(wxS(')'), idx);
       if (end == wxString::npos)
       {
-        wxLogError(wxString(wxT("wxPdfBarCodeCreator::EAN128: ")) +
+        wxLogError(wxString(wxS("wxPdfBarCodeCreator::EAN128: ")) +
                    wxString::Format(_("Badly formed UCC/EAN-128 string '%s'."), barcode.c_str()));
         return false;
       }
       wxString sai = barcode.SubString(idx+1, end-1);
       if (sai.length() < 2)
       {
-        wxLogError(wxString(wxT("wxPdfBarCodeCreator::EAN128: ")) +
+        wxLogError(wxString(wxS("wxPdfBarCodeCreator::EAN128: ")) +
                    wxString::Format(_("AI too short (%s)."), sai.c_str()));
         return false;
       }
@@ -1330,16 +1329,16 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
       }
       if (len == 0)
       {
-        wxLogError(wxString(wxT("wxPdfBarCodeCreator::EAN128: ")) +
+        wxLogError(wxString(wxS("wxPdfBarCodeCreator::EAN128: ")) +
                    wxString::Format(_("AI not found (%s)."), sai.c_str()));
         return false;
       }
-      sai = wxString::Format(wxT("%ld"), ai);
+      sai = wxString::Format(wxS("%ld"), ai);
       if (sai.length() == 1)
       {
-        sai.Prepend(wxT("0"));
+        sai.Prepend(wxS("0"));
       }
-      idx = barcode.find(wxT('('), end);
+      idx = barcode.find(wxS('('), end);
       size_t next = (idx == wxString::npos) ? barcode.length() : idx;
       uccCode += sai + barcode.SubString(end+1, next-1);
       if (len < 0)
@@ -1351,7 +1350,7 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
       }
       else if (next - end - 1 + sai.length() != (size_t) len)
       {
-        wxLogError(wxString(wxT("wxPdfBarCodeCreator::EAN128: ")) +
+        wxLogError(wxString(wxS("wxPdfBarCodeCreator::EAN128: ")) +
                    wxString::Format(_("Invalid AI length (%s)."), sai.c_str()));
         return false;
       }
@@ -1368,7 +1367,7 @@ wxPdfBarCodeCreator::EAN128(double x, double y, const wxString& barcode, double 
   {
     if (!Code128ValidChar(*ch))
     {
-      wxLogError(wxString(wxT("wxPdfBarCodeCreator::EAN128: ")) +
+      wxLogError(wxString(wxS("wxPdfBarCodeCreator::EAN128: ")) +
                  wxString::Format(_("There are illegal characters for EAN128 in '%s'."), barcode.c_str()));
       return false;
     }

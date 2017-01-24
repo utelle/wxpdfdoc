@@ -2,9 +2,7 @@
 // Name:        pdfocg.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2009-07-02
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -89,7 +87,7 @@ wxPdfDocument::EnterLayer(wxPdfLayer* layer)
       if (currentLayer->GetType() == wxPDF_OCG_TYPE_LAYER)
       {
         Out("/OC ", false);
-        OutAscii(wxString::Format(wxT("/L%d"), currentLayer->GetIndex()), false);
+        OutAscii(wxString::Format(wxS("/L%d"), currentLayer->GetIndex()), false);
         Out(" BDC");
         ++n;
       }
@@ -99,7 +97,7 @@ wxPdfDocument::EnterLayer(wxPdfLayer* layer)
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::EnterLayer: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::EnterLayer: ")) +
                wxString(_("A title is not a layer.")));
   }
 }
@@ -109,7 +107,7 @@ wxPdfDocument::EnterLayer(wxPdfLayerMembership* layer)
 {
   m_layerDepth.Add(1);
   Out("/OC ", false);
-  OutAscii(wxString::Format(wxT("/L%d"), layer->GetIndex()), false);
+  OutAscii(wxString::Format(wxS("/L%d"), layer->GetIndex()), false);
   Out(" BDC");
 }
 
@@ -124,7 +122,7 @@ wxPdfDocument::LeaveLayer()
   }
   else
   {
-    wxLogError(wxString(wxT("wxPdfDocument::LeaveLayer: ")) +
+    wxLogError(wxString(wxS("wxPdfDocument::LeaveLayer: ")) +
                wxString(_("Unbalanced layer operators.")));
   }
   while (n-- > 0)
@@ -192,7 +190,7 @@ wxPdfDocument::PutLayers()
         size_t j;
         for (j = 0; j < members.GetCount(); ++j)
         {
-          OutAscii(wxString::Format(wxT(" %d 0 R"), members[j]->GetObjIndex()), false);
+          OutAscii(wxString::Format(wxS(" %d 0 R"), members[j]->GetObjIndex()), false);
         }
         Out("]");
       }
@@ -229,7 +227,7 @@ wxPdfDocument::PutOCGOrder(wxPdfLayer* layer)
   {
     if (layer->GetType() != wxPDF_OCG_TYPE_TITLE)
     {
-      OutAscii(wxString::Format(wxT("%d 0 R "), layer->GetObjIndex()), false);
+      OutAscii(wxString::Format(wxS("%d 0 R "), layer->GetObjIndex()), false);
     }
     if (layer->HasChildren())
     {
@@ -284,7 +282,7 @@ wxPdfDocument::PutASEvent(const wxString& situation, const wxString& category, b
     Out("/OCGs [", false);
     for (j = 0; j < layerIds.size(); ++j)
     {
-      OutAscii(wxString::Format(wxT(" %d 0 R"), layerIds[j]), false);
+      OutAscii(wxString::Format(wxS(" %d 0 R"), layerIds[j]), false);
     }
     Out("]>>");
   }
@@ -302,7 +300,7 @@ wxPdfDocument::PutOCProperties()
     wxPdfOcg* ocg = ocgIter->second;
     if (ocg->GetType() == wxPDF_OCG_TYPE_LAYER)
     {
-      OutAscii(wxString::Format(wxT(" %d 0 R"), ocg->GetObjIndex()), false);
+      OutAscii(wxString::Format(wxS(" %d 0 R"), ocg->GetObjIndex()), false);
     }
   }  
   Out("]");
@@ -339,7 +337,7 @@ wxPdfDocument::PutOCProperties()
         wxPdfLayer* layer = (wxPdfLayer*) (*m_ocgs)[j];
         if (!layer->IsOn())
         {
-          OutAscii(wxString::Format(wxT("%d 0 R "), layer->GetObjIndex()), false);
+          OutAscii(wxString::Format(wxS("%d 0 R "), layer->GetObjIndex()), false);
         }
       }
     }
@@ -356,7 +354,7 @@ wxPdfDocument::PutOCProperties()
       size_t k;
       for (k = 0; k < layers.size(); ++k)
       {
-        OutAscii(wxString::Format(wxT("%d 0 R "), layers[k]->GetObjIndex()), false);
+        OutAscii(wxString::Format(wxS("%d 0 R "), layers[k]->GetObjIndex()), false);
       }
       Out("]", false);
     }
@@ -369,16 +367,16 @@ wxPdfDocument::PutOCProperties()
     Out("/Locked [", false);
     for (size_t j = 0; j < layers.GetCount(); ++j)
     {
-      OutAscii(wxString::Format(wxT("%d 0 R "), layers[j]->GetObjIndex()), false);
+      OutAscii(wxString::Format(wxS("%d 0 R "), layers[j]->GetObjIndex()), false);
     }
     Out("]");
   }
 
   bool first = true;
-  PutASEvent(wxT("View"), wxT("Zoom"), first);
-  PutASEvent(wxT("View"), wxT("View"), first);
-  PutASEvent(wxT("Print"), wxT("Print"), first);
-  PutASEvent(wxT("Export"), wxT("Export"), first);
+  PutASEvent(wxS("View"), wxS("Zoom"), first);
+  PutASEvent(wxS("View"), wxS("View"), first);
+  PutASEvent(wxS("Print"), wxS("Print"), first);
+  PutASEvent(wxS("Export"), wxS("Export"), first);
   if (!first)
   {
     Out("]");

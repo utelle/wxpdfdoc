@@ -2,7 +2,6 @@
 // Name:        pdfdc.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2010-11-28
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

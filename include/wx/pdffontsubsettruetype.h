@@ -2,7 +2,6 @@
 // Name:        pdffontsubsettruetype.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-11-20
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

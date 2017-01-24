@@ -2,10 +2,8 @@
 // Name:        wx/pdfprint.h
 // Purpose:     wxPdfPrinter, wxPdfPrintNativeData
 // Author:      Mark Dootson
-// Modified by:
-// Created:     11 May 2012
-// SVN-ID:      $Id$
-// Copyright:   (c) 2012 Ulrich Telle
+// Created:     2012-05-11
+// Copyright:   (c) 2012 Ulrich Telle, Mark Dooston
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
 

@@ -2,9 +2,7 @@
 // Name:        pdfcffdecoder.cpp
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2008-08-01
-// RCS-ID:      $$
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -31,8 +29,6 @@
 #include "wx/pdfarraytypes.h"
 #include "wx/pdfcffindex.h"
 #include "wx/pdfcffdecoder.h"
-
-#include "wxmemdbg.h"
 
 // --- Implementation of CFF Decoder for charstring types 1 and 2
 
@@ -68,98 +64,98 @@ const char SUBR_RETURN_OP = 11;
 #if 0
 static const wxChar* gs_standardStrings[] = {
     // Generated from Appendix A of the CFF specification. Size should be 391.
-    wxT(".notdef"),             wxT("space"),              wxT("exclam"),           wxT("quotedbl"),       wxT("numbersign"),
-    wxT("dollar"),              wxT("percent"),            wxT("ampersand"),        wxT("quoteright"),     wxT("parenleft"),
-    wxT("parenright"),          wxT("asterisk"),           wxT("plus"),             wxT("comma"),          wxT("hyphen"), 
-    wxT("period"),              wxT("slash"),              wxT("zero"),             wxT("one"),            wxT("two"),
-    wxT("three"),               wxT("four"),               wxT("five"),             wxT("six"),            wxT("seven"),
-    wxT("eight"),               wxT("nine"),               wxT("colon"),            wxT("semicolon"),      wxT("less"),
-    wxT("equal"),               wxT("greater"),            wxT("question"),         wxT("at"),             wxT("A"),
-    wxT("B"),                   wxT("C"),                  wxT("D"),                wxT("E"),              wxT("F"),
-    wxT("G"),                   wxT("H"),                  wxT("I"),                wxT("J"),              wxT("K"),
-    wxT("L"),                   wxT("M"),                  wxT("N"),                wxT("O"),              wxT("P"),
-    wxT("Q"),                   wxT("R"),                  wxT("S"),                wxT("T"),              wxT("U"),
-    wxT("V"),                   wxT("W"),                  wxT("X"),                wxT("Y"),              wxT("Z"),
-    wxT("bracketleft"),         wxT("backslash"),          wxT("bracketright"),     wxT("asciicircum"),    wxT("underscore"),
-    wxT("quoteleft"),           wxT("a"),                  wxT("b"),                wxT("c"),              wxT("d"),
-    wxT("e"),                   wxT("f"),                  wxT("g"),                wxT("h"),              wxT("i"),
-    wxT("j"),                   wxT("k"),                  wxT("l"),                wxT("m"),              wxT("n"),
-    wxT("o"),                   wxT("p"),                  wxT("q"),                wxT("r"),              wxT("s"),
-    wxT("t"),                   wxT("u"),                  wxT("v"),                wxT("w"),              wxT("x"),
-    wxT("y"),                   wxT("z"),                  wxT("braceleft"),        wxT("bar"),            wxT("braceright"),
-    wxT("asciitilde"),          wxT("exclamdown"),         wxT("cent"),             wxT("sterling"),       wxT("fraction"),
-    wxT("yen"),                 wxT("florin"),             wxT("section"),          wxT("currency"),       wxT("quotesingle"),
-    wxT("quotedblleft"),        wxT("guillemotleft"),      wxT("guilsinglleft"),    wxT("guilsinglright"), wxT("fi"),
-    wxT("fl"),                  wxT("endash"),             wxT("dagger"),           wxT("daggerdbl"),      wxT("periodcentered"),
-    wxT("paragraph"),           wxT("bullet"),             wxT("quotesinglbase"),   wxT("quotedblbase"),   wxT("quotedblright"),
-    wxT("guillemotright"),      wxT("ellipsis"),           wxT("perthousand"),      wxT("questiondown"),   wxT("grave"),
-    wxT("acute"),               wxT("circumflex"),         wxT("tilde"),            wxT("macron"),         wxT("breve"),
-    wxT("dotaccent"),           wxT("dieresis"),           wxT("ring"),             wxT("cedilla"),        wxT("hungarumlaut"),
-    wxT("ogonek"),              wxT("caron"),              wxT("emdash"),           wxT("AE"),             wxT("ordfeminine"),
-    wxT("Lslash"),              wxT("Oslash"),             wxT("OE"),               wxT("ordmasculine"),   wxT("ae"),
-    wxT("dotlessi"),            wxT("lslash"),             wxT("oslash"),           wxT("oe"),             wxT("germandbls"),
-    wxT("onesuperior"),         wxT("logicalnot"),         wxT("mu"),               wxT("trademark"),      wxT("Eth"),
-    wxT("onehalf"),             wxT("plusminus"),          wxT("Thorn"),            wxT("onequarter"),     wxT("divide"),
-    wxT("brokenbar"),           wxT("degree"),             wxT("thorn"),            wxT("threequarters"),  wxT("twosuperior"),
-    wxT("registered"),          wxT("minus"),              wxT("eth"),              wxT("multiply"),       wxT("threesuperior"),
-    wxT("copyright"),           wxT("Aacute"),             wxT("Acircumflex"),      wxT("Adieresis"),      wxT("Agrave"),
-    wxT("Aring"),               wxT("Atilde"),             wxT("Ccedilla"),         wxT("Eacute"),         wxT("Ecircumflex"),
-    wxT("Edieresis"),           wxT("Egrave"),             wxT("Iacute"),           wxT("Icircumflex"),    wxT("Idieresis"),
-    wxT("Igrave"),              wxT("Ntilde"),             wxT("Oacute"),           wxT("Ocircumflex"),    wxT("Odieresis"),
-    wxT("Ograve"),              wxT("Otilde"),             wxT("Scaron"),           wxT("Uacute"),         wxT("Ucircumflex"),
-    wxT("Udieresis"),           wxT("Ugrave"),             wxT("Yacute"),           wxT("Ydieresis"),      wxT("Zcaron"),
-    wxT("aacute"),              wxT("acircumflex"),        wxT("adieresis"),        wxT("agrave"),         wxT("aring"),
-    wxT("atilde"),              wxT("ccedilla"),           wxT("eacute"),           wxT("ecircumflex"),    wxT("edieresis"),
-    wxT("egrave"),              wxT("iacute"),             wxT("icircumflex"),      wxT("idieresis"),      wxT("igrave"),
-    wxT("ntilde"),              wxT("oacute"),             wxT("ocircumflex"),      wxT("odieresis"),      wxT("ograve"),
-    wxT("otilde"),              wxT("scaron"),             wxT("uacute"),           wxT("ucircumflex"),    wxT("udieresis"),
-    wxT("ugrave"),              wxT("yacute"),             wxT("ydieresis"),        wxT("zcaron"),         wxT("exclamsmall"),
-    wxT("Hungarumlautsmall"),   wxT("dollaroldstyle"),     wxT("dollarsuperior"),   wxT("ampersandsmall"), wxT("Acutesmall"),
-    wxT("parenleftsuperior"),   wxT("parenrightsuperior"), wxT("twodotenleader"),   wxT("onedotenleader"), wxT("zerooldstyle"),
-    wxT("oneoldstyle"),         wxT("twooldstyle"),        wxT("threeoldstyle"),    wxT("fouroldstyle"),   wxT("fiveoldstyle"),
-    wxT("sixoldstyle"),         wxT("sevenoldstyle"),      wxT("eightoldstyle"),    wxT("nineoldstyle"),   wxT("commasuperior"),
-    wxT("threequartersemdash"), wxT("periodsuperior"),     wxT("questionsmall"),    wxT("asuperior"),      wxT("bsuperior"),
-    wxT("centsuperior"),        wxT("dsuperior"),          wxT("esuperior"),        wxT("isuperior"),      wxT("lsuperior"),
-    wxT("msuperior"),           wxT("nsuperior"),          wxT("osuperior"),        wxT("rsuperior"),      wxT("ssuperior"),
-    wxT("tsuperior"),           wxT("ff"),                 wxT("ffi"),              wxT("ffl"),            wxT("parenleftinferior"),
-    wxT("parenrightinferior"),  wxT("Circumflexsmall"),    wxT("hyphensuperior"),   wxT("Gravesmall"),     wxT("Asmall"),
-    wxT("Bsmall"),              wxT("Csmall"),             wxT("Dsmall"),           wxT("Esmall"),         wxT("Fsmall"),
-    wxT("Gsmall"),              wxT("Hsmall"),             wxT("Ismall"),           wxT("Jsmall"),         wxT("Ksmall"),
-    wxT("Lsmall"),              wxT("Msmall"),             wxT("Nsmall"),           wxT("Osmall"),         wxT("Psmall"),
-    wxT("Qsmall"),              wxT("Rsmall"),             wxT("Ssmall"),           wxT("Tsmall"),         wxT("Usmall"),
-    wxT("Vsmall"),              wxT("Wsmall"),             wxT("Xsmall"),           wxT("Ysmall"),         wxT("Zsmall"),
-    wxT("colonmonetary"),       wxT("onefitted"),          wxT("rupiah"),           wxT("Tildesmall"),     wxT("exclamdownsmall"),
-    wxT("centoldstyle"),        wxT("Lslashsmall"),        wxT("Scaronsmall"),      wxT("Zcaronsmall"),    wxT("Dieresissmall"),
-    wxT("Brevesmall"),          wxT("Caronsmall"),         wxT("Dotaccentsmall"),   wxT("Macronsmall"),    wxT("figuredash"),
-    wxT("hypheninferior"),      wxT("Ogoneksmall"),        wxT("Ringsmall"),        wxT("Cedillasmall"),   wxT("questiondownsmall"),
-    wxT("oneeighth"),           wxT("threeeighths"),       wxT("fiveeighths"),      wxT("seveneighths"),   wxT("onethird"),
-    wxT("twothirds"),           wxT("zerosuperior"),       wxT("foursuperior"),     wxT("fivesuperior"),   wxT("sixsuperior"),
-    wxT("sevensuperior"),       wxT("eightsuperior"),      wxT("ninesuperior"),     wxT("zeroinferior"),   wxT("oneinferior"),
-    wxT("twoinferior"),         wxT("threeinferior"),      wxT("fourinferior"),     wxT("fiveinferior"),   wxT("sixinferior"),
-    wxT("seveninferior"),       wxT("eightinferior"),      wxT("nineinferior"),     wxT("centinferior"),   wxT("dollarinferior"),
-    wxT("periodinferior"),      wxT("commainferior"),      wxT("Agravesmall"),      wxT("Aacutesmall"),    wxT("Acircumflexsmall"),
-    wxT("Atildesmall"),         wxT("Adieresissmall"),     wxT("Aringsmall"),       wxT("AEsmall"),        wxT("Ccedillasmall"),
-    wxT("Egravesmall"),         wxT("Eacutesmall"),        wxT("Ecircumflexsmall"), wxT("Edieresissmall"), wxT("Igravesmall"),
-    wxT("Iacutesmall"),         wxT("Icircumflexsmall"),   wxT("Idieresissmall"),   wxT("Ethsmall"),       wxT("Ntildesmall"),
-    wxT("Ogravesmall"),         wxT("Oacutesmall"),        wxT("Ocircumflexsmall"), wxT("Otildesmall"),    wxT("Odieresissmall"),
-    wxT("OEsmall"),             wxT("Oslashsmall"),        wxT("Ugravesmall"),      wxT("Uacutesmall"),    wxT("Ucircumflexsmall"),
-    wxT("Udieresissmall"),      wxT("Yacutesmall"),        wxT("Thornsmall"),       wxT("Ydieresissmall"), wxT("001.000"),
-    wxT("001.001"),             wxT("001.002"),            wxT("001.003"),          wxT("Black"),          wxT("Bold"),
-    wxT("Book"),                wxT("Light"),              wxT("Medium"),           wxT("Regular"),        wxT("Roman"),
-    wxT("Semibold")
+    wxS(".notdef"),             wxS("space"),              wxS("exclam"),           wxS("quotedbl"),       wxS("numbersign"),
+    wxS("dollar"),              wxS("percent"),            wxS("ampersand"),        wxS("quoteright"),     wxS("parenleft"),
+    wxS("parenright"),          wxS("asterisk"),           wxS("plus"),             wxS("comma"),          wxS("hyphen"), 
+    wxS("period"),              wxS("slash"),              wxS("zero"),             wxS("one"),            wxS("two"),
+    wxS("three"),               wxS("four"),               wxS("five"),             wxS("six"),            wxS("seven"),
+    wxS("eight"),               wxS("nine"),               wxS("colon"),            wxS("semicolon"),      wxS("less"),
+    wxS("equal"),               wxS("greater"),            wxS("question"),         wxS("at"),             wxS("A"),
+    wxS("B"),                   wxS("C"),                  wxS("D"),                wxS("E"),              wxS("F"),
+    wxS("G"),                   wxS("H"),                  wxS("I"),                wxS("J"),              wxS("K"),
+    wxS("L"),                   wxS("M"),                  wxS("N"),                wxS("O"),              wxS("P"),
+    wxS("Q"),                   wxS("R"),                  wxS("S"),                wxS("T"),              wxS("U"),
+    wxS("V"),                   wxS("W"),                  wxS("X"),                wxS("Y"),              wxS("Z"),
+    wxS("bracketleft"),         wxS("backslash"),          wxS("bracketright"),     wxS("asciicircum"),    wxS("underscore"),
+    wxS("quoteleft"),           wxS("a"),                  wxS("b"),                wxS("c"),              wxS("d"),
+    wxS("e"),                   wxS("f"),                  wxS("g"),                wxS("h"),              wxS("i"),
+    wxS("j"),                   wxS("k"),                  wxS("l"),                wxS("m"),              wxS("n"),
+    wxS("o"),                   wxS("p"),                  wxS("q"),                wxS("r"),              wxS("s"),
+    wxS("t"),                   wxS("u"),                  wxS("v"),                wxS("w"),              wxS("x"),
+    wxS("y"),                   wxS("z"),                  wxS("braceleft"),        wxS("bar"),            wxS("braceright"),
+    wxS("asciitilde"),          wxS("exclamdown"),         wxS("cent"),             wxS("sterling"),       wxS("fraction"),
+    wxS("yen"),                 wxS("florin"),             wxS("section"),          wxS("currency"),       wxS("quotesingle"),
+    wxS("quotedblleft"),        wxS("guillemotleft"),      wxS("guilsinglleft"),    wxS("guilsinglright"), wxS("fi"),
+    wxS("fl"),                  wxS("endash"),             wxS("dagger"),           wxS("daggerdbl"),      wxS("periodcentered"),
+    wxS("paragraph"),           wxS("bullet"),             wxS("quotesinglbase"),   wxS("quotedblbase"),   wxS("quotedblright"),
+    wxS("guillemotright"),      wxS("ellipsis"),           wxS("perthousand"),      wxS("questiondown"),   wxS("grave"),
+    wxS("acute"),               wxS("circumflex"),         wxS("tilde"),            wxS("macron"),         wxS("breve"),
+    wxS("dotaccent"),           wxS("dieresis"),           wxS("ring"),             wxS("cedilla"),        wxS("hungarumlaut"),
+    wxS("ogonek"),              wxS("caron"),              wxS("emdash"),           wxS("AE"),             wxS("ordfeminine"),
+    wxS("Lslash"),              wxS("Oslash"),             wxS("OE"),               wxS("ordmasculine"),   wxS("ae"),
+    wxS("dotlessi"),            wxS("lslash"),             wxS("oslash"),           wxS("oe"),             wxS("germandbls"),
+    wxS("onesuperior"),         wxS("logicalnot"),         wxS("mu"),               wxS("trademark"),      wxS("Eth"),
+    wxS("onehalf"),             wxS("plusminus"),          wxS("Thorn"),            wxS("onequarter"),     wxS("divide"),
+    wxS("brokenbar"),           wxS("degree"),             wxS("thorn"),            wxS("threequarters"),  wxS("twosuperior"),
+    wxS("registered"),          wxS("minus"),              wxS("eth"),              wxS("multiply"),       wxS("threesuperior"),
+    wxS("copyright"),           wxS("Aacute"),             wxS("Acircumflex"),      wxS("Adieresis"),      wxS("Agrave"),
+    wxS("Aring"),               wxS("Atilde"),             wxS("Ccedilla"),         wxS("Eacute"),         wxS("Ecircumflex"),
+    wxS("Edieresis"),           wxS("Egrave"),             wxS("Iacute"),           wxS("Icircumflex"),    wxS("Idieresis"),
+    wxS("Igrave"),              wxS("Ntilde"),             wxS("Oacute"),           wxS("Ocircumflex"),    wxS("Odieresis"),
+    wxS("Ograve"),              wxS("Otilde"),             wxS("Scaron"),           wxS("Uacute"),         wxS("Ucircumflex"),
+    wxS("Udieresis"),           wxS("Ugrave"),             wxS("Yacute"),           wxS("Ydieresis"),      wxS("Zcaron"),
+    wxS("aacute"),              wxS("acircumflex"),        wxS("adieresis"),        wxS("agrave"),         wxS("aring"),
+    wxS("atilde"),              wxS("ccedilla"),           wxS("eacute"),           wxS("ecircumflex"),    wxS("edieresis"),
+    wxS("egrave"),              wxS("iacute"),             wxS("icircumflex"),      wxS("idieresis"),      wxS("igrave"),
+    wxS("ntilde"),              wxS("oacute"),             wxS("ocircumflex"),      wxS("odieresis"),      wxS("ograve"),
+    wxS("otilde"),              wxS("scaron"),             wxS("uacute"),           wxS("ucircumflex"),    wxS("udieresis"),
+    wxS("ugrave"),              wxS("yacute"),             wxS("ydieresis"),        wxS("zcaron"),         wxS("exclamsmall"),
+    wxS("Hungarumlautsmall"),   wxS("dollaroldstyle"),     wxS("dollarsuperior"),   wxS("ampersandsmall"), wxS("Acutesmall"),
+    wxS("parenleftsuperior"),   wxS("parenrightsuperior"), wxS("twodotenleader"),   wxS("onedotenleader"), wxS("zerooldstyle"),
+    wxS("oneoldstyle"),         wxS("twooldstyle"),        wxS("threeoldstyle"),    wxS("fouroldstyle"),   wxS("fiveoldstyle"),
+    wxS("sixoldstyle"),         wxS("sevenoldstyle"),      wxS("eightoldstyle"),    wxS("nineoldstyle"),   wxS("commasuperior"),
+    wxS("threequartersemdash"), wxS("periodsuperior"),     wxS("questionsmall"),    wxS("asuperior"),      wxS("bsuperior"),
+    wxS("centsuperior"),        wxS("dsuperior"),          wxS("esuperior"),        wxS("isuperior"),      wxS("lsuperior"),
+    wxS("msuperior"),           wxS("nsuperior"),          wxS("osuperior"),        wxS("rsuperior"),      wxS("ssuperior"),
+    wxS("tsuperior"),           wxS("ff"),                 wxS("ffi"),              wxS("ffl"),            wxS("parenleftinferior"),
+    wxS("parenrightinferior"),  wxS("Circumflexsmall"),    wxS("hyphensuperior"),   wxS("Gravesmall"),     wxS("Asmall"),
+    wxS("Bsmall"),              wxS("Csmall"),             wxS("Dsmall"),           wxS("Esmall"),         wxS("Fsmall"),
+    wxS("Gsmall"),              wxS("Hsmall"),             wxS("Ismall"),           wxS("Jsmall"),         wxS("Ksmall"),
+    wxS("Lsmall"),              wxS("Msmall"),             wxS("Nsmall"),           wxS("Osmall"),         wxS("Psmall"),
+    wxS("Qsmall"),              wxS("Rsmall"),             wxS("Ssmall"),           wxS("Tsmall"),         wxS("Usmall"),
+    wxS("Vsmall"),              wxS("Wsmall"),             wxS("Xsmall"),           wxS("Ysmall"),         wxS("Zsmall"),
+    wxS("colonmonetary"),       wxS("onefitted"),          wxS("rupiah"),           wxS("Tildesmall"),     wxS("exclamdownsmall"),
+    wxS("centoldstyle"),        wxS("Lslashsmall"),        wxS("Scaronsmall"),      wxS("Zcaronsmall"),    wxS("Dieresissmall"),
+    wxS("Brevesmall"),          wxS("Caronsmall"),         wxS("Dotaccentsmall"),   wxS("Macronsmall"),    wxS("figuredash"),
+    wxS("hypheninferior"),      wxS("Ogoneksmall"),        wxS("Ringsmall"),        wxS("Cedillasmall"),   wxS("questiondownsmall"),
+    wxS("oneeighth"),           wxS("threeeighths"),       wxS("fiveeighths"),      wxS("seveneighths"),   wxS("onethird"),
+    wxS("twothirds"),           wxS("zerosuperior"),       wxS("foursuperior"),     wxS("fivesuperior"),   wxS("sixsuperior"),
+    wxS("sevensuperior"),       wxS("eightsuperior"),      wxS("ninesuperior"),     wxS("zeroinferior"),   wxS("oneinferior"),
+    wxS("twoinferior"),         wxS("threeinferior"),      wxS("fourinferior"),     wxS("fiveinferior"),   wxS("sixinferior"),
+    wxS("seveninferior"),       wxS("eightinferior"),      wxS("nineinferior"),     wxS("centinferior"),   wxS("dollarinferior"),
+    wxS("periodinferior"),      wxS("commainferior"),      wxS("Agravesmall"),      wxS("Aacutesmall"),    wxS("Acircumflexsmall"),
+    wxS("Atildesmall"),         wxS("Adieresissmall"),     wxS("Aringsmall"),       wxS("AEsmall"),        wxS("Ccedillasmall"),
+    wxS("Egravesmall"),         wxS("Eacutesmall"),        wxS("Ecircumflexsmall"), wxS("Edieresissmall"), wxS("Igravesmall"),
+    wxS("Iacutesmall"),         wxS("Icircumflexsmall"),   wxS("Idieresissmall"),   wxS("Ethsmall"),       wxS("Ntildesmall"),
+    wxS("Ogravesmall"),         wxS("Oacutesmall"),        wxS("Ocircumflexsmall"), wxS("Otildesmall"),    wxS("Odieresissmall"),
+    wxS("OEsmall"),             wxS("Oslashsmall"),        wxS("Ugravesmall"),      wxS("Uacutesmall"),    wxS("Ucircumflexsmall"),
+    wxS("Udieresissmall"),      wxS("Yacutesmall"),        wxS("Thornsmall"),       wxS("Ydieresissmall"), wxS("001.000"),
+    wxS("001.001"),             wxS("001.002"),            wxS("001.003"),          wxS("Black"),          wxS("Bold"),
+    wxS("Book"),                wxS("Light"),              wxS("Medium"),           wxS("Regular"),        wxS("Roman"),
+    wxS("Semibold")
   };
 static int gs_standardStringsCount = sizeof(gs_standardStrings) / sizeof(wxChar*);
 #endif
 
 // The Strings in this array represent Type1/Type2 operator names
 static const wxChar* gs_subrsFunctions[] = {
-    wxT("RESERVED_0"),  wxT("hstem"),       wxT("RESERVED_2"),  wxT("vstem"),          wxT("vmoveto"),
-    wxT("rlineto"),     wxT("hlineto"),     wxT("vlineto"),     wxT("rrcurveto"),      wxT("RESERVED_9"),
-    wxT("callsubr"),    wxT("return"),      wxT("escape"),      wxT("hsbw"),/*RES_13*/ wxT("endchar"),
-    wxT("RESERVED_15"), wxT("RESERVED_16"), wxT("RESERVED_17"), wxT("hstemhm"),        wxT("hintmask"),
-    wxT("cntrmask"),    wxT("rmoveto"),     wxT("hmoveto"),     wxT("vstemhm"),        wxT("rcurveline"),
-    wxT("rlinecurve"),  wxT("vvcurveto"),   wxT("hhcurveto"),   wxT("shortint"),       wxT("callgsubr"),
-    wxT("vhcurveto"),   wxT("hvcurveto")
+    wxS("RESERVED_0"),  wxS("hstem"),       wxS("RESERVED_2"),  wxS("vstem"),          wxS("vmoveto"),
+    wxS("rlineto"),     wxS("hlineto"),     wxS("vlineto"),     wxS("rrcurveto"),      wxS("RESERVED_9"),
+    wxS("callsubr"),    wxS("return"),      wxS("escape"),      wxS("hsbw"),/*RES_13*/ wxS("endchar"),
+    wxS("RESERVED_15"), wxS("RESERVED_16"), wxS("RESERVED_17"), wxS("hstemhm"),        wxS("hintmask"),
+    wxS("cntrmask"),    wxS("rmoveto"),     wxS("hmoveto"),     wxS("vstemhm"),        wxS("rcurveline"),
+    wxS("rlinecurve"),  wxS("vvcurveto"),   wxS("hhcurveto"),   wxS("shortint"),       wxS("callgsubr"),
+    wxS("vhcurveto"),   wxS("hvcurveto")
   };
 #if 0
 static int gs_subrsFunctionsCount = sizeof(gs_subrsFunctions) / sizeof(wxChar*);
@@ -167,34 +163,34 @@ static int gs_subrsFunctionsCount = sizeof(gs_subrsFunctions) / sizeof(wxChar*);
 
 // The Strings in this array represent Type1/Type2 escape operator names
 static const wxChar* gs_subrsEscapeFuncs[] = {
-    wxT("RESERVED_0"),  wxT("RESERVED_1"),    wxT("RESERVED_2"),   wxT("and"),           wxT("or"), 
-    wxT("not"),         wxT("seac"),/*RES_6*/ wxT("sbw"),/*RES_7*/ wxT("RESERVED_8"),    wxT("abs"),
-    wxT("add"),         wxT("sub"),           wxT("div"),          wxT("RESERVED_13"),   wxT("neg"),
-    wxT("eq"),          wxT("RESERVED_16"),   wxT("RESERVED_17"),  wxT("drop"),          wxT("RESERVED_19"),
-    wxT("put"),         wxT("get"),           wxT("ifelse"),       wxT("random"),        wxT("mul"),
-    wxT("RESERVED_25"), wxT("sqrt"),          wxT("dup"),          wxT("exch"),          wxT("index"), 
-    wxT("roll"),        wxT("RESERVED_31"),   wxT("RESERVED_32"),  wxT("RESERVED_33"),   wxT("hflex"),
-    wxT("flex"),        wxT("hflex1"),        wxT("flex1"),        wxT("RESERVED_REST")
+    wxS("RESERVED_0"),  wxS("RESERVED_1"),    wxS("RESERVED_2"),   wxS("and"),           wxS("or"), 
+    wxS("not"),         wxS("seac"),/*RES_6*/ wxS("sbw"),/*RES_7*/ wxS("RESERVED_8"),    wxS("abs"),
+    wxS("add"),         wxS("sub"),           wxS("div"),          wxS("RESERVED_13"),   wxS("neg"),
+    wxS("eq"),          wxS("RESERVED_16"),   wxS("RESERVED_17"),  wxS("drop"),          wxS("RESERVED_19"),
+    wxS("put"),         wxS("get"),           wxS("ifelse"),       wxS("random"),        wxS("mul"),
+    wxS("RESERVED_25"), wxS("sqrt"),          wxS("dup"),          wxS("exch"),          wxS("index"), 
+    wxS("roll"),        wxS("RESERVED_31"),   wxS("RESERVED_32"),  wxS("RESERVED_33"),   wxS("hflex"),
+    wxS("flex"),        wxS("hflex1"),        wxS("flex1"),        wxS("RESERVED_REST")
   };
 static int gs_subrsEscapeFuncsCount = sizeof(gs_subrsEscapeFuncs) / sizeof(wxChar*);
 
 #if 0
 static wxChar* gs_operatorNames[] = {
-    wxT("version"),           wxT("Notice"),             wxT("FullName"),      wxT("FamilyName"),     wxT("Weight"),
-    wxT("FontBBox"),          wxT("BlueValues"),         wxT("OtherBlues"),    wxT("FamilyBlues"),    wxT("FamilyOtherBlues"),
-    wxT("StdHW"),             wxT("StdVW"),              wxT("UNKNOWN_12"),    wxT("UniqueID"),       wxT("XUID"),
-    wxT("charset"),           wxT("Encoding"),           wxT("CharStrings"),   wxT("Private"),        wxT("Subrs"),
-    wxT("defaultWidthX"),     wxT("nominalWidthX"),      wxT("UNKNOWN_22"),    wxT("UNKNOWN_23"),     wxT("UNKNOWN_24"),
-    wxT("UNKNOWN_25"),        wxT("UNKNOWN_26"),         wxT("UNKNOWN_27"),    wxT("UNKNOWN_28"),     wxT("UNKNOWN_29"),
-    wxT("UNKNOWN_30"),        wxT("UNKNOWN_31"),         wxT("Copyright"),     wxT("isFixedPitch"),   wxT("ItalicAngle"),
-    wxT("UnderlinePosition"), wxT("UnderlineThickness"), wxT("PaintType"),     wxT("CharstringType"), wxT("FontMatrix"),
-    wxT("StrokeWidth"),       wxT("BlueScale"),          wxT("BlueShift"),     wxT("BlueFuzz"),       wxT("StemSnapH"),
-    wxT("StemSnapV"),         wxT("ForceBold"),          wxT("UNKNOWN_12_15"), wxT("UNKNOWN_12_16"),  wxT("LanguageGroup"),
-    wxT("ExpansionFactor"),   wxT("initialRandomSeed"),  wxT("SyntheticBase"), wxT("PostScript"),     wxT("BaseFontName"),
-    wxT("BaseFontBlend"),     wxT("UNKNOWN_12_24"),      wxT("UNKNOWN_12_25"), wxT("UNKNOWN_12_26"),  wxT("UNKNOWN_12_27"),
-    wxT("UNKNOWN_12_28"),     wxT("UNKNOWN_12_29"),      wxT("ROS"),           wxT("CIDFontVersion"), wxT("CIDFontRevision"),
-    wxT("CIDFontType"),       wxT("CIDCount"),           wxT("UIDBase"),       wxT("FDArray"),        wxT("FDSelect"),
-    wxT("FontName")
+    wxS("version"),           wxS("Notice"),             wxS("FullName"),      wxS("FamilyName"),     wxS("Weight"),
+    wxS("FontBBox"),          wxS("BlueValues"),         wxS("OtherBlues"),    wxS("FamilyBlues"),    wxS("FamilyOtherBlues"),
+    wxS("StdHW"),             wxS("StdVW"),              wxS("UNKNOWN_12"),    wxS("UniqueID"),       wxS("XUID"),
+    wxS("charset"),           wxS("Encoding"),           wxS("CharStrings"),   wxS("Private"),        wxS("Subrs"),
+    wxS("defaultWidthX"),     wxS("nominalWidthX"),      wxS("UNKNOWN_22"),    wxS("UNKNOWN_23"),     wxS("UNKNOWN_24"),
+    wxS("UNKNOWN_25"),        wxS("UNKNOWN_26"),         wxS("UNKNOWN_27"),    wxS("UNKNOWN_28"),     wxS("UNKNOWN_29"),
+    wxS("UNKNOWN_30"),        wxS("UNKNOWN_31"),         wxS("Copyright"),     wxS("isFixedPitch"),   wxS("ItalicAngle"),
+    wxS("UnderlinePosition"), wxS("UnderlineThickness"), wxS("PaintType"),     wxS("CharstringType"), wxS("FontMatrix"),
+    wxS("StrokeWidth"),       wxS("BlueScale"),          wxS("BlueShift"),     wxS("BlueFuzz"),       wxS("StemSnapH"),
+    wxS("StemSnapV"),         wxS("ForceBold"),          wxS("UNKNOWN_12_15"), wxS("UNKNOWN_12_16"),  wxS("LanguageGroup"),
+    wxS("ExpansionFactor"),   wxS("initialRandomSeed"),  wxS("SyntheticBase"), wxS("PostScript"),     wxS("BaseFontName"),
+    wxS("BaseFontBlend"),     wxS("UNKNOWN_12_24"),      wxS("UNKNOWN_12_25"), wxS("UNKNOWN_12_26"),  wxS("UNKNOWN_12_27"),
+    wxS("UNKNOWN_12_28"),     wxS("UNKNOWN_12_29"),      wxS("ROS"),           wxS("CIDFontVersion"), wxS("CIDFontRevision"),
+    wxS("CIDFontType"),       wxS("CIDCount"),           wxS("UIDBase"),       wxS("FDArray"),        wxS("FDSelect"),
+    wxS("FontName")
   };
 static int gs_operatorNamesCount = sizeof(gs_operatorNames) / sizeof(wxChar*);
 #endif
@@ -315,7 +311,7 @@ wxPdfCffDecoder::GetCharWidthAndComposite(wxPdfCffIndexElement& charstring, int&
   wxPdfCffFontObject* element = NULL;
   int numArgs = m_argCount;
   HandleStack();
-  if (m_key == wxT("hsbw"))
+  if (m_key == wxS("hsbw"))
   {
     if (numArgs == 2)
     {
@@ -324,7 +320,7 @@ wxPdfCffDecoder::GetCharWidthAndComposite(wxPdfCffIndexElement& charstring, int&
       width = element->m_intValue;
     }
   }
-  else if (m_key == wxT("sbw"))
+  else if (m_key == wxS("sbw"))
   {
     if (numArgs == 4)
     {
@@ -339,7 +335,7 @@ wxPdfCffDecoder::GetCharWidthAndComposite(wxPdfCffIndexElement& charstring, int&
     numArgs = m_argCount;
     // Check the modification needed on the Argument Stack according to key;
     HandleStack();
-    if (m_key == wxT("seac"))
+    if (m_key == wxS("seac"))
     {
       if (numArgs == 5)
       {
@@ -363,7 +359,7 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
 {
   int beginSubr, endSubr;
 #if 0
-  wxLogDebug(wxT("ReadAsubr %d %d %d %d"), begin, end, globalBias, localBias);
+  wxLogDebug(wxS("ReadAsubr %d %d %d %d"), begin, end, globalBias, localBias);
 #endif
   // Clear the stack for the subrs
   EmptyStack();
@@ -384,7 +380,7 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
     // Check the modification needed on the Argument Stack according to key;
     HandleStack();
     // a call to a Lsubr
-    if (m_key == wxT("callsubr")) 
+    if (m_key == wxS("callsubr")) 
     {
       // Verify that arguments are passed 
       if (numArgs > 0)
@@ -395,7 +391,7 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
         if (hSubrsUsed.Index(subr) == wxNOT_FOUND)
         {
 #if 0
-          wxLogDebug(wxT("Add hSubr: %s %d"), m_key.c_str(), subr);
+          wxLogDebug(wxS("Add hSubr: %s %d"), m_key.c_str(), subr);
 #endif
           hSubrsUsed.Add(subr);
           lSubrsUsed.Add(subr);
@@ -408,7 +404,7 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
       }            
     }
     // a call to a Gsubr
-    else if (m_key == wxT("callgsubr"))
+    else if (m_key == wxS("callgsubr"))
     {
       // Verify that arguments are passed 
       if (numArgs > 0)
@@ -419,7 +415,7 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
         if (m_hGlobalSubrsUsed->Index(subr) == wxNOT_FOUND)
         {
 #if 0
-          wxLogDebug(wxT("Add hGSubr: %s %d"), m_key.c_str(), subr);
+          wxLogDebug(wxS("Add hGSubr: %s %d"), m_key.c_str(), subr);
 #endif
           m_hGlobalSubrsUsed->Add(subr);
           m_lGlobalSubrsUsed->Add(subr);
@@ -432,13 +428,13 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
       }
     }
     // A call to "stem"
-    else if (m_key == wxT("hstem") || m_key == wxT("vstem") || m_key == wxT("hstemhm") || m_key == wxT("vstemhm"))
+    else if (m_key == wxS("hstem") || m_key == wxS("vstem") || m_key == wxS("hstemhm") || m_key == wxS("vstemhm"))
     {
       // Increment the NumOfHints by the number couples of of arguments
       m_numHints += numArgs / 2;
     }
           // A call to "mask"
-    else if (m_key == wxT("hintmask") || m_key == wxT("cntrmask"))
+    else if (m_key == wxS("hintmask") || m_key == wxS("cntrmask"))
     {
       // Compute the size of the mask
       int sizeOfMask = m_numHints / 8;
@@ -455,7 +451,7 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
     }
   }
 #if 0
-  wxLogDebug(wxT("ReadASubr end"));
+  wxLogDebug(wxS("ReadASubr end"));
 #endif
 }
 
@@ -494,28 +490,28 @@ int
 wxPdfCffDecoder::StackOpp()
 {
   int op;
-  if (m_key == wxT("ifelse"))
+  if (m_key == wxS("ifelse"))
   {
     op = -3;
   }
-  else if (m_key == wxT("roll") || m_key == wxT("put"))
+  else if (m_key == wxS("roll") || m_key == wxS("put"))
   {
     op = -2;
   }
-  else if (m_key == wxT("callsubr") || m_key == wxT("callgsubr") || m_key == wxT("add")  ||
-           m_key == wxT("sub")      || m_key == wxT("div")       || m_key == wxT("mul")  ||
-           m_key == wxT("drop")     || m_key == wxT("and")       || m_key == wxT("or")   ||
-           m_key == wxT("eq"))
+  else if (m_key == wxS("callsubr") || m_key == wxS("callgsubr") || m_key == wxS("add")  ||
+           m_key == wxS("sub")      || m_key == wxS("div")       || m_key == wxS("mul")  ||
+           m_key == wxS("drop")     || m_key == wxS("and")       || m_key == wxS("or")   ||
+           m_key == wxS("eq"))
   {
     op = -1;
   }
-  else if (m_key == wxT("abs")  || m_key == wxT("neg")   || m_key == wxT("sqrt") ||
-           m_key == wxT("exch") || m_key == wxT("index") || m_key == wxT("get")  ||
-           m_key == wxT("not")  || m_key == wxT("return"))
+  else if (m_key == wxS("abs")  || m_key == wxS("neg")   || m_key == wxS("sqrt") ||
+           m_key == wxS("exch") || m_key == wxS("index") || m_key == wxS("get")  ||
+           m_key == wxS("not")  || m_key == wxS("return"))
   {
     op = 0;
   }
-  else if (m_key == wxT("random") || m_key == wxT("dup"))
+  else if (m_key == wxS("random") || m_key == wxS("dup"))
   {
     op = 1;
   }
@@ -643,7 +639,7 @@ wxPdfCffDecoder::CalcHints(wxInputStream* stream, int begin, int end, int global
     //Check the modification needed on the Argument Stack according to key;
     HandleStack();
     // a call to a Lsubr
-    if (m_key == wxT("callsubr")) 
+    if (m_key == wxS("callsubr")) 
     {
       if (numArgs > 0)
       {
@@ -656,7 +652,7 @@ wxPdfCffDecoder::CalcHints(wxInputStream* stream, int begin, int end, int global
       }
     }
     // a call to a Gsubr
-    else if (m_key == wxT("callgsubr"))
+    else if (m_key == wxS("callgsubr"))
     {
       if (numArgs > 0)
       {
@@ -669,13 +665,13 @@ wxPdfCffDecoder::CalcHints(wxInputStream* stream, int begin, int end, int global
       }
     }
     // A call to "stem"
-    else if (m_key == wxT("hstem") || m_key == wxT("vstem") || m_key == wxT("hstemhm") || m_key == wxT("vstemhm"))
+    else if (m_key == wxS("hstem") || m_key == wxS("vstem") || m_key == wxS("hstemhm") || m_key == wxS("vstemhm"))
     {
       // Increment the NumOfHints by the number couples of of arguments
       m_numHints += numArgs / 2;
     }
     // A call to "mask"
-    else if (m_key == wxT("hintmask") || m_key == wxT("cntrmask"))
+    else if (m_key == wxS("hintmask") || m_key == wxS("cntrmask"))
     {
       // Compute the size of the mask
       int sizeOfMask = m_numHints / 8;

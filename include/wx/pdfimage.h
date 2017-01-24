@@ -2,7 +2,6 @@
 // Name:        pdfimage.h
 // Purpose:     
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-11
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence

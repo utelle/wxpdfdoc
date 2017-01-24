@@ -2,7 +2,6 @@
 // Name:        tutorial1.cpp
 // Purpose:     Tutorial 1: Test program for wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -49,7 +48,7 @@
 * 
 * To add a new cell next to it with centered text and go to the next line, we would do: 
 * 
-* pdf.Cell(60,10,wxT("Powered by wxPdfDocument"),wxPDF_BORDER_NONE,1,wxPDF_ALIGN_CENTER);
+* pdf.Cell(60,10,wxS("Powered by wxPdfDocument"),wxPDF_BORDER_NONE,1,wxPDF_ALIGN_CENTER);
 * 
 * Remark : the line break can also be done with Ln(). This method allows to specify in
 * addition the height of the break. 
@@ -57,22 +56,30 @@
 * Finally, the document is closed and sent to file with SaveAsFile().
 */
 
-void tutorial1()
+int
+tutorial1(bool testMode)
 {
   wxPdfDocument pdf;
+  if (testMode)
+  {
+    pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+    pdf.SetCompression(false);
+  }
 //  pdf.AddPage();
   pdf.AddPage(wxPORTRAIT,wxPAPER_A4);
-  pdf.SetFont(wxT("Helvetica"),wxT("B"),16);
-  pdf.Cell(40,10,wxT("Hello World!"));
+  pdf.SetFont(wxS("Helvetica"),wxS("B"),16);
+  pdf.Cell(40,10,wxS("Hello World!"));
   pdf.AddPage(wxLANDSCAPE,wxPAPER_A4);
-  pdf.SetFont(wxT("Helvetica"),wxT("B"),16);
-  pdf.Cell(40,10,wxT("Hello World!"));
+  pdf.SetFont(wxS("Helvetica"),wxS("B"),16);
+  pdf.Cell(40,10,wxS("Hello World!"));
   pdf.AddPage(wxPORTRAIT,wxPAPER_A3);
-  pdf.SetFont(wxT("Helvetica"),wxT("B"),16);
-  pdf.Cell(40,10,wxT("Hello World!"));
+  pdf.SetFont(wxS("Helvetica"),wxS("B"),16);
+  pdf.Cell(40,10,wxS("Hello World!"));
   pdf.AddPage(wxLANDSCAPE,wxPAPER_A3);
-  pdf.SetFont(wxT("Helvetica"),wxT("B"),16);
-  pdf.Cell(40,10,wxT("Hello World!"));
-  pdf.SaveAsFile(wxT("tutorial1.pdf"));
+  pdf.SetFont(wxS("Helvetica"),wxS("B"),16);
+  pdf.Cell(40,10,wxS("Hello World!"));
+  pdf.SaveAsFile(wxS("tutorial1.pdf"));
+
+  return 0;
 }
 

@@ -18,6 +18,10 @@ class MyApp: public wxApp
     bool OnInit();
     int OnExit();
 
+    wxString m_workDirectory;
+    wxString m_fontDirectory;
+    int      m_rc;
+
     wxFont m_testFont;
 };
 

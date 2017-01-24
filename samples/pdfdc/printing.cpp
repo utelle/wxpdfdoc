@@ -2,9 +2,7 @@
 // Name:        samples/printing.cpp
 // Purpose:     Printing demo for wxWidgets
 // Author:      Julian Smart
-// Modified by:
 // Created:     1995
-// RCS-ID:      $Id: printing.cpp 43456 2006-11-17 01:54:48Z VZ $
 // Copyright:   (c) Julian Smart
 // Licence:     wxWindows licence
 /////////////////////////////////////////////////////////////////////////////
@@ -20,7 +18,9 @@
 #include "wx/wx.h"
 #endif
 
-//#include "vld.h"
+#ifdef USE_VLD
+#include "vld.h"
+#endif
 
 #if !wxUSE_PRINTING_ARCHITECTURE
 #error "You must set wxUSE_PRINTING_ARCHITECTURE to 1 in setup.h, and recompile the library."
@@ -31,6 +31,7 @@
 #define wxTEST_POSTSCRIPT_IN_MSW 0
 
 #include <ctype.h>
+#include <wx/cmdline.h>
 #include <wx/filename.h>
 #include "wx/mimetype.h"
 #include <wx/stdpaths.h>
@@ -107,32 +108,91 @@ bool WritePageHeader(wxPrintout *printout, wxDC *dc, const wxChar *text, float m
 // The `main program' equivalent, creating the windows and returning the
 // main frame
 
+static const wxCmdLineEntryDesc cmdLineDesc[] =
+{
+#if wxCHECK_VERSION(2,9,0)
+  { wxCMD_LINE_OPTION, "s", "sampledir", "wxPdfDocument samples directory",  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, "f", "fontdir",   "wxPdfDocument font directory",     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_SWITCH, "h", "help",      "Display help",                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
+#else
+  { wxCMD_LINE_OPTION, wxS("s"), wxS("sampledir"), wxS("wxPdfDocument samples directory"),  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_OPTION, wxS("f"), wxS("fontdir"),   wxS("wxPdfDocument font directory"),     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+  { wxCMD_LINE_SWITCH, wxS("h"), wxS("help"),      wxS("Display help"),                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
+#endif
+  { wxCMD_LINE_NONE }
+};
+
 bool MyApp::OnInit(void)
 {
   wxInitAllImageHandlers();
 
-  // Set the font path and working directory
-  wxFileName exePath = wxStandardPaths::Get().GetExecutablePath();
-#ifdef __WXMAC__
-  wxString fontPath = exePath.GetPathWithSep() + wxT("../../../../../lib/fonts");
-  wxString cwdPath  = exePath.GetPathWithSep() + wxT("../../..");
-#else
-  wxString fontPath = exePath.GetPathWithSep() + wxT("../../lib/fonts");
-  wxString cwdPath  = exePath.GetPath();
-#endif
-  wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
-  wxSetWorkingDirectory(cwdPath);
+  wxCmdLineParser parser(cmdLineDesc, argc, argv);
+  wxString logo = wxS("wxPdfDocument Minimal Sample\n");
+  parser.SetLogo(logo);
+  bool ok = parser.Parse() == 0;
+  if (ok)
+  {
+    parser.Found(wxS("sampledir"), &m_workDirectory);
+    parser.Found(wxS("fontdir"), &m_fontDirectory);
+    m_rc = 0;
+  }
+  else
+  {
+    parser.Usage();
+    m_rc = -1;
+  }
+
+  if (ok)
+  {
+    // Set the font path and working directory
+    if (!m_workDirectory.IsEmpty())
+    {
+      wxSetWorkingDirectory(m_workDirectory);
+    }
+    m_workDirectory = wxGetCwd();
+
+    if (m_fontDirectory.IsEmpty())
+    {
+      m_fontDirectory = wxS("../../lib/fonts");
+    }
+    wxPdfFontManager::GetFontManager()->AddSearchPath(m_fontDirectory);
+
+    // Check directories
+    if (!wxFileName::IsFileReadable(wxS("smile.jpg")))
+    {
+      wxLogError(wxS("The working directory seems not to be the directory of wxPdfDocument's printing sample."));
+      m_rc = -2;
+      ok = false;
+    }
+
+    wxPathList fontPaths;
+    fontPaths.Add(m_fontDirectory);
+    fontPaths.AddEnvList(wxS("WXPDF_FONTPATH"));
+    wxString testFontFileName = fontPaths.FindValidPath(wxS("big5.xml"));
+    wxFileName testFont(testFontFileName);
+    if (testFontFileName.IsEmpty() || !testFont.IsOk() || !testFont.IsFileReadable())
+    {
+      wxLogError(wxS("The font directory of wxPdfDocument seems not to be accessible."));
+      m_rc = -3;
+      ok = false;
+    }
+  }
+
+  if (!ok)
+  {
+    return false;
+  }
 
 #if wxCHECK_VERSION(2,9,0)
-    m_testFont.Create(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial"));
+    m_testFont.Create(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxS("Arial"));
 #else
-    m_testFont.Create(10, wxSWISS, wxNORMAL, wxNORMAL, false, wxT("Arial"));
+    m_testFont.Create(10, wxSWISS, wxNORMAL, wxNORMAL, false, wxS("Arial"));
 #endif
 
     g_printData = new wxPrintData;
     // You could set an initial paper size here
-//    g_printData->SetPaperId(wxPAPER_LETTER); // for Americans
-//    g_printData->SetPaperId(wxPAPER_A4);    // for everyone else    
+    //    g_printData->SetPaperId(wxPAPER_LETTER); // for Americans
+    //    g_printData->SetPaperId(wxPAPER_A4);    // for everyone else    
 
     g_pageSetupData = new wxPageSetupDialogData;
     // copy over initial paper size from print record
@@ -285,7 +345,7 @@ wxFrame(frame, wxID_ANY, title, pos, size)
 #endif
     canvas = NULL;
     m_angle = 30;
-    wxImage image(rscPath + wxT("smile.jpg"));
+    wxImage image(rscPath + wxS("smile.jpg"));
     if (image.IsOk())
     {
       image.SetAlpha();
@@ -294,7 +354,7 @@ wxFrame(frame, wxID_ANY, title, pos, size)
         for (j = 0; j < image.GetHeight(); j++)
           image.SetAlpha( i, j, 50 );
       m_bitmap = wxBitmap(image);
-      m_imgUp.LoadFile(rscPath + wxT("up.gif"));
+      m_imgUp.LoadFile(rscPath + wxS("up.gif"));
     }
 #if wxUSE_RICHTEXT
     m_richtext = new wxRichTextCtrl(this, wxID_ANY, wxEmptyString);
@@ -339,7 +399,7 @@ void MyFrame::OnPDF(wxCommandEvent& WXUNUSED(event))
 {
   wxFileName fileName;
   fileName.SetPath(wxGetCwd());
-  fileName.SetFullName(wxT("default.pdf"));
+  fileName.SetFullName(wxS("default.pdf"));
   wxPrintData printData;
   printData.SetOrientation(wxPORTRAIT);
   printData.SetPaperId(wxPAPER_A4);
@@ -361,7 +421,7 @@ void MyFrame::OnPDF(wxCommandEvent& WXUNUSED(event))
     }
   }
 
-  wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
+  wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxS("pdf"));
   if (fileType != NULL)
   {
     wxString cmd = fileType->GetOpenCommand(fileName.GetFullPath());
@@ -377,12 +437,12 @@ void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
 {
   wxFileName fileName;
   fileName.SetPath(wxGetCwd());
-  fileName.SetFullName(wxT("template.pdf"));
+  fileName.SetFullName(wxS("template.pdf"));
   
   wxPdfDocument pdf;
   pdf.AddPage();
-  pdf.SetFont(wxT("Helvetica"),wxT("B"),16);
-  pdf.Cell(40,10,wxT("Hello World!"));
+  pdf.SetFont(wxS("Helvetica"),wxS("B"),16);
+  pdf.Cell(40,10,wxS("Hello World!"));
   double w = /*350*/ 125;
   double h = /*350*/ 125;
   int tpl = pdf.BeginTemplate(0, 0, w, h);
@@ -404,7 +464,7 @@ void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
   pdf.UseTemplate(tpl, 40, 30, 75);
   pdf.SaveAsFile(fileName.GetFullPath());
 
-  wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
+  wxFileType* fileType = wxTheMimeTypesManager->GetFileTypeFromExtension(wxS("pdf"));
   if (fileType != NULL)
   {
     wxString cmd = fileType->GetOpenCommand(fileName.GetFullPath());
@@ -521,7 +581,7 @@ void MyFrame::Draw(wxDC& dc)
     double txtPosScaleX, txtPosScaleY;
     dc.GetUserScale(&baseScaleX, &baseScaleY);
 
-    wxClassInfo *cinfo = wxClassInfo::FindClass(wxT("wxPdfDC"));
+    wxClassInfo *cinfo = wxClassInfo::FindClass(wxS("wxPdfDC"));
     if ((cinfo != NULL) &&
         (dc.GetClassInfo()->IsKindOf(cinfo)) &&
         (((wxPdfDC*) &dc)->GetMapModeStyle() == wxPDF_MAPMODESTYLE_PDF))
@@ -576,7 +636,7 @@ void MyFrame::Draw(wxDC& dc)
     dc.DrawRoundedRectangle(0, 20, 200, 80, 20);
 
     dc.SetUserScale(fontScaleX, fontScaleY);
-    dc.DrawText(wxT("Rectangle 200 by 80"), wxRound(40 * txtPosScaleX), wxRound(40 * txtPosScaleY));
+    dc.DrawText(wxS("Rectangle 200 by 80"), wxRound(40 * txtPosScaleX), wxRound(40 * txtPosScaleY));
     dc.SetUserScale(coordScaleX, coordScaleY);
 
     dc.SetPen( wxPen(*wxBLACK,0,wxPENSTYLE_DOT_DASH) );
@@ -584,7 +644,7 @@ void MyFrame::Draw(wxDC& dc)
     dc.SetPen(*wxRED_PEN);
 
     dc.SetUserScale(fontScaleX, fontScaleY);
-    dc.DrawText(wxT("Test message: this is in 10 point text"), wxRound(10 * txtPosScaleX), wxRound(180 * txtPosScaleY));
+    dc.DrawText(wxS("Test message: this is in 10 point text"), wxRound(10 * txtPosScaleX), wxRound(180 * txtPosScaleY));
     dc.SetUserScale(coordScaleX, coordScaleY);
     
 #if wxUSE_UNICODE
@@ -623,12 +683,12 @@ void MyFrame::Draw(wxDC& dc)
         
     wxString str;
     int i = 0;
-    str.Printf( wxT("---- Text at angle %d ----"), i );
+    str.Printf( wxS("---- Text at angle %d ----"), i );
     dc.SetUserScale(fontScaleX, fontScaleY);
     dc.DrawRotatedText(str, wxRound(100 * txtPosScaleX), wxRound(300 * txtPosScaleY), i);
 
     i = m_angle;
-    str.Printf( wxT("---- Text at angle %d ----"), i );
+    str.Printf( wxS("---- Text at angle %d ----"), i );
     dc.SetUserScale(fontScaleX, fontScaleY);
     dc.DrawRotatedText(str, wxRound(100 * txtPosScaleX), wxRound(300 * txtPosScaleY), i);
     dc.SetUserScale(coordScaleX, coordScaleY);
@@ -754,7 +814,7 @@ void MyFrame::OnPdfRichTextPrint(wxCommandEvent&  WXUNUSED(event) )
             new wxRichTextBuffer(m_richtext->GetBuffer())
             );
 
-        wxRichTextPrintout *printPrintout = new wxRichTextPrintout(wxT("Demo PDF Printing"));
+        wxRichTextPrintout *printPrintout = new wxRichTextPrintout(wxS("Demo PDF Printing"));
         // richtext printout accepts margins in tenths of mm
         printPrintout->SetMargins(
                       10 * dialogData.GetMarginTopLeft().y,
@@ -801,7 +861,7 @@ void MyFrame::OnPdfRichTextPreview(wxCommandEvent&  WXUNUSED(event) )
         new wxRichTextBuffer(m_richtext->GetBuffer())
       );
 
-      wxRichTextPrintout *printPrintout = new wxRichTextPrintout(wxT("Demo PDF Printing"));   
+      wxRichTextPrintout *printPrintout = new wxRichTextPrintout(wxS("Demo PDF Printing"));   
       // richtext printout accepts margins in tenths of mm
       printPrintout->SetMargins(
                       10 * dialogData.GetMarginTopLeft().y,
@@ -811,7 +871,7 @@ void MyFrame::OnPdfRichTextPreview(wxCommandEvent&  WXUNUSED(event) )
                       );
       printPrintout->SetRichTextBuffer(  m_richtextPrinting->GetRichTextBufferPrinting() );
 
-      wxRichTextPrintout *previewPrintout = new wxRichTextPrintout(wxT("Demo PDF Printing"));   
+      wxRichTextPrintout *previewPrintout = new wxRichTextPrintout(wxS("Demo PDF Printing"));   
       // richtext printout accepts margins in tenths of mm
       previewPrintout->SetMargins(
                       10 * dialogData.GetMarginTopLeft().y,
@@ -876,11 +936,11 @@ void MyFrame::WriteRichTextBuffer()
 
     wxString lineBreak = (wxChar) 29;
 
-    r.WriteText(wxString(wxT("Welcome to wxRichTextCtrl, a wxWidgets control")) + lineBreak + wxT("for editing and presenting styled text and images\n"));
+    r.WriteText(wxString(wxS("Welcome to wxRichTextCtrl, a wxWidgets control")) + lineBreak + wxS("for editing and presenting styled text and images\n"));
     r.EndFontSize();
 
     r.BeginItalic();
-    r.WriteText(wxT("by Julian Smart"));
+    r.WriteText(wxS("by Julian Smart"));
     r.EndItalic();
 
     r.EndBold();
@@ -896,14 +956,14 @@ void MyFrame::WriteRichTextBuffer()
     r.BeginAlignment(wxTEXT_ALIGNMENT_LEFT);
     wxRichTextAttr imageAttr;
     imageAttr.GetTextBoxAttr().SetFloatMode(wxTEXT_BOX_ATTR_FLOAT_LEFT);
-    r.WriteText(wxString(wxT("This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side. This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side. This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side.")));
+    r.WriteText(wxString(wxS("This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side. This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side. This is a simple test for a floating left image test. The zebra image should be placed at the left side of the current buffer and all the text should flow around it at the right side.")));
     r.WriteImage(imgZebra, wxBITMAP_TYPE_PNG, imageAttr);
 
     imageAttr.GetTextBoxAttr().GetTop().SetValue(200);
     imageAttr.GetTextBoxAttr().GetTop().SetUnits(wxTEXT_ATTR_UNITS_PIXELS);
     imageAttr.GetTextBoxAttr().SetFloatMode(wxTEXT_BOX_ATTR_FLOAT_RIGHT);
     r.WriteImage(imgZebra, wxBITMAP_TYPE_PNG, imageAttr);
-    r.WriteText(wxString(wxT("This is a simple test for a floating right image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side. This is a simple test for a floating left image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side. This is a simple test for a floating left image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side.")));
+    r.WriteText(wxString(wxS("This is a simple test for a floating right image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side. This is a simple test for a floating left image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side. This is a simple test for a floating left image test. The zebra image should be placed at the right side of the current buffer and all the text should flow around it at the left side.")));
     r.EndAlignment();
     r.Newline();
 
@@ -911,87 +971,87 @@ void MyFrame::WriteRichTextBuffer()
     for ( i = 0; i < 10; ++i)
     {
 
-        r.WriteText(wxT("What can you do with this thing? "));
+        r.WriteText(wxS("What can you do with this thing? "));
 
         r.WriteImage(imgSmile);
-        r.WriteText(wxT(" Well, you can change text "));
+        r.WriteText(wxS(" Well, you can change text "));
 
         r.BeginTextColour(wxColour(255, 0, 0));
-        r.WriteText(wxT("colour, like this red bit."));
+        r.WriteText(wxS("colour, like this red bit."));
         r.EndTextColour();
 
         wxRichTextAttr backgroundColourAttr;
         backgroundColourAttr.SetBackgroundColour(*wxGREEN);
         backgroundColourAttr.SetTextColour(wxColour(0, 0, 255));
         r.BeginStyle(backgroundColourAttr);
-        r.WriteText(wxT(" And this blue on green bit."));
+        r.WriteText(wxS(" And this blue on green bit."));
         r.EndStyle();
 
-        r.WriteText(wxT(" Naturally you can make things "));
+        r.WriteText(wxS(" Naturally you can make things "));
         r.BeginBold();
-        r.WriteText(wxT("bold "));
+        r.WriteText(wxS("bold "));
         r.EndBold();
         r.BeginItalic();
-        r.WriteText(wxT("or italic "));
+        r.WriteText(wxS("or italic "));
         r.EndItalic();
         r.BeginUnderline();
-        r.WriteText(wxT("or underlined."));
+        r.WriteText(wxS("or underlined."));
         r.EndUnderline();
 
         r.BeginFontSize(14);
-        r.WriteText(wxT(" Different font sizes on the same line is allowed, too."));
+        r.WriteText(wxS(" Different font sizes on the same line is allowed, too."));
         r.EndFontSize();
 
-        r.WriteText(wxT(" Next we'll show an indented paragraph."));
+        r.WriteText(wxS(" Next we'll show an indented paragraph."));
 
         r.Newline();
 
         r.BeginLeftIndent(60);
-        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
 
         r.EndLeftIndent();
 
-        r.WriteText(wxT("Next, we'll show a first-line indent, achieved using BeginLeftIndent(100, -40)."));
+        r.WriteText(wxS("Next, we'll show a first-line indent, achieved using BeginLeftIndent(100, -40)."));
 
         r.Newline();
 
         r.BeginLeftIndent(100, -40);
 
-        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
 
         r.EndLeftIndent();
 
-        r.WriteText(wxT("Numbered bullets are possible, again using subindents:"));
+        r.WriteText(wxS("Numbered bullets are possible, again using subindents:"));
         r.Newline();
 
         r.BeginNumberedBullet(1, 100, 60);
-        r.WriteText(wxT("This is my first item. Note that wxRichTextCtrl can apply numbering and bullets automatically based on list styles, but this list is formatted explicitly by setting indents."));
+        r.WriteText(wxS("This is my first item. Note that wxRichTextCtrl can apply numbering and bullets automatically based on list styles, but this list is formatted explicitly by setting indents."));
         r.Newline();
         r.EndNumberedBullet();
 
         r.BeginNumberedBullet(2, 100, 60);
-        r.WriteText(wxT("This is my second item."));
+        r.WriteText(wxS("This is my second item."));
         r.Newline();
         r.EndNumberedBullet();
 
-        r.WriteText(wxT("The following paragraph is right-indented:"));
+        r.WriteText(wxS("The following paragraph is right-indented:"));
         r.Newline();
 
         r.BeginRightIndent(200);
 
-        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
 
         r.EndRightIndent();
 
-        r.WriteText(wxT("The following paragraph is right-aligned with 1.5 line spacing:"));
+        r.WriteText(wxS("The following paragraph is right-aligned with 1.5 line spacing:"));
         r.Newline();
 
         r.BeginAlignment(wxTEXT_ALIGNMENT_RIGHT);
         r.BeginLineSpacing(wxTEXT_ATTR_LINE_SPACING_HALF);
-        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
         r.EndLineSpacing();
         r.EndAlignment();
@@ -1006,44 +1066,44 @@ void MyFrame::WriteRichTextBuffer()
         attr.SetTabs(tabs);
         r.SetDefaultStyle(attr);
 
-        r.WriteText(wxT("This line contains tabs:\tFirst tab\tSecond tab\tThird tab"));
+        r.WriteText(wxS("This line contains tabs:\tFirst tab\tSecond tab\tThird tab"));
         r.Newline();
 
-        r.WriteText(wxT("Other notable features of wxRichTextCtrl include:"));
+        r.WriteText(wxS("Other notable features of wxRichTextCtrl include:"));
         r.Newline();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("Compatibility with wxTextCtrl API"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("Easy stack-based BeginXXX()...EndXXX() style setting in addition to SetStyle()"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("Compatibility with wxTextCtrl API"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("XML loading and saving"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("Easy stack-based BeginXXX()...EndXXX() style setting in addition to SetStyle()"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("Undo/Redo, with batching option and Undo suppressing"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("XML loading and saving"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("Clipboard copy and paste"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("Undo/Redo, with batching option and Undo suppressing"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("wxRichTextStyleSheet with named character and paragraph styles, and control for applying named styles"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("Clipboard copy and paste"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("A design that can easily be extended to other content types, ultimately with text boxes, tables, controls, and so on"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("wxRichTextStyleSheet with named character and paragraph styles, and control for applying named styles"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("A design that can easily be extended to other content types, ultimately with text boxes, tables, controls, and so on"));
         r.Newline();
         r.EndSymbolBullet();
 
@@ -1052,17 +1112,17 @@ void MyFrame::WriteRichTextBuffer()
         urlStyle.SetTextColour(*wxBLUE);
         urlStyle.SetFontUnderlined(true);
 
-        r.WriteText(wxT("wxRichTextCtrl can also display URLs, such as this one: "));
+        r.WriteText(wxS("wxRichTextCtrl can also display URLs, such as this one: "));
         r.BeginStyle(urlStyle);
-        r.BeginURL(wxT("http://www.wxwidgets.org"));
-        r.WriteText(wxT("The wxWidgets Web Site"));
+        r.BeginURL(wxS("http://www.wxwidgets.org"));
+        r.WriteText(wxS("The wxWidgets Web Site"));
         r.EndURL();
         r.EndStyle();
-        r.WriteText(wxT(". Click on the URL to generate an event."));
+        r.WriteText(wxS(". Click on the URL to generate an event."));
 
         r.Newline();
 
-        r.WriteText(wxT("Note: this sample content was generated programmatically from within the MyFrame constructor in the demo. The images were loaded from inline XPMs. Enjoy wxRichTextCtrl!\n"));
+        r.WriteText(wxS("Note: this sample content was generated programmatically from within the MyFrame constructor in the demo. The images were loaded from inline XPMs. Enjoy wxRichTextCtrl!\n"));
     }
     
     r.EndParagraphSpacing();
@@ -1086,7 +1146,7 @@ void MyFrame::WriteRichTextBuffer()
       wxRichTextBox* textBox = r.WriteTextBox(attr);
       r.SetFocusObject(textBox);
 
-      r.WriteText(wxT("This is a text box. Just testing! Once more unto the breach, dear friends, once more..."));
+      r.WriteText(wxS("This is a text box. Just testing! Once more unto the breach, dear friends, once more..."));
 
       r.SetFocusObject(NULL); // Set the focus back to the main buffer
       r.SetInsertionPointEnd();
@@ -1118,7 +1178,7 @@ void MyFrame::WriteRichTextBuffer()
       {
           for (i = 0; i < table->GetColumnCount(); i++)
           {
-              wxString msg = wxString::Format(wxT("This is cell %d, %d"), (j+1), (i+1));
+              wxString msg = wxString::Format(wxS("This is cell %d, %d"), (j+1), (i+1));
               r.SetFocusObject(table->GetCell(j, i));
               r.WriteText(msg);
           }
@@ -1146,12 +1206,12 @@ void MyFrame::WriteRichTextBuffer()
 
     wxString lineBreak = (wxChar) 29;
 
-    r.WriteText(wxString(wxT("Welcome to wxRichTextCtrl, a wxWidgets control")) + lineBreak + wxT("for editing and presenting styled text and images\n"));
+    r.WriteText(wxString(wxS("Welcome to wxRichTextCtrl, a wxWidgets control")) + lineBreak + wxS("for editing and presenting styled text and images\n"));
     r.EndFontSize();
     //r.Newline();
 
     r.BeginItalic();
-    r.WriteText(wxT("by Julian Smart"));
+    r.WriteText(wxS("by Julian Smart"));
     r.EndItalic();
 
     r.EndBold();
@@ -1168,89 +1228,89 @@ void MyFrame::WriteRichTextBuffer()
     for ( i = 0; i < 10; ++i)
     {
 
-        r.WriteText(wxT("What can you do with this thing? "));
+        r.WriteText(wxS("What can you do with this thing? "));
 
         r.WriteImage(imgSmile);
-        r.WriteText(wxT(" Well, you can change text "));
+        r.WriteText(wxS(" Well, you can change text "));
 
         r.BeginTextColour(wxColour(255, 0, 0));
-        r.WriteText(wxT("colour, like this red bit."));
+        r.WriteText(wxS("colour, like this red bit."));
         r.EndTextColour();
 
         wxRichTextAttr backgroundColourAttr;
         backgroundColourAttr.SetBackgroundColour(*wxGREEN);
         backgroundColourAttr.SetTextColour(wxColour(0, 0, 255));
         r.BeginStyle(backgroundColourAttr);
-        r.WriteText(wxT(" And this blue on green bit."));
+        r.WriteText(wxS(" And this blue on green bit."));
         r.EndStyle();
 
-        r.WriteText(wxT(" Naturally you can make things "));
+        r.WriteText(wxS(" Naturally you can make things "));
         r.BeginBold();
-        r.WriteText(wxT("bold "));
+        r.WriteText(wxS("bold "));
         r.EndBold();
         r.BeginItalic();
-        r.WriteText(wxT("or italic "));
+        r.WriteText(wxS("or italic "));
         r.EndItalic();
         r.BeginUnderline();
-        r.WriteText(wxT("or underlined."));
+        r.WriteText(wxS("or underlined."));
         r.EndUnderline();
 
         r.BeginFontSize(14);
-        r.WriteText(wxT(" Different font sizes on the same line is allowed, too."));
+        r.WriteText(wxS(" Different font sizes on the same line is allowed, too."));
         r.EndFontSize();
 
-        r.WriteText(wxT(" Next we'll show an indented paragraph."));
+        r.WriteText(wxS(" Next we'll show an indented paragraph."));
 
         r.Newline();
 
         r.BeginLeftIndent(60);
-        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
 
         r.EndLeftIndent();
 
-        r.WriteText(wxT("Next, we'll show a first-line indent, achieved using BeginLeftIndent(100, -40)."));
+        r.WriteText(wxS("Next, we'll show a first-line indent, achieved using BeginLeftIndent(100, -40)."));
 
         r.Newline();
 
         r.BeginLeftIndent(100, -40);
 
-        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
     
         r.EndLeftIndent();
     
-        r.WriteText(wxT("Numbered bullets are possible, again using subindents:"));
+        r.WriteText(wxS("Numbered bullets are possible, again using subindents:"));
         r.Newline();
 
         r.BeginNumberedBullet(1, 100, 60);
-        r.WriteText(wxT("This is my first item. Note that wxRichTextCtrl can apply numbering and bullets automatically based on list styles, but this list is formatted explicitly by setting indents."));
+        r.WriteText(wxS("This is my first item. Note that wxRichTextCtrl can apply numbering and bullets automatically based on list styles, but this list is formatted explicitly by setting indents."));
         r.Newline();
 
         r.EndNumberedBullet();
 
         r.BeginNumberedBullet(2, 100, 60);
-        r.WriteText(wxT("This is my second item."));
+        r.WriteText(wxS("This is my second item."));
         r.Newline();
 
         r.EndNumberedBullet();
 
-        r.WriteText(wxT("The following paragraph is right-indented:"));
+        r.WriteText(wxS("The following paragraph is right-indented:"));
         r.Newline();
 
         r.BeginRightIndent(200);
 
-        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
 
         r.EndRightIndent();
 
-        r.WriteText(wxT("The following paragraph is right-aligned with 1.5 line spacing:"));
+        r.WriteText(wxS("The following paragraph is right-aligned with 1.5 line spacing:"));
         r.Newline();
 
         r.BeginAlignment(wxTEXT_ALIGNMENT_RIGHT);
         r.BeginLineSpacing(wxTEXT_ATTR_LINE_SPACING_HALF);
-        r.WriteText(wxT("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
+        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
         r.EndLineSpacing();
         r.EndAlignment();
@@ -1265,44 +1325,44 @@ void MyFrame::WriteRichTextBuffer()
         attr.SetTabs(tabs);
         r.SetDefaultStyle(attr);
 
-        r.WriteText(wxT("This line contains tabs:\tFirst tab\tSecond tab\tThird tab"));
+        r.WriteText(wxS("This line contains tabs:\tFirst tab\tSecond tab\tThird tab"));
         r.Newline();
 
-        r.WriteText(wxT("Other notable features of wxRichTextCtrl include:"));
+        r.WriteText(wxS("Other notable features of wxRichTextCtrl include:"));
         r.Newline();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("Compatibility with wxTextCtrl API"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("Easy stack-based BeginXXX()...EndXXX() style setting in addition to SetStyle()"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("Compatibility with wxTextCtrl API"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("XML loading and saving"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("Easy stack-based BeginXXX()...EndXXX() style setting in addition to SetStyle()"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("Undo/Redo, with batching option and Undo suppressing"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("XML loading and saving"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("Clipboard copy and paste"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("Undo/Redo, with batching option and Undo suppressing"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("wxRichTextStyleSheet with named character and paragraph styles, and control for applying named styles"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("Clipboard copy and paste"));
         r.Newline();
         r.EndSymbolBullet();
 
-        r.BeginSymbolBullet(wxT('*'), 100, 60);
-        r.WriteText(wxT("A design that can easily be extended to other content types, ultimately with text boxes, tables, controls, and so on"));
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("wxRichTextStyleSheet with named character and paragraph styles, and control for applying named styles"));
+        r.Newline();
+        r.EndSymbolBullet();
+
+        r.BeginSymbolBullet(wxS('*'), 100, 60);
+        r.WriteText(wxS("A design that can easily be extended to other content types, ultimately with text boxes, tables, controls, and so on"));
         r.Newline();
         r.EndSymbolBullet();
 
@@ -1311,17 +1371,17 @@ void MyFrame::WriteRichTextBuffer()
         urlStyle.SetTextColour(*wxBLUE);
         urlStyle.SetFontUnderlined(true);
 
-        r.WriteText(wxT("wxRichTextCtrl can also display URLs, such as this one: "));
+        r.WriteText(wxS("wxRichTextCtrl can also display URLs, such as this one: "));
         r.BeginStyle(urlStyle);
-        r.BeginURL(wxT("http://www.wxwidgets.org"));
-        r.WriteText(wxT("The wxWidgets Web Site"));
+        r.BeginURL(wxS("http://www.wxwidgets.org"));
+        r.WriteText(wxS("The wxWidgets Web Site"));
         r.EndURL();
         r.EndStyle();
-        r.WriteText(wxT(". Click on the URL to generate an event."));
+        r.WriteText(wxS(". Click on the URL to generate an event."));
 
         r.Newline();
 
-        r.WriteText(wxT("Note: this sample content was generated programmatically from within the MyFrame constructor in the demo. The images were loaded from inline XPMs. Enjoy wxRichTextCtrl!"));
+        r.WriteText(wxS("Note: this sample content was generated programmatically from within the MyFrame constructor in the demo. The images were loaded from inline XPMs. Enjoy wxRichTextCtrl!"));
 
         r.Newline();
     }
@@ -1362,15 +1422,15 @@ void MyFrame::OnPdfHtmlPrint(wxCommandEvent&  WXUNUSED(event) )
       {
         printData = printDialog->GetPdfPrintData();
         
-        wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxT("Demo PDF Printing"));   
+        wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));   
         printPrintout->SetMargins(
                         dialogData.GetMarginTopLeft().y,
                         dialogData.GetMarginBottomRight().y,
                         dialogData.GetMarginTopLeft().x,
                         dialogData.GetMarginBottomRight().x
                         );
-        printPrintout->SetHtmlFile(wxT("test.html"));
-        printPrintout->SetStandardFonts(10, wxT("Arial"), wxT("Courier New"));
+        printPrintout->SetHtmlFile(wxS("test.html"));
+        printPrintout->SetStandardFonts(10, wxS("Arial"), wxS("Courier New"));
         wxPdfPrinter *printer = new wxPdfPrinter( &printData );
         // don't show a print dialog again - we have already done so
         printer->Print(this, printPrintout, false);
@@ -1397,25 +1457,25 @@ void MyFrame::OnPdfHtmlPreview(wxCommandEvent&  WXUNUSED(event) )
       dialogData = dialog->GetPageSetupData();
       wxPdfPrintData printData = wxPdfPrintData( &dialogData );
     
-      wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxT("Demo PDF Printing"));   
+      wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));   
       printPrintout->SetMargins(
                       dialogData.GetMarginTopLeft().y,
                       dialogData.GetMarginBottomRight().y,
                       dialogData.GetMarginTopLeft().x,
                       dialogData.GetMarginBottomRight().x
                       );
-      printPrintout->SetHtmlFile(wxT("test.html"));
-      printPrintout->SetStandardFonts(10, wxT("Arial"), wxT("Courier New"));
+      printPrintout->SetHtmlFile(wxS("test.html"));
+      printPrintout->SetStandardFonts(10, wxS("Arial"), wxS("Courier New"));
       
-      wxHtmlPrintout *previewPrintout = new wxHtmlPrintout(wxT("Demo PDF Printing"));   
+      wxHtmlPrintout *previewPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));   
       previewPrintout->SetMargins(
                       dialogData.GetMarginTopLeft().y,
                       dialogData.GetMarginBottomRight().y,
                       dialogData.GetMarginTopLeft().x,
                       dialogData.GetMarginBottomRight().x
                       );
-      previewPrintout->SetHtmlFile(wxT("test.html"));
-      previewPrintout->SetStandardFonts(10, wxT("Arial"), wxT("Courier New"));
+      previewPrintout->SetHtmlFile(wxS("test.html"));
+      previewPrintout->SetStandardFonts(10, wxS("Arial"), wxS("Courier New"));
       
       wxPdfPrintPreview *preview = new wxPdfPrintPreview(previewPrintout, printPrintout, &printData);
       if (preview->IsOk())
@@ -1473,7 +1533,7 @@ bool MyPrintout::OnPrintPage(int page)
         // screen size of text matches paper size.
         MapScreenSizeToPage();
         wxChar buf[200];
-        wxSprintf(buf, wxT("PAGE %d"), page);
+        wxSprintf(buf, wxS("PAGE %d"), page);
         dc->DrawText(buf, 0, 0);
 
         return true;

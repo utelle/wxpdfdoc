@@ -2,7 +2,6 @@
 // Name:        clipping.cpp
 // Purpose:     Demonstration of clipping in wxPdfDocument
 // Author:      Ulrich Telle
-// Modified by:
 // Created:     2005-08-29
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
@@ -19,6 +18,8 @@
 #include "wx/wx.h"
 #endif
 
+#include <wx/filename.h>
+
 #include "wx/pdfdoc.h"
 #include "wx/pdfshape.h"
 
@@ -31,68 +32,82 @@
 * choose whether to draw the outline or not.
 */
 
-void
-clipping()
+int
+clipping(bool testMode)
 {
-  wxPdfDocument pdf;
-  pdf.AddPage();
+  int rc = 0;
+  if (wxFileName::IsFileReadable(wxS("clips.jpg")))
+  {
+    wxPdfDocument pdf;
+    if (testMode)
+    {
+      pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
+      pdf.SetCompression(false);
+    }
+    pdf.AddPage();
 
-  // example of clipped cell
-  pdf.SetFont(wxT("Helvetica"),wxT(""),14);
-  pdf.SetX(72);
+    // example of clipped cell
+    pdf.SetFont(wxS("Helvetica"),wxS(""),14);
+    pdf.SetX(72);
 
-  pdf.ClippedCell(60,6,wxT("These are clipping examples"),wxPDF_BORDER_FRAME);
+    pdf.ClippedCell(60,6,wxS("These are clipping examples"),wxPDF_BORDER_FRAME);
 
-  // example of clipping text
-  pdf.SetFont(wxT("Helvetica"),wxT("B"),120);
-  // set the outline color
-  pdf.SetDrawColour(0);
-  // set the outline width (note that only its outer half will be shown)
-  pdf.SetLineWidth(2);
-  // draw the clipping text
-  pdf.ClippingText(40,55,wxT("CLIPS"),true);
-  // fill it with the image
-  pdf.Image(wxT("clips.jpg"),40,10,130);
-  // remove the clipping
-  pdf.UnsetClipping();
+    // example of clipping text
+    pdf.SetFont(wxS("Helvetica"),wxS("B"),120);
+    // set the outline color
+    pdf.SetDrawColour(0);
+    // set the outline width (note that only its outer half will be shown)
+    pdf.SetLineWidth(2);
+    // draw the clipping text
+    pdf.ClippingText(40,55,wxS("CLIPS"),true);
+    // fill it with the image
+    pdf.Image(wxS("clips.jpg"),40,10,130);
+    // remove the clipping
+    pdf.UnsetClipping();
 
-  // example of clipping rectangle
-  pdf.ClippingRect(45,65,116,20,true);
-  pdf.Image(wxT("clips.jpg"),40,10,130);
-  pdf.UnsetClipping();
+    // example of clipping rectangle
+    pdf.ClippingRect(45,65,116,20,true);
+    pdf.Image(wxS("clips.jpg"),40,10,130);
+    pdf.UnsetClipping();
 
-  // example of clipping ellipse
-  pdf.ClippingEllipse(102,104,16,10,true);
-  pdf.Image(wxT("clips.jpg"),40,10,130);
-  pdf.UnsetClipping();
+    // example of clipping ellipse
+    pdf.ClippingEllipse(102,104,16,10,true);
+    pdf.Image(wxS("clips.jpg"),40,10,130);
+    pdf.UnsetClipping();
 
-  // example of clipping polygon
-  wxPdfArrayDouble x, y;
-  x.Add( 30); y.Add(135);
-  x.Add( 60); y.Add(155);
-  x.Add( 40); y.Add(155);
-  x.Add( 70); y.Add(160);
-  x.Add( 30); y.Add(165);
+    // example of clipping polygon
+    wxPdfArrayDouble x, y;
+    x.Add( 30); y.Add(135);
+    x.Add( 60); y.Add(155);
+    x.Add( 40); y.Add(155);
+    x.Add( 70); y.Add(160);
+    x.Add( 30); y.Add(165);
 
-  pdf.ClippingPolygon(x,y,true);
-  pdf.Image(wxT("clips.jpg"),20,100,130);
-  pdf.UnsetClipping();
+    pdf.ClippingPolygon(x,y,true);
+    pdf.Image(wxS("clips.jpg"),20,100,130);
+    pdf.UnsetClipping();
 
-  // example of clipping using a shape
-  wxPdfShape shape;
-  shape.MoveTo(135,140);
-  shape.CurveTo(135,137,130,125,110,125);
-  shape.CurveTo(80,125,80,162.5,80,162.5);
-  shape.CurveTo(80,180,100,202,135,220);
-  shape.CurveTo(170,202,190,180,190,162.5);
-  shape.CurveTo(190,162.5,190,125,160,125);
-  shape.CurveTo(145,125,135,137,135,140);
+    // example of clipping using a shape
+    wxPdfShape shape;
+    shape.MoveTo(135,140);
+    shape.CurveTo(135,137,130,125,110,125);
+    shape.CurveTo(80,125,80,162.5,80,162.5);
+    shape.CurveTo(80,180,100,202,135,220);
+    shape.CurveTo(170,202,190,180,190,162.5);
+    shape.CurveTo(190,162.5,190,125,160,125);
+    shape.CurveTo(145,125,135,137,135,140);
 
-  pdf.SetLineWidth(1);
-  pdf.SetFillColour(wxPdfColour(wxString(wxT("red"))));
-  pdf.ClippingPath(shape, wxPDF_STYLE_FILLDRAW);
-  pdf.UnsetClipping();
+    pdf.SetLineWidth(1);
+    pdf.SetFillColour(wxPdfColour(wxString(wxS("red"))));
+    pdf.ClippingPath(shape, wxPDF_STYLE_FILLDRAW);
+    pdf.UnsetClipping();
 
-  pdf.SaveAsFile(wxT("clipping.pdf"));
+    pdf.SaveAsFile(wxS("clipping.pdf"));
+  }
+  else
+  {
+    rc = 1;
+  }
+  return rc;
 }
 
