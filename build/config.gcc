@@ -25,7 +25,7 @@ wxVendor ?=
 
 ### Configuration dependent settings
 
-ifeq ($(config),debug_win32)
+ifeq ($(config),debug_x32)
 wxArchSuffix =
 wxSuffix = ud
 wxSuffixDebug = d
@@ -33,7 +33,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),debug_win64)
+ifeq ($(config),debug_x64)
 wxArchSuffix = _x64
 wxSuffix = ud
 wxSuffixDebug = d
@@ -41,7 +41,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),release_win32)
+ifeq ($(config),release_x32)
 wxArchSuffix =
 wxSuffix = u
 wxSuffixDebug =
@@ -49,7 +49,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),release_win64)
+ifeq ($(config),release_x64)
 wxArchSuffix = _x64
 wxSuffix = u
 wxSuffixDebug =
@@ -57,7 +57,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),debug_wxdll_win32)
+ifeq ($(config),debug_wxdll_x32)
 wxArchSuffix =
 wxSuffix = ud
 wxSuffixDebug = d
@@ -65,7 +65,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),debug_wxdll_win64)
+ifeq ($(config),debug_wxdll_x64)
 wxArchSuffix = _x64
 wxSuffix = ud
 wxSuffixDebug = d
@@ -73,7 +73,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),release_wxdll_win32)
+ifeq ($(config),release_wxdll_x32)
 wxArchSuffix =
 wxSuffix = u
 wxSuffixDebug =
@@ -81,7 +81,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),release_wxdll_win64)
+ifeq ($(config),release_wxdll_x64)
 wxArchSuffix = _x64
 wxSuffix = u
 wxSuffixDebug =
@@ -89,7 +89,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),dll_debug_win32)
+ifeq ($(config),dll_debug_x32)
 wxArchSuffix =
 wxSuffix = ud
 wxSuffixDebug = d
@@ -97,7 +97,7 @@ wxLibTypeSuffix = dll
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)dll/
 endif
 
-ifeq ($(config),dll_debug_win64)
+ifeq ($(config),dll_debug_x64)
 wxArchSuffix = _x64
 wxSuffix = ud
 wxSuffixDebug = d
@@ -105,7 +105,7 @@ wxLibTypeSuffix = dll
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)dll/
 endif
 
-ifeq ($(config),dll_release_win32)
+ifeq ($(config),dll_release_x32)
 wxArchSuffix =
 wxSuffix = u
 wxSuffixDebug =
@@ -113,7 +113,7 @@ wxLibTypeSuffix = dll
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)dll/
 endif
 
-ifeq ($(config),dll_release_win64)
+ifeq ($(config),dll_release_x64)
 wxArchSuffix = _x64
 wxSuffix = u
 wxSuffixDebug =

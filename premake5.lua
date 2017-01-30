@@ -4,7 +4,7 @@ BUILDDIR = _OPTIONS["builddir"] or "build"
 
 workspace "wxpdfdoc"
   configurations { "Debug", "Release", "Debug wxDLL", "Release wxDLL", "DLL Debug", "DLL Release" }
-  platforms { "Win32", "Win64" }
+  platforms { "x32", "x64" }
   location(BUILDDIR)
 
   if (is_msvc) then
@@ -31,7 +31,7 @@ project "wxpdfdoc"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_pdfdoc"
   end
 
-  make_filters( "PDFDOC", "wxpdfdoc" )
+  make_filters( "PDFDOC", "wxpdfdoc", "core,xml" )
 
   files { "src/*.cpp", "src/*.inc", "include/wx/*.h" }
   vpaths {
@@ -53,7 +53,7 @@ project "minimal"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_minimal"
   end
 
-  use_filters( "PDFDOC", "samples/minimal" )
+  use_filters( "PDFDOC", "samples/minimal", "core,xml" )
 
   files { "samples/minimal/*.cpp", "samples/minimal/*.h", "samples/minimal/*.rc" }
   vpaths {
@@ -76,7 +76,7 @@ project "dcsample"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_dcsample"
   end
 
-  use_filters( "PDFDOC", "samples/pdfdc" )
+  use_filters( "PDFDOC", "samples/pdfdc", "adv,html,richtext,core,xml" )
 
   files { "samples/pdfdc/*.cpp", "samples/pdfdc/*.h", "samples/pdfdc/*.rc" }
   vpaths {
@@ -100,7 +100,7 @@ project "makefont"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_makefont"
   end
 
-  use_filters( "PDFDOC", "makefont" )
+  use_filters( "PDFDOC", "makefont", "core,xml" )
 
   files { "makefont/*.cpp", "makefont/*.rc" }
   vpaths {
@@ -124,7 +124,7 @@ project "showfont"
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_showfont"
   end
 
-  use_filters( "PDFDOC", "showfont" )
+  use_filters( "PDFDOC", "showfont", "core,xml" )
 
   files { "showfont/*.cpp", "showfont/*.rc" }
   vpaths {
