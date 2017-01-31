@@ -61,6 +61,29 @@ WX_CONFIG_CHECK([2.8.0],
 WX_LIBS=$core_WX_LIBS
 AM_CONDITIONAL([BUILD_PDFDC_SAMPLE], [test -n "$WX_LIBS_PDFDC_SAMPLE"])
 
+dnl Check if the system has support for ELF visibility (this is a waste of time
+dnl when targeting MSW, so don't do it in this case).
+if test -z "$USE_MSW"; then
+    CXXFLAGS_VISIBILITY="-fvisibility=hidden -fvisibility-inlines-hidden"
+    AC_CACHE_CHECK([for visibility support],
+        [wxpdfdoc_cv_cxx_visibility],
+        [CXXFLAGS_ORIG="$CXXFLAGS"
+        CXXFLAGS="$CXXFLAGS $CXXFLAGS_VISIBILITY"
+        AC_COMPILE_IFELSE(
+            [AC_LANG_SOURCE([class __attribute__((__visibility__("default"))) Foo {
+               Foo() {}
+             };])],
+            [wxpdfdoc_cv_cxx_visibility=yes],
+            [wxpdfdoc_cv_cxx_visibility=no]
+        )
+        CXXFLAGS=$CXXFLAGS_ORIG]
+    )
+    if test "$wxpdfdoc_cv_cxx_visibility" = yes; then
+        CXXFLAGS="$CXXFLAGS $CXXFLAGS_VISIBILITY"
+        AC_DEFINE([WXPDFDOC_HAVE_VISIBILITY])
+    fi
+fi
+
 dnl This is needed by WX_LIKE_LIBNAME
 WX_DETECT_STANDARD_OPTION_VALUES
 dnl This macro is used to preserve the same name as was used with the previous
