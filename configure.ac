@@ -34,6 +34,8 @@ if test -n "$USE_MSW"; then
 fi
 
 LT_INIT([win32-dll])
+AM_CONDITIONAL([USE_SHARED], [test "x$enable_shared" = xyes])
+
 AC_PROG_CXX
 AC_LANG(C++)
 

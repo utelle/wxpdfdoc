@@ -15,6 +15,17 @@ endif
 AM_CXXFLAGS = -I$(top_srcdir)/include $(WX_CXXFLAGS)
 LDADD = lib@WXPDFDOC_LIBNAME@.la $(WX_LIBS)
 
+# Target-specific assignments are GNU Make-specific, but there doesn't seem to
+# be any other way to define different compilation optiosn when building
+# shared and static libraries with libtool.
+if USE_SHARED
+%.lo: AM_CXXFLAGS += -DWXMAKINGDLL_PDFDOC
+%.o: AM_CXXFLAGS += -DWXUSINGDLL_PDFDOC
+else
+%.lo: AM_CXXFLAGS += -DWXMAKINGLIB_PDFDOC
+%.o: AM_CXXFLAGS += -DWXUSINGLIB_PDFDOC
+endif
+
 # Define the directory where the library headers are installed.
 includewxdir = $(includedir)/wx
 
