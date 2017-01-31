@@ -26,6 +26,18 @@ else
 %.o: AM_CXXFLAGS += -DWXUSINGLIB_PDFDOC
 endif
 
+if USE_MSW
+# Use old style suffix rule instead of the pattern one as automake only
+# recognizes this kind of rules.
+#
+# Also notice that we use .res_o_o extension for the object files obtained by
+# compiling resource files, instead of just the usual .o, because we'd have
+# conflicts between object file names for foo.cpp and foo.rc otherwise. Due to
+# this we have to add the .res_o files manually to LDADD later, but such is life.
+.rc.res_o:
+	$(AM_V_GEN) $(WINDRES) -I $(top_srcdir) $(WX_CPPFLAGS) -O coff $< $@
+endif
+
 # Define the directory where the library headers are installed.
 includewxdir = $(includedir)/wx
 
@@ -189,9 +201,15 @@ samples_minimal_minimal_SOURCES = \
     samples/minimal/wmf.cpp \
     samples/minimal/xmlwrite.cpp
 
+samples_minimal_minimal_LDADD = $(LDADD)
+
+if USE_MSW
+samples_minimal_minimal_SOURCES += samples/minimal/minimal.rc
+samples_minimal_minimal_LDADD += samples/minimal/minimal.res_o
+CLEANFILES = samples/minimal/minimal.res_o
+else
 # libtool complains about unknown "-no-install" option when targetting MSW, so
-# don't use it then
-if !USE_MSW
+# use it only in the "else" branch.
 samples_minimal_minimal_LDFLAGS = -no-install
 endif
 
@@ -201,7 +219,11 @@ samples_pdfdc_pdfdc_SOURCES = \
 
 samples_pdfdc_pdfdc_LDADD = $(WX_LIBS_PDFDC_SAMPLE) $(LDADD)
 
-if !USE_MSW
+if USE_MSW
+samples_pdfdc_pdfdc_SOURCES += samples/pdfdc/printing.rc
+samples_pdfdc_pdfdc_LDADD += samples/pdfdc/printing.res_o
+CLEANFILES += samples/pdfdc/printing.res_o
+else
 samples_pdfdc_pdfdc_LDFLAGS = -no-install
 endif
 
@@ -210,7 +232,23 @@ noinst_PROGRAMS += makefont/makefont showfont/showfont
 
 makefont_makefont_SOURCES = makefont/makefont.cpp
 
+makefont_makefont_LDADD = $(LDADD)
+
+if USE_MSW
+makefont_makefont_SOURCES += makefont/makefont.rc
+makefont_makefont_LDADD += makefont/makefont.res_o
+CLEANFILES += makefont/makefont.res_o
+endif
+
 showfont_showfont_SOURCES = \
     showfont/showfont.cpp \
     showfont/unicodeblocks.h \
     showfont/unicoderanges.h
+
+showfont_showfont_LDADD = $(LDADD)
+
+if USE_MSW
+showfont_showfont_SOURCES += showfont/showfont.rc
+showfont_showfont_LDADD += showfont/showfont.res_o
+CLEANFILES += showfont/showfont.res_o
+endif
