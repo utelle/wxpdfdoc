@@ -6,6 +6,10 @@
 
 ACLOCAL_AMFLAGS = -I admin/m4
 
+if USE_MSW
+MSW_LIBS = -lgdi32
+endif
+
 # Flags used for compiling all the targets and linking all the executables
 # (libraries use LIBADD which is set for lib@WXPDFDOC_LIBNAME@.la only).
 AM_CXXFLAGS = -I$(top_srcdir)/include $(WX_CXXFLAGS)
@@ -133,7 +137,7 @@ noinst_HEADERS = \
     src/pdfglyphnames.inc
 
 lib@WXPDFDOC_LIBNAME@_la_LDFLAGS = -no-undefined $(AM_LDFLAGS)
-lib@WXPDFDOC_LIBNAME@_la_LIBADD = $(WX_LIBS)
+lib@WXPDFDOC_LIBNAME@_la_LIBADD = $(WX_LIBS) $(MSW_LIBS)
 
 
 # Samples (don't need to be installed).
@@ -174,7 +178,11 @@ samples_minimal_minimal_SOURCES = \
     samples/minimal/wmf.cpp \
     samples/minimal/xmlwrite.cpp
 
+# libtool complains about unknown "-no-install" option when targetting MSW, so
+# don't use it then
+if !USE_MSW
 samples_minimal_minimal_LDFLAGS = -no-install
+endif
 
 samples_pdfdc_pdfdc_SOURCES = \
     samples/pdfdc/printing.cpp \
@@ -182,7 +190,9 @@ samples_pdfdc_pdfdc_SOURCES = \
 
 samples_pdfdc_pdfdc_LDADD = $(WX_LIBS_PDFDC_SAMPLE) $(LDADD)
 
+if !USE_MSW
 samples_pdfdc_pdfdc_LDFLAGS = -no-install
+endif
 
 # Utilities (currently not installed neither, but could be).
 noinst_PROGRAMS += makefont/makefont showfont/showfont

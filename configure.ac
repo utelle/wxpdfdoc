@@ -17,7 +17,23 @@ AM_INIT_AUTOMAKE([1.11 foreign subdir-objects])
 AM_MAINTAINER_MODE([enable])
 AM_SILENT_RULES([yes])
 
-LT_INIT()
+dnl Allow adding MSW-specific fragments to the makefile.
+case "${host}" in
+    *-*-cygwin* )
+        USE_MSW=1
+        ;;
+
+    *-*-mingw32* )
+        USE_MSW=1
+        ;;
+esac
+AM_CONDITIONAL(USE_MSW, [test -n "$USE_MSW"])
+
+if test -n "$USE_MSW"; then
+    AC_CHECK_TOOL([WINDRES], [windres], no)
+fi
+
+LT_INIT([win32-dll])
 AC_PROG_CXX
 AC_LANG(C++)
 
