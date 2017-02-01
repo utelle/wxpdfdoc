@@ -29,8 +29,9 @@
 #include "wx/pdflinestyle.h"
 #include "wx/pdflinks.h"
 #include "wx/pdfproperties.h"
+#include "wx/pdfdoc_version.h"
 
-#define wxPDF_PRODUCER       wxS("wxPdfDocument 0.9.6")
+#define wxPDF_PRODUCER       wxS(PDFDOC_VERSION_STRING)
 
 #define wxPDF_EPSILON        1e-6
 

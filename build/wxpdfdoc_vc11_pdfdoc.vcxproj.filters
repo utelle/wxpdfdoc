@@ -54,6 +54,9 @@
     <ClInclude Include="..\include\wx\pdfdoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\wx\pdfdoc_version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\wx\pdfdocdef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -334,5 +337,10 @@
     <None Include="..\src\pdfglyphnames.inc">
       <Filter>Header Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\pdfdoc_version.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -15,7 +15,7 @@ ifeq ($(config),debug_x32)
   TARGETDIR = ../lib/gcc_lib
   TARGET = $(TARGETDIR)/wxpdfdocd.lib
   OBJDIR = obj/x32/Debug/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -43,7 +43,7 @@ ifeq ($(config),debug_x64)
   TARGETDIR = ../lib/gcc_x64_lib
   TARGET = $(TARGETDIR)/wxpdfdocd.lib
   OBJDIR = obj/x64/Debug/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -71,7 +71,7 @@ ifeq ($(config),release_x32)
   TARGETDIR = ../lib/gcc_lib
   TARGET = $(TARGETDIR)/wxpdfdoc.lib
   OBJDIR = obj/x32/Release/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -99,7 +99,7 @@ ifeq ($(config),release_x64)
   TARGETDIR = ../lib/gcc_x64_lib
   TARGET = $(TARGETDIR)/wxpdfdoc.lib
   OBJDIR = obj/x64/Release/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -127,7 +127,7 @@ ifeq ($(config),debug_wxdll_x32)
   TARGETDIR = ../lib/gcc_lib
   TARGET = $(TARGETDIR)/wxpdfdocd.lib
   OBJDIR = obj/x32/Debug_wxDLL/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -155,7 +155,7 @@ ifeq ($(config),debug_wxdll_x64)
   TARGETDIR = ../lib/gcc_x64_lib
   TARGET = $(TARGETDIR)/wxpdfdocd.lib
   OBJDIR = obj/x64/Debug_wxDLL/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -183,7 +183,7 @@ ifeq ($(config),release_wxdll_x32)
   TARGETDIR = ../lib/gcc_lib
   TARGET = $(TARGETDIR)/wxpdfdoc.lib
   OBJDIR = obj/x32/Release_wxDLL/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -211,7 +211,7 @@ ifeq ($(config),release_wxdll_x64)
   TARGETDIR = ../lib/gcc_x64_lib
   TARGET = $(TARGETDIR)/wxpdfdoc.lib
   OBJDIR = obj/x64/Release_wxDLL/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -239,7 +239,7 @@ ifeq ($(config),dll_debug_x32)
   TARGETDIR = ../lib/gcc_dll
   TARGET = $(TARGETDIR)/wxpdfdocd.dll
   OBJDIR = obj/x32/DLL_Debug/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -267,7 +267,7 @@ ifeq ($(config),dll_debug_x64)
   TARGETDIR = ../lib/gcc_x64_dll
   TARGET = $(TARGETDIR)/wxpdfdocd.dll
   OBJDIR = obj/x64/DLL_Debug/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -295,7 +295,7 @@ ifeq ($(config),dll_release_x32)
   TARGETDIR = ../lib/gcc_dll
   TARGET = $(TARGETDIR)/wxpdfdoc.dll
   OBJDIR = obj/x32/DLL_Release/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -323,7 +323,7 @@ ifeq ($(config),dll_release_x64)
   TARGETDIR = ../lib/gcc_x64_dll
   TARGET = $(TARGETDIR)/wxpdfdoc.dll
   OBJDIR = obj/x64/DLL_Release/wxpdfdoc
-  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
+  DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
   INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
@@ -391,6 +391,7 @@ OBJECTS := \
 	$(OBJDIR)/pdfxml.o \
 
 RESOURCES := \
+	$(OBJDIR)/pdfdoc_version.res \
 
 CUSTOMFILES := \
 
@@ -467,6 +468,9 @@ $(OBJDIR)/pdfdc.o: ../src/pdfdc.cpp
 $(OBJDIR)/pdfdecode.o: ../src/pdfdecode.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/pdfdoc_version.res: ../src/pdfdoc_version.rc
+	@echo $(notdir $<)
+	$(SILENT) $(RESCOMP) $< -O coff -o "$@" $(ALL_RESFLAGS)
 $(OBJDIR)/pdfdocument.o: ../src/pdfdocument.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"

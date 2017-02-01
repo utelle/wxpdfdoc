@@ -106,6 +106,7 @@ includewx_HEADERS = \
     include/wx/pdfdc28.h \
     include/wx/pdfdc29.h \
     include/wx/pdfdoc.h \
+    include/wx/pdfdoc_version.h \
     include/wx/pdfdocdef.h \
     include/wx/pdfdocument.h \
     include/wx/pdfencoding.h \

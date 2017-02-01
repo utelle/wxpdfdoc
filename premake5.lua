@@ -1,3 +1,9 @@
+-- wxPdfDocument configuration file for premake5
+--
+-- Copyright (C) 2017 Ulrich Telle <ulrich@telle-online.de>
+--
+-- This file is covered by the same licence as the entire wxpdfdoc package. 
+
 dofile "premake/wxwidgets.lua"
 
 BUILDDIR = _OPTIONS["builddir"] or "build"
@@ -33,10 +39,10 @@ project "wxpdfdoc"
 
   make_filters( "PDFDOC", "wxpdfdoc", "core,xml" )
 
-  files { "src/*.cpp", "src/*.inc", "include/wx/*.h" }
+  files { "src/*.cpp", "src/*.inc", "src/*.rc", "include/wx/*.h" }
   vpaths {
     ["Header Files"] = { "**.h", "**.inc" },
-    ["Source Files"] = { "**.cpp" }
+    ["Source Files"] = { "**.cpp", "**.rc" }
   }
   includedirs { "include" }
   characterset "Unicode"
@@ -87,7 +93,6 @@ project "dcsample"
   characterset "Unicode"
   flags { "WinMain" }  
   links { "wxpdfdoc" }
---  targetdir "samples/pdfdc"
 
 -- MakeFont utility
 project "makefont"
@@ -111,7 +116,6 @@ project "makefont"
   characterset "Unicode"
   flags { "WinMain" }  
   links { "wxpdfdoc" }
---  targetdir "makefont"
 
 -- ShowFont utility
 project "showfont"
@@ -135,4 +139,3 @@ project "showfont"
   characterset "Unicode"
   flags { "WinMain" }  
   links { "wxpdfdoc" }
---  targetdir "showfont"

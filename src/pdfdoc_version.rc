@@ -1,0 +1,64 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+#include "wx/pdfdoc_version.h"
+
+#include <windows.h>
+
+/* PDFDOC_STRINGIZE works as the preprocessor # operator but also works with macros */
+#define PDFDOC_STRINGIZE_HELPER(x)  #x
+#define PDFDOC_STRINGIZE(x)         PDFDOC_STRINGIZE_HELPER(x)
+ 
+#define PDFDOC_MAKE_VERSION_DOT_STRING(x, y, z, w) \
+  PDFDOC_STRINGIZE(x) "." PDFDOC_STRINGIZE(y) "." PDFDOC_STRINGIZE(z) "." PDFDOC_STRINGIZE(w)
+ 
+#define PDFDOC_VERSION_NUM_DOT_STRING \
+  PDFDOC_MAKE_VERSION_DOT_STRING(PDFDOC_MAJOR_VERSION, PDFDOC_MINOR_VERSION, PDFDOC_RELEASE_NUMBER, PDFDOC_SUBRELEASE_NUMBER)
+
+// 0x0409 is US English, 0x04b0 is Unicode and 0x0000 is 7 bit ASCII. see
+// http://msdn.microsoft.com/en-us/library/aa381049(VS.85).aspx for the full
+// list of languages and charsets
+#define LANG 0x0409
+#ifdef _UNICODE
+  #define CHARSET 0x4b0
+  #define LANG_WITH_CHARSET "040904b0"
+#else
+  #define CHARSET 0
+  #define LANG_WITH_CHARSET "04090000"
+#endif
+
+VS_VERSION_INFO VERSIONINFO
+  FILEVERSION PDFDOC_MAJOR_VERSION,PDFDOC_MINOR_VERSION,PDFDOC_RELEASE_NUMBER,PDFDOC_SUBRELEASE_NUMBER
+  PRODUCTVERSION PDFDOC_MAJOR_VERSION,PDFDOC_MINOR_VERSION,PDFDOC_RELEASE_NUMBER,PDFDOC_SUBRELEASE_NUMBER
+  FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+  FILEFLAGS 0x1L
+#else
+  FILEFLAGS 0x0L
+#endif
+  FILEOS VOS_NT_WINDOWS32
+  FILETYPE VFT_DLL
+  FILESUBTYPE 0x0L
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK LANG_WITH_CHARSET
+    BEGIN
+      VALUE "Comments", "wxPdfDocument - wxWidgets component for generating PDF documents"
+      VALUE "CompanyName", "wxPdfDocument Development Team"
+      VALUE "FileDescription", "wxPdfDocument"
+      VALUE "FileVersion", PDFDOC_VERSION_NUM_DOT_STRING
+      VALUE "InternalName", PDFDOC_STRINGIZE(PDFDOC_DLLNAME) ".dll"
+      VALUE "LegalCopyright", "Copyright (C) 2005-2017, Ulrich Telle"
+      VALUE "OriginalFilename", PDFDOC_STRINGIZE(PDFDOC_DLLNAME) ".dll"
+      VALUE "ProductName", "wxPdfDocument"
+      VALUE "ProductVersion", PDFDOC_VERSION_NUM_DOT_STRING
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", LANG, CHARSET
+  END
+END

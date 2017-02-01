@@ -1246,13 +1246,10 @@ If neither a row nor a cell background colour is specified the background is tra
 #ifndef _PDFDOC_DEF_H_
 #define _PDFDOC_DEF_H_
 
-#if defined(WXMAKINGLIB_PDFDOC)
-  #define WXDLLIMPEXP_PDFDOC
-  #define WXDLLIMPEXP_DATA_PDFDOC(type) type
-#elif defined(WXMAKINGDLL_PDFDOC)
+#if defined(WXMAKINGDLL_PDFDOC)
   #define WXDLLIMPEXP_PDFDOC WXEXPORT
   #define WXDLLIMPEXP_DATA_PDFDOC(type) WXEXPORT type
-#elif defined(WXUSINGDLL) && !defined(WXUSINGLIB_PDFDOC)
+#elif defined(WXUSINGDLL_PDFDOC)
   #define WXDLLIMPEXP_PDFDOC WXIMPORT
   #define WXDLLIMPEXP_DATA_PDFDOC(type) WXIMPORT type
 #else // not making nor using DLL
