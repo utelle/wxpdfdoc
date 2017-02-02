@@ -1246,9 +1246,20 @@ If neither a row nor a cell background colour is specified the background is tra
 #ifndef _PDFDOC_DEF_H_
 #define _PDFDOC_DEF_H_
 
+// Unfortunately we can't always just rely on WXEXPORT because it wasn't
+// defined correctly when using ELF visibility for symbol hiding in wx 2.8 that
+// we still support, so we have to use our own symbol. This part, as well as
+// the definition of WXPDFDOC_HAVE_VISIBILITY in configure, should be dropped
+// when wx 2.8 is not supported any longer.
+#ifdef WXPDFDOC_HAVE_VISIBILITY
+    #define WXPDFDOC_EXPORT __attribute__ ((visibility("default")))
+#else
+    #define WXPDFDOC_EXPORT WXEXPORT
+#endif
+
 #if defined(WXMAKINGDLL_PDFDOC)
-  #define WXDLLIMPEXP_PDFDOC WXEXPORT
-  #define WXDLLIMPEXP_DATA_PDFDOC(type) WXEXPORT type
+  #define WXDLLIMPEXP_PDFDOC WXPDFDOC_EXPORT
+  #define WXDLLIMPEXP_DATA_PDFDOC(type) WXPDFDOC_EXPORT type
 #elif defined(WXUSINGDLL_PDFDOC)
   #define WXDLLIMPEXP_PDFDOC WXIMPORT
   #define WXDLLIMPEXP_DATA_PDFDOC(type) WXIMPORT type
