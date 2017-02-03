@@ -1859,7 +1859,7 @@ wxPdfDocument::SetLineStyle(const wxPdfLineStyle& linestyle)
   }
 
   const wxPdfArrayDouble& dash = linestyle.GetDash();
-  if (&dash != NULL)
+  if (dash.GetCount() > 0)
   {
     wxString dashString = wxS("");
     size_t j;
