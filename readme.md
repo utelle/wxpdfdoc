@@ -54,7 +54,7 @@ release builds you may need to copy the wxPdfDocument DLL or add the
 ### wxGTK
 
 When building on an autoconf-based system (like Linux/GNU-based
-systems), the first setp is to recreate the configure script doing:
+systems), the first step is to recreate the configure script doing:
 
 ```
   autoreconf
