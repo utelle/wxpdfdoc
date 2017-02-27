@@ -9,10 +9,12 @@ matrix:
     include:
         - dist: trusty
           compiler: gcc
-          env: WXGTK_PACKAGE=libwxgtk2.8-dev
+          env: WX_PACKAGE=libwxgtk2.8-dev
         - dist: trusty
           compiler: gcc
-          env: WXGTK_PACKAGE=libwxgtk3.0-dev
+          env: WX_PACKAGE=libwxgtk3.0-dev
+        - dist: trusty
+          env: WX_PACKAGE=libwxmsw3.0-dev HOST=i686-w64-mingw32
         - os: osx
           compiler: clang
           env: CXXFLAGS=-Wno-potentially-evaluated-expression
@@ -27,7 +29,7 @@ before_install:
 
 script:
     - set -e && echo 'Configuring...' && echo -en 'travis_fold:start:script.configure\\r'
-    - ./configure
+    - ./configure ${HOST+--host=$HOST CXX=$HOST-g++ CC=$HOST-gcc}
     - echo -en 'travis_fold:end:script.configure\\r'
     - echo 'Building...' && echo -en 'travis_fold:start:script.build\\r'
     - make
