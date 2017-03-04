@@ -132,5 +132,5 @@ AC_CONFIG_LINKS([samples/pdfdc/smile.jpg:samples/pdfdc/smile.jpg
     samples/minimal/indic-telugu.txt:samples/minimal/indic-telugu.txt
 ])
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile wxpdfdoc.pc])
 AC_OUTPUT

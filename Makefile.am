@@ -41,6 +41,10 @@ endif
 # Define the directory where the library headers are installed.
 includewxdir = $(includedir)/wx
 
+# Ensure our pkg-config file is installed in the correct location.
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = wxpdfdoc.pc
+
 # The main library. Notice that it uses dynamic, i.e. determined when running
 # configure, name because it depends on the version of wxWidgets used. This is
 # rather unusual, but Automake doesn't seem to mind.
