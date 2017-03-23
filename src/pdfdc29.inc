@@ -84,11 +84,18 @@ angleByCoords(wxCoord xa, wxCoord ya, wxCoord xc, wxCoord yc)
   double diffX = xa - xc, diffY = -(ya - yc), ret = 0;
   if (diffX == 0) // singularity
   {
-    ret = diffY > 0 ? 90 : -90;
+    ret = diffY > 0 ? 90 : 270;
   }
   else if (diffX >= 0) // quadrants 1, 4
   {
-    ret = (atan(diffY / diffX) * 180.0 / pi);
+    if (diffY >= 0) // quadrant 1
+    {
+      ret = (atan(diffY / diffX) * 180.0 / pi);
+    }
+    else // quadrant 4
+    {
+      ret = 360 + (atan(diffY / diffX) * 180.0 / pi);
+    }
   }
   else // quadrants 2, 3
   {
