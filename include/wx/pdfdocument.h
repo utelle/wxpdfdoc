@@ -1706,9 +1706,10 @@ public:
   /**
   * The method first calls Close() if necessary to terminate the document.
   * \param name The name of the file. If not given, the document will be named 'doc.pdf'
+  * \return true if successful, false otherwise
   * \see Close()
   */
-  virtual void SaveAsFile(const wxString& name = wxEmptyString);
+  virtual bool SaveAsFile(const wxString& name = wxEmptyString);
   
   /// Closes the document and returns the memory buffer containing the document
   /**

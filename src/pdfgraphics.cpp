@@ -870,6 +870,14 @@ wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry,
 {
   if (rx <= 0) return;
 
+  // Draw always counter-clockwise
+  // Adjust angles if necessary
+  astart = fmod(astart, 360.0);
+  afinish = fmod(afinish, 360.0);
+  if (astart < 0) astart += 360.0;
+  if (afinish < 0) afinish += 360.0;
+  if (astart > afinish) astart -= 360.0;
+
   wxString op;
   // Draw an ellipse
   if ((style & wxPDF_STYLE_DRAWCLOSE) == wxPDF_STYLE_DRAWCLOSE)

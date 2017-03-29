@@ -1962,7 +1962,7 @@ wxPdfDocument::Ln(double h)
   }
 }
 
-void
+bool
 wxPdfDocument::SaveAsFile(const wxString& name)
 {
   wxString fileName = name;
@@ -1972,26 +1972,32 @@ wxPdfDocument::SaveAsFile(const wxString& name)
     fileName = wxS("doc.pdf");
   }
 
+  wxLogNull logNull;
   wxFileOutputStream outfile(fileName);
+  bool ok = outfile.IsOk();
 
-  // Finish document if necessary
-  if (m_state < 3)
+  if (ok)
   {
-    if (m_buffer != NULL)
+    // Finish document if necessary
+    if (m_state < 3)
     {
-      delete m_buffer;
+      if (m_buffer != NULL)
+      {
+        delete m_buffer;
+      }
+      m_buffer = &outfile;
+      Close();
+      m_buffer = NULL;
     }
-    m_buffer = &outfile;
-    Close();
-    m_buffer = NULL;
+    else
+    {
+      // Save to local file
+      wxMemoryInputStream tmp(*((wxMemoryOutputStream*) m_buffer));
+      outfile.Write(tmp);
+    }
+    outfile.Close();
   }
-  else
-  {
-    // Save to local file
-    wxMemoryInputStream tmp(*((wxMemoryOutputStream*) m_buffer));
-    outfile.Write(tmp);
-  }
-  outfile.Close();
+  return ok;
 }
 
 const wxMemoryOutputStream&
