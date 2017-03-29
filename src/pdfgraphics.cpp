@@ -872,8 +872,8 @@ wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry,
 
   // Draw always counter-clockwise
   // Adjust angles if necessary
-  astart = fmod(astart, 360.0);
-  afinish = fmod(afinish, 360.0);
+  if (fabs(astart) > 360.)  astart = fmod(astart, 360.0);
+  if (fabs(afinish) > 360.) afinish = fmod(afinish, 360.0);
   if (astart < 0) astart += 360.0;
   if (afinish < 0) afinish += 360.0;
   if (astart > afinish) astart -= 360.0;
