@@ -84,6 +84,21 @@ if test -z "$USE_MSW"; then
     fi
 fi
 
+dnl With wxGTK, we also need Fontconfig library, see src/pdffontmanager.cpp.
+case "$WX_CXXFLAGS" in
+    *-D__WXGTK__* )
+        USE_GTK=1
+        ;;
+esac
+
+if test -n "$USE_GTK"; then
+    PKG_PROG_PKG_CONFIG()
+    PKG_CHECK_MODULES(FONTCONFIG, fontconfig,
+                      [CXXFLAGS="$CXXFLAGS $FONTCONFIG_CFLAGS"
+                       LIBS="$LIBS $FONTCONFIG_LIBS"],
+                      [AC_MSG_FAILURE(Required Fontconfig library not detected.)])
+fi
+
 dnl This is needed by WX_LIKE_LIBNAME
 WX_DETECT_STANDARD_OPTION_VALUES
 dnl This macro is used to preserve the same name as was used with the previous
