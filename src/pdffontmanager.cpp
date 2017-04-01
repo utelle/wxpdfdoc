@@ -44,8 +44,7 @@
 #if defined(__WXMSW__)
   #include <wx/msw/registry.h>
 //  #include "wx/msw/private.h"
-#elif defined(__WXGTK20__)
-// TODO: Would testing for __WXGTK__ be sufficient?
+#elif defined(__WXGTK__)
   #include <fontconfig/fontconfig.h>
 
   // Define some FontConfig symbols if they are missing
@@ -643,8 +642,7 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
                  wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
     }
   }
-#elif defined(__WXGTK20__)
-// TODO: Would testing for __WXGTK__ be sufficient?
+#elif defined(__WXGTK__)
 #if 0
   // TODO: Do we need to load the fontconfig library?
   FcConfig* fc = FcInitLoadConfigAndFonts();
@@ -953,8 +951,7 @@ wxPdfFontManagerBase::RegisterSystemFonts()
   }
   fontRegKey->Close();
   delete fontRegKey;
-#elif defined(__WXGTK20__)
-// TODO: Would testing for __WXGTK__ be sufficient?
+#elif defined(__WXGTK__)
 #if 0
   // TODO: Do we need to load the fontconfig library?
   FcConfig* fc = FcInitLoadConfigAndFonts();
