@@ -1628,6 +1628,22 @@ wxPdfDocument::WriteGlyphArray(wxPdfArrayDouble& x, wxPdfArrayDouble& y, wxPdfAr
   return ok;
 }
 
+wxSize
+wxPdfDocument::GetImageSize(const wxString& file, const wxString& mimeType)
+{
+  wxSize imageSize(0, 0);
+  wxImage image(file, mimeType);
+  if (image.IsOk())
+  {
+#if wxCHECK_VERSION(2,9,0)
+    imageSize = image.GetSize();
+#else
+    imageSize.Set(image.GetWidth(), image.GetHeight());
+#endif
+  }
+  return imageSize;
+}
+
 bool
 wxPdfDocument::Image(const wxString& file, double x, double y, double w, double h,
                      const wxString& type, const wxPdfLink& link, int maskImage)

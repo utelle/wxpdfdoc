@@ -942,15 +942,23 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       wxString src = GetXmlAttribute(child, wxS("src"), wxS(""));
       if (src.Length() > 0)
       { 
-//        long width;
+        wxSize imageSize = GetImageSize(src);
+        double wImage = ((double) imageSize.GetWidth()) / (GetImageScale() * GetScaleFactor());
+        double hImage = ((double)imageSize.GetHeight()) / (GetImageScale() * GetScaleFactor());
+        long width;
         long height;
-//        wxString strWidth = child->GetPropVal(wxS("width"), wxS("0"));
+        wxString strWidth = GetXmlAttribute(child, wxS("width"), wxS("0"));
         wxString strHeight = GetXmlAttribute(child, wxS("height"), wxS("0"));
-//        if (!strWidth.ToLong(&width)) width = 0;
+        if (!strWidth.ToLong(&width)) width = 0;
         if (!strHeight.ToLong(&height)) height = 0;
+        double w = ((double) width) / (GetImageScale() * GetScaleFactor());
         double h = ((double) height) / (GetImageScale() * GetScaleFactor());
         // TODO: handle image
         // line height, position, margins etc.
+        if (h <= 0 && wImage > 0)
+        {
+          h = (w <= 0) ? hImage : hImage * (w / wImage);
+        }
         context.AddHeight(h);
       }
     }
@@ -1590,6 +1598,9 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       wxString src = GetXmlAttribute(child, wxS("src"), wxS(""));
       if (src.Length() > 0)
       { 
+        wxSize imageSize = GetImageSize(src);
+        double wImage = ((double) imageSize.GetWidth()) / (GetImageScale() * GetScaleFactor());
+        double hImage = ((double) imageSize.GetHeight()) / (GetImageScale() * GetScaleFactor());
         long width;
         long height;
         wxString strWidth = GetXmlAttribute(child, wxS("width"), wxS("0"));
@@ -1600,6 +1611,14 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         double y = GetY();
         double w = ((double) width) / (GetImageScale() * GetScaleFactor());
         double h = ((double) height) / (GetImageScale() * GetScaleFactor());
+        if (width <= 0 && wImage > 0)
+        {
+          w = (height <= 0) ? wImage : wImage * (h / hImage);
+        }
+        if (height <= 0 && wImage > 0)
+        {
+          h = (width <= 0) ? hImage : hImage * (w / wImage);
+        }
         wxString align = GetXmlAttribute(child, wxS("align"), wxS("left")).Lower();
         double delta;
         if (align == wxS("right"))

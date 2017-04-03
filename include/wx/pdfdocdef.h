@@ -69,7 +69,7 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
-<dt><b>0.9.6</b> - <i>January 2017</i></dt>
+<dt><b>0.9.6</b> - <i>April 2017</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 3.1.0.
 
@@ -77,8 +77,11 @@ General changes:<br>
 - Overhauled the build system
 - Added continuous integration (Travis CI)
 - Replaced all occurrences of macro \b wxT by \b wxS
+- Added version information as Windows resource for DLL builds on Windows
 
 Fixed bugs:<br>
+- Fixed adjustment of angles in method wxPdfDocument::Ellipse
+- Fixed issue with drawing arcs from wxPdfDC by forcing angles into proper range for counter-clockwise drawing
 - Replaced MD5 implementation to resolve a license incompatibility issue
 - Replaced image in transparency sample to resolve a potential license issue
 

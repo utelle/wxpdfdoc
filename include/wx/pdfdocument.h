@@ -1522,7 +1522,7 @@ public:
   * If a transparent colour is defined, it will be taken into account (but will be only interpreted
   * by Acrobat 4 and above).
   *
-  * For GIF, all flavors the wsWidgets GIF decoder is able to handle are supported
+  * For GIF, all flavors the wxWidgets GIF decoder is able to handle are supported
   *
   * For WMF: WMF files contain vector data described in terms of Windows Graphics Device Interface
   * (GDI) commands. There are approximately 80 different GDI commands allowed for in the WMF standard.
@@ -1591,7 +1591,7 @@ public:
 
   /**
   * Prepares an image for use as an image mask
-  * The image is given as the name of the file conatining the image
+  * The image is given as the name of the file containing the image
   * \param file Name of the file containing the image.
   * \param mimeType Image format. Possible values are: image/jpeg, image/png, image/gif, image/wmf.
   * \return id of the image mask, or 0 in case of an error
@@ -2574,6 +2574,16 @@ protected:
                       int border = wxPDF_BORDER_NONE, int ln = 0, 
                       int align = wxPDF_ALIGN_LEFT, int fill = 0, 
                       const wxPdfLink& link = wxPdfLink(-1));
+
+  /// Get size of an image
+  /**
+  * The size of the image is determined from the given graphics file.
+  *
+  * \param file Name of the file containing the image.
+  * \param mimeType Image format. Possible values are: image/jpeg, image/png, image/gif, image/wmf.
+  * \return width and height of the image
+  */
+  virtual wxSize GetImageSize(const wxString& file, const wxString& mimeType = wxEmptyString);
 
   /// Start document
   virtual void BeginPage(int orientation, wxSize pageSize);
