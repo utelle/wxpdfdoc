@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontsubsettruetype.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-11-20
 // Copyright:   (c) Ulrich Telle
@@ -25,7 +25,7 @@
 #include "wx/pdfarraytypes.h"
 #include "wx/pdffontsubsettruetype.h"
 
-wxPdfFontSubsetTrueType::wxPdfFontSubsetTrueType(const wxString& fileName, 
+wxPdfFontSubsetTrueType::wxPdfFontSubsetTrueType(const wxString& fileName,
                                                  int fontIndex, bool isMacCoreText)
   : wxPdfFontParserTrueType()
 
@@ -143,7 +143,7 @@ wxPdfFontSubsetTrueType::ReadLocaTable()
   }
   return ok;
 }
-    
+
 bool
 wxPdfFontSubsetTrueType::CheckGlyphs()
 {
@@ -435,7 +435,7 @@ wxPdfFontSubsetTrueType::WriteSubsetFont()
     }
   }
 }
-    
+
 void
 wxPdfFontSubsetTrueType::WriteShort(int n)
 {

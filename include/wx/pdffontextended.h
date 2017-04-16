@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontextended.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-02-26
 // Copyright:   (c) Ulrich Telle
@@ -177,7 +177,7 @@ public:
   * \return the string representation of the character widths
   */
   wxString GetWidthsAsString(bool subset = false, wxPdfSortedArrayInt* usedGlyphs = NULL, wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
-  
+
   /// Get the width of a string
   /**
   * \param s the string for which the width should be calculated
@@ -189,7 +189,7 @@ public:
   /// Get kerning width array
   /**
   * \param s the string for which kerning information should be provided
-  * \return an array with indices and kerning width of the found kerning pairs. 
+  * \return an array with indices and kerning width of the found kerning pairs.
   * The array consists of information pairs: the first item (even indices) represents the index
   * of the first character of a kerning pair within the string and the second item (odd indices)
   * represents the kerning value.
@@ -233,7 +233,7 @@ public:
   */
   bool SupportsSubset() const;
 
-  /// Write font data 
+  /// Write font data
   /**
   * \param fontData the output stream
   * \param usedGlyphs the list of used glyphs

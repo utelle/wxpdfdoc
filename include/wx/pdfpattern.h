@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfpattern.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-06-18
 // Copyright:   (c) Ulrich Telle
@@ -64,7 +64,7 @@ private:
 
   double m_width;      ///< pattern width
   double m_height;     ///< pattern height
-  
+
   double m_xStep;      ///< repeat offset in x direction
   double m_yStep;      ///< repeat offset in y direction
   double m_matrix[6];  ///< transformation matrix
@@ -95,7 +95,7 @@ Pattern dictionary Type 2
 /Shading dictionary or stream
 /Matrix [1 0 0 1 0 0]
 /ExtGState dictionary
-            
+
 #endif
 
 #endif

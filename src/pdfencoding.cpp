@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfencoding.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-05-30
 // Copyright:   (c) Ulrich Telle

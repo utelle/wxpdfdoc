@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfshape.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-05-14
 // Copyright:   (c) Ulrich Telle

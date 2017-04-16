@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontmanager.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-10
 // Copyright:   (c) Ulrich Telle
@@ -206,7 +206,7 @@ public:
 
   /// Register a font encoding
   /**
-  * 
+  *
   * \param encoding the encoding to be registered
   * \return TRUE if the encoding could be registered successfully
   */
@@ -215,14 +215,14 @@ public:
   /// Get the encoding having the given name
   /**
   * \param encodingName name of the encoding
-  * \return the encoding 
+  * \return the encoding
   */
   const wxPdfEncoding* GetEncoding(const wxString& encodingName);
 
 private:
   /// Default constructor
   wxPdfFontManager();
-  
+
   /// Default destructor
   ~wxPdfFontManager();
 
@@ -231,10 +231,10 @@ private:
 
   /// Assignment operator
   wxPdfFontManager& operator=(const wxPdfFontManager&);
-  
+
 private:
   wxPdfFontManagerBase*    m_fontManagerBase; ///< Font manager implementation
-  
+
   static wxPdfFontManager* ms_fontManager;    ///< Font manager singleton
 
   friend class wxPdfDocumentModule;

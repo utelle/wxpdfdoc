@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfutility.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-05-20
 // Copyright:   (c) Ulrich Telle
@@ -80,7 +80,7 @@ wxPdfUtility::Double2String(double value, int precision)
     format.Printf(wxS("%%.%df"), precision);
   }
   number = wxString::Format(format, value);
-#if wxUSE_INTL 
+#if wxUSE_INTL
   wxString dpSeparator = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);
 #else
   wxString dpSeparator(wxS(","));
@@ -164,7 +164,7 @@ wxPdfUtility::Convert2Roman(int value)
 
     while (value > 0)
     {
-      currentDigit = value % 10;   
+      currentDigit = value % 10;
       if (currentDigit == 4 || currentDigit == 9)
       {
         result.Prepend(romans.Mid(pos  - currentDigit / 4, 1));
@@ -196,7 +196,7 @@ wxPdfUtility::Convert2Roman(int value)
 double
 wxPdfUtility::ForceRange(double value, double minValue, double maxValue)
 {
-  if (value < minValue) 
+  if (value < minValue)
   {
     value = minValue;
   }
@@ -213,8 +213,8 @@ wxPdfUtility::RGB2String(const wxColour& colour)
   double r = colour.Red();
   double g = colour.Green();
   double b = colour.Blue();
-  wxString rgb = Double2String(r/255.,3) + wxS(" ") + 
-                 Double2String(g/255.,3) + wxS(" ") + 
+  wxString rgb = Double2String(r/255.,3) + wxS(" ") +
+                 Double2String(g/255.,3) + wxS(" ") +
                  Double2String(b/255.,3);
   return rgb;
 }

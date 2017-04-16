@@ -25,16 +25,16 @@
 
 /**
 * Multi-columns
-* 
+*
 * This example is a variant of the previous one showing how to lay the text
-* across multiple columns. 
-* 
+* across multiple columns.
+*
 * The key method used is AcceptPageBreak(). It allows to accept or not an
 * automatic page break. By refusing it and altering the margin and current
-* position, the desired column layout is achieved. 
+* position, the desired column layout is achieved.
 * For the rest, not much change; two properties have been added to the class
 * to save the current column number and the position where columns begin, and
-* the MultiCell() call specifies a 6 centimeter width. 
+* the MultiCell() call specifies a 6 centimeter width.
 */
 
 class PdfTuto4 : public wxPdfDocument

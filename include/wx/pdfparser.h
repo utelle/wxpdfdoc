@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfparser.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-05-15
 // Copyright:   (c) Ulrich Telle
@@ -92,7 +92,7 @@ public:
 
   /// Get the type of the last token
   int GetTokenType();
-    
+
   /// Get the token value as a string
   wxString GetStringValue();
 
@@ -101,13 +101,13 @@ public:
 
   /// Check whether the token is a hexadecimal string
   bool IsHexString() { return m_hexString; }
-    
+
   /// Get object reference
   int GetReference();
 
   /// Get object generation
   int GetGeneration();
-    
+
   /// Check byte whether it represents a white space character
   static bool IsWhitespace(int ch);
 

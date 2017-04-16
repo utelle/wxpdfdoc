@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdflinestyle.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-05-25
 // Copyright:   (c) Ulrich Telle

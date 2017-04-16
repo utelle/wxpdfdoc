@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfcolour.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-07-13
 // Copyright:   (c) Ulrich Telle
@@ -51,7 +51,7 @@ public:
   * \param grayscale indicates the gray level. Value between 0 and 255
   */
   wxPdfColour(const unsigned char grayscale);
-  
+
   /// Constructor for wxColour colour
   /**
   * Defines a wxColour colour.
@@ -67,7 +67,7 @@ public:
   * \param blue indicates the blue level. Value between 0 and 255
   */
   wxPdfColour(const unsigned char red, const unsigned char green, const unsigned char blue);
-  
+
   /// Constructor for CMYK colour
   /**
   * Defines a CMYK colour.
@@ -77,14 +77,14 @@ public:
   * \param black indicates the black level. Value between 0 and 100
   */
   wxPdfColour(double cyan, double magenta, double yellow, double black);
-  
+
   /// Constructor for named RGB colour
   /**
   * Defines a named RGB colour.
   * \param name is the name of the requested colour. Use of HTML notation <b><tt>\#rrggbb</tt></b> as colour name is also supported.
   */
   wxPdfColour(const wxString& name);
-  
+
   /// Constructor for named RGB colour
   /**
   * Defines a spot colour.
@@ -111,13 +111,13 @@ public:
   * \param grayscale indicates the gray level. Value between 0 and 255. Default: 0 (Black).
   */
   void SetColour(const unsigned char grayscale = 0);
-  
+
   /// Set wxColour colour
   /**
   * \param colour defines a wxColour colour composed of a red, green and blue component
   */
   void SetColour(const wxColour& colour);
-  
+
   /// Set RGB colour
   /**
   * \param red indicates the red level. Value between 0 and 255
@@ -125,7 +125,7 @@ public:
   * \param blue indicates the blue level. Value between 0 and 255
   */
   void SetColour(const unsigned char red, const unsigned char green, const unsigned char blue);
-  
+
   /// Set CMYK colour
   /**
   * \param cyan indicates the cyan level. Value between 0 and 100
@@ -156,7 +156,7 @@ public:
 
   /// Get internal colour string representation (for internal use only)
   /**
-  * \param drawing flag specifying whether the colour is used for drawing operations 
+  * \param drawing flag specifying whether the colour is used for drawing operations
   * \return the string representation of the colour
   */
   const wxString GetColour(bool drawing) const;

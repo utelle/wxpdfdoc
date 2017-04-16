@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdetails.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-07
 // Copyright:   (c) Ulrich Telle
@@ -56,7 +56,7 @@ wxPdfFontDetails::wxPdfFontDetails(int index, const wxPdfFont& font)
     m_subsetGlyphs = NULL;
   }
 }
-  
+
 wxPdfFontDetails::~wxPdfFontDetails()
 {
   if (m_usedGlyphs != NULL)

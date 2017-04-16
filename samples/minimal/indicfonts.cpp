@@ -27,7 +27,7 @@
 *
 * This example demonstrates the use of Indic fonts and languages.
 *
-* Remark: Only available in Unicode build. 
+* Remark: Only available in Unicode build.
 */
 
 static int

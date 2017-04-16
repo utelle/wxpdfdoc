@@ -222,4 +222,4 @@ static const UnicodeBlock unicodeBlocks[] =
   {0, 0, NULL},
 };
 
-#endif 
+#endif

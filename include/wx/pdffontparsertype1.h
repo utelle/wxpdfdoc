@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontparsertype1.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-05-24
 // Copyright:   (c) Ulrich Telle
@@ -140,7 +140,7 @@ private:
   /// Parse a PostScript dictionary
   bool ParseDict(wxInputStream* stream, int start, int length, bool onlyNames);
 
-  /// Check whether a character represents a valid hexadecimal digit 
+  /// Check whether a character represents a valid hexadecimal digit
   bool IsHexDigit(char digit);
 
   /// Decode a hexadecimal coded string
@@ -149,7 +149,7 @@ private:
   /// Decode the EExec section
   void DecodeEExec(wxMemoryOutputStream* eexecStream, wxOutputStream* outStream, unsigned short seed, int lenIV);
 
-  /// Get the private dictionary 
+  /// Get the private dictionary
   bool GetPrivateDict(wxInputStream* stream, int start);
 
   /// Parse the font matrix from the font stream

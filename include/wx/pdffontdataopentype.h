@@ -67,8 +67,8 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding = NULL, 
-                                  wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding = NULL,
+                                  wxPdfSortedArrayInt* usedGlyphs = NULL,
                                   wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Convert glyph number to string
@@ -79,8 +79,8 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertGlyph(wxUint32 glyph, const wxPdfEncoding* encoding = NULL, 
-                                wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual wxString ConvertGlyph(wxUint32 glyph, const wxPdfEncoding* encoding = NULL,
+                                wxPdfSortedArrayInt* usedGlyphs = NULL,
                                 wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Get the character width array as string
@@ -99,15 +99,15 @@ public:
   */
   virtual bool LoadFontMetrics(wxXmlNode* root);
 
-  /// Write font data 
+  /// Write font data
   /**
   * \param fontData the output stream
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written font data
   */
-  virtual size_t WriteFontData(wxOutputStream* fontData, 
-                               wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual size_t WriteFontData(wxOutputStream* fontData,
+                               wxPdfSortedArrayInt* usedGlyphs = NULL,
                                wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
   /// Write character/glyph to unicode mapping
@@ -118,9 +118,9 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written data
   */
-  virtual size_t WriteUnicodeMap(wxOutputStream* mapData, 
-                                 const wxPdfEncoding* encoding = NULL, 
-                                 wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual size_t WriteUnicodeMap(wxOutputStream* mapData,
+                                 const wxPdfEncoding* encoding = NULL,
+                                 wxPdfSortedArrayInt* usedGlyphs = NULL,
                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
   /// Get the associated encoding converter

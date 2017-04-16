@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfcffdecoder.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-01
 // Copyright:   (c) Ulrich Telle
@@ -76,7 +76,7 @@ public:
   * \param localSubIndex the local subroutine index
   */
   void ReadASubr(wxInputStream* stream, int begin, int end,
-                 int globalBias, int localBias, 
+                 int globalBias, int localBias,
                  wxPdfSortedArrayInt& hSubrsUsed, wxArrayInt& lSubrsUsed,
                  wxPdfCffIndexArray& localSubIndex);
 

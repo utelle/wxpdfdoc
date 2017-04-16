@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdatatruetype.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-07
 // Copyright:   (c) Ulrich Telle
@@ -255,9 +255,9 @@ wxPdfFontDataTrueType::CanShow(const wxString& s, const wxPdfEncoding* encoding)
 }
 
 wxString
-wxPdfFontDataTrueType::ConvertCID2GID(const wxString& s, 
-                                      const wxPdfEncoding* encoding, 
-                                      wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataTrueType::ConvertCID2GID(const wxString& s,
+                                      const wxPdfEncoding* encoding,
+                                      wxPdfSortedArrayInt* usedGlyphs,
                                       wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(encoding);
@@ -613,7 +613,7 @@ wxPdfFontDataTrueTypeUnicode::LoadFontMetrics(wxXmlNode* root)
         ctgStream->Read(cc2gn, ctgLen);
       }
       delete ctgFile;
-    
+
       // Create the cid to gid mapping
       m_gn = new wxPdfChar2GlyphMap();
       size_t charId;
@@ -706,9 +706,9 @@ wxPdfFontDataTrueTypeUnicode::CanShow(const wxString& s, const wxPdfEncoding* en
 }
 
 wxString
-wxPdfFontDataTrueTypeUnicode::ConvertCID2GID(const wxString& s, 
-                                             const wxPdfEncoding* encoding, 
-                                             wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataTrueTypeUnicode::ConvertCID2GID(const wxString& s,
+                                             const wxPdfEncoding* encoding,
+                                             wxPdfSortedArrayInt* usedGlyphs,
                                              wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(encoding);
@@ -770,9 +770,9 @@ wxPdfFontDataTrueTypeUnicode::ConvertCID2GID(const wxString& s,
 }
 
 wxString
-wxPdfFontDataTrueTypeUnicode::ConvertGlyph(wxUint32 glyph, 
-                                           const wxPdfEncoding* encoding, 
-                                           wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataTrueTypeUnicode::ConvertGlyph(wxUint32 glyph,
+                                           const wxPdfEncoding* encoding,
+                                           wxPdfSortedArrayInt* usedGlyphs,
                                            wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(encoding);
@@ -824,7 +824,7 @@ wxPdfFontDataTrueTypeUnicode::GetWidthsAsString(bool subset, wxPdfSortedArrayInt
     {
       glyph = 0;
     }
-    if (glyph != 0 && (!subset || usedGlyphs == NULL || 
+    if (glyph != 0 && (!subset || usedGlyphs == NULL ||
                        (subset && SubsetSupported() && (usedGlyphs->Index(glyph) != wxNOT_FOUND))))
     {
       // define a specific width for each individual CID
@@ -897,7 +897,7 @@ wxPdfFontDataTrueTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
                  wxString::Format(_("Font file '%s' not found."), fileName.GetFullPath().c_str()));
     }
   }
-  
+
   if (fontStream != NULL)
   {
     if (usedGlyphs != NULL)
@@ -963,9 +963,9 @@ wxPdfFontDataTrueTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
 }
 
 size_t
-wxPdfFontDataTrueTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData, 
-                                              const wxPdfEncoding* encoding, 
-                                              wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataTrueTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData,
+                                              const wxPdfEncoding* encoding,
+                                              wxPdfSortedArrayInt* usedGlyphs,
                                               wxPdfChar2GlyphMap* subsetGlyphs)
 {
   wxUnusedVar(encoding);

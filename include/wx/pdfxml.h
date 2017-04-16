@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfxml.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2005-12-03
 // Copyright:   (c) Ulrich Telle
@@ -67,7 +67,7 @@ public:
 
   /// Check whether current line is marked as last line
   bool IsCurrentLineMarked();
-  
+
   /// Adjust width of current line
   void AddCurrentLineWidth(double width);
 
@@ -183,7 +183,7 @@ public:
 
   /// Set height of cell
   void SetHeight(double h) { m_height = h;};
-  
+
   /// Get height of cell
   double GetHeight() const { return m_height;};
 
@@ -239,10 +239,10 @@ private:
   int               m_border;        ///< border
   double            m_width;         ///< cell width
   double            m_height;        ///< cell height
-  
+
   bool              m_hasCellColour;  ///< flag whether cell has background colour or is transparent
   wxPdfColour       m_colourCell;     ///< cell background colour
-}; 
+};
 
 /// Hashmap class for document links
 WX_DECLARE_HASH_MAP_WITH_DECL(long, wxPdfTableCell*, wxIntegerHash, wxIntegerEqual, wxPdfCellHashMap, class WXDLLIMPEXP_PDFDOC);
@@ -330,5 +330,5 @@ private:
   double             m_pad;          ///< cell padding
   bool               m_border;       ///< border flag
 };
- 
+
 #endif

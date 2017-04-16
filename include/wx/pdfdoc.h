@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfdoc.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-08-03
 // Copyright:   (c) Ulrich Telle

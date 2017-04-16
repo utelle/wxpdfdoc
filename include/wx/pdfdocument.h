@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfdocument.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2005-08-04
 // Copyright:   (c) Ulrich Telle
@@ -161,8 +161,8 @@ public:
   *   \li "in" inch   (1 in = 72 pt = 2.54 cm = 25.4 mm)
   * \param format Defines the page format. All known wxWidgets paper types are allowed. (Default: wxPAPER_A4)
   */
-  wxPdfDocument(int orientation = wxPORTRAIT, 
-                const wxString& unit = wxString(wxS("mm")), 
+  wxPdfDocument(int orientation = wxPORTRAIT,
+                const wxString& unit = wxString(wxS("mm")),
                 wxPaperSize format = wxPAPER_A4);
 
   wxPdfDocument(int orientation, double pageWidth, double pageHeight,
@@ -214,19 +214,19 @@ public:
   * \return int page width.
   */
   virtual double GetPageWidth();
-  
+
   /// Returns the page height in units.
   /**
   * \return int page height.
   */
   virtual double GetPageHeight();
-  
+
   /// Returns the page break margin.
   /**
   * \return int page break margin.
   */
   virtual double GetBreakMargin();
-  
+
   /// Returns the scale factor (number of points in user unit).
   /**
   * \return int scale factor.
@@ -243,7 +243,7 @@ public:
   * \see SetLeftMargin(), SetTopMargin(), SetRightMargin(), SetAutoPageBreak()
   */
   virtual void SetMargins(double left, double top, double right = -1);
-  
+
   /// Defines the left margin.
   /**
   * The method can be called before creating the first page.
@@ -252,7 +252,7 @@ public:
   * \see SetTopMargin(), SetRightMargin(), SetAutoPageBreak(), SetMargins()
   */
   virtual void SetLeftMargin(double margin);
-  
+
   /// Returns the left margin.
   /**
   * \return double left margin.
@@ -266,7 +266,7 @@ public:
   * \see SetLeftMargin(), SetRightMargin(), SetAutoPageBreak(), SetMargins()
   */
   virtual void SetTopMargin(double margin);
-  
+
   /// Returns the top margin.
   /**
   * \return double top margin.
@@ -331,7 +331,7 @@ public:
   * single at once, continuous display, two columns or viewer default. By default, documents
   * use the full width mode with continuous display.
   * \param zoom The zoom to use. It can be one of the following string values or a number
-  * indicating the zooming factor to use. 
+  * indicating the zooming factor to use.
   *   \li wxPDF_ZOOM_FULLPAGE: displays the entire page on screen
   *   \li wxPDF_ZOOM_FULLWIDTH: uses maximum width of window
   *   \li wxPDF_ZOOM_REAL: uses real size (equivalent to 100% zoom)
@@ -383,14 +383,14 @@ public:
   * \see SetAuthor(), SetCreator(), SetKeywords(), SetSubject()
   */
   virtual void SetTitle(const wxString& title);
-  
+
   /// Defines the subject of the document.
   /**
   * \param subject The subject.
   * \see SetAuthor(), SetCreator(), SetKeywords(), SetTitle()
   */
   virtual void SetSubject(const wxString& subject);
-  
+
   /// Defines the author of the document.
   /**
   * \param author The name of the author.
@@ -405,7 +405,7 @@ public:
   * \see SetAuthor(), SetCreator(), SetSubject(), SetTitle()
   */
   virtual void SetKeywords(const wxString& keywords);
-  
+
   /// Defines the creator of the document.
   /**
   * This is typically the name of the application that generates the PDF.
@@ -439,7 +439,7 @@ public:
   * \see AddPage(), Close()
   */
   virtual void Open();
-  
+
   /// Terminates the PDF document.
   /**
   * It is not necessary to call this method explicitly because SaveAsFile()
@@ -448,7 +448,7 @@ public:
   * \see Open(), SaveAsFile()
   */
   virtual void Close();
-  
+
   /// Adds a new page to the document.
   /**
   * If a page is already present, the Footer() method is called first
@@ -471,13 +471,13 @@ public:
 
   /// This method is used to render the page header.
   /**
-  * It is automatically called by AddPage() and should not be called directly by the application. 
+  * It is automatically called by AddPage() and should not be called directly by the application.
   * The implementation in wxPdfDocument is empty, so you have to subclass it and override the method
   * if you want a specific processing.
   * \see Footer()
   */
   virtual void Header();
-  
+
   /// This method is used to render the page footer.
   /**
   * It is automatically called by AddPage() and Close() and should not be called directly by
@@ -486,21 +486,21 @@ public:
   * \see Header()
   */
   virtual void Footer();
-  
+
   /// Returns whether footer output is in progress
   /**
   * \return true if footer output is in progress, false otherwise
   * \see Header()
   */
   virtual bool IsInFooter();
-  
+
   /// Returns the current page number.
   /**
   * \return page number
   * \see AliasNbPages()
   */
   virtual int  PageNo();
-  
+
   /// Add spot colour
   /**
   * Add a spot colour which can be referenced in colour setting methods
@@ -532,7 +532,7 @@ public:
   * \see SetFillColour(), SetTextColour(), Line(), Rect(), Cell(), MultiCell()
   */
   virtual void SetDrawColour(const unsigned char grayscale);
-  
+
   /// Defines the colour used for all drawing operations.
   /**
   * Affected drawing operations are: lines, rectangles and cell borders. It can be expressed in RGB
@@ -542,7 +542,7 @@ public:
   * \see SetFillColour(), SetTextColour(), Line(), Rect(), Cell(), MultiCell()
   */
   virtual void SetDrawColour(const wxColour& colour);
-  
+
   /// Defines the colour used for all drawing operations.
   /**
   * Affected drawing operations are: lines, rectangles and cell borders. It can be expressed in RGB
@@ -552,7 +552,7 @@ public:
   * \see SetFillColour(), SetTextColour(), Line(), Rect(), Cell(), MultiCell()
   */
   virtual void SetDrawColour(const wxPdfColour& colour);
-  
+
   /// Defines the colour used for all drawing operations.
   /**
   * Affected drawing operations are: lines, rectangles and cell borders. It can be expressed in RGB
@@ -605,7 +605,7 @@ public:
   * \see SetDrawColour()
   */
   virtual const wxPdfColour GetDrawColour();
-  
+
   /// Defines the colour used for all filling operations.
   /**
   * Affected filling operations are: filled rectangles and cell backgrounds. It can be expressed in RGB
@@ -615,7 +615,7 @@ public:
   * \see SetDrawColour(), SetTextColour(), Rect(), Cell(), MultiCell()
   */
   virtual void SetFillColour(const unsigned char grayscale);
-  
+
   /// Defines the colour used for all filling operations.
   /**
   * Affected filling operations are: filled rectangles and cell backgrounds. It can be expressed in RGB
@@ -625,7 +625,7 @@ public:
   * \see SetDrawColour(), SetTextColour(), Rect(), Cell(), MultiCell()
   */
   virtual void SetFillColour(const wxColour& colour);
-  
+
   /// Defines the colour used for all filling operations.
   /**
   * Affected filling operations are: filled rectangles and cell backgrounds. It can be expressed in RGB
@@ -635,7 +635,7 @@ public:
   * \see SetDrawColour(), SetTextColour(), Rect(), Cell(), MultiCell()
   */
   virtual void SetFillColour(const wxPdfColour& colour);
-  
+
   /// Defines the colour used for all filling operations.
   /**
   * Affected filling operations are: filled rectangles and cell backgrounds. It can be expressed in RGB
@@ -675,7 +675,7 @@ public:
   /// Defines the <b>pattern</b> used for all filling operations.
   /**
   * The given pattern is used for all filling operations instead of a colour.
-  * Affected filling operations are: filled rectangles and cell backgrounds. 
+  * Affected filling operations are: filled rectangles and cell backgrounds.
   * The method can be called before the first page is created and the value
   * is retained from page to page.
   * \param name the name of the pattern
@@ -689,13 +689,13 @@ public:
   * \see SetDrawPattern(), SetFillPattern(), AddPattern()
   */
   virtual const wxPdfColour GetPatternColour(const wxString& patternName);
-  
+
   /// Gets the colour used for all filling operations.
   /**
   * \see SetFillColour()
   */
   virtual const wxPdfColour GetFillColour();
-  
+
   /// Defines the colour used for text.
   /**
   * It can be expressed in RGB components or gray scale. The method can be called before the first page is
@@ -704,7 +704,7 @@ public:
   * \see SetDrawColour(), SetFillColour(), Text(), Cell(), MultiCell()
   */
   virtual void SetTextColour(const unsigned char grayscale);
-  
+
   /// Defines the colour used for text.
   /**
   * It can be expressed in RGB components or gray scale. The method can be called before the first page is
@@ -713,7 +713,7 @@ public:
   * \see SetDrawColour(), SetFillColour(), Text(), Cell(), MultiCell()
   */
   virtual void SetTextColour(const wxColour& colour);
-  
+
   /// Defines the colour used for text.
   /**
   * It can be expressed in RGB components or gray scale. The method can be called before the first page is
@@ -722,7 +722,7 @@ public:
   * \see SetDrawColour(), SetFillColour(), Text(), Cell(), MultiCell()
   */
   virtual void SetTextColour(const wxPdfColour& colour);
-  
+
   /// Defines the colour used for text.
   /**
   * It can be expressed in RGB components or gray scale. The method can be called before the first page is
@@ -771,13 +771,13 @@ public:
   * \see SetTextColour()
   */
   virtual const wxPdfColour GetTextColour();
-  
+
   /// Sets the text render mode
   /**
   * \param mode the text render mode
   */
   virtual void SetTextRenderMode(wxPdfTextRenderMode mode = wxPDF_TEXT_RENDER_FILL);
-  
+
   /// Returns the text render mode
   /**
   */
@@ -842,7 +842,7 @@ public:
   * \see SetLineWidth(), SetDrawColour()
   */
   virtual void Line(double x1, double y1, double x2, double y2);
-  
+
   /// Draws an arrow line between two points.
   /**
   * \param x1 Abscissa of first point
@@ -920,7 +920,7 @@ public:
   * \param nSeg: Ellipse is made up of nSeg Bezier curves
   * \param doSector: connect end points of elliptic arc with center point
   */
-  virtual void Ellipse(double x0, double y0, double rx, double ry = 0, 
+  virtual void Ellipse(double x0, double y0, double rx, double ry = 0,
                        double angle = 0, double astart = 0, double afinish = 360,
                        int style = wxPDF_STYLE_DRAW, int nSeg = 8, bool doSector = false);
 
@@ -934,7 +934,7 @@ public:
   * \param style: Style of rectangle (draw and/or fill)
   * \param nSeg: Circle is made up of nSeg Bezier curves
   */
-  virtual void Circle(double x0, double y0, double r, 
+  virtual void Circle(double x0, double y0, double r,
                       double astart = 0, double afinish = 360,
                       int style = wxPDF_STYLE_DRAW, int nSeg = 8);
 
@@ -975,7 +975,7 @@ public:
   * \param circleFillColour: Fill colour for circumscribed circle. (if draw fill circle)
   */
   virtual void RegularPolygon(double x0, double y0, double r, int ns, double angle = 0, bool circle = false,
-                              int style = wxPDF_STYLE_DRAW, 
+                              int style = wxPDF_STYLE_DRAW,
                               int circleStyle = wxPDF_STYLE_DRAW,
                               const wxPdfLineStyle& circleLineStyle = wxPdfLineStyle(),
                               const wxPdfColour& circleFillColour = wxPdfColour());
@@ -995,7 +995,7 @@ public:
   * \param circleFillColour: Fill colour for circumscribed circle. (if draw fill circle)
   */
   virtual void StarPolygon(double x0, double y0, double r, int nv, int ng, double angle = 0, bool circle = false,
-                           int style = wxPDF_STYLE_DRAW, 
+                           int style = wxPDF_STYLE_DRAW,
                            int circleStyle = wxPDF_STYLE_DRAW,
                            const wxPdfLineStyle& circleLineStyle = wxPdfLineStyle(),
                            const wxPdfColour& circleFillColour = wxPdfColour());
@@ -1039,7 +1039,7 @@ public:
   * Remarks:
   * \li Only the display is altered. The GetX() and GetY() methods are not affected,
   *  nor the automatic page break mechanism.
-  * \li Rotation is not kept from page to page. Each page begins with a null rotation. 
+  * \li Rotation is not kept from page to page. Each page begins with a null rotation.
   */
   virtual void Rotate(double angle, double x = -1, double y = -1);
 
@@ -1077,12 +1077,12 @@ public:
   *   \li I: italic
   *   \li BI or IB: bold italic
   * \param file The font definition file. By default, the name is built from the family and style,
-  *  in lower case with no space. 
+  *  in lower case with no space.
   * \see SetFont()
   * \deprecated use the wxPdfFontManager to register fonts for use in creating PDF documents
   */
-  virtual bool AddFont(const wxString& family, 
-                       const wxString& style = wxEmptyString, 
+  virtual bool AddFont(const wxString& family,
+                       const wxString& style = wxEmptyString,
                        const wxString& file = wxEmptyString);
 
   /// Imports a CJK (Chinese, Japanese or Korean) font and makes it available.
@@ -1113,14 +1113,14 @@ public:
 #if wxUSE_UNICODE
   virtual bool AddFontCJK(const wxString& family);
 #else
-  virtual bool AddFontCJK(const wxString& family) 
-  { 
+  virtual bool AddFontCJK(const wxString& family)
+  {
     wxUnusedVar(family);
     return false;
   }
 #endif
-  
-  /// Sets the font used to print character strings. 
+
+  /// Sets the font used to print character strings.
   /**
   * It is mandatory to call a variant of this method at least once before printing text or the
   * resulting document would not be valid.
@@ -1152,8 +1152,8 @@ public:
   virtual bool SetFont(const wxString& family,
                        const wxString& style = wxEmptyString,
                        double size = 0);
-  
-  /// Sets the font used to print character strings. 
+
+  /// Sets the font used to print character strings.
   /**
   * It is mandatory to call a variant of this method at least once before printing text or the
   * resulting document would not be valid.
@@ -1184,7 +1184,7 @@ public:
   * \see AddFont(), SetFontSize(), Cell(), MultiCell(), Write()
   */
   virtual bool SetFont(const wxString& family, int style, double size = 0);
-  
+
   /// Sets the font used to print character strings based on a wxFont object.
   /**
   * The font referenced by the wxFont object will be added to the document if necessary.
@@ -1217,21 +1217,21 @@ public:
   * \see SetFont()
   */
   virtual void SetFontSize(double size);
-  
+
   /// Returns the current font.
   /**
   * \return The current font.
   * \see SetFont()
-  */  
+  */
   virtual wxPdfFont GetCurrentFont() const;
 
   /// Returns the current font description instance.
   /**
   * \return The current font description.
   * \see SetFont()
-  */  
+  */
   virtual const wxPdfFontDescription& GetFontDescription() const;
-  
+
   /// Gets the font family of the current font.
   /**
   * \return The font family of the current font
@@ -1245,14 +1245,14 @@ public:
   * \see SetFont()
   */
   virtual const wxString GetFontStyle() const;
-  
+
   /// Gets the style of the current font.
   /**
   * \return The style of the current font
   * \see SetFont()
   */
   virtual int GetFontStyles() const;
-  
+
   /// Gets the size of the current font.
   /**
   * \return The size (in points) of the current font
@@ -1268,7 +1268,7 @@ public:
   * \see Cell(), Write(), Image(), Link(), SetLink()
   */
   virtual int AddLink();
-  
+
   /// Defines the page and position a link points to.
   /**
   * \param link The link identifier returned by AddLink()
@@ -1277,7 +1277,7 @@ public:
   * \see AddLink()
   */
   virtual bool SetLink(int link, double y = 0., int page = -1);
-  
+
   /// Puts a link on a rectangular area of the page.
   /**
   * Text or image links are generally put via Cell(), Write() or Image(), but this method can be useful
@@ -1343,7 +1343,7 @@ public:
   * \see SetAutoPageBreak()
   */
   virtual bool AcceptPageBreak();
-  
+
   /// Prints a cell (rectangular area) with optional borders, background colour and character string.
   /**
   * The upper-left corner of the cell corresponds to the current position. The text can be aligned
@@ -1354,14 +1354,14 @@ public:
   * \param w Cell width. If 0, the cell extends up to the right margin.
   * \param h Cell height. Default value: 0.
   * \param txt String to print. Default value: empty string.
-  * \param border Indicates if borders must be drawn around the cell. The value can be 
+  * \param border Indicates if borders must be drawn around the cell. The value can be
   *   \li wxPDF_BORDER_NONE no border
   *   \li wxPDF_BORDER_LEFT left border
   *   \li wxPDF_BORDER_RIGHT right border
   *   \li wxPDF_BORDER_TOP top border
   *   \li wxPDF_BORDER_BOTTOM bottom border
   *   \li wxPDF_BORDER_FRAME border on all sides
-  * 
+  *
   * or a combination of them.
   * \param ln Indicates where the current position should go after the call. Possible values are:
   *   \li 0: to the right
@@ -1380,8 +1380,8 @@ public:
   * \see SetFont(), SetDrawColour(), SetFillColour(), SetTextColour(), SetLineWidth(), AddLink(), Ln(), MultiCell(), Write(), SetAutoPageBreak()
   */
   virtual void Cell(double w, double h = 0., const wxString& txt = wxEmptyString,
-                    int border = wxPDF_BORDER_NONE, int ln = 0, 
-                    int align = wxPDF_ALIGN_LEFT, int fill = 0, 
+                    int border = wxPDF_BORDER_NONE, int ln = 0,
+                    int align = wxPDF_ALIGN_LEFT, int fill = 0,
                     const wxPdfLink& link = wxPdfLink(-1));
 
   /// This method allows printing text with line breaks.
@@ -1392,14 +1392,14 @@ public:
   * \param w Width of cells. If 0, they extend up to the right margin of the page.
   * \param h Height of cells.
   * \param txt String to print
-  * \param border Indicates if borders must be drawn around the cell. The value can be 
+  * \param border Indicates if borders must be drawn around the cell. The value can be
   *   \li wxPDF_BORDER_NONE no border
   *   \li wxPDF_BORDER_LEFT left border
   *   \li wxPDF_BORDER_RIGHT right border
   *   \li wxPDF_BORDER_TOP top border
   *   \li wxPDF_BORDER_BOTTOM bottom border
   *   \li wxPDF_BORDER_FRAME border on all sides
-  * 
+  *
   * or a combination of them.
   * \param align Allows to center or align the text. Possible values are:
   *   \li wxPDF_ALIGN_LEFT align the text at the left margin
@@ -1441,14 +1441,14 @@ public:
   *   \li wxPDF_ALIGN_MIDDLE center the text vertically in the box
   *   \li wxPDF_ALIGN_BOTTOM align the text at the bottom of the box
   *
-  * \param border Indicates if borders must be drawn around the text box. The value can be 
+  * \param border Indicates if borders must be drawn around the text box. The value can be
   *   \li wxPDF_BORDER_NONE no border
   *   \li wxPDF_BORDER_LEFT left border
   *   \li wxPDF_BORDER_RIGHT right border
   *   \li wxPDF_BORDER_TOP top border
   *   \li wxPDF_BORDER_BOTTOM bottom border
   *   \li wxPDF_BORDER_FRAME border on all sides
-  * 
+  *
   * or a combination of them.
   * \param fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
   */
@@ -1475,14 +1475,14 @@ public:
   * It is possible to put a link on the text.
   * \param h Line height
   * \param txt String to print
-  * \param border Indicates if borders must be drawn around the cell. The value can be 
+  * \param border Indicates if borders must be drawn around the cell. The value can be
   *   \li wxPDF_BORDER_NONE no border
   *   \li wxPDF_BORDER_LEFT left border
   *   \li wxPDF_BORDER_RIGHT right border
   *   \li wxPDF_BORDER_TOP top border
   *   \li wxPDF_BORDER_BOTTOM bottom border
   *   \li wxPDF_BORDER_FRAME border on all sides
-  * 
+  *
   * or a combination of them.
   * \param fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
   * \param link URL or identifier returned by AddLink()
@@ -1497,7 +1497,7 @@ public:
   */
   virtual bool WriteGlyphArray(wxPdfArrayDouble& x, wxPdfArrayDouble& y, wxPdfArrayUint32& glyphs);
 
-  /// Puts an image in the page. 
+  /// Puts an image in the page.
   /**
   * The upper-left corner must be given. The dimensions can be specified in different ways:
   *   \li explicit width and height (expressed in user unit)
@@ -1546,7 +1546,7 @@ public:
   * \param maskImage Id of an image mask created previously by ImageMask().
   * \see AddLink()
   */
-  virtual bool Image(const wxString& file, double x, double y, double w = 0, double h = 0, 
+  virtual bool Image(const wxString& file, double x, double y, double w = 0, double h = 0,
                      const wxString& mimeType = wxEmptyString,
                      const wxPdfLink& link = wxPdfLink(-1),
                      int maskImage = 0);
@@ -1617,7 +1617,7 @@ public:
   */
   virtual int ImageMask(const wxString& name, wxInputStream& stream, const wxString& mimeType);
 
-  /// Puts a rotated image in the page. 
+  /// Puts a rotated image in the page.
   /**
   * The upper-left corner must be given.
   *
@@ -1669,31 +1669,31 @@ public:
   * \see SetX(), GetY(), SetY()
   */
   virtual double GetX();
-  
-  /// Defines the abscissa of the current position. 
+
+  /// Defines the abscissa of the current position.
   /**
   * If the passed value is negative, it is relative to the right of the page.
   * \param x The value of the abscissa.
   * \see GetX(), GetY(), SetY(), SetXY()
   */
   virtual void SetX(double x);
-  
+
   /// Returns the ordinate of the current position.
   /**
   * \return float
   * \see SetY(), GetX(), SetX()
   */
   virtual double GetY();
-  
-  /// Moves the current abscissa back to the left margin and sets the ordinate. 
+
+  /// Moves the current abscissa back to the left margin and sets the ordinate.
   /**
   * If the passed value is negative, it is relative to the bottom of the page.
   * \param y The value of the ordinate.
   * \see GetX(), GetY(), SetY(), SetXY()
   */
   virtual void SetY(double y);
-  
-  /// Defines the abscissa and ordinate of the current position. 
+
+  /// Defines the abscissa and ordinate of the current position.
   /**
   * If the passed values are negative, they are relative respectively to the right and bottom of the page.
   * \param x The value of the abscissa
@@ -1701,7 +1701,7 @@ public:
   * \see SetX(), SetY()
   */
   virtual void SetXY(double x, double y);
-  
+
   /// Saves the document to a file on disk
   /**
   * The method first calls Close() if necessary to terminate the document.
@@ -1710,7 +1710,7 @@ public:
   * \see Close()
   */
   virtual bool SaveAsFile(const wxString& name = wxEmptyString);
-  
+
   /// Closes the document and returns the memory buffer containing the document
   /**
   * The method first calls Close() if necessary to terminate the document.
@@ -1815,7 +1815,7 @@ public:
   * A clipping area restricts the display and prevents any elements from showing outside of it.
   * \param style Style of rendering. Possible values are:
   *   \li wxPDF_STYLE_NOOP (default)
-  *   \li wxPDF_STYLE_DRAW: draw the outline of the clipping path 
+  *   \li wxPDF_STYLE_DRAW: draw the outline of the clipping path
   *   \li wxPDF_STYLE_FILL: fill the area enclosed by the clipping path
   *   \li wxPDF_STYLE_FILLDRAW: draw and fill
   */
@@ -1827,7 +1827,7 @@ public:
   * \param shape shape defining the clipping path
   * \param style Style of rendering. Possible values are:
   *   \li wxPDF_STYLE_NOOP (default)
-  *   \li wxPDF_STYLE_DRAW: draw the outline of the clipping path 
+  *   \li wxPDF_STYLE_DRAW: draw the outline of the clipping path
   *   \li wxPDF_STYLE_FILL: fill the area enclosed by the clipping path
   *   \li wxPDF_STYLE_FILLDRAW: draw and fill
   */
@@ -1849,14 +1849,14 @@ public:
   * \param w Cell width.
   * \param h Cell height.
   * \param txt String to print. Default value: empty string.
-  * \param border Indicates if borders must be drawn around the cell. The value can be 
+  * \param border Indicates if borders must be drawn around the cell. The value can be
   *   \li wxPDF_BORDER_NONE no border
   *   \li wxPDF_BORDER_LEFT left border
   *   \li wxPDF_BORDER_RIGHT right border
   *   \li wxPDF_BORDER_TOP top border
   *   \li wxPDF_BORDER_BOTTOM bottom border
   *   \li wxPDF_BORDER_FRAME border on all sides
-  * 
+  *
   * or a combination of them.
   * \param ln Indicates where the current position should go after the call. Possible values are:
   *   \li 0: to the right
@@ -1875,8 +1875,8 @@ public:
   * \see SetFont(), SetDrawColour(), SetFillColour(), SetTextColour(), SetLineWidth(), AddLink(), Ln(), MultiCell(), Write(), SetAutoPageBreak()
   */
   virtual void ClippedCell(double w, double h = 0., const wxString& txt = wxEmptyString,
-                           int border = wxPDF_BORDER_NONE, int ln = 0, 
-                           int align = wxPDF_ALIGN_LEFT, int fill = 0, 
+                           int border = wxPDF_BORDER_NONE, int ln = 0,
+                           int align = wxPDF_ALIGN_LEFT, int fill = 0,
                            const wxPdfLink& link = wxPdfLink(-1));
 
   /// Enters a transformation environment
@@ -2060,7 +2060,7 @@ public:
   * \param r2 radius of circle 2, default: 1
   * \param intexp interpolation exponent, default: 1
   */
-  virtual int RadialGradient(const wxPdfColour& col1, const wxPdfColour& col2, 
+  virtual int RadialGradient(const wxPdfColour& col1, const wxPdfColour& col2,
                               double x1 = 0.5, double y1 = 0.5, double r1 = 0,
                               double x2 = 0.5, double y2 = 0.5, double r2 = 1,
                               double intexp = 1);
@@ -2085,9 +2085,9 @@ public:
 
   /// Draws a graphical marker symbol
   /**
-  * \param x abscissa of the marker's center 
+  * \param x abscissa of the marker's center
   * \param y ordinate of the marker's center
-  * \param markerType type of the marker 
+  * \param markerType type of the marker
   * \param size size of the marker
   */
   virtual void Marker(double x, double y, wxPdfMarker markerType, double size);
@@ -2134,7 +2134,7 @@ public:
   * \param checked default value of the check box
   */
   virtual void CheckBox(const wxString& name, double x, double y, double width, bool checked = false);
-  
+
   /// Adds a combo box field at the current position
   /**
   * Adds a combo box to the list of form fields at the current position
@@ -2155,10 +2155,10 @@ public:
   * \param height height of the combo box
   * \param values array of option values of the combo box
   */
-  virtual void ComboBox(const wxString& name, 
-                        double x, double y, double width, double height, 
+  virtual void ComboBox(const wxString& name,
+                        double x, double y, double width, double height,
                         const wxArrayString& values);
-  
+
   /// Adds a push button at the current position
   /**
   * Adds a push button to the list of form fields at the current position
@@ -2168,7 +2168,7 @@ public:
   * \param caption caption of the push button
   * \param action associated Javascript action
   */
-  virtual void PushButton(const wxString& name, double width, double height, 
+  virtual void PushButton(const wxString& name, double width, double height,
                           const wxString& caption, const wxString& action);
 
   /// Adds a push button
@@ -2182,9 +2182,9 @@ public:
   * \param caption caption of the push button
   * \param action associated Javascript action
   */
-  virtual void PushButton(const wxString& name, double x, double y, double width, double height, 
+  virtual void PushButton(const wxString& name, double x, double y, double width, double height,
                           const wxString& caption, const wxString& action);
-  
+
   /// Adds a radio button at the current position
   /**
   * Adds a radio button to the list of form fields at the current position
@@ -2193,7 +2193,7 @@ public:
   * \param width width of the radio button
   */
   virtual void RadioButton(const wxString& group, const wxString& name, double width);
-  
+
   /// Adds a radio button
   /**
   * Adds a radio button to the list of form fields
@@ -2203,7 +2203,7 @@ public:
   * \param y ordinate of the radio button position
   * \param width width of the radio button
   */
-  virtual void RadioButton(const wxString& group, const wxString& name, 
+  virtual void RadioButton(const wxString& group, const wxString& name,
                            double x, double y, double width);
 
   /// Adds a text field at the current position
@@ -2229,7 +2229,7 @@ public:
   * \param value default value of the text field
   * \param multiline flag whether the text field is a multiline field or not
   */
-  virtual void TextField(const wxString& name, 
+  virtual void TextField(const wxString& name,
                          double x, double y, double width, double height,
                          const wxString& value = wxEmptyString, bool multiline = false);
 
@@ -2352,7 +2352,7 @@ public:
   * be used as a source for the external template feature.
   */
   virtual int SetSourceFile(const wxString& filename, const wxString& password = wxEmptyString);
-  
+
   /// Gets the document information dictionary of the current external PDF document.
   /**
   * Gets the values of the Info dictionary of the current external document, if available.
@@ -2436,7 +2436,7 @@ public:
   * Creates a title layer. A title layer is not really a layer but a collection of layers
   * under the same title heading.
   * \param layerTitle the title text
-  * \return a reference to the title layer 
+  * \return a reference to the title layer
   */
   virtual wxPdfLayer* AddLayerTitle(const wxString& layerTitle);
 
@@ -2497,7 +2497,7 @@ public:
   * \param attachName the name under which the file will be attached (dfeault: filename)
   * \param description an optional description
   */
-  virtual bool AttachFile(const wxString& fileName, 
+  virtual bool AttachFile(const wxString& fileName,
                           const wxString& attachName = wxEmptyString,
                           const wxString& description = wxEmptyString);
 
@@ -2553,7 +2553,7 @@ protected:
   * \see SetFont()
   */
   virtual void SetFontSize(double size, bool setSize);
-  
+
   /// Apply visual ordering
   virtual wxString ApplyVisualOrdering(const wxString& txt);
 
@@ -2571,8 +2571,8 @@ protected:
   * \note This method expects the text already to be preprocessed in respect to visual layout.
   */
   virtual void DoCell(double w, double h = 0., const wxString& txt = wxEmptyString,
-                      int border = wxPDF_BORDER_NONE, int ln = 0, 
-                      int align = wxPDF_ALIGN_LEFT, int fill = 0, 
+                      int border = wxPDF_BORDER_NONE, int ln = 0,
+                      int align = wxPDF_ALIGN_LEFT, int fill = 0,
                       const wxPdfLink& link = wxPdfLink(-1));
 
   /// Get size of an image
@@ -2587,22 +2587,22 @@ protected:
 
   /// Start document
   virtual void BeginPage(int orientation, wxSize pageSize);
-  
+
   /// End of page contents
   virtual void EndPage();
-  
+
   /// End dociment
   virtual void EndDoc();
 
   /// Add header
   virtual void PutHeader();
-  
+
   /// Add pages.
   virtual void PutPages();
 
   /// Replace page number aliases
   virtual void ReplaceNbPagesAlias();
-  
+
   /// Add resources
   virtual void PutResources();
 
@@ -2617,7 +2617,7 @@ protected:
 
   /// Adds fonts
   virtual void PutFonts();
-  
+
   /// Add images
   virtual void PutImages();
 
@@ -2655,7 +2655,7 @@ protected:
 
   /// Add resource dictionary
   virtual void PutResourceDict();
-  
+
   /// Add encryption info.
   virtual void PutEncryption();
 
@@ -2664,13 +2664,13 @@ protected:
 
   /// Add info.
   virtual void PutInfo();
-  
+
   /// Addcatalog
   virtual void PutCatalog();
-  
+
   /// Add object dictionary
   virtual void PutXObjectDict();
-  
+
   /// Add trailer
   virtual void PutTrailer();
 
@@ -2685,7 +2685,7 @@ protected:
 
   /// Begin a new object
   void NewObj(int objId = 0);
-  
+
   /// Decorate text
   wxString DoDecoration(double x, double y, const wxString& txt);
 
@@ -2700,7 +2700,7 @@ protected:
 
   /// Add byte stream
   void PutStream(wxMemoryOutputStream& s);
-  
+
   /// Add a text string to the document
   void OutTextstring(const wxString& s, bool newline = true);
 
@@ -2712,7 +2712,7 @@ protected:
 
   /// Add an ASCII text string to the document
   void OutAsciiTextstring(const wxString& s, bool newline = true);
-  
+
   /// Add \ before \, ( and )
   void OutEscape(const char* s, size_t len);
 
@@ -2787,7 +2787,7 @@ private:
   int                  m_page;                ///< current page number
   int                  m_n;                   ///< current object number
   int                  m_firstPageId;         ///< object id of the first page
- 
+
   wxPdfOffsetHashMap*  m_offsets;             ///< array of object offsets
 
   wxOutputStream*      m_buffer;              ///< buffer holding in-memory PDF
@@ -2846,7 +2846,7 @@ private:
   wxPdfPatternMap*     m_patterns;            ///< array of patterns
 
   wxPdfAnnotationsMap* m_annotations;         ///< array of text annotations
-  
+
   wxArrayPtrVoid       m_outlines;            ///< array of bookmarks
   int                  m_outlineRoot;         ///< number of root node
   int                  m_maxOutlineLevel;     ///< max. occuring outline level

@@ -89,8 +89,8 @@ protected:
   bool ReadMap(const wxString& enc, CTGMap& cc2gn);
   short ReadShort(wxInputStream* stream);
   int ReadInt(wxInputStream* stream);
-  void CheckTTF(const wxString& fileName, 
-                bool& embeddingAllowed, bool& subsettingAllowed, 
+  void CheckTTF(const wxString& fileName,
+                bool& embeddingAllowed, bool& subsettingAllowed,
                 int& cffOffset, int& cffLength);
   void CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font, bool includeGlyphInfo);
 
@@ -354,12 +354,12 @@ MakeFont::CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font
   textNode = new wxXmlNode(wxXML_TEXT_NODE, wxS("text"), wxString::Format(wxS("%d"), fd.GetMissingWidth()));
   node->AddChild(textNode);
   descNode->AddChild(node);
-  
+
   node = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("x-height"));
   textNode = new wxXmlNode(wxXML_TEXT_NODE, wxS("text"), wxString::Format(wxS("%d"), fd.GetXHeight()));
   node->AddChild(textNode);
   descNode->AddChild(node);
-  
+
   node = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("underline-position"));
   textNode = new wxXmlNode(wxXML_TEXT_NODE, wxS("text"), wxString::Format(wxS("%d"), fd.GetUnderlinePosition()));
   node->AddChild(textNode);
@@ -554,7 +554,7 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
   fd.SetMissingWidth(600);
   fd.SetUnderlinePosition(-100);
   fd.SetUnderlineThickness(50);
-  
+
   bool hasCapHeight = false;
   bool hasXCapHeight = false;
   bool hasXHeight = false;
@@ -914,8 +914,8 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
       }
     }
   }
-  afmFont->SetDiffs(diffs);  
-  
+  afmFont->SetDiffs(diffs);
+
   if (cc2gn.empty())
   {
     flags += 1 << 2;
@@ -1165,7 +1165,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
   {
     cc2gn[j] = '\0';
   }
-  
+
   // Read the UFM font metric file
   wxPdfGlyphWidthMap* widths = new wxPdfGlyphWidthMap();
   wxPdfChar2GlyphMap* glyphs = new wxPdfChar2GlyphMap();
@@ -1462,7 +1462,7 @@ MakeFont::MakeFontImmediate(const wxString& fontFileName)
   size_t len = fontStream.GetLength();
 
   int cffOffset, cffLength;
-  bool embeddingAllowed = false; 
+  bool embeddingAllowed = false;
   bool subsettingAllowed = false;
   CheckTTF(fontFileName, embeddingAllowed, subsettingAllowed, cffOffset, cffLength);
   bool cff = cffOffset > 0;
@@ -1579,7 +1579,7 @@ MakeFont::OnInit()
   bool valid = false;
   //gets the parameters from cmd line
   wxCmdLineParser parser (cmdLineDesc, argc, argv);
-  wxString logo = wxS("wxPdfDocument MakeFont Utility Version ") + m_version + 
+  wxString logo = wxS("wxPdfDocument MakeFont Utility Version ") + m_version +
                   wxS("\n\nCreate wxPdfDocument font support files.\n") +
                   wxS("Please specify file extensions in ALL file name parameters.\n") +
                   wxS("Select exactly one method to provide font metrics.\n");

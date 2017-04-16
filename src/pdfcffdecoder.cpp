@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfcffdecoder.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-01
 // Copyright:   (c) Ulrich Telle
@@ -66,7 +66,7 @@ static const wxChar* gs_standardStrings[] = {
     // Generated from Appendix A of the CFF specification. Size should be 391.
     wxS(".notdef"),             wxS("space"),              wxS("exclam"),           wxS("quotedbl"),       wxS("numbersign"),
     wxS("dollar"),              wxS("percent"),            wxS("ampersand"),        wxS("quoteright"),     wxS("parenleft"),
-    wxS("parenright"),          wxS("asterisk"),           wxS("plus"),             wxS("comma"),          wxS("hyphen"), 
+    wxS("parenright"),          wxS("asterisk"),           wxS("plus"),             wxS("comma"),          wxS("hyphen"),
     wxS("period"),              wxS("slash"),              wxS("zero"),             wxS("one"),            wxS("two"),
     wxS("three"),               wxS("four"),               wxS("five"),             wxS("six"),            wxS("seven"),
     wxS("eight"),               wxS("nine"),               wxS("colon"),            wxS("semicolon"),      wxS("less"),
@@ -163,12 +163,12 @@ static int gs_subrsFunctionsCount = sizeof(gs_subrsFunctions) / sizeof(wxChar*);
 
 // The Strings in this array represent Type1/Type2 escape operator names
 static const wxChar* gs_subrsEscapeFuncs[] = {
-    wxS("RESERVED_0"),  wxS("RESERVED_1"),    wxS("RESERVED_2"),   wxS("and"),           wxS("or"), 
+    wxS("RESERVED_0"),  wxS("RESERVED_1"),    wxS("RESERVED_2"),   wxS("and"),           wxS("or"),
     wxS("not"),         wxS("seac"),/*RES_6*/ wxS("sbw"),/*RES_7*/ wxS("RESERVED_8"),    wxS("abs"),
     wxS("add"),         wxS("sub"),           wxS("div"),          wxS("RESERVED_13"),   wxS("neg"),
     wxS("eq"),          wxS("RESERVED_16"),   wxS("RESERVED_17"),  wxS("drop"),          wxS("RESERVED_19"),
     wxS("put"),         wxS("get"),           wxS("ifelse"),       wxS("random"),        wxS("mul"),
-    wxS("RESERVED_25"), wxS("sqrt"),          wxS("dup"),          wxS("exch"),          wxS("index"), 
+    wxS("RESERVED_25"), wxS("sqrt"),          wxS("dup"),          wxS("exch"),          wxS("index"),
     wxS("roll"),        wxS("RESERVED_31"),   wxS("RESERVED_32"),  wxS("RESERVED_33"),   wxS("hflex"),
     wxS("flex"),        wxS("hflex1"),        wxS("flex1"),        wxS("RESERVED_REST")
   };
@@ -207,7 +207,7 @@ public:
 wxPdfCffDecoder::wxPdfCffDecoder()
 {
   m_charstringType = 1;
-  
+
   m_globalSubrIndex  = NULL;
   m_hGlobalSubrsUsed = NULL;
   m_lGlobalSubrsUsed = NULL;
@@ -221,7 +221,7 @@ wxPdfCffDecoder::wxPdfCffDecoder(wxPdfCffIndexArray* globalSubrIndex,
                                  wxArrayInt* lGlobalSubrsUsed)
 {
   m_charstringType = 2;
-  
+
   m_globalSubrIndex  = globalSubrIndex;
   m_hGlobalSubrsUsed = hGlobalSubrsUsed;
   m_lGlobalSubrsUsed = lGlobalSubrsUsed;
@@ -353,7 +353,7 @@ wxPdfCffDecoder::GetCharWidthAndComposite(wxPdfCffIndexElement& charstring, int&
 
 void
 wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
-                           int globalBias, int localBias, 
+                           int globalBias, int localBias,
                            wxPdfSortedArrayInt& hSubrsUsed, wxArrayInt& lSubrsUsed,
                            wxPdfCffIndexArray& localSubrIndex)
 {
@@ -380,9 +380,9 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
     // Check the modification needed on the Argument Stack according to key;
     HandleStack();
     // a call to a Lsubr
-    if (m_key == wxS("callsubr")) 
+    if (m_key == wxS("callsubr"))
     {
-      // Verify that arguments are passed 
+      // Verify that arguments are passed
       if (numArgs > 0)
       {
         // Calc the index of the Subrs
@@ -401,12 +401,12 @@ wxPdfCffDecoder::ReadASubr(wxInputStream* stream, int begin, int end,
         endSubr = beginSubr + localSubr.GetLength();
         CalcHints(localSubr.GetBuffer(), beginSubr, endSubr, globalBias, localBias, localSubrIndex);
         stream->SeekI(pos);
-      }            
+      }
     }
     // a call to a Gsubr
     else if (m_key == wxS("callgsubr"))
     {
-      // Verify that arguments are passed 
+      // Verify that arguments are passed
       if (numArgs > 0)
       {
         // Calc the index of the Subrs
@@ -485,7 +485,7 @@ wxPdfCffDecoder::HandleStack()
     EmptyStack();
   }
 }
-  
+
 int
 wxPdfCffDecoder::StackOpp()
 {
@@ -521,13 +521,13 @@ wxPdfCffDecoder::StackOpp()
   }
   return op;
 }
-  
+
 void
 wxPdfCffDecoder::EmptyStack()
 {
-  m_argCount = 0;    
+  m_argCount = 0;
 }
-  
+
 void
 wxPdfCffDecoder::PopStack()
 {
@@ -536,13 +536,13 @@ wxPdfCffDecoder::PopStack()
     m_argCount--;
   }
 }
-  
+
 void
 wxPdfCffDecoder::PushStack()
 {
   m_argCount++;
 }
-  
+
 void
 wxPdfCffDecoder::ReadCommand(wxInputStream* stream)
 {
@@ -618,7 +618,7 @@ wxPdfCffDecoder::ReadCommand(wxInputStream* stream)
     }
   }
 }
-  
+
 int
 wxPdfCffDecoder::CalcHints(wxInputStream* stream, int begin, int end, int globalBias, int localBias, wxPdfCffIndexArray& localSubrIndex)
 {
@@ -639,7 +639,7 @@ wxPdfCffDecoder::CalcHints(wxInputStream* stream, int begin, int end, int global
     //Check the modification needed on the Argument Stack according to key;
     HandleStack();
     // a call to a Lsubr
-    if (m_key == wxS("callsubr")) 
+    if (m_key == wxS("callsubr"))
     {
       if (numArgs > 0)
       {

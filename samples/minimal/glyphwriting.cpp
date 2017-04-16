@@ -28,7 +28,7 @@
 
 /**
 * Glyph writing
-* 
+*
 * This example shows writing a list of glyphs at specific positions.
 *
 * The sample text - a sample from ICU - was preprocessed with ICU under Windows.

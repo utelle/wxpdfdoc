@@ -22,33 +22,33 @@
 #include "wx/pdfdoc.h"
 
 /**
-* Here is a two page example with header, footer and logo: 
+* Here is a two page example with header, footer and logo:
 *
 * This example makes use of the Header() and Footer() methods to process page
 * headers and footers. They are called automatically. They already exist in the
 * wxPdfDocument class but do nothing, therefore we have to extend the class and override
-* them. 
-* 
+* them.
+*
 * The logo is printed with the Image() method by specifying its upper-left corner
 * and its width. The height is calculated automatically to respect the image
-* proportions. 
-* 
+* proportions.
+*
 * To print the page number, a null value is passed as the cell width. It means
 * that the cell should extend up to the right margin of the page; it is handy to
 * center text. The current page number is returned by the PageNo() method; as for
 * the total number of pages, it is obtained by means of the special value {nb}
 * which will be substituted on document closure (provided you first called
-* AliasNbPages()). 
-* 
+* AliasNbPages()).
+*
 * Note the use of the SetY() method which allows to set position at an absolute
-* location in the page, starting from the top or the bottom. 
+* location in the page, starting from the top or the bottom.
 
 * Another interesting feature is used here: the automatic page breaking. As soon
 * as a cell would cross a limit in the page (at 2 centimeters from the bottom by
 * default), a break is performed and the font restored. Although the header and
 * footer select their own font (Helvetica), the body continues with Times. This mechanism
 * of automatic restoration also applies to colors and line width. The limit which
-* triggers page breaks can be set with SetAutoPageBreak(). 
+* triggers page breaks can be set with SetAutoPageBreak().
 */
 
 class PdfTuto2 : public wxPdfDocument

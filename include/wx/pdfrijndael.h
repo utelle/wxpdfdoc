@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfrijndael.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-11-25
 // Copyright:   (c) Ulrich Telle (Copyright for original code see below)
@@ -77,7 +77,7 @@
 #define _MAX_ROUNDS      14
 #define MAX_IV_SIZE      16
 
-// We assume that unsigned int is 32 bits long.... 
+// We assume that unsigned int is 32 bits long....
 typedef unsigned char  UINT8;
 typedef unsigned int   UINT32;
 typedef unsigned short UINT16;
@@ -172,5 +172,5 @@ protected:
   void encrypt(const UINT8 a[16], UINT8 b[16]);
   void decrypt(const UINT8 a[16], UINT8 b[16]);
 };
-  
+
 #endif // _PDFRIJNDAEL_H_

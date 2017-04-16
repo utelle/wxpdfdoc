@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdata.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-07
 // Copyright:   (c) Ulrich Telle
@@ -263,7 +263,7 @@ wxPdfFontData::GetEncodingChecker() const
 
 void
 wxPdfFontData::SetType(const wxString& type)
-{ 
+{
   m_type = type;
 }
 
@@ -330,10 +330,10 @@ void
 wxPdfFontData::SetStyle(const wxString& style)
 {
   wxString lcStyle = style.Lower();
-  bool italic = (lcStyle.Find(wxS("italic"))  != wxNOT_FOUND) || 
+  bool italic = (lcStyle.Find(wxS("italic"))  != wxNOT_FOUND) ||
                 (lcStyle.Find(wxS("oblique")) != wxNOT_FOUND) ||
                 lcStyle.IsSameAs(wxS("i")) || lcStyle.IsSameAs(wxS("bi")) || lcStyle.IsSameAs(wxS("ib"));
-  bool bold = (lcStyle.Find(wxS("bold"))  != wxNOT_FOUND) || 
+  bool bold = (lcStyle.Find(wxS("bold"))  != wxNOT_FOUND) ||
               (lcStyle.Find(wxS("black")) != wxNOT_FOUND) ||
               lcStyle.IsSameAs(wxS("b")) || lcStyle.IsSameAs(wxS("bi")) || lcStyle.IsSameAs(wxS("ib"));
   m_style = wxPDF_FONTSTYLE_REGULAR;
@@ -361,7 +361,7 @@ wxPdfFontData::SetStyleFromName()
 
 int
 wxPdfFontData::GetStyle() const
-{ 
+{
   return m_style;
 }
 
@@ -373,19 +373,19 @@ wxPdfFontData::SetUnderlinePosition(int up)
 
 int
 wxPdfFontData::GetUnderlinePosition() const
-{ 
+{
   return m_desc.GetUnderlinePosition();
 }
 
 void
 wxPdfFontData::SetUnderlineThickness(int ut)
-{ 
+{
   m_desc.SetUnderlineThickness(ut);
 }
 
 int
 wxPdfFontData::GetUnderlineThickness() const
-{ 
+{
   return m_desc.GetUnderlineThickness();
 }
 
@@ -589,7 +589,7 @@ wxPdfFontData::GetKernPairMap() const
 int
 wxPdfFontData::GetKerningWidth(const wxString& s) const
 {
-  bool translateChar2Glyph = m_type.IsSameAs(wxS("TrueTypeUnicode")) || 
+  bool translateChar2Glyph = m_type.IsSameAs(wxS("TrueTypeUnicode")) ||
                              m_type.IsSameAs(wxS("OpenTypeUnicode"));
   int width = 0;
   if (m_kp != NULL && s.length())
@@ -638,7 +638,7 @@ wxPdfFontData::GetKerningWidth(const wxString& s) const
 wxArrayInt
 wxPdfFontData::GetKerningWidthArray(const wxString& s) const
 {
-  bool translateChar2Glyph = m_type.IsSameAs(wxS("TrueTypeUnicode")) || 
+  bool translateChar2Glyph = m_type.IsSameAs(wxS("TrueTypeUnicode")) ||
                              m_type.IsSameAs(wxS("OpenTypeUnicode"));
   wxArrayInt widths;
   int pos = 0;
@@ -707,7 +707,7 @@ wxPdfFontData::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyphs, w
   wxUnusedVar(subsetGlyphs);
   return wxEmptyString;
 }
-  
+
 double
 wxPdfFontData::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
 {
@@ -734,7 +734,7 @@ wxPdfFontData::WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt* used
 }
 
 size_t
-wxPdfFontData::WriteUnicodeMap(wxOutputStream* mapData, 
+wxPdfFontData::WriteUnicodeMap(wxOutputStream* mapData,
                                const wxPdfEncoding* encoding, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
 {
   wxUnusedVar(mapData);
@@ -809,7 +809,7 @@ wxPdfFontData::ConvertToValid(const wxString& s, wxChar replace) const
 wxString
 wxPdfFontData::ConvertCID2GID(const wxString& s,
                               const wxPdfEncoding* encoding,
-                              wxPdfSortedArrayInt* usedGlyphs, 
+                              wxPdfSortedArrayInt* usedGlyphs,
                               wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   // No conversion from cid to gid
@@ -820,9 +820,9 @@ wxPdfFontData::ConvertCID2GID(const wxString& s,
 }
 
 wxString
-wxPdfFontData::ConvertGlyph(wxUint32 glyph, 
-                            const wxPdfEncoding* encoding, 
-                            wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontData::ConvertGlyph(wxUint32 glyph,
+                            const wxPdfEncoding* encoding,
+                            wxPdfSortedArrayInt* usedGlyphs,
                             wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(glyph);

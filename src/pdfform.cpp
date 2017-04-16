@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfform.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-01-18
 // Copyright:   (c) Ulrich Telle
@@ -78,7 +78,7 @@ wxPdfCheckBox::~wxPdfCheckBox()
 }
 
 wxPdfComboBox::wxPdfComboBox(int objectId,
-                             int fontindex, double fontsize, 
+                             int fontindex, double fontsize,
                              int generationId)
   : wxPdfAnnotationWidget(objectId, generationId)
 {
@@ -92,7 +92,7 @@ wxPdfComboBox::~wxPdfComboBox()
 }
 
 wxPdfPushButton::wxPdfPushButton(int objectId,
-                                 int fontindex, double fontsize, 
+                                 int fontindex, double fontsize,
                                  int generationId)
   : wxPdfAnnotationWidget(objectId, generationId)
 {
@@ -135,7 +135,7 @@ wxPdfRadioGroup::Add(wxPdfRadioButton* radio)
 }
 
 wxPdfTextField::wxPdfTextField(int objectId,
-                               int fontindex, double fontsize, 
+                               int fontindex, double fontsize,
                                const wxString& value, int generationId)
   : wxPdfAnnotationWidget(objectId, generationId)
 {
@@ -174,9 +174,9 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           Out("/T ", false);
           OutAsciiTextstring(obj->GetName());
 #if 0
-          OutAscii(wxString(wxS("/BS << /W ") + 
+          OutAscii(wxString(wxS("/BS << /W ") +
                    Double2String(obj->GetBorderWidth() +
-                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() +
                    wxString(wxS(">>")));
 #endif
 //          OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorder() +
@@ -231,9 +231,9 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           Out("/T ", false);
           OutAsciiTextstring(obj->GetName());
           // Border style
-          OutAscii(wxString(wxS("/BS << /W ")) + 
+          OutAscii(wxString(wxS("/BS << /W ")) +
                    wxPdfUtility::Double2String(obj->GetBorderWidth(), 2) +
-                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() +
                    wxString(wxS(">>")));
           OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
                    wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + wxString(wxS("] /CA ")), false);
@@ -283,15 +283,15 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
                    wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + wxString(wxS("]>>")));
           // Border style
-          OutAscii(wxString(wxS("/BS << /W ")) + 
+          OutAscii(wxString(wxS("/BS << /W ")) +
                    wxPdfUtility::Double2String(obj->GetBorderWidth(), 2) +
-                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() +
                    wxString(wxS(">>")));
           Out("/DR 2 0 R");
           Out("/DA ", false);
           OutAsciiTextstring(wxString::Format(wxS("/F%d "), obj->GetFontIndex()) +
                              wxPdfUtility::Double2String(obj->GetFontSize(),2) +
-                             wxString(wxS(" Tf ")) + obj->GetTextColour()); 
+                             wxString(wxS(" Tf ")) + obj->GetTextColour());
           wxArrayString options = obj->GetValue();
           Out("/DV ", false);
           OutTextstring(options[0]);
@@ -337,15 +337,15 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           OutAsciiTextstring(obj->GetName());
           Out("/BS << /W 1 /S /B >>");
           OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
-                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + 
+                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() +
                    wxString(wxS("] /CA ")), false);
           OutTextstring(obj->GetCaption(), false);
           Out(">>");
           Out("/DR 2 0 R");
           Out("/DA ", false);
           OutAsciiTextstring(wxString::Format(wxS("/F%d "), obj->GetFontIndex()) +
-                             wxPdfUtility::Double2String(obj->GetFontSize(),2) + 
-                             wxString(wxS(" Tf ")) + obj->GetTextColour()); 
+                             wxPdfUtility::Double2String(obj->GetFontSize(),2) +
+                             wxString(wxS(" Tf ")) + obj->GetTextColour());
           Out("/A <</S /JavaScript /JS", false);
           OutTextstring(obj->GetAction());
           Out(">>");
@@ -383,14 +383,14 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           OutAsciiTextstring(parent->GetName());
           Out("/AS /Off");
           OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
-                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + 
+                   wxString(wxS("]/BG [")) + obj->GetBackgroundColour() +
                    wxString(wxS("] /CA ")), false);
           OutAsciiTextstring(wxString(wxS("l")), false);
           Out(">>");
           // Border style
-          OutAscii(wxString(wxS("/BS << /W ")) + 
+          OutAscii(wxString(wxS("/BS << /W ")) +
                    wxPdfUtility::Double2String(obj->GetBorderWidth(), 2) +
-                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() +
                    wxString(wxS(">>")));
           Out("/DR 2 0 R");
           Out("/DA ", false);
@@ -439,15 +439,15 @@ wxPdfDocument::OutIndirectObject(wxPdfIndirectObject* object)
           OutAscii(wxString(wxS("/MK <</BC [")) + obj->GetBorderColour() +
                    wxString(wxS("]/BG [")) + obj->GetBackgroundColour() + wxString(wxS("]>>")));
           // Border style
-          OutAscii(wxString(wxS("/BS << /W ")) + 
+          OutAscii(wxString(wxS("/BS << /W ")) +
                    wxPdfUtility::Double2String(obj->GetBorderWidth(), 2) +
-                   wxString(wxS("/S/")) + obj->GetBorderStyle() + 
+                   wxString(wxS("/S/")) + obj->GetBorderStyle() +
                    wxString(wxS(">>")));
           Out("/DR 2 0 R");
           Out("/DA ", false);
           OutAsciiTextstring(wxString::Format(wxS("/F%d "), obj->GetFontIndex()) +
-                             wxPdfUtility::Double2String(obj->GetFontSize(),2) + 
-                             wxString(wxS(" Tf ")) + obj->GetTextColour()); 
+                             wxPdfUtility::Double2String(obj->GetFontSize(),2) +
+                             wxString(wxS(" Tf ")) + obj->GetTextColour());
           Out(">>");
           Out("endobj");
         }
@@ -489,8 +489,8 @@ wxPdfDocument::ComboBox(const wxString& name, double width, double height, const
 }
 
 void
-wxPdfDocument::ComboBox(const wxString& name, 
-                        double x, double y, double width, double height, 
+wxPdfDocument::ComboBox(const wxString& name,
+                        double x, double y, double width, double height,
                         const wxArrayString& values)
 {
   wxPdfComboBox* field = new wxPdfComboBox(GetNewObjId(), m_currentFont->GetIndex(), m_fontSizePt);
@@ -501,15 +501,15 @@ wxPdfDocument::ComboBox(const wxString& name,
 }
 
 void
-wxPdfDocument::PushButton(const wxString& name, double width, double height, 
+wxPdfDocument::PushButton(const wxString& name, double width, double height,
                           const wxString& caption, const wxString& action)
 {
   PushButton(name, m_x, m_y, width, height, caption, action);
 }
 
 void
-wxPdfDocument::PushButton(const wxString& name, 
-                          double x, double y, double w, double h, 
+wxPdfDocument::PushButton(const wxString& name,
+                          double x, double y, double w, double h,
                           const wxString& caption, const wxString& action)
 {
   wxPdfPushButton* field = new wxPdfPushButton(GetNewObjId(), m_currentFont->GetIndex(), m_fontSizePt);
@@ -527,7 +527,7 @@ wxPdfDocument::RadioButton(const wxString& group, const wxString& name, double w
 }
 
 void
-wxPdfDocument::RadioButton(const wxString& group, const wxString& name, 
+wxPdfDocument::RadioButton(const wxString& group, const wxString& name,
                            double x, double y, double width)
 {
   wxPdfRadioGroup* currentGroup;
@@ -567,7 +567,7 @@ wxPdfDocument::TextField(const wxString& name, double width, double height,
 }
 
 void
-wxPdfDocument::TextField(const wxString& name, 
+wxPdfDocument::TextField(const wxString& name,
                          double x, double y, double width, double height,
                          const wxString& value, bool multiline)
 {
@@ -609,7 +609,7 @@ wxPdfDocument::AddFormField(wxPdfAnnotationWidget* field, bool setFormField)
 
 void
 wxPdfDocument::SetFormColours(const wxPdfColour& borderColour,
-                              const wxPdfColour& backgroundColour, 
+                              const wxPdfColour& backgroundColour,
                               const wxPdfColour& textColour)
 {
   m_formBorderColour     = borderColour.GetColour(false).BeforeLast(wxS(' '));

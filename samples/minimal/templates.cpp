@@ -25,7 +25,7 @@
 
 /**
 * Templates 1
-* 
+*
 * This example shows the creation and use of internal templates.
 */
 
@@ -116,7 +116,7 @@ templates1(bool testMode)
 
 /**
 * Templates 2
-* 
+*
 * This example shows the use of external templates.
 */
 

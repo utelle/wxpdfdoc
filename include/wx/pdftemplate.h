@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdftemplate.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-07-13
 // Copyright:   (c) Ulrich Telle

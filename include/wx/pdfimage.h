@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfimage.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2005-08-11
 // Copyright:   (c) Ulrich Telle
@@ -32,7 +32,7 @@ public:
   wxPdfImage(wxPdfDocument* document, int index, const wxString& name, const wxString& type);
 
   /// Constructor
-  wxPdfImage(wxPdfDocument* document, int index, const wxString& name, const wxImage& image, 
+  wxPdfImage(wxPdfDocument* document, int index, const wxString& name, const wxImage& image,
              bool jpegFormat = false);
 
   /// Constructor
@@ -140,13 +140,13 @@ protected:
 
   /// Read a 4-byte integer from file (little endian)
   int ReadIntLE(wxInputStream* imageStream);
-  
+
   /// Read a 4-byte unsigned integer from file (big endian)
   unsigned int ReadUIntBE(wxInputStream* imageStream);
 
   /// Read a 4-byte unsigned integer from file (little endian)
   unsigned int ReadUIntLE(wxInputStream* imageStream);
-  
+
   /// Read a 2-byte integer from file (big endian)
   short ReadShortBE(wxInputStream* imageStream);
 

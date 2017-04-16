@@ -24,7 +24,7 @@
 
 /**
 * WMF images
-* 
+*
 * This example shows the embedding of a WMF image file.
 */
 

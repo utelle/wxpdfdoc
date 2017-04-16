@@ -4,7 +4,7 @@
 // Author:      Ulrich Telle
 // Modified by:
 // Created:     2009-01-28
-//                            
+//
 // Copyright:   (c) Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
@@ -25,7 +25,7 @@
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
-#endif 
+#endif
 
 #endif
 

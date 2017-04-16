@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfocg.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-07-02
 // Copyright:   (c) Ulrich Telle
@@ -135,7 +135,7 @@ void
 wxPdfDocument::PutLayers()
 {
   wxPdfOcgMap::iterator ocgIter;
-  
+
   // Layers
   for (ocgIter = m_ocgs->begin(); ocgIter != m_ocgs->end(); ++ocgIter)
   {
@@ -302,7 +302,7 @@ wxPdfDocument::PutOCProperties()
     {
       OutAscii(wxString::Format(wxS(" %d 0 R"), ocg->GetObjIndex()), false);
     }
-  }  
+  }
   Out("]");
   Out("/D <<");
 
@@ -324,7 +324,7 @@ wxPdfDocument::PutOCProperties()
         PutOCGOrder(layer);
       }
     }
-  }  
+  }
   Out("]");
 
   if (offCount > 0)

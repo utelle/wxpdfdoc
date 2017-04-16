@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfdc28.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2010-11-28
 // Copyright:   (c) Ulrich Telle

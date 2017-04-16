@@ -36,15 +36,15 @@ public:
   /**
   * \param family the family name of the font
   * \param name the font name
-  * \param encoding the font's encoding 
+  * \param encoding the font's encoding
   * \param ordering the font's registry ordering
   * \param supplement the font's registry supplement
   * \param cmap the font's cmap
-  * \param cwArray an array with the character widths 
+  * \param cwArray an array with the character widths
   * \param desc a font description
   */
   wxPdfFontDataType0(const wxString& family, const wxString& name,
-                     const wxString& encoding, const wxString& ordering, 
+                     const wxString& encoding, const wxString& ordering,
                      const wxString& supplement, const wxString& cmap,
                      short* cwArray, const wxPdfFontDescription& desc);
 
@@ -85,8 +85,8 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding = NULL, 
-                                  wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding = NULL,
+                                  wxPdfSortedArrayInt* usedGlyphs = NULL,
                                   wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Load the font metrics XML file

@@ -26,25 +26,25 @@
 * Line breaks and colors
 *
 * Let's continue with an example which prints justified paragraphs.
-* It also illustrates the use of colors. 
-* 
+* It also illustrates the use of colors.
+*
 * The GetStringWidth() method allows to determine the length of a string in the
 * current font, which is used here to calculate the position and the width of
 * the frame surrounding the title. Then colors are set (via SetDrawColor(),
 * SetFillColor() and SetTextColor()) and the thickness of the line is set to
 * 1 mm (against 0.2 by default) with SetLineWidth(). Finally, we output the cell
-* (the last parameter to 1 indicates that the background must be filled). 
-* 
+* (the last parameter to 1 indicates that the background must be filled).
+*
 * The method used to print the paragraphs is MultiCell(). Each time a line reaches
 * the right extremity of the cell or a carriage-return character is met, a line
 * break is issued and a new cell automatically created under the current one.
-* Text is justified by default. 
-* 
+* Text is justified by default.
+*
 * Two document properties are defined: title (SetTitle()) and author (SetAuthor()).
 * Properties can be viewed by two means. First is open the document directly with
 * Acrobat Reader, go to the File menu, Document info, General. Second, also available
 * from the plug-in, is click on the triangle just above the right scrollbar and
-* choose Document info. 
+* choose Document info.
 */
 
 class PdfTuto3 : public wxPdfDocument
@@ -145,5 +145,5 @@ tutorial3(bool testMode)
   pdf.PrintChapter(2,wxS("THE PROS AND CONS"),wxS("20k_c2.txt"));
   pdf.SaveAsFile(wxS("tutorial3.pdf"));
   return 0;
-} 
+}
 

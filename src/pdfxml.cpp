@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfxml.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2005-12-03
 // Copyright:   (c) Ulrich Telle
@@ -225,7 +225,7 @@ wxPdfTableCell::wxPdfTableCell(wxXmlNode* cell, unsigned int row, unsigned int c
   m_col = col;
   m_rowSpan = rows;
   m_colSpan = cols;
-  
+
   SetBorder(wxPDF_BORDER_NONE);
   m_context = NULL;
   m_hasCellColour = false;
@@ -520,7 +520,7 @@ wxPdfTable::WriteRow(unsigned int row, double x, double y)
 
 void
 wxPdfTable::SetColumnWidth(int col, double width)
-{ 
+{
   m_colWidths[col] = width;
   m_totalWidth += width;
 }
@@ -854,15 +854,15 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       wxString type = GetXmlAttribute(child, wxS("type"), wxS("1"));
       if (type.Length() > 0)
       {
-        if (type[0] == wxS('a'))      
+        if (type[0] == wxS('a'))
           indent = GetStringWidth(wxS(" xx. "));
-        else if (type[0] == wxS('A')) 
+        else if (type[0] == wxS('A'))
           indent = GetStringWidth(wxS(" XX. "));
-        else if (type[0] == wxS('i')) 
+        else if (type[0] == wxS('i'))
           indent = GetStringWidth(wxS(" xxx. "));
-        else if (type[0] == wxS('I')) 
+        else if (type[0] == wxS('I'))
           indent = GetStringWidth(wxS(" XXX. "));
-        else if (type[0] == wxS('z') && 
+        else if (type[0] == wxS('z') &&
                  type.Length() > 1 && type[1] >= wxS('1') && type[1] <= wxS('4'))
           indent = 1.1 * GetFontSize() / GetScaleFactor();
       }
@@ -941,7 +941,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       // --- Image
       wxString src = GetXmlAttribute(child, wxS("src"), wxS(""));
       if (src.Length() > 0)
-      { 
+      {
         wxSize imageSize = GetImageSize(src);
         double wImage = ((double) imageSize.GetWidth()) / (GetImageScale() * GetScaleFactor());
         double hImage = ((double)imageSize.GetHeight()) / (GetImageScale() * GetScaleFactor());
@@ -1006,7 +1006,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       Ln();
       SelectFont(saveFamily, saveStyle, saveSize, false);
     }
-    else if (name == wxS("h1") || name == wxS("h2") || name == wxS("h3") || 
+    else if (name == wxS("h1") || name == wxS("h2") || name == wxS("h3") ||
              name == wxS("h4") || name == wxS("h5") || name == wxS("h6"))
     {
       // --- Header
@@ -1199,7 +1199,7 @@ wxPdfDocument::WriteXml(const wxString& xmlString)
   {
     SetLineHeight(GetFontSize()*1.25 / GetScaleFactor());
   }
-  wxString xmlStringWithXmlRoot(wxS("<xml>")+xmlString+wxS("</xml>"));          
+  wxString xmlStringWithXmlRoot(wxS("<xml>")+xmlString+wxS("</xml>"));
   wxStringInputStream xmlStream(xmlStringWithXmlRoot);
   wxXmlDocument xmlDocument;
   bool loaded = xmlDocument.Load(xmlStream);
@@ -1367,7 +1367,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
           SetXY(leftMargin, GetY());
           WriteCell(GetLineHeight(), wxString(itemChar));
           SetLeftMargin(leftMargin+indent);
-          SetXY(leftMargin+indent, GetY()); 
+          SetXY(leftMargin+indent, GetY());
           SetFont(saveFont, saveStyle, saveSize);
           //Ln();
           newContext = context.GetCurrentContext();
@@ -1483,7 +1483,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
           }
 
           SetLeftMargin(leftMargin+indent);
-          SetXY(leftMargin+indent, GetY()); 
+          SetXY(leftMargin+indent, GetY());
           SetFont(saveFont, saveStyle, saveSize);
           listCount++;
           newContext = context.GetCurrentContext();
@@ -1573,7 +1573,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         context.SetHRef(wxS(""));
       }
       else if (nameAttr.Length() > 0)
-      { 
+      {
         int link;
         if (m_namedLinks->find(nameAttr) == m_namedLinks->end())
         {
@@ -1585,7 +1585,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
           link = (*m_namedLinks)[nameAttr];
         }
         SetLink(link, -1, -1);
-        WriteXmlCell(child, context);        
+        WriteXmlCell(child, context);
       }
       else
       {
@@ -1597,7 +1597,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       // --- Image
       wxString src = GetXmlAttribute(child, wxS("src"), wxS(""));
       if (src.Length() > 0)
-      { 
+      {
         wxSize imageSize = GetImageSize(src);
         double wImage = ((double) imageSize.GetWidth()) / (GetImageScale() * GetScaleFactor());
         double hImage = ((double) imageSize.GetHeight()) / (GetImageScale() * GetScaleFactor());
@@ -1718,7 +1718,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       }
       SetFont(saveFamily, saveStyle, saveSize);
     }
-    else if (name == wxS("h1") || name == wxS("h2") || name == wxS("h3") || 
+    else if (name == wxS("h1") || name == wxS("h2") || name == wxS("h3") ||
              name == wxS("h4") || name == wxS("h5") || name == wxS("h6"))
     {
       // --- Header
@@ -1849,7 +1849,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
               // Case 1: current line length exactly matches the maximum with
               // Case 2: current line contains no spaces and line length plus epsilon exactly matches the maximum width
               //         (line break in the middle of a word if the word is too long to fit on the line)
-              if (  wmax == context.GetCurrentLineWidth() || 
+              if (  wmax == context.GetCurrentLineWidth() ||
                   ((wmax == context.GetCurrentLineWidth() + wxPDF_EPSILON) && context.GetCurrentLineSpaces() == 0))
               {
                 if (i == j)

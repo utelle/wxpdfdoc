@@ -29,22 +29,22 @@
 * a new text writing mode. It also contains a rudimentary HTML parser.
 * The new method to print text is Write(). It is very close to MultiCell();
 * the differences are: The end of line is at the right margin and the next line
-* begins at the left one. The current position moves at the end of the text. 
+* begins at the left one. The current position moves at the end of the text.
 * So it allows to write a chunk of text, alter the font style, then continue from
-* the exact place we left it. On the other hand, you cannot full justify it. 
+* the exact place we left it. On the other hand, you cannot full justify it.
 *
 * The method is used on the first page to put a link pointing to the second one.
 * The beginning of the sentence is written in regular style, then we switch to
 * underline and finish it. The link is created with AddLink(), which returns a
 * link identifier. The identifier is passed as third parameter of Write(). Once
 * the second page is created, we use SetLink() to make the link point to the
-* beginning of the current page. 
+* beginning of the current page.
 *
 * Then we put an image with a link on it. An external link points to an URL
 * (HTTP, mailto...). The URL is simply passed as last parameter of Image().
 *
 * Finally, the left margin is moved after the image with SetLeftMargin() and some
-* text in XML format is output. 
+* text in XML format is output.
 * Recognized tags are <B>, <I>, <U>, <A> and <BR>; the others are ignored.
 *
 */

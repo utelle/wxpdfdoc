@@ -207,7 +207,7 @@ static short cwTimesBold[] =
     /* 230 */  722,  444,  444,  444,  444,  444,  278,  278,  278,  278,
     /* 240 */  500,  556,  500,  500,  500,  500,  500,  570,  500,  556,
     /* 250 */  556,  556,  556,  500,  556,  500,  667,  333,  333,  333,
-    /* 260 */  278,  556,  556,  167,  333,  278,  570,  333,  400 
+    /* 260 */  278,  556,  556,  167,  333,  278,  570,  333,  400
   };
 
 static short cwTimesItalic[] =
@@ -238,7 +238,7 @@ static short cwTimesItalic[] =
     /* 230 */  667,  444,  444,  444,  444,  444,  278,  278,  278,  278,
     /* 240 */  500,  500,  500,  500,  500,  500,  500,  675,  500,  500,
     /* 250 */  500,  500,  500,  444,  500,  444,  556,  333,  333,  333,
-    /* 260 */  278,  500,  500,  167,  333,  278,  675,  333,  400 
+    /* 260 */  278,  500,  500,  167,  333,  278,  675,  333,  400
   };
 
 static short cwTimesBoldItalic[] =
@@ -362,7 +362,7 @@ static short cwZapfDingbats[] =
   };
 
 #include "pdfcorefontkerning.inc"
- 
+
 //ascent, descent, int capHeight, flags, const wxString &fontBBox, italicAngle, stemV, missingWidth)
 
 static const wxPdfCoreFontDesc gs_coreFontTable[] =

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontextended.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-10
 // Copyright:   (c) Ulrich Telle
@@ -30,13 +30,13 @@
 #include "wx/pdffontdatatype1.h"
 
 wxPdfFontExtended::wxPdfFontExtended()
-  : m_embed(false), m_subset(false), 
+  : m_embed(false), m_subset(false),
     m_fontData(NULL), m_encoding(NULL)
 {
 }
 
 wxPdfFontExtended::wxPdfFontExtended(const wxPdfFont& font)
-  : m_embed(font.m_embed), m_subset(font.m_subset), 
+  : m_embed(font.m_embed), m_subset(font.m_subset),
     m_fontData(font.m_fontData)
 {
   if (m_fontData != NULL)
@@ -47,9 +47,9 @@ wxPdfFontExtended::wxPdfFontExtended(const wxPdfFont& font)
 }
 
 wxPdfFontExtended::wxPdfFontExtended(const wxPdfFontExtended& font)
-  : m_embed(font.m_embed), m_subset(font.m_subset), 
+  : m_embed(font.m_embed), m_subset(font.m_subset),
     m_fontData(font.m_fontData)
-{ 
+{
   if (m_fontData != NULL)
   {
     m_fontData->IncrementRefCount();
@@ -65,7 +65,7 @@ wxPdfFontExtended::~wxPdfFontExtended()
   }
 }
 
-wxPdfFontExtended& 
+wxPdfFontExtended&
 wxPdfFontExtended::operator=(const wxPdfFontExtended& font)
 { // DO NOT CHANGE THE ORDER OF THESE STATEMENTS!
   // (This order properly handles self-assignment)
@@ -260,7 +260,7 @@ wxPdfFontExtended::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyph
   }
   return widths;
 }
-  
+
 double
 wxPdfFontExtended::GetStringWidth(const wxString& s, bool withKerning)
 {
@@ -348,7 +348,7 @@ wxPdfFontExtended::GetDescription() const
   return (m_fontData != NULL) ? m_fontData->GetDescription() : dummyDescription;
 }
 
-wxPdfFont 
+wxPdfFont
 wxPdfFontExtended::GetUserFont() const
 {
   wxPdfFont userFont;
@@ -365,7 +365,7 @@ wxPdfFontExtended::GetUserFont() const
 
 bool
 wxPdfFontExtended::HasEncodingMap() const
-{ 
+{
 #if wxUSE_UNICODE
   return (m_encoding != NULL);
 #else

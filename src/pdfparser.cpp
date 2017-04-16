@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfparser.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-10-15
 // Copyright:   (c) Ulrich Telle
@@ -102,7 +102,7 @@ wxPdfParser::wxPdfParser(const wxString& filename, const wxString& password)
 wxPdfParser::~wxPdfParser()
 {
   wxPdfObjectQueue* entry = m_objectQueue;
-  wxPdfObjectQueue* next; 
+  wxPdfObjectQueue* next;
   while (entry != NULL)
   {
     wxPdfObject* object = entry->GetObject();
@@ -110,7 +110,7 @@ wxPdfParser::~wxPdfParser()
     {
       delete object;
     }
-    next = entry->GetNext(); 
+    next = entry->GetNext();
     delete entry;
     entry = next;
   }
@@ -176,7 +176,7 @@ wxPdfParser::GetPageCount()
   return (unsigned int) m_pages.GetCount();
 }
 
-static const wxChar* gs_entryList[] = { 
+static const wxChar* gs_entryList[] = {
   wxS("Title"),   wxS("Author"),   wxS("Subject"),      wxS("Keywords"),
   wxS("Creator"), wxS("Producer"), wxS("CreationDate"), wxS("ModDate"),
   NULL
@@ -230,7 +230,7 @@ wxPdfParser::GetSourceInfo(wxPdfInfo& info)
   }
   return ok;
 }
-  
+
 bool
 wxPdfParser::ParseDocument()
 {
@@ -509,7 +509,7 @@ wxPdfParser::GetContent(unsigned int pageno, wxArrayPtrVoid& contents)
     GetPageContent(content, contents);
   }
 }
-    
+
 void
 wxPdfParser::GetPageContent(wxPdfObject* contentRef, wxArrayPtrVoid& contents)
 {
@@ -625,7 +625,7 @@ wxPdfParser::GetPageRotation(unsigned int pageno)
 
 int
 wxPdfParser::GetPageRotation (wxPdfDictionary* page)
-{ 
+{
   int pageRotation = 0;
   wxPdfNumber* rotation = (wxPdfNumber*) ResolveObject(page->Get(wxS("Rotate")));
   if (rotation == NULL)
@@ -1042,7 +1042,7 @@ wxPdfParser::ParseObject()
         }
       }
       break;
-    
+
     case TOKEN_START_ARRAY:
       {
         obj = ParseArray();
@@ -1069,20 +1069,20 @@ wxPdfParser::ParseObject()
         obj = strObj;
       }
       break;
-    
+
     case TOKEN_NAME:
       {
         obj = new wxPdfName(m_tokens->GetStringValue());
       }
       break;
-    
+
     case TOKEN_REFERENCE:
       {
         int num = m_tokens->GetReference();
         obj = new wxPdfIndirectReference(num, m_tokens->GetGeneration());
       }
       break;
-    
+
     case TOKEN_BOOLEAN:
       {
         obj = new wxPdfBoolean((m_tokens->GetStringValue() == wxS("true")));
@@ -1528,7 +1528,7 @@ wxPdfTokenizer::ReadBuffer(size_t size)
   memoryBuffer->Close();
   return memoryBuffer;
 }
-    
+
 off_t
 wxPdfTokenizer::GetStartXRef()
 {
@@ -1894,13 +1894,13 @@ wxPdfTokenizer::GetTokenType()
 {
   return m_type;
 }
-    
+
 wxString
 wxPdfTokenizer::GetStringValue()
 {
   return m_stringValue;
 }
-    
+
 int
 wxPdfTokenizer::GetIntValue()
 {
@@ -1914,13 +1914,13 @@ wxPdfTokenizer::GetReference()
 {
   return m_reference;
 }
-    
+
 int
 wxPdfTokenizer::GetGeneration()
 {
   return m_generation;
 }
-    
+
 bool
 wxPdfTokenizer::IsWhitespace(int ch)
 {
@@ -1938,7 +1938,7 @@ wxPdfTokenizer::IsDelimiterOrWhitespace(int ch)
 {
   return IsWhitespace(ch) || IsDelimiter(ch) || (ch == -1);
 }
-    
+
 int
 wxPdfTokenizer::GetHex(int v)
 {

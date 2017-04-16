@@ -209,7 +209,7 @@ wxPdfDocument::Initialize(int orientation)
     m_wPt = m_fwPt;
     m_hPt = m_fhPt;
   }
-  
+
   m_curOrientation = m_defOrientation;
   m_w = m_wPt / m_k;
   m_h = m_hPt / m_k;
@@ -220,16 +220,16 @@ wxPdfDocument::Initialize(int orientation)
   // Page margins (1 cm)
   double margin = (72.0 / 25.4 * 10.0) / m_k;
   SetMargins(margin, margin);
-  
+
   // Interior cell margin (1 mm)
   m_cMargin = margin / 10;
-  
+
   // Line width (0.2 mm)
   m_lineWidth = (72.0 / 25.4 * 0.2) / m_k;
-  
+
   // Automatic page break
   SetAutoPageBreak(true, 2*margin);
-  
+
   // Full width display mode
   SetDisplayMode(wxPDF_ZOOM_FULLWIDTH);
   m_zoomFactor = 100.;
@@ -661,10 +661,10 @@ wxPdfDocument::AddPage(int orientation, wxSize pageSize)
 
   // Start new page
   BeginPage(orientation, pageSize);
-  
+
   // Set line cap style to square
   Out("2 J");
-  
+
   // Set line width
   m_lineWidth = lw;
   OutAscii(wxPdfUtility::Double2String(lw*m_k,2)+wxString(wxS(" w")));
@@ -677,7 +677,7 @@ wxPdfDocument::AddPage(int orientation, wxSize pageSize)
     m_fontSizePt = size;
     ForceCurrentFont();
   }
-  
+
   // Set colours
   m_drawColour = dc;
   if (dc != wxPdfColour(0))
@@ -711,7 +711,7 @@ wxPdfDocument::AddPage(int orientation, wxSize pageSize)
   {
     SetFont(currentFont->GetUserFont(), style, size);
   }
-  
+
   // Restore colours
   if (m_drawColour != dc)
   {
@@ -1107,7 +1107,7 @@ wxPdfDocument::DoCell(double w, double h, const wxString& txt, int border, int l
     OutAscii(s, newline);
     s = wxS("");
   }
-  
+
   if (txt.Length() > 0)
   {
     double width = DoGetStringWidth(txt);
@@ -1405,7 +1405,7 @@ wxPdfDocument::TextBox(double w, double h, const wxString& txt,
 {
   double xi = m_x;
   double yi = m_y;
-  
+
   double hrow  = m_fontSize;
   int textrows = LineCount(w, txt);
   int maxrows  = (int) floor(h / hrow);
@@ -1572,7 +1572,7 @@ wxPdfDocument::WriteGlyphArray(wxPdfArrayDouble& x, wxPdfArrayDouble& y, wxPdfAr
     wxString fontType = m_currentFont->GetType();
     if (fontType.IsSameAs(wxS("TrueTypeUnicode")) || fontType.IsSameAs(wxS("OpenTypeUnicode")))
     {
-      // if the arrays have different sizes use only the smallest size 
+      // if the arrays have different sizes use only the smallest size
       size_t nx = x.GetCount();
       size_t ny = y.GetCount();
       size_t ng = glyphs.GetCount();
@@ -2023,7 +2023,7 @@ wxPdfDocument::CloseAndGetBuffer()
   {
     Close();
   }
-  
+
   return *((wxMemoryOutputStream*) m_buffer);
 }
 
@@ -2219,7 +2219,7 @@ wxPdfDocument::Close()
   {
     AddPage();
   }
-  
+
   // Page footer
   m_inFooter = true;
   Footer();
@@ -2367,7 +2367,7 @@ wxPdfDocument::AddSpotColour(const wxString& name, double cyan, double magenta, 
     (*m_spotColours)[name] = new wxPdfSpotColour(i, cyan, magenta, yellow, black);
   }
 }
- 
+
 bool
 wxPdfDocument::AddPattern(const wxString& patternName, const wxImage& image, double width, double height)
 {
@@ -2430,7 +2430,7 @@ wxPdfDocument::AddPattern(const wxString& patternName, const wxImage& image, dou
   }
   return isValid;
 }
- 
+
 void
 wxPdfDocument::SetDrawColour(const wxColour& colour)
 {
@@ -2714,7 +2714,7 @@ wxPdfDocument::SetTextRenderMode(wxPdfTextRenderMode mode)
 {
   m_textRenderMode = mode;
 }
-  
+
 wxPdfTextRenderMode
 wxPdfDocument::GetTextRenderMode() const
 {

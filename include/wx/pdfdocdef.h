@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfdocdef.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2005-08-04
 // Copyright:   (c) Ulrich Telle
@@ -25,21 +25,21 @@ license</b>. This means you may use it for any kind of usage and modify it to su
 wxPdfDocument offers all advantages of \b FPDF.  Several add-on PHP scripts found on the
 FPDF web site are incorporated into wxPdfDocument. The main features are:
 
-- Choice of measure unit, page format and margins 
-- Page header and footer management 
-- Automatic page break 
-- Automatic line break and text justification 
-- Image support (GIF, JPEG, PNG and WMF) 
+- Choice of measure unit, page format and margins
+- Page header and footer management
+- Automatic page break
+- Automatic line break and text justification
+- Image support (GIF, JPEG, PNG and WMF)
 - Colours (Grayscale, RGB, CMYK, Spot colours)
 - Links (internal and external)
 - 14 Adobe standard fonts
 - TrueType and Type1 fonts (with or without embedding) and encoding support
 - TrueType Unicode and Type0 fonts (for Chinese, Japanese and Korean) support in the Unicode build
 - OpenType Unicode fonts support in the Unicode build
-- Page compression 
+- Page compression
 - Graphics primitives for the creation of simple drawings
 - Definition of clipping areas
-- Bookmarks for outlining the document 
+- Bookmarks for outlining the document
 - Rotation
 - Protecting the document by passwords and/or access permissions
 - Text annotations
@@ -89,7 +89,7 @@ Fixed bugs:<br>
 
 <dt><b>0.9.5</b> - <i>December 2015</i></dt>
 <dd>
-wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 3.0.2. 
+wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 3.0.2.
 
 General changes:<br>
 - respect "join" and "cap" attributes of wxPen in wxPdfDC (2.9)
@@ -106,7 +106,7 @@ Fixed bugs:<br>
 
 <dt><b>0.9.4</b> - <i>August 2013</i></dt>
 <dd>
-wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.5. 
+wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.5.
 Compatibility with older wxWidgets versions is not guaranteed, but it should
 work with all 2.8.x versions.
 
@@ -128,7 +128,7 @@ Fixed bugs:<br>
 
 <dt><b>0.9.3</b> - <i>June 2012</i></dt>
 <dd>
-wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.3. 
+wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.3.
 Compatibility with older wxWidgets versions is not guaranteed, but it should
 work with all 2.8.x versions.
 
@@ -151,7 +151,7 @@ Fixed bugs:<br>
 
 <dt><b>0.9.2</b> - <i>September 2011</i></dt>
 <dd>
-wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.2. 
+wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 2.9.2.
 Compatibility with older wxWidgets versions is not guaranteed, but it should
 work with all 2.8.x versions.
 
@@ -172,7 +172,7 @@ Fixed bugs:<br>
 
 <dt><b>0.9.1</b> - <i>January 2011</i></dt>
 <dd>
-wxPdfDocument is compatible with wxWidgets version 2.8.11 and version 2.9.1. 
+wxPdfDocument is compatible with wxWidgets version 2.8.11 and version 2.9.1.
 Compatibility with older wxWidgets versions is not guaranteed, but it should
 now work with all 2.8.x versions.
 
@@ -199,7 +199,7 @@ Fixed bugs:<br>
 
 <dt><b>0.9.0</b> - <i>December 2010</i></dt>
 <dd>
-wxPdfDocument is compatible with wxWidgets version 2.8.11 and version 2.9.1. 
+wxPdfDocument is compatible with wxWidgets version 2.8.11 and version 2.9.1.
 Compatibility with older wxWidgets versions is not guaranteed.
 
 This is the first release of wxPdfDocument containing a <b>PDF drawing context</b> (wxPdfDC).
@@ -419,7 +419,7 @@ Kudos to <b>Mark Dootson</b> for contributing major enhancements of wxPdfDC and 
 into the wxWidgets printing framework.
 
 Since wxPdfDocument is based on the great \b FPDF PHP class and several of the contributions to it
-found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank 
+found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank
 
 - Olivier Plathey (FPDF, Barcodes, Bookmarks, Rotation),
 - Maxime Delorme (Sector)
@@ -626,7 +626,7 @@ of a specific method the following alphabetical list shows all available methods
 \li wxPdfDocument::TextBox - print a string horizontally and vertically aligned in a box
 \li wxPdfDocument::TextField - add a text field to a form
 \li wxPdfDocument::Transform - set transformation matrix
-\li wxPdfDocument::Translate - move the origin 
+\li wxPdfDocument::Translate - move the origin
 \li wxPdfDocument::TranslateX - move the X origin only
 \li wxPdfDocument::TranslateY - move the Y origin only
 
@@ -683,20 +683,20 @@ of a specific method the following alphabetical list shows all available methods
 This section explains how to use \b TrueType or \b Type1 fonts so that you are not
 limited to the standard fonts any more. The other interest is that you can
 choose the font encoding, which allows you to use other languages than the
-Western ones (the standard fonts having too few available characters). 
- 
+Western ones (the standard fonts having too few available characters).
+
 There are two ways to use a new font: embedding it in the PDF or not. When a
 font is not embedded, it is sought in the system. The advantage is that the
 PDF file is lighter; on the other hand, if it is not available, a substitution
 font is used. So it is preferable to ensure that the needed font is installed
 on the client systems. If the file is to be viewed by a large audience, it is
-better to embed the fonts. 
- 
-Adding a new font requires three steps for \b TrueType fonts: 
+better to embed the fonts.
 
-\li Generation of the metric file (.afm) 
-\li Generation of the font definition file (.xml) 
-\li Declaration of the font in the program 
+Adding a new font requires three steps for \b TrueType fonts:
+
+\li Generation of the metric file (.afm)
+\li Generation of the font definition file (.xml)
+\li Declaration of the font in the program
 
 For \b Type1, the first one is theoretically not necessary because the AFM file is
 usually shipped with the font. In case you have only a metric file in PFM format,
@@ -704,21 +704,21 @@ it must be converted to AFM first.
 
 \section mkfontgen1 Generation of the metric file
 
-The first step for a \b TrueType font consists in generating the AFM file (or UFM file in case of a 
+The first step for a \b TrueType font consists in generating the AFM file (or UFM file in case of a
 <b>Unicode TrueType</b> font). A utility exists to do this task: <tt>ttf2ufm</tt> - a special version of
 <tt>ttf2pt1</tt> - allowing to create AFM and/or UFM files. <tt>ttf2ufm</tt> has been modified to
 generate AFM and UFM files containing all the information which is required by the utility program
 \b makefont. An archive containing the modified source code of <tt>ttf2ufm</tt> and a Windows executable can be
 downloaded from <b><a href="http://wxcode.sourceforge.net/docs/wxpdfdoc/ttf2ufm.zip">here</a></b>.
-The command line to use is the following: 
- 
+The command line to use is the following:
+
 <tt>ttf2ufm -a font.ttf font </tt>
- 
-For example, for Comic Sans MS Regular: 
- 
+
+For example, for Comic Sans MS Regular:
+
 <tt>ttf2ufm -a c:/windows/fonts/comic.ttf comic </tt>
- 
-Two files are created; the one we are interested in is comic.afm. 
+
+Two files are created; the one we are interested in is comic.afm.
 
 \remark Starting with wxPdfDocument version 0.8.5 this step may be ommitted for
 TrueType and OpenType fonts.
@@ -738,39 +738,39 @@ To do this, a utility program, \b makefont, is provided.
 <tr><td valign="top"><tt>-f font.{ttf|otf|pfb}</tt></td><td>font file (<tt>.ttf</tt> = TrueType, <tt>.otf</tt> = OpenType, <tt>.pfb</tt> = Type1).
 <br>If you own a Type1 font in ASCII format (<tt>.pfa</tt>), you can convert it to binary format with
 <a href="http://www.lcdf.org/~eddietwo/type/#t1utils">t1utils</a>.
-<br>If you don't want to embed the font, omit this parameter. In this case, type is given by the type parameter. 
+<br>If you don't want to embed the font, omit this parameter. In this case, type is given by the type parameter.
 </td></tr>
 <tr><td valign="top"><tt>-e encoding</tt></td><td>font encoding, i.e. cp1252. Omit this parameter for a symbolic font.like <i>Symbol</i>
 or <i>ZapfDingBats</i>.
 
 The encoding defines the association between a code (from 0 to 255) and a character.
 The first 128 are fixed and correspond to ASCII; the following are variable.
-The encodings are stored in .map files. Those available are: 
+The encodings are stored in .map files. Those available are:
 
-\li cp1250 (Central Europe) 
-\li cp1251 (Cyrillic) 
-\li cp1252 (Western Europe) 
-\li cp1253 (Greek) 
-\li cp1254 (Turkish) 
-\li cp1255 (Hebrew) 
-\li cp1257 (Baltic) 
-\li cp1258 (Vietnamese) 
-\li cp874 (Thai) 
-\li iso-8859-1 (Western Europe) 
-\li iso-8859-2 (Central Europe) 
-\li iso-8859-4 (Baltic) 
-\li iso-8859-5 (Cyrillic) 
-\li iso-8859-7 (Greek) 
-\li iso-8859-9 (Turkish) 
-\li iso-8859-11 (Thai) 
-\li iso-8859-15 (Western Europe) 
-\li iso-8859-16 (Central Europe) 
-\li koi8-r (Russian) 
-\li koi8-u (Ukrainian) 
+\li cp1250 (Central Europe)
+\li cp1251 (Cyrillic)
+\li cp1252 (Western Europe)
+\li cp1253 (Greek)
+\li cp1254 (Turkish)
+\li cp1255 (Hebrew)
+\li cp1257 (Baltic)
+\li cp1258 (Vietnamese)
+\li cp874 (Thai)
+\li iso-8859-1 (Western Europe)
+\li iso-8859-2 (Central Europe)
+\li iso-8859-4 (Baltic)
+\li iso-8859-5 (Cyrillic)
+\li iso-8859-7 (Greek)
+\li iso-8859-9 (Turkish)
+\li iso-8859-11 (Thai)
+\li iso-8859-15 (Western Europe)
+\li iso-8859-16 (Central Europe)
+\li koi8-r (Russian)
+\li koi8-u (Ukrainian)
 
-Of course, the font must contain the characters corresponding to the chosen encoding. 
-The encodings which begin with cp are those used by Windows; Linux systems usually use ISO. 
-Remark: the standard fonts use cp1252. 
+Of course, the font must contain the characters corresponding to the chosen encoding.
+The encodings which begin with cp are those used by Windows; Linux systems usually use ISO.
+Remark: the standard fonts use cp1252.
 
 \b Note: For TrueType Unicode and OpenType Unicode fonts this parameter is ignored.
 </td></tr>
@@ -789,7 +789,7 @@ For TrueType Unicode and OpenType Unicode fonts this parameter is ignored.
 </table>
 
 \b Note: in the case of a font with the same name as a standard one, for instance arial.ttf,
-it is mandatory to embed. If you don't, Acrobat will use its own font. 
+it is mandatory to embed. If you don't, Acrobat will use its own font.
 
 Executing <tt>makefont</tt> generates an .xml file, with the same name as the
 <tt>.afm</tt> file resp. <tt>.ufm</tt> file. You may rename it if you wish. In case of
@@ -802,40 +802,40 @@ You have to copy the generated file(s) to the font directory.
 
 \section mkfontdecl Declaration of the font in the script
 
-The last step is the most simple. You just need to call the AddFont() method. For instance: 
- 
+The last step is the most simple. You just need to call the AddFont() method. For instance:
+
 <tt>pdf.AddFont(wxS("Comic"),wxS(""),wxS("comic.xml"));</tt>
-  
-or simply: 
- 
+
+or simply:
+
 <tt>pdf.AddFont(wxS("Comic"));</tt>
-  
+
 And the font is now available (in regular and underlined styles), usable like the others.
-If we had worked with Comic Sans MS Bold (comicbd.ttf), we would have put: 
- 
+If we had worked with Comic Sans MS Bold (comicbd.ttf), we would have put:
+
 <tt>pdf.AddFont(wxS("Comic"),wxS("B"),wxS("comicbd.xml"));</tt>
-  
+
 \section mkfontreduce Reducing the size of TrueType fonts
 
 Font files are often quite voluminous; this is due to the
 fact that they contain the characters corresponding to many encodings. zlib compression
 reduces them but they remain fairly big. A technique exists to reduce them further.
 It consists in converting the font to the \b Type1 format with <tt>ttf2pt1</tt> by specifying the
-encoding you are interested in; all other characters will be discarded. 
+encoding you are interested in; all other characters will be discarded.
 For instance, the arial.ttf font shipped with Windows 98 is 267KB (it contains 1296
 characters). After compression it gives 147. Let's convert it to \b Type1 by keeping
-only cp1250 characters: 
- 
+only cp1250 characters:
+
 <tt>ttf2ufm -b -L cp1250.map c:/windows/fonts/arial.ttf arial </tt>
- 
+
 The <tt>.map</tt> files are located in the <tt>makefont</tt> directory.
 The command produces arial.pfb and arial.afm. The arial.pfb file is only 35KB,
-and 30KB after compression. 
- 
+and 30KB after compression.
+
 It is possible to go even further. If you are interested only in a subset of the
 encoding (you probably don't need all 217 characters), you can open the .map file
 and remove the lines you are not interested in. This will reduce the file size
-accordingly. 
+accordingly.
 
 Since wxPdfDocument version 0.8.0 automatic font subsetting is supported for
 TrueType und TrueType Unicode fonts. Since version 0.8.5 subsetting of OpenType Unicode
@@ -872,7 +872,7 @@ TrueType Collections (.ttc) which contain multiple fonts. By default font with i
 
 The encoding defines the association between a code (from 0 to 255) and an Unicode character.
 The first 128 are fixed and correspond to ASCII; the next 128 are variable. The following
-encodings are supported by \b ShowFont: 
+encodings are supported by \b ShowFont:
 
 <table border="0">
 <tr bgcolor="#6699dd"><td><b>Encoding</b></td><td><b>Description</b></td><td>&nbsp;</td><td><b>Encoding</b></td><td><b>Description</b></td></tr>
@@ -908,7 +908,7 @@ encodings are supported by \b ShowFont:
 \section showfontranges Ranges
 
 The parameter RANGES for \b -i (--include-range) and \b -x (--exclude-range) can be given
-as a list of one or more ranges delimited by a comma (,). 
+as a list of one or more ranges delimited by a comma (,).
 
 Each range can be given as a single integer or a pair of integers delimited by minus sign (-).
 
@@ -947,7 +947,7 @@ This allows for example to change font attributes within a cell, which is not su
 methods like wxPdfDocument::WriteCell or wxPdfDocument::MultiCell. The supported markup
 language consists of a small subset of HTML. Although the subset might be extended in future
 versions of \b wxPdfDocument, it is not the goal of this method to allow to convert
-full fledged HTML pages to PDF. 
+full fledged HTML pages to PDF.
 
 \b Important! The XML dialect used is very strict. Each tag must have a corresponding closing tag
 and all attribute values must be enclosed in double quotes.
@@ -1155,11 +1155,11 @@ by using a specific kind of HTML table syntax. The structure is as follows:
       &lt;/colgroup&gt;
       &lt;thead&gt;
         &lt;tr&gt;&lt;td&gt; ... &lt;/td&gt;&lt;/tr&gt;
-        ...      
+        ...
       &lt;/thead&gt;
       &lt;tbody&gt;
         &lt;tr&gt;&lt;td&gt; ... &lt;/td&gt;&lt;/tr&gt;
-        ...      
+        ...
       &lt;/tbody&gt;
     &lt;/table&gt;
 </pre>
@@ -1215,7 +1215,7 @@ The attributes <b><tt>odd</tt></b> and <b><tt>even</tt></b> are optional.
 or as a named colour, i.e. <b><i>red</i></b>. If no background colour is given the background is transparent.</p>
 <p>Usually the height of the highest cell in a row is used as the row height, but a minimal row <i>height</i> may be specified, too</p>
 </td></tr>
-<tr bgcolor="#ddeeff"><td valign="top"><tt>&lt;td&gt; ... &lt;/td&gt;</tt></td><td>Defines a table cell. 
+<tr bgcolor="#ddeeff"><td valign="top"><tt>&lt;td&gt; ... &lt;/td&gt;</tt></td><td>Defines a table cell.
 <p>The available attributes are described in section \ref tdtag.</p></td></tr>
 </table>
 
@@ -1228,7 +1228,7 @@ A table cell can have several attributes:
 <tr bgcolor="#eeeeee"><td colspan="2"><b>&lt;td&gt;</b></td></tr>
 <tr bgcolor="#6699dd"><td><b>Attribute</b></td><td><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee"><td valign="top"><tt>border="LTBR"</tt></td><td>A cell may have a border on each side.
-This attribute overrides the border specification in the &lt;table&gt; tag. The attribute value consists of 
+This attribute overrides the border specification in the &lt;table&gt; tag. The attribute value consists of
 the combination of up to 4 letters:
 <p>\b L - border on the left side of the cell<br>
 \b T - border on the top side of the cell<br>

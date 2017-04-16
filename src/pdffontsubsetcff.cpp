@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontsubsetcff.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-06-24
 // Copyright:   (c) Ulrich Telle
@@ -116,7 +116,7 @@ private:
 wxPdfFontSubsetCff::wxPdfFontSubsetCff(const wxString& fileName)
 {
   m_fileName = fileName;
-  
+
   m_topDict = new wxPdfCffDictionary();
   m_privateDict = new wxPdfCffDictionary();
 
@@ -713,7 +713,7 @@ wxPdfFontSubsetCff::ReadString(int length)
   return str;
 }
 
-int 
+int
 wxPdfFontSubsetCff::DecodeInteger()
 {
   int result = 0;
@@ -875,7 +875,7 @@ wxPdfFontSubsetCff::CreateCidFontDict()
 {
   m_numFontDicts = 1;
   wxPdfCffDictionary* fdDict = new wxPdfCffDictionary();
-  m_fdDict.Add(fdDict); 
+  m_fdDict.Add(fdDict);
   m_fdSubsetMap.SetCount(1);
   m_fdSubsetMap[0] = 0;
   m_privateDictOffset.SetCount(1);
@@ -1368,15 +1368,15 @@ wxPdfFontSubsetCff::FindLocalAndGlobalSubrsUsed()
       fd = m_fdSelect[glyph];
       fdDictUsed[fd] = true;
     }
-    // For each FD array which is used subset the lsubr 
+    // For each FD array which is used subset the lsubr
     for (j = 0; j < m_numFontDicts; j++)
     {
       if (fdDictUsed[j])
       {
         wxPdfSortedArrayInt hSubrsUsed(CompareInts);
         wxArrayInt lSubrsUsed;
-        //Scans the Charsting data storing the used Local and Global subroutines 
-        // by the glyphs. Scans the Subrs recursivley. 
+        //Scans the Charsting data storing the used Local and Global subroutines
+        // by the glyphs. Scans the Subrs recursivley.
         FindSubrsUsed(j, *((wxPdfCffIndexArray*) m_fdLocalSubrIndex[j]), hSubrsUsed, lSubrsUsed);
         // Builds the New Local Subrs index
         SubsetSubrs(*((wxPdfCffIndexArray*) m_fdLocalSubrIndex[j]), hSubrsUsed);
@@ -1386,7 +1386,7 @@ wxPdfFontSubsetCff::FindLocalAndGlobalSubrsUsed()
   }
   else
   {
-    //Scans the Charsting data storing the used Local and Global subroutines 
+    //Scans the Charsting data storing the used Local and Global subroutines
     // by the glyphs. Scans the Subrs recursivley.
     FindSubrsUsed(-1, *m_localSubrIndex, *m_hLocalSubrsUsed, m_lLocalSubrsUsed);
   }
@@ -1435,13 +1435,13 @@ wxPdfFontSubsetCff::SubsetSubrs(wxPdfCffIndexArray& subrIndex, wxPdfSortedArrayI
 }
 
 void
-wxPdfFontSubsetCff::FindSubrsUsed(int fd, wxPdfCffIndexArray& localSubrIndex, 
+wxPdfFontSubsetCff::FindSubrsUsed(int fd, wxPdfCffIndexArray& localSubrIndex,
                               wxPdfSortedArrayInt& hSubrsUsed, wxArrayInt& lSubrsUsed)
 {
   // Calc the Bias for the subr index
   int nSubrs = (int) localSubrIndex.GetCount();
   int localBias = m_decoder->CalcBias(nSubrs);
-    
+
   // For each glyph used find its GID, start & end pos
   size_t j;
   for (j = 0; j < m_usedGlyphs.GetCount(); j++)
@@ -1473,7 +1473,7 @@ wxPdfFontSubsetCff::FindSubrsUsed(int fd, wxPdfCffIndexArray& localSubrIndex,
     }
   }
 }
-  
+
 void
 wxPdfFontSubsetCff::FindGlobalSubrsUsed()
 {
@@ -1487,12 +1487,12 @@ wxPdfFontSubsetCff::FindGlobalSubrsUsed()
     localBias = m_decoder->CalcBias(nLocalSubrs);
     sizeOfNonCIDSubrsUsed = m_lLocalSubrsUsed.GetCount();
   }
-    
-  // For each global subr used 
+
+  // For each global subr used
   size_t k;
   for (k = 0; k < m_lGlobalSubrsUsed.GetCount(); k++)
   {
-    //Pop the value + check valid 
+    //Pop the value + check valid
     int subr = m_lGlobalSubrsUsed.Item(k);
     if (subr < nGlobalSubrs && subr >= 0)
     {
@@ -1500,7 +1500,7 @@ wxPdfFontSubsetCff::FindGlobalSubrsUsed()
       wxPdfCffIndexElement& globalSubr = (*m_globalSubrIndex)[subr];
       int start = globalSubr.GetOffset();
       int end = start + globalSubr.GetLength();
-        
+
       if (m_isCid)
       {
         wxPdfCffIndexArray dummy;
@@ -1511,14 +1511,14 @@ wxPdfFontSubsetCff::FindGlobalSubrsUsed()
 #if 0
         wxLogDebug(wxS("Call ReadASubr i=%d subr=%d"), i, subr);
 #endif
-        m_decoder->ReadASubr(m_inFont, start, end, m_globalBias, localBias, 
+        m_decoder->ReadASubr(m_inFont, start, end, m_globalBias, localBias,
                              *m_hLocalSubrsUsed, m_lLocalSubrsUsed, *m_localSubrIndex);
         if (sizeOfNonCIDSubrsUsed < m_lLocalSubrsUsed.GetCount())
         {
           size_t j;
           for (j = sizeOfNonCIDSubrsUsed; j < m_lLocalSubrsUsed.GetCount(); j++)
           {
-            //Pop the value + check valid 
+            //Pop the value + check valid
             int lSubr = m_lLocalSubrsUsed.Item(j);
 #if 0
             wxLogDebug(wxS("Call ReadASubr j=%d subr=%d"), i, subr);

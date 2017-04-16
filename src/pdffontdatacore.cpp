@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdatacore.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-07
 // Copyright:   (c) Ulrich Telle
@@ -161,9 +161,9 @@ wxPdfFontDataCore::CanShow(const wxString& s, const wxPdfEncoding* encoding) con
 }
 
 wxString
-wxPdfFontDataCore::ConvertCID2GID(const wxString& s, 
+wxPdfFontDataCore::ConvertCID2GID(const wxString& s,
                                   const wxPdfEncoding* encoding,
-                                  wxPdfSortedArrayInt* usedGlyphs, 
+                                  wxPdfSortedArrayInt* usedGlyphs,
                                   wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   // No conversion from cid to gid
