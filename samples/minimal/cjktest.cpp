@@ -25,7 +25,7 @@
 *
 * This example demonstrates the use of CJK fonts.
 *
-* Remark: Only available in Unicode build. 
+* Remark: Only available in Unicode build.
 */
 
 int

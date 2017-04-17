@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffont.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-10
 // Copyright:   (c) Ulrich Telle
@@ -29,8 +29,8 @@
 #include "wx/pdffontdatatype1.h"
 #include "wx/pdffontmanager.h"
 
-wxPdfFont::wxPdfFont() 
-  : m_embed(false), m_subset(false), m_fontStyle(wxPDF_FONTSTYLE_REGULAR), 
+wxPdfFont::wxPdfFont()
+  : m_embed(false), m_subset(false), m_fontStyle(wxPDF_FONTSTYLE_REGULAR),
     m_fontData(NULL), m_encoding(NULL)
 {
 }
@@ -43,8 +43,8 @@ wxPdfFont::~wxPdfFont()
   }
 }
 
-wxPdfFont::wxPdfFont(wxPdfFontData* fontData, int fontStyle) 
-  : m_embed(false), m_subset(false), m_fontStyle(fontStyle), 
+wxPdfFont::wxPdfFont(wxPdfFontData* fontData, int fontStyle)
+  : m_embed(false), m_subset(false), m_fontStyle(fontStyle),
     m_fontData(fontData), m_encoding(NULL)
 {
   if (m_fontData != NULL)
@@ -58,9 +58,9 @@ wxPdfFont::wxPdfFont(wxPdfFontData* fontData, int fontStyle)
 }
 
 wxPdfFont::wxPdfFont(const wxPdfFont& font)
-  : m_embed(font.m_embed), m_subset(font.m_subset), m_fontStyle(font.m_fontStyle), 
+  : m_embed(font.m_embed), m_subset(font.m_subset), m_fontStyle(font.m_fontStyle),
     m_fontData(font.m_fontData), m_encoding(NULL)
-{ 
+{
   if (m_fontData != NULL)
   {
     m_fontData->IncrementRefCount();
@@ -68,7 +68,7 @@ wxPdfFont::wxPdfFont(const wxPdfFont& font)
   m_encoding = font.m_encoding;
 }
 
-wxPdfFont& 
+wxPdfFont&
 wxPdfFont::operator=(const wxPdfFont& font)
 { // DO NOT CHANGE THE ORDER OF THESE STATEMENTS!
   // (This order properly handles self-assignment)
@@ -327,7 +327,7 @@ wxPdfFont::SetEncoding(const wxString& encodingName)
   const wxPdfEncoding* encoding = wxPdfFontManager::GetFontManager()->GetEncoding(encodingName);
   if (m_fontData != NULL)
   {
-    if (m_fontData->GetType().IsSameAs(wxS("Type1")) && 
+    if (m_fontData->GetType().IsSameAs(wxS("Type1")) &&
         encoding != NULL && encoding->IsOk())
     {
       ok = wxPdfFontManager::GetFontManager()->InitializeFontData(*this);

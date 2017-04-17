@@ -288,7 +288,7 @@ wxPdfFlatPath::FetchSegment()
   }
 
   m_srcSegType = m_shape->GetSegment(m_iterType, m_iterPoints, m_scratch);
-    
+
   switch (m_srcSegType)
   {
     case wxPDF_SEG_CLOSE:
@@ -543,7 +543,7 @@ wxPdfFlatPath::SubdivideCubic()
          && (GetFlatnessSq(m_stack, sp) >= m_flatnessSq))
   {
     m_recLevel[m_stackSize] = m_recLevel[m_stackSize - 1] = ++level;
-      
+
     SubdivideCubicCurve(m_stack, sp, m_stack, sp - 6, m_stack, sp);
     ++m_stackSize;
     sp -= 6;
@@ -670,7 +670,7 @@ wxPdfDocument::ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfSh
             double x = lastX + next*dx*r;
             double y = lastY + next*dy*r;
             double advance = nextAdvance;
-            nextAdvance = currentChar < length-1 ? DoGetStringWidth(voText.Mid(currentChar+1,1)) * 0.5 : 
+            nextAdvance = currentChar < length-1 ? DoGetStringWidth(voText.Mid(currentChar+1,1)) * 0.5 :
                                                    (repeat) ? DoGetStringWidth(voText.Mid(0,1)) * 0.5 : 0;
             SetXY(x, y);
             StartTransform();
@@ -756,7 +756,7 @@ wxPdfDocument::RoundedRect(double x, double y, double w, double h,
     Rect(x, y, w, h, style);
   }
   else
-  { 
+  {
     // Rounded
     wxString op;
     // Draw a rectangle
@@ -821,7 +821,7 @@ wxPdfDocument::RoundedRect(double x, double y, double w, double h,
     xc = x + r;
     yc = y + r;
     OutLine(x, yc);
-    
+
     if (roundCorner & wxPDF_CORNER_BOTTOM_RIGHT)
     {
       OutCurve(xc - r, yc - (r * myArc), xc - (r * myArc), yc - r, xc, yc - r);
@@ -836,7 +836,7 @@ wxPdfDocument::RoundedRect(double x, double y, double w, double h,
 }
 
 void
-wxPdfDocument::Curve(double x0, double y0, double x1, double y1, 
+wxPdfDocument::Curve(double x0, double y0, double x1, double y1,
                      double x2, double y2, double x3, double y3,
                      int style)
 {
@@ -864,7 +864,7 @@ wxPdfDocument::Curve(double x0, double y0, double x1, double y1,
 }
 
 void
-wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry, 
+wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry,
                        double angle, double astart, double afinish,
                        int style, int nSeg, bool doSector)
 {
@@ -941,7 +941,7 @@ wxPdfDocument::Ellipse(double x0, double y0, double rx, double ry,
     {
       a *= -1.0;
     }
-    OutAscii(wxString(wxS("q ")) + 
+    OutAscii(wxString(wxS("q ")) +
              wxPdfUtility::Double2String(cos(a),2) + wxString(wxS(" ")) +
              wxPdfUtility::Double2String(-1 * sin(a),2) + wxString(wxS(" ")) +
              wxPdfUtility::Double2String(sin(a),2) + wxString(wxS(" ")) +
@@ -1031,7 +1031,7 @@ wxPdfDocument::Sector(double xc, double yc, double r, double astart, double afin
   {
     d = 2 * pi;
   }
-  
+
   wxString op;
   if ((style & wxPDF_STYLE_FILLDRAW) == wxPDF_STYLE_FILL)
   {
@@ -1144,7 +1144,7 @@ wxPdfDocument::Polygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int
 }
 
 void
-wxPdfDocument::RegularPolygon(double x0, double y0, double r, int ns, double angle, bool circle, int style, 
+wxPdfDocument::RegularPolygon(double x0, double y0, double r, int ns, double angle, bool circle, int style,
                               int circleStyle, const wxPdfLineStyle& circleLineStyle, const wxPdfColour& circleFillColour)
 {
   if (ns < 3)
@@ -1176,7 +1176,7 @@ wxPdfDocument::RegularPolygon(double x0, double y0, double r, int ns, double ang
 
 
 void
-wxPdfDocument::StarPolygon(double x0, double y0, double r, int nv, int ng, double angle, bool circle, int style, 
+wxPdfDocument::StarPolygon(double x0, double y0, double r, int nv, int ng, double angle, bool circle, int style,
                            int circleStyle, const wxPdfLineStyle& circleLineStyle, const wxPdfColour& circleFillColour)
 {
   if (nv < 2)
@@ -1355,7 +1355,7 @@ wxPdfDocument::BezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y
 }
 
 static bool
-SolveTridiagonalGeneral(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b, 
+SolveTridiagonalGeneral(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b,
                         const wxPdfArrayDouble& c, const wxPdfArrayDouble& r,
                         wxPdfArrayDouble& u)
 {
@@ -1401,8 +1401,8 @@ SolveTridiagonalGeneral(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b,
 }
 
 static bool
-SolveCyclic(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b, 
-            const wxPdfArrayDouble& c, double alpha, double beta, 
+SolveCyclic(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b,
+            const wxPdfArrayDouble& c, double alpha, double beta,
             const wxPdfArrayDouble& r, wxPdfArrayDouble& x)
 {
   size_t i;
@@ -1457,7 +1457,7 @@ SolveCyclic(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b,
     x[i] -= fact * z[i];
   }
   return true;
-} 
+}
 
 static bool
 GetCyclicControlPoints(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y,
@@ -2264,7 +2264,7 @@ wxPdfDocument::Marker(double x, double y, wxPdfMarker markerType, double size)
   static double b = 4. / 3.;
 
   Out("q");
-  switch (markerType) 
+  switch (markerType)
   {
     case wxPDF_MARKER_CIRCLE:
       SetLineWidth(size * 0.15);

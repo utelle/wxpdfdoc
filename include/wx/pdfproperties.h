@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfproperties.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-07-13
 // Copyright:   (c) Ulrich Telle
@@ -191,20 +191,20 @@ enum wxPdfLinearGradientType
 enum wxPdfBlendMode
 {
   wxPDF_BLENDMODE_NORMAL,
-  wxPDF_BLENDMODE_MULTIPLY, 
-  wxPDF_BLENDMODE_SCREEN, 
-  wxPDF_BLENDMODE_OVERLAY, 
-  wxPDF_BLENDMODE_DARKEN, 
-  wxPDF_BLENDMODE_LIGHTEN, 
-  wxPDF_BLENDMODE_COLORDODGE, 
+  wxPDF_BLENDMODE_MULTIPLY,
+  wxPDF_BLENDMODE_SCREEN,
+  wxPDF_BLENDMODE_OVERLAY,
+  wxPDF_BLENDMODE_DARKEN,
+  wxPDF_BLENDMODE_LIGHTEN,
+  wxPDF_BLENDMODE_COLORDODGE,
   wxPDF_BLENDMODE_COLORBURN,
   wxPDF_BLENDMODE_HARDLIGHT,
   wxPDF_BLENDMODE_SOFTLIGHT,
-  wxPDF_BLENDMODE_DIFFERENCE, 
-  wxPDF_BLENDMODE_EXCLUSION, 
-  wxPDF_BLENDMODE_HUE, 
-  wxPDF_BLENDMODE_SATURATION, 
-  wxPDF_BLENDMODE_COLOR, 
+  wxPDF_BLENDMODE_DIFFERENCE,
+  wxPDF_BLENDMODE_EXCLUSION,
+  wxPDF_BLENDMODE_HUE,
+  wxPDF_BLENDMODE_SATURATION,
+  wxPDF_BLENDMODE_COLOR,
   wxPDF_BLENDMODE_LUMINOSITY
 };
 
@@ -232,6 +232,6 @@ enum wxPdfRunDirection
   wxPDF_RUN_DIRECTION_NO_BIDI, // do not use bidirectional reordering
   wxPDF_RUN_DIRECTION_LTR,     // bidirectional reordering with left-to-right preferential run direction
   wxPDF_RUN_DIRECTION_RTL      // bidirectional reordering with right-to-left preferential run direction
-};  
+};
 
 #endif

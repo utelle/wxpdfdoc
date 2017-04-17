@@ -118,7 +118,7 @@ void GroupedLayers(bool testMode)
   pdf.Cell(0,6,wxS("Text in layer 3"));
   pdf.Ln(15);
   pdf.LeaveLayer();
-            
+
   pdf.SaveAsFile(wxS("layersgrouped.pdf"));
 }
 

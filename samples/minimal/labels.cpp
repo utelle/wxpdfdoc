@@ -22,7 +22,7 @@
 
 /**
 * Labels
-* 
+*
 * This example demonstrates the PDF label printing.
 *
 * The code is based on the PHP script PDF_Label of Laurent PASSEBECQ.
@@ -30,7 +30,7 @@
 * Following are the comments from the original PHP code:
 *
 * ////////////////////////////////////////////////////
-* // PDF_Label 
+* // PDF_Label
 * //
 * // Class to print labels in Avery or custom formats
 * //
@@ -42,7 +42,7 @@
 * // 1.0  : Initial release
 * // 1.1  : + : Added unit in the constructor
 * //        + : Now Positions start @ (1,1).. then the first image @top-left of a page is (1,1)
-* //        + : Added in the description of a label : 
+* //        + : Added in the description of a label :
 * //        font-size  : defaut char size (can be changed by calling Set_Char_Size(xx);
 * //        paper-size  : Size of the paper for this sheet (thanx to Al Canton)
 * //        metric    : type of unit used in this description
@@ -51,7 +51,7 @@
 * //        Added some labels :
 * //        5160, 5161, 5162, 5163,5164 : thanx to Al Canton : acanton@adams-blake.com
 * //        8600             : thanx to Kunal Walia : kunal@u.washington.edu
-* //        + : Added 3mm to the position of labels to avoid errors 
+* //        + : Added 3mm to the position of labels to avoid errors
 * // 1.2  : + : Added Set_Font_Name method
 * //        = : Bug of positioning
 * //        = : Set_Font_Size modified -> Now, just modify the size of the font
@@ -99,11 +99,11 @@ public:
     m_lineHeight = 10;
     m_xCount     = 1;
     m_yCount     = 1;
-    
+
     SetFontName(wxS("Helvetica"));
     SetFormat(format);
-    SetMargins(0,0); 
-    SetAutoPageBreak(false); 
+    SetMargins(0,0);
+    SetAutoPageBreak(false);
 
     m_metricDoc = unit;
     // Start at the given label position

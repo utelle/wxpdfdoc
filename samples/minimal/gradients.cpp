@@ -23,7 +23,7 @@
 
 /**
 * Gradients
-* 
+*
 * This example shows examples of linear and radial gradient shadings
 */
 
@@ -69,7 +69,7 @@ gradients(bool testMode)
 
   int grad5 = pdf.LinearGradient(navy, lightsteelblue, wxPDF_LINEAR_GRADIENT_HORIZONTAL);
   pdf.SetFillGradient(50,200,10,20,grad5);
-  
+
   int grad6 = pdf.LinearGradient(navy, lightsteelblue, wxPDF_LINEAR_GRADIENT_VERTICAL);
   pdf.SetFillGradient(70,200,10,20,grad6);
 

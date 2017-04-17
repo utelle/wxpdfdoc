@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfarraytypes.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-08
 // Copyright:   (c) Ulrich Telle

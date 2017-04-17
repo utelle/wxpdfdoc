@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdftemplate.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-07-13
 // Copyright:   (c) Ulrich Telle
@@ -78,7 +78,7 @@ wxPdfDocument::BeginTemplate(double x, double y, double w, double h)
     m_state = 2;
   }
   SetAutoPageBreak(false);
-        
+
   if (x <= 0) x = 0;
   if (y <= 0) y = 0;
   if (w <= 0) w = m_w;
@@ -156,7 +156,7 @@ wxPdfDocument::UseTemplate(int templateId, double x, double y, double w, double 
       wxString::Format(_("Template %d does not exist!"), templateId));
     return;
   }
-            
+
   if (m_inTemplate)
   {
     (*(m_currentTemplate->m_templates))[templateId] = tpl;
@@ -182,7 +182,7 @@ wxPdfDocument::UseTemplate(int templateId, double x, double y, double w, double 
   OutAscii(m_templatePrefix + wxString::Format(wxS("%d Do Q"), tpl->GetIndex()));
   tpl->m_used = true;
 }
-    
+
 void
 wxPdfDocument::GetTemplateSize(int templateId, double& w, double& h)
 {
@@ -314,7 +314,7 @@ wxPdfDocument::GetSourceInfo(wxPdfInfo& info)
   }
   return ok;
 }
-  
+
 int
 wxPdfDocument::ImportPage(unsigned int pageno, wxPdfPageBox pageBox)
 {
@@ -403,12 +403,12 @@ wxPdfDocument::ImportPage(unsigned int pageno, wxPdfPageBox pageBox)
         double angle = -rotationAngle * (atan(1.) / 45.);
         double c = cos(angle);
         double s = sin(angle);
-        wxString strRotation = wxString(wxS("q ")) + 
+        wxString strRotation = wxString(wxS("q ")) +
                                wxPdfUtility::Double2String(  c,3) + wxString(wxS(" ")) +
                                wxPdfUtility::Double2String(  s,3) + wxString(wxS(" ")) +
                                wxPdfUtility::Double2String( -s,3) + wxString(wxS(" ")) +
                                wxPdfUtility::Double2String(  c,3) + wxString(wxS(" ")) +
-                               wxPdfUtility::Double2String( cx,3) + wxString(wxS(" ")) + 
+                               wxPdfUtility::Double2String( cx,3) + wxString(wxS(" ")) +
                                wxPdfUtility::Double2String( cy,3) + wxString(wxS(" cm 1 0 0 1 ")) +
                                wxPdfUtility::Double2String(-cx,3) + wxString(wxS(" ")) +
                                wxPdfUtility::Double2String(-cy,3) + wxString(wxS(" cm "));
@@ -439,7 +439,7 @@ wxPdfDocument::ImportPage(unsigned int pageno, wxPdfPageBox pageBox)
         m_importVersion = m_currentParser->GetPdfVersion();
       }
 
-      templateId = m_templateId; 
+      templateId = m_templateId;
     }
   }
   return templateId;

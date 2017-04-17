@@ -90,7 +90,7 @@ wxPdfBarCodeCreator::TestCheckDigit(const wxString& barcode)
 }
 
 // Code and parity constants for EAN13 and UPC_A
-static wxString bc_codes[3][10] = { 
+static wxString bc_codes[3][10] = {
   {
     wxS("0001101"),wxS("0011001"),wxS("0010011"),wxS("0111101"),wxS("0100011"),
     wxS("0110001"),wxS("0101111"),wxS("0111011"),wxS("0110111"),wxS("0001011")
@@ -202,7 +202,7 @@ static wxString code39_wideEncoding[] = {
   wxS("111000101010111"), wxS("100011101010111"), wxS("111000111010101"),
   wxS("100010111010111"), wxS("111000101110101"), wxS("100011101110101"),
   wxS("100010101110111"), wxS("111000101011101"), wxS("100011101011101"),
-  wxS("100010001000101"), wxS("100010001010001"), wxS("100010100010001"), 
+  wxS("100010001000101"), wxS("100010001010001"), wxS("100010100010001"),
   wxS("101000100010001"), wxS("100010111011101") };
 
 bool
@@ -352,7 +352,7 @@ wxPdfBarCodeCreator::DrawCode39(const wxString& code, double x, double y, double
 // Character and barcode constants for I25
 static wxString i25_chars = wxS("0123456789AZ");
 static wxString i25_barChar[] = {
-  wxS("nnwwn"), wxS("wnnnw"), wxS("nwnnw"), wxS("wwnnn"), wxS("nnwnw"), 
+  wxS("nnwwn"), wxS("wnnnw"), wxS("nwnnw"), wxS("wwnnn"), wxS("nnwnw"),
   wxS("wnwnn"), wxS("nwwnn"), wxS("nnnww"), wxS("wnnwn"), wxS("nwnwn"),
   wxS("nn"), wxS("wn") };
 
@@ -455,7 +455,7 @@ wxPdfBarCodeCreator::PostNet(double x, double y, const wxString& zipcode)
       x += fiveBarSpacing;
     }
   }
-    
+
   // draw check sum digit
   digit = ZipCodeCheckSumDigit(zipcode);
   ZipCodeDrawDigitBars(x, y, barSpacing, halfBarHeight, fullBarHeight, digit);
@@ -491,7 +491,7 @@ wxPdfBarCodeCreator::ZipCodeValidate(const wxString& zipcode)
   return valid;
 }
 
-// takes a validated zip code and 
+// takes a validated zip code and
 // calculates the checksum for POSTNET
 int
 wxPdfBarCodeCreator::ZipCodeCheckSumDigit(const wxString& zipcode)
@@ -554,7 +554,7 @@ wxPdfBarCodeCreator::ZipCodeDrawDigitBars(double x, double y, double barSpacing,
       x += barSpacing;
     }
   }
-} 
+}
 
 // --- Code128 implementation ---
 

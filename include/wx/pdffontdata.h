@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdata.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-08
 // Copyright:   (c) Ulrich Telle
@@ -486,7 +486,7 @@ public:
   /// Get kerning width array
   /**
   * \param s the string for which kerning information should be provided
-  * \return an array with indices and kerning width of the found kerning pairs. 
+  * \return an array with indices and kerning width of the found kerning pairs.
   * The array consists of information pairs: the first item (even indices) represents the index
   * of the first character of a kerning pair within the string and the second item (odd indices)
   * represents the kerning value.
@@ -553,8 +553,8 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding = NULL, 
-                                  wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding = NULL,
+                                  wxPdfSortedArrayInt* usedGlyphs = NULL,
                                   wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Convert glyph number to string
@@ -565,8 +565,8 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertGlyph(wxUint32 glyph, const wxPdfEncoding* encoding = NULL, 
-                                wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual wxString ConvertGlyph(wxUint32 glyph, const wxPdfEncoding* encoding = NULL,
+                                wxPdfSortedArrayInt* usedGlyphs = NULL,
                                 wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Get the character width array as string
@@ -576,10 +576,10 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the string representation of the character widths
   */
-  virtual wxString GetWidthsAsString(bool subset = false, 
-                                     wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual wxString GetWidthsAsString(bool subset = false,
+                                     wxPdfSortedArrayInt* usedGlyphs = NULL,
                                      wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
-  
+
   /// Get list of glyph names supported by this font
   /**
   * \param[out] glyphNames a list of glyph names
@@ -587,15 +587,15 @@ public:
   */
   virtual bool GetGlyphNames(wxArrayString& glyphNames) const;
 
-  /// Write font data 
+  /// Write font data
   /**
   * \param fontData the output stream
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written font data
   */
-  virtual size_t WriteFontData(wxOutputStream* fontData, 
-                               wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual size_t WriteFontData(wxOutputStream* fontData,
+                               wxPdfSortedArrayInt* usedGlyphs = NULL,
                                wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
   /// Write character/glyph to unicode mapping
@@ -606,9 +606,9 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written data
   */
-  virtual size_t WriteUnicodeMap(wxOutputStream* mapData, 
-                                 const wxPdfEncoding* encoding = NULL, 
-                                 wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual size_t WriteUnicodeMap(wxOutputStream* mapData,
+                                 const wxPdfEncoding* encoding = NULL,
+                                 wxPdfSortedArrayInt* usedGlyphs = NULL,
                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
   /// Set the font description
@@ -720,7 +720,7 @@ protected:
   size_t                m_cffLength;       ///< Lenght of the CFF table of a TrueType/OpenType font
 
   wxString              m_cmap;            ///< CMap of a CID font
-  wxString              m_ordering;        ///< Ordering of a CID font 
+  wxString              m_ordering;        ///< Ordering of a CID font
   wxString              m_supplement;      ///< Supplement of a CID font
 
   wxPdfEncoding*        m_encoding;        ///< Encoding

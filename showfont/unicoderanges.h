@@ -518,4 +518,4 @@ static const UnicodeRange gs_unicodeRanges[] =
 
 static int gs_unicodeRangeCount = sizeof(gs_unicodeRanges) / sizeof(UnicodeRange);
 
-#endif 
+#endif

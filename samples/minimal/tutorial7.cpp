@@ -30,38 +30,38 @@
 * This tutorial explains how to use TrueType or Type1 fonts so that you are not
 * limited to the standard fonts any more. The other interest is that you can
 * choose the font encoding, which allows you to use other languages than the
-* Western ones (the standard fonts having too few available characters). 
-* 
+* Western ones (the standard fonts having too few available characters).
+*
 * There are two ways to use a new font: embedding it in the PDF or not. When a
 * font is not embedded, it is sought in the system. The advantage is that the
 * PDF file is lighter; on the other hand, if it is not available, a substitution
 * font is used. So it is preferable to ensure that the needed font is installed
 * on the client systems. If the file is to be viewed by a large audience, it is
-* better to embed. 
-* 
-* Adding a new font requires three steps for TrueTypes: 
+* better to embed.
 *
-* \li Generation of the metric file (.afm/.ufm) 
-* \li Generation of the font definition file (.xml) 
-* \li Declaration of the font in the program 
+* Adding a new font requires three steps for TrueTypes:
+*
+* \li Generation of the metric file (.afm/.ufm)
+* \li Generation of the font definition file (.xml)
+* \li Declaration of the font in the program
 *
 * For Type1, the first one is theoretically not necessary because the AFM file is
 * usually shipped with the font. In case you have only a metric file in PFM format,
-* it must be converted to AFM first. 
+* it must be converted to AFM first.
 *
 * Generation of the metric file
 *
 * The first step for a TrueType consists in generating the AFM file. A utility exists
 * to do this task: ttf2pt1. The Windows binary is available here. The command line
-* to use is the following: 
-* 
-* ttf2pt1 -a font.ttf font 
-* 
-* For example, for Comic Sans MS Regular: 
-* 
-* ttf2pt1 -a c:\windows\fonts\comic.ttf comic 
-* 
-* Two files are created; the one we are interested in is comic.afm. 
+* to use is the following:
+*
+* ttf2pt1 -a font.ttf font
+*
+* For example, for Comic Sans MS Regular:
+*
+* ttf2pt1 -a c:\windows\fonts\comic.ttf comic
+*
+* Two files are created; the one we are interested in is comic.afm.
 *
 * Generation of the font definition file
 *
@@ -70,44 +70,44 @@
 * To do this, a utility program, makefont, will be provided in a future release.
 *
 * You have to copy the generated file(s) to the font directory. If the font file could
-* not be compressed, copy the .ttf or .pfb instead of the .z. 
+* not be compressed, copy the .ttf or .pfb instead of the .z.
 *
 * Declaration of the font in the script
 *
-* The last step is the most simple. You just need to call the AddFont() method. For instance: 
-* 
+* The last step is the most simple. You just need to call the AddFont() method. For instance:
+*
 * pdf.AddFont(wxS("Comic"),wxS(""),wxS("comic.xml"));
-*  
-* or simply: 
-* 
+*
+* or simply:
+*
 * pdf.AddFont(wxS("Comic"));
-*  
+*
 * And the font is now available (in regular and underlined styles), usable like the others.
-* If we had worked with Comic Sans MS Bold (comicbd.ttf), we would have put: 
-* 
+* If we had worked with Comic Sans MS Bold (comicbd.ttf), we would have put:
+*
 * pdf.AddFont(wxS("Comic"),wxS("B"),wxS("comicbd.xml"));
-*  
+*
 * Reducing the size of TrueType fonts
 *
 * Font files are often quite voluminous (more than 100, even 200KB); this is due to the
 * fact that they contain the characters corresponding to many encodings. zlib compression
 * reduces them but they remain fairly big. A technique exists to reduce them further.
 * It consists in converting the font to the Type1 format with ttf2pt1 by specifying the
-* encoding you are interested in; all other characters will be discarded. 
+* encoding you are interested in; all other characters will be discarded.
 * For instance, the arial.ttf font shipped with Windows 98 is 267KB (it contains 1296
 * characters). After compression it gives 147. Let's convert it to Type1 by keeping
-* only cp1250 characters: 
-* 
-* ttf2pt1 -b -L cp1250.map c:\windows\fonts\arial.ttf arial 
-* 
+* only cp1250 characters:
+*
+* ttf2pt1 -b -L cp1250.map c:\windows\fonts\arial.ttf arial
+*
 * The .map files are located in the font/makefont/ directory of the package.
 * The command produces arial.pfb and arial.afm. The arial.pfb file is only 35KB,
-* and 30KB after compression. 
-* 
+* and 30KB after compression.
+*
 * It is possible to go even further. If you are interested only by a subset of the
 * encoding (you probably don't need all 217 characters), you can open the .map file
 * and remove the lines you are not interested in. This will reduce the file size
-* accordingly. 
+* accordingly.
 */
 
 int

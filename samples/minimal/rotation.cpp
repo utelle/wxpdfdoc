@@ -24,7 +24,7 @@
 
 /**
 * Rotations
-* 
+*
 * This example shows the effects of rotating text and an image.
 */
 

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdatatype0.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-10
 // Copyright:   (c) Ulrich Telle
@@ -28,7 +28,7 @@
 #if wxUSE_UNICODE
 
 // ----------------------------------------------------------------------------
-// wxPdfFontType0: class 
+// wxPdfFontType0: class
 // ----------------------------------------------------------------------------
 
 wxPdfFontDataType0::wxPdfFontDataType0()
@@ -40,7 +40,7 @@ wxPdfFontDataType0::wxPdfFontDataType0()
 }
 
 wxPdfFontDataType0::wxPdfFontDataType0(const wxString& family, const wxString& name,
-                                       const wxString& encoding, const wxString& ordering, 
+                                       const wxString& encoding, const wxString& ordering,
                                        const wxString& supplement, const wxString& cmap,
                                        short* cwArray, const wxPdfFontDescription& desc)
   : wxPdfFontData()
@@ -306,9 +306,9 @@ wxPdfFontDataType0::CanShow(const wxString& s, const wxPdfEncoding* encoding) co
 }
 
 wxString
-wxPdfFontDataType0::ConvertCID2GID(const wxString& s, 
-                                   const wxPdfEncoding* encoding, 
-                                   wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataType0::ConvertCID2GID(const wxString& s,
+                                   const wxPdfEncoding* encoding,
+                                   wxPdfSortedArrayInt* usedGlyphs,
                                    wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   // No conversion from cid to gid

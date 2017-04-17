@@ -60,8 +60,8 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the converted string
   */
-  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding, 
-                                  wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual wxString ConvertCID2GID(const wxString& s, const wxPdfEncoding* encoding,
+                                  wxPdfSortedArrayInt* usedGlyphs = NULL,
                                   wxPdfChar2GlyphMap* subsetGlyphs = NULL) const;
 
   /// Load the font metrics XML file
@@ -105,15 +105,15 @@ public:
   virtual bool GetGlyphNames(wxArrayString& glyphNames) const;
 #endif
 
-  /// Write font data 
+  /// Write font data
   /**
   * \param fontData the output stream
   * \param usedGlyphs the list of used glyphs
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written font data
   */
-  virtual size_t WriteFontData(wxOutputStream* fontData, 
-                               wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual size_t WriteFontData(wxOutputStream* fontData,
+                               wxPdfSortedArrayInt* usedGlyphs = NULL,
                                wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
   /// Write character/glyph to unicode mapping
@@ -124,9 +124,9 @@ public:
   * \param subsetGlyphs the mapping of glyphs to subset glyphs
   * \return the size of the written data
   */
-  virtual size_t WriteUnicodeMap(wxOutputStream* mapData, 
-                                 const wxPdfEncoding* encoding = NULL, 
-                                 wxPdfSortedArrayInt* usedGlyphs = NULL, 
+  virtual size_t WriteUnicodeMap(wxOutputStream* mapData,
+                                 const wxPdfEncoding* encoding = NULL,
+                                 wxPdfSortedArrayInt* usedGlyphs = NULL,
                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
 #if wxUSE_UNICODE

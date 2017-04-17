@@ -1519,9 +1519,9 @@ wxPdfDCImpl::CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,
     em_ascent  = 1325;
     em_descent = 1.085 * desc->GetDescent();
     em_height  = em_ascent + em_descent;
-    em_externalLeading = 33;   
+    em_externalLeading = 33;
   }
-    
+
   if (ascent)
   {
     *ascent = wxRound(em_ascent * size / 1000.0);

@@ -397,14 +397,14 @@ wxPdfDocument::EndDoc()
   PutPages();
 
   PutResources();
-  
+
   // Info
   NewObj();
   Out("<<");
   PutInfo();
   Out(">>");
   Out("endobj");
-  
+
   // Form fields
   PutFormFields();
 
@@ -414,7 +414,7 @@ wxPdfDocument::EndDoc()
   PutCatalog();
   Out(">>");
   Out("endobj");
-  
+
   // Cross-Reference
   int o = m_buffer->TellO();
   Out("xref");
@@ -425,7 +425,7 @@ wxPdfDocument::EndDoc()
   {
     OutAscii(wxString::Format(wxS("%010d 00000 n "),(*m_offsets)[i]));
   }
-  
+
   // Trailer
   Out("trailer");
   Out("<<");
@@ -562,7 +562,7 @@ wxPdfDocument::PutFormFields()
 void
 wxPdfDocument::PutInfo()
 {
-  Out("/Producer ",false); 
+  Out("/Producer ",false);
   OutTextstring(wxString(wxPDF_PRODUCER));
   if (m_title.Length() > 0)
   {
@@ -656,7 +656,7 @@ wxPdfDocument::PutCatalog()
     Out("/PageMode /UseOutlines");
   }
 
-  
+
   if (m_viewerPrefs > 0)
   {
     Out("/ViewerPreferences <<");
@@ -710,7 +710,7 @@ wxPdfDocument::PutCatalog()
 
      // << /DR << /Font << /ZaDb << /Type /Font /Subtype /Type1 /Name /ZaDb /BaseFont /ZapfDingbats >>
      //  /Helv 3 0 R >> >> /DA (/Helv 10 Tf 0 g )
-     //  /NeedAppearances true >> 
+     //  /NeedAppearances true >>
 
   }
 
@@ -973,7 +973,7 @@ wxPdfDocument::PutPages()
         else
         {
           wxPdfLink* link = (*m_links)[pl->GetLinkRef()];
-          double y = link->GetPosition()*m_k; 
+          double y = link->GetPosition()*m_k;
           if (m_yAxisOriginTop)
           {
             double h = hPt;
@@ -985,7 +985,7 @@ wxPdfDocument::PutPages()
             y = h - y;
           }
           OutAscii(wxString::Format(wxS("/Dest [%d 0 R /XYZ 0 "),m_firstPageId+2*(link->GetPage()-1)) +
-                   wxPdfUtility::Double2String(y,2) + 
+                   wxPdfUtility::Double2String(y,2) +
                    wxString(wxS(" null]>>")),false);
         }
         delete pl;
@@ -1030,7 +1030,7 @@ wxPdfDocument::PutPages()
     }
     OutAscii(wxString::Format(wxS("/Contents %d 0 R>>"), m_n+1));
     Out("endobj");
-    
+
     // Page content
     wxMemoryOutputStream mos;
     wxMemoryOutputStream* p = (*m_pages)[n];
@@ -1043,7 +1043,7 @@ wxPdfDocument::PutPages()
     }
 
     NewObj();
-    OutAscii(wxString(wxS("<<")) + filter + wxString(wxS("/Length ")) + 
+    OutAscii(wxString(wxS("<<")) + filter + wxString(wxS("/Length ")) +
              wxString::Format(wxS("%lu"), (unsigned long) CalculateStreamLength(p->TellO())) + wxString(wxS(">>")));
     PutStream(*p);
     Out("endobj");
@@ -1259,7 +1259,7 @@ wxPdfDocument::PutFonts()
       bool compressed = true;
       wxMemoryOutputStream p;
       size_t fontSize1 = font->WriteFontData(&p);
-  
+
       size_t fontLen = CalculateStreamLength(p.TellO());
       OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long) fontLen));
       if (compressed)
@@ -1283,7 +1283,7 @@ wxPdfDocument::PutFonts()
       Out("endobj");
     }
   }
-  
+
   fontIter = m_fonts->begin();
   for (fontIter = m_fonts->begin(); fontIter != m_fonts->end(); fontIter++)
   {
@@ -1399,7 +1399,7 @@ wxPdfDocument::PutFonts()
       OutAscii(wxString::Format(wxS("/ToUnicode %d 0 R"), (m_n + 4)));
       Out(">>");
       Out("endobj");
-      
+
       // CIDFontType
       NewObj();
       Out("<</Type /Font");
@@ -1414,7 +1414,7 @@ wxPdfDocument::PutFonts()
         Out("/Subtype /CIDFontType0");
       }
       OutAscii(wxString(wxS("/BaseFont /")) + name);
-      OutAscii(wxString::Format(wxS("/CIDSystemInfo %d 0 R"), (m_n + 1))); 
+      OutAscii(wxString::Format(wxS("/CIDSystemInfo %d 0 R"), (m_n + 1)));
       OutAscii(wxString::Format(wxS("/FontDescriptor %d 0 R"), (m_n + 2)));
 
       const wxPdfFontDescription& fd = font->GetDescription();
@@ -1423,11 +1423,11 @@ wxPdfDocument::PutFonts()
         // The default width for glyphs in the CIDFont MissingWidth
         OutAscii(wxString::Format(wxS("/DW %d"), fd.GetMissingWidth()));
       }
-      
+
       OutAscii(wxString(wxS("/W ")) + font->GetWidthsAsString()); // A description of the widths for the glyphs in the CIDFont
       Out(">>");
       Out("endobj");
-      
+
       // CIDSystemInfo dictionary
       // A dictionary containing entries that define the character collectionof the CIDFont.
       NewObj();
@@ -1442,7 +1442,7 @@ wxPdfDocument::PutFonts()
       Out("/Supplement 0");
       Out(">>");
       Out("endobj");
-      
+
       // Font descriptor
       // A font descriptor describing the CIDFonts default metrics other than its glyph widths
       NewObj();
@@ -1754,7 +1754,7 @@ wxPdfDocument::PutTemplates()
       }
       Out(">>");
     }
-    
+
     // Template data
     wxMemoryOutputStream mos, *p;
     if (m_compress)
@@ -1970,7 +1970,7 @@ wxPdfDocument::PutBookmarks()
     {
       OutAscii(wxString::Format(wxS("/Last %d 0 R"), (n+bookmark->GetLast())));
     }
-    double y = bookmark->GetY(); 
+    double y = bookmark->GetY();
     if (m_yAxisOriginTop)
     {
       y = m_h - y;
@@ -2407,7 +2407,7 @@ wxPdfDocument::PutStream(wxMemoryOutputStream& s)
           (*m_pages)[m_page]->Write("\n",1);
         }
         else
-        { 
+        {
           m_currentTemplate->m_buffer.Write(tmp);
           m_currentTemplate->m_buffer.Write("\n",1);
         }
@@ -2727,7 +2727,7 @@ wxPdfDocument::OutImage(wxPdfImage* currentImage,
            wxPdfUtility::Double2String(sw,2) + wxString(wxS(" 0 0 ")) +
            wxPdfUtility::Double2String(sh,2) + wxString(wxS(" ")) +
            wxPdfUtility::Double2String(sx,2) + wxString(wxS(" ")) +
-           wxPdfUtility::Double2String(sy,2) + 
+           wxPdfUtility::Double2String(sy,2) +
            wxString::Format(wxS(" cm /I%d Do Q"),currentImage->GetIndex()));
 
   if (link.IsValid())
@@ -2739,7 +2739,7 @@ wxPdfDocument::OutImage(wxPdfImage* currentImage,
   m_img_rb_x = x + w;
   m_img_rb_y = y + h;
 
-  // 
+  //
   if (m_inTemplate)
   {
     (*(m_currentTemplate->m_images))[currentImage->GetName()] = currentImage;

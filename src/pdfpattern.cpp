@@ -30,7 +30,7 @@ wxPdfPattern::wxPdfPattern(int index, double width, double height)
 wxPdfPattern::wxPdfPattern(const wxPdfPattern& pattern)
 {
   m_objIndex = pattern.m_objIndex;
-  m_index    = pattern.m_index; 
+  m_index    = pattern.m_index;
   m_width    = pattern.m_width;
   m_height   = pattern.m_height;
   m_image    = pattern.m_image;

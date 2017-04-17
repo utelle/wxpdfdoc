@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdflayer.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-07-01
 // Copyright:   (c) Ulrich Telle
@@ -72,7 +72,7 @@ public:
   /// Check whether OCG is initialized
   bool IsOk() const;
 
-  /// Get 
+  /// Get
   wxPdfOcgType GetType() const { return m_type; }
 
 protected:
@@ -91,7 +91,7 @@ public:
   /**
   * Creates a new layer.
   * \param name the name of the layer
-  */    
+  */
   wxPdfLayer(const wxString& name);
 
   /// Destructor
@@ -161,23 +161,23 @@ public:
   /**
   * Adds a child layer. Nested layers can only have one parent.
   * \param child the child layer
-  */    
+  */
   bool AddChild(wxPdfLayer* child);
 
   /// Get parent layer
   /**
   * Gets the parent layer.
   * \return the parent layer or <CODE>null</CODE> if the layer has no parent
-  */    
+  */
   wxPdfLayer* GetParent() const { return m_parent; }
 
   bool HasChildren() const { return !m_children.IsEmpty(); }
-  
+
   /// Get the list of child layers
   /**
   * Gets the child layers.
   * \return the child layers or an empty list if the layer has no children
-  */    
+  */
   wxPdfArrayLayer GetChildren() const { return m_children; }
 
   /// Set the creator's info
@@ -189,7 +189,7 @@ public:
   * values include but are not limited to <B>Artwork</B>, for graphic-design or publishing
   * applications, and <B>Technical</B>, for technical designs such as building plans or
   * schematics
-  */    
+  */
   void SetCreatorInfo(const wxString& creator, const wxString& subtype);
 
   /// Set the language
@@ -200,7 +200,7 @@ public:
   * (for example, <B>es-MX</B> represents Mexican Spanish)
   * \param preferred used by viewer applications when there is a partial match but no exact
   * match between the system language and the language strings in all usage dictionaries
-  */    
+  */
   void SetLanguage(const wxString& lang, bool preferred);
 
   /// Set the export state
@@ -210,7 +210,7 @@ public:
   * that does not support optional content (for example, an earlier version of
   * PDF or a raster image format).
   * \param exportState the export state
-  */    
+  */
   void SetExport(bool exportState);
 
   /// Set the range of zoom magnification
@@ -222,7 +222,7 @@ public:
   * \param max the maximum recommended magnification factor at which the group
   * should be ON. A negative value will set the largest possible magnification supported by the
   * viewer application
-  */    
+  */
   void SetZoom(double min, double max);
 
   /// Set the print state
@@ -233,7 +233,7 @@ public:
   * for example, <B>Trapping</B>, <B>PrintersMarks</B> and <B>Watermark</B>
   * \param printState indicates that the group should be
   * set to that state when the document is printed from a viewer application
-  */    
+  */
   void SetPrint(const wxString& subtype, bool printState);
 
   /// Set the view state
@@ -241,7 +241,7 @@ public:
   * Indicates that the group should be set to that state when the
   * document is opened in a viewer application.
   * \param viewState the view state
-  */    
+  */
   void SetView(bool viewState);
 
   /// Get the usage dictionary
@@ -256,7 +256,7 @@ public:
   * under the same title heading.
   * \param title the title text
   * \return the title layer
-  */    
+  */
   static wxPdfLayer* CreateTitle(const wxString& title);
 
 protected:
@@ -297,7 +297,7 @@ public:
   /**
   * Adds a new member to the layer.
   * \param layer the new member to the layer
-  */    
+  */
   bool AddMember(wxPdfLayer* layer);
 
   /// Get a list of the layers
@@ -306,11 +306,11 @@ public:
   /// Set visibility policy
   /**
   * Sets the visibility policy for content belonging to this
-  * membership dictionary. Possible values are 
+  * membership dictionary. Possible values are
   * wxPDF_OCGPOLICY_ALLON, wxPDF_OCGPOLICY_ANYON, wxPDF_OCGPOLICY_ANYOFF and wxPDF_OCGPOLICY_ALLOFF.
   * The default value is wxPDF_OCGPOLICY_ANYON.
   * \param policy the visibility policy
-  */    
+  */
   void SetVisibilityPolicy(wxPdfOcgPolicy policy);
 
   /// Get the visibility policy
@@ -348,7 +348,7 @@ public:
   /**
   * Adds a new member to the layer radio group.
   * \param layer the new member to the layer radio group
-  */    
+  */
   bool Add(wxPdfLayer* layer);
 
   /// Get list of group members

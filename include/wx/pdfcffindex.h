@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfcffindex.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-01
 // Copyright:   (c) Ulrich Telle
@@ -57,7 +57,7 @@ public:
   * \param buf the stream buffer containing the index element
   */
   void SetBuffer(wxMemoryOutputStream& buf);
-  
+
   /// Emit the index element into an output stream
   /**
   * \param[out] buffer the output stream
@@ -69,19 +69,19 @@ public:
   * \return a flag whether the stream buffer
   */
   bool IsCopy() { return m_delete; }
-  
+
   /// Get the offset of the index element
   /**
   * \return the offset within the stream buffer
   */
   int GetOffset() { return m_offset; }
-  
+
   /// Get the length of the index element
   /**
   * \return the length of the index element
   */
   int GetLength() { return m_length; }
-  
+
   /// Get the stream buffer
   /**
   * \return the stream buffer

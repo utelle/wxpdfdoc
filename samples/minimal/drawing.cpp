@@ -65,9 +65,9 @@ drawing(bool testMode)
     dash3.Add(0.7);
     dash3.Add(3.5);
     wxPdfLineStyle style3(1.0, wxPDF_LINECAP_ROUND, wxPDF_LINEJOIN_ROUND, dash3, 0., wxColour(255, 0, 0));
-  
+
     wxPdfLineStyle style4(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash1, 3.5, wxColour(255, 0, 0));
-  
+
     wxPdfArrayDouble dash5;
     wxPdfLineStyle style5(0.25, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash5, 0., wxColour(0, 0, 0));
 

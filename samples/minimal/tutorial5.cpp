@@ -28,13 +28,13 @@
 /**
 * Tables
 *
-* This tutorial shows how to make tables easily. 
-* 
+* This tutorial shows how to make tables easily.
+*
 * A table being just a collection of cells, it is natural to build one from
 * them. The first example is achieved in the most basic way possible: simple
 * framed cells, all of the same size and left aligned. The result is rudimentary
-* but very quick to obtain. 
-* 
+* but very quick to obtain.
+*
 * The second table brings some improvements: each column has its own width,
 * titles are centered and figures right aligned. Moreover, horizontal lines
 * have been removed. This is done by means of the border parameter of the Cell()
@@ -42,11 +42,11 @@
 * left (L) and right (R) ones. It remains the problem of the horizontal line to
 * finish the table. There are two possibilities: either check for the last line in
 * the loop, in which case we use LRB for the border parameter; or, as done here,
-* add the line once the loop is over. 
-* 
+* add the line once the loop is over.
+*
 * The third table is similar to the second one but uses colors. Fill, text and
 * line colors are simply specified. Alternate coloring for rows is obtained by
-* using alternatively transparent and filled cells. 
+* using alternatively transparent and filled cells.
 */
 
 class PdfTuto5 : public wxPdfDocument

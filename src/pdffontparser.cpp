@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontparser.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2007-06-26
 // Copyright:   (c) Ulrich Telle
@@ -127,7 +127,7 @@ wxPdfFontParser::ReadString(int length)
 {
   return ReadString(length, m_inFont);
 }
-    
+
 wxString
 wxPdfFontParser::ReadString(int length, wxInputStream* stream)
 {
@@ -137,7 +137,7 @@ wxPdfFontParser::ReadString(int length, wxInputStream* stream)
   delete [] buffer;
   return str;
 }
-    
+
 wxString
 wxPdfFontParser::ReadUnicodeString(int length)
 {

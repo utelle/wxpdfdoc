@@ -577,7 +577,7 @@ ShowFont::OnInit()
   bool valid = false;
   //gets the parameters from cmd line
   wxCmdLineParser parser (cmdLineDesc, argc, argv);
-  wxString logo = wxS("wxPdfDocument ShowFont Utility Version ") + m_version + 
+  wxString logo = wxS("wxPdfDocument ShowFont Utility Version ") + m_version +
                   wxS("\n\nCreate font samples.\n") +
                   wxS("Please specify file extensions in ALL file name parameters.\n");
   parser.SetLogo(logo);
@@ -585,7 +585,7 @@ ShowFont::OnInit()
   {
     if (!parser.Found(wxS("help")))
     {
-      valid = parser.Found(wxS("font"), &m_fontFile) && 
+      valid = parser.Found(wxS("font"), &m_fontFile) &&
               parser.Found(wxS("output"), &m_outputFile);
       if (valid)
       {

@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdflayer.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2009-07-01
 // Copyright:   (c) Ulrich Telle
@@ -129,7 +129,7 @@ wxPdfLayer::SetCreatorInfo(const wxString& creator, const wxString& subtype)
                wxString(_("Usage entry 'CreatorInfo' already defined.")));
   }
 }
-    
+
 void
 wxPdfLayer::SetLanguage(const wxString& lang, bool preferred)
 {
@@ -150,7 +150,7 @@ wxPdfLayer::SetLanguage(const wxString& lang, bool preferred)
                wxString(_("Usage entry 'Language' already defined.")));
   }
 }
-    
+
 void
 wxPdfLayer::SetExport(bool exportState)
 {
@@ -167,7 +167,7 @@ wxPdfLayer::SetExport(bool exportState)
                wxString(_("Usage entry 'Export' already defined.")));
   }
 }
-    
+
 void
 wxPdfLayer::SetZoom(double minZoom, double maxZoom)
 {
@@ -295,8 +295,8 @@ wxPdfLayerGroup::operator=(const wxPdfLayerGroup& layer)
 bool
 wxPdfLayerGroup::Add(wxPdfLayer* layer)
 {
-  bool ok = (layer != NULL) && 
-            (layer->GetType() == wxPDF_OCG_TYPE_LAYER) && 
+  bool ok = (layer != NULL) &&
+            (layer->GetType() == wxPDF_OCG_TYPE_LAYER) &&
             (m_layers.Index(layer) == wxNOT_FOUND);
   if (ok)
   {

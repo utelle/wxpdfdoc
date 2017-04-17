@@ -192,17 +192,17 @@ bool MyApp::OnInit(void)
     g_printData = new wxPrintData;
     // You could set an initial paper size here
     //    g_printData->SetPaperId(wxPAPER_LETTER); // for Americans
-    //    g_printData->SetPaperId(wxPAPER_A4);    // for everyone else    
+    //    g_printData->SetPaperId(wxPAPER_A4);    // for everyone else
 
     g_pageSetupData = new wxPageSetupDialogData;
     // copy over initial paper size from print record
     (*g_pageSetupData) = *g_printData;
-    // Set some initial page margins in mm. 
+    // Set some initial page margins in mm.
     g_pageSetupData->SetMarginTopLeft(wxPoint(15, 15));
     g_pageSetupData->SetMarginBottomRight(wxPoint(15, 15));
 
     // Create the main frame window
-    frame = new MyFrame((wxFrame *) NULL, _T("wxWidgets Printing Demo"), 
+    frame = new MyFrame((wxFrame *) NULL, _T("wxWidgets Printing Demo"),
         wxPoint(0, 0), wxSize(400, 400));
 
 #if wxUSE_STATUSBAR
@@ -438,7 +438,7 @@ void MyFrame::OnPDFTemplate(wxCommandEvent& WXUNUSED(event))
   wxFileName fileName;
   fileName.SetPath(wxGetCwd());
   fileName.SetFullName(wxS("template.pdf"));
-  
+
   wxPdfDocument pdf;
   pdf.AddPage();
   pdf.SetFont(wxS("Helvetica"),wxS("B"),16);
@@ -646,7 +646,7 @@ void MyFrame::Draw(wxDC& dc)
     dc.SetUserScale(fontScaleX, fontScaleY);
     dc.DrawText(wxS("Test message: this is in 10 point text"), wxRound(10 * txtPosScaleX), wxRound(180 * txtPosScaleY));
     dc.SetUserScale(coordScaleX, coordScaleY);
-    
+
 #if wxUSE_UNICODE
     //char *test = "Hebrew    שלום -- Japanese (日本語)";
     //wxString tmp = wxConvUTF8.cMB2WC( test );
@@ -680,7 +680,7 @@ void MyFrame::Draw(wxDC& dc)
     dc.DrawSpline( 4, points );
 
     dc.DrawArc( 20,10, 10,10, 25,40 );
-        
+
     wxString str;
     int i = 0;
     str.Printf( wxS("---- Text at angle %d ----"), i );
@@ -856,12 +856,12 @@ void MyFrame::OnPdfRichTextPreview(wxCommandEvent&  WXUNUSED(event) )
       m_richtextPrinting->SetRichTextBufferPrinting(
         new wxRichTextBuffer(m_richtext->GetBuffer())
       );
-      
+
       m_richtextPrinting->SetRichTextBufferPreview(
         new wxRichTextBuffer(m_richtext->GetBuffer())
       );
 
-      wxRichTextPrintout *printPrintout = new wxRichTextPrintout(wxS("Demo PDF Printing"));   
+      wxRichTextPrintout *printPrintout = new wxRichTextPrintout(wxS("Demo PDF Printing"));
       // richtext printout accepts margins in tenths of mm
       printPrintout->SetMargins(
                       10 * dialogData.GetMarginTopLeft().y,
@@ -871,7 +871,7 @@ void MyFrame::OnPdfRichTextPreview(wxCommandEvent&  WXUNUSED(event) )
                       );
       printPrintout->SetRichTextBuffer(  m_richtextPrinting->GetRichTextBufferPrinting() );
 
-      wxRichTextPrintout *previewPrintout = new wxRichTextPrintout(wxS("Demo PDF Printing"));   
+      wxRichTextPrintout *previewPrintout = new wxRichTextPrintout(wxS("Demo PDF Printing"));
       // richtext printout accepts margins in tenths of mm
       previewPrintout->SetMargins(
                       10 * dialogData.GetMarginTopLeft().y,
@@ -1124,13 +1124,13 @@ void MyFrame::WriteRichTextBuffer()
 
         r.WriteText(wxS("Note: this sample content was generated programmatically from within the MyFrame constructor in the demo. The images were loaded from inline XPMs. Enjoy wxRichTextCtrl!\n"));
     }
-    
+
     r.EndParagraphSpacing();
 
     // Add a text box
     if (1)
     {
-  
+
       r.Newline();
 
       wxRichTextAttr attr;
@@ -1277,9 +1277,9 @@ void MyFrame::WriteRichTextBuffer()
 
         r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
         r.Newline();
-    
+
         r.EndLeftIndent();
-    
+
         r.WriteText(wxS("Numbered bullets are possible, again using subindents:"));
         r.Newline();
 
@@ -1405,24 +1405,24 @@ void MyFrame::OnPdfHtmlPrint(wxCommandEvent&  WXUNUSED(event) )
   dialogData.EnableMargins(false);
   dialogData.EnablePaper(true);
   dialogData.EnableOrientation(true);
-   
+
   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, &dialogData);
   if( dialog->ShowModal() == wxID_OK )
   {
       dialogData = dialog->GetPageSetupData();
       wxPdfPrintData printData = wxPdfPrintData( &dialogData );
-      
+
       // restrict user choices in printdialog
       printData.SetPrintDialogFlags( wxPDF_PRINTDIALOG_OPENDOC|wxPDF_PRINTDIALOG_FILEPATH );
       // set launchviewer default to true
       printData.SetLaunchDocumentViewer(true);
-      
+
       wxPdfPrintDialog *printDialog =  new wxPdfPrintDialog(this, &printData );
       if( printDialog->ShowModal() == wxID_OK )
       {
         printData = printDialog->GetPdfPrintData();
-        
-        wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));   
+
+        wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));
         printPrintout->SetMargins(
                         dialogData.GetMarginTopLeft().y,
                         dialogData.GetMarginBottomRight().y,
@@ -1450,14 +1450,14 @@ void MyFrame::OnPdfHtmlPreview(wxCommandEvent&  WXUNUSED(event) )
   dialogData.EnableMargins(true);
   dialogData.EnablePaper(true);
   dialogData.EnableOrientation(true);
-   
+
   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, &dialogData);
   if( dialog->ShowModal() == wxID_OK )
   {
       dialogData = dialog->GetPageSetupData();
       wxPdfPrintData printData = wxPdfPrintData( &dialogData );
-    
-      wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));   
+
+      wxHtmlPrintout *printPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));
       printPrintout->SetMargins(
                       dialogData.GetMarginTopLeft().y,
                       dialogData.GetMarginBottomRight().y,
@@ -1466,8 +1466,8 @@ void MyFrame::OnPdfHtmlPreview(wxCommandEvent&  WXUNUSED(event) )
                       );
       printPrintout->SetHtmlFile(wxS("test.html"));
       printPrintout->SetStandardFonts(10, wxS("Arial"), wxS("Courier New"));
-      
-      wxHtmlPrintout *previewPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));   
+
+      wxHtmlPrintout *previewPrintout = new wxHtmlPrintout(wxS("Demo PDF Printing"));
       previewPrintout->SetMargins(
                       dialogData.GetMarginTopLeft().y,
                       dialogData.GetMarginBottomRight().y,
@@ -1476,7 +1476,7 @@ void MyFrame::OnPdfHtmlPreview(wxCommandEvent&  WXUNUSED(event) )
                       );
       previewPrintout->SetHtmlFile(wxS("test.html"));
       previewPrintout->SetStandardFonts(10, wxS("Arial"), wxS("Courier New"));
-      
+
       wxPdfPrintPreview *preview = new wxPdfPrintPreview(previewPrintout, printPrintout, &printData);
       if (preview->IsOk())
       {

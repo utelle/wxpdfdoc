@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdataopentype.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-10
 // Copyright:   (c) Ulrich Telle
@@ -257,7 +257,7 @@ wxPdfFontDataOpenTypeUnicode::LoadFontMetrics(wxXmlNode* root)
         ctgStream->Read(cc2gn, ctgLen);
       }
       delete ctgFile;
-    
+
       // Create the cid to gid mapping
       m_gn = new wxPdfChar2GlyphMap();
       size_t charId;
@@ -345,9 +345,9 @@ wxPdfFontDataOpenTypeUnicode::CanShow(const wxString& s, const wxPdfEncoding* en
 }
 
 wxString
-wxPdfFontDataOpenTypeUnicode::ConvertCID2GID(const wxString& s, 
+wxPdfFontDataOpenTypeUnicode::ConvertCID2GID(const wxString& s,
                                              const wxPdfEncoding* encoding,
-                                             wxPdfSortedArrayInt* usedGlyphs, 
+                                             wxPdfSortedArrayInt* usedGlyphs,
                                              wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(encoding);
@@ -395,9 +395,9 @@ wxPdfFontDataOpenTypeUnicode::ConvertCID2GID(const wxString& s,
 }
 
 wxString
-wxPdfFontDataOpenTypeUnicode::ConvertGlyph(wxUint32 glyph, 
-                                           const wxPdfEncoding* encoding, 
-                                           wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataOpenTypeUnicode::ConvertGlyph(wxUint32 glyph,
+                                           const wxPdfEncoding* encoding,
+                                           wxPdfSortedArrayInt* usedGlyphs,
                                            wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(encoding);
@@ -455,7 +455,7 @@ wxPdfFontDataOpenTypeUnicode::GetWidthsAsString(bool subset, wxPdfSortedArrayInt
     {
       glyph = 0;
     }
-    if (glyph != 0 && (!subset || usedGlyphs == NULL || 
+    if (glyph != 0 && (!subset || usedGlyphs == NULL ||
                        (subset && SubsetSupported() && (usedGlyphs->Index(glyph) != wxNOT_FOUND))))
     {
       if (subset)
@@ -537,7 +537,7 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
                  wxString::Format(_("Font file '%s' not found."), fileName.GetFullPath().c_str()));
     }
   }
-  
+
   if (fontStream != NULL)
   {
     if (usedGlyphs != NULL)
@@ -610,9 +610,9 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
 }
 
 size_t
-wxPdfFontDataOpenTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData, 
-                                              const wxPdfEncoding* encoding, 
-                                              wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataOpenTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData,
+                                              const wxPdfEncoding* encoding,
+                                              wxPdfSortedArrayInt* usedGlyphs,
                                               wxPdfChar2GlyphMap* subsetGlyphs)
 {
   wxUnusedVar(encoding);

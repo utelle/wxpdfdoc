@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdatatype1.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-07
 // Copyright:   (c) Ulrich Telle
@@ -295,9 +295,9 @@ wxPdfFontDataType1::CanShow(const wxString& s, const wxPdfEncoding* encoding) co
 }
 
 wxString
-wxPdfFontDataType1::ConvertCID2GID(const wxString& s, 
-                                   const wxPdfEncoding* encoding, 
-                                   wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataType1::ConvertCID2GID(const wxString& s,
+                                   const wxPdfEncoding* encoding,
+                                   wxPdfSortedArrayInt* usedGlyphs,
                                    wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(usedGlyphs);
@@ -494,7 +494,7 @@ wxPdfFontDataType1::CompressFontData(wxOutputStream* fontData, wxInputStream* pf
   }
   if (size1 < 0 || size2 < 0)
   {
-    wxLogError(wxString(wxS("wxPdfFontDataType1::CompressFontData: ")) + 
+    wxLogError(wxString(wxS("wxPdfFontDataType1::CompressFontData: ")) +
                wxString(_("Font file does not seem to be valid Type1, font embedding not possible.")));
     ok = false;
   }
@@ -567,9 +567,9 @@ wxPdfFontDataType1::WriteFontData(wxOutputStream* fontData, wxPdfSortedArrayInt*
 }
 
 size_t
-wxPdfFontDataType1::WriteUnicodeMap(wxOutputStream* mapData, 
-                                    const wxPdfEncoding* encoding, 
-                                    wxPdfSortedArrayInt* usedGlyphs, 
+wxPdfFontDataType1::WriteUnicodeMap(wxOutputStream* mapData,
+                                    const wxPdfEncoding* encoding,
+                                    wxPdfSortedArrayInt* usedGlyphs,
                                     wxPdfChar2GlyphMap* subsetGlyphs)
 {
   wxUnusedVar(usedGlyphs);

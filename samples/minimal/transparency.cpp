@@ -24,7 +24,7 @@
 
 /**
 * Transparency
-* 
+*
 * This example shows transparency effects and image masking.
 */
 

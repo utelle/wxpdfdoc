@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontdetails.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-17
 // Copyright:   (c) Ulrich Telle
@@ -41,7 +41,7 @@ public:
 
   /// Assignment operator
   wxPdfFontDetails& operator=(const wxPdfFontDetails&);
-  
+
   /// Set font index
   /**
   * \param index the font index
@@ -167,7 +167,7 @@ public:
   /// Get kerning width array
   /**
   * \param s the string for which kerning information should be provided
-  * \return an array with indices and kerning width of the found kerning pairs. 
+  * \return an array with indices and kerning width of the found kerning pairs.
   * The array consists of information pairs: the first item (even indices) represents the index
   * of the first character of a kerning pair within the string and the second item (odd indices)
   * represents the kerning value.
@@ -194,7 +194,7 @@ public:
   */
   wxString GetWidthsAsString() const;
 
-  /// Write font data 
+  /// Write font data
   /**
   * \param fontData the output stream
   * \return the size of the written font data

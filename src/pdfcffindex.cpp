@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfcffindex.cpp
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-07
 // Copyright:   (c) Ulrich Telle
@@ -81,7 +81,7 @@ wxPdfCffIndexElement::wxPdfCffIndexElement(const wxPdfCffIndexElement& copy)
   }
 }
 
-wxPdfCffIndexElement& 
+wxPdfCffIndexElement&
 wxPdfCffIndexElement::operator=(const wxPdfCffIndexElement& copy)
 {
   m_offset = copy.m_offset;

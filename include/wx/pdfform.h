@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfform.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2006-01-18
 // Copyright:   (c) Ulrich Telle
@@ -90,15 +90,15 @@ public:
   * \param generationId the generation number
   */
   wxPdfAnnotationObject(int objectId, int generationId);
-  
+
   /// Destructor
   ~wxPdfAnnotationObject();
 
   /// Set the associated rectangular area
   /**
-  * \param x offset in x direction 
+  * \param x offset in x direction
   * \param y offset in y direction
-  * \param width the width of the annotation 
+  * \param width the width of the annotation
   * \param height the height of the annotation
   */
   void SetRectangle(double x, double y, double width, double height);
@@ -144,37 +144,37 @@ public:
   * \param generationId the generation number
   */
   wxPdfAnnotationWidget(int objectId, int generationId = 0);
-  
+
   /// Destructor
   virtual ~wxPdfAnnotationWidget();
 
   /// Set form field name
   void SetName(const wxString& name) { m_name = name; }
-  
+
   /// Get form field name
   wxString GetName() { return m_name; }
 
   /// Set border colour representation of form field
   void SetBorderColour(const wxString& borderColour) { m_borderColour = borderColour; }
-  
+
   /// Get border colour representation of form field
   wxString GetBorderColour() { return m_borderColour; }
 
   /// Set background colour representation of form field
   void SetBackgroundColour(const wxString& backgroundColour) { m_backgroundColour = backgroundColour; }
-  
+
   /// Get background colour representation of form field
   wxString GetBackgroundColour() { return m_backgroundColour; }
 
   /// Set text colour representation of form field
   void SetTextColour(const wxString& textColour) { m_textColour = textColour; }
-  
+
   /// Get text colour representation of form field
   wxString GetTextColour() { return m_textColour; }
 
   /// Set border style of form field
   void SetBorderStyle(const wxString& borderStyle) { m_borderStyle = borderStyle; }
-  
+
   /// Get border style of form field
   wxString GetBorderStyle() { return m_borderStyle; }
 
@@ -205,7 +205,7 @@ public:
 
   /// Set status of form field (checked/unchecked)
   void SetValue(bool checked) { m_checked = checked; }
-  
+
   /// Get status of form field (checked/unchecked)
   bool GetValue() { return m_checked; }
 
@@ -218,8 +218,8 @@ class WXDLLIMPEXP_PDFDOC wxPdfComboBox : public wxPdfAnnotationWidget
 {
 public:
   /// Constructor
-  wxPdfComboBox(int objectId, 
-                int fontindex, double fontsize, 
+  wxPdfComboBox(int objectId,
+                int fontindex, double fontsize,
                 int generationId = 0);
 
   /// Destructor
@@ -227,13 +227,13 @@ public:
 
   /// Set value list of combo box
   void SetValue(const wxArrayString& values) { m_values = values; }
-  
+
   /// Get value list of combo box
   wxArrayString GetValue() { return m_values; }
 
   /// Get object index of font used for displaying the value list
   int GetFontIndex() { return m_fontindex; }
-  
+
   /// Get size of font used for displaying the value list
   double GetFontSize() { return m_fontsize; }
 
@@ -249,7 +249,7 @@ class WXDLLIMPEXP_PDFDOC wxPdfPushButton : public wxPdfAnnotationWidget
 public:
   /// Constructor
   wxPdfPushButton(int objectId,
-                  int fontindex, double fontsize, 
+                  int fontindex, double fontsize,
                   int generationId = 0);
 
   /// Destructor
@@ -257,19 +257,19 @@ public:
 
   /// Set caption string of button
   void SetCaption(const wxString& caption) { m_caption = caption; }
-  
+
   /// Get caption string of button
   wxString GetCaption() { return m_caption; }
-  
+
   /// Set JavaScript action  associated with the button
   void SetAction(const wxString& action) { m_action = action; }
-  
+
   /// Get JavaScript action  associated with the button
   wxString GetAction() { return m_action; }
 
   /// Get object index of font used for displaying the value list
   int GetFontIndex() { return m_fontindex; }
-  
+
   /// Get size of font used for displaying the value list
   double GetFontSize() { return m_fontsize; }
 
@@ -289,16 +289,16 @@ class WXDLLIMPEXP_PDFDOC wxPdfRadioButton : public wxPdfAnnotationWidget
 public:
   /// Constructor
   wxPdfRadioButton(int objectId, int index, int generationId = 0);
-  
+
   /// Destructor
   virtual ~wxPdfRadioButton();
 
   /// Set parent (radio button group) of this button
   void SetParent(wxPdfRadioGroup* parent) { m_parent = parent; }
-  
+
   /// Get parent (radio button group) of this button
   wxPdfRadioGroup* GetParent() { return m_parent; }
-  
+
   /// Get index of this button within the radio button group
   int GetIndex() { return m_index; }
 
@@ -313,7 +313,7 @@ class WXDLLIMPEXP_PDFDOC wxPdfRadioGroup : public wxPdfIndirectObject
 public:
   /// Constructor
   wxPdfRadioGroup(int objectId, const wxString& groupName, int generationId = 0);
-  
+
   /// Destructor
   virtual ~wxPdfRadioGroup();
 
@@ -325,7 +325,7 @@ public:
 
   /// Get the number of buttons in the group
   unsigned int GetCount() { return (unsigned int) m_radios.GetCount(); }
-  
+
   /// Get the array of buttons in the group
   wxArrayPtrVoid GetKids() { return m_radios; }
 
@@ -340,7 +340,7 @@ class WXDLLIMPEXP_PDFDOC wxPdfTextField : public wxPdfAnnotationWidget
 public:
   /// Constructor
   wxPdfTextField(int objectId,
-                 int fontindex, double fontsize, 
+                 int fontindex, double fontsize,
                  const wxString& value, int generation_id = 0);
 
   /// Destructor
@@ -360,7 +360,7 @@ public:
 
   /// Get object index of font used for displaying the value list
   int GetFontIndex() { return m_fontindex; }
-  
+
   /// Get size of font used for displaying the value list
   double GetFontSize() { return m_fontsize; }
 

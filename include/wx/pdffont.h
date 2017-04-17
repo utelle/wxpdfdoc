@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffont.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-08-10
 // Copyright:   (c) Ulrich Telle
@@ -123,7 +123,7 @@ public :
   */
   bool GetEmbed() const { return m_embed; }
 
-  /// Set subset flag 
+  /// Set subset flag
   /**
   * Enables or disables subsetting for the font. Subsetting can be enabled if and only if
   * the font allows subsetting.

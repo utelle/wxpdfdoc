@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfdc29.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2010-11-28
 // Copyright:   (c) Ulrich Telle
@@ -159,7 +159,7 @@ protected:
 
   virtual bool DoBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height,
                       wxDC* source, wxCoord xsrc, wxCoord ysrc,
-                      wxRasterOperationMode rop = wxCOPY, bool useMask = false, 
+                      wxRasterOperationMode rop = wxCOPY, bool useMask = false,
                       wxCoord xsrcMask = -1, wxCoord ysrcMask = -1);
 
   virtual void DoGetSize(int* width, int* height) const;

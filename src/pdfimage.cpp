@@ -213,7 +213,7 @@ wxPdfImage::Parse()
 
   if (m_imageStream)
   {
-    if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("png"))) || 
+    if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("png"))) ||
         m_type == wxS("png"))
     {
       isValid = ParsePNG(m_imageStream);
@@ -224,7 +224,7 @@ wxPdfImage::Parse()
       isValid = ParseJPG(m_imageStream);
     }
 #if wxUSE_GIF
-    else if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("gif"))) || 
+    else if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("gif"))) ||
              m_type == wxS("gif"))
     {
       isValid = ParseGIF(m_imageStream);
@@ -232,7 +232,7 @@ wxPdfImage::Parse()
 #endif // wxUSE_GIF
     else
     {
-      if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("wmf"))) || 
+      if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("wmf"))) ||
           m_type == wxS("wmf") || m_name.Right(2) == wxS(".wmf"))
       {
         m_isFormObj = true;
@@ -312,7 +312,7 @@ wxPdfImage::ParsePNG(wxInputStream* imageStream)
                wxString::Format(_("Unknown colour type: '%s'."), m_name.c_str()));
     return false;
   }
-  
+
   imageStream->Read(buffer,3);
   if (buffer[0] != 0)
   {
@@ -555,7 +555,7 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
         marker = M_EOI;
         break;
       }
-    } 
+    }
     while (marker == 0xff);
 
     if (a < 2)
@@ -695,7 +695,7 @@ wxPdfImage::ParseGIF(wxInputStream* imageStream)
     m_trns[1] = m_pal[3*trns + 1];
     m_trns[2] = m_pal[3*trns + 2];
   }
-  
+
   m_dataSize = m_width * m_height;
   if (m_document->m_compress)
   {
@@ -750,7 +750,7 @@ wxPdfImage::ParseGIF(wxInputStream* imageStream)
     m_trns[1] = m_pal[3*trns + 1];
     m_trns[2] = m_pal[3*trns + 2];
   }
-  
+
   m_dataSize = m_width * m_height;
   if (m_document->m_compress)
   {
@@ -1165,7 +1165,7 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
             }
           }
 
-          if (polyFillMode == 1 && (op == wxS("b") || op == wxS("f"))) 
+          if (polyFillMode == 1 && (op == wxS("b") || op == wxS("f")))
           {
             op += wxS("*");  // use even-odd fill rule
           }

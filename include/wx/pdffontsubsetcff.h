@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdffontsubsetcfft.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2008-06-24
 // Copyright:   (c) Ulrich Telle
@@ -186,7 +186,7 @@ protected:
 
   /// Write a dictionary operator
   void WriteDictOperator(wxPdfCffDictElement* op);
-  
+
   /// Set a top dictionary operator to the current position
   void SetTopDictOperatorToCurrentPosition(int op);
 
@@ -233,7 +233,7 @@ protected:
   void SubsetSubrs(wxPdfCffIndexArray& subrIndex, wxPdfSortedArrayInt& subrsUsed);
 
   /// Find the subroutines used
-  void FindSubrsUsed(int fd, wxPdfCffIndexArray& localSubIndex, 
+  void FindSubrsUsed(int fd, wxPdfCffIndexArray& localSubIndex,
                      wxPdfSortedArrayInt& hSubrsUsed, wxArrayInt& lSubrsUsed);
 
   /// Find the global subroutines use

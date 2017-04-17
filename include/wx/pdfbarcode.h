@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Name:        pdfbarcode.h
-// Purpose:     
+// Purpose:
 // Author:      Ulrich Telle
 // Created:     2005-09-12
 // Copyright:   (c) Ulrich Telle
@@ -81,7 +81,7 @@ public:
   * \param cks: indicates if a checksum must be appended (false by default)
   * \param w: width of a narrow bar (0.4 by default)
   * \param h: height of bars (20 by default)
-  * \param wide: indicates if ratio between wide and narrow bars is high; if yes, ratio is 3, if no, it's 2 (true by default) 
+  * \param wide: indicates if ratio between wide and narrow bars is high; if yes, ratio is 3, if no, it's 2 (true by default)
   */
   bool Code39(double x, double y, const wxString& code, bool ext = true, bool cks = false, double w = 0.4, double h = 20, bool wide = true);
 
@@ -100,7 +100,7 @@ public:
 
   /// Draw U.S. Postal Service POSTNET barcodes
   /**
-  * This method supports both 5 and 9 digit zip codes. 
+  * This method supports both 5 and 9 digit zip codes.
   * Zipcode must be a string containing a zip code of the form DDDDD or DDDDD-DDDD.
   * \param x: abscissa of barcode
   * \param y: ordinate of barcode
