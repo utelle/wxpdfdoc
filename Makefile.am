@@ -165,7 +165,9 @@ noinst_HEADERS = \
     src/pdfglyphnames.inc
 
 lib@WXPDFDOC_LIBNAME@_la_LDFLAGS = -no-undefined $(AM_LDFLAGS)
+if USE_SHARED
 lib@WXPDFDOC_LIBNAME@_la_LIBADD = $(WX_LIBS) $(MSW_LIBS)
+endif
 
 
 # Samples (don't need to be installed).

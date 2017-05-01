@@ -12,7 +12,7 @@ case "$TRAVIS_OS_NAME" in
             i686-w64-mingw32)
                 # Set up the repository containing wxMSW packages.
                 curl http://apt.tt-solutions.com/tt-apt.gpg.key | sudo apt-key add -
-                echo 'deb http://apt.tt-solutions.com/ trusty main' | sudo tee -a /etc/apt/sources.list.d/tt-solutions.list
+                echo 'deb [arch=amd64] http://apt.tt-solutions.com/ trusty main' | sudo tee -a /etc/apt/sources.list.d/tt-solutions.list
                 sudo apt-get update -qq
                 # And also install the compiler we're going to use.
                 sudo apt-get install --no-install-recommends g++-mingw-w64-i686
