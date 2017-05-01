@@ -7,6 +7,8 @@ set -e
 
 case "$TRAVIS_OS_NAME" in
     linux)
+        echo -n 'Architecture: '
+        uname -m
         sudo apt-get -qq update
         case "$HOST" in
             i686-w64-mingw32)
