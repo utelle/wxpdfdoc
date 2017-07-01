@@ -207,16 +207,17 @@ public:
   void SetMapModeStyle(wxPdfMapModeStyle style) { m_mappingModeStyle = style; }
   wxPdfMapModeStyle GetMapModeStyle() const { return m_mappingModeStyle; }
 
-private:
-  int FindPdfFont(wxFont* font) const;
-  void SetupPen();
-  void SetupBrush();
   double ScaleLogicalToPdfX(wxCoord x) const;
   double ScaleLogicalToPdfXRel(wxCoord x) const;
   double ScaleLogicalToPdfY(wxCoord y) const;
   double ScaleLogicalToPdfYRel(wxCoord y) const;
   double ScaleFontSizeToPdf(int pointSize) const;
   int ScalePdfToFontMetric(double metric) const;
+
+private:
+  int FindPdfFont(wxFont* font) const;
+  void SetupPen();
+  void SetupBrush();
   void CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,
                             int* height, int* ascent, int* descent, int* extLeading) const;
 

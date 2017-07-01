@@ -1291,9 +1291,11 @@ wxPdfDCImpl::SetupPen()
     style.SetColour(wxColour(curPen.GetColour().Red(),
                              curPen.GetColour().Green(),
                              curPen.GetColour().Blue()));
+    double penWidth = 1.0;
     if (curPen.GetWidth())
     {
-      style.SetWidth(ScaleLogicalToPdfXRel(curPen.GetWidth()));
+      penWidth = ScaleLogicalToPdfXRel(curPen.GetWidth());
+      style.SetWidth(penWidth);
     }
     switch (curPen.GetJoin())
     {
@@ -1324,26 +1326,26 @@ wxPdfDCImpl::SetupPen()
     switch (curPen.GetStyle())
     {
       case wxDOT:
-        dash.Add(1);
-        dash.Add(1);
+        dash.Add(0.5 * penWidth);
+        dash.Add(2.0 * penWidth);
         style.SetDash(dash);
         break;
       case wxLONG_DASH:
-        dash.Add(4);
-        dash.Add(4);
+        dash.Add(3.5 * penWidth);
+        dash.Add(5.0 * penWidth);
         style.SetDash(dash);
         break;
       case wxSHORT_DASH:
-        dash.Add(2);
-        dash.Add(2);
+        dash.Add(1.5 * penWidth);
+        dash.Add(3.0 * penWidth);
         style.SetDash(dash);
         break;
       case wxDOT_DASH:
         {
-          dash.Add(1);
-          dash.Add(1);
-          dash.Add(4);
-          dash.Add(1);
+          dash.Add(0.5 * penWidth);
+          dash.Add(2.0 * penWidth);
+          dash.Add(3.0 * penWidth);
+          dash.Add(2.0 * penWidth);
           style.SetDash(dash);
         }
         break;
