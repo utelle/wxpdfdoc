@@ -1326,7 +1326,14 @@ wxPdfDCImpl::SetupPen()
     switch (curPen.GetStyle())
     {
       case wxDOT:
-        dash.Add(0.5 * penWidth);
+        if (wxPDF_LINECAP_BUTT == style.GetLineCap())
+        {
+          dash.Add(1.0 * penWidth);
+        }
+        else
+        {
+          dash.Add(0.0 * penWidth);
+        }
         dash.Add(2.0 * penWidth);
         style.SetDash(dash);
         break;
@@ -1342,7 +1349,14 @@ wxPdfDCImpl::SetupPen()
         break;
       case wxDOT_DASH:
         {
-          dash.Add(0.5 * penWidth);
+          if (wxPDF_LINECAP_BUTT == style.GetLineCap())
+          {
+            dash.Add(1.0 * penWidth);
+          }
+          else
+          {
+            dash.Add(0.0 * penWidth);
+          }
           dash.Add(2.0 * penWidth);
           dash.Add(3.0 * penWidth);
           dash.Add(2.0 * penWidth);
