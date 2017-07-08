@@ -1444,7 +1444,7 @@ wxPdfParser::GetStreamBytesRaw(wxPdfStream* stream)
     inData.Read(buffer, size);
     if (inData.LastRead() == size)
     {
-      m_decryptor->Encrypt(m_objNum, m_objGen, buffer, (unsigned int) size);
+      m_decryptor->Encrypt(stream->GetNumber(), stream->GetGeneration(), buffer, (unsigned int) size);
       memoryBuffer->Write(buffer, size);
     }
     delete [] buffer;
