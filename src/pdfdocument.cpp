@@ -1632,7 +1632,17 @@ wxSize
 wxPdfDocument::GetImageSize(const wxString& file, const wxString& mimeType)
 {
   wxSize imageSize(0, 0);
-  wxImage image(file, mimeType);
+  wxImage image;
+  if (mimeType.IsEmpty())
+  {
+    // Auto detect image type
+    image.LoadFile(file);
+  }
+  else
+  {
+    // Use mimetype as specified
+    image.LoadFile(file, mimeType);
+  }
   if (image.IsOk())
   {
 #if wxCHECK_VERSION(2,9,0)
