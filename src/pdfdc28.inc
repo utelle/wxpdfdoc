@@ -1355,6 +1355,7 @@ wxPdfDC::ScaleFontSizeToPdf(int pointSize) const
       rval = (double) pointSize * fontScale * m_userScaleY;
       break;
     case wxPDF_MAPMODESTYLE_PDF:
+    case wxPDF_MAPMODESTYLE_PDFFONTSCALE:
       // an implementation where a font size of 12 gets a 12 point font if the
       // mapping mode is wxMM_POINTS and suitable scaled for other modes
       fontScale = (m_mappingMode == wxMM_TEXT) ? (m_ppiPdfFont / m_ppi) : (72.0 / m_ppi);
@@ -1389,7 +1390,8 @@ wxPdfDC::CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,
   int hheaAscender, hheaDescender, hheaLineGap;
 
   double size;
-  if ((m_mappingModeStyle == wxPDF_MAPMODESTYLE_PDF) && (m_mappingMode != wxMM_TEXT))
+  if ((m_mappingModeStyle == wxPDF_MAPMODESTYLE_PDF or m_mappingModeStyle ==
+      wxPDF_MAPMODESTYLE_PDFFONTSCALE) && (m_mappingMode != wxMM_TEXT))
   {
     size = (double) pointSize;
   }
