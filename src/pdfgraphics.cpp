@@ -1887,6 +1887,10 @@ wxPdfDocument::SetLineStyle(const wxPdfLineStyle& linestyle)
     OutAscii(wxString(wxS("[")) + dashString + wxString(wxS("] ")) +
              wxPdfUtility::Double2String(phase*m_k,2) + wxString(wxS(" d")));
   }
+  else
+  {
+    OutAscii(wxString(wxS("[ ] 0 d")));
+  }
   SetDrawColour(linestyle.GetColour());
 }
 
