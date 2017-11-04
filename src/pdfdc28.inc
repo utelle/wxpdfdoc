@@ -1390,8 +1390,7 @@ wxPdfDC::CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,
   int hheaAscender, hheaDescender, hheaLineGap;
 
   double size;
-  if ((m_mappingModeStyle == wxPDF_MAPMODESTYLE_PDF or m_mappingModeStyle ==
-      wxPDF_MAPMODESTYLE_PDFFONTSCALE) && (m_mappingMode != wxMM_TEXT))
+  if (((m_mappingModeStyle == wxPDF_MAPMODESTYLE_PDF) || (m_mappingModeStyle == wxPDF_MAPMODESTYLE_PDFFONTSCALE)) && (m_mappingMode != wxMM_TEXT))
   {
     size = (double) pointSize;
   }

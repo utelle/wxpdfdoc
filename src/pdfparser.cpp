@@ -211,7 +211,7 @@ wxPdfParser::GetSourceInfo(wxPdfInfo& info)
           char* mbstr = new char[len+2];
           for (k = 0; k < len; k++)
           {
-            mbstr[k] = value.GetChar(k+2);
+            mbstr[k] = (int) value.GetChar(k+2);
           }
           mbstr[len] = 0;
           mbstr[len+1] = 0;
