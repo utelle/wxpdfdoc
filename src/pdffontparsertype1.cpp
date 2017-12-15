@@ -395,7 +395,6 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
     wxString token, tokenBoxHeight;
     long nParam;
     long cc, width, boxHeight, glyphNumber;
-    bool hasGlyphNumbers = false;
 
     bool inHeader = true;
     bool inMetrics = false;
@@ -547,7 +546,6 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
             }
             else if (token.IsSameAs(wxS("G"))) // Glyph number
             {
-              hasGlyphNumbers = true;
               param = tkz.GetNextToken(); // Number
               param.ToLong(&glyphNumber);
               dummy = tkz.GetNextToken(); // Semicolon
@@ -2461,7 +2459,6 @@ wxPdfFontParserType1::ParseCharStrings(wxInputStream* stream)
 {
   long numGlyphs, n;
   wxString token;
-  bool notdefFound = false;
 
   token = GetToken(stream);
   token.ToLong(&numGlyphs);
@@ -2525,10 +2522,6 @@ wxPdfFontParserType1::ParseCharStrings(wxInputStream* stream)
         if (ok)
         {
           (*m_glyphWidthMap)[glyphName] = (wxUint16) width;
-        }
-        if (glyphName.IsSameAs(wxS("/.notdef")))
-        {
-          notdefFound = true;
         }
         stream->SeekI(binaryStart+binarySize);
       }
