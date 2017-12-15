@@ -493,7 +493,7 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
 
   // Extract info from a JPEG file
   unsigned int   marker = M_PSEUDO;
-  unsigned short length, ffRead = 1;
+  unsigned short ffRead = 1;
   unsigned char  bits     = 0;
   unsigned short height   = 0;
   unsigned short width    = 0;
@@ -584,7 +584,7 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
       case M_SOF14:
       case M_SOF15:
         // handle SOFn block
-        length = ReadUShortBE(imageStream);
+        imageStream->SeekI(2, wxFromCurrent); // skip 2-byte length field
         imageStream->Read(&bits,1);
         height = ReadUShortBE(imageStream);
         width  = ReadUShortBE(imageStream);
