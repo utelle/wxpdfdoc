@@ -594,8 +594,7 @@ wxPdfDCImpl::DoDrawSpline(const wxPointList* points)
   wxCHECK_RET(m_pdfDocument, wxS("Invalid PDF DC"));
   SetPen( m_pen );
   wxASSERT_MSG( points, wxS("NULL pointer to spline points?") );
-  const size_t n_points = points->GetCount();
-  wxASSERT_MSG( n_points > 2 , wxS("incomplete list of spline points?") );
+  wxASSERT_MSG( points->GetCount() > 2 , wxS("incomplete list of spline points?") );
 #if 0
   wxPoint* p;
   wxPdfArrayDouble xp, yp;
@@ -714,8 +713,6 @@ wxPdfDCImpl::DoDrawArc(wxCoord x1, wxCoord y1,
     const double end   = angleByCoords(x2, y2, xc, yc);
     const double xx1 = ScaleLogicalToPdfX(x1);
     const double yy1 = ScaleLogicalToPdfY(y1);
-    const double xx2 = ScaleLogicalToPdfX(x2);
-    const double yy2 = ScaleLogicalToPdfY(y2);
     const double xxc = ScaleLogicalToPdfX(xc);
     const double yyc = ScaleLogicalToPdfY(yc);
     const double rx = xx1 - xxc;
