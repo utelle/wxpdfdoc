@@ -43,27 +43,29 @@ CompareInts(int n1, int n2)
 // CFF Dict Operators
 // If the high byte is 0 the command is encoded with a single byte.
 
-const int BASEFONTNAME_OP = 0x0c16;
-const int CHARSET_OP      = 0x000f;
-const int CHARSTRINGS_OP  = 0x0011;
-const int CIDCOUNT_OP     = 0x0c22;
-const int COPYRIGHT_OP    = 0x0c00;
-const int ENCODING_OP     = 0x0010;
-const int FAMILYNAME_OP   = 0x0003;
-const int FDARRAY_OP      = 0x0c24;
-const int FDSELECT_OP     = 0x0c25;
-const int FONTBBOX_OP     = 0x0005;
-const int FONTNAME_OP     = 0x0c26;
-const int FULLNAME_OP     = 0x0002;
-const int LOCAL_SUB_OP    = 0x0013;
-const int NOTICE_OP       = 0x0001;
-const int POSTSCRIPT_OP   = 0x0c15;
-const int PRIVATE_OP      = 0x0012;
-const int ROS_OP          = 0x0c1e;
-const int UNIQUEID_OP     = 0x000d;
-const int VERSION_OP      = 0x0000;
-const int WEIGHT_OP       = 0x0004;
-const int XUID_OP         = 0x000e;
+enum {
+  BASEFONTNAME_OP = 0x0c16,
+  CHARSET_OP      = 0x000f,
+  CHARSTRINGS_OP  = 0x0011,
+  CIDCOUNT_OP     = 0x0c22,
+  COPYRIGHT_OP    = 0x0c00,
+  ENCODING_OP     = 0x0010,
+  FAMILYNAME_OP   = 0x0003,
+  FDARRAY_OP      = 0x0c24,
+  FDSELECT_OP     = 0x0c25,
+  FONTBBOX_OP     = 0x0005,
+  FONTNAME_OP     = 0x0c26,
+  FULLNAME_OP     = 0x0002,
+  LOCAL_SUB_OP    = 0x0013,
+  NOTICE_OP       = 0x0001,
+  POSTSCRIPT_OP   = 0x0c15,
+  PRIVATE_OP      = 0x0012,
+  ROS_OP          = 0x0c1e,
+  UNIQUEID_OP     = 0x000d,
+  VERSION_OP      = 0x0000,
+  WEIGHT_OP       = 0x0004,
+  XUID_OP         = 0x000e
+};
 
 const int NUM_STD_STRINGS = 391;
 
