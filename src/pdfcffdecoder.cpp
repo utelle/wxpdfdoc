@@ -32,35 +32,6 @@
 
 // --- Implementation of CFF Decoder for charstring types 1 and 2
 
-// CFF Dict Operators
-// If the high byte is 0 the command is encoded with a single byte.
-
-const int BASEFONTNAME_OP = 0x0c16;
-const int CHARSET_OP      = 0x000f;
-const int CHARSTRINGS_OP  = 0x0011;
-const int CIDCOUNT_OP     = 0x0c22;
-const int COPYRIGHT_OP    = 0x0c00;
-const int ENCODING_OP     = 0x0010;
-const int FAMILYNAME_OP   = 0x0003;
-const int FDARRAY_OP      = 0x0c24;
-const int FDSELECT_OP     = 0x0c25;
-const int FONTBBOX_OP     = 0x0005;
-const int FONTNAME_OP     = 0x0c26;
-const int FULLNAME_OP     = 0x0002;
-const int LOCAL_SUB_OP    = 0x0013;
-const int NOTICE_OP       = 0x0001;
-const int POSTSCRIPT_OP   = 0x0c15;
-const int PRIVATE_OP      = 0x0012;
-const int ROS_OP          = 0x0c1e;
-const int UNIQUEID_OP     = 0x000d;
-const int VERSION_OP      = 0x0000;
-const int WEIGHT_OP       = 0x0004;
-const int XUID_OP         = 0x000e;
-
-const int NUM_STD_STRINGS = 391;
-
-const char SUBR_RETURN_OP = 11;
-
 #if 0
 static const wxChar* gs_standardStrings[] = {
     // Generated from Appendix A of the CFF specification. Size should be 391.
