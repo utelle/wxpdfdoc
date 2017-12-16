@@ -52,6 +52,7 @@ const int ENCODING_OP     = 0x0010;
 const int FAMILYNAME_OP   = 0x0003;
 const int FDARRAY_OP      = 0x0c24;
 const int FDSELECT_OP     = 0x0c25;
+const int FONTBBOX_OP     = 0x0005;
 const int FONTNAME_OP     = 0x0c26;
 const int FULLNAME_OP     = 0x0002;
 const int LOCAL_SUB_OP    = 0x0013;
