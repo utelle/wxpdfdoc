@@ -59,10 +59,6 @@ enum {
   XUID_OP         = 0x000e
 };
 
-const int NUM_STD_STRINGS = 391;
-
-const char SUBR_RETURN_OP = 11;
-
 #if 0
 static const wxChar* gs_standardStrings[] = {
     // Generated from Appendix A of the CFF specification. Size should be 391.

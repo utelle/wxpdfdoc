@@ -23,6 +23,9 @@
 #include "wx/pdfarraytypes.h"
 #include "wx/pdfcffindex.h"
 
+const int NUM_STD_STRINGS = 391;
+const char SUBR_RETURN_OP = 11;
+
 // Forward declaration of internal classes
 class wxPdfCffFontObject;
 

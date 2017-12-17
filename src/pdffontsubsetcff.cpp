@@ -67,10 +67,6 @@ enum {
   XUID_OP         = 0x000e
 };
 
-const int NUM_STD_STRINGS = 391;
-
-const char SUBR_RETURN_OP = 11;
-
 class wxPdfCffFontObject
 {
 public:
