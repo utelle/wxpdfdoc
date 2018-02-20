@@ -1532,18 +1532,36 @@ wxPdfTokenizer::ReadBuffer(size_t size)
 off_t
 wxPdfTokenizer::GetStartXRef()
 {
+  char buffer[1024];
+  int idx, found;
   off_t size = GetLength();
   if (size > 1024) size = 1024;
   off_t pos = GetLength() - size;
-  m_inputStream->SeekI(pos);
-  wxString str = ReadString(1024);
-  size_t idx = str.rfind(wxString(wxS("startxref")));
-  if (idx == wxString::npos)
+  do
+  {
+    m_inputStream->SeekI(pos);
+    m_inputStream->Read(buffer, size);
+    idx = size - 9;
+    do 
+    {
+      found = memcmp(buffer + idx, "startxref", 9);
+      --idx;
+    }
+    while (found != 0 && idx >= 0);
+    if (found == 0) break;
+    pos = (pos > 1) ? (pos > (size - 9)) ? pos - size + 9 : 1 : 0;
+  }
+  while (pos > 0);
+  if (found == 0)
+  {
+    pos = pos + idx + 1;
+  }
+  else
   {
     wxLogError(wxString(wxS("wxPdfTokenizer::GetStartXRef: ")) +
                wxString(_("PDF startxref not found.")));
   }
-  return pos + (off_t) idx;
+  return pos;
 }
 
 wxString
