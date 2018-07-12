@@ -1761,8 +1761,11 @@ wxPdfDocument::PutTemplates()
     {
       p = &mos;
       wxZlibOutputStream q(mos);
-      wxMemoryInputStream tmp(currentTemplate->m_buffer);
-      q.Write(tmp);
+      if (currentTemplate->m_buffer.GetLength() > 0)
+      {
+        wxMemoryInputStream tmp(currentTemplate->m_buffer);
+        q.Write(tmp);
+      }
     }
     else
     {

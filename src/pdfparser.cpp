@@ -506,7 +506,10 @@ wxPdfParser::GetContent(unsigned int pageno, wxArrayPtrVoid& contents)
   if (pageno < GetPageCount())
   {
     wxPdfObject* content = ((wxPdfDictionary*) m_pages[pageno])->Get(wxS("Contents"));
-    GetPageContent(content, contents);
+    if (content != NULL)
+    {
+      GetPageContent(content, contents);
+    }
   }
 }
 
