@@ -280,20 +280,30 @@ wxPdfDocument::SetSourceFile(const wxString& filename, const wxString& password)
   int pageCount = 0;
   if (filename != wxEmptyString)
   {
-    m_currentSource = filename;
-    m_currentParser = new wxPdfParser(filename, password);
-    if (m_currentParser->IsOk())
+    wxPdfParserMap::iterator fileIter = (*m_parsers).find(filename);
+    if (fileIter != (*m_parsers).end())
     {
-      (*m_parsers)[filename] = m_currentParser;
+      m_currentSource = filename;
+      m_currentParser = fileIter->second;
       pageCount = m_currentParser->GetPageCount();
     }
     else
     {
-      wxLogError(wxString(wxS("wxPdfDocument::SetSourceFile: ")) +
-                 wxString(_("Parser creation failed.")));
-      m_currentSource = wxEmptyString;
-      delete m_currentParser;
-      m_currentParser = NULL;
+      m_currentSource = filename;
+      m_currentParser = new wxPdfParser(filename, password);
+      if (m_currentParser->IsOk())
+      {
+        (*m_parsers)[filename] = m_currentParser;
+        pageCount = m_currentParser->GetPageCount();
+      }
+      else
+      {
+        wxLogError(wxString(wxS("wxPdfDocument::SetSourceFile: ")) +
+                   wxString(_("Parser creation failed.")));
+        m_currentSource = wxEmptyString;
+        delete m_currentParser;
+        m_currentParser = NULL;
+      }
     }
   }
   else
