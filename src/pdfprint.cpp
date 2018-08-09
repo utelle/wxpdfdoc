@@ -295,38 +295,46 @@ IMPLEMENT_DYNAMIC_CLASS(wxPdfPrinter, wxPrinterBase)
 wxPdfPrinter::wxPdfPrinter()
 {
   m_currentPrintout = NULL;
+  sm_lastError = wxPRINTER_NO_ERROR;
   sm_abortWindow = NULL;
   sm_abortIt = false;
-  sm_lastError = wxPRINTER_NO_ERROR;
+
+  m_showProgressDialog = false;
 }
 
 wxPdfPrinter::wxPdfPrinter(wxPrintDialogData* printDialogData)
 {
+  m_printDialogData = (*printDialogData);
   m_currentPrintout = NULL;
+  sm_lastError = wxPRINTER_NO_ERROR;
   sm_abortWindow = NULL;
   sm_abortIt = false;
-  m_printDialogData = (*printDialogData);
+
+  m_showProgressDialog = false;
   m_pdfPrintData = wxPdfPrintData(printDialogData);
-  sm_lastError = wxPRINTER_NO_ERROR;
 }
 
 wxPdfPrinter::wxPdfPrinter(wxPdfPrintData* printData)
 {
   m_currentPrintout = NULL;
+  sm_lastError = wxPRINTER_NO_ERROR;
   sm_abortWindow = NULL;
   sm_abortIt = false;
+
+  m_showProgressDialog = false;
   m_pdfPrintData = (*printData);
-  sm_lastError = wxPRINTER_NO_ERROR;
 }
 
 wxPdfPrinter::wxPdfPrinter(wxPrintData* data)
 {
+  m_printDialogData.SetPrintData(*data);
   m_currentPrintout = NULL;
+  sm_lastError = wxPRINTER_NO_ERROR;
   sm_abortWindow = NULL;
   sm_abortIt = false;
+
+  m_showProgressDialog = false;
   m_pdfPrintData = wxPdfPrintData( data );;
-  m_printDialogData.SetPrintData(*data);
-  sm_lastError = wxPRINTER_NO_ERROR;
 }
 
 bool wxPdfPrinter::Print(wxWindow* parent, wxPrintout* printout, bool prompt)
