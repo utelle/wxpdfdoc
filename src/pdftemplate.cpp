@@ -432,8 +432,11 @@ wxPdfDocument::ImportPage(unsigned int pageno, wxPdfPageBox pageBox)
       {
         wxPdfStream* pageContent = (wxPdfStream*) contents[j];
         wxMemoryOutputStream* os = pageContent->GetBuffer();
-        wxMemoryInputStream is(*os);
-        pageTemplate->m_buffer.Write(is);
+        if (os->TellO() > 0)
+        {
+          wxMemoryInputStream is(*os);
+          pageTemplate->m_buffer.Write(is);
+        }
         delete pageContent;
       }
 
