@@ -1607,8 +1607,7 @@ wxPdfTokenizer::ReadString(int size)
 bool
 wxPdfTokenizer::NextToken()
 {
-  static wxString buffer;
-  buffer = wxEmptyString;
+  wxString buffer = wxEmptyString;
   m_stringValue = wxEmptyString;
   int ch = 0;
   do
