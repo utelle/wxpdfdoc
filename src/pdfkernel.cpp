@@ -2305,9 +2305,13 @@ wxPdfDocument::ShowText(const wxString& txt)
       int wsAdjust = (int) (1000 * m_ws * m_k / GetFontSize());
       for (wxString::const_iterator it = txt.begin(); it != txt.end(); ++it)
       {
+#if wxCHECK_VERSION(2,9,0)
         if (*it == wxUniChar(' '))
+#else
+        if (*it == wxChar(' '))
+#endif
         {
-          for (; kPos < kLen && kerning[kPos] < wsPos; kPos += 2);
+          for (; kPos < kLen && kerning[kPos] < (int) wsPos; kPos += 2);
           if (kPos < kLen)
           {
             kerning.Insert(kPos, wsPos);

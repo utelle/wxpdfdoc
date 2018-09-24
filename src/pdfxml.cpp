@@ -445,6 +445,7 @@ wxPdfTable::Write()
     WriteRow(row, x, y);
     y += m_rowHeights[row];
   }
+  m_document->SetXY(saveLeftMargin, y);
 }
 
 void
@@ -836,7 +837,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         if ((listChild->GetName()).Lower() == wxS("li"))
         {
           Ln();
-          newContext = new wxPdfCellContext(context.GetMaxWidth(), wxPDF_ALIGN_LEFT);
+          newContext = new wxPdfCellContext(context.GetMaxWidth() - indent, wxPDF_ALIGN_LEFT);
           //# newContext->AddHeight(GetLineHeight());
           context.AppendContext(newContext);
           PrepareXmlCell(listChild, *newContext);
@@ -874,7 +875,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         if ((listChild->GetName()).Lower() == wxS("li"))
         {
           Ln();
-          newContext = new wxPdfCellContext(context.GetMaxWidth(), wxPDF_ALIGN_LEFT);
+          newContext = new wxPdfCellContext(context.GetMaxWidth() - indent, wxPDF_ALIGN_LEFT);
           //# newContext->AddHeight(GetLineHeight());
           context.AppendContext(newContext);
           PrepareXmlCell(listChild, *newContext);
