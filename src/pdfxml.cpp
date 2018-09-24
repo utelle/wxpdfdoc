@@ -24,6 +24,7 @@
 #include <wx/sstream.h>
 
 #include "wx/pdfdocument.h"
+#include "wx/pdffontdetails.h"
 #include "wx/pdfutility.h"
 #include "wx/pdfxml.h"
 
@@ -1906,13 +1907,20 @@ wxPdfDocument::DoXmlAlign(wxPdfCellContext& context)
     {
       m_ws = 0;
       Out("0 Tw");
+      m_wsApply = false;
     }
     switch (context.GetHAlign())
     {
       case wxPDF_ALIGN_JUSTIFY:
         {
-          m_ws = (!context.IsCurrentLineMarked() && context.GetCurrentLineSpaces() > 0) ? (context.GetMaxWidth() - context.GetCurrentLineWidth())/context.GetCurrentLineSpaces() : 0;
-          OutAscii(wxPdfUtility::Double2String(m_ws*m_k,3)+wxString(wxS(" Tw")));
+          m_ws = (!context.IsCurrentLineMarked() && context.GetCurrentLineSpaces() > 0) ?
+                 (context.GetMaxWidth() - context.GetCurrentLineWidth())/context.GetCurrentLineSpaces() : 0;
+          wxString fontType = m_currentFont->GetType();
+          m_wsApply = (fontType == wxS("TrueTypeUnicode")) || (fontType == wxS("OpenTypeUnicode"));
+          if (!m_wsApply)
+          {
+            OutAscii(wxPdfUtility::Double2String(m_ws*m_k,3)+wxString(wxS(" Tw")));
+          }
         }
         break;
       case wxPDF_ALIGN_CENTER:

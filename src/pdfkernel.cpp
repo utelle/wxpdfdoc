@@ -20,6 +20,7 @@
 #include <wx/wx.h>
 #endif
 
+#include <wx/tokenzr.h>
 #include <wx/wfstream.h>
 #include <wx/zstream.h>
 
@@ -2288,10 +2289,40 @@ wxPdfDocument::ShowGlyph(wxUint32 glyph)
 void
 wxPdfDocument::ShowText(const wxString& txt)
 {
-  bool doSimple = !m_kerning;
-  if (m_kerning)
+  bool doSimple = !(m_kerning || m_wsApply);
+  if (!doSimple)
   {
-    wxArrayInt kerning = m_currentFont->GetKerningWidthArray(txt);
+    wxArrayInt kerning;
+    if (m_kerning)
+    {
+      kerning = m_currentFont->GetKerningWidthArray(txt);
+    }
+    if (m_wsApply)
+    {
+      size_t kPos = 0;
+      size_t kLen = kerning.Count();
+      size_t wsPos = 0;
+      int wsAdjust = (int) (1000 * m_ws * m_k / GetFontSize());
+      for (wxString::const_iterator it = txt.begin(); it != txt.end(); ++it)
+      {
+        if (*it == wxUniChar(' '))
+        {
+          for (; kPos < kLen && kerning[kPos] < wsPos; kPos += 2);
+          if (kPos < kLen)
+          {
+            kerning.Insert(kPos, wsPos);
+            kerning.Insert(kPos+1, -wsAdjust);
+          }
+          else
+          {
+            kerning.Add(wsPos);
+            kerning.Add(-wsAdjust);
+          }
+        }
+        ++wsPos;
+      }
+    }
+
     if (!kerning.IsEmpty())
     {
       Out("[", false);
@@ -2301,13 +2332,13 @@ wxPdfDocument::ShowText(const wxString& txt)
       {
         len = kerning[j] - pos + 1;
         Out("(", false);
-        TextEscape(txt.substr(pos, len),false);
+        TextEscape(txt.substr(pos, len), false);
         Out(") ", false);
-        OutAscii(wxString::Format(wxS("%d "), kerning[j+1]), false);
+        OutAscii(wxString::Format(wxS("%d "), kerning[j + 1]), false);
         pos = kerning[j] + 1;
       }
       Out("(", false);
-      TextEscape(txt.substr(pos),false);
+      TextEscape(txt.substr(pos), false);
       Out(")] TJ ", false);
     }
     else
@@ -2318,7 +2349,7 @@ wxPdfDocument::ShowText(const wxString& txt)
   if (doSimple)
   {
     OutAscii(wxString(wxS("(")), false);
-    TextEscape(txt,false);
+    TextEscape(txt, false);
     Out(") Tj ", false);
   }
 }

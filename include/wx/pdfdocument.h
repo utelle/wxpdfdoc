@@ -2866,6 +2866,7 @@ private:
   wxPdfColour          m_fillColour;          ///< commands for filling colour
   wxPdfColour          m_textColour;          ///< commands for text colour
   bool                 m_colourFlag;          ///< indicates whether fill and text colours are different
+  bool                 m_wsApply;             ///< Flag whether to apply explicit word spacing
   double               m_ws;                  ///< word spacing
   wxPdfTextRenderMode  m_textRenderMode;      ///< text render mode
 

@@ -183,7 +183,8 @@ wxPdfDocument::Initialize(int orientation)
   m_fillColour  = wxPdfColour();
   m_textColour  = wxPdfColour();
   m_colourFlag  = false;
-  m_ws          = 0;
+  m_wsApply = false;
+  m_ws = 0;
   m_textRenderMode = wxPDF_TEXT_RENDER_FILL;
 
   // Initialize image scale factor
@@ -1038,7 +1039,10 @@ wxPdfDocument::DoCell(double w, double h, const wxString& txt, int border, int l
     if (ws > 0)
     {
       m_ws = ws;
-      OutAscii(wxPdfUtility::Double2String(ws*k,3)+wxString(wxS(" Tw")));
+      if (!m_wsApply)
+      {
+        OutAscii(wxPdfUtility::Double2String(ws*k, 3) + wxString(wxS(" Tw")));
+      }
     }
   }
   if ( w == 0)
@@ -1191,6 +1195,10 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
     w = m_w - m_rMargin - m_x;
   }
 
+  // Determine whether to apply manual word spacing
+  wxString fontType = m_currentFont->GetType();
+  m_wsApply = (align == wxPDF_ALIGN_JUSTIFY) && ((fontType == wxS("TrueTypeUnicode")) || (fontType == wxS("OpenTypeUnicode")));
+
   double wmax = (w - 2 * m_cMargin);
   wxString s = ApplyVisualOrdering(txt);
   s.Replace(wxS("\r"),wxS("")); // remove carriage returns
@@ -1279,7 +1287,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
         }
         if (m_ws > 0)
         {
-          m_ws=0;
+          m_ws = 0;
           Out("0 Tw");
         }
         DoCell(w,h,s.SubString(j,i-1),b,2,align,fill);
@@ -1289,7 +1297,10 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
         if (align == wxPDF_ALIGN_JUSTIFY)
         {
           m_ws = (ns > 1) ? (wmax - ls)/(ns-1) : 0;
-          OutAscii(wxPdfUtility::Double2String(m_ws*m_k,3)+wxString(wxS(" Tw")));
+          if (!m_wsApply)
+          {
+            OutAscii(wxPdfUtility::Double2String(m_ws*m_k, 3) + wxString(wxS(" Tw")));
+          }
         }
         DoCell(w,h,s.SubString(j,sep-1),b,2,align,fill);
         i = sep + 1;
@@ -1325,6 +1336,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
   }
   DoCell(w,h,s.SubString(j,i-1),b,2,align,fill);
   m_x = m_lMargin;
+  m_wsApply = false;
   return i;
 }
 
