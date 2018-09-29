@@ -255,6 +255,7 @@ wxPdfTable::wxPdfTable(wxPdfDocument* document)
   m_headRowLast  = 0;
   m_bodyRowFirst = 0;
   m_bodyRowLast  = 0;
+  m_borderWidth = -1;
 }
 
 wxPdfTable::~wxPdfTable()
@@ -480,16 +481,37 @@ wxPdfTable::WriteRow(unsigned int row, double x, double y)
         m_document->SetFillColour(saveFillColour);
       }
       int border = cell->GetBorder();
-      if ((border & wxPDF_BORDER_FRAME) == wxPDF_BORDER_FRAME)
+      if (border != wxPDF_BORDER_NONE)
       {
-        m_document->Rect(x, y, w, h);
-      }
-      else
-      {
-        if (border & wxPDF_BORDER_LEFT)   m_document->Line(x,   y,   x,   y+h);
-        if (border & wxPDF_BORDER_TOP)    m_document->Line(x,   y,   x+w, y);
-        if (border & wxPDF_BORDER_BOTTOM) m_document->Line(x,   y+h, x+w, y+h);
-        if (border & wxPDF_BORDER_RIGHT)  m_document->Line(x+w, y,   x+w, y+h);
+        double savedLineWidth = m_document->GetLineWidth();
+        wxPdfColour savedDrawingColour = m_document->GetDrawColour();
+        if (m_borderWidth > 0)
+        {
+          m_document->SetLineWidth(m_borderWidth);
+        }
+        if (m_borderColour.GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+        {
+          m_document->SetDrawColour(m_borderColour);
+        }
+        if ((border & wxPDF_BORDER_FRAME) == wxPDF_BORDER_FRAME)
+        {
+          m_document->Rect(x, y, w, h);
+        }
+        else
+        {
+          if (border & wxPDF_BORDER_LEFT)   m_document->Line(x,   y,   x,   y+h);
+          if (border & wxPDF_BORDER_TOP)    m_document->Line(x,   y,   x+w, y);
+          if (border & wxPDF_BORDER_BOTTOM) m_document->Line(x,   y+h, x+w, y+h);
+          if (border & wxPDF_BORDER_RIGHT)  m_document->Line(x+w, y,   x+w, y+h);
+        }
+        if (m_borderColour.GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+        {
+          m_document->SetDrawColour(savedDrawingColour);
+        }
+        if (m_borderWidth > 0)
+        {
+          m_document->SetLineWidth(savedLineWidth);
+        }
       }
       m_document->SetLeftMargin(x+m_pad);
       double delta = h - cell->GetHeight();
@@ -1052,6 +1074,20 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       // --- Table
       wxString border = GetXmlAttribute(child, wxS("border"), wxS("0")).Lower();
       bool hasBorder = (border != wxS("0"));
+      wxString strBorderWidth = GetXmlAttribute(child, wxS("borderwidth"), wxS(""));
+      double borderWidth = -1;
+      if (hasBorder && strBorderWidth.Length() > 0)
+      {
+        borderWidth = wxPdfUtility::String2Double(strBorderWidth);
+        if (borderWidth < 0) borderWidth = -1;
+      }
+      wxString strBorderColour = GetXmlAttribute(child, wxS("bordercolor"), wxS(""));
+      wxPdfColour borderColour;
+      if (strBorderColour.Length() > 0)
+      {
+        borderColour.SetColour(strBorderColour);
+      }
+
       wxString align = GetXmlAttribute(child, wxS("align"), wxS("")).Lower();
       wxPdfAlignment hAlignment = context.GetHAlign();
       if (align == wxS("right"))        hAlignment = wxPDF_ALIGN_RIGHT;
@@ -1073,6 +1109,11 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       wxPdfTable* table = new wxPdfTable(this);
       table->SetPad(pad);
       table->SetBorder(hasBorder);
+      table->SetBorderWidth(borderWidth);
+      if (borderColour.GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+      {
+        table->SetBorderColour(borderColour);
+      }
       newContext = new wxPdfCellContext(context.GetMaxWidth(), hAlignment, vAlignment);
       context.AppendContext(newContext);
       newContext->SetTable(table);

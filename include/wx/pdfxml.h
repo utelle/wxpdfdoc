@@ -287,6 +287,12 @@ public:
   /// Set border
   void SetBorder(bool border) { m_border = border; }
 
+  /// Set border size
+  void SetBorderWidth(double borderWidth) { m_borderWidth = borderWidth; }
+
+  /// Set border colour
+  void SetBorderColour(wxPdfColour borderColour) { m_borderColour = borderColour; }
+
   /// Check whether border should be drawn
   bool HasBorder() { return m_border; }
 
@@ -329,6 +335,8 @@ private:
   wxPdfCellHashMap   m_table;        ///< array of table cells
   double             m_pad;          ///< cell padding
   bool               m_border;       ///< border flag
+  double             m_borderWidth;  ///< border width (use -1 for current line width)
+  wxPdfColour        m_borderColour; ///< border colour
 };
 
 #endif
