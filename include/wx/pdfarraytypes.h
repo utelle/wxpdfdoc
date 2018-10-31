@@ -19,10 +19,9 @@
 #include "wx/pdfdocdef.h"
 
 /// Unsorted array types
-WX_DEFINE_USER_EXPORTED_ARRAY_SHORT(wxUint16, wxPdfArrayUint16, class WXDLLIMPEXP_PDFDOC);
-WX_DEFINE_USER_EXPORTED_ARRAY_LONG(wxUint32, wxPdfArrayUint32, class WXDLLIMPEXP_PDFDOC);
+WX_DEFINE_ARRAY_SHORT(wxUint16, wxPdfArrayUint16);
+WX_DEFINE_ARRAY_LONG(wxUint32, wxPdfArrayUint32);
 
 /// Sorted array types
-WX_DEFINE_SORTED_USER_EXPORTED_ARRAY_INT(int, wxPdfSortedArrayInt, WXDLLIMPEXP_PDFDOC);
-
+WX_DEFINE_SORTED_ARRAY_INT(int, wxPdfSortedArrayInt);
 #endif
