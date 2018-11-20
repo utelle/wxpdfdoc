@@ -2783,6 +2783,10 @@ protected:
   void LoadZapfDingBats();
 
 private:
+  /// Return a string key by a font name and a font encoding
+  wxString MakeFontKey(const wxString& fontName, const wxString& fontEncoding);
+
+private:
   bool                 m_yAxisOriginTop;      ///< flag whether the origin of the y axis resides at the top (or bottom) of the page
   int                  m_page;                ///< current page number
   int                  m_n;                   ///< current object number

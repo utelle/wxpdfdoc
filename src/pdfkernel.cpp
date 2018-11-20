@@ -267,11 +267,11 @@ wxPdfDocument::SelectFont(const wxPdfFont& font, int style, double size, bool se
     }
     if (wxPdfFontManager::GetFontManager()->InitializeFontData(font))
     {
-      wxString fontKey = wxString::Format(wxS("%s[%s]"), font.GetName().Lower().c_str(), font.GetEncoding().Lower().c_str());
+      wxString fontKey = MakeFontKey(font.GetName(), font.GetEncoding());
       // Test if font is already selected
       if (m_currentFont != NULL)
       {
-        wxString currentFontKey = wxString::Format(wxS("%s[%s]"), m_currentFont->GetOriginalName().Lower().c_str(), m_currentFont->GetFont().GetEncoding().Lower().c_str());
+        wxString currentFontKey = MakeFontKey(m_currentFont->GetOriginalName(), m_currentFont->GetFont().GetEncoding());
         selected = (fontKey.IsSameAs(currentFontKey) && m_fontStyle == (style & wxPDF_FONTSTYLE_BOLDITALIC) && m_fontSizePt == size && !m_inTemplate);
       }
       if (!selected)
@@ -2827,4 +2827,18 @@ wxPdfDocument::SetFillGradient(double x, double y, double w, double h, int gradi
     wxLogError(wxString(wxS("wxPdfDocument::SetFillGradient: ")) +
                wxString(_("Gradient Id out of range.")));
   }
+}
+
+wxString
+wxPdfDocument::MakeFontKey(const wxString& fontName, const wxString& fontEncoding)
+{
+  wxString fontKey;
+  fontKey.reserve(fontName.Length() + fontEncoding.length() + 2);
+
+  fontKey.Append(fontEncoding.Lower());
+  fontKey.Append(wxS('['));
+  fontKey.Append(fontEncoding.Lower());
+  fontKey.Append(wxS(']'));
+
+  return fontKey;
 }
