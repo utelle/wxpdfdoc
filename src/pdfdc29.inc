@@ -167,6 +167,8 @@ wxPdfDCImpl::Init()
   m_ppiPdfFont = screendc.GetPPI().GetHeight();
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
 
+  m_cachedRGB = 0;
+
   m_jpegFormat = false;
   m_jpegQuality = 75;
 
@@ -921,7 +923,17 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
   CalculateFontMetrics(&desc, fontToUse->GetPointSize(), &height, NULL, &descent, NULL);
   y += (height - abs(descent));
 
-  m_pdfDocument->SetTextColour(m_textForegroundColour.Red(), m_textForegroundColour.Green(), m_textForegroundColour.Blue());
+  if (m_cachedPdfColour.GetColourType() == wxPDF_COLOURTYPE_UNKNOWN ||
+      m_textForegroundColour.GetRGB() != m_cachedRGB)
+  {
+    m_cachedRGB = m_textForegroundColour.GetRGB();
+    m_cachedPdfColour.SetColour(wxColour(m_cachedRGB));
+  }
+  if (m_cachedPdfColour != m_pdfDocument->GetTextColour())
+  {
+    m_pdfDocument->SetTextColour(m_cachedPdfColour);
+  }
+
   m_pdfDocument->SetFontSize(ScaleFontSizeToPdf(fontToUse->GetPointSize()));
   m_pdfDocument->RotatedText(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(y), ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(originalY), text, angle);
   SetFont(old);

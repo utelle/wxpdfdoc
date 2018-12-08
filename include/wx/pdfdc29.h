@@ -231,6 +231,9 @@ private:
   wxPrintData    m_printData;
   wxPdfMapModeStyle m_mappingModeStyle;
 
+  wxPdfColour   m_cachedPdfColour;
+  wxUint32      m_cachedRGB;
+
   bool m_jpegFormat;
   int  m_jpegQuality;
 
