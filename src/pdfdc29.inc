@@ -594,7 +594,7 @@ void
 wxPdfDCImpl::DoDrawSpline(const wxPointList* points)
 {
   wxCHECK_RET(m_pdfDocument, wxS("Invalid PDF DC"));
-  SetPen( m_pen );
+  SetupPen();
   wxASSERT_MSG( points, wxS("NULL pointer to spline points?") );
   wxASSERT_MSG( points->GetCount() > 2 , wxS("incomplete list of spline points?") );
 #if 0
