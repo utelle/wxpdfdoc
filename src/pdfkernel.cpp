@@ -2835,7 +2835,7 @@ wxPdfDocument::MakeFontKey(const wxString& fontName, const wxString& fontEncodin
   wxString fontKey;
   fontKey.reserve(fontName.Length() + fontEncoding.length() + 2);
 
-  fontKey.Append(fontEncoding.Lower());
+  fontKey.Append(fontName.Lower());
   fontKey.Append(wxS('['));
   fontKey.Append(fontEncoding.Lower());
   fontKey.Append(wxS(']'));
