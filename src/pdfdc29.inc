@@ -935,7 +935,53 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
   }
 
   m_pdfDocument->SetFontSize(ScaleFontSizeToPdf(fontToUse->GetPointSize()));
-  m_pdfDocument->RotatedText(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(y), ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(originalY), text, angle);
+
+  // Get extent of whole text.
+  wxCoord w, h, heightLine;
+  GetOwner()->GetMultiLineTextExtent(text, &w, &h, &heightLine);
+
+  // Compute the shift for the origin of the next line.
+  const double rad = wxDegToRad(angle);
+  const double dx = heightLine * sin(rad);
+  const double dy = heightLine * cos(rad);
+
+  // Extract all text lines
+  const wxArrayString lines = wxSplit(text, '\n', '\0');
+
+  // Draw background for all text lines
+  if (m_backgroundMode != wxTRANSPARENT && m_textBackgroundColour.Ok())
+  {
+    if (angle != 0)
+    {
+      m_pdfDocument->StartTransform();
+      m_pdfDocument->Rotate(angle, ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(originalY));
+    }
+    wxBrush previousBrush = GetBrush();
+    SetBrush(wxBrush(m_textBackgroundColour));
+    SetupBrush();
+    // draw rectangle line by line
+    for (size_t lineNum = 0; lineNum < lines.size(); lineNum++)
+    {
+      wxCoord w;
+      wxCoord h;
+      DoGetTextExtent(lines[lineNum], &w, &h);
+      m_pdfDocument->Rect(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(originalY + wxRound(lineNum*heightLine)), ScaleLogicalToPdfX(w), ScaleLogicalToPdfY(h), wxPDF_STYLE_FILL);
+    }
+    SetBrush(previousBrush);
+    if (angle != 0)
+    {
+      m_pdfDocument->StopTransform();
+    }
+  }
+
+  // Draw all text line by line
+  for (size_t lineNum = 0; lineNum < lines.size(); lineNum++)
+  {
+    // Calculate origin for each line to avoid accumulation of rounding errors.
+    m_pdfDocument->RotatedText(ScaleLogicalToPdfX(x + wxRound(lineNum*dx)), ScaleLogicalToPdfY(y + wxRound(lineNum*dy)), 
+                               ScaleLogicalToPdfX(x + wxRound(lineNum*dx)), ScaleLogicalToPdfY(originalY + wxRound(lineNum*dy)), lines[lineNum], angle);
+  }
+
   SetFont(old);
 }
 
