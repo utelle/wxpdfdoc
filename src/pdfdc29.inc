@@ -941,7 +941,8 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
   GetOwner()->GetMultiLineTextExtent(text, &w, &h, &heightLine);
 
   // Compute the shift for the origin of the next line.
-  const double rad = wxDegToRad(angle);
+  static double pi = 4. * atan(1.0);
+  const double rad = (angle * pi) / 180.0;
   const double dx = heightLine * sin(rad);
   const double dy = heightLine * cos(rad);
 
