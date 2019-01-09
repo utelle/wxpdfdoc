@@ -4,7 +4,7 @@ dnl Copyright (C) 2017 Vadim Zeitlin <vadim@wxwidgets.org>
 dnl
 dnl This file is covered by the same licence as the entire wxpdfdoc package.
 
-AC_INIT([wxpdfdoc], [0.9.5], [utelle@users.sourceforge.net])
+AC_INIT([wxpdfdoc], [0.9.7], [utelle@users.sourceforge.net])
 
 dnl This is the version tested with, might work with earlier ones.
 AC_PREREQ([2.69])

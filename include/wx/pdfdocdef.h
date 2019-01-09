@@ -69,6 +69,32 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>0.9.7</b> - <i>January 2019</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets versions 2.8.12, 3.0.x and 3.1.x.
+
+General changes:<br>
+- Adjusted dash patterns to get (hopefully) perfect dots for all pen cap styles
+- Added a new map mode style wxPDF_MAPMODESTYLE_PDFFONTSCALE
+- Added support for justified text alignment when using Unicode fonts
+- Added border width and colour attributes to XML table output
+- Added speed up for text drawing in wxPdfDC class
+- Added multiline text support for wxPdfDC::DoDrawRotatedText
+- Added text background color support for wxPdfDC::DoDrawText and wxPdfDC::DoDrawRotatedText
+
+Fixed bugs:<br>
+- Fixed a bug when using a protected/encrypted external template
+- Fixed an issue on failing to load an image from simple XML due to missing mimetype
+- Fixed an issue on parsing the document information of an existing PDF document
+- Fixed a wxPdfParser issue with "startxref" not found
+- Fixed a crash on importing a completely empty page
+- Fixed a problem with empty content streams on import
+- Fixed several glitches in XML support
+- Fixed issue using wrong pen on drawing splines in method wxPdfDC::DoDrawSpline
+- Fixed issues in wxPdfDC class by taking transparency of pen and brush into account.
+
+</dd>
+
 <dt><b>0.9.6</b> - <i>April 2017</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets version 2.8.12 and version 3.1.0.
