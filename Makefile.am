@@ -170,8 +170,12 @@ lib@WXPDFDOC_LIBNAME@_la_LIBADD = $(WX_LIBS) $(MSW_LIBS)
 endif
 
 
+noinst_PROGRAMS=
+CLEANFILES=
+
+if BUILD_SAMPLES
 # Samples (don't need to be installed).
-noinst_PROGRAMS = samples/minimal/minimal
+noinst_PROGRAMS += samples/minimal/minimal
 
 if BUILD_PDFDC_SAMPLE
 noinst_PROGRAMS += samples/pdfdc/pdfdc
@@ -213,7 +217,7 @@ samples_minimal_minimal_LDADD = $(LDADD)
 if USE_MSW
 samples_minimal_minimal_SOURCES += samples/minimal/minimal.rc
 samples_minimal_minimal_LDADD += samples/minimal/minimal.res_o
-CLEANFILES = samples/minimal/minimal.res_o
+CLEANFILES += samples/minimal/minimal.res_o
 else
 # libtool complains about unknown "-no-install" option when targetting MSW, so
 # use it only in the "else" branch.
@@ -233,6 +237,10 @@ CLEANFILES += samples/pdfdc/printing.res_o
 else
 samples_pdfdc_pdfdc_LDFLAGS = -no-install
 endif
+
+endif
+
+if BUILD_UTILITIES
 
 # Utilities (currently not installed neither, but could be).
 noinst_PROGRAMS += makefont/makefont showfont/showfont
@@ -258,4 +266,6 @@ if USE_MSW
 showfont_showfont_SOURCES += showfont/showfont.rc
 showfont_showfont_LDADD += showfont/showfont.res_o
 CLEANFILES += showfont/showfont.res_o
+endif
+
 endif
