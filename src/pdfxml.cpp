@@ -383,6 +383,57 @@ wxPdfTable::SetCellDimensions(double maxWidth)
   {
     m_totalHeight += m_rowHeights[row];
   }
+
+  // Determine max row heights taking row spans into account
+  row = m_bodyRowFirst;
+  unsigned int firstRow = row;
+  unsigned int nextRow = row + 1;
+  while (row < m_bodyRowLast)
+  {
+    // Initialize max row height
+    m_maxHeights[row] = m_rowHeights[row];
+
+    // Determine max row span of current row
+    maxRowSpan = 1;
+    for (col = 0; col < m_nCols; col++)
+    {
+      wxPdfCellHashMap::iterator foundCell = m_table.find((row << 16) | col);
+      if (foundCell != m_table.end())
+      {
+        wxPdfTableCell* cell = foundCell->second;
+        rowSpan = cell->GetRowSpan();
+        if (rowSpan > maxRowSpan)
+        {
+          maxRowSpan = rowSpan;
+        }
+      }
+    }
+
+    // Adjust next row not affected by row spans
+    if (nextRow < row + maxRowSpan)
+    {
+      nextRow = row + maxRowSpan;
+    }
+
+    // Advance row
+    if (row < nextRow-1)
+    {
+      // Next row still in row block affected by row spans
+      ++row;
+    }
+    else
+    {
+      // Adjust max row heights of current row block affected by row spans
+      for (row = nextRow - 2; row >= firstRow; --row)
+      {
+        m_maxHeights[row] += m_maxHeights[row+1];
+      }
+
+      // Next row starts new row block
+      firstRow = row = nextRow;
+      nextRow = firstRow + 1;
+    }
+  }
 }
 
 void
@@ -415,13 +466,13 @@ wxPdfTable::Write()
   double breakMargin = m_document->GetBreakMargin();
   double pageHeight = m_document->GetPageHeight();
   double yMax = pageHeight - breakMargin;
-  if (y + m_headHeight + m_rowHeights[m_bodyRowFirst] > yMax)
+  if (y + m_headHeight + m_maxHeights[m_bodyRowFirst] > yMax)
   {
     newPage = true;
   }
   for (row = m_bodyRowFirst; row < m_bodyRowLast; row++)
   {
-    if (!newPage && (y + m_rowHeights[row] > yMax))
+    if (!newPage && (y + m_maxHeights[row] > yMax))
     {
       newPage = true;
     }
