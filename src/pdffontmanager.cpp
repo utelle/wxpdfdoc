@@ -930,6 +930,9 @@ wxPdfFontManagerBase::RegisterSystemFonts()
   size_t i;
   for (i = 0; i < nValues; ++i)
   {
+    // suppress possible error messages
+    wxLogNull nolog;
+
     fontRegKey->QueryValue(strValueName, fontFileName);
     if (fontFileName.Find(wxS('\\')) == wxNOT_FOUND)
     {
