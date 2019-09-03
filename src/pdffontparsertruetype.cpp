@@ -23,6 +23,7 @@
 // includes
 #include <wx/filename.h>
 #include <wx/filesys.h>
+#include <wx/fontutil.h>
 #include <wx/zstream.h>
 
 #include "wx/pdffontdataopentype.h"
@@ -225,8 +226,7 @@ wxMemoryInputStream*
 wxPdfFontParserTrueType::LoadTrueTypeFontStream(const wxFont& font)
 {
   wxMemoryInputStream* fontStream = NULL;
-  LOGFONT lf;
-  wxFillLogFont(&lf, &font);
+  LOGFONT lf = font.GetNativeFontInfo()->lf;
 
   HDC hdc = CreateCompatibleDC(0);
   HFONT hFont = CreateFontIndirect(&lf);
