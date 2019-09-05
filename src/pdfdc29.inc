@@ -582,6 +582,7 @@ wxPdfDCImpl::DoDrawPoint(wxCoord x, wxCoord y)
 {
   wxCHECK_RET(m_pdfDocument, wxS("Invalid PDF DC"));
   SetupPen();
+  SetupAlpha();
   double xx = ScaleLogicalToPdfX(x);
   double yy = ScaleLogicalToPdfY(y);
   m_pdfDocument->SetFillColour(m_pdfDocument->GetDrawColour());
@@ -595,6 +596,7 @@ wxPdfDCImpl::DoDrawSpline(const wxPointList* points)
 {
   wxCHECK_RET(m_pdfDocument, wxS("Invalid PDF DC"));
   SetupPen();
+  SetupAlpha();
   wxASSERT_MSG( points, wxS("NULL pointer to spline points?") );
   wxASSERT_MSG( points->GetCount() > 2 , wxS("incomplete list of spline points?") );
 #if 0
@@ -692,6 +694,7 @@ wxPdfDCImpl::DoDrawLine(wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)
   {
     SetupBrush();
     SetupPen();
+    SetupAlpha();
     m_pdfDocument->Line(ScaleLogicalToPdfX(x1), ScaleLogicalToPdfY(y1),
                         ScaleLogicalToPdfX(x2), ScaleLogicalToPdfY(y2));
     CalcBoundingBox(x1, y1);
@@ -711,6 +714,7 @@ wxPdfDCImpl::DoDrawArc(wxCoord x1, wxCoord y1,
   {
     SetupBrush();
     SetupPen();
+    SetupAlpha();
     const double start = angleByCoords(x1, y1, xc, yc);
     const double end   = angleByCoords(x2, y2, xc, yc);
     const double xx1 = ScaleLogicalToPdfX(x1);
@@ -751,6 +755,7 @@ wxPdfDCImpl::DoDrawEllipticArc(wxCoord x, wxCoord y, wxCoord width, wxCoord heig
   {
     SetupBrush();
     SetupPen();
+    SetupAlpha();
     m_pdfDocument->SetLineWidth(ScaleLogicalToPdfXRel(1)); // pen width != 1 sometimes fools readers when closing paths
     if (doFill)
     {
@@ -783,6 +788,7 @@ wxPdfDCImpl::DoDrawRectangle(wxCoord x, wxCoord y, wxCoord width, wxCoord height
   {
     SetupBrush();
     SetupPen();
+    SetupAlpha();
     m_pdfDocument->Rect(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(y),
                         ScaleLogicalToPdfXRel(width), ScaleLogicalToPdfYRel(height),
                         GetDrawingStyle());
@@ -810,6 +816,7 @@ wxPdfDCImpl::DoDrawRoundedRectangle(wxCoord x, wxCoord y,
   {
     SetupBrush();
     SetupPen();
+    SetupAlpha();
     m_pdfDocument->RoundedRect(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(y),
                                ScaleLogicalToPdfXRel(width), ScaleLogicalToPdfYRel(height),
                                ScaleLogicalToPdfXRel(wxRound(radius)), wxPDF_CORNER_ALL, GetDrawingStyle());
@@ -828,6 +835,7 @@ wxPdfDCImpl::DoDrawEllipse(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
   {
     SetupBrush();
     SetupPen();
+    SetupAlpha();
     m_pdfDocument->Ellipse(ScaleLogicalToPdfX(x + (width + 1) / 2),
                            ScaleLogicalToPdfY(y + (height + 1) / 2),
                            ScaleLogicalToPdfXRel((width + 1) / 2),
@@ -1122,6 +1130,7 @@ wxPdfDCImpl::DoDrawLines(int n, wxPoint points[], wxCoord xoffset, wxCoord yoffs
   if (GetPen().IsNonTransparent())
   {
     SetupPen();
+    SetupAlpha();
     int i;
     for (i = 0; i < n; ++i)
     {
@@ -1161,6 +1170,7 @@ wxPdfDCImpl::DoDrawPolygon(int n, wxPoint points[],
   {
     SetupBrush();
     SetupPen();
+    SetupAlpha();
     wxPdfArrayDouble xp;
     wxPdfArrayDouble yp;
     int i;
@@ -1200,6 +1210,7 @@ wxPdfDCImpl::DoDrawPolyPolygon(int n, int count[], wxPoint points[],
     {
       SetupBrush();
       SetupPen();
+      SetupAlpha();
       int style = GetDrawingStyle();
       int saveFillingRule = m_pdfDocument->GetFillingRule();
       m_pdfDocument->SetFillingRule(fillStyle);
@@ -1470,6 +1481,17 @@ wxPdfDCImpl::SetupBrush()
   {
     m_pdfDocument->SetFillColour(0, 0, 0);
   }
+}
+
+void
+wxPdfDCImpl::SetupAlpha()
+{
+  wxCHECK_RET(m_pdfDocument, wxS("Invalid PDF DC"));
+  const wxPen& curPen = GetPen();
+  const wxBrush& curBrush = GetBrush();
+  double lineAlpha = (curPen.IsOk()   && curPen.IsNonTransparent())   ? (double) curPen.GetColour().Alpha()   / 255.0 : 1.0;
+  double fillAlpha = (curBrush.IsOk() && curBrush.IsNonTransparent()) ? (double) curBrush.GetColour().Alpha() / 255.0 : 1.0;
+  m_pdfDocument->SetAlpha(lineAlpha, fillAlpha);
 }
 
 // Get the current drawing style based on the current brush and pen
