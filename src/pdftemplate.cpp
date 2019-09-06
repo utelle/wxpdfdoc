@@ -34,6 +34,7 @@ wxPdfTemplate::wxPdfTemplate(int templateId)
   m_fonts      = new wxPdfFontHashMap();
   m_images     = new wxPdfImageHashMap();
   m_templates  = new wxPdfTemplatesMap();
+  m_extGStates = new wxPdfExtGStateMap();
 
   m_parser    = NULL;
   m_resources = NULL;
@@ -45,6 +46,7 @@ wxPdfTemplate::~wxPdfTemplate()
   delete m_fonts;
   delete m_images;
   delete m_templates;
+  delete m_extGStates;
 
   if (m_resources != NULL)
   {

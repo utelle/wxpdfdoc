@@ -1753,6 +1753,17 @@ wxPdfDocument::PutTemplates()
         }
         Out(">>");
       }
+      // References to extended graphics states
+      if (currentTemplate->m_extGStates->size() > 0)
+      {
+        Out("/ExtGState <<");
+        wxPdfExtGStateMap::iterator extGState = currentTemplate->m_extGStates->begin();
+        for (extGState = currentTemplate->m_extGStates->begin(); extGState != currentTemplate->m_extGStates->end(); extGState++)
+        {
+          OutAscii(wxString::Format(wxS("/GS%ld %d 0 R"), extGState->first, extGState->second->GetObjIndex()));
+        }
+        Out(">>");
+      }
       Out(">>");
     }
 

@@ -80,6 +80,7 @@ private:
   wxPdfFontHashMap*    m_fonts;             ///< array of used fonts
   wxPdfImageHashMap*   m_images;            ///< array of used images
   wxPdfTemplatesMap*   m_templates;         ///< array of templates
+  wxPdfExtGStateMap*   m_extGStates;        ///< array of extended graphics states
 
   wxPdfParser*         m_parser;            ///< Associated parser
   wxPdfObject*         m_resources;         ///< Array of page resource objects
