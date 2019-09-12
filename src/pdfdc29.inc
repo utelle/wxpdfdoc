@@ -996,6 +996,9 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
     }
   }
 
+  m_pdfDocument->StartTransform();
+  SetupTextAlpha();
+  
   // Draw all text line by line
   for (size_t lineNum = 0; lineNum < lines.size(); lineNum++)
   {
@@ -1003,6 +1006,8 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
     m_pdfDocument->RotatedText(ScaleLogicalToPdfX(x + wxRound(lineNum*dx)), ScaleLogicalToPdfY(y + wxRound(lineNum*dy)),
                                ScaleLogicalToPdfX(x + wxRound(lineNum*dx)), ScaleLogicalToPdfY(originalY + wxRound(lineNum*dy)), lines[lineNum], angle);
   }
+
+  m_pdfDocument->StopTransform();
 
   SetFont(old);
 }
@@ -1492,6 +1497,14 @@ wxPdfDCImpl::SetupAlpha()
   double lineAlpha = (curPen.IsOk()   && curPen.IsNonTransparent())   ? (double) curPen.GetColour().Alpha()   / 255.0 : 1.0;
   double fillAlpha = (curBrush.IsOk() && curBrush.IsNonTransparent()) ? (double) curBrush.GetColour().Alpha() / 255.0 : 1.0;
   m_pdfDocument->SetAlpha(lineAlpha, fillAlpha);
+}
+
+void
+wxPdfDCImpl::SetupTextAlpha()
+{
+  wxCHECK_RET(m_pdfDocument, wxS("Invalid PDF DC"));
+  double textAlpha = m_textForegroundColour.IsOk() ? (double) m_textForegroundColour.Alpha() / 255.0 : 1.0;
+  m_pdfDocument->SetAlpha(textAlpha, textAlpha);
 }
 
 // Get the current drawing style based on the current brush and pen
