@@ -424,9 +424,9 @@ wxPdfTable::SetCellDimensions(double maxWidth)
     else
     {
       // Adjust max row heights of current row block affected by row spans
-      for (row = nextRow - 2; row >= firstRow; --row)
+      for (row = nextRow - 1; row > firstRow; --row)
       {
-        m_maxHeights[row] += m_maxHeights[row+1];
+        m_maxHeights[row-1] += m_maxHeights[row];
       }
 
       // Next row starts new row block
