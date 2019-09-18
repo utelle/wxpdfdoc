@@ -983,6 +983,7 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
     wxBrush previousBrush = GetBrush();
     SetBrush(wxBrush(m_textBackgroundColour));
     SetupBrush();
+    SetupAlpha();
     // draw rectangle line by line
     for (size_t lineNum = 0; lineNum < lines.size(); lineNum++)
     {
@@ -990,6 +991,7 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
       m_pdfDocument->Rect(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(originalY + wxRound(lineNum*heightLine)), ScaleLogicalToPdfXRel(w), ScaleLogicalToPdfYRel(h), wxPDF_STYLE_FILL);
     }
     SetBrush(previousBrush);
+    SetupAlpha();
     if (angle != 0)
     {
       m_pdfDocument->StopTransform();
