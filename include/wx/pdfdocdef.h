@@ -69,6 +69,23 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>0.9.8</b> - <i>September 2019</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets versions 2.8.12, 3.0.x and 3.1.x.
+
+General changes:<br>
+- Added alpha transparency support for wxPdfDC (wxWidgets 3.x only)
+- Eliminated error messages issued from method wxPdfFontManager::RegisterSystemFonts on registering bitmap fonts files
+- Removed call to deprecated function wxFillLogFont
+- Added configure options to skip building samples/utilities
+- Added build support for Visual C++ 2019
+- Added AppVeyor CI
+
+Fixed bugs:<br>
+- Fixed issue with XML tables: Rows affected by common row spans are now kept together on the same page
+
+</dd>
+
 <dt><b>0.9.7</b> - <i>January 2019</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets versions 2.8.12, 3.0.x and 3.1.x.
@@ -386,7 +403,7 @@ Added features:
 - gradients
 - transformations
 - barcodes<br>
-- \ref makefont<br>
+- \ref makefont <br>
 
 Changed API of graphics primitives: line style and fill colour parameters deleted,
 line style and fill colour have to be set using wxPdfDocument::SetLineStyle and wxPdfDocument::SetFillColour.

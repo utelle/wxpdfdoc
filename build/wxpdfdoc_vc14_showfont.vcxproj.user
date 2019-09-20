@@ -6,7 +6,7 @@
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib
 WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
     <LocalDebuggerWorkingDirectory>..\showfont</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib
@@ -18,7 +18,7 @@ WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib
 WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
     <LocalDebuggerWorkingDirectory>..\showfont</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib
@@ -30,7 +30,7 @@ WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll
 WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug wxDLL|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug wxDLL Win64|x64'">
     <LocalDebuggerWorkingDirectory>..\showfont</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll
@@ -42,7 +42,7 @@ WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll
 WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release wxDLL|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release wxDLL Win64|x64'">
     <LocalDebuggerWorkingDirectory>..\showfont</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll
@@ -54,7 +54,7 @@ WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll
 WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug Win64|x64'">
     <LocalDebuggerWorkingDirectory>..\showfont</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll
@@ -66,7 +66,7 @@ WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll
 WXPDF_FONTPATH=$(ProjectDir)..\lib\fonts</LocalDebuggerEnvironment>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release Win64|x64'">
     <LocalDebuggerWorkingDirectory>..\showfont</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerEnvironment>PATH=$(ProjectDir)..\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll

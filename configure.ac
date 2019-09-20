@@ -1,10 +1,11 @@
 dnl Process this script with autoconf to create configure for wxpdfdoc library
 dnl
+dnl Copyright (C) 2018-2019 Ulrich Telle <github@telle-online.de> 
 dnl Copyright (C) 2017 Vadim Zeitlin <vadim@wxwidgets.org>
 dnl
 dnl This file is covered by the same licence as the entire wxpdfdoc package.
 
-AC_INIT([wxpdfdoc], [0.9.7], [utelle@users.sourceforge.net])
+AC_INIT([wxpdfdoc], [0.9.8], [github@telle-online.de])
 
 dnl This is the version tested with, might work with earlier ones.
 AC_PREREQ([2.69])
@@ -16,30 +17,6 @@ AC_CONFIG_MACRO_DIR([admin/m4])
 AM_INIT_AUTOMAKE([1.11 foreign subdir-objects])
 AM_MAINTAINER_MODE([enable])
 AM_SILENT_RULES([yes])
-
-AC_ARG_ENABLE(samples,
-             [AC_HELP_STRING([--disable-samples],
-                             [don't build the samples])],
-             [case "x${enableval}" in
-                   x) ;;
-                xyes) BUILD_SAMPLES=1 ;;
-                 xno) ;;
-                   *) AC_MSG_ERROR(bad value ${enableval} for --enable-samples) ;;
-             esac],
-             [BUILD_SAMPLES=1])
-AM_CONDITIONAL([BUILD_SAMPLES], [test -n "$BUILD_SAMPLES"])
-
-AC_ARG_ENABLE(utilities,
-             [AC_HELP_STRING([--disable-utilities],
-                             [don't build the utilities])],
-             [case "x${enableval}" in
-                   x) ;;
-                xyes) BUILD_UTILITIES=1 ;;
-                 xno) ;;
-                   *) AC_MSG_ERROR(bad value ${enableval} for --enable-utilities) ;;
-             esac],
-             [BUILD_UTILITIES=1])
-AM_CONDITIONAL([BUILD_UTILITIES], [test -n "$BUILD_UTILITIES"])
 
 dnl Allow adding MSW-specific fragments to the makefile.
 case "${host}" in
@@ -71,8 +48,6 @@ WX_CONFIG_CHECK([2.8.0],
     [base,core,xml]
 )
 
-if test -n "$BUILD_SAMPLES"; then
-
 dnl We only need the libraries above for the main library itself, but the
 dnl pdfdc sample has additional requirements, check for them too (notice that
 dnl we can't use "--optional-libs" wx-config option to do it all in one check
@@ -85,9 +60,6 @@ WX_CONFIG_CHECK([2.8.0],
     [adv,base,core,html,richtext,xml]
 )
 WX_LIBS=$core_WX_LIBS
-
-fi
-
 AM_CONDITIONAL([BUILD_PDFDC_SAMPLE], [test -n "$WX_LIBS_PDFDC_SAMPLE"])
 
 dnl Check if the system has support for ELF visibility (this is a waste of time

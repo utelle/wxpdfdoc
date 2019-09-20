@@ -6,11 +6,13 @@
 
 dofile "premake/wxwidgets.lua"
 
+-- premake.wxSetupProps = '../Build/wx_setup.props'
+
 BUILDDIR = _OPTIONS["builddir"] or "build"
 
 workspace "wxpdfdoc"
   configurations { "Debug", "Release", "Debug wxDLL", "Release wxDLL", "DLL Debug", "DLL Release" }
-  platforms { "x32", "x64" }
+  platforms { "Win32", "Win64" }
   location(BUILDDIR)
 
   if (is_msvc) then
@@ -36,6 +38,10 @@ project "wxpdfdoc"
     local prj = project()
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_pdfdoc"
   end
+  if wxMonolithic then
+    local prj = project()
+    prj.filename = "wxpdfdoc_mono"
+  end
 
   make_filters( "PDFDOC", "wxpdfdoc", "core,xml" )
 
@@ -58,6 +64,10 @@ project "minimal"
     local prj = project()
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_minimal"
   end
+  if wxMonolithic then
+    local prj = project()
+    prj.filename = "minimal_mono"
+  end
 
   use_filters( "PDFDOC", "samples/minimal", "core,xml" )
 
@@ -68,7 +78,6 @@ project "minimal"
   }
   includedirs { "samples/minimal", "include" }
   characterset "Unicode"
-  flags { "WinMain" }  
   links { "wxpdfdoc" }
   
 -- wxPdfDC sample
@@ -81,6 +90,10 @@ project "dcsample"
     local prj = project()
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_dcsample"
   end
+  if wxMonolithic then
+    local prj = project()
+    prj.filename = "dcsample_mono"
+  end
 
   use_filters( "PDFDOC", "samples/pdfdc", "adv,html,richtext,core,xml" )
 
@@ -91,7 +104,7 @@ project "dcsample"
   }
   includedirs { "samples/pdfdc", "include" }
   characterset "Unicode"
-  flags { "WinMain" }  
+  entrypoint "WinMainCRTStartup"
   links { "wxpdfdoc" }
 
 -- MakeFont utility
@@ -104,6 +117,10 @@ project "makefont"
     local prj = project()
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_makefont"
   end
+  if wxMonolithic then
+    local prj = project()
+    prj.filename = "makefont_mono"
+  end
 
   use_filters( "PDFDOC", "makefont", "core,xml" )
 
@@ -114,7 +131,6 @@ project "makefont"
   }
   includedirs { "include" }
   characterset "Unicode"
-  flags { "WinMain" }  
   links { "wxpdfdoc" }
 
 -- ShowFont utility
@@ -127,6 +143,10 @@ project "showfont"
     local prj = project()
     prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_showfont"
   end
+  if wxMonolithic then
+    local prj = project()
+    prj.filename = "showfont_mono"
+  end
 
   use_filters( "PDFDOC", "showfont", "core,xml" )
 
@@ -137,5 +157,4 @@ project "showfont"
   }
   includedirs { "include" }
   characterset "Unicode"
-  flags { "WinMain" }  
   links { "wxpdfdoc" }
