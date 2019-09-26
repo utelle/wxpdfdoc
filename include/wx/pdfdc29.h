@@ -216,6 +216,10 @@ public:
 
 private:
   int FindPdfFont(wxFont* font) const;
+
+  bool MustSetCurrentPen(const wxPen& currentPen) const;
+  bool MustSetCurrentBrush(const wxBrush& currentBrush) const;
+
   void SetupPen();
   void SetupBrush();
   void SetupAlpha();
@@ -235,6 +239,8 @@ private:
 
   wxPdfColour   m_cachedPdfColour;
   wxUint32      m_cachedRGB;
+  wxPen         m_pdfPen;
+  wxBrush       m_pdfBrush;
 
   bool m_jpegFormat;
   int  m_jpegQuality;

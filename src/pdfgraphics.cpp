@@ -85,6 +85,7 @@ wxPdfDocument::SetAlphaState(int alphaState)
 {
   if (alphaState > 0 && (size_t) alphaState <= (*m_extGStates).size())
   {
+    m_currentExtGState = alphaState;
     OutAscii(wxString::Format(wxS("/GS%d gs"), alphaState));
   }
 }

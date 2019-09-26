@@ -168,6 +168,8 @@ wxPdfDCImpl::Init()
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
 
   m_cachedRGB = 0;
+  m_pdfPen = wxNullPen;
+  m_pdfBrush = wxNullBrush;
 
   m_jpegFormat = false;
   m_jpegQuality = 75;
@@ -1011,7 +1013,10 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
 
   m_pdfDocument->StopTransform();
 
-  SetFont(old);
+  if (*fontToUse != old)
+  {
+    SetFont(old);
+  }
 }
 
 bool
@@ -1321,7 +1326,10 @@ wxPdfDCImpl::DoGetTextExtent(const wxString& text,
     {
       *y = myHeight;
     }
-    const_cast<wxPdfDCImpl*>(this)->SetFont(old);
+    if (*fontToUse != old)
+    {
+      const_cast<wxPdfDCImpl*>(this)->SetFont(old);
+    }
   }
   else
   {
@@ -1375,6 +1383,34 @@ wxPdfDCImpl::DoGetPartialTextExtents(const wxString& text, wxArrayInt& widths) c
   return true;
 }
 
+bool
+wxPdfDCImpl::MustSetCurrentPen(const wxPen& currentPen) const
+{
+  if (m_pdfPen == wxNullPen)
+  {
+    return true;
+  }
+
+  // Current pen has to be set for PDF if not identical to pen in use for PDF
+  return (m_pdfPen.GetWidth()  != currentPen.GetWidth()) ||
+         (m_pdfPen.GetJoin()   != currentPen.GetJoin())  ||
+         (m_pdfPen.GetCap()    != currentPen.GetCap())   ||
+         (m_pdfPen.GetStyle()  != currentPen.GetStyle()) ||
+         (m_pdfPen.GetColour() != currentPen.GetColour());
+}
+
+bool
+wxPdfDCImpl::MustSetCurrentBrush(const wxBrush& currentBrush) const
+{
+  if (m_pdfBrush == wxNullBrush)
+  {
+    return true;
+  }
+
+  // Current pen has to be set for PDF if not identical to pen in use for PDF
+  return (m_pdfBrush.GetColour() != currentBrush.GetColour());
+}
+
 void
 wxPdfDCImpl::SetupPen()
 {
@@ -1383,69 +1419,48 @@ wxPdfDCImpl::SetupPen()
   const wxPen& curPen = GetPen();
   if (curPen != wxNullPen)
   {
-    wxPdfLineStyle style = m_pdfDocument->GetLineStyle();
-    wxPdfArrayDouble dash;
-    style.SetColour(wxColour(curPen.GetColour().Red(),
-                             curPen.GetColour().Green(),
-                             curPen.GetColour().Blue()));
-    double penWidth = 1.0;
-    if (curPen.GetWidth())
+    if (MustSetCurrentPen(curPen))
     {
-      penWidth = ScaleLogicalToPdfXRel(curPen.GetWidth());
-      style.SetWidth(penWidth);
-    }
-    switch (curPen.GetJoin())
-    {
-      case wxJOIN_BEVEL:
-        style.SetLineJoin(wxPDF_LINEJOIN_BEVEL);
-        break;
-      case wxJOIN_ROUND:
-        style.SetLineJoin(wxPDF_LINEJOIN_ROUND);
-        break;
-      case wxJOIN_MITER:
-      default:
-        style.SetLineJoin(wxPDF_LINEJOIN_MITER);
-        break;
-    }
-    switch (curPen.GetCap())
-    {
-      case wxCAP_BUTT:
-        style.SetLineCap(wxPDF_LINECAP_BUTT);
-        break;
-      case wxCAP_PROJECTING:
-        style.SetLineCap(wxPDF_LINECAP_SQUARE);
-        break;
-      case wxCAP_ROUND:
-      default:
-        style.SetLineCap(wxPDF_LINECAP_ROUND);
-        break;
-    }
-    switch (curPen.GetStyle())
-    {
-      case wxPENSTYLE_DOT:
-        if (wxPDF_LINECAP_BUTT == style.GetLineCap())
-        {
-          dash.Add(1.0 * penWidth);
-        }
-        else
-        {
-          dash.Add(0.0 * penWidth);
-        }
-        dash.Add(2.0 * penWidth);
-        style.SetDash(dash);
-        break;
-      case wxPENSTYLE_LONG_DASH:
-        dash.Add(3.5 * penWidth);
-        dash.Add(5.0 * penWidth);
-        style.SetDash(dash);
-        break;
-      case wxPENSTYLE_SHORT_DASH:
-        dash.Add(1.5 * penWidth);
-        dash.Add(3.0 * penWidth);
-        style.SetDash(dash);
-        break;
-      case wxPENSTYLE_DOT_DASH:
-        {
+      wxPdfLineStyle style = m_pdfDocument->GetLineStyle();
+      wxPdfArrayDouble dash;
+      style.SetColour(wxColour(curPen.GetColour().Red(),
+                               curPen.GetColour().Green(),
+                               curPen.GetColour().Blue()));
+      double penWidth = 1.0;
+      if (curPen.GetWidth())
+      {
+        penWidth = ScaleLogicalToPdfXRel(curPen.GetWidth());
+        style.SetWidth(penWidth);
+      }
+      switch (curPen.GetJoin())
+      {
+        case wxJOIN_BEVEL:
+          style.SetLineJoin(wxPDF_LINEJOIN_BEVEL);
+          break;
+        case wxJOIN_ROUND:
+          style.SetLineJoin(wxPDF_LINEJOIN_ROUND);
+          break;
+        case wxJOIN_MITER:
+        default:
+          style.SetLineJoin(wxPDF_LINEJOIN_MITER);
+          break;
+      }
+      switch (curPen.GetCap())
+      {
+        case wxCAP_BUTT:
+          style.SetLineCap(wxPDF_LINECAP_BUTT);
+          break;
+        case wxCAP_PROJECTING:
+          style.SetLineCap(wxPDF_LINECAP_SQUARE);
+          break;
+        case wxCAP_ROUND:
+        default:
+          style.SetLineCap(wxPDF_LINECAP_ROUND);
+          break;
+      }
+      switch (curPen.GetStyle())
+      {
+        case wxPENSTYLE_DOT:
           if (wxPDF_LINECAP_BUTT == style.GetLineCap())
           {
             dash.Add(1.0 * penWidth);
@@ -1455,17 +1470,43 @@ wxPdfDCImpl::SetupPen()
             dash.Add(0.0 * penWidth);
           }
           dash.Add(2.0 * penWidth);
-          dash.Add(3.0 * penWidth);
-          dash.Add(2.0 * penWidth);
           style.SetDash(dash);
-        }
-        break;
-      case wxPENSTYLE_SOLID:
-      default:
-        style.SetDash(dash);
-        break;
+          break;
+        case wxPENSTYLE_LONG_DASH:
+          dash.Add(3.5 * penWidth);
+          dash.Add(5.0 * penWidth);
+          style.SetDash(dash);
+          break;
+        case wxPENSTYLE_SHORT_DASH:
+          dash.Add(1.5 * penWidth);
+          dash.Add(3.0 * penWidth);
+          style.SetDash(dash);
+          break;
+        case wxPENSTYLE_DOT_DASH:
+          {
+            if (wxPDF_LINECAP_BUTT == style.GetLineCap())
+            {
+              dash.Add(1.0 * penWidth);
+            }
+            else
+            {
+              dash.Add(0.0 * penWidth);
+            }
+            dash.Add(2.0 * penWidth);
+            dash.Add(3.0 * penWidth);
+            dash.Add(2.0 * penWidth);
+            style.SetDash(dash);
+          }
+          break;
+        case wxPENSTYLE_SOLID:
+        default:
+          style.SetDash(dash);
+          break;
+      }
+
+      m_pdfPen = curPen;
+      m_pdfDocument->SetLineStyle(style);
     }
-    m_pdfDocument->SetLineStyle(style);
   }
   else
   {
@@ -1482,7 +1523,11 @@ wxPdfDCImpl::SetupBrush()
   const wxBrush& curBrush = GetBrush();
   if (curBrush != wxNullBrush)
   {
-    m_pdfDocument->SetFillColour(curBrush.GetColour().Red(), curBrush.GetColour().Green(), curBrush.GetColour().Blue());
+    if (MustSetCurrentBrush(curBrush))
+    {
+      m_pdfBrush = curBrush;
+      m_pdfDocument->SetFillColour(curBrush.GetColour().Red(), curBrush.GetColour().Green(), curBrush.GetColour().Blue());
+    }
   }
   else
   {
