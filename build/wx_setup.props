@@ -55,18 +55,18 @@
     <wxSuffixDebug>
     </wxSuffixDebug>
   </PropertyGroup>
-  <PropertyGroup Label="UserMacros" Condition="'$(Configuration)'=='DLL Debug' or '$(Configuration)'=='DLL Release'">
+  <PropertyGroup Label="UserMacros" Condition="$(Configuration.StartsWith('DLL'))">
     <wxLibTypeSuffix>dll</wxLibTypeSuffix>
   </PropertyGroup>
-  <PropertyGroup Label="UserMacros" Condition="'$(Configuration)'=='Debug wxDLL' or '$(Configuration)'=='Release wxDLL'">
+  <PropertyGroup Label="UserMacros" Condition="$(Configuration.Contains('wxDLL'))">
     <wxLibTypeSuffix>lib_wxdll</wxLibTypeSuffix>
   </PropertyGroup>
-  <PropertyGroup Label="UserMacros" Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release'">
+  <PropertyGroup Label="UserMacros" Condition="'$(Configuration)'=='Debug' or '$(Configuration)'=='Release' or '$(Configuration)'=='Debug Win64' or '$(Configuration)'=='Release Win64'">
     <wxLibTypeSuffix>lib</wxLibTypeSuffix>
   </PropertyGroup>
   <PropertyGroup Label="UserMacros">
     <wxOutDirName>$(wxCompilerPrefix)$(wxArchSuffix)_$(wxLibTypeSuffix)$(wxCfg)</wxOutDirName>
-    <wxOutDir>..\lib\$(wxOutDirName)\</wxOutDir>
+    <wxOutDir>..\lib\$(wxOutDirName)</wxOutDir>
   </PropertyGroup>
   <PropertyGroup Label="UserMacros" Condition="'$(Configuration)'=='DLL Debug'">
     <wxIntRootDir>$(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)dll\</wxIntRootDir>
