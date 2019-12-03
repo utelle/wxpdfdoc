@@ -624,19 +624,11 @@ wxPdfEncrypt::CheckKey(unsigned char key1[32], unsigned char key2[32])
 void
 wxPdfEncrypt::Encrypt(int n, int g, wxString& str)
 {
-  unsigned int len = (unsigned int) str.Length();
-  unsigned char* data = new unsigned char[len];
-  unsigned int j;
-  for (j = 0; j < len; j++)
-  {
-    data[j] = (unsigned char) str.GetChar(j);
-  }
+  unsigned int len =  str.Length();
+  std::wstring wstr = str.ToStdWstring();
+  unsigned char* data = reinterpret_cast<unsigned char*> (const_cast<wchar_t*>(wstr.data()));
   Encrypt(n, g, data, len);
-  for (j = 0; j < len; j++)
-  {
-    str.SetChar(j, data[j]);
-  }
-  delete [] data;
+  str = wxString(std::wstring(reinterpret_cast<wchar_t*>(data)));
 }
 
 void
