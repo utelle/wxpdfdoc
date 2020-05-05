@@ -988,23 +988,8 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
     else if (name == wxS("hr"))
     {
       // --- Horizontal rule
-//      double hrWidth = GetPageWidth() - GetLeftMargin() - GetRightMargin();
-//      long widthAttr;
       Ln();
-//      wxString strWidth = child->GetPropVal(wxS("width"), wxS(""));
-//      if (strWidth.Length() > 0 && strWidth.ToLong(&widthAttr))
-//      {
-//        hrWidth = hrWidth * 0.01 * widthAttr;
-//      }
-//      double x = GetX();
-//      double y = GetY();
-//      double wLine = GetLineWidth();
-//      SetLineWidth(0.2);
-//      Line(x, y, x + hrWidth, y);
-//      SetLineWidth(wLine);
-//      Ln();
       context.AddHeight(GetLineHeight());
-      //context.AddLine();
     }
     else if (name == wxS("a"))
     {
@@ -1019,13 +1004,19 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       {
         wxSize imageSize = GetImageSize(src);
         double wImage = ((double) imageSize.GetWidth()) / (GetImageScale() * GetScaleFactor());
-        double hImage = ((double)imageSize.GetHeight()) / (GetImageScale() * GetScaleFactor());
-        long width;
-        long height;
+        double hImage = ((double) imageSize.GetHeight()) / (GetImageScale() * GetScaleFactor());
+        double width = 0;
+        double height = 0;
         wxString strWidth = GetXmlAttribute(child, wxS("width"), wxS("0"));
         wxString strHeight = GetXmlAttribute(child, wxS("height"), wxS("0"));
-        if (!strWidth.ToLong(&width)) width = 0;
-        if (!strHeight.ToLong(&height)) height = 0;
+        if (strWidth.Length() > 0)
+        {
+          width = wxPdfUtility::String2Double(strWidth);
+        }
+        if (strHeight.Length() > 0)
+        {
+          height = wxPdfUtility::String2Double(strHeight);
+        }
         double w = ((double) width) / (GetImageScale() * GetScaleFactor());
         double h = ((double) height) / (GetImageScale() * GetScaleFactor());
         // TODO: handle image
@@ -1616,11 +1607,12 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
     {
       // --- Horizontal rule
       double hrWidth = GetPageWidth() - GetLeftMargin() - GetRightMargin();
-      long widthAttr;
+      double widthAttr = 0;
       Ln();
       wxString strWidth = GetXmlAttribute(child, wxS("width"), wxS(""));
-      if (strWidth.Length() > 0 && strWidth.ToLong(&widthAttr))
+      if (strWidth.Length() > 0)
       {
+        widthAttr = wxPdfUtility::String2Double(strWidth);
         hrWidth = hrWidth * 0.01 * widthAttr;
       }
       double x = GetX();
@@ -1695,12 +1687,18 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         wxSize imageSize = GetImageSize(src);
         double wImage = ((double) imageSize.GetWidth()) / (GetImageScale() * GetScaleFactor());
         double hImage = ((double) imageSize.GetHeight()) / (GetImageScale() * GetScaleFactor());
-        long width;
-        long height;
+        double width = 0;
+        double height = 0;
         wxString strWidth = GetXmlAttribute(child, wxS("width"), wxS("0"));
         wxString strHeight = GetXmlAttribute(child, wxS("height"), wxS("0"));
-        if (!strWidth.ToLong(&width)) width = 0;
-        if (!strHeight.ToLong(&height)) height = 0;
+        if (strWidth.Length() > 0)
+        {
+          width = wxPdfUtility::String2Double(strWidth);
+        }
+        if (strHeight.Length() > 0)
+        {
+          height = wxPdfUtility::String2Double(strHeight);
+        }
         double x = GetX();
         double y = GetY();
         double w = ((double) width) / (GetImageScale() * GetScaleFactor());
