@@ -335,6 +335,10 @@ wxPdfTable::SetCellDimensions(double maxWidth)
       }
     }
     m_rowHeights[row] = (rowHeight < m_minHeights[row]) ? m_minHeights[row] : rowHeight;
+    if(m_maxHeights[row] > 0 && m_rowHeights[row] > m_maxHeights[row])
+    {
+      m_rowHeights[row] = m_maxHeights[row];
+    }
   }
 
   for (rowSpan = 2; rowSpan <= maxRowSpan; rowSpan++)
@@ -566,6 +570,21 @@ wxPdfTable::WriteRow(unsigned int row, double x, double y)
       }
       m_document->SetLeftMargin(x+m_pad);
       double delta = h - cell->GetHeight();
+      bool useClipping = false;
+      if (delta < 0)
+      {
+        // cell height is greater than maximum allowed row height
+        // cell content exceeding the row height will be clipped
+        //
+        // TODO: Setting delta = 0 effectively forces top alignment for such cells
+        // Should such a cell be aligned as requested?
+        // That is, should the clipping occur at
+        // - the bottom for wxPDF_ALIGN_TOP,
+        // - the top for wxPDF_ALIGN_BOTTOM,
+        // - the top and the bottom for wxPDF_ALIGN_MIDDLE
+        delta = 0;
+        useClipping = true;
+      }
       switch (cell->GetVAlign())
       {
         case wxPDF_ALIGN_BOTTOM:
@@ -579,7 +598,15 @@ wxPdfTable::WriteRow(unsigned int row, double x, double y)
           m_document->SetXY(x+m_pad, y+m_pad);
           break;
       }
+      if (useClipping)
+      {
+        m_document->ClippingRect(x, y, w, h);
+      }
       m_document->WriteXmlCell(cell->GetXmlNode(), *(cell->GetContext()));
+      if (useClipping)
+      {
+        m_document->UnsetClipping();
+      }
       if (isHeaderRow)
       {
         // For header rows it is necessary to prepare the cells for reprocessing
@@ -614,13 +641,13 @@ wxPdfDocument::PrepareXmlTable(wxXmlNode* node, wxPdfCellContext& context)
   int col;
   int i, j;
 
-  wxXmlNode *child = node->GetChildren();
+  wxXmlNode* child = node->GetChildren();
   while (child)
   {
     wxString name = (child->GetName()).Lower();
     if (name == wxS("colgroup"))
     {
-      wxXmlNode *colChild = child->GetChildren();
+      wxXmlNode* colChild = child->GetChildren();
       while (colChild)
       {
         if ((colChild->GetName()).Lower() == wxS("col"))
@@ -664,7 +691,7 @@ wxPdfDocument::PrepareXmlTable(wxXmlNode* node, wxPdfCellContext& context)
       {
         table->SetBodyRowFirst(row);
       }
-      wxXmlNode *rowChild = child->GetChildren();
+      wxXmlNode* rowChild = child->GetChildren();
       int rowCount = 0;
       while (rowChild)
       {
@@ -685,15 +712,25 @@ wxPdfDocument::PrepareXmlTable(wxXmlNode* node, wxPdfCellContext& context)
               if (oddColour.Length() > 0) rowColour = oddColour;
             }
           }
-          double rowHeight = 0;
+          double rowMinHeight = 0;
           wxString height = GetXmlAttribute(rowChild, wxS("height"), wxS("0")).Lower();
           if (height.Length() > 0)
           {
-            rowHeight = wxPdfUtility::String2Double(height);
-            if (rowHeight < 0) rowHeight = 0;
+            rowMinHeight = wxPdfUtility::String2Double(height);
+            if (rowMinHeight < 0) rowMinHeight = 0;
           }
-          table->SetMinRowHeight(row, rowHeight);
-          wxXmlNode *colChild = rowChild->GetChildren();
+          table->SetMinRowHeight(row, rowMinHeight);
+          double rowMaxHeight = 0;
+          wxString maxHeight = GetXmlAttribute(rowChild, wxS("max-height"), wxS("0")).Lower();
+          if (maxHeight.Length() > 0)
+          {
+            rowMaxHeight = wxPdfUtility::String2Double(maxHeight);
+            if (rowMaxHeight < 0) rowMaxHeight = 0;
+            // Maximum row height can't be smaller than minimum row height
+            if (rowMaxHeight > 0 && rowMaxHeight < rowMinHeight) rowMaxHeight = rowMinHeight;
+          }
+          table->SetMaxRowHeight(row, rowMaxHeight);
+          wxXmlNode* colChild = rowChild->GetChildren();
           col = 0;
           while (colChild)
           {
