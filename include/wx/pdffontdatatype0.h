@@ -67,7 +67,7 @@ public:
   * \param withKerning flag indicating whether kerning should be taken into account
   * \return the width of the string
   */
-  virtual double GetStringWidth(const wxString& s, const wxPdfEncoding* encoding = NULL, bool withKerning = false) const;
+  virtual double GetStringWidth(const wxString& s, const wxPdfEncoding* encoding = NULL, bool withKerning = false, double charSpacing = 0) const;
 
   /// Check whether the font oan show all characters of a given string
   /**

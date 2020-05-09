@@ -203,10 +203,11 @@ wxPdfFontDataTrueType::LoadFontMetrics(wxXmlNode* root)
 }
 
 double
-wxPdfFontDataTrueType::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
+wxPdfFontDataTrueType::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning, double charSpacing) const
 {
   wxUnusedVar(encoding);
   // Get width of a string in the current font
+  int glyphCount = 0;
   double w = 0;
 #if wxUSE_UNICODE
   wxString t = ConvertToValid(s);
@@ -229,6 +230,7 @@ wxPdfFontDataTrueType::GetStringWidth(const wxString& s, const wxPdfEncoding* en
     {
       w += m_desc.GetMissingWidth();
     }
+    ++glyphCount;
   }
   if (withKerning)
   {
@@ -237,6 +239,10 @@ wxPdfFontDataTrueType::GetStringWidth(const wxString& s, const wxPdfEncoding* en
     {
       w += (double) kerningWidth;
     }
+  }
+  if (charSpacing > 0)
+  {
+    w += (glyphCount * charSpacing * 1000);
   }
   return w / 1000;
 }
@@ -661,10 +667,11 @@ wxPdfFontDataTrueTypeUnicode::SetGlyphWidths(const wxPdfArrayUint16& glyphWidths
 }
 
 double
-wxPdfFontDataTrueTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
+wxPdfFontDataTrueTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning, double charSpacing) const
 {
   wxUnusedVar(encoding);
   // Get width of a string in the current font
+  int glyphCount = 0;
   double w = 0;
 
   wxPdfGlyphWidthMap::iterator charIter;
@@ -680,6 +687,7 @@ wxPdfFontDataTrueTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncod
     {
       w += m_desc.GetMissingWidth();
     }
+    ++glyphCount;
   }
   if (withKerning)
   {
@@ -688,6 +696,10 @@ wxPdfFontDataTrueTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncod
     {
       w += (double) kerningWidth;
     }
+  }
+  if (charSpacing > 0)
+  {
+    w += (glyphCount * charSpacing * 1000);
   }
   return w / 1000;
 }

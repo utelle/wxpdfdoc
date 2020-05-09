@@ -184,7 +184,7 @@ public:
   * \param withKerning flag indicating whether kerning should be taken into account
   * \return the width of the string
   */
-  double GetStringWidth(const wxString& s, bool withKerning = false);
+  double GetStringWidth(const wxString& s, bool withKerning = false, double charSpacing = 0);
 
   /// Get kerning width array
   /**

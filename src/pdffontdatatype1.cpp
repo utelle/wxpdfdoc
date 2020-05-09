@@ -204,9 +204,10 @@ wxPdfFontDataType1::Initialize()
 }
 
 double
-wxPdfFontDataType1::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
+wxPdfFontDataType1::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning, double charSpacing) const
 {
   // Get width of a string in the current font
+  int glyphCount = 0;
   double w = 0;
   const wxPdfChar2GlyphMap* convMap = FindEncodingMap(encoding);
   if (convMap != NULL)
@@ -263,9 +264,11 @@ wxPdfFontDataType1::GetStringWidth(const wxString& s, const wxPdfEncoding* encod
         }
       }
     }
+    ++glyphCount;
   }
   else
   {
+    glyphCount = s.Len();
   }
   if (withKerning)
   {
@@ -274,6 +277,10 @@ wxPdfFontDataType1::GetStringWidth(const wxString& s, const wxPdfEncoding* encod
     {
       w += (double) kerningWidth;
     }
+  }
+  if (charSpacing > 0)
+  {
+    w += (glyphCount * charSpacing * 1000);
   }
   return w / 1000;
 }

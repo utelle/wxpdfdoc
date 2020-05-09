@@ -125,6 +125,12 @@ public:
   /// Get width of last space character
   double GetLastSpaceWidth() { return m_spaceWidth; }
 
+  /// Remember the width of the last space character
+  void SetCharacterSpacing(double charSpacing) { m_charSpacing = charSpacing; }
+
+  /// Get width of last space character
+  double GetCharacterSpacing() { return m_charSpacing; }
+
   /// Set hyper link reference
   void SetHRef(const wxString& href) { m_href = href; }
 
@@ -152,6 +158,7 @@ private:
   wxArrayInt       m_spaces;          ///< list of space counters
   wxChar           m_lastChar;        ///< last character of a chunk
   double           m_spaceWidth;      ///< width of space character
+  double           m_charSpacing;     ///< extra character spacing (default: 0)
   wxString         m_href;            ///< hyper link reference
   wxPdfTable*      m_table;           ///< table reference
 };

@@ -299,10 +299,11 @@ wxPdfFontDataOpenTypeUnicode::SetGlyphWidths(const wxPdfArrayUint16& glyphWidths
 }
 
 double
-wxPdfFontDataOpenTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
+wxPdfFontDataOpenTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning, double charSpacing) const
 {
   wxUnusedVar(encoding);
   // Get width of a string in the current font
+  int glyphCount = 0;
   double w = 0;
 
   wxPdfGlyphWidthMap::iterator charIter;
@@ -319,6 +320,7 @@ wxPdfFontDataOpenTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncod
     {
       w += m_desc.GetMissingWidth();
     }
+    ++glyphCount;
   }
   if (withKerning)
   {
@@ -327,6 +329,10 @@ wxPdfFontDataOpenTypeUnicode::GetStringWidth(const wxString& s, const wxPdfEncod
     {
       w += (double) kerningWidth;
     }
+  }
+  if (charSpacing > 0)
+  {
+    w += (glyphCount * charSpacing * 1000);
   }
   return w / 1000;
 }

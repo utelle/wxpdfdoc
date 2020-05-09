@@ -185,6 +185,7 @@ wxPdfDocument::Initialize(int orientation)
   m_colourFlag  = false;
   m_wsApply = false;
   m_ws = 0;
+  m_charSpacing = 0;
   m_textRenderMode = wxPDF_TEXT_RENDER_FILL;
 
   // Initialize image scale factor
@@ -911,19 +912,19 @@ wxPdfDocument::GetFontSize() const
 }
 
 double
-wxPdfDocument::GetStringWidth(const wxString& s)
+wxPdfDocument::GetStringWidth(const wxString& s, double charSpacing)
 {
   wxString voText = ApplyVisualOrdering(s);
-  return DoGetStringWidth(voText);
+  return DoGetStringWidth(voText, charSpacing);
 }
 
 double
-wxPdfDocument::DoGetStringWidth(const wxString& s)
+wxPdfDocument::DoGetStringWidth(const wxString& s, double charSpacing)
 {
   double w = 0;
   if (m_currentFont != 0)
   {
-    w = m_currentFont->GetStringWidth(s, m_kerning) * m_fontSize;
+    w = m_currentFont->GetStringWidth(s, m_kerning, charSpacing / m_fontSize) * m_fontSize;
   }
   return w;
 }
@@ -1114,7 +1115,7 @@ wxPdfDocument::DoCell(double w, double h, const wxString& txt, int border, int l
 
   if (txt.Length() > 0)
   {
-    double width = DoGetStringWidth(txt);
+    double width = DoGetStringWidth(txt, m_charSpacing);
     double dx;
     if (align == wxPDF_ALIGN_RIGHT)
     {
@@ -1274,7 +1275,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
       ls = len;
       ns++;
     }
-    len = DoGetStringWidth(s.SubString(j, i));
+    len = DoGetStringWidth(s.SubString(j, i), m_charSpacing);
 
     if (len > wmax)
     {
@@ -1382,7 +1383,7 @@ wxPdfDocument::LineCount(double w, const wxString& txt)
     {
       sep = i;
     }
-    len = DoGetStringWidth(s.SubString(j, i));
+    len = DoGetStringWidth(s.SubString(j, i), m_charSpacing);
 
     if (len > wmax)
     {
@@ -1470,7 +1471,7 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
   // handle single space character
   if ((nb == 1) && s[0] == wxS(' '))
   {
-    m_x += DoGetStringWidth(s);
+    m_x += DoGetStringWidth(s, m_charSpacing);
     return;
   }
 
@@ -1511,7 +1512,7 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
     {
       sep = i;
     }
-    len = DoGetStringWidth(s.SubString(j, i));
+    len = DoGetStringWidth(s.SubString(j, i), m_charSpacing);
     if (len > wmax)
     {
       // Automatic line break

@@ -789,7 +789,7 @@ public:
   * \param s The string whose length is to be computed
   * \return int
   */
-  virtual double GetStringWidth(const wxString& s);
+  virtual double GetStringWidth(const wxString& s, double charSpacing = 0);
 
   /// Defines the line width.
   /**
@@ -2564,7 +2564,7 @@ protected:
   * \return int
   * \note This method expects the text already to be preprocessed in respect to visual layout.
   */
-  virtual double DoGetStringWidth(const wxString& s);
+  virtual double DoGetStringWidth(const wxString& s, double charSpacing = 0);
 
   /// Prints a cell (rectangular area) with optional borders, background colour and character string.
   /**
@@ -2872,6 +2872,7 @@ private:
   bool                 m_colourFlag;          ///< indicates whether fill and text colours are different
   bool                 m_wsApply;             ///< Flag whether to apply explicit word spacing
   double               m_ws;                  ///< word spacing
+  double               m_charSpacing;         ///< character spacing
   wxPdfTextRenderMode  m_textRenderMode;      ///< text render mode
 
   bool                 m_autoPageBreak;       ///< automatic page breaking

@@ -240,11 +240,12 @@ wxPdfFontDataType0::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyp
 }
 
 double
-wxPdfFontDataType0::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
+wxPdfFontDataType0::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning, double charSpacing) const
 {
   wxUnusedVar(encoding);
   wxString t = ConvertToValid(s);
   // Get width of a string in the current font
+  int glyphCount = 0;
   double w = 0;
   wxString::const_iterator ch;
   for (ch = t.begin(); ch != t.end(); ++ch)
@@ -275,6 +276,7 @@ wxPdfFontDataType0::GetStringWidth(const wxString& s, const wxPdfEncoding* encod
         w += 1000;
       }
     }
+    ++glyphCount;
   }
   if (withKerning)
   {
@@ -283,6 +285,10 @@ wxPdfFontDataType0::GetStringWidth(const wxString& s, const wxPdfEncoding* encod
     {
       w += (double) kerningWidth;
     }
+  }
+  if (charSpacing > 0)
+  {
+    w += (glyphCount * charSpacing * 1000);
   }
   return w / 1000;
 }

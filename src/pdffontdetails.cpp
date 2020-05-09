@@ -139,9 +139,9 @@ wxPdfFontDetails::GetUserFont() const
 }
 
 double
-wxPdfFontDetails::GetStringWidth(const wxString& s, bool withKerning)
+wxPdfFontDetails::GetStringWidth(const wxString& s, bool withKerning, double charSpacing)
 {
-  return m_font.GetStringWidth(s, withKerning);
+  return m_font.GetStringWidth(s, withKerning, charSpacing);
 }
 
 wxArrayInt

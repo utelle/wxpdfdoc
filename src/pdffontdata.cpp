@@ -709,11 +709,12 @@ wxPdfFontData::GetWidthsAsString(bool subset, wxPdfSortedArrayInt* usedGlyphs, w
 }
 
 double
-wxPdfFontData::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
+wxPdfFontData::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning, double charSpacing) const
 {
   wxUnusedVar(s);
   wxUnusedVar(encoding);
   wxUnusedVar(withKerning);
+  wxUnusedVar(charSpacing);
   return 0;
 }
 

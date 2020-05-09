@@ -112,9 +112,10 @@ wxPdfFontDataCore::GetEncodingConv() const
 #endif
 
 double
-wxPdfFontDataCore::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning) const
+wxPdfFontDataCore::GetStringWidth(const wxString& s, const wxPdfEncoding* encoding, bool withKerning, double charSpacing) const
 {
   wxUnusedVar(encoding);
+  int glyphCount = 0;
   double w = 0;
   // Get width of a string in the current font
   wxString t = ConvertCID2GID(s);
@@ -123,6 +124,7 @@ wxPdfFontDataCore::GetStringWidth(const wxString& s, const wxPdfEncoding* encodi
   for (ch = t.begin(); ch != t.end(); ++ch)
   {
     w += (*m_cw)[*ch];
+    ++glyphCount;
   }
   if (withKerning)
   {
@@ -131,6 +133,10 @@ wxPdfFontDataCore::GetStringWidth(const wxString& s, const wxPdfEncoding* encodi
     {
       w += (double) kerningWidth;
     }
+  }
+  if (charSpacing > 0)
+  {
+    w += (glyphCount * charSpacing * 1000);
   }
   return w / 1000;
 }
