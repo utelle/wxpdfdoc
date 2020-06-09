@@ -11,6 +11,10 @@
 
 #include "wx/pdfcjkfontdata.h"
 
+#ifndef WXPDFDOC_ENABLE_CJK_MS_FONTS
+#define WXPDFDOC_ENABLE_CJK_MS_FONTS 0
+#endif
+
 static short cwAllHw[] =
   {
     500, 500, 500, 500, 500, 500, 500, 500,
@@ -91,6 +95,8 @@ static short cwUhc[] =
      625, 625, 500, 583, 583, 583, 750
   };
 
+#if WXPDFDOC_ENABLE_CJK_MS_FONTS
+
 static short cwPGothic[] =
   {
     305, 219, 500, 500, 500, 500, 594, 203,
@@ -139,6 +145,8 @@ static short cwPMincho[] =
     469, 477, 453, 242, 219, 242, 500
   };
 
+#endif
+
 static const wxPdfCjkFontDesc gs_cjkFontTable[] =
 {
   { wxS("big5"),     wxS("MSungStd-Light-Acro"),                        wxS("cp-950"), wxS("CNS1"),   wxS("0"), wxS("ETenms-B5-H"),    cwBig5,     wxS("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 },
@@ -149,7 +157,8 @@ static const wxPdfCjkFontDesc gs_cjkFontTable[] =
   { wxS("sjis-hw"),  wxS("KozMinPro-Regular-Acro--90ms-RKSJ-H"),        wxS("cp-932"), wxS("Japan1"), wxS("2"), wxS("90ms-RKSJ-H"),    cwAllHw,    wxS("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 60, 1000, 500, -120, 40 },
   { wxS("uhc"),      wxS("HYSMyeongJoStd-Medium-Acro"),                 wxS("cp-949"), wxS("Korea1"), wxS("1"), wxS("KSCms-UHC-H"),    cwUhc,      wxS("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 },
   { wxS("uhc-hw"),   wxS("HYSMyeongJoStd-Medium-Acro--KSCms-UHC-HW-H"), wxS("cp-949"), wxS("Korea1"), wxS("1"), wxS("KSCms-UHC-HW-H"), cwAllHw,    wxS("[0 -200 1000 900]"),  800, -200,  800, 6, 0, 50, 1000, 616, -130, 40 },
-#if 0
+
+#if WXPDFDOC_ENABLE_CJK_MS_FONTS
 // These M$ fonts don't work cross platform.
 // To make them available as Type0 fonts they should be registered via RegisterFontCJK.
   { wxS("gothic"),   wxS("MS-Gothic"),                                  wxS("cp-932"), wxS("Japan1"), wxS("2"), wxS("90msp-RKSJ-H"),   cwAllHw,    wxS("[0 0 1000 1000]"),   1000,    0, 1000, 6, 0, 10, 1000, 553,  -66, 74 },
@@ -158,6 +167,7 @@ static const wxPdfCjkFontDesc gs_cjkFontTable[] =
   { wxS("mincho"),   wxS("MS-Mincho"),                                  wxS("cp-932"), wxS("Japan1"), wxS("2"), wxS("90msp-RKSJ-H"),   cwAllHw,    wxS("[0 0 1000 1000]"),   1000,    0, 1000, 6, 0, 10, 1000, 450,  -94, 47 },
   { wxS("pmincho"),  wxS("MS-PMincho"),                                 wxS("cp-932"), wxS("Japan1"), wxS("2"), wxS("90msp-RKSJ-H"),   cwPMincho,  wxS("[0 0 1000 1000]"),   1000,    0, 1000, 6, 0, 10, 1000, 450,  -94, 47 },
 #endif
+
 // Last dummy entry
   { wxEmptyString,   wxEmptyString,                                     wxEmptyString, wxEmptyString, wxEmptyString, wxEmptyString,    NULL,       wxEmptyString,               0,    0,    0, 0, 0,  0,    0,   0,    0,  0 }
 };
