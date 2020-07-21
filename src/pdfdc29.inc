@@ -20,7 +20,7 @@
 #include <math.h>
 
 //-------------------------------------------------------------------------------
-// wxPostScriptDC
+// wxPdfDC
 //-------------------------------------------------------------------------------
 
 
@@ -109,6 +109,13 @@ angleByCoords(wxCoord xa, wxCoord ya, wxCoord xc, wxCoord yc)
  *
  */
 
+// Critical section
+#if wxUSE_THREADS
+static wxCriticalSection gs_csImageCounter;
+#endif
+
+int wxPdfDCImpl::ms_imageCount = 0;
+
 IMPLEMENT_ABSTRACT_CLASS(wxPdfDCImpl, wxDCImpl)
 
 wxPdfDCImpl::wxPdfDCImpl(wxPdfDC* owner)
@@ -155,13 +162,21 @@ wxPdfDCImpl::~wxPdfDCImpl()
   }
 }
 
+int
+wxPdfDCImpl::IncreaseImageCounter()
+{
+#if wxUSE_THREADS
+  wxCriticalSectionLocker locker(gs_csImageCounter);
+#endif
+  return ++ms_imageCount;
+}
+
 void
 wxPdfDCImpl::Init()
 {
   m_templateMode = false;
   m_ppi = 72;
   m_pdfDocument = NULL;
-  m_imageCount = 0;
 
   wxScreenDC screendc;
   m_ppiPdfFont = screendc.GetPPI().GetHeight();
@@ -888,7 +903,8 @@ wxPdfDCImpl::DoDrawBitmap(const wxBitmap& bitmap, wxCoord x, wxCoord y, bool use
   const double xx = ScaleLogicalToPdfX(x);
   const double yy = ScaleLogicalToPdfY(y);
 
-  wxString imgName = wxString::Format(wxS("pdfdcimg%d"), ++m_imageCount);
+  int imageCount = IncreaseImageCounter();
+  wxString imgName = wxString::Format(wxS("pdfdcimg%d"), imageCount);
 
   if (bitmap.GetDepth() == 1)
   {

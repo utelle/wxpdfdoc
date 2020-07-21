@@ -202,7 +202,7 @@ public:
   int GetDrawingStyle();
   bool StretchBlt(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height,
                   wxBitmap* bitmap);
-  int IncreaseImageCounter() { return ++m_imageCount; }
+  int IncreaseImageCounter();
 
   void SetMapModeStyle(wxPdfMapModeStyle style) { m_mappingModeStyle = style; }
   wxPdfMapModeStyle GetMapModeStyle() const { return m_mappingModeStyle; }
@@ -233,7 +233,6 @@ private:
   double         m_ppi;
   double         m_ppiPdfFont;
   wxPdfDocument* m_pdfDocument;
-  int            m_imageCount;
   wxPrintData    m_printData;
   wxPdfMapModeStyle m_mappingModeStyle;
 
@@ -244,6 +243,8 @@ private:
 
   bool m_jpegFormat;
   int  m_jpegQuality;
+
+  static int    ms_imageCount;
 
   wxDECLARE_DYNAMIC_CLASS(wxPdfDCImpl);
 };
