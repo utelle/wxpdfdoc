@@ -89,7 +89,6 @@ wxPdfDC::Init()
 {
   m_templateMode = false;
   m_ppi = 72;
-  m_bkgMode = wxSOLID;
 
   m_isInteractive = false; // Is GetPixel possible ?
   m_logicalOriginX = 0;
@@ -119,7 +118,7 @@ wxPdfDC::Init()
   m_pdfDocument = NULL;
   m_imageCount = 0;
 
-  SetBackgroundMode(wxSOLID);
+  SetBackgroundMode(wxTRANSPARENT);
 
   m_printData.SetOrientation(wxPORTRAIT);
   m_printData.SetPaperId(wxPAPER_A4);

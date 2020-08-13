@@ -189,8 +189,6 @@ wxPdfDCImpl::Init()
   m_jpegFormat = false;
   m_jpegQuality = 75;
 
-  SetBackgroundMode(wxSOLID);
-
   m_printData.SetOrientation(wxPORTRAIT);
   m_printData.SetPaperId(wxPAPER_A4);
   m_printData.SetFilename(wxS("default.pdf"));
