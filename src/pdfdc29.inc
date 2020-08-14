@@ -369,7 +369,7 @@ void
 wxPdfDCImpl::SetBackgroundMode(int mode)
 {
   // TODO: check implementation
-  m_backgroundMode = (mode == wxTRANSPARENT) ? wxTRANSPARENT : wxSOLID;
+  m_backgroundMode = (mode == wxBRUSHSTYLE_TRANSPARENT) ? wxBRUSHSTYLE_TRANSPARENT : wxBRUSHSTYLE_SOLID;
 }
 
 void
@@ -989,7 +989,7 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
   const wxArrayString lines = wxSplit(text, '\n', '\0');
 
   // Draw background for all text lines
-  if (m_backgroundMode != wxTRANSPARENT && m_textBackgroundColour.Ok())
+  if (m_backgroundMode != wxBRUSHSTYLE_TRANSPARENT && m_textBackgroundColour.Ok())
   {
     if (angle != 0)
     {
