@@ -37,6 +37,11 @@ private:
   wxDECLARE_DYNAMIC_CLASS(wxPdfDC);
 };
 
+#if wxCHECK_VERSION(3,1,0)
+#else
+#define wxOVERRIDE
+#endif
+
 /// Class representing the PDF drawing context implementation
 class WXDLLIMPEXP_PDFDOC wxPdfDCImpl: public wxDCImpl
 {
