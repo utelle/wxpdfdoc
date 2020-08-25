@@ -186,6 +186,9 @@ wxPdfDCImpl::Init()
   m_pdfPen = wxNullPen;
   m_pdfBrush = wxNullBrush;
 
+  m_inTransform = false;
+  m_matrix = wxAffineMatrix2D();
+
   m_jpegFormat = false;
   m_jpegQuality = 75;
 
@@ -530,6 +533,56 @@ wxPdfDCImpl::SetAxisOrientation(bool xLeftRight, bool yBottomUp)
   m_signY = (yBottomUp  ? -1 :  1);
   ComputeScaleAndOrigin();
 }
+
+#if wxUSE_DC_TRANSFORM_MATRIX
+bool
+wxPdfDCImpl::CanUseTransformMatrix() const
+{
+  return true;
+}
+
+bool
+wxPdfDCImpl::SetTransformMatrix(const wxAffineMatrix2D& matrix)
+{
+  wxCHECK_MSG(m_pdfDocument, false, wxS("Invalid PDF DC"));
+  if (matrix.IsIdentity())
+  {
+    ResetTransformMatrix();
+    return true;
+  }
+
+  wxMatrix2D mat;
+  wxPoint2DDouble tr;
+  matrix.Get(&mat, &tr);
+  m_matrix = matrix;
+
+  m_inTransform = true;
+  m_pdfDocument->StartTransform();
+  m_pdfDocument->Transform(mat.m_11, mat.m_12, mat.m_21, mat.m_22, tr.m_x, tr.m_y);
+
+  return true;
+}
+
+wxAffineMatrix2D
+wxPdfDCImpl::GetTransformMatrix() const
+{
+  wxCHECK_MSG(m_pdfDocument, wxAffineMatrix2D(), wxS("Invalid PDF DC"));
+  return m_matrix; 
+}
+
+void
+wxPdfDCImpl::ResetTransformMatrix()
+{
+  wxCHECK_RET(m_pdfDocument, wxS("Invalid PDF DC"));
+
+  if (m_inTransform)
+  {
+    m_pdfDocument->StopTransform();
+    m_matrix = wxAffineMatrix2D();
+    m_inTransform = false;
+  }
+}
+#endif // wxUSE_DC_TRANSFORM_MATRIX
 
 void
 wxPdfDCImpl::SetLogicalFunction(wxRasterOperationMode function)
