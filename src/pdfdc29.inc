@@ -545,20 +545,30 @@ bool
 wxPdfDCImpl::SetTransformMatrix(const wxAffineMatrix2D& matrix)
 {
   wxCHECK_MSG(m_pdfDocument, false, wxS("Invalid PDF DC"));
+  // At the moment concatinating the transformation matrix is not supported
+  ResetTransformMatrix();
+
+  // Do nothing, if the transformation matrix equals the identity matrix
   if (matrix.IsIdentity())
   {
-    ResetTransformMatrix();
     return true;
   }
 
+  // Retrieve the components of the transformation matrix
   wxMatrix2D mat;
   wxPoint2DDouble tr;
   matrix.Get(&mat, &tr);
   m_matrix = matrix;
 
+  // Start PDF transformation
   m_inTransform = true;
   m_pdfDocument->StartTransform();
-  m_pdfDocument->Transform(mat.m_11, mat.m_12, mat.m_21, mat.m_22, tr.m_x, tr.m_y);
+
+  // Scale the translation vector according to PDF resolution
+  double docScale = 72.0 / m_ppi;
+  double scaleX = m_scaleX * docScale;
+  double scaleY = m_scaleY * docScale;
+  m_pdfDocument->Transform(mat.m_11, mat.m_12, mat.m_21, mat.m_22, scaleX * tr.m_x, scaleY * tr.m_y);
 
   return true;
 }
