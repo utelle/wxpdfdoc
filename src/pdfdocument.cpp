@@ -261,6 +261,8 @@ wxPdfDocument::Initialize(int orientation)
   m_currentParser = NULL;
   m_currentSource = wxEmptyString;
 
+  m_isPdfA1 = false;
+
   m_translate = false;
 
   m_zapfdingbats = 0;
@@ -503,6 +505,14 @@ wxPdfDocument::SetProtection(int permissions,
 {
   if (m_encryptor == NULL)
   {
+    // Check first whether PDF/A-1b conformance is enabled for this document
+    if (m_isPdfA1)
+    {
+      wxLogError(wxString(wxS("wxPdfDocument::SetProtection: ")) +
+                 wxString(_("Protection can't be enabled for PDF documents conforming to PDF/A-1b.")));
+      return;
+    }
+
     int revision = (keyLength > 0) ? 3 : 2;
     switch (encryptionMethod)
     {
@@ -2376,6 +2386,27 @@ wxPdfDocument::AttachFile(const wxString& fileName, const wxString& attachName, 
     wxLogDebug(wxS("*** Attachment file '%s' does not exist."), fileName.c_str());
   }
   return ok;
+}
+
+void
+wxPdfDocument::SetPdfA1Conformance(bool enable)
+{
+  if (enable)
+  {
+    if (!m_encrypted)
+    {
+      m_isPdfA1 = enable;
+    }
+    else
+    {
+      wxLogError(wxString(wxS("wxPdfDocument::SetPdfA1Conformance: ")) +
+                 wxString(_("PDF/A-1 conformance can't be enabled for protected PDF documents.")));
+    }
+  }
+  else
+  {
+    m_isPdfA1 = enable;
+  }
 }
 
 // ---

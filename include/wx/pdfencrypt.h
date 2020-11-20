@@ -107,17 +107,17 @@ public:
   */
   size_t CalculateStreamOffset();
 
-  /// Create document id
-  /**
-  * \return the created document identifier
-  */
-  wxString CreateDocumentId();
-
   /// Get document id
   /**
   * \return the associated document identifier
   */
   wxString GetDocumentId() const { return m_documentId; }
+
+  /// Create document id
+  /**
+  * \return the created document identifier
+  */
+  static wxString CreateDocumentId();
 
 protected:
   /// Pad a password to 32 characters
@@ -142,16 +142,16 @@ protected:
            unsigned char* textin, unsigned int textlen,
            unsigned char* textout);
 
-  /// Calculate the binary MD5 message digest of the given data
-  void GetMD5Binary(const unsigned char* data, unsigned int length, unsigned char* digest);
-
   /// AES encryption
   void AES(unsigned char* key, unsigned int keylen,
            unsigned char* textin, unsigned int textlen,
            unsigned char* textout);
 
+  /// Calculate the binary MD5 message digest of the given data
+  static void GetMD5Binary(const unsigned char* data, unsigned int length, unsigned char* digest);
+
   /// Generate initial vector
-  void GenerateInitialVector(unsigned char iv[16]);
+  static void GenerateInitialVector(unsigned char iv[16]);
 
 private:
   wxString       m_documentId;         ///< Document ID

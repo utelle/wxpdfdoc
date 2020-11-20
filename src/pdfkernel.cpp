@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
+
 // Name:        pdfkernel.cpp
 // Purpose:     Implementation of wxPdfDocument (internal methods)
 // Author:      Ulrich Telle
@@ -381,11 +381,11 @@ wxPdfDocument::ApplyVisualOrdering(const wxString& txt)
 void
 wxPdfDocument::EndDoc()
 {
-  if(m_extGStates->size() > 0 && m_PDFVersion < wxS("1.4"))
+  if ((m_isPdfA1 || m_extGStates->size() > 0) && m_PDFVersion < wxS("1.4"))
   {
     m_PDFVersion = wxS("1.4");
   }
-  if(m_ocgs->size() > 0 && m_PDFVersion < wxS("1.5"))
+  if (m_ocgs->size() > 0 && m_PDFVersion < wxS("1.5"))
   {
     m_PDFVersion = wxS("1.5");
   }
@@ -513,6 +513,7 @@ void
 wxPdfDocument::PutHeader()
 {
   OutAscii(wxString(wxS("%PDF-")) + m_PDFVersion);
+  Out("%\xE2\xE3\xCF\xD3");
 }
 
 void
@@ -530,6 +531,14 @@ wxPdfDocument::PutTrailer()
     OutHexTextstring(m_encryptor->GetDocumentId(), false);
     OutHexTextstring(m_encryptor->GetDocumentId(), false);
     m_encrypted = true;
+    Out("]");
+  }
+  else if (m_isPdfA1)
+  {
+    wxString id = wxPdfEncrypt::CreateDocumentId();
+    Out("/ID [", false);
+    OutHexTextstring(id, false);
+    OutHexTextstring(id, false);
     Out("]");
   }
 }
@@ -593,12 +602,12 @@ wxPdfDocument::PutInfo()
   Out("/CreationDate ",false);
   if (m_creationDateSet)
   {
-    OutRawTextstring(wxString(wxS("D:") + m_creationDate.Format(wxS("%Y%m%d%H%M%S"))));
+    OutRawTextstring(wxString(wxS("D:") + m_creationDate.Format(wxS("%Y%m%d%H%M%SZ"))));
   }
   else
   {
     wxDateTime now = wxDateTime::Now();
-    OutRawTextstring(wxString(wxS("D:") + now.Format(wxS("%Y%m%d%H%M%S"))));
+    OutRawTextstring(wxString(wxS("D:") + now.Format(wxS("%Y%m%d%H%M%SZ"))));
   }
 }
 
@@ -718,6 +727,15 @@ wxPdfDocument::PutCatalog()
   if (!m_ocgs->empty())
   {
     PutOCProperties();
+  }
+
+  if (m_isPdfA1)
+  {
+    Out("/OutputIntents [", false);
+    Out("<</Type /OutputIntent /S /GTS_PDFA1 ", false);
+    Out("/OutputConditionIdentifier (sRGB2014.icc) /Info (sRGB2014.icc) /RegistryName (http://www.color.org) ", false);
+    OutAscii(wxString::Format(wxS("/DestOutputProfile %d 0 R>>]"), m_nColourProfile));
+    OutAscii(wxString::Format(wxS("/Metadata %d 0 R"), m_nMetaData));
   }
 }
 
@@ -1025,7 +1043,7 @@ wxPdfDocument::PutPages()
     }
     Out("]");
     // TODO: not sure whether writing the group dictionary is necessary
-    if (m_PDFVersion > wxS("1.3"))
+    if (!m_isPdfA1 && m_PDFVersion > wxS("1.3"))
     {
       Out("/Group <</Type /Group /S /Transparency /CS /DeviceRGB>>");
     }
@@ -1307,6 +1325,12 @@ wxPdfDocument::PutFonts()
       }
       Out(">>");
       Out("endobj");
+
+      if (m_isPdfA1)
+      {
+        wxLogError(wxString(wxS("wxPdfDocument::PutFonts: ")) +
+                   name + wxString(wxS(" - ")) + wxString(_("core font not allowed; all fonts must be embedded in PDF/A-1.")));
+      }
     }
     else if (type == wxS("Type1") || type == wxS("TrueType"))
     {
@@ -2196,6 +2220,163 @@ wxPdfDocument::PutJavaScript()
   }
 }
 
+#include "srgb2014icc.h"
+
+void
+wxPdfDocument::PutColourProfile()
+{
+  wxMemoryOutputStream mos((void*) sRGB2014_icc, sRGB2014_icc_size);
+  size_t fileLen = CalculateStreamLength(sRGB2014_icc_size);
+
+  NewObj();
+  m_nColourProfile = m_n;
+  Out("<<");
+  OutAscii(wxString::Format(wxS("/Length %lu"), (unsigned long) fileLen));
+  Out("/N 3");
+  Out(">>");
+  PutStream(mos);
+  Out("endobj");
+}
+
+static wxXmlNode*
+AddXmpDescription(const wxString& alias, const wxString& ns)
+{
+  wxXmlNode* node = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("rdf:Description"));
+#if wxCHECK_VERSION(2,9,0)
+  node->AddAttribute(wxS("rdf:about"), wxS(""));
+  node->AddAttribute(wxString(wxS("xmlns:"))+alias, ns);
+#else
+  node->AddProperty(wxS("rdf:about"), wxS(""));
+  node->AddProperty(wxString(wxS("xmlns:")) + alias, ns);
+#endif
+  return node;
+}
+
+static wxXmlNode*
+AddXmpSimple(const wxString& tag, const wxString& value)
+{
+  wxXmlNode* tagNode = new wxXmlNode(wxXML_ELEMENT_NODE, tag);
+  wxXmlNode* valNode = new wxXmlNode(wxXML_TEXT_NODE, wxS(""), value);
+  tagNode->AddChild(valNode);
+  return tagNode;
+}
+
+static wxXmlNode*
+AddXmpSeq(const wxString& tag, const wxString& value)
+{
+  wxXmlNode* tagNode = new wxXmlNode(wxXML_ELEMENT_NODE, tag);
+  wxXmlNode* seqNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("rdf:Seq"));
+  wxXmlNode* liNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("rdf:li"));
+  wxXmlNode* valNode = new wxXmlNode(wxXML_TEXT_NODE, wxS(""), value);
+  liNode->AddChild(valNode);
+  seqNode->AddChild(liNode);
+  tagNode->AddChild(seqNode);
+  return tagNode;
+}
+
+static wxXmlNode*
+AddXmpAlt(const wxString& tag, const wxString& value)
+{
+  wxXmlNode* tagNode = new wxXmlNode(wxXML_ELEMENT_NODE, tag);
+  wxXmlNode* altNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("rdf:Alt"));
+  wxXmlNode* liNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("rdf:li"));
+  wxXmlNode* valNode = new wxXmlNode(wxXML_TEXT_NODE, wxS(""), value);
+#if wxCHECK_VERSION(2,9,0)
+  liNode->AddAttribute(wxS("xml:lang"), wxS("x-default"));
+#else
+  liNode->AddProperty(wxS("xml:lang"), wxS("x-default"));
+#endif
+  liNode->AddChild(valNode);
+  altNode->AddChild(liNode);
+  tagNode->AddChild(altNode);
+  return tagNode;
+}
+
+void
+wxPdfDocument::PutMetaData()
+{
+  wxXmlDocument xmp;
+
+  // RDF description for conformance with PDF/A-1b
+  wxXmlNode* rootNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("rdf:RDF"));
+#if wxCHECK_VERSION(2,9,0)
+  rootNode->AddAttribute(wxS("xmlns:rdf"), wxS("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
+#else
+  rootNode->AddProperty(wxS("xmlns:rdf"), wxS("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
+#endif
+
+  wxXmlNode* pdfDesc = AddXmpDescription(wxS("pdf"), wxS("http://ns.adobe.com/pdf/1.3/"));
+  pdfDesc->AddChild(AddXmpSimple(wxS("pdf:Producer"), wxString(wxPDF_PRODUCER)));
+  if (m_keywords.Length() > 0)
+  {
+    pdfDesc->AddChild(AddXmpSimple(wxS("pdf:Keywords"), m_keywords));
+  }
+  rootNode->AddChild(pdfDesc);
+
+  if (!m_creationDateSet)
+  {
+    SetCreationDate(wxDateTime::Now());
+  }
+  wxString creationDate = m_creationDate.FormatISOCombined() + wxString(wxS("Z"));
+
+  wxXmlNode* xmpDesc = AddXmpDescription(wxS("xmp"), wxS("http://ns.adobe.com/xap/1.0/"));
+  xmpDesc->AddChild(AddXmpSimple(wxS("xmp:CreateDate"), creationDate));
+  if (m_creator.length() > 0)
+  {
+    xmpDesc->AddChild(AddXmpSimple(wxS("xmp:CreatorTool"), m_creator));
+  }
+  rootNode->AddChild(xmpDesc);
+
+  if (m_author.length() > 0 || m_title.length() > 0 || m_subject.length() > 0)
+  {
+    wxXmlNode* dcDesc = AddXmpDescription(wxS("dc"), wxS("http://purl.org/dc/elements/1.1/"));
+    if (m_author.length() > 0)
+    {
+      dcDesc->AddChild(AddXmpSeq(wxS("dc:creator"), m_author));
+    }
+    if (m_title.length() > 0)
+    {
+      dcDesc->AddChild(AddXmpAlt(wxS("dc:title"), m_title));
+    }
+    if (m_subject.length() > 0)
+    {
+      dcDesc->AddChild(AddXmpAlt(wxS("dc:description"), m_subject));
+    }
+    rootNode->AddChild(dcDesc);
+  }
+
+  wxXmlNode* aidDesc = AddXmpDescription(wxS("pdfaid"), wxS("http://www.aiim.org/pdfa/ns/id/"));
+  aidDesc->AddChild(AddXmpSimple(wxS("pdfaid:part"), wxS("1")));
+  aidDesc->AddChild(AddXmpSimple(wxS("pdfaid:conformance"), wxS("B")));
+  rootNode->AddChild(aidDesc);
+
+  xmp.SetRoot(rootNode);
+
+  // Processing instruction prolog
+  wxXmlNode* piNode1 = new wxXmlNode(wxXML_PI_NODE, wxS("xpacket"), wxS("begin=\"\" id=\"W5M0MpCehiHzreSzNTczkc9d\""));
+  xmp.AppendToProlog(piNode1);
+
+  // Processing instruction epilog
+  wxXmlNode* piNode2 = new wxXmlNode(wxXML_PI_NODE, wxS("xpacket"), wxS("end=\"r\""));
+  rootNode->SetNext(piNode2);
+
+  xmp.Save("pdfa1b-xmpdata.xml");
+
+  wxMemoryOutputStream mos;
+  xmp.Save(mos);
+  size_t streamLen = CalculateStreamLength(mos.TellO());
+
+  NewObj();
+  m_nMetaData = m_n;
+  Out("<<");
+  Out("/Type /Metadata");
+  Out("/Subtype /XML");
+  OutAscii(wxString::Format(wxS("/Length %lu"), (unsigned long) streamLen));
+  Out(">>");
+  PutStream(mos);
+  Out("endobj");
+}
+
 void
 wxPdfDocument::PutResources()
 {
@@ -2221,6 +2402,13 @@ wxPdfDocument::PutResources()
   PutJavaScript();
   PutFiles();
 
+  // PDF/A-1 conformance
+  if (m_isPdfA1)
+  {
+    PutColourProfile();
+    PutMetaData();
+  }
+
   if (m_encrypted)
   {
     NewObj();
@@ -2230,7 +2418,6 @@ wxPdfDocument::PutResources()
     Out(">>");
     Out("endobj");
   }
-
 }
 
 wxString

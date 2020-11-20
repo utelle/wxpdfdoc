@@ -2501,6 +2501,23 @@ public:
                           const wxString& attachName = wxEmptyString,
                           const wxString& description = wxEmptyString);
 
+  /// Set PDF/A-1b conformance
+  /**
+  * Sets the document conformance to PDF/A-1 Level B
+  * \param enable flag whether PDF/A-1b conformance should be enabled
+  * 
+  * \note It is the user's responsibility to use only PDF features that in fact do conform with PDF/A-1b,
+  * i.e., all fonts embedded, no transparency/alpha channel, no document protection
+  */
+  void SetPdfA1Conformance(bool enable);
+
+  /// Get PDF/A-1b conformance
+  /**
+  * Gets the document conformance intent for PDF/A-1 Level B
+  * \return flag whether PDF/A-1b conformance is enabled
+  */
+  bool GetPdfA1Conformance() const { return m_isPdfA1; }
+
   /// Set message translation mode
   /**
   * Sets the message translation mode which controls the handling of msg tags in XML output
@@ -2665,7 +2682,13 @@ protected:
   /// Add info.
   virtual void PutInfo();
 
-  /// Addcatalog
+  /// Add colour profile
+  virtual void PutColourProfile();
+
+  /// Add XMP meta data
+  virtual void PutMetaData();
+
+  /// Add catalog
   virtual void PutCatalog();
 
   /// Add object dictionary
@@ -2935,6 +2958,11 @@ private:
   // File attachments
   int                  m_nAttachments;        ///< attachments object number
   wxPdfAttachmentMap*  m_attachments;         ///< array of file attachments
+
+  // PDF/A-1 conformance
+  bool                 m_isPdfA1;             ///< flag whether document should conform with PDF/A-1
+  int                  m_nMetaData;           ///< object number of meta data
+  int                  m_nColourProfile;      ///< object number of colour profile
 
   bool                 m_translate;           ///< flag whether messages in msg tags should be translated
 
