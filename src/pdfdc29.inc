@@ -1067,7 +1067,7 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
     for (size_t lineNum = 0; lineNum < lines.size(); lineNum++)
     {
       DoGetTextExtent(lines[lineNum], &w, &h);
-      m_pdfDocument->Rect(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(originalY + wxRound(lineNum*heightLine)), ScaleLogicalToPdfXRel(w), ScaleLogicalToPdfYRel(h), wxPDF_STYLE_FILL);
+      m_pdfDocument->Rect(ScaleLogicalToPdfX(x), ScaleLogicalToPdfY(originalY + lineNum*heightLine), ScaleLogicalToPdfXRel(w), ScaleLogicalToPdfYRel(h), wxPDF_STYLE_FILL);
     }
     SetBrush(previousBrush);
     SetupAlpha();
