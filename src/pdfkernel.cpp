@@ -2317,7 +2317,11 @@ wxPdfDocument::PutMetaData()
   {
     SetCreationDate(wxDateTime::Now());
   }
+#if wxCHECK_VERSION(2,9,0)
   wxString creationDate = m_creationDate.FormatISOCombined() + wxString(wxS("Z"));
+#else
+  wxString creationDate = m_creationDate.Format(wxS("%Y-%m-%dT%H:%M:%SZ"))));
+#endif
 
   wxXmlNode* xmpDesc = AddXmpDescription(wxS("xmp"), wxS("http://ns.adobe.com/xap/1.0/"));
   xmpDesc->AddChild(AddXmpSimple(wxS("xmp:CreateDate"), creationDate));
@@ -2359,8 +2363,6 @@ wxPdfDocument::PutMetaData()
   // Processing instruction epilog
   wxXmlNode* piNode2 = new wxXmlNode(wxXML_PI_NODE, wxS("xpacket"), wxS("end=\"r\""));
   rootNode->SetNext(piNode2);
-
-  xmp.Save("pdfa1b-xmpdata.xml");
 
   wxMemoryOutputStream mos;
   xmp.Save(mos);
