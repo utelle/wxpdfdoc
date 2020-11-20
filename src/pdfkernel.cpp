@@ -2320,7 +2320,7 @@ wxPdfDocument::PutMetaData()
 #if wxCHECK_VERSION(2,9,0)
   wxString creationDate = m_creationDate.FormatISOCombined() + wxString(wxS("Z"));
 #else
-  wxString creationDate = m_creationDate.Format(wxS("%Y-%m-%dT%H:%M:%SZ"))));
+  wxString creationDate = m_creationDate.Format(wxS("%Y-%m-%dT%H:%M:%SZ"));
 #endif
 
   wxXmlNode* xmpDesc = AddXmpDescription(wxS("xmp"), wxS("http://ns.adobe.com/xap/1.0/"));
