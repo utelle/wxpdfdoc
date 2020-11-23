@@ -664,4 +664,53 @@ wxPdfFontDataOpenTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData,
   return 0;
 }
 
+size_t
+wxPdfFontDataOpenTypeUnicode::WriteCIDSet(wxOutputStream* setData,
+  const wxPdfEncoding* encoding,
+  wxPdfSortedArrayInt* usedGlyphs,
+  wxPdfChar2GlyphMap* subsetGlyphs)
+{
+  wxUnusedVar(encoding);
+  wxUnusedVar(subsetGlyphs);
+
+  size_t gCount = m_gn->size();
+  size_t gExtra = (gCount % 8) ? 1 : 0;
+  size_t gBytes = gCount / 8 + gExtra;
+  unsigned char* cidSet = new unsigned char[8192];
+  size_t j;
+  for (j = 0; j < gBytes; j++)
+  {
+    cidSet[j] = 0x00;
+  }
+  cidSet[0] = 0x80;
+
+  wxPdfChar2GlyphMap::const_iterator c2gMapIter;
+  for (c2gMapIter = m_gn->begin(); c2gMapIter != m_gn->end(); ++c2gMapIter)
+  {
+    wxUint32 cid = c2gMapIter->first;
+    wxUint32 gid = c2gMapIter->second;
+    // All CIDs (= GIDs) will be set, because only the outlines of the unused glyphs are removed from the font data.
+    bool setMap = true;
+    // Set GID
+    // Note: One would expect that cid is used to index the mapping array.
+    // However, wxPdfDocument already replaces CIDs by GIDs on adding text strings
+    // to PDF content. Therefore gid is used as the array index.
+    if (setMap)
+    {
+      size_t bytePos = gid / 8;
+      size_t bitPos = gid % 8;
+      unsigned char mask = (0x80 >> bitPos);
+      cidSet[bytePos] |= mask;
+    }
+  }
+
+  wxZlibOutputStream zCIDSet(*setData);
+  zCIDSet.Write(cidSet, 8192);
+  zCIDSet.Close();
+
+  delete[] cidSet;
+
+  return 0;
+}
+
 #endif // wxUSE_UNICODE

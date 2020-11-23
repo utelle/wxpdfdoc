@@ -251,6 +251,24 @@ public:
   */
   size_t WriteUnicodeMap(wxOutputStream* mapData, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs);
 
+  /// Write CID to GID mapping
+  /**
+  * \param mapData the output stream
+  * \param usedGlyphs the list of used glyphs
+  * \param subsetGlyphs the mapping of glyphs to subset glyphs
+  * \return the size of the written data
+  */
+  size_t WriteCIDToGIDMap(wxOutputStream* mapData, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs);
+
+  /// Write CID set
+  /**
+  * \param setData the output stream
+  * \param usedGlyphs the list of used glyphs
+  * \param subsetGlyphs the mapping of glyphs to subset glyphs
+  * \return the size of the written data
+  */
+  size_t WriteCIDSet(wxOutputStream* setData, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs);
+
   /// Get the font description
   const wxPdfFontDescription& GetDescription() const;
 

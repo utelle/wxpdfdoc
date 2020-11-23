@@ -611,6 +611,32 @@ public:
                                  wxPdfSortedArrayInt* usedGlyphs = NULL,
                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
+  /// Write CID to GID mapping
+  /**
+  * \param mapData the output stream
+  * \param encoding the character to glyph mapping
+  * \param usedGlyphs the list of used glyphs
+  * \param subsetGlyphs the mapping of glyphs to subset glyphs
+  * \return the size of the written data
+  */
+  virtual size_t WriteCIDToGIDMap(wxOutputStream* mapData,
+                                  const wxPdfEncoding* encoding = NULL,
+                                  wxPdfSortedArrayInt* usedGlyphs = NULL,
+                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+
+  /// Write CID set
+  /**
+  * \param setData the output stream
+  * \param encoding the character to glyph mapping
+  * \param usedGlyphs the list of used glyphs
+  * \param subsetGlyphs the mapping of glyphs to subset glyphs
+  * \return the size of the written data
+  */
+  virtual size_t WriteCIDSet(wxOutputStream* setData,
+                             const wxPdfEncoding* encoding = NULL,
+                             wxPdfSortedArrayInt* usedGlyphs = NULL,
+                             wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+
   /// Set the font description
   /**
   * \param desc the font description

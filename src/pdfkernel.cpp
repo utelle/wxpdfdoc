@@ -1450,6 +1450,12 @@ wxPdfDocument::PutFonts()
       }
 
       OutAscii(wxString(wxS("/W ")) + font->GetWidthsAsString()); // A description of the widths for the glyphs in the CIDFont
+
+      if (type == wxS("TrueTypeUnicode"))
+      {
+        OutAscii(wxString::Format(wxS("/CIDToGIDMap %d 0 R"), (m_n + 4)));
+      }
+
       Out(">>");
       Out("endobj");
 
@@ -1489,18 +1495,26 @@ wxPdfDocument::PutFonts()
         {
           // A stream containing a TrueType font program
           OutAscii(wxString::Format(wxS("/FontFile2 %d 0 R"), font->GetFileIndex()));
+          if (extFont.SubsetRequested())
+          {
+            OutAscii(wxString::Format(wxS("/CIDSet %d 0 R"), m_n + 3));
+          }
         }
         else
         {
           // A stream containing a CFF font program
           OutAscii(wxString::Format(wxS("/FontFile3 %d 0 R"), font->GetFileIndex()));
+          if (extFont.SubsetRequested())
+          {
+            OutAscii(wxString::Format(wxS("/CIDSet %d 0 R"), m_n + 2));
+          }
         }
       }
       Out(">>");
       Out("endobj");
 
-      // Embed CIDToGIDMap
-      // A specification of the mapping from CIDs to glyph indices
+      // Embed ToUnicode CMap
+      // A specification of the mapping from CIDs to Unicode values
       NewObj();
       bool compressed = true;
       wxMemoryOutputStream mos;
@@ -1516,6 +1530,47 @@ wxPdfDocument::PutFonts()
       Out(">>");
       PutStream(mos);
       Out("endobj");
+
+      if (type == wxS("TrueTypeUnicode"))
+      {
+        // Embed CIDToGIDMap
+        // A specification of the mapping from CIDs to glyph indices
+        NewObj();
+        bool compressed = true;
+        wxMemoryOutputStream mos;
+        /* size_t mapSize = */ font->WriteCIDToGIDMap(&mos);
+        size_t mapLen = CalculateStreamLength(mos.TellO());
+        OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long)mapLen));
+        if (compressed)
+        {
+          // Decompresses data encoded using the public-domain zlib/deflate compression
+          // method, reproducing the original text or binary data
+          Out("/Filter /FlateDecode");
+        }
+        Out(">>");
+        PutStream(mos);
+        Out("endobj");
+      }
+      if (extFont.IsEmbedded() && extFont.SubsetRequested())
+      {
+        // Embed CID set
+        // A specification which CIDs are present in the subset
+        NewObj();
+        bool compressed = true;
+        wxMemoryOutputStream mos;
+        /* size_t mapSize = */ font->WriteCIDSet(&mos);
+        size_t setLen = CalculateStreamLength(mos.TellO());
+        OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long)setLen));
+        if (compressed)
+        {
+          // Decompresses data encoded using the public-domain zlib/deflate compression
+          // method, reproducing the original text or binary data
+          Out("/Filter /FlateDecode");
+        }
+        Out(">>");
+        PutStream(mos);
+        Out("endobj");
+      }
     }
     else if (type == wxS("Type0"))
     {

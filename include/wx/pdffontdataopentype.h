@@ -123,6 +123,19 @@ public:
                                  wxPdfSortedArrayInt* usedGlyphs = NULL,
                                  wxPdfChar2GlyphMap* subsetGlyphs = NULL);
 
+  /// Write CID set
+  /**
+  * \param setData the output stream
+  * \param encoding the character to glyph mapping
+  * \param usedGlyphs the list of used glyphs
+  * \param subsetGlyphs the mapping of glyphs to subset glyphs
+  * \return the size of the written data
+  */
+  virtual size_t WriteCIDSet(wxOutputStream* mapData,
+                             const wxPdfEncoding* encoding = NULL,
+                             wxPdfSortedArrayInt* usedGlyphs = NULL,
+                             wxPdfChar2GlyphMap* subsetGlyphs = NULL);
+
   /// Get the associated encoding converter
   /**
   * \return the encoding converter associated with this font

@@ -340,6 +340,28 @@ wxPdfFontExtended::WriteUnicodeMap(wxOutputStream* mapData, wxPdfSortedArrayInt*
   return maplen;
 }
 
+size_t
+wxPdfFontExtended::WriteCIDToGIDMap(wxOutputStream* mapData, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
+{
+  size_t maplen = 0;
+  if (m_fontData != NULL)
+  {
+    maplen = m_fontData->WriteCIDToGIDMap(mapData, m_encoding, usedGlyphs, subsetGlyphs);
+  }
+  return maplen;
+}
+
+size_t
+wxPdfFontExtended::WriteCIDSet(wxOutputStream* setData, wxPdfSortedArrayInt* usedGlyphs, wxPdfChar2GlyphMap* subsetGlyphs)
+{
+  size_t maplen = 0;
+  if (m_fontData != NULL)
+  {
+    maplen = m_fontData->WriteCIDSet(setData, m_encoding, usedGlyphs, subsetGlyphs);
+  }
+  return maplen;
+}
+
 static wxPdfFontDescription dummyDescription;
 
 const wxPdfFontDescription&

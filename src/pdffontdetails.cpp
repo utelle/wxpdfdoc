@@ -205,6 +205,18 @@ wxPdfFontDetails::WriteUnicodeMap(wxOutputStream* mapData)
   return m_font.WriteUnicodeMap(mapData, m_usedGlyphs, m_subsetGlyphs);
 }
 
+size_t
+wxPdfFontDetails::WriteCIDToGIDMap(wxOutputStream* mapData)
+{
+  return m_font.WriteCIDToGIDMap(mapData, m_usedGlyphs, m_subsetGlyphs);
+}
+
+size_t
+wxPdfFontDetails::WriteCIDSet(wxOutputStream* setData)
+{
+  return m_font.WriteCIDSet(setData, m_usedGlyphs, m_subsetGlyphs);
+}
+
 #if wxUSE_UNICODE
 
 wxMBConv*

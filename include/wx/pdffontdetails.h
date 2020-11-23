@@ -208,6 +208,20 @@ public:
   */
   size_t WriteUnicodeMap(wxOutputStream* mapData);
 
+  /// Write CID to GID mapping
+  /**
+  * \param mapData the output stream
+  * \return the size of the written data
+  */
+  size_t WriteCIDToGIDMap(wxOutputStream* mapData);
+
+  /// Write CID set
+  /**
+  * \param setData the output stream
+  * \return the size of the written data
+  */
+  size_t WriteCIDSet(wxOutputStream* setData);
+
 #if wxUSE_UNICODE
   /// Get the associated encoding converter
   /**
