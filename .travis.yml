@@ -9,13 +9,11 @@ matrix:
     include:
         - dist: trusty
           compiler: gcc
-          env: WX_PACKAGE=libwxgtk2.8-dev
-        - dist: trusty
-          compiler: gcc
           env: WX_PACKAGE=libwxgtk3.0-dev
         - dist: trusty
           env: WX_PACKAGE=libwxmsw3.0-dev HOST=i686-w64-mingw32
         - os: osx
+          osx_image: xcode11.4
           compiler: clang
           env: CXXFLAGS=-Wno-potentially-evaluated-expression
 
