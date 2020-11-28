@@ -225,7 +225,7 @@ wxPdfFont::GetSupportedUnicodeCharacters(wxPdfArrayUint32& unicodeCharacters) co
 }
 
 wxString
-wxPdfFont::ConvertToValid(const wxString& s, wxChar replace) const
+wxPdfFont::ConvertToValid(const wxString& s, wxUniChar replace) const
 {
   wxString t;
   if (m_fontData != NULL && wxPdfFontManager::GetFontManager()->InitializeFontData(*this))

@@ -11,8 +11,8 @@
 
 static const struct wxColourDesc
 {
-  const wxChar *name;
-  unsigned char r,g,b;
+  const wxStringCharType* name;
+  unsigned char r, g, b;
 }
 wxColourTable[] =
 {

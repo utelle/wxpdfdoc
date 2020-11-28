@@ -11,8 +11,8 @@
 
 typedef struct _wxGlyphDesc
 {
-  int           unicode;
-  const wxChar* glyphname;
+  int                     unicode;
+  const wxStringCharType* glyphname;
 } wxGlyphDesc;
 
 static const wxGlyphDesc gs_glyphName2UnicodeTable[] =

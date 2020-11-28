@@ -223,84 +223,84 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Win32\Debug\</OutDir>
+    <OutDir>bin\vc11\Win32\Debug\</OutDir>
     <IntDir>obj\vc11\Win32\Debug\dcsample\</IntDir>
     <TargetName>dcsampled</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Win64|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Win64\Debug\</OutDir>
+    <OutDir>bin\vc11\Win64\Debug\</OutDir>
     <IntDir>obj\vc11\Win64\Debug\dcsample\</IntDir>
     <TargetName>dcsampled</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Win32\Release\</OutDir>
+    <OutDir>bin\vc11\Win32\Release\</OutDir>
     <IntDir>obj\vc11\Win32\Release\dcsample\</IntDir>
     <TargetName>dcsample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Win64|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Win64\Release\</OutDir>
+    <OutDir>bin\vc11\Win64\Release\</OutDir>
     <IntDir>obj\vc11\Win64\Release\dcsample\</IntDir>
     <TargetName>dcsample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug wxDLL|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Win32\Debug wxDLL\</OutDir>
+    <OutDir>bin\vc11\Win32\Debug wxDLL\</OutDir>
     <IntDir>obj\vc11\Win32\Debug wxDLL\dcsample\</IntDir>
     <TargetName>dcsampled</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug wxDLL Win64|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Win64\Debug wxDLL\</OutDir>
+    <OutDir>bin\vc11\Win64\Debug wxDLL\</OutDir>
     <IntDir>obj\vc11\Win64\Debug wxDLL\dcsample\</IntDir>
     <TargetName>dcsampled</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release wxDLL|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Win32\Release wxDLL\</OutDir>
+    <OutDir>bin\vc11\Win32\Release wxDLL\</OutDir>
     <IntDir>obj\vc11\Win32\Release wxDLL\dcsample\</IntDir>
     <TargetName>dcsample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release wxDLL Win64|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Win64\Release wxDLL\</OutDir>
+    <OutDir>bin\vc11\Win64\Release wxDLL\</OutDir>
     <IntDir>obj\vc11\Win64\Release wxDLL\dcsample\</IntDir>
     <TargetName>dcsample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Win32\DLL Debug\</OutDir>
+    <OutDir>bin\vc11\Win32\DLL Debug\</OutDir>
     <IntDir>obj\vc11\Win32\DLL Debug\dcsample\</IntDir>
     <TargetName>dcsampled</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Debug Win64|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Win64\DLL Debug\</OutDir>
+    <OutDir>bin\vc11\Win64\DLL Debug\</OutDir>
     <IntDir>obj\vc11\Win64\DLL Debug\dcsample\</IntDir>
     <TargetName>dcsampled</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Win32\DLL Release\</OutDir>
+    <OutDir>bin\vc11\Win32\DLL Release\</OutDir>
     <IntDir>obj\vc11\Win32\DLL Release\dcsample\</IntDir>
     <TargetName>dcsample</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DLL Release Win64|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Win64\DLL Release\</OutDir>
+    <OutDir>bin\vc11\Win64\DLL Release\</OutDir>
     <IntDir>obj\vc11\Win64\DLL Release\dcsample\</IntDir>
     <TargetName>dcsample</TargetName>
     <TargetExt>.exe</TargetExt>

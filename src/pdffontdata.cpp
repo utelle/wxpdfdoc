@@ -800,7 +800,7 @@ wxPdfFontData::CanShow(const wxString& s, const wxPdfEncoding* encoding) const
 }
 
 wxString
-wxPdfFontData::ConvertToValid(const wxString& s, wxChar replace) const
+wxPdfFontData::ConvertToValid(const wxString& s, wxUniChar replace) const
 {
   wxString t;
   if (m_encodingChecker != NULL)

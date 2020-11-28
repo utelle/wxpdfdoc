@@ -69,13 +69,14 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
-<dt><b>0.9.9</b> - <i>November 2020</i></dt>
+<dt><b>1.0.0</b> - <i>December 2020 (planned)</i></dt>
 <dd>
-wxPdfDocument is compatible with wxWidgets versions 2.8.12, 3.0.x and 3.1.x.
+wxPdfDocument is compatible with wxWidgets versions 3.0.x and 3.1.x.
 
 General changes:<br>
+- Remove support for wxWidgets 2.x
 - Added support for PDF/A-1B conformance
-- Support transformation matrix for wxPdfDC
+- Added transformation matrix support for wxPdfDC
 - Added attribute "char-spacing" for XML markup element "span"
 - Added maximum height attribute for table rows in XML markup
 - Changed data type of image measures in XML markup (from integer to double)

@@ -3194,10 +3194,10 @@ static const unsigned char gs_cp950_table[] =
 
 static const struct wxPdfEncodingTableData
 {
-  const wxChar*         m_encodingName;
-  const wxUniRangeDesc* m_encodingTable;
-  int                   m_encodingTableSize;
-  const unsigned char*  m_encodingBase;
+  const wxStringCharType* m_encodingName;
+  const wxUniRangeDesc*   m_encodingTable;
+  int                     m_encodingTableSize;
+  const unsigned char*    m_encodingBase;
 } gs_encodingTableData[] =
 {
   { wxS("standard"),     gs_standard_table,  gs_standard_tableSize,  NULL },

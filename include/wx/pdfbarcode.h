@@ -22,10 +22,10 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfDocument;
 
 /// Special function code characters for Code128 barcodes
-const wxChar CODE128_FNC1 = 0xf1;
-const wxChar CODE128_FNC3 = 0xf2;
-const wxChar CODE128_FNC2 = 0xf3;
-const wxChar CODE128_FNC4 = 0xf4;
+const wxStringCharType CODE128_FNC1 = 0xf1;
+const wxStringCharType CODE128_FNC3 = 0xf2;
+const wxStringCharType CODE128_FNC2 = 0xf3;
+const wxStringCharType CODE128_FNC4 = 0xf4;
 
 /// Class representing barcode objects.
 /**
@@ -174,7 +174,7 @@ public:
 
 protected:
   /// Calculate check digit
-  wxChar GetCheckDigit(const wxString& barcode);
+  wxUniChar GetCheckDigit(const wxString& barcode);
 
   /// Validate check digit
   bool TestCheckDigit(const wxString& barcode);
@@ -186,7 +186,7 @@ protected:
   wxString EncodeCode39Ext(const wxString& code);
 
   /// Calculate Code39 check sum
-  wxChar ChecksumCode39(const wxString& code);
+  wxUniChar ChecksumCode39(const wxString& code);
 
   /// Draw Code39 barcode
   void DrawCode39(const wxString& code, double x, double y, double w, double h);

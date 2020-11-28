@@ -50,11 +50,7 @@ wxPdfFontSubsetTrueType::~wxPdfFontSubsetTrueType()
 void
 wxPdfFontSubsetTrueType::SetCTFontRef(const wxFont& font)
 {
-#if wxCHECK_VERSION(2,9,0)
   m_fontRef = font.OSXGetCTFont();
-#else // wxWidgets 2.8.x
-  m_fontRef = (const void*) font.MacGetCTFont();
-#endif
 }
 
 #endif
@@ -301,18 +297,18 @@ wxPdfFontSubsetTrueType::CreateNewTables()
   }
 }
 
-static const wxChar* tableNamesDefault[] = {
+static const wxStringCharType* tableNamesDefault[] = {
   wxS("cvt "), wxS("fpgm"), wxS("glyf"), wxS("head"),
   wxS("hhea"), wxS("hmtx"), wxS("loca"), wxS("maxp"), wxS("prep"),
   NULL
 };
-static const wxChar* tableNamesCmap[] = {
+static const wxStringCharType* tableNamesCmap[] = {
   wxS("cmap"), wxS("cvt "), wxS("fpgm"), wxS("glyf"), wxS("head"),
   wxS("hhea"), wxS("hmtx"), wxS("loca"), wxS("maxp"), wxS("prep"),
   NULL
 };
 #if 0
-static const wxChar* tableNamesExtra[] = {
+static const wxStringCharType* tableNamesExtra[] = {
   wxS("OS/2"), wxS("cmap"), wxS("cvt "), wxS("fpgm"), wxS("glyf"), wxS("head"),
   wxS("hhea"), wxS("hmtx"), wxS("loca"), wxS("maxp"), wxS("name"), wxS("prep"),
   NULL
@@ -328,7 +324,7 @@ wxPdfFontSubsetTrueType::WriteSubsetFont()
   wxPdfTableDirectoryEntry* tableLocation;
   wxPdfTableDirectory::iterator entry;
   int k;
-  const wxChar** tableNames = (m_includeCmap) ? tableNamesCmap : tableNamesDefault;
+  const wxStringCharType** tableNames = (m_includeCmap) ? tableNamesCmap : tableNamesDefault;
   int tableCount = 0;
   while (tableNames[tableCount] != NULL)
   {

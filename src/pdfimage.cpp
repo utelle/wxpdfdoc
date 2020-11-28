@@ -659,7 +659,6 @@ wxPdfImage::ParseGIF(wxInputStream* imageStream)
   m_dataSize = 0;
   m_data     = NULL;
 
-#if wxCHECK_VERSION(2,7,1)
   wxGIFDecoder gif;
   if (!gif.CanRead(*imageStream))
   {
@@ -715,62 +714,6 @@ wxPdfImage::ParseGIF(wxInputStream* imageStream)
     m_data = new char[m_dataSize];
     memcpy(m_data,gif.GetData(0),m_dataSize);
   }
-#else
-  wxGIFDecoder gif(imageStream);
-  if (!gif.CanRead())
-  {
-    wxLogDebug(wxString(wxS("wxPdfImage::ParseGIF: ")) +
-               wxString::Format(_("'%s' not a GIF file."), m_name.c_str()));
-    return false;
-  }
-
-  if (gif.ReadGIF() != wxGIF_OK)
-  {
-    wxLogDebug(wxString(wxS("wxPdfImage::ParseGIF: ")) +
-               wxString::Format(_("Invalid GIF file '%s'."), m_name.c_str()));
-    return false;
-  }
-
-  isValid = true;
-  m_width = gif.GetWidth();
-  m_height = gif.GetHeight();
-  m_cs = wxS("Indexed");
-  m_bpc    = 8;
-
-  m_palSize  = 768;
-  m_pal = new char[m_palSize];
-  memcpy(m_pal,gif.GetPalette(),m_palSize);
-
-  int trns = gif.GetTransparentColour();
-  if (trns != -1)
-  {
-    m_trnsSize = 3;
-    m_trns     = new char[3];
-    m_trns[0] = m_pal[3*trns + 0];
-    m_trns[1] = m_pal[3*trns + 1];
-    m_trns[2] = m_pal[3*trns + 2];
-  }
-
-  m_dataSize = m_width * m_height;
-  if (m_document->m_compress)
-  {
-    m_f = wxS("FlateDecode");
-    wxMemoryOutputStream* p = new wxMemoryOutputStream();
-    wxZlibOutputStream q(*p);
-    q.Write(gif.GetData(),m_dataSize);
-    q.Close();
-    m_dataSize = p->TellO();
-    m_data = new char[m_dataSize];
-    p->CopyTo(m_data,m_dataSize);
-    delete p;
-  }
-  else
-  {
-    m_f = wxS("");
-    m_data = new char[m_dataSize];
-    memcpy(m_data,gif.GetData(),m_dataSize);
-  }
-#endif
   return isValid;
 #else // !wxUSE_GIF
   return false;
@@ -1200,7 +1143,7 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
   m_width = we[0];
   m_height = we[1];
 
-  wxCharBuffer wcb(data.ToAscii());
+  const wxScopedCharBuffer wcb(data.ToAscii());
   m_dataSize = (unsigned int) data.Length();
   m_data = new char[m_dataSize];
   memcpy(m_data, (const char*) wcb, m_dataSize);

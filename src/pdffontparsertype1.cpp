@@ -1713,11 +1713,7 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
         case '\\':
         case '(':
         case ')':
-#if wxCHECK_VERSION(2,9,0)
           literalString.Append(wxUniChar((unsigned int) ch));
-#else
-          literalString.Append(wxChar(ch));
-#endif
           ch = ReadByte(stream);
           break;
 
@@ -1730,11 +1726,7 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
             value = value * 8 + (ch - '0');
             ch = ReadByte(stream);
           }
-#if wxCHECK_VERSION(2,9,0)
           literalString.Append(wxUniChar(value));
-#else
-          literalString.Append(wxChar(value));
-#endif
           break;
       }
     }
@@ -1742,11 +1734,7 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
     {
       if (embed > 0)
       {
-#if wxCHECK_VERSION(2,9,0)
         literalString.Append(wxUniChar((unsigned int) ch));
-#else
-        literalString.Append(wxChar(ch));
-#endif
       }
       embed++;
       ch = ReadByte(stream);
@@ -1759,11 +1747,7 @@ wxPdfFontParserType1::GetLiteralString(wxInputStream* stream)
     }
     else
     {
-#if wxCHECK_VERSION(2,9,0)
       literalString.Append(wxUniChar((unsigned int) ch));
-#else
-      literalString.Append(wxChar(ch));
-#endif
       ch = ReadByte(stream);
     }
   }
@@ -1785,11 +1769,7 @@ wxPdfFontParserType1::GetArray(wxInputStream* stream)
     {
       if (embed > 0)
       {
-#if wxCHECK_VERSION(2,9,0)
         arrayString.Append(wxUniChar((unsigned int) ch));
-#else
-        arrayString.Append(wxChar(ch));
-#endif
       }
       embed++;
       ch = ReadByte(stream);
@@ -1798,20 +1778,12 @@ wxPdfFontParserType1::GetArray(wxInputStream* stream)
     {
       embed--;
       if (embed == 0) break;
-#if wxCHECK_VERSION(2,9,0)
       arrayString.Append(wxUniChar((unsigned int) ch));
-#else
-      arrayString.Append(wxChar(ch));
-#endif
       ch = ReadByte(stream);
     }
     else
     {
-#if wxCHECK_VERSION(2,9,0)
       arrayString.Append(wxUniChar((unsigned int) ch));
-#else
-      arrayString.Append(wxChar(ch));
-#endif
       ch = ReadByte(stream);
     }
   }
@@ -1998,11 +1970,7 @@ wxPdfFontParserType1::GetToken(wxInputStream* stream)
   unsigned char ch = ReadByte(stream);
   if (ch == '/')
   {
-#if wxCHECK_VERSION(2,9,0)
     str.Append(wxUniChar((unsigned int) ch));
-#else
-    str.Append(wxChar(ch));
-#endif
     ch = ReadByte(stream);
   }
   while (!stream->Eof())
@@ -2016,11 +1984,7 @@ wxPdfFontParserType1::GetToken(wxInputStream* stream)
     {
       if (str.IsEmpty() && (ch == '[' || ch == ']' /* || ch == '{' || ch == '}' */ ))
       {
-#if wxCHECK_VERSION(2,9,0)
         str.Append(wxUniChar((unsigned int) ch));
-#else
-        str.Append(wxChar(ch));
-#endif
       }
       else
       {
@@ -2028,11 +1992,7 @@ wxPdfFontParserType1::GetToken(wxInputStream* stream)
       }
       break;
     }
-#if wxCHECK_VERSION(2,9,0)
     str.Append(wxUniChar((unsigned int) ch));
-#else
-    str.Append(wxChar(ch));
-#endif
     ch = ReadByte(stream);
   }
   return str;

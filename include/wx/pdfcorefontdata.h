@@ -24,22 +24,22 @@ public:
 /// Structure describing core fonts (For internal use only)
 typedef struct _wxPdfCoreFontDesc
 {
-  const wxChar*      family;             ///< font family
-  const wxChar*      alias;              ///< font family alias
-  const wxChar*      name;               ///< font name
-  short*             cwArray;            ///< array of character widths
-  const wxPdfKernPairDesc* kpArray;      ///< array of kerning pairs
-  const wxChar*      bbox;               ///< bounding box
-  int                ascent;             ///< ascender
-  int                descent;            ///< descender
-  int                capHeight;          ///< height of capital characters
-  int                flags;              ///< font flags
-  int                italicAngle;        ///< italic angle
-  int                stemV;              ///< stemV value
-  int                missingWidth;       ///< width used for missing characters
-  int                xHeight;            ///< height of the character X
-  int                underlinePosition;  ///< position of the underline decoration
-  int                underlineThickness; ///< thickness of the underline decoration
+  const wxStringCharType*  family;             ///< font family
+  const wxStringCharType*  alias;              ///< font family alias
+  const wxStringCharType*  name;               ///< font name
+  short*                   cwArray;            ///< array of character widths
+  const wxPdfKernPairDesc* kpArray;            ///< array of kerning pairs
+  const wxStringCharType*  bbox;               ///< bounding box
+  int                      ascent;             ///< ascender
+  int                      descent;            ///< descender
+  int                      capHeight;          ///< height of capital characters
+  int                      flags;              ///< font flags
+  int                      italicAngle;        ///< italic angle
+  int                      stemV;              ///< stemV value
+  int                      missingWidth;       ///< width used for missing characters
+  int                      xHeight;            ///< height of the character X
+  int                      underlinePosition;  ///< position of the underline decoration
+  int                      underlineThickness; ///< thickness of the underline decoration
 } wxPdfCoreFontDesc;
 
 #endif

@@ -47,11 +47,7 @@ GetNodeContent(const wxXmlNode *node)
 static wxString
 GetXmlAttribute(const wxXmlNode* node, const wxString& attrName, const wxString& defaultVal)
 {
-#if wxCHECK_VERSION(2,9,0)
   return node->GetAttribute(attrName, defaultVal);
-#else
-  return node->GetPropVal(attrName, defaultVal);
-#endif
 }
 
 // --- wxPdfCellContext
@@ -1241,7 +1237,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         double ls = 0;
         int ns = 0;
         int nl = 1;
-        wxChar c = 0;
+        wxUniChar c = 0;
         while (i < nb)
         {
           // Get next character
@@ -1452,13 +1448,13 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
     {
       // --- Unordered list
 #if wxUSE_UNICODE
-      static wxChar bulletChar = 0x2022;
-      static wxChar dashChar   = 0x2013;
+      static wxUniChar bulletChar = 0x2022;
+      static wxUniChar dashChar   = 0x2013;
 #else
-      static wxChar bulletChar = '\x95'; // dec 149
-      static wxChar dashChar   = '\x96'; // dec 150
+      static wxUniChar bulletChar = '\x95'; // dec 149
+      static wxUniChar dashChar   = '\x96'; // dec 150
 #endif
-      wxChar itemChar = bulletChar;
+      wxUniChar itemChar = bulletChar;
       bool useZapfDingBats = false;
       long zapfChar = 0;
       wxString type = GetXmlAttribute(child, wxS("type"), wxS("bullet"));
@@ -1581,12 +1577,12 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
           if (useZapfDingBats)
           {
             SetFont(wxS("zapfdingbats"), wxS(""), 0.85*saveSize);
-            wxChar itemChar = 172 + 10 * listType + listCount % listCycle;
+            wxUniChar itemChar = 172 + 10 * listType + listCount % listCycle;
             WriteCell(GetLineHeight(), wxString(itemChar));
           }
           else
           {
-            wxChar itemChar;
+            wxUniChar itemChar;
             SetFont(wxS("Helvetica"), wxS(""), saveSize);
             wxString item;
             switch (listType)
@@ -1966,7 +1962,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         double len = 0;
         int ns = 0;
         int nl = 1;
-        wxChar c;
+        wxUniChar c;
         while (i < nb)
         {
           // Get next character

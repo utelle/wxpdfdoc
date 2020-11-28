@@ -81,15 +81,9 @@ wxPdfVolt::LoadVoltData(wxXmlNode* volt)
       {
         if (rule->GetName() == wxS("rule"))
         {
-#if wxCHECK_VERSION(2,9,0)
           repeat  = rule->GetAttribute(wxS("repeat"), wxS("false"));
           match   = rule->GetAttribute(wxS("match"), wxS(""));
           replace = rule->GetAttribute(wxS("replace"), wxS(""));
-#else
-          repeat  = rule->GetPropVal(wxS("repeat"), wxS("false"));
-          match   = rule->GetPropVal(wxS("match"), wxS(""));
-          replace = rule->GetPropVal(wxS("replace"), wxS(""));
-#endif
           doRepeat = repeat.IsSameAs(wxS("true"));
           wxPdfVoltRule* voltRule = new wxPdfVoltRule(doRepeat, match, replace);
           m_rules.Add(voltRule);
@@ -104,12 +98,6 @@ wxPdfVolt::LoadVoltData(wxXmlNode* volt)
 wxString
 wxPdfVolt::ProcessRules(const wxString& text)
 {
-#if 0
-  wxFFileOutputStream dbgOut( wxS("d:/temp/pdfdoc-indic-dbg.txt"), wxS("a"));
-  wxTextOutputStream dbgIndic( dbgOut );
-
-  wxString str;
-#endif
   wxString processText = text;
   size_t n = m_rules.GetCount();
   size_t j;
@@ -120,21 +108,8 @@ wxPdfVolt::ProcessRules(const wxString& text)
     do
     {
       matchCount = rule->m_re.Replace(&processText, rule->m_replace);
-#if 0
-      str = wxEmptyString;
-      wxString::const_iterator ch;
-      for (ch = processText.begin(); ch != processText.end(); ++ch)
-      {
-        str += wxString::Format(wxS(" %04x"), *ch);
-      }
-      str += wxS("\n");
-      dbgIndic.WriteString(str);
-#endif
     }
     while (rule->m_repeat && matchCount > 0);
   }
-#if 0
-  dbgOut.Close();
-#endif
   return processText;
 }

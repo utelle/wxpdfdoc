@@ -18,13 +18,7 @@
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 
-#if wxCHECK_VERSION(2, 7, 0)
 // Just map wxPdfArrayDouble to wxArrayDouble, for wxWidgets version 2.7.0 or later
 #define wxPdfArrayDouble wxArrayDouble
-#else
-// Unfortunately double arrays are not available in wxWidgets until version 2.7.0
-/// Class representing double arrays
-WX_DEFINE_USER_EXPORTED_ARRAY_DOUBLE(double, wxPdfArrayDouble, class WXDLLIMPEXP_PDFDOC);
-#endif
 
 #endif

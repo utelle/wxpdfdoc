@@ -114,10 +114,10 @@ public:
   void AppendContext(wxPdfCellContext* context);
 
   /// Remember the last character of the last chunk
-  void SetLastChar(wxChar c) { m_lastChar = c; }
+  void SetLastChar(wxUniChar c) { m_lastChar = c; }
 
   /// Get last character of previous chunk
-  wxChar GetLastChar() { return m_lastChar; }
+  wxUniChar GetLastChar() { return m_lastChar; }
 
   /// Remember the width of the last space character
   void SetLastSpaceWidth(double w) { m_spaceWidth = w; }
@@ -156,7 +156,7 @@ private:
   int              m_fillStyle;       ///< cell fill style
   wxPdfArrayDouble m_linewidth;       ///< list of line widths
   wxArrayInt       m_spaces;          ///< list of space counters
-  wxChar           m_lastChar;        ///< last character of a chunk
+  wxUniChar        m_lastChar;        ///< last character of a chunk
   double           m_spaceWidth;      ///< width of space character
   double           m_charSpacing;     ///< extra character spacing (default: 0)
   wxString         m_href;            ///< hyper link reference

@@ -591,8 +591,6 @@
     <ClInclude Include="..\include\wx\pdfcoonspatchmesh.h" />
     <ClInclude Include="..\include\wx\pdfcorefontdata.h" />
     <ClInclude Include="..\include\wx\pdfdc.h" />
-    <ClInclude Include="..\include\wx\pdfdc28.h" />
-    <ClInclude Include="..\include\wx\pdfdc29.h" />
     <ClInclude Include="..\include\wx\pdfdoc.h" />
     <ClInclude Include="..\include\wx\pdfdoc_version.h" />
     <ClInclude Include="..\include\wx\pdfdocdef.h" />
@@ -688,8 +686,6 @@
     <None Include="..\src\pdfcolourdata.inc" />
     <None Include="..\src\pdfcorefontdata.inc" />
     <None Include="..\src\pdfcorefontkerning.inc" />
-    <None Include="..\src\pdfdc28.inc" />
-    <None Include="..\src\pdfdc29.inc" />
     <None Include="..\src\pdfglyphnames.inc" />
   </ItemGroup>
   <ItemGroup>

@@ -44,7 +44,7 @@ wxPdfBarCodeCreator::UPC_A(double x, double y, const wxString& barcode, double h
   return Barcode(x, y, barcode, h, w, 12);
 }
 
-wxChar
+wxUniChar
 wxPdfBarCodeCreator::GetCheckDigit(const wxString& barcode)
 {
   //Compute the check digit
@@ -65,7 +65,7 @@ wxPdfBarCodeCreator::GetCheckDigit(const wxString& barcode)
   {
     r = 10 - r;
   }
-  wxChar rChar = wxS('0') + r;
+  wxUniChar rChar = wxS('0') + r;
   return rChar;
 }
 
@@ -270,7 +270,7 @@ wxPdfBarCodeCreator::Code39(double x, double y, const wxString& code, bool ext, 
 }
 
 
-wxChar
+wxUniChar
 wxPdfBarCodeCreator::ChecksumCode39(const wxString& code)
 {
 
@@ -681,18 +681,18 @@ static short code128_bars[108][6] = {
 };
 
 // Code128 special codes
-const wxChar CODE128_FNC3_INDEX  =  96;
-const wxChar CODE128_FNC2_INDEX  =  97;
-const wxChar CODE128_SHIFT       =  98;
-const wxChar CODE128_CODE_TO_C   =  99;
-const wxChar CODE128_CODE_TO_B   = 100;
-const wxChar CODE128_CODE_TO_A   = 101;
-const wxChar CODE128_FNC1_INDEX  = 102;
-const wxChar CODE128_START_A     = 103;
-const wxChar CODE128_START_B     = 104;
-const wxChar CODE128_START_C     = 105;
-const wxChar CODE128_BARS_STOP   = 106;
-const wxChar CODE128_ENDBAR      = 107;
+const wxStringCharType CODE128_FNC3_INDEX  =  96;
+const wxStringCharType CODE128_FNC2_INDEX  =  97;
+const wxStringCharType CODE128_SHIFT       =  98;
+const wxStringCharType CODE128_CODE_TO_C   =  99;
+const wxStringCharType CODE128_CODE_TO_B   = 100;
+const wxStringCharType CODE128_CODE_TO_A   = 101;
+const wxStringCharType CODE128_FNC1_INDEX  = 102;
+const wxStringCharType CODE128_START_A     = 103;
+const wxStringCharType CODE128_START_B     = 104;
+const wxStringCharType CODE128_START_C     = 105;
+const wxStringCharType CODE128_BARS_STOP   = 106;
+const wxStringCharType CODE128_ENDBAR      = 107;
 
 // Code128 internal functions
 
@@ -706,12 +706,12 @@ static bool Code128ValidInCodeSetA(int ch)
   return (ch >= 0 && ch <= 95) || (ch >= CODE128_FNC1 && ch <= CODE128_FNC4);
 }
 
-static bool Code128ValidInCodeSetB(wxChar ch)
+static bool Code128ValidInCodeSetB(wxUniChar ch)
 {
   return (ch >= 32 && ch <= 127) || (ch >= CODE128_FNC1 && ch <= CODE128_FNC4);
 }
 
-static bool Code128ValidInCodeSetC(wxChar ch)
+static bool Code128ValidInCodeSetC(wxUniChar ch)
 {
   return (ch >= '0' && ch <= '9');
 }
@@ -726,7 +726,7 @@ static void Code128AddCheck(wxString& barcode)
     chk += (int)(*ch) * k;
   }
   chk = chk % 103;
-  barcode += wxChar(chk);
+  barcode += wxUniChar(chk);
   barcode += CODE128_BARS_STOP;
   barcode += CODE128_ENDBAR;
 }
@@ -739,7 +739,7 @@ static wxString Code128RemoveFNC1(const wxString& code)
   size_t k;
   for (k = 0; k < len; ++k)
   {
-    wxChar c = code[k];
+    wxUniChar c = code[k];
     if (c >= 32 && c <= 126)
     {
       buffer += c;
@@ -764,7 +764,7 @@ static bool Code128IsNextDigits(const wxString& text, size_t textIndex, int numD
       return false;
     while (n-- > 0)
     {
-      wxChar c = text[textIndex++];
+      wxUniChar c = text[textIndex++];
       if (c < wxS('0') || c > wxS('9'))
         return false;
       --numDigits;
@@ -787,7 +787,7 @@ static wxString Code128PackDigits(const wxString& text, size_t& textIndex, int n
     numDigits -= 2;
     int c1 = text[textIndex++] - wxS('0');
     int c2 = text[textIndex++] - wxS('0');
-    code += wxChar(c1 * 10 + c2);
+    code += wxUniChar(c1 * 10 + c2);
   }
   return code;
 }
@@ -820,8 +820,8 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
     }
   }
 
-  wxChar c = text[0];
-  wxChar currentCode = CODE128_START_B;
+  wxUniChar c = text[0];
+  wxUniChar currentCode = CODE128_START_B;
   size_t index = 0;
   if (Code128IsNextDigits(text, index, 2))
   {
@@ -839,7 +839,7 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
     out += currentCode;
     if (ucc)
       out += CODE128_FNC1_INDEX;
-    out += wxChar(c + 64);
+    out += wxUniChar((int) c + 64);
     ++index;
   }
   else
@@ -855,13 +855,13 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
     }
     else
     {
-      out += wxChar(c - 32);
+      out += wxUniChar((int) c - 32);
     }
     ++index;
   }
   while (index < tLen)
   {
-    switch (currentCode)
+    switch (currentCode.GetValue())
     {
       case CODE128_START_A:
         {
@@ -874,7 +874,7 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
           else
           {
             c = text[index++];
-            switch (c)
+            switch (c.GetValue())
             {
               case CODE128_FNC1:
                 out += CODE128_FNC1_INDEX;
@@ -900,15 +900,15 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
                   {
                     out += CODE128_SHIFT;
                   }
-                  out += wxChar(c - 32);
+                  out += wxUniChar((int) c - 32);
                 }
                 else if (c < 32)
                 {
-                  out += wxChar(c + 64);
+                  out += wxUniChar((int) c + 64);
                 }
                 else
                 {
-                 out += wxChar(c - 32);
+                 out += wxUniChar((int) c - 32);
                 }
                 break;
             }
@@ -926,7 +926,7 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
           else
           {
             c = text[index++];
-            switch (c)
+            switch (c.GetValue())
             {
               case CODE128_FNC1:
                 out += CODE128_FNC1_INDEX;
@@ -947,17 +947,17 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
                   {
                     currentCode = CODE128_START_A;
                     out += CODE128_CODE_TO_A;
-                    out += wxChar(c + 64);
+                    out += wxUniChar((int) c + 64);
                   }
                   else
                   {
                     out += CODE128_SHIFT;
-                    out += wxChar(c + 64);
+                    out += wxUniChar((int) c + 64);
                   }
                 }
                 else
                 {
-                  out += wxChar(c - 32);
+                  out += wxUniChar((int) c - 32);
                 }
                 break;
             }
@@ -981,13 +981,13 @@ static wxString Code128MakeCode(const wxString& text, bool ucc)
             {
               currentCode = CODE128_START_A;
               out += CODE128_CODE_TO_A;
-              out += wxChar(c + 64);
+              out += wxUniChar((int) c + 64);
             }
             else
             {
               currentCode = CODE128_START_B;
               out += CODE128_CODE_TO_B;
-              out += wxChar(c - 32);
+              out += wxUniChar((int) c - 32);
             }
           }
         }
@@ -1173,7 +1173,7 @@ wxPdfBarCodeCreator::Code128A(double x, double y, const wxString& barcode, doubl
   wxString bcode = CODE128_START_A;
   for (ch = barcode.begin(); ch != barcode.end(); ++ch)
   {
-    switch (wxChar(*ch))
+    switch ((*ch).GetValue())
     {
       case CODE128_FNC1:
         bcode += CODE128_FNC1_INDEX;
@@ -1189,9 +1189,9 @@ wxPdfBarCodeCreator::Code128A(double x, double y, const wxString& barcode, doubl
         break;
       default:
         if (*ch < 32)
-          bcode += wxChar((int)(*ch) + 64);
+          bcode += wxUniChar((int)(*ch) + 64);
         else
-          bcode += wxChar((int)(*ch) - 32);
+          bcode += wxUniChar((int)(*ch) - 32);
         break;
     }
   }
@@ -1217,7 +1217,7 @@ wxPdfBarCodeCreator::Code128B(double x, double y, const wxString& barcode, doubl
   wxString bcode = CODE128_START_B;
   for (ch = barcode.begin(); ch != barcode.end(); ++ch)
   {
-    switch (wxChar(*ch))
+    switch ((*ch).GetValue())
     {
       case CODE128_FNC1:
         bcode += CODE128_FNC1_INDEX;
@@ -1232,7 +1232,7 @@ wxPdfBarCodeCreator::Code128B(double x, double y, const wxString& barcode, doubl
         bcode += CODE128_CODE_TO_B;
         break;
       default:
-        bcode += wxChar((int)(*ch) - 32);
+        bcode += wxUniChar((int)(*ch) - 32);
         break;
     }
   }

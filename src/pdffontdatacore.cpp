@@ -187,11 +187,7 @@ wxPdfFontDataCore::ConvertCID2GID(const wxString& s,
       charIter = (*convMap).find(*ch);
       if (charIter != (*convMap).end())
       {
-#if wxCHECK_VERSION(2,9,0)
         t.Append(wxUniChar(charIter->second));
-#else
-        t.Append(wxChar(charIter->second));
-#endif
       }
       else
       {

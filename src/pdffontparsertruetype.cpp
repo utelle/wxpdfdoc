@@ -318,7 +318,7 @@ public:
 };
 
 #if 0
-static const wxChar codePages[] =
+static const wxStringCharType codePages[] =
 {
   /*  0 */ "1252 Latin 1",                 // wxFONTENCODING_CP1252
   /*  1 */ "1250 Latin 2: Eastern Europe", // wxFONTENCODING_CP1250
@@ -462,7 +462,7 @@ wxPdfFontParserTrueType::LockTable(const wxString& tableName)
 #if wxPDFMACOSX_HAS_CORE_TEXT
   if (m_isMacCoreText)
   {
-    wxCharBuffer asciiTableName = tableName.ToAscii();
+    const wxScopedCharBuffer asciiTableName = tableName.ToAscii();
     const char* localTableName = asciiTableName;
     CTFontTableTag tableTag = localTableName[0] << 24 |
                               localTableName[1] << 16 |
@@ -675,12 +675,7 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
 {
   wxPdfFontData* fontData = NULL;
 #if wxPDFMACOSX_HAS_CORE_TEXT
-#if wxCHECK_VERSION(2,9,0)
-// wxWidgets 2.9.x or higher
   m_fontRef = font.OSXGetCTFont();
-#else // wxWidgets 2.8.x
-  m_fontRef = (const void*) font.MacGetCTFont();
-#endif
 
   m_isMacCoreText = true;
   m_fileName = wxEmptyString;
@@ -782,12 +777,7 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
       wxFont font = fontData->GetFont();
       if (font.IsOk())
       {
-#if wxCHECK_VERSION(2,9,0)
-        // wxWidgets 2.9.x or higher
         m_fontRef = font.OSXGetCTFont();
-#else // wxWidgets 2.8.x
-        m_fontRef = (const void*) font.MacGetCTFont();
-#endif
         m_isMacCoreText = true;
         fontStream = new wxMemoryInputStream("dummy", 5);
         m_inFont = fontStream;
@@ -1015,7 +1005,7 @@ wxPdfFontParserTrueType::ReadTableDirectory()
   return ok;
 }
 
-static const wxChar* checkTableNames[] = {
+static const wxStringCharType* checkTableNames[] = {
   wxS("cmap"), wxS("head"), wxS("hhea"), wxS("hmtx"), wxS("name"),
   wxS("post"),
   wxS("glyf"), wxS("loca"),

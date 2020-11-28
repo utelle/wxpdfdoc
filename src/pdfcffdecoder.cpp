@@ -60,7 +60,7 @@ enum {
 };
 
 #if 0
-static const wxChar* gs_standardStrings[] = {
+static const wxStringCharType* gs_standardStrings[] = {
     // Generated from Appendix A of the CFF specification. Size should be 391.
     wxS(".notdef"),             wxS("space"),              wxS("exclam"),           wxS("quotedbl"),       wxS("numbersign"),
     wxS("dollar"),              wxS("percent"),            wxS("ampersand"),        wxS("quoteright"),     wxS("parenleft"),
@@ -142,11 +142,11 @@ static const wxChar* gs_standardStrings[] = {
     wxS("Book"),                wxS("Light"),              wxS("Medium"),           wxS("Regular"),        wxS("Roman"),
     wxS("Semibold")
   };
-static int gs_standardStringsCount = sizeof(gs_standardStrings) / sizeof(wxChar*);
+static int gs_standardStringsCount = sizeof(gs_standardStrings) / sizeof(wxStringCharType*);
 #endif
 
 // The Strings in this array represent Type1/Type2 operator names
-static const wxChar* gs_subrsFunctions[] = {
+static const wxStringCharType* gs_subrsFunctions[] = {
     wxS("RESERVED_0"),  wxS("hstem"),       wxS("RESERVED_2"),  wxS("vstem"),          wxS("vmoveto"),
     wxS("rlineto"),     wxS("hlineto"),     wxS("vlineto"),     wxS("rrcurveto"),      wxS("RESERVED_9"),
     wxS("callsubr"),    wxS("return"),      wxS("escape"),      wxS("hsbw"),/*RES_13*/ wxS("endchar"),
@@ -156,11 +156,11 @@ static const wxChar* gs_subrsFunctions[] = {
     wxS("vhcurveto"),   wxS("hvcurveto")
   };
 #if 0
-static int gs_subrsFunctionsCount = sizeof(gs_subrsFunctions) / sizeof(wxChar*);
+static int gs_subrsFunctionsCount = sizeof(gs_subrsFunctions) / sizeof(wxStringCharType*);
 #endif
 
 // The Strings in this array represent Type1/Type2 escape operator names
-static const wxChar* gs_subrsEscapeFuncs[] = {
+static const wxStringCharType* gs_subrsEscapeFuncs[] = {
     wxS("RESERVED_0"),  wxS("RESERVED_1"),    wxS("RESERVED_2"),   wxS("and"),           wxS("or"),
     wxS("not"),         wxS("seac"),/*RES_6*/ wxS("sbw"),/*RES_7*/ wxS("RESERVED_8"),    wxS("abs"),
     wxS("add"),         wxS("sub"),           wxS("div"),          wxS("RESERVED_13"),   wxS("neg"),
@@ -170,10 +170,10 @@ static const wxChar* gs_subrsEscapeFuncs[] = {
     wxS("roll"),        wxS("RESERVED_31"),   wxS("RESERVED_32"),  wxS("RESERVED_33"),   wxS("hflex"),
     wxS("flex"),        wxS("hflex1"),        wxS("flex1"),        wxS("RESERVED_REST")
   };
-static int gs_subrsEscapeFuncsCount = sizeof(gs_subrsEscapeFuncs) / sizeof(wxChar*);
+static int gs_subrsEscapeFuncsCount = sizeof(gs_subrsEscapeFuncs) / sizeof(wxStringCharType*);
 
 #if 0
-static wxChar* gs_operatorNames[] = {
+static wxStringCharType* gs_operatorNames[] = {
     wxS("version"),           wxS("Notice"),             wxS("FullName"),      wxS("FamilyName"),     wxS("Weight"),
     wxS("FontBBox"),          wxS("BlueValues"),         wxS("OtherBlues"),    wxS("FamilyBlues"),    wxS("FamilyOtherBlues"),
     wxS("StdHW"),             wxS("StdVW"),              wxS("UNKNOWN_12"),    wxS("UniqueID"),       wxS("XUID"),
@@ -190,7 +190,7 @@ static wxChar* gs_operatorNames[] = {
     wxS("CIDFontType"),       wxS("CIDCount"),           wxS("UIDBase"),       wxS("FDArray"),        wxS("FDSelect"),
     wxS("FontName")
   };
-static int gs_operatorNamesCount = sizeof(gs_operatorNames) / sizeof(wxChar*);
+static int gs_operatorNamesCount = sizeof(gs_operatorNames) / sizeof(wxStringCharType*);
 #endif
 
 class wxPdfCffFontObject

@@ -86,7 +86,7 @@ static const wxUint16 gs_unicode_map_zdb[256] =
 };
 
 #if 0
-static const wxChar* gs_glyphs_zdb[] =
+static const wxStringCharType* gs_glyphs_zdb[] =
 {
   wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"),
   wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"), wxS(".notdef"),
@@ -814,11 +814,11 @@ static const wxUint16 gs_unicode_map_koi8_u[128] =
 
 static const struct wxPdfEncodingData
 {
-  const wxChar*   m_encodingName;
-  const wxChar*   m_baseEncoding;
-  bool            m_fullsize;
-  const wxUint16* m_encodingMap;
-  const wxUint16* m_encodingBase;
+  const wxStringCharType* m_encodingName;
+  const wxStringCharType* m_baseEncoding;
+  bool                    m_fullsize;
+  const wxUint16*         m_encodingMap;
+  const wxUint16*         m_encodingBase;
 #if 0
   int             m_firstChar;
   int             m_lastChar;

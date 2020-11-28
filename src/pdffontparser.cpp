@@ -159,11 +159,7 @@ wxPdfFontParser::ReadString(wxInputStream& fileStream)
   do
   {
     fileStream.Read(&c, 1);
-#if wxCHECK_VERSION(2,9,0)
     if (c > 0) str += wxUniChar((unsigned int) c);
-#else
-    if (c > 0) str += wxChar(c);
-#endif
     j++;
   }
   while (c > 0 && j < maxlen);

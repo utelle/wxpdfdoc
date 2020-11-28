@@ -791,7 +791,7 @@ wxPdfDocument::ReplaceNbPagesAlias()
 {
   size_t lenAsc = m_aliasNbPages.Length();
 #if wxUSE_UNICODE
-  wxCharBuffer wcb(m_aliasNbPages.ToAscii());
+  const wxScopedCharBuffer wcb(m_aliasNbPages.ToAscii());
   const char* nbAsc = (const char*) wcb;
 #else
   const char* nbAsc = m_aliasNbPages.c_str();
@@ -809,7 +809,7 @@ wxPdfDocument::ReplaceNbPagesAlias()
   wxString pg = wxString::Format(wxS("%d"),m_page);
   size_t lenPgAsc = pg.Length();
 #if wxUSE_UNICODE
-  wxCharBuffer wpg(pg.ToAscii());
+  const wxScopedCharBuffer wpg(pg.ToAscii());
   const char* pgAsc = (const char*) wpg;
   size_t lenPgUni = conv.FromWChar(NULL, 0, pg.wc_str(), lenPgAsc);
   char* pgUni = new char[lenPgUni+3];
@@ -1086,7 +1086,7 @@ wxPdfDocument::PutPages()
   Out("endobj");
 }
 
-static const wxChar* gs_bms[] = {
+static const wxStringCharType* gs_bms[] = {
   wxS("/Normal"),     wxS("/Multiply"),   wxS("/Screen"),    wxS("/Overlay"),    wxS("/Darken"),
   wxS("/Lighten"),    wxS("/ColorDodge"), wxS("/ColorBurn"), wxS("/HardLight"),  wxS("/SoftLight"),
   wxS("/Difference"), wxS("/Exclusion"),  wxS("/Hue"),       wxS("/Saturation"), wxS("/Color"),
@@ -2297,13 +2297,8 @@ static wxXmlNode*
 AddXmpDescription(const wxString& alias, const wxString& ns)
 {
   wxXmlNode* node = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("rdf:Description"));
-#if wxCHECK_VERSION(2,9,0)
   node->AddAttribute(wxS("rdf:about"), wxS(""));
   node->AddAttribute(wxString(wxS("xmlns:"))+alias, ns);
-#else
-  node->AddProperty(wxS("rdf:about"), wxS(""));
-  node->AddProperty(wxString(wxS("xmlns:")) + alias, ns);
-#endif
   return node;
 }
 
@@ -2336,11 +2331,7 @@ AddXmpAlt(const wxString& tag, const wxString& value)
   wxXmlNode* altNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("rdf:Alt"));
   wxXmlNode* liNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("rdf:li"));
   wxXmlNode* valNode = new wxXmlNode(wxXML_TEXT_NODE, wxS(""), value);
-#if wxCHECK_VERSION(2,9,0)
   liNode->AddAttribute(wxS("xml:lang"), wxS("x-default"));
-#else
-  liNode->AddProperty(wxS("xml:lang"), wxS("x-default"));
-#endif
   liNode->AddChild(valNode);
   altNode->AddChild(liNode);
   tagNode->AddChild(altNode);
@@ -2354,11 +2345,7 @@ wxPdfDocument::PutMetaData()
 
   // RDF description for conformance with PDF/A-1b
   wxXmlNode* rootNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("rdf:RDF"));
-#if wxCHECK_VERSION(2,9,0)
   rootNode->AddAttribute(wxS("xmlns:rdf"), wxS("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
-#else
-  rootNode->AddProperty(wxS("xmlns:rdf"), wxS("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
-#endif
 
   wxXmlNode* pdfDesc = AddXmpDescription(wxS("pdf"), wxS("http://ns.adobe.com/pdf/1.3/"));
   pdfDesc->AddChild(AddXmpSimple(wxS("pdf:Producer"), wxString(wxPDF_PRODUCER)));
@@ -2372,11 +2359,7 @@ wxPdfDocument::PutMetaData()
   {
     SetCreationDate(wxDateTime::Now());
   }
-#if wxCHECK_VERSION(2,9,0)
   wxString creationDate = m_creationDate.FormatISOCombined() + wxString(wxS("Z"));
-#else
-  wxString creationDate = m_creationDate.Format(wxS("%Y-%m-%dT%H:%M:%SZ"));
-#endif
 
   wxXmlNode* xmpDesc = AddXmpDescription(wxS("xmp"), wxS("http://ns.adobe.com/xap/1.0/"));
   xmpDesc->AddChild(AddXmpSimple(wxS("xmp:CreateDate"), creationDate));
@@ -2560,11 +2543,7 @@ wxPdfDocument::ShowText(const wxString& txt)
       int wsAdjust = (int) (1000 * m_ws * m_k / GetFontSize());
       for (wxString::const_iterator it = txt.begin(); it != txt.end(); ++it)
       {
-#if wxCHECK_VERSION(2,9,0)
         if (*it == wxUniChar(' '))
-#else
-        if (*it == wxChar(' '))
-#endif
         {
           for (; kPos < kLen && kerning[kPos] < (int) wsPos; kPos += 2);
           if (kPos < kLen)

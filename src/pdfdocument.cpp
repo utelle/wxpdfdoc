@@ -1249,7 +1249,7 @@ wxPdfDocument::MultiCell(double w, double h, const wxString& txt, int border, in
   double ls = 0;
   int ns = 0;
   int nl = 1;
-  wxChar c;
+  wxUniChar c;
   while (i < nb)
   {
     // Get next character
@@ -1374,7 +1374,7 @@ wxPdfDocument::LineCount(double w, const wxString& txt)
   int j = 0;
   double len = 0;
   int nl = 1;
-  wxChar c;
+  wxUniChar c;
   while (i < nb)
   {
     // Get next character
@@ -1496,7 +1496,7 @@ wxPdfDocument::WriteCell(double h, const wxString& txt, int border, int fill, co
   int j = 0;
   double len=0;
   int nl = 1;
-  wxChar c;
+  wxUniChar c;
   while (i < nb)
   {
     // Get next character
@@ -1668,11 +1668,7 @@ wxPdfDocument::GetImageSize(const wxString& file, const wxString& mimeType)
   }
   if (image.IsOk())
   {
-#if wxCHECK_VERSION(2,9,0)
     imageSize = image.GetSize();
-#else
-    imageSize.Set(image.GetWidth(), image.GetHeight());
-#endif
   }
   return imageSize;
 }

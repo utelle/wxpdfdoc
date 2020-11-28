@@ -176,7 +176,7 @@ wxPdfParser::GetPageCount()
   return (unsigned int) m_pages.GetCount();
 }
 
-static const wxChar* gs_entryList[] = {
+static const wxStringCharType* gs_entryList[] = {
   wxS("Title"),   wxS("Author"),   wxS("Subject"),      wxS("Keywords"),
   wxS("Creator"), wxS("Producer"), wxS("CreationDate"), wxS("ModDate"),
   NULL

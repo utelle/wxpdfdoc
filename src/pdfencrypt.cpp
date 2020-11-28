@@ -765,7 +765,7 @@ wxPdfEncrypt::GenerateInitialVector(unsigned char iv[16])
 {
   wxString keyString = wxPdfUtility::GetUniqueId();
 #if wxUSE_UNICODE
-  wxCharBuffer cb(keyString.ToAscii());
+  const wxScopedCharBuffer cb(keyString.ToAscii());
   const char* key = (const char*) cb;
 #else
   const char* key = (const char*) keyString.c_str();
@@ -809,7 +809,7 @@ wxPdfEncrypt::CreateDocumentId()
   int k;
   for (k = 0; k < 16; k++)
   {
-    documentId.Append(wxChar(id[k]));
+    documentId.Append(wxUniChar(id[k]));
   }
   return documentId;
 }

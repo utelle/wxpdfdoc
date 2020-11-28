@@ -67,26 +67,7 @@ wxString
 wxPdfUtility::Double2String(double value, int precision)
 {
   wxString number;
-#if wxCHECK_VERSION(2,9,1)
   number = wxString::FromCDouble(value, precision);
-#else
-  wxString format;
-  if (precision == -1)
-  {
-    format = wxS("%g");
-  }
-  else // Use fixed precision.
-  {
-    format.Printf(wxS("%%.%df"), precision);
-  }
-  number = wxString::Format(format, value);
-#if wxUSE_INTL
-  wxString dpSeparator = wxLocale::GetInfo(wxLOCALE_DECIMAL_POINT, wxLOCALE_CAT_NUMBER);
-#else
-  wxString dpSeparator(wxS(","));
-#endif
-  number.Replace(dpSeparator, wxS("."));
-#endif
   return number;
 }
 

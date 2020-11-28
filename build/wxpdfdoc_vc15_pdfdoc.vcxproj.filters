@@ -45,12 +45,6 @@
     <ClInclude Include="..\include\wx\pdfdc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\wx\pdfdc28.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\wx\pdfdc29.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\wx\pdfdoc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -326,12 +320,6 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="..\src\pdfcorefontkerning.inc">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="..\src\pdfdc28.inc">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="..\src\pdfdc29.inc">
       <Filter>Header Files</Filter>
     </None>
     <None Include="..\src\pdfglyphnames.inc">
