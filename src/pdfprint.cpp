@@ -1848,7 +1848,7 @@ wxPdfPageSetupDialog::TransferMarginsToControls()
 {
   int unitSelection = m_marginUnits->GetSelection();
   double marginScaleToUnit;
-  wxStringCharType* formatS;
+  wxString formatS;
 
   switch (unitSelection)
   {
