@@ -300,6 +300,9 @@ wxPdfDCImpl::StartPage()
     style.SetLineCap(wxPDF_LINECAP_ROUND);
     style.SetLineJoin(wxPDF_LINEJOIN_MITER);
     m_pdfDocument->SetLineStyle(style);
+    // Force that pen and brush are always set on a new page
+    m_pdfPen = wxNullPen;
+    m_pdfBrush = wxNullBrush;
   }
 }
 
