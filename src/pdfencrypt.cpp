@@ -809,7 +809,7 @@ wxPdfEncrypt::CreateDocumentId()
   int k;
   for (k = 0; k < 16; k++)
   {
-    documentId.Append(wxUniChar(id[k]));
+    documentId.Append(wxUniChar((unsigned int) id[k]));
   }
   return documentId;
 }
