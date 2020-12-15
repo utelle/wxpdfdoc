@@ -66,33 +66,33 @@ else ifeq ($(config),release_wxdll_win64)
   makefont_config = release_wxdll_win64
   showfont_config = release_wxdll_win64
 
-else ifeq ($(config),dll_debug_win32)
-  wxpdfdoc_config = dll_debug_win32
-  minimal_config = dll_debug_win32
-  dcsample_config = dll_debug_win32
-  makefont_config = dll_debug_win32
-  showfont_config = dll_debug_win32
+else ifeq ($(config),debug_dll_win32)
+  wxpdfdoc_config = debug_dll_win32
+  minimal_config = debug_dll_win32
+  dcsample_config = debug_dll_win32
+  makefont_config = debug_dll_win32
+  showfont_config = debug_dll_win32
 
-else ifeq ($(config),dll_debug_win64)
-  wxpdfdoc_config = dll_debug_win64
-  minimal_config = dll_debug_win64
-  dcsample_config = dll_debug_win64
-  makefont_config = dll_debug_win64
-  showfont_config = dll_debug_win64
+else ifeq ($(config),debug_dll_win64)
+  wxpdfdoc_config = debug_dll_win64
+  minimal_config = debug_dll_win64
+  dcsample_config = debug_dll_win64
+  makefont_config = debug_dll_win64
+  showfont_config = debug_dll_win64
 
-else ifeq ($(config),dll_release_win32)
-  wxpdfdoc_config = dll_release_win32
-  minimal_config = dll_release_win32
-  dcsample_config = dll_release_win32
-  makefont_config = dll_release_win32
-  showfont_config = dll_release_win32
+else ifeq ($(config),release_dll_win32)
+  wxpdfdoc_config = release_dll_win32
+  minimal_config = release_dll_win32
+  dcsample_config = release_dll_win32
+  makefont_config = release_dll_win32
+  showfont_config = release_dll_win32
 
-else ifeq ($(config),dll_release_win64)
-  wxpdfdoc_config = dll_release_win64
-  minimal_config = dll_release_win64
-  dcsample_config = dll_release_win64
-  makefont_config = dll_release_win64
-  showfont_config = dll_release_win64
+else ifeq ($(config),release_dll_win64)
+  wxpdfdoc_config = release_dll_win64
+  minimal_config = release_dll_win64
+  dcsample_config = release_dll_win64
+  makefont_config = release_dll_win64
+  showfont_config = release_dll_win64
 
 else
   $(error "invalid configuration $(config)")
@@ -181,10 +181,10 @@ help:
 	@echo "  debug_wxdll_win64"
 	@echo "  release_wxdll_win32"
 	@echo "  release_wxdll_win64"
-	@echo "  dll_debug_win32"
-	@echo "  dll_debug_win64"
-	@echo "  dll_release_win32"
-	@echo "  dll_release_win64"
+	@echo "  debug_dll_win32"
+	@echo "  debug_dll_win64"
+	@echo "  release_dll_win32"
+	@echo "  release_dll_win64"
 	@echo ""
 	@echo "TARGETS:"
 	@echo "   all (default)"

@@ -24,7 +24,8 @@ wxCompilerPrefix ?= gcc
 # Set to 1 to enable
 wxMonolithic ?= 0
 
-# Flavour of wxWidgets library
+# Flavour of component library (postfix for library name)
+#wxFlavour ?= _$(wxToolkitPrefix)$(wxShortVersionString)u
 wxFlavour ?=
 
 # Configuration of wxWidgets library
@@ -99,7 +100,7 @@ wxLibTypeSuffix = lib
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)/
 endif
 
-ifeq ($(config),dll_debug_win32)
+ifeq ($(config),debug_dll_win32)
 wxArchSuffix =
 wxSuffix = ud
 wxSuffixDebug = d
@@ -107,7 +108,7 @@ wxLibTypeSuffix = dll
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)dll/
 endif
 
-ifeq ($(config),dll_debug_win64)
+ifeq ($(config),debug_dll_win64)
 wxArchSuffix = _x64
 wxSuffix = ud
 wxSuffixDebug = d
@@ -115,7 +116,7 @@ wxLibTypeSuffix = dll
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)dll/
 endif
 
-ifeq ($(config),dll_release_win32)
+ifeq ($(config),release_dll_win32)
 wxArchSuffix =
 wxSuffix = u
 wxSuffixDebug =
@@ -123,7 +124,7 @@ wxLibTypeSuffix = dll
 wxIntRootDir = $(wxCompilerPrefix)$(wxArchSuffix)_$(wxToolkitPrefix)$(wxSuffix)dll/
 endif
 
-ifeq ($(config),dll_release_win64)
+ifeq ($(config),release_dll_win64)
 wxArchSuffix = _x64
 wxSuffix = u
 wxSuffixDebug =
