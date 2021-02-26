@@ -80,7 +80,7 @@ public:
   wxPrintData& GetPrintData() { return m_printData; }
 
   void SetResolution(int ppi);
-  int GetResolution() const;
+  virtual int GetResolution() const wxOVERRIDE;
 
   void SetImageType(wxBitmapType bitmapType, int quality = 75);
 
