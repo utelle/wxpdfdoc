@@ -1843,6 +1843,17 @@ wxPdfDocument::PutTemplates()
         }
         Out(">>");
       }
+      // References to patterns
+      if (currentTemplate->m_patterns->size() > 0)
+      {
+        Out("/Pattern <<");
+        wxPdfPatternMap::iterator pattern;
+        for (pattern = currentTemplate->m_patterns->begin(); pattern != currentTemplate->m_patterns->end(); pattern++)
+        {
+          OutAscii(wxString::Format(wxS("/P%d %d 0 R"), pattern->second->GetIndex(), pattern->second->GetObjIndex()));
+        }
+        Out(">>");
+      }
       Out(">>");
     }
 
@@ -2424,10 +2435,10 @@ wxPdfDocument::PutResources()
   PutShaders();
   PutFonts();
   PutImages();
+  PutPatterns();
   PutTemplates();
   PutImportedObjects();
   PutSpotColours();
-  PutPatterns();
   PutLayers();
 
   // Resource dictionary

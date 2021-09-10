@@ -2557,6 +2557,10 @@ wxPdfDocument::SetDrawPattern(const wxString& name)
     {
       OutAscii(m_drawColour.GetColour(true));
     }
+    if (m_inTemplate)
+    {
+      (*(m_currentTemplate->m_patterns))[pattern->first] = pattern->second;
+    }
   }
   else
   {
@@ -2651,6 +2655,10 @@ wxPdfDocument::SetFillPattern(const wxString& name)
     if (m_page > 0)
     {
       OutAscii(m_fillColour.GetColour(false));
+    }
+    if (m_inTemplate)
+    {
+      (*(m_currentTemplate->m_patterns))[pattern->first] = pattern->second;
     }
   }
   else
