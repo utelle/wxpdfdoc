@@ -2225,39 +2225,148 @@ wxPdfDocument::PutSpotColours()
 }
 
 void
+wxPdfDocument::InitPatternIds()
+{
+  wxPdfPatternMap::iterator patternIter = m_patterns->begin();
+  for (patternIter = m_patterns->begin(); patternIter != m_patterns->end(); patternIter++)
+  {
+    wxPdfPattern* pattern = patternIter->second;
+    pattern->SetObjIndex(GetNewObjId());
+  }
+}
+
+void
 wxPdfDocument::PutPatterns()
 {
   wxPdfPatternMap::iterator patternIter = m_patterns->begin();
   for (patternIter = m_patterns->begin(); patternIter != m_patterns->end(); patternIter++)
   {
     wxPdfPattern* pattern = patternIter->second;
-    NewObj();
-    pattern->SetObjIndex(m_n);
+    NewObj(pattern->GetObjIndex());
     Out("<<");
     Out("/Type /Pattern");
     Out("/PatternType 1");
     Out("/PaintType 1");
     Out("/TilingType 1");
-    OutAscii(wxString(wxS("/BBox [0 0 ")) +
-             wxPdfUtility::Double2String(pattern->GetWidth() * m_k, 4) + wxS(" ") +
-             wxPdfUtility::Double2String(pattern->GetHeight() * m_k, 4) + wxS("]"));
-    OutAscii(wxString(wxS("/XStep ")) +
-             wxPdfUtility::Double2String(pattern->GetWidth() * m_k, 4));
-    OutAscii(wxString(wxS("/YStep ")) +
-             wxPdfUtility::Double2String(pattern->GetHeight() * m_k, 4));
-    wxPdfImage* image = pattern->GetImage();
-    OutAscii(wxString::Format(wxS("/Resources << /XObject << /I%d %d 0 R >> >>"), image->GetIndex(), image->GetObjIndex()));
-    Out("/Matrix [ 1 0 0 1 0 0 ]");
+    if (pattern->GetPatternStyle() == wxPDF_PATTERNSTYLE_IMAGE ||
+        pattern->GetPatternStyle() == wxPDF_PATTERNSTYLE_TEMPLATE )
+    {
+      OutAscii(wxString(wxS("/BBox [0 0 ")) +
+        wxPdfUtility::Double2String(pattern->GetWidth() * m_k, 4) + wxS(" ") +
+        wxPdfUtility::Double2String(pattern->GetHeight() * m_k, 4) + wxS("]"));
+      OutAscii(wxString(wxS("/XStep ")) +
+        wxPdfUtility::Double2String(pattern->GetWidth() * m_k, 4));
+      OutAscii(wxString(wxS("/YStep ")) +
+        wxPdfUtility::Double2String(pattern->GetHeight() * m_k, 4));
+      if (pattern->GetPatternStyle() == wxPDF_PATTERNSTYLE_IMAGE)
+      {
+        wxPdfImage* image = pattern->GetImage();
+        OutAscii(wxString::Format(wxS("/Resources << /XObject << /I%d %d 0 R >> >>"), image->GetIndex(), image->GetObjIndex()));
+        Out("/Matrix [ 1 0 0 1 0 0 ]");
 
-    wxString sdata = wxString::Format(wxS("q ")) +
-                     wxPdfUtility::Double2String(pattern->GetWidth() * m_k, 4) + wxS(" 0 0 ") +
-                     wxPdfUtility::Double2String(pattern->GetHeight() * m_k, 4) + wxS(" 0 0 cm ") +
-                     wxString::Format(wxS("/I%d Do Q"), image->GetIndex());
-    wxMemoryOutputStream mos;
-    mos.Write(sdata.ToAscii(), sdata.Length());
-    OutAscii(wxString(wxS("/Length ")) + wxString::Format(wxS("%lu"), (unsigned long) CalculateStreamLength(mos.TellO())));
-    Out(">>");
-    PutStream(mos);
+        wxString sdata = wxString(wxS("q ")) +
+          wxPdfUtility::Double2String(pattern->GetWidth() * m_k, 4) + wxS(" 0 0 ") +
+          wxPdfUtility::Double2String(pattern->GetHeight() * m_k, 4) + wxS(" 0 0 cm ") +
+          wxString::Format(wxS("/I%d Do Q"), image->GetIndex());
+        wxMemoryOutputStream mos;
+        mos.Write(sdata.ToAscii(), sdata.Length());
+        OutAscii(wxString(wxS("/Length ")) + wxString::Format(wxS("%lu"), (unsigned long)CalculateStreamLength(mos.TellO())));
+        Out(">>");
+        PutStream(mos);
+      }
+      else
+      {
+        int templateId = pattern->GetTemplateId();
+        wxPdfTemplate* tpl = (*m_templates)[templateId];
+        OutAscii(wxString(wxS("/Resources << /XObject << ")) + m_templatePrefix + wxString::Format(wxS("%d %d 0 R >> >>"), tpl->GetIndex(), tpl->GetObjIndex()));
+        Out("/Matrix [ 1 0 0 1 0 0 ]");
+        double x, y, w, h;
+        w = pattern->GetWidth();
+        h = pattern->GetHeight();
+        x = tpl->GetX();
+        y = tpl->GetY();
+        GetTemplateSize(templateId, w, h);
+
+        double xScale = w / tpl->GetWidth();
+        double yScale = h / tpl->GetHeight();
+        double xTrans = (x - xScale * tpl->GetX()) * m_k;
+        double yTrans = (y - yScale * tpl->GetY()) * m_k;
+        wxString sdata = wxString(wxS("q ")) +
+          wxPdfUtility::Double2String(xScale, 4) + wxString(wxS(" 0 0 ")) +
+          wxPdfUtility::Double2String(yScale, 4) + wxString(wxS(" ")) +
+          wxPdfUtility::Double2String(xTrans, 2) + wxString(wxS(" ")) +
+          wxPdfUtility::Double2String(yTrans, 2) + wxString(wxS(" cm ")) +
+          m_templatePrefix + wxString::Format(wxS("%d Do Q"), tpl->GetIndex());
+        wxMemoryOutputStream mos;
+        mos.Write(sdata.ToAscii(), sdata.Length());
+        OutAscii(wxString(wxS("/Length ")) + wxString::Format(wxS("%lu"), (unsigned long)CalculateStreamLength(mos.TellO())));
+        Out(">>");
+        PutStream(mos);
+      }
+    }
+    else
+    {
+      OutAscii(wxString(wxS("/BBox [0 0 10 10]")));
+      OutAscii(wxString(wxS("/XStep 10")));
+      OutAscii(wxString(wxS("/YStep 10")));
+      OutAscii(wxString(wxS("/Resources << >>")));
+      wxString patternData;
+      double corrFactor = 1.0;
+      switch (pattern->GetPatternStyle())
+      {
+        case wxPDF_PATTERNSTYLE_BDIAGONAL_HATCH:
+          patternData = "0 0 m 10 10 l -1  9  m 1 11 l 9  -1  m 11 1 l";
+          break;
+        case wxPDF_PATTERNSTYLE_CROSSDIAG_HATCH:
+          patternData = "0 0 m 10 10 l 0 10 m 10 0 l";
+          break;
+        case wxPDF_PATTERNSTYLE_FDIAGONAL_HATCH:
+          patternData = "0 10 m 10 0 l -1 1 m 1 -1 l 9 11 m 11 9 l";
+          break;
+        case wxPDF_PATTERNSTYLE_CROSS_HATCH:
+          patternData = "0 5 m 10 5 l 5 0 m 5 10 l";
+          break;
+        case wxPDF_PATTERNSTYLE_HORIZONTAL_HATCH:
+          patternData = "0 5 m 10 5 l";
+          break;
+        case wxPDF_PATTERNSTYLE_VERTICAL_HATCH:
+          patternData = "5 0 m 5 10 l";
+          break;
+        case wxPDF_PATTERNSTYLE_HERRINGBONE_HATCH:
+          patternData = wxString(wxS("1.25 1.25 m 8.75 1.25 l 0 3.75 m 6.25 3.75 l 8.75 3.75 m 10 3.75 l")) +
+                        wxS(" 0 6.25 m 3.75 6.25 l 6.25 6.25 m 10 6.25 l 0 8.75 m 1.25 8.75 l 3.75 8.75 m 10 8.75 l") +
+                        wxS(" 1.25 0 m 1.25 3.75 l 1.25 6.25 m 1.25 10 l 3.75 0 m 3.75 1.25 l 3.75 3.75 m 3.75 10 l") +
+                        wxS(" 6.25 1.25 m 6.25 8.75 l 8.75 0 m 8.75 6.25 l 8.75 8.75 m 8.75 10 l");
+          corrFactor = 4;
+          break;
+        case wxPDF_PATTERNSTYLE_BASKETWEAVE_HATCH:
+          patternData = wxString(wxS("0 1.25 m 10 1.25 l 0 6.25 m 10 6.25 l 3.75 0 m 3.75 10 l 8.75 0 m 8.75 10 l")) +
+            wxS(" 0 3.75 m 3.75 3.75 l 8.75 3.75 m 10 3.75 l 3.75 8.75 m 8.75 8.75 l") +
+            wxS(" 1.25 0 m 1.25 1.25 l 1.25 6.25 m 1.25 10 l 6.25 1.25 m 6.25 6.25 l");
+          corrFactor = 4;
+          break;
+        case wxPDF_PATTERNSTYLE_BRICK_HATCH:
+          patternData = "0 3 m 10 3 l 0 8 m 10 8 l 3 0 m 3 3 l 3 8 m 3 10 l 8 3 m 8 8 l";
+          corrFactor = 2;
+          break;
+      }
+      OutAscii(wxString(wxS("/Matrix [")) +
+        wxPdfUtility::Double2String((pattern->GetWidth() * m_k) / 10.0 * corrFactor, 4) + wxS(" 0 0 ") +
+        wxPdfUtility::Double2String((pattern->GetHeight() * m_k) / 10.0 * corrFactor, 4) + wxS(" 0 0]"));
+      wxString background;
+      if (pattern->HasFillColour())
+      { 
+        background = wxPdfUtility::RGB2String(pattern->GetFillColour()) + wxS(" rg 0 0 10 10 re f ");
+      }
+      wxString sdata = wxString::Format(wxS("q ")) + background +
+        wxPdfUtility::RGB2String(pattern->GetDrawColour()) + wxS(" RG 2 J 0.5 w ") +
+        patternData + wxS(" S Q");
+      wxMemoryOutputStream mos;
+      mos.Write(sdata.ToAscii(), sdata.Length());
+      OutAscii(wxString(wxS("/Length ")) + wxString::Format(wxS("%lu"), (unsigned long)CalculateStreamLength(mos.TellO())));
+      Out(">>");
+      PutStream(mos);
+    }
     Out("endobj");
   }
 }
@@ -2435,8 +2544,9 @@ wxPdfDocument::PutResources()
   PutShaders();
   PutFonts();
   PutImages();
-  PutPatterns();
+  InitPatternIds();
   PutTemplates();
+  PutPatterns();
   PutImportedObjects();
   PutSpotColours();
   PutLayers();

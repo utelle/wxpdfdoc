@@ -151,17 +151,10 @@ public:
 
 static const wxCmdLineEntryDesc cmdLineDesc[] =
 {
-#if wxCHECK_VERSION(2,9,0)
   { wxCMD_LINE_OPTION, "s", "sampledir", "wxPdfDocument samples directory",  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "f", "fontdir",   "wxPdfDocument font directory",     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_SWITCH, "t", "testmode",  "Non-interactive testmode",         wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_SWITCH, "h", "help",      "Display help",                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
-#else
-  { wxCMD_LINE_OPTION, wxS("s"), wxS("sampledir"), wxS("wxPdfDocument samples directory"),  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_OPTION, wxS("f"), wxS("fontdir"),   wxS("wxPdfDocument font directory"),     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_SWITCH, wxS("t"), wxS("testmode"),  wxS("Non-interactive testmode"),         wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_SWITCH, wxS("h"), wxS("help"),      wxS("Display help"),                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
-#endif
   { wxCMD_LINE_NONE }
 };
 

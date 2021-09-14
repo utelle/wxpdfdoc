@@ -69,7 +69,7 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
-<dt><b>1.0.0</b> - <i>December 2020 (planned)</i></dt>
+<dt><b>1.0.0</b> - <i>September 2021</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets versions 3.0.x and 3.1.x.
 
@@ -79,11 +79,15 @@ General changes:<br>
 - Added transformation matrix support for wxPdfDC
 - Added attribute "char-spacing" for XML markup element "span"
 - Added maximum height attribute for table rows in XML markup
+- Implemented extended support for fill patterns (template based patterns, various hatch patterns)
+- Enhanced support for wxBrush styles in wxPdfDC (stipple and hatch styles)
 - Changed data type of image measures in XML markup (from integer to double)
 - Optimized wxPdfDC output (setting of pens, brushes, state changes)
 
 Fixed bugs:<br>
 - Fixed issue with bitmap images in wxPdfDC (now using globally unique identifiers)
+- Fixed wxPdfDC issue with pen and brush color
+- Fixed issue with patterns in templates
 - Use the transparent background mode by default (relevant for alpha support in wxPdfDC)
 
 </dd>

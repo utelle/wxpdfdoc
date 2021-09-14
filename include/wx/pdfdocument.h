@@ -515,13 +515,35 @@ public:
 
   /// Add an image pattern
   /**
-  * Add a pattern which can be reference in draw or fill pattern methods
+  * Add an image pattern which can be referenced in draw or fill pattern methods
   * \param patternName the name of the pattern (case sensitive)
-  * \param image the image to use for the pattern
-  * \param width the display width
-  * \param height the display height
+  * \param image the image to be used as a pattern
+  * \param width the display width of the pattern
+  * \param height the display height of the pattern
   */
   virtual bool AddPattern(const wxString& patternName, const wxImage& image, double width, double height);
+
+  /// Add a template based pattern
+  /**
+  * Add a template based pattern which can be referenced in draw or fill pattern methods
+  * \param patternName the name of the pattern (case sensitive)
+  * \param templateId the id of the template to be used as a pattern
+  * \param width the display width of the pattern
+  * \param height the display height of the pattern
+  */
+  virtual bool AddPattern(const wxString& patternName, int templateId, double width, double height);
+
+  /// Add a hatched pattern
+  /**
+  * Add a hatched pattern which can be referenced in draw or fill pattern methods
+  * \param patternName the name of the pattern (case sensitive)
+  * \param patternStyle the pattern style to be used as a pattern
+  * \param width the display width
+  * \param height the display height
+  * \param drawColour the foreground colour used for hatching
+  * \param fillColour the background colour to fill the pattern background (optional)
+  */
+  virtual bool AddPattern(const wxString& patternName, wxPdfPatternStyle patternStyle, double width, double height, const wxColour& drawColour, const wxColour& fillColour = wxColour());
 
   /// Defines the colour used for all drawing operations.
   /**
@@ -2648,6 +2670,9 @@ protected:
 
   /// Add spot colours
   virtual void PutSpotColours();
+
+  /// Initialize object ids of patterns
+  virtual void InitPatternIds();
 
   /// Add patterns
   virtual void PutPatterns();

@@ -73,10 +73,6 @@
 
 #include "printing.h"
 
-#if !wxCHECK_VERSION(2, 9, 0)
-    #define wxPENSTYLE_DOT_DASH wxDOT_DASH
-#endif
-
 #ifndef __WXMSW__
 #include "mondrian.xpm"
 #endif
@@ -103,22 +99,16 @@ wxPageSetupDialogData* g_pageSetupData = (wxPageSetupDialogData*) NULL;
 IMPLEMENT_APP(MyApp)
 
 // Writes a header on a page. Margin units are in millimetres.
-bool WritePageHeader(wxPrintout *printout, wxDC *dc, const wxChar *text, float mmToLogical);
+bool WritePageHeader(wxPrintout* printout, wxDC* dc, const wxStringCharType* text, float mmToLogical);
 
 // The `main program' equivalent, creating the windows and returning the
 // main frame
 
 static const wxCmdLineEntryDesc cmdLineDesc[] =
 {
-#if wxCHECK_VERSION(2,9,0)
   { wxCMD_LINE_OPTION, "s", "sampledir", "wxPdfDocument samples directory",  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "f", "fontdir",   "wxPdfDocument font directory",     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_SWITCH, "h", "help",      "Display help",                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
-#else
-  { wxCMD_LINE_OPTION, wxS("s"), wxS("sampledir"), wxS("wxPdfDocument samples directory"),  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_OPTION, wxS("f"), wxS("fontdir"),   wxS("wxPdfDocument font directory"),     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_SWITCH, wxS("h"), wxS("help"),      wxS("Display help"),                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
-#endif
   { wxCMD_LINE_NONE }
 };
 
@@ -183,11 +173,7 @@ bool MyApp::OnInit(void)
     return false;
   }
 
-#if wxCHECK_VERSION(2,9,0)
     m_testFont.Create(10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxS("Arial"));
-#else
-    m_testFont.Create(10, wxSWISS, wxNORMAL, wxNORMAL, false, wxS("Arial"));
-#endif
 
     g_printData = new wxPrintData;
     // You could set an initial paper size here
@@ -640,8 +626,11 @@ void MyFrame::Draw(wxDC& dc)
     dc.SetUserScale(coordScaleX, coordScaleY);
 
     dc.SetPen( wxPen(*wxBLACK,0,wxPENSTYLE_DOT_DASH) );
+    dc.SetBrush(wxBrush(wxColour(64, 128, 64), wxBRUSHSTYLE_CROSSDIAG_HATCH));
     dc.DrawEllipse(50, 140, 100, 50);
+
     dc.SetPen(*wxRED_PEN);
+    dc.SetBrush(*wxCYAN_BRUSH);
 
     dc.SetUserScale(fontScaleX, fontScaleY);
     dc.DrawText(wxS("Test message: this is in 10 point text"), wxRound(10 * txtPosScaleX), wxRound(180 * txtPosScaleY));
@@ -919,8 +908,6 @@ void MyFrame::WriteRichTextBuffer()
                      wxIMAGE_QUALITY_HIGH
                     );
 
-#if wxMAJOR_VERSION > 2 || (wxMAJOR_VERSION == 2 && wxMINOR_VERSION == 9)
-
     r.SetDefaultStyle(wxRichTextAttr());
 
     r.BeginSuppressUndo();
@@ -934,7 +921,7 @@ void MyFrame::WriteRichTextBuffer()
 
     r.BeginFontSize(14);
 
-    wxString lineBreak = (wxChar) 29;
+    wxString lineBreak = wxUniChar(29);
 
     r.WriteText(wxString(wxS("Welcome to wxRichTextCtrl, a wxWidgets control")) + lineBreak + wxS("for editing and presenting styled text and images\n"));
     r.EndFontSize();
@@ -1190,208 +1177,6 @@ void MyFrame::WriteRichTextBuffer()
     r.Thaw();
 
     r.EndSuppressUndo();
-
-#else
-// 2.8.x implementation
-    r.SetDefaultStyle(wxRichTextAttr());
-
-    r.BeginSuppressUndo();
-
-    r.BeginParagraphSpacing(0, 20);
-
-    r.BeginAlignment(wxTEXT_ALIGNMENT_CENTRE);
-    r.BeginBold();
-
-    r.BeginFontSize(14);
-
-    wxString lineBreak = (wxChar) 29;
-
-    r.WriteText(wxString(wxS("Welcome to wxRichTextCtrl, a wxWidgets control")) + lineBreak + wxS("for editing and presenting styled text and images\n"));
-    r.EndFontSize();
-    //r.Newline();
-
-    r.BeginItalic();
-    r.WriteText(wxS("by Julian Smart"));
-    r.EndItalic();
-
-    r.EndBold();
-    r.Newline();
-
-    r.WriteImage(imgZebra);
-
-    r.Newline();
-    r.Newline();
-
-    r.EndAlignment();
-
-    int i;
-    for ( i = 0; i < 10; ++i)
-    {
-
-        r.WriteText(wxS("What can you do with this thing? "));
-
-        r.WriteImage(imgSmile);
-        r.WriteText(wxS(" Well, you can change text "));
-
-        r.BeginTextColour(wxColour(255, 0, 0));
-        r.WriteText(wxS("colour, like this red bit."));
-        r.EndTextColour();
-
-        wxRichTextAttr backgroundColourAttr;
-        backgroundColourAttr.SetBackgroundColour(*wxGREEN);
-        backgroundColourAttr.SetTextColour(wxColour(0, 0, 255));
-        r.BeginStyle(backgroundColourAttr);
-        r.WriteText(wxS(" And this blue on green bit."));
-        r.EndStyle();
-
-        r.WriteText(wxS(" Naturally you can make things "));
-        r.BeginBold();
-        r.WriteText(wxS("bold "));
-        r.EndBold();
-        r.BeginItalic();
-        r.WriteText(wxS("or italic "));
-        r.EndItalic();
-        r.BeginUnderline();
-        r.WriteText(wxS("or underlined."));
-        r.EndUnderline();
-
-        r.BeginFontSize(14);
-        r.WriteText(wxS(" Different font sizes on the same line is allowed, too."));
-        r.EndFontSize();
-
-        r.WriteText(wxS(" Next we'll show an indented paragraph."));
-
-        r.Newline();
-
-        r.BeginLeftIndent(60);
-        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
-        r.Newline();
-
-        r.EndLeftIndent();
-
-        r.WriteText(wxS("Next, we'll show a first-line indent, achieved using BeginLeftIndent(100, -40)."));
-
-        r.Newline();
-
-        r.BeginLeftIndent(100, -40);
-
-        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
-        r.Newline();
-
-        r.EndLeftIndent();
-
-        r.WriteText(wxS("Numbered bullets are possible, again using subindents:"));
-        r.Newline();
-
-        r.BeginNumberedBullet(1, 100, 60);
-        r.WriteText(wxS("This is my first item. Note that wxRichTextCtrl can apply numbering and bullets automatically based on list styles, but this list is formatted explicitly by setting indents."));
-        r.Newline();
-
-        r.EndNumberedBullet();
-
-        r.BeginNumberedBullet(2, 100, 60);
-        r.WriteText(wxS("This is my second item."));
-        r.Newline();
-
-        r.EndNumberedBullet();
-
-        r.WriteText(wxS("The following paragraph is right-indented:"));
-        r.Newline();
-
-        r.BeginRightIndent(200);
-
-        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
-        r.Newline();
-
-        r.EndRightIndent();
-
-        r.WriteText(wxS("The following paragraph is right-aligned with 1.5 line spacing:"));
-        r.Newline();
-
-        r.BeginAlignment(wxTEXT_ALIGNMENT_RIGHT);
-        r.BeginLineSpacing(wxTEXT_ATTR_LINE_SPACING_HALF);
-        r.WriteText(wxS("It was in January, the most down-trodden month of an Edinburgh winter. An attractive woman came into the cafe, which is nothing remarkable."));
-        r.Newline();
-        r.EndLineSpacing();
-        r.EndAlignment();
-
-        wxArrayInt tabs;
-        tabs.Add(400);
-        tabs.Add(600);
-        tabs.Add(800);
-        tabs.Add(1000);
-        wxTextAttrEx attr;
-        attr.SetFlags(wxTEXT_ATTR_TABS);
-        attr.SetTabs(tabs);
-        r.SetDefaultStyle(attr);
-
-        r.WriteText(wxS("This line contains tabs:\tFirst tab\tSecond tab\tThird tab"));
-        r.Newline();
-
-        r.WriteText(wxS("Other notable features of wxRichTextCtrl include:"));
-        r.Newline();
-
-        r.BeginSymbolBullet(wxS('*'), 100, 60);
-        r.WriteText(wxS("Compatibility with wxTextCtrl API"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        r.BeginSymbolBullet(wxS('*'), 100, 60);
-        r.WriteText(wxS("Easy stack-based BeginXXX()...EndXXX() style setting in addition to SetStyle()"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        r.BeginSymbolBullet(wxS('*'), 100, 60);
-        r.WriteText(wxS("XML loading and saving"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        r.BeginSymbolBullet(wxS('*'), 100, 60);
-        r.WriteText(wxS("Undo/Redo, with batching option and Undo suppressing"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        r.BeginSymbolBullet(wxS('*'), 100, 60);
-        r.WriteText(wxS("Clipboard copy and paste"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        r.BeginSymbolBullet(wxS('*'), 100, 60);
-        r.WriteText(wxS("wxRichTextStyleSheet with named character and paragraph styles, and control for applying named styles"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        r.BeginSymbolBullet(wxS('*'), 100, 60);
-        r.WriteText(wxS("A design that can easily be extended to other content types, ultimately with text boxes, tables, controls, and so on"));
-        r.Newline();
-        r.EndSymbolBullet();
-
-        // Make a style suitable for showing a URL
-        wxRichTextAttr urlStyle;
-        urlStyle.SetTextColour(*wxBLUE);
-        urlStyle.SetFontUnderlined(true);
-
-        r.WriteText(wxS("wxRichTextCtrl can also display URLs, such as this one: "));
-        r.BeginStyle(urlStyle);
-        r.BeginURL(wxS("http://www.wxwidgets.org"));
-        r.WriteText(wxS("The wxWidgets Web Site"));
-        r.EndURL();
-        r.EndStyle();
-        r.WriteText(wxS(". Click on the URL to generate an event."));
-
-        r.Newline();
-
-        r.WriteText(wxS("Note: this sample content was generated programmatically from within the MyFrame constructor in the demo. The images were loaded from inline XPMs. Enjoy wxRichTextCtrl!"));
-
-        r.Newline();
-    }
-
-    r.EndParagraphSpacing();
-
-    r.EndSuppressUndo();
-
-#endif
-
 }
 
 #endif
@@ -1532,7 +1317,7 @@ bool MyPrintout::OnPrintPage(int page)
         // Draw page numbers at top left corner of printable area, sized so that
         // screen size of text matches paper size.
         MapScreenSizeToPage();
-        wxChar buf[200];
+        wxStringCharType buf[200];
         wxSprintf(buf, wxS("PAGE %d"), page);
         dc->DrawText(buf, 0, 0);
 
@@ -1740,7 +1525,7 @@ void MyPrintout::DrawPageTwo()
 }
 
 // Writes a header on a page. Margin units are in millimetres.
-bool WritePageHeader(wxPrintout *printout, wxDC *dc, const wxChar *text, float mmToLogical)
+bool WritePageHeader(wxPrintout* printout, wxDC* dc, const wxStringCharType* text, float mmToLogical)
 {
 /*
 static wxFont *headerFont = (wxFont *) NULL;

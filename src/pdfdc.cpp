@@ -27,6 +27,7 @@
 
 #include "wx/pdfdc.h"
 #include "wx/pdffontmanager.h"
+#include "wx/pdfutility.h"
 
 #include <math.h>
 
@@ -1597,8 +1598,73 @@ wxPdfDCImpl::SetupBrush()
   {
     if (MustSetCurrentBrush(curBrush))
     {
+      wxColour brushColour = curBrush.GetColour();
+      wxString pdfPatternName;
+      wxPdfPatternStyle pdfPatternStyle = wxPDF_PATTERNSTYLE_NONE;
+      switch (curBrush.GetStyle())
+      {
+      case wxBRUSHSTYLE_BDIAGONAL_HATCH:
+        pdfPatternStyle = wxPDF_PATTERNSTYLE_BDIAGONAL_HATCH;
+        pdfPatternName = "dcHatchBDiagonal";
+        break;
+      case wxBRUSHSTYLE_CROSSDIAG_HATCH:
+        pdfPatternStyle = wxPDF_PATTERNSTYLE_CROSSDIAG_HATCH;
+        pdfPatternName = "dcHatchCrossDiag";
+        break;
+      case wxBRUSHSTYLE_FDIAGONAL_HATCH:
+        pdfPatternStyle = wxPDF_PATTERNSTYLE_FDIAGONAL_HATCH;
+        pdfPatternName = "dcHatchFDiagonal";
+        break;
+      case wxBRUSHSTYLE_CROSS_HATCH:
+        pdfPatternStyle = wxPDF_PATTERNSTYLE_CROSS_HATCH;
+        pdfPatternName = "dcHatchCross";
+        break;
+      case wxBRUSHSTYLE_HORIZONTAL_HATCH:
+        pdfPatternStyle = wxPDF_PATTERNSTYLE_HORIZONTAL_HATCH;
+        pdfPatternName = "dcHatchHorizontal";
+        break;
+      case wxBRUSHSTYLE_VERTICAL_HATCH:
+        pdfPatternStyle = wxPDF_PATTERNSTYLE_VERTICAL_HATCH;
+        pdfPatternName = "dcHatchVertical";
+        break;
+      case wxBRUSHSTYLE_STIPPLE:
+        pdfPatternStyle = wxPDF_PATTERNSTYLE_IMAGE;
+        pdfPatternName = "dcImagePattern";
+        break;
+      case wxBRUSHSTYLE_STIPPLE_MASK:
+      case wxBRUSHSTYLE_STIPPLE_MASK_OPAQUE:
+        // Stipple mask / stipple mask opaque not implemented
+      case wxBRUSHSTYLE_TRANSPARENT:
+      case wxBRUSHSTYLE_SOLID:
+      default:
+        break;
+      }
+      if (pdfPatternStyle >= wxPDF_PATTERNSTYLE_FIRST_HATCH && pdfPatternStyle <= wxPDF_PATTERNSTYLE_LAST_HATCH)
+      {
+        wxString patternName = pdfPatternName + wxString::Format(wxS("#%8x"), brushColour.GetRGBA());
+        m_pdfDocument->AddPattern(patternName, pdfPatternStyle, ScaleLogicalToPdfXRel(6), ScaleLogicalToPdfYRel(6), brushColour);
+        m_pdfDocument->SetFillPattern(patternName);
+      }
+      else if (pdfPatternStyle == wxPDF_PATTERNSTYLE_IMAGE)
+      {
+        wxImage imagePattern = curBrush.GetStipple()->ConvertToImage();
+        if (imagePattern.Ok())
+        {
+          imagePattern.SetMask(false);
+          wxString patternName = pdfPatternName + wxString::Format(wxS("#%d"), IncreaseImageCounter());
+          m_pdfDocument->AddPattern(patternName, pdfPatternStyle, ScaleLogicalToPdfXRel(imagePattern.GetWidth()), ScaleLogicalToPdfYRel(imagePattern.GetHeight()), brushColour);
+          m_pdfDocument->SetFillPattern(patternName);
+        }
+        else
+        {
+          m_pdfDocument->SetFillColour(curBrush.GetColour().Red(), curBrush.GetColour().Green(), curBrush.GetColour().Blue());
+        }
+      }
+      else
+      {
+        m_pdfDocument->SetFillColour(curBrush.GetColour().Red(), curBrush.GetColour().Green(), curBrush.GetColour().Blue());
+      }
       m_pdfBrush = curBrush;
-      m_pdfDocument->SetFillColour(curBrush.GetColour().Red(), curBrush.GetColour().Green(), curBrush.GetColour().Blue());
     }
   }
   else

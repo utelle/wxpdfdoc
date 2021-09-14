@@ -2481,6 +2481,75 @@ wxPdfDocument::AddPattern(const wxString& patternName, const wxImage& image, dou
   return isValid;
 }
 
+bool
+wxPdfDocument::AddPattern(const wxString& patternName, int templateId, double width, double height)
+{
+  bool isValid = true;
+  wxPdfPatternMap::iterator patternIter = m_patterns->find(patternName);
+  if (patternIter == m_patterns->end())
+  {
+    wxPdfTemplatesMap::iterator templateIter = m_templates->find(templateId);
+
+    if (templateIter != m_templates->end() && width > 0 && height > 0)
+    {
+
+      // Register new pattern
+      wxPdfPattern* pattern;
+      int i = (int)m_patterns->size() + 1;
+      pattern = new wxPdfPattern(i, width, height, templateId);
+      (*m_patterns)[patternName] = pattern;
+    }
+    else
+    {
+      isValid = false;
+      if (templateIter == m_templates->end())
+      {
+        wxLogError(wxString(wxS("wxPdfDocument::AddPattern: ")) +
+          wxString(_("Invalid template id.")));
+      }
+      else
+      {
+        wxLogError(wxString(wxS("wxPdfDocument::AddPattern: ")) +
+          wxString::Format(_("Invalid width (%.1f) and/or height (%.1f)."), width, height));
+      }
+    }
+  }
+  return isValid;
+}
+
+bool
+wxPdfDocument::AddPattern(const wxString& patternName, wxPdfPatternStyle patternStyle, double width, double height, const wxColour& drawColour, const wxColour& fillColour)
+{
+  bool isValid = true;
+  wxPdfPatternMap::iterator patternIter = m_patterns->find(patternName);
+  if (patternIter == m_patterns->end())
+  {
+    if (patternStyle >= wxPDF_PATTERNSTYLE_FIRST_HATCH && patternStyle <= wxPDF_PATTERNSTYLE_LAST_HATCH && width > 0 && height > 0)
+    {
+      // Register new pattern
+      wxPdfPattern* pattern;
+      int i = (int) m_patterns->size() + 1;
+      pattern = new wxPdfPattern(i, width, height, patternStyle, drawColour, fillColour);
+      (*m_patterns)[patternName] = pattern;
+    }
+    else
+    {
+      isValid = false;
+      if (!(patternStyle >= wxPDF_PATTERNSTYLE_FIRST_HATCH && patternStyle <= wxPDF_PATTERNSTYLE_LAST_HATCH))
+      {
+        wxLogError(wxString(wxS("wxPdfDocument::AddPattern: ")) +
+          wxString(_("Invalid pattern style.")));
+      }
+      if (width <= 0 || height <= 0)
+      {
+        wxLogError(wxString(wxS("wxPdfDocument::AddPattern: ")) +
+          wxString::Format(_("Invalid width (%.1f) and/or height (%.1f)."), width, height));
+      }
+    }
+  }
+  return isValid;
+}
+
 void
 wxPdfDocument::SetDrawColour(const wxColour& colour)
 {

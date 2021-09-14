@@ -207,6 +207,78 @@ drawing(bool testMode)
     pdf.SetFillColour(wxColour(200, 200, 200));
     pdf.RoundedRect(140, 255, 40, 30, 8.0, wxPDF_CORNER_TOP_RIGHT | wxPDF_CORNER_BOTTOM_RIGHT, wxPDF_STYLE_FILLDRAW);
 
+    // Examples of various fill patterns
+    pdf.AddPage();
+
+    pdf.Text(10, 15, wxS("Fill pattern examples"));
+    pdf.SetDrawColour(wxColour(0, 0, 0));
+
+    int tplHatch = pdf.BeginTemplate(0, 0, 4, 4);
+    pdf.SetTextColour(0);
+    pdf.SetDrawColour(wxColour(0, 0, 0));
+    pdf.SetFillColour(wxColour(128, 128, 255));
+    pdf.Circle(2, 2, 1.5, 0, 360, wxPDF_STYLE_FILLDRAW);
+    pdf.SetFillColour(wxColour(128, 255, 128));
+    pdf.Rect(2, 2, 1.75, 1.75, wxPDF_STYLE_FILLDRAW);
+    pdf.EndTemplate();
+
+    pdf.AddPattern(wxS("hatch1"), wxPDF_PATTERNSTYLE_BDIAGONAL_HATCH, 1, 1, wxColour(224, 0, 0));
+    pdf.AddPattern(wxS("hatch2"), wxPDF_PATTERNSTYLE_FDIAGONAL_HATCH, 2, 2, wxColour(160, 160, 0));
+    pdf.AddPattern(wxS("hatch3"), wxPDF_PATTERNSTYLE_CROSSDIAG_HATCH, 4, 4, wxColour(224, 0, 224));
+    pdf.AddPattern(wxS("hatch4"), wxPDF_PATTERNSTYLE_HORIZONTAL_HATCH, 1, 1, wxColour(255, 0, 0));
+    pdf.AddPattern(wxS("hatch5"), wxPDF_PATTERNSTYLE_VERTICAL_HATCH, 2, 2, wxColour(0, 0, 255));
+    pdf.AddPattern(wxS("hatch6"), wxPDF_PATTERNSTYLE_CROSS_HATCH, 4, 4, wxColour(0, 96, 0));
+    pdf.AddPattern(wxS("hatch7"), wxPDF_PATTERNSTYLE_BRICK_HATCH, 2, 2, wxColour(96, 96, 96), wxColour(255, 192, 128));
+    pdf.AddPattern(wxS("hatch8"), wxPDF_PATTERNSTYLE_HERRINGBONE_HATCH, 2, 2, wxColour(128, 128, 128));
+    pdf.AddPattern(wxS("hatch9"), wxPDF_PATTERNSTYLE_BASKETWEAVE_HATCH, 2, 2, wxColour(224, 160, 96));
+
+    pdf.AddPattern(wxS("hatch10"), tplHatch, 4, 4);
+    pdf.AddPattern(wxS("hatch11"), tplHatch, 6, 6);
+
+    pdf.Text(25, 25, wxS("BDiagonal"));
+    pdf.SetFillPattern(wxS("hatch1"));
+    pdf.Rect(25, 30, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(75, 25, wxS("FDiagonal"));
+    pdf.SetFillPattern(wxS("hatch2"));
+    pdf.Rect(75, 30, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(125, 25, wxS("CrossDiag"));
+    pdf.SetFillPattern(wxS("hatch3"));
+    pdf.Rect(125, 30, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(25, 65, wxS("Horizontal"));
+    pdf.SetFillPattern(wxS("hatch4"));
+    pdf.Rect(25, 70, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(75, 65, wxS("Vertical"));
+    pdf.SetFillPattern(wxS("hatch5"));
+    pdf.Rect(75, 70, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(125, 65, wxS("Cross"));
+    pdf.SetFillPattern(wxS("hatch6"));
+    pdf.Rect(125, 70, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(25, 105, wxS("Brick"));
+    pdf.SetFillPattern(wxS("hatch7"));
+    pdf.Rect(25, 110, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(75, 105, wxS("HerringBone"));
+    pdf.SetFillPattern(wxS("hatch8"));
+    pdf.Rect(75, 110, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(125, 105, wxS("BasketWeave"));
+    pdf.SetFillPattern(wxS("hatch9"));
+    pdf.Rect(125, 110, 25, 25, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(25, 145, wxS("Template 1x"));
+    pdf.SetFillPattern(wxS("hatch10"));
+    pdf.Rect(25, 150, 40, 40, wxPDF_STYLE_FILLDRAW);
+
+    pdf.Text(75, 145, wxS("Template 2x"));
+    pdf.SetFillPattern(wxS("hatch11"));
+    pdf.Rect(75, 150, 40, 40, wxPDF_STYLE_FILLDRAW);
+
     pdf.AddPage();
 
     pdf.SetFont(wxS("Helvetica"), wxS("B"), 20);
@@ -275,6 +347,7 @@ drawing(bool testMode)
     pdf.SetTextColour(0);
 
     pdf.AddPage();
+    pdf.SetAutoPageBreak(false);
     pdf.SetFont(wxS("Helvetica"), wxS(""), 10);
     pdf.SetLineWidth(0.2);
     pdf.SetDrawColour(0);
