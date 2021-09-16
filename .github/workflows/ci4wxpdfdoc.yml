@@ -39,7 +39,8 @@ jobs:
     - name: Testing
       run: |
         pwd
-        ./samples/minimal/minimal -t -s ./samples/minimal -f ../lib/fonts
+        ls ..
+        ./samples/minimal/minimal -t -s ./samples/minimal -f ../../lib/fonts
     - name: Installing
       run: |
         sudo make install
