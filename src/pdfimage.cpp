@@ -1143,10 +1143,16 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
   m_width = we[0];
   m_height = we[1];
 
+#if wxUSE_UNICODE
   const wxScopedCharBuffer wcb(data.ToAscii());
   m_dataSize = (unsigned int) data.Length();
   m_data = new char[m_dataSize];
   memcpy(m_data, (const char*) wcb, m_dataSize);
+#else
+  m_dataSize = (unsigned int) data.Length();
+  m_data = new char[m_dataSize];
+  memcpy(m_data, data.c_str(), m_dataSize);
+#endif
   return isValid;
 }
 

@@ -38,8 +38,6 @@ jobs:
         make
     - name: Testing
       run: |
-        pwd
-        ls -l
         ./samples/minimal/minimal -t -s ./samples/minimal -f ../../lib/fonts
     - name: Installing
       run: |
