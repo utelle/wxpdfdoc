@@ -1641,8 +1641,9 @@ wxPdfDCImpl::SetupBrush()
       }
       if (pdfPatternStyle >= wxPDF_PATTERNSTYLE_FIRST_HATCH && pdfPatternStyle <= wxPDF_PATTERNSTYLE_LAST_HATCH)
       {
+        double patternSize = 6.0 / m_pdfDocument->GetScaleFactor();
         wxString patternName = pdfPatternName + wxString::Format(wxS("#%8x"), brushColour.GetRGBA());
-        m_pdfDocument->AddPattern(patternName, pdfPatternStyle, ScaleLogicalToPdfXRel(6), ScaleLogicalToPdfYRel(6), brushColour);
+        m_pdfDocument->AddPattern(patternName, pdfPatternStyle, patternSize, patternSize, brushColour);
         m_pdfDocument->SetFillPattern(patternName);
       }
       else if (pdfPatternStyle == wxPDF_PATTERNSTYLE_IMAGE)
