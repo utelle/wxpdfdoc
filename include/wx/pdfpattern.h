@@ -47,8 +47,9 @@ public:
   * \param index The pattern index
   * \param width The pattern width
   * \param height The pattern height
+  * \param patternStyle The hatch style pattern to be used
   * \param drawColour The foreground colour to be used for hatching
-  * \param fillColour The background colour to be used to fill the pattern background
+  * \param fillColour The background colour to be used to fill the pattern background (optional)
   */
   wxPdfPattern(int index, double width, double height, wxPdfPatternStyle patternStyle, const wxColour& drawColour, const wxColour& fillColour = wxColour());
 

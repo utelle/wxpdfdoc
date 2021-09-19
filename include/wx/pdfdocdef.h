@@ -69,6 +69,16 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>1.0.1</b> - <i>September 2021</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets versions 3.0.x and 3.1.x.
+
+Fixed bugs:<br>
+- Fixed hatch pattern scaling in wxPdfDC
+- Fixed compile time error in ANSI mode
+
+</dd>
+
 <dt><b>1.0.0</b> - <i>September 2021</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets versions 3.0.x and 3.1.x.

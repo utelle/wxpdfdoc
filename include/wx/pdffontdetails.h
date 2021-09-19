@@ -160,6 +160,7 @@ public:
   /**
   * \param s string for which the width should be calculated
   * \param withKerning flag whether kerning should be taken into account
+  * \param charSpacing extra amount of spacing between characters (optional)
   * \return the width of the string
   */
   double GetStringWidth(const wxString& s, bool withKerning = false, double charSpacing = 0);

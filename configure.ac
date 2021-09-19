@@ -1,11 +1,11 @@
 dnl Process this script with autoconf to create configure for wxpdfdoc library
 dnl
-dnl Copyright (C) 2018-2020 Ulrich Telle <github@telle-online.de> 
+dnl Copyright (C) 2018-2021 Ulrich Telle <github@telle-online.de> 
 dnl Copyright (C) 2017 Vadim Zeitlin <vadim@wxwidgets.org>
 dnl
 dnl This file is covered by the same licence as the entire wxpdfdoc package.
 
-AC_INIT([wxpdfdoc], [1.0.0], [github@telle-online.de])
+AC_INIT([wxpdfdoc], [1.0.1], [github@telle-online.de])
 
 dnl This is the version tested with, might work with earlier ones.
 AC_PREREQ([2.69])

@@ -809,6 +809,7 @@ public:
   /**
   * A font must be selected.
   * \param s The string whose length is to be computed
+  * \param charSpacing Extra amount of spacing between characters (optional)
   * \return int
   */
   virtual double GetStringWidth(const wxString& s, double charSpacing = 0);
@@ -2600,6 +2601,7 @@ protected:
   /**
   * A font must be selected.
   * \param s The string whose length is to be computed
+  * \param charSpacing Extra amount of spacing between characters (optional)
   * \return int
   * \note This method expects the text already to be preprocessed in respect to visual layout.
   */

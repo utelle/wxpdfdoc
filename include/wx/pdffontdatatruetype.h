@@ -40,6 +40,7 @@ public:
   * \param s the string for which the width should be calculated
   * \param encoding the character to glyph mapping
   * \param withKerning flag indicating whether kerning should be taken into account
+  * \param charSpacing extra amount of spacing between characters (optional)
   * \return the width of the string
   */
   virtual double GetStringWidth(const wxString& s, const wxPdfEncoding* encoding = NULL, bool withKerning = false, double charSpacing = 0) const;
@@ -140,6 +141,7 @@ public:
   * \param s the string for which the width should be calculated
   * \param encoding the character to glyph mapping
   * \param withKerning flag indicating whether kerning should be taken into account
+  * \param charSpacing extra amount of spacing between characters (optional)
   * \return the width of the string
   */
   virtual double GetStringWidth(const wxString& s, const wxPdfEncoding* encoding = NULL, bool withKerning = false, double charSpacing = 0) const;
