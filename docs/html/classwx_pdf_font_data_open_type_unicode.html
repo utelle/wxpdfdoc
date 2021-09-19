@@ -19,7 +19,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">wxPdfDocument
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">1.0.1</span>
    </div>
   </td>
  </tr>
@@ -97,9 +97,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abe38745e636243d80d3c10bcb8806b19"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_font_data_open_type_unicode.html#abe38745e636243d80d3c10bcb8806b19">WriteUnicodeMap</a> (wxOutputStream *mapData, const <a class="el" href="classwx_pdf_encoding.html">wxPdfEncoding</a> *encoding=NULL, wxPdfSortedArrayInt *usedGlyphs=NULL, wxPdfChar2GlyphMap *subsetGlyphs=NULL)</td></tr>
 <tr class="memdesc:abe38745e636243d80d3c10bcb8806b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write character/glyph to unicode mapping.  <a href="classwx_pdf_font_data_open_type_unicode.html#abe38745e636243d80d3c10bcb8806b19">More...</a><br /></td></tr>
 <tr class="separator:abe38745e636243d80d3c10bcb8806b19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96d27e9d0c858c36f67177edd96d5846"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_font_data_open_type_unicode.html#a96d27e9d0c858c36f67177edd96d5846">WriteCIDSet</a> (wxOutputStream *mapData, const <a class="el" href="classwx_pdf_encoding.html">wxPdfEncoding</a> *encoding=NULL, wxPdfSortedArrayInt *usedGlyphs=NULL, wxPdfChar2GlyphMap *subsetGlyphs=NULL)</td></tr>
-<tr class="memdesc:a96d27e9d0c858c36f67177edd96d5846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write CID set.  <a href="classwx_pdf_font_data_open_type_unicode.html#a96d27e9d0c858c36f67177edd96d5846">More...</a><br /></td></tr>
-<tr class="separator:a96d27e9d0c858c36f67177edd96d5846"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7737abbdcd43c7d67b6a9b0f3a85e335"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_font_data_open_type_unicode.html#a7737abbdcd43c7d67b6a9b0f3a85e335">WriteCIDSet</a> (wxOutputStream *setData, const <a class="el" href="classwx_pdf_encoding.html">wxPdfEncoding</a> *encoding=NULL, wxPdfSortedArrayInt *usedGlyphs=NULL, wxPdfChar2GlyphMap *subsetGlyphs=NULL)</td></tr>
+<tr class="memdesc:a7737abbdcd43c7d67b6a9b0f3a85e335"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write CID set.  <a href="classwx_pdf_font_data_open_type_unicode.html#a7737abbdcd43c7d67b6a9b0f3a85e335">More...</a><br /></td></tr>
+<tr class="separator:a7737abbdcd43c7d67b6a9b0f3a85e335"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15deff59d49bd2cf0d5231ee2981176d"><td class="memItemLeft" align="right" valign="top">virtual wxMBConv *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_font_data_open_type_unicode.html#a15deff59d49bd2cf0d5231ee2981176d">GetEncodingConv</a> () const</td></tr>
 <tr class="memdesc:a15deff59d49bd2cf0d5231ee2981176d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the associated encoding converter.  <a href="classwx_pdf_font_data_open_type_unicode.html#a15deff59d49bd2cf0d5231ee2981176d">More...</a><br /></td></tr>
 <tr class="separator:a15deff59d49bd2cf0d5231ee2981176d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -815,6 +815,7 @@ Additional Inherited Members</h2></td></tr>
     <tr><td class="paramname">s</td><td>the string for which the width should be calculated </td></tr>
     <tr><td class="paramname">encoding</td><td>the character to glyph mapping </td></tr>
     <tr><td class="paramname">withKerning</td><td>flag indicating whether kerning should be taken into account </td></tr>
+    <tr><td class="paramname">charSpacing</td><td>extra amount of spacing between characters (optional) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1050,8 +1051,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a96d27e9d0c858c36f67177edd96d5846"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96d27e9d0c858c36f67177edd96d5846">&#9670;&nbsp;</a></span>WriteCIDSet()</h2>
+<a id="a7737abbdcd43c7d67b6a9b0f3a85e335"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7737abbdcd43c7d67b6a9b0f3a85e335">&#9670;&nbsp;</a></span>WriteCIDSet()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1063,7 +1064,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">virtual size_t wxPdfFontDataOpenTypeUnicode::WriteCIDSet </td>
           <td>(</td>
           <td class="paramtype">wxOutputStream *&#160;</td>
-          <td class="paramname"><em>mapData</em>, </td>
+          <td class="paramname"><em>setData</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1284,7 +1285,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 14 2021 23:27:59 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Sun Sep 19 2021 13:49:12 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
