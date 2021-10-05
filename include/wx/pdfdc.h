@@ -268,6 +268,8 @@ private:
 
   bool             m_inTransform;
   wxAffineMatrix2D m_matrix;
+  wxPen            m_pdfPenSaved;
+  wxBrush          m_pdfBrushSaved;
 
   bool m_jpegFormat;
   int  m_jpegQuality;

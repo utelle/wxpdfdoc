@@ -200,6 +200,8 @@ wxPdfDCImpl::Init()
 
   m_inTransform = false;
   m_matrix = wxAffineMatrix2D();
+  m_pdfPenSaved = wxNullPen;
+  m_pdfBrushSaved = wxNullBrush;
 
   m_jpegFormat = false;
   m_jpegQuality = 75;
@@ -577,6 +579,10 @@ wxPdfDCImpl::SetTransformMatrix(const wxAffineMatrix2D& matrix)
 
   // Start PDF transformation
   m_inTransform = true;
+  m_pdfPenSaved = m_pdfPen;
+  m_pdfBrushSaved = m_pdfBrush;
+  m_pdfPen = wxNullPen;
+  m_pdfBrush = wxNullBrush;
   m_pdfDocument->StartTransform();
 
   // Scale the translation vector according to PDF resolution
@@ -605,6 +611,8 @@ wxPdfDCImpl::ResetTransformMatrix()
     m_pdfDocument->StopTransform();
     m_matrix = wxAffineMatrix2D();
     m_inTransform = false;
+    m_pdfPen = m_pdfPenSaved;
+    m_pdfBrush = m_pdfBrushSaved;
   }
 }
 #endif // wxUSE_DC_TRANSFORM_MATRIX
