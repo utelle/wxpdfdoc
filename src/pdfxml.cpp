@@ -1153,6 +1153,10 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       SetFontSize(currentFontSize, false);
       Ln();
     }
+    else if (name == wxS("annotate"))
+    {
+      // Nothing to be done for annotations
+    }
     else if (name == wxS("table"))
     {
       // --- Table
@@ -1272,29 +1276,37 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             // Automatic line break
             if (sep == -1)
             {
+              // No separator found
               ls = lastlen;
               if (context.GetLastLineWidth() > 0)
               {
+                // Line not empty
                 if (context.GetLastChar() == wxS(' '))
                 {
+                  // Last character in line was a space character
                   context.AddLastLineValues(-context.GetLastSpaceWidth(), -1);
                 }
+                // Restart on next line
                 i = j;
               }
               else
               {
+                // Line empty, force a break in the middle of a word
                 if (i == j)
                 {
+                  // Advance at least 1 character
                   i++;
                 }
+                context.AddLastLineValues(ls, ns);
               }
             }
             else
             {
+              // Separator found, restart from last separator on next line 
               i = sep + 1;
               ns--;
+              context.AddLastLineValues(ls, ns);
             }
-            context.AddLastLineValues(ls, ns);
             sep = -1;
             j = i;
             len = 0;
@@ -1899,6 +1911,10 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         SetFontSize(currentFontSize);
       }
       Ln();
+    }
+    else if (name == wxS("annotate"))
+    {
+      Annotate(GetX(), GetY(), GetNodeContent(child));
     }
     else if (name == wxS("table"))
     {
