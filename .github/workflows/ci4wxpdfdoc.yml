@@ -2,10 +2,10 @@ name: CI for wxPdfDoc
 on:
   push:
     branches:
-    - master
+    - main
   pull_request:
     branches:
-    - master
+    - main
 
 jobs:
   build:
