@@ -245,7 +245,7 @@ wxPdfTable::wxPdfTable(wxPdfDocument* document)
   m_nRows = 0;
   m_nCols = 0;
   m_totalWidth  = 0;
-  m_totalHeight = 0;
+  m_bodyHeight = 0;
   m_headHeight  = 0;
   m_pad = 0;
   m_headRowFirst = 0;
@@ -379,10 +379,10 @@ wxPdfTable::SetCellDimensions(double maxWidth)
   {
     m_headHeight += m_rowHeights[row];
   }
-  m_totalHeight = 0;
+  m_bodyHeight = 0;
   for (row = m_bodyRowFirst; row < m_bodyRowLast; row++)
   {
-    m_totalHeight += m_rowHeights[row];
+    m_bodyHeight += m_rowHeights[row];
   }
 
   // Determine max row heights taking row spans into account

@@ -309,8 +309,14 @@ public:
   /// Get total width of table
   double GetTotalWidth() { return m_totalWidth; }
 
+  /// Get height of table head
+  double GetHeadHeight() { return m_headHeight; }
+
+  /// Get height of table body
+  double GetBodyHeight() { return m_bodyHeight; }
+
   /// Get total height of table
-  double GetTotalHeight() { return m_totalHeight; }
+  double GetTotalHeight() { return m_headHeight + m_bodyHeight; }
 
   /// Set index of first header row
   void SetHeadRowFirst(unsigned int row) { m_headRowFirst = row; }
@@ -333,7 +339,7 @@ private:
 
   double             m_maxWidth;     ///< maximum allowed width
   double             m_totalWidth;   ///< total width
-  double             m_totalHeight;  ///< total height
+  double             m_bodyHeight;   ///< total height of table body
   double             m_headHeight;   ///< total height of table header
 
   unsigned int       m_headRowFirst; ///< index of first header row
