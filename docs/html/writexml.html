@@ -19,7 +19,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">wxPdfDocument
-   &#160;<span id="projectnumber">1.0.1</span>
+   &#160;<span id="projectnumber">1.0.2</span>
    </div>
   </td>
  </tr>
@@ -47,11 +47,27 @@ $(function() {
 Overview</h1>
 <p>The method wxPdfDocument::WriteXML allows to write text to PDF using a simple markup language. This allows for example to change font attributes within a cell, which is not supported by methods like <a class="el" href="classwx_pdf_document.html#a2d3993fc87ce289deccee3137a758578" title="This method prints text with cell attributes from the current position.">wxPdfDocument::WriteCell</a> or <a class="el" href="classwx_pdf_document.html#a19eff882e8ed85134189ffc604671da8" title="This method allows printing text with line breaks.">wxPdfDocument::MultiCell</a>. The supported markup language consists of a small subset of HTML. Although the subset might be extended in future versions of <b><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a></b>, it is not the goal of this method to allow to convert full fledged HTML pages to PDF.</p>
 <p><b>Important!</b> The XML dialect used is very strict. Each tag must have a corresponding closing tag and all attribute values must be enclosed in double quotes.</p>
-<p>Usually the current position should be at the left margin when calling wxPdfDocument::WriteXML. If the current position is <b>not</b> at left margin and the text passed to wxPdfDocument::WriteXML occupies more than a single line, you may get strange results. Until version <b>1.0</b> of <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> will be released the behaviour of wxPdfDocument::WriteXML might change without prior notice.</p>
+<p>Usually the current position should be at the left margin when calling wxPdfDocument::WriteXML. If the current position is <b>not</b> at left margin and the text passed to wxPdfDocument::WriteXML occupies more than a single line, you may get strange results.</p>
 <p>Currently there is only limited error handling. You will get strange results or no results at all if tags are incorrectly used. Unknown tags and all their content are silently ignored.</p>
 <h1><a class="anchor" id="tagref"></a>
 Reference of supported tags</h1>
 <p>The following sections describe the tags supported by the <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> markup language.</p>
+<h2><a class="anchor" id="notes"></a>
+Notes</h2>
+<p>Starting with version 1.0.2 of <b><em><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a></em></b> numeric values for the attributes of markup elements that denote measures (like margins, line widths, cell heights and so on) may include the measurement unit. If no unit is given, the default unit of the <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> instance is assumed. The latter rule has 2 exceptions:</p><ul>
+<li>a font size is measured in points ("pt")</li>
+<li>an image size (width, height, and viewport) is measured in pixels ("px")</li>
+</ul>
+<p>The following 2-letter units can be used:</p><ul>
+<li><b>pt</b> = point (72 points = 1 inch)</li>
+<li><b>mm</b> = millimeter (25.4 millimeters = 1 inch)</li>
+<li><b>cm</b> = centimeter (2.54 centimeters = 1 inch)</li>
+<li><b>in</b> = inch</li>
+<li><b>px</b> = pixel (see note below)</li>
+</ul>
+<p><b>Note</b>: For image related values measured in pixels (unit <b>px</b>) the resulting value will be multiplied with the image scale factor to allow to compensate for high-res images. For values that are not image related the unit <b>px</b> will be treated as a synonym for the unit <b>pt</b>.</p>
+<p><em>Example:</em> <code>&lt;img src="pic1.png" width="40mm" height="25mm" viewport="0 0 0 20mm"/&gt;</code></p>
+<p>This defines the size of the image as 40 millimeters x 25 millimeters with a viewport which moves the lower 5 millimeters of the image height below the baseline of the surrounding cell.</p>
 <h2><a class="anchor" id="simpletags"></a>
 Simple text markup</h2>
 <p>There are several tags to influence the size and weight of the font used for displaying the text and the relative vertical position within a line:</p>
@@ -138,12 +154,12 @@ Unordered lists</h2>
 <tr bgcolor="#6699dd">
 <td><b>Attribute</b></td><td><b>Description</b> </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>type="bullet|dash|&lt;i&gt;number&lt;/i&gt;"</code></td><td><p class="starttd">Sets the type of the list item marker </p>
+<td valign="top"><code>type="bullet|dash|number"</code></td><td><p class="starttd">Sets the type of the list item marker </p>
 <p class="intertd"><code><b>bullet</b></code> displays a bullet character</p>
 <p class="intertd"></p>
 <p class="intertd"><code><b>dash</b></code> displays a dash character</p>
 <p class="intertd"></p>
-<p class="intertd"><code><em>number</em></code> has a value between 0 and 255. The corresponding character of the <b>ZapfDingBats</b> font is used as the list item marker</p>
+<p class="intertd"><code><b>number</b></code> has a value between 0 and 255. The corresponding character of the <b>ZapfDingBats</b> font is used as the list item marker</p>
 <p class="endtd"></p>
 </td></tr>
 </table>
@@ -173,7 +189,7 @@ Ordered lists</h2>
 <p class="endtd"></p>
 </td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>start="&lt;i&gt;number&lt;/i&gt;"</code></td><td><em>number</em> represents the enumerator value of the first list item </td></tr>
+<td><code>start="number"</code></td><td><em>number</em> represents the enumerator value of the first list item </td></tr>
 </table>
 <h2><a class="anchor" id="ptag"></a>
 Paragraph</h2>
@@ -199,7 +215,11 @@ Horizontal rule</h2>
 <tr bgcolor="#6699dd">
 <td><b>Attribute</b></td><td><b>Description</b> </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>width="&lt;i&gt;number&lt;/i&gt;"</code></td><td>The width of the horizontal rule is an integer <em>number</em> between 1 and 100 giving the width in percent of the available width (from left to right margin). The default value is 100. </td></tr>
+<td valign="top"><code>width="number"</code></td><td>The width of the horizontal rule is an integer <em>number</em> between 1 and 100 giving the width in percent of the available width (from left to right margin). The default value is 100. </td></tr>
+<tr bgcolor="#ddeeff">
+<td valign="top"><code>linewidth="number"</code></td><td><p class="starttd">The line width of the ruler.</p>
+<p class="endtd"></p>
+</td></tr>
 </table>
 <h2><a class="anchor" id="atag"></a>
 Internal or external link</h2>
@@ -212,9 +232,9 @@ Internal or external link</h2>
 <tr bgcolor="#6699dd">
 <td><b>Attribute</b></td><td><b>Description</b> </td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>href="&lt;i&gt;url&lt;/i&gt;"</code></td><td><em>url</em> is an unified resource locator. If <em>url</em> starts with <b>#</b> it is interpreted as a reference to an internal link anchor; the characters following <b>#</b> are used as the name of the anchor. </td></tr>
-<tr bgcolor="#6699dd">
-<td><code>name="&lt;i&gt;anchor&lt;/i&gt;"</code></td><td><em>anchor</em> is the name of an internal link anchor. </td></tr>
+<td><code>href="url"</code></td><td><em>url</em> is an unified resource locator. If <em>url</em> starts with <b>#</b> it is interpreted as a reference to an internal link anchor; the characters following <b>#</b> are used as the name of the anchor. </td></tr>
+<tr bgcolor="#ddeeff">
+<td><code>name="anchor"</code></td><td><em>anchor</em> is the name of an internal link anchor. </td></tr>
 </table>
 <p><b>Note:</b> Either the <b><code>name</code></b> or the <b><code>href</code></b> attribute may be specified, but not both.</p>
 <h2><a class="anchor" id="fonttag"></a>
@@ -228,11 +248,11 @@ Font specification</h2>
 <tr bgcolor="#6699dd">
 <td><b>Attribute</b></td><td><b>Description</b> </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>face="&lt;i&gt;fontfamily&lt;/i&gt;"</code></td><td>The name of the font family. It can be the name of one of the 14 core fonts or the name of a font previously added by <a class="el" href="classwx_pdf_document.html#ab3b6cfbe654598638ce1fc023d002dd4" title="Imports a TrueType, TrueTypeUnicode or Type1 font and makes it available.">wxPdfDocument::AddFont</a>. </td></tr>
+<td valign="top"><code>face="fontfamily"</code></td><td>The name of the font family. It can be the name of one of the 14 core fonts or the name of a font previously added by <a class="el" href="classwx_pdf_document.html#ab3b6cfbe654598638ce1fc023d002dd4" title="Imports a TrueType, TrueTypeUnicode or Type1 font and makes it available.">wxPdfDocument::AddFont</a>. </td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>size="&lt;i&gt;fontsize&lt;/i&gt;"</code></td><td>The font size in points </td></tr>
+<td><code>size="fontsize"</code></td><td>The font size in points </td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>color="&lt;i&gt;fontcolour&lt;/i&gt;"</code></td><td>The font colour in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. </td></tr>
+<td><code>color="fontcolour"</code></td><td>The font colour in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. </td></tr>
 </table>
 <h2><a class="anchor" id="msgtag"></a>
 Translatable text</h2>
@@ -256,13 +276,15 @@ Images</h2>
 <tr bgcolor="#6699dd">
 <td><b>Attribute</b></td><td><b>Description</b> </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>src="&lt;i&gt;imagefile&lt;/i&gt;"</code></td><td>The name of the image file. </td></tr>
+<td valign="top"><code>src="imagefile"</code></td><td>The name of the image file. </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>width="&lt;i&gt;image width&lt;/i&gt;"</code></td><td>The width of the image measured in pixels. </td></tr>
+<td valign="top"><code>width="image width"</code></td><td>The width of the image measured in pixels. </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>height="&lt;i&gt;image height&lt;/i&gt;"</code></td><td>The height of the image measured in pixels. </td></tr>
+<td valign="top"><code>height="image height"</code></td><td>The height of the image measured in pixels. </td></tr>
 <tr bgcolor="#ddeeff">
 <td valign="top"><code>align="left|right|center"</code></td><td>As specified by this option the image will be <b>left</b> or <b>right</b> aligned, or <b>centered</b>. The default is <b>left</b> aligned. </td></tr>
+<tr bgcolor="#eeeeee">
+<td valign="top" nowrap="nowrap"><code>viewport="tlx tly brx bry"</code></td><td>The viewport into the image that should correspond to the actual content of the surrounding cell. The viewport is defined as a rectangular area by specifying the coordinates of the top left corner (<em>tlx,tly</em>) and the bottom right corner (<em>brx,bry</em>). The viewport coordinates are measured in pixels. The values <em>tlx</em> and <em>tly</em> may be negative, in which case the viewport will be larger than the image. The values <em>brx</em> and <em>bry</em> may be specified as <b><em>0</em></b>, in which case they will be replaced internally by the <em>width</em> and the <em>height</em> of the image.  </td></tr>
 </table>
 <h1><a class="anchor" id="tabletag"></a>
 Tables</h1>
@@ -294,7 +316,7 @@ Tables</h1>
 <tr bgcolor="#6699dd">
 <td><b>Attribute</b></td><td><b>Description</b> </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>border="&lt;i&gt;number&lt;/i&gt;"</code></td><td><p class="starttd">Table cells may have borders on each side. This attribute specifies whether cells will have borders on every side or not. This may be overriden for each individual cell. The attribute value consists of the combination of up to 4 letters: </p>
+<td valign="top"><code>border="number"</code></td><td><p class="starttd">Table cells may have borders on each side. This attribute specifies whether cells will have borders on every side or not. This may be overriden for each individual cell. The attribute value consists of the combination of up to 4 letters: </p>
 <p class="endtd"><b>0</b> - no borders<br  />
  <b> &gt; 0</b> - borders on all sides of each cell<br  />
   </p>
@@ -304,7 +326,7 @@ Tables</h1>
 <tr bgcolor="#eeeeee">
 <td><code>valign="top|middle|bottom"</code></td><td>Defines the vertical alignment of the table. Default is <em>top</em>. </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>cellpadding="&lt;i&gt;number&lt;/i&gt;"</code></td><td><em>Number</em> defines the padding width on each side of a cell. Default is 0. </td></tr>
+<td valign="top"><code>cellpadding="number"</code></td><td><em>Number</em> defines the padding width on each side of a cell. Default is 0. </td></tr>
 </table>
 <p>The supported tags and their attributes are shown in the following tables:</p>
 <table border="0">
@@ -315,13 +337,13 @@ Tables</h1>
 <tr bgcolor="#eeeeee">
 <td><code>&lt;colgroup&gt; ... &lt;/colgroup&gt;</code></td><td>Groups the definitions of column widths. Contains one or more &lt;col&gt; tags. </td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;col width="&lt;i&gt;width&lt;/i&gt;" span="&lt;i&gt;number&lt;/i&gt;"&gt; ... &lt;/col&gt;</code></td><td>Defines the <em>width</em> of one or more columns. <em>number</em> specifies for how many columns the width is specified, default is 1.  </td></tr>
+<td><code>&lt;col width="width" span="number"&gt; ... &lt;/col&gt;</code></td><td>Defines the <em>width</em> of one or more columns. <em>number</em> specifies for how many columns the width is specified, default is 1.  </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>&lt;thead odd="&lt;i&gt;background colour for odd numbered rows&lt;/i&gt;" even="&lt;i&gt;background colour for even numbered rows&lt;/i&gt;"&gt; ... &lt;/thead&gt;</code> </td><td>Defines a group of table header rows. Contains one or more &lt;tr&gt; tags. If a table does not fit on a single page these rows are repeated on each page. The attributes <b><code>odd</code></b> and <b><code>even</code></b> are optional.  </td></tr>
+<td valign="top"><code>&lt;thead odd="background colour for odd numbered rows" even="background colour for even numbered rows"&gt; ... &lt;/thead&gt;</code> </td><td>Defines a group of table header rows. Contains one or more &lt;tr&gt; tags. If a table does not fit on a single page these rows are repeated on each page. The attributes <b><code>odd</code></b> and <b><code>even</code></b> are optional.  </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>&lt;tbody odd="&lt;i&gt;background colour for odd numbered rows&lt;/i&gt;" even="&lt;i&gt;background colour for even numbered rows&lt;/i&gt;"&gt; ... &lt;/tbody&gt;</code> </td><td>Defines a group of table body rows. Contains one or more &lt;tr&gt; tags. The attributes <b><code>odd</code></b> and <b><code>even</code></b> are optional.  </td></tr>
+<td valign="top"><code>&lt;tbody odd="background colour for odd numbered rows" even="background colour for even numbered rows"&gt; ... &lt;/tbody&gt;</code> </td><td>Defines a group of table body rows. Contains one or more &lt;tr&gt; tags. The attributes <b><code>odd</code></b> and <b><code>even</code></b> are optional.  </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>&lt;tr bgcolor="&lt;i&gt;background colour&lt;/i&gt;" height="&lt;i&gt;height&lt;/i&gt;"&gt; ... &lt;/tr&gt;</code> </td><td><p class="starttd">Defines a table row. Contains one or more &lt;td&gt; tags. </p>
+<td valign="top"><code>&lt;tr bgcolor="background colour" height="height"&gt; ... &lt;/tr&gt;</code> </td><td><p class="starttd">Defines a table row. Contains one or more &lt;td&gt; tags. </p>
 <p class="intertd">The <em>background colour</em> may be specified in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. If no background colour is given the background is transparent.</p>
 <p class="intertd"></p>
 <p class="intertd">Usually the height of the highest cell in a row is used as the row height, but a minimal row <em>height</em> may be specified, too</p>
@@ -356,17 +378,17 @@ Table cells</h2>
 <tr bgcolor="#eeeeee">
 <td><code>valign="top|middle|bottom"</code></td><td>Defines the vertical alignment of the cell content. Default is <em>top</em>. </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>bgcolor="&lt;i&gt;background colour&lt;/i&gt;"</code></td><td>The background colour of the cell in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. This attribute overrides the background colour specification of the row. If neither a row nor a cell background colour is specified the background is transparent. </td></tr>
+<td valign="top"><code>bgcolor="background colour"</code></td><td>The background colour of the cell in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. This attribute overrides the background colour specification of the row. If neither a row nor a cell background colour is specified the background is transparent. </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>rowspan="&lt;i&gt;number&lt;/i&gt;"</code></td><td><em>Number</em> of rows this cell should span. Default is 1. </td></tr>
+<td valign="top"><code>rowspan="number"</code></td><td><em>Number</em> of rows this cell should span. Default is 1. </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>colspan="&lt;i&gt;number&lt;/i&gt;"</code></td><td><em>Number</em> of columns this cell should span. Default is 1. </td></tr>
+<td valign="top"><code>colspan="number"</code></td><td><em>Number</em> of columns this cell should span. Default is 1. </td></tr>
 </table>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Sep 19 2021 13:49:11 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Dec 9 2021 16:45:26 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

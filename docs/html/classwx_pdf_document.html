@@ -19,7 +19,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">wxPdfDocument
-   &#160;<span id="projectnumber">1.0.1</span>
+   &#160;<span id="projectnumber">1.0.2</span>
    </div>
   </td>
  </tr>
@@ -123,6 +123,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2e27e566781c6ce5d1a59665ccdcd733"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_document.html#a2e27e566781c6ce5d1a59665ccdcd733">SetDisplayMode</a> (<a class="el" href="pdfproperties_8h.html#ac365b8b027dbcae96379fffb837c2d10">wxPdfZoom</a> zoom, <a class="el" href="pdfproperties_8h.html#a8c40e1f52c25b22b23d56786132a2038">wxPdfLayout</a> layout=<a class="el" href="pdfproperties_8h.html#a8c40e1f52c25b22b23d56786132a2038ae01242b3b53b8265c48ddb22f4a59b2f">wxPDF_LAYOUT_CONTINUOUS</a>, double zoomFactor=100.)</td></tr>
 <tr class="memdesc:a2e27e566781c6ce5d1a59665ccdcd733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the way the document is to be displayed by the viewer.  <a href="classwx_pdf_document.html#a2e27e566781c6ce5d1a59665ccdcd733">More...</a><br /></td></tr>
 <tr class="separator:a2e27e566781c6ce5d1a59665ccdcd733"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a611e8be054f2311a7c48b50359ddf2c9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_document.html#a611e8be054f2311a7c48b50359ddf2c9">SetPaperHandling</a> (<a class="el" href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878e">wxPdfPaperHandling</a> paperHandling)</td></tr>
+<tr class="memdesc:a611e8be054f2311a7c48b50359ddf2c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines the paper handling when printing (simplex / duplex).  <a href="classwx_pdf_document.html#a611e8be054f2311a7c48b50359ddf2c9">More...</a><br /></td></tr>
+<tr class="separator:a611e8be054f2311a7c48b50359ddf2c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd51a1b4b00eea273d54d6e9cd2efbab"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_document.html#acd51a1b4b00eea273d54d6e9cd2efbab">SetKerning</a> (bool kerning)</td></tr>
 <tr class="memdesc:acd51a1b4b00eea273d54d6e9cd2efbab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable kerning.  <a href="classwx_pdf_document.html#acd51a1b4b00eea273d54d6e9cd2efbab">More...</a><br /></td></tr>
 <tr class="separator:acd51a1b4b00eea273d54d6e9cd2efbab"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -11857,6 +11860,46 @@ It is also possible to pass an empty string. In that case, the current family is
 
 </div>
 </div>
+<a id="a611e8be054f2311a7c48b50359ddf2c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a611e8be054f2311a7c48b50359ddf2c9">&#9670;&nbsp;</a></span>SetPaperHandling()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void wxPdfDocument::SetPaperHandling </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878e">wxPdfPaperHandling</a>&#160;</td>
+          <td class="paramname"><em>paperHandling</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Defines the paper handling when printing (simplex / duplex). </p>
+<p>The paper handling option that shall be used when printing the file from the print dialog. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">paperHandling</td><td>Can be one of the following values: <ul>
+<li>wxPDF_PAPERHANDLING_DEFAULT: use the default of the viewer app </li>
+<li>wxPDF_PAPERHANDLING_SIMPLEX: print single-sided </li>
+<li>wxPDF_PAPERHANDLING_DUPLEX_FLIP_SHORT_EDGE: duplex and flip at the short edge of the sheet </li>
+<li>wxPDF_PAPERHANDLING_DUPLEX_FLIP_LONG_EDGE: duplex and flip at the long edge of the sheet </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a1103eeab93bc0a62eb3c51787482fffc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1103eeab93bc0a62eb3c51787482fffc">&#9670;&nbsp;</a></span>SetPdfA1Conformance()</h2>
 
@@ -12607,6 +12650,7 @@ It is also possible to pass an empty string. In that case, the current family is
 <li>wxPDF_VIEWER_FITWINDOW: Fit window to page size </li>
 <li>wxPDF_VIEWER_CENTERWINDOW: Center window on screen </li>
 <li>wxPDF_VIEWER_DISPLAYDOCTITLE: Display document title in title bar </li>
+<li>wxPDF_VIEWER_NOPRINTSCALING: Set page scaling to none when printing </li>
 </ul>
 </td></tr>
   </table>
@@ -14248,7 +14292,7 @@ or a combination of them. </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Sep 19 2021 13:49:12 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Dec 9 2021 16:45:27 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

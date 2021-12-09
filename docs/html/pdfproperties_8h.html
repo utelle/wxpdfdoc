@@ -19,7 +19,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">wxPdfDocument
-   &#160;<span id="projectnumber">1.0.1</span>
+   &#160;<span id="projectnumber">1.0.2</span>
    </div>
   </td>
  </tr>
@@ -139,6 +139,8 @@ Macros</h2></td></tr>
 <tr class="separator:a01be4c8d945f06c45d7f6be6f124b989"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed70559024a4e8ab706162b3b909fcad"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pdfproperties_8h.html#aed70559024a4e8ab706162b3b909fcad">wxPDF_VIEWER_DISPLAYDOCTITLE</a>&#160;&#160;&#160;0x0020</td></tr>
 <tr class="separator:aed70559024a4e8ab706162b3b909fcad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4c3ca0d21b04019cd6e92bc51702194"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pdfproperties_8h.html#af4c3ca0d21b04019cd6e92bc51702194">wxPDF_VIEWER_NOPRINTSCALING</a>&#160;&#160;&#160;0x0040</td></tr>
+<tr class="separator:af4c3ca0d21b04019cd6e92bc51702194"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -224,6 +226,13 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a8c40e1f52c25b22b23d56786132a2038"><td class="mdescLeft">&#160;</td><td class="mdescRight">Layout options.  <a href="pdfproperties_8h.html#a8c40e1f52c25b22b23d56786132a2038">More...</a><br /></td></tr>
 <tr class="separator:a8c40e1f52c25b22b23d56786132a2038"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a726f107322f595f01c17fc318e0e878e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878e">wxPdfPaperHandling</a> { <a class="el" href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878eadd2a92f63cc358a03654bc0d53882b79">wxPDF_PAPERHANDLING_DEFAULT</a>
+, <a class="el" href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878ea769cf52b1b0bfce3e5bce41fcca9a634">wxPDF_PAPERHANDLING_SIMPLEX</a>
+, <a class="el" href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878ea174866f38442e849b77b44a95e5eb06b">wxPDF_PAPERHANDLING_DUPLEX_FLIP_SHORT_EDGE</a>
+, <a class="el" href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878ea2a67064452ec83c611451664607a4cc3">wxPDF_PAPERHANDLING_DUPLEX_FLIP_LONG_EDGE</a>
+ }</td></tr>
+<tr class="memdesc:a726f107322f595f01c17fc318e0e878e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paper handling options.  <a href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878e">More...</a><br /></td></tr>
+<tr class="separator:a726f107322f595f01c17fc318e0e878e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a358ec49456e5d0763e40f52b2115dcbb"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="pdfproperties_8h.html#a358ec49456e5d0763e40f52b2115dcbb">wxPdfMarker</a> { <br />
 &#160;&#160;<a class="el" href="pdfproperties_8h.html#a358ec49456e5d0763e40f52b2115dcbba49b58623c9df52a3d61d38ef94614e20">wxPDF_MARKER_CIRCLE</a>
 , <a class="el" href="pdfproperties_8h.html#a358ec49456e5d0763e40f52b2115dcbba4eccef36bde77bc11e9e34140a0a2f83">wxPDF_MARKER_SQUARE</a>
@@ -844,6 +853,20 @@ Enumerations</h2></td></tr>
 
 </div>
 </div>
+<a id="af4c3ca0d21b04019cd6e92bc51702194"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4c3ca0d21b04019cd6e92bc51702194">&#9670;&nbsp;</a></span>wxPDF_VIEWER_NOPRINTSCALING</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define wxPDF_VIEWER_NOPRINTSCALING&#160;&#160;&#160;0x0040</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="a99fb83031ce9923c84392b4e92f956b5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a99fb83031ce9923c84392b4e92f956b5">&#9670;&nbsp;</a></span>anonymous enum</h2>
@@ -1083,6 +1106,28 @@ Enumerations</h2></td></tr>
 
 </div>
 </div>
+<a id="a726f107322f595f01c17fc318e0e878e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a726f107322f595f01c17fc318e0e878e">&#9670;&nbsp;</a></span>wxPdfPaperHandling</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="pdfproperties_8h.html#a726f107322f595f01c17fc318e0e878e">wxPdfPaperHandling</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Paper handling options. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a726f107322f595f01c17fc318e0e878eadd2a92f63cc358a03654bc0d53882b79"></a>wxPDF_PAPERHANDLING_DEFAULT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726f107322f595f01c17fc318e0e878ea769cf52b1b0bfce3e5bce41fcca9a634"></a>wxPDF_PAPERHANDLING_SIMPLEX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726f107322f595f01c17fc318e0e878ea174866f38442e849b77b44a95e5eb06b"></a>wxPDF_PAPERHANDLING_DUPLEX_FLIP_SHORT_EDGE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a726f107322f595f01c17fc318e0e878ea2a67064452ec83c611451664607a4cc3"></a>wxPDF_PAPERHANDLING_DUPLEX_FLIP_LONG_EDGE&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="af039815aef5abb4a8714a716ce4ea3c0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af039815aef5abb4a8714a716ce4ea3c0">&#9670;&nbsp;</a></span>wxPdfPatternStyle</h2>
 
@@ -1227,7 +1272,7 @@ Enumerations</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Sep 19 2021 13:49:11 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Dec 9 2021 16:45:26 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

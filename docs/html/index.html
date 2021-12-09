@@ -19,7 +19,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">wxPdfDocument
-   &#160;<span id="projectnumber">1.0.1</span>
+   &#160;<span id="projectnumber">1.0.2</span>
    </div>
   </td>
  </tr>
@@ -79,12 +79,31 @@ What is wxPdfDocument?</h1>
 <h1><a class="anchor" id="version"></a>
 Version history</h1>
 <dl>
+<dt><b>1.0.2</b> - <em>December 2021</em> </dt>
+<dd><p class="startdd"><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is compatible with wxWidgets versions 3.0.x and 3.1.x.</p>
+<p class="interdd">General changes:<br  />
+</p><ul>
+<li>Added attribute "viewport" for XML markup element "img"</li>
+<li>Added option to specify the unit for numeric attributes in XML markup elements</li>
+<li>Slightly optimized handling for the XML markup element "img"</li>
+<li>Added new flag wxPDF_VIEWER_NOPRINTSCALING for method <a class="el" href="classwx_pdf_document.html#afdef14d1446f48c41725b86a02661990" title="Defines the viewer preferences.">wxPdfDocument::SetViewerPreferences</a></li>
+<li>Added method <a class="el" href="classwx_pdf_document.html#a611e8be054f2311a7c48b50359ddf2c9" title="Defines the paper handling when printing (simplex / duplex).">wxPdfDocument::SetPaperHandling</a> for better printout handling</li>
+</ul>
+<p class="interdd">Fixed bugs:<br  />
+</p><ul>
+<li>Fixed markup table handling (wrong total height used to reserve space)</li>
+<li>Fixed justification issue in markup text</li>
+<li>Adjusted handling of pens and brushes in <a class="el" href="classwx_pdf_d_c.html" title="Class representing a PDF drawing context.">wxPdfDC</a></li>
+</ul>
+<p class="interdd"></p>
+<dl>
 <dt><b>1.0.1</b> - <em>September 2021</em> </dt>
 <dd><p class="startdd"><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is compatible with wxWidgets versions 3.0.x and 3.1.x.</p>
 <p class="interdd">Fixed bugs:<br  />
 </p><ul>
 <li>Fixed hatch pattern scaling in <a class="el" href="classwx_pdf_d_c.html" title="Class representing a PDF drawing context.">wxPdfDC</a></li>
 <li>Fixed compile time error in ANSI mode</li>
+<li>Fixed some documentation glitches</li>
 </ul>
 <p class="interdd"></p>
 <p class="enddd"></p>
@@ -451,6 +470,8 @@ Version history</h1>
 <dd>Planning and basic PDF features implemented  </dd>
 </dl>
 <dl class="section author"><dt>Author</dt><dd>Ulrich Telle (<a href="&#109;&#97;&#105;&#108;&#116;&#111;:&#117;&#108;&#114;&#105;&#99;&#104;&#46;&#116;&#101;&#108;&#108;&#101;&#64;&#103;&#109;&#120;&#46;&#100;&#101;">ulrich DOT telle AT gmx DOT de</a>)</dd></dl>
+</dd>
+</dl>
 <h1><a class="anchor" id="issues"></a>
 Known issues</h1>
 <p>Currently there are no known issues regarding the functionality of the <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> component. All features were thoroughly tested individually, but it's almost impossible to check all potential combinations. <b>If you find bugs please report them to the author!</b></p>
@@ -460,6 +481,7 @@ Acknowledgements</h1>
 <p>Many thanks go to <b>Ben Moores</b> who provided code for layers and patterns he wrote for his PDF extension for <b>Mapnik</b> (<a href="http://www.mapnik.org">http://www.mapnik.org</a>). This code has been extended based on ideas from the <b>iText Java library</b> and was incorporated into <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a>.</p>
 <p>Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of the PHP library <b>mPDF</b> (<a href="http://mpdf.bpm1.com">http://mpdf.bpm1.com</a>); special thanks to <b>K Vinod Kumar</b> of the Centre for Development of Advanced Computing, Mumbai (<a href="http://www.cdacmumbai.in">http://www.cdacmumbai.in</a>), for clearing license issues of the Raghu font series.</p>
 <p>Kudos to <b>Mark Dootson</b> for contributing major enhancements of <a class="el" href="classwx_pdf_d_c.html" title="Class representing a PDF drawing context.">wxPdfDC</a> and it's integration into the wxWidgets printing framework.</p>
+<p>Kudos to <b>Dieter Schmeer</b> for contributing several enhancements for the XML markup handling.</p>
 <p>Since <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is based on the great <b>FPDF</b> PHP class and several of the contributions to it found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank</p>
 <ul>
 <li>Olivier Plathey (FPDF, Barcodes, Bookmarks, Rotation),</li>
@@ -483,7 +505,7 @@ Acknowledgements</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Sep 19 2021 13:49:12 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Dec 9 2021 16:45:27 for wxPdfDocument by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
