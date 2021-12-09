@@ -348,6 +348,17 @@ public:
                               wxPdfLayout layout = wxPDF_LAYOUT_CONTINUOUS,
                               double zoomFactor = 100.);
 
+  /// Defines the paper handling when printing (simplex / duplex).
+  /**
+  * The paper handling option that shall be used when printing the file from the print dialog.
+  * \param paperHandling Can be one of the following values:
+  *   \li wxPDF_PAPERHANDLING_DEFAULT: use the default of the viewer app
+  *   \li wxPDF_PAPERHANDLING_SIMPLEX: print single-sided
+  *   \li wxPDF_PAPERHANDLING_DUPLEX_FLIP_SHORT_EDGE: duplex and flip at the short edge of the sheet
+  *   \li wxPDF_PAPERHANDLING_DUPLEX_FLIP_LONG_EDGE: duplex and flip at the long edge of the sheet
+  */
+  virtual void SetPaperHandling(wxPdfPaperHandling paperHandling);
+
   /// Enable or disable kerning.
   /**
   * When enabled, kerning is applied to text output.
@@ -374,6 +385,7 @@ public:
   *   \li wxPDF_VIEWER_FITWINDOW:       Fit window to page size
   *   \li wxPDF_VIEWER_CENTERWINDOW:    Center window on screen
   *   \li wxPDF_VIEWER_DISPLAYDOCTITLE: Display document title in title bar
+  *   \li wxPDF_VIEWER_NOPRINTSCALING:  Set page scaling to none when printing
   */
   virtual void SetViewerPreferences(int preferences = 0);
 
@@ -2836,6 +2848,9 @@ private:
   /// Return a string key by a font name and a font encoding
   wxString MakeFontKey(const wxString& fontName, const wxString& fontEncoding);
 
+  /// Apply viewport for image tag in markup handling
+  wxArrayDouble ApplyViewport(const wxString& viewport, double width, double height);
+
 private:
   bool                 m_yAxisOriginTop;      ///< flag whether the origin of the y axis resides at the top (or bottom) of the page
   int                  m_page;                ///< current page number
@@ -2857,6 +2872,7 @@ private:
   wxSize               m_curPageSize;         ///< current page width
   wxPdfPageSizeMap*    m_pageSizes;           ///< array indicating page size changes
 
+  wxString             m_userUnit;            ///< string representation of user unit
   double               m_k;                   ///< scale factor (number of points in user unit)
   double               m_fwPt;                ///< width of page format in points
   double               m_fhPt;                ///< height of page format in points
@@ -2931,6 +2947,7 @@ private:
   wxPdfZoom            m_zoomMode;            ///< zoom display mode
   double               m_zoomFactor;          ///< zoom factor
   wxPdfLayout          m_layoutMode;          ///< layout display mode
+  wxPdfPaperHandling   m_paperHandling;       ///< simplex / duplex printing
   int                  m_viewerPrefs;         ///< viewer preferences
 
   wxString             m_title;               ///< title

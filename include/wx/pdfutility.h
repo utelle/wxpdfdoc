@@ -41,6 +41,16 @@ public:
   */
   static double String2Double(const wxString& str);
 
+  /// Parses a floating point number taking units into account
+  /**
+  * \param str the string to be parsed
+  * \param defaultUnit the unit that should be assumed if the string includes no explicit unit
+  * \param scaleFactor the scale factor that should be applied for unit conversions involving pixels
+  * \return the value of floating point number given by the string representation,
+  * 0 if the string could not be parsed.
+  */
+  static double String2Double(const wxString& str, const wxString& defaultUnit, double scaleFactor = 1.0);
+
   /// Converts an integer number to a roman number
   /**
   * \param value integer value to be converted

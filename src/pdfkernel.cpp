@@ -667,7 +667,7 @@ wxPdfDocument::PutCatalog()
   }
 
 
-  if (m_viewerPrefs > 0)
+  if ((m_viewerPrefs > 0) || (m_paperHandling != wxPDF_PAPERHANDLING_DEFAULT))
   {
     Out("/ViewerPreferences <<");
     if (m_viewerPrefs & wxPDF_VIEWER_HIDETOOLBAR)
@@ -694,6 +694,26 @@ wxPdfDocument::PutCatalog()
     {
       Out("/DisplayDocTitle true");
     }
+    if (m_viewerPrefs & wxPDF_VIEWER_NOPRINTSCALING)
+    {
+      Out("/PrintScaling /None");
+    }
+
+    switch (m_paperHandling)
+    {
+      case wxPDF_PAPERHANDLING_SIMPLEX:
+        Out("/Duplex /Simplex");
+        break;
+      case wxPDF_PAPERHANDLING_DUPLEX_FLIP_SHORT_EDGE:
+        Out("/Duplex /DuplexFlipShortEdge");
+        break;
+      case wxPDF_PAPERHANDLING_DUPLEX_FLIP_LONG_EDGE:
+        Out("/Duplex /DuplexFlipLongEdge");
+        break;
+      default:
+        break;
+    }
+
     Out(">>");
   }
 

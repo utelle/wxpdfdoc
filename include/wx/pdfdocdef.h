@@ -73,6 +73,13 @@ Or you can send a mail to the author
 <dd>
 wxPdfDocument is compatible with wxWidgets versions 3.0.x and 3.1.x.
 
+General changes:<br>
+- Added attribute "viewport" for XML markup element "img"
+- Added option to specify the unit for numeric attributes in XML markup elements
+- Slightly optimized handling for the XML markup element "img"
+- Added new flag wxPDF_VIEWER_NOPRINTSCALING for method wxPdfDocument::SetViewerPreferences
+- Added method wxPdfDocument::SetPaperHandling for better printout handling
+
 Fixed bugs:<br>
 - Fixed markup table handling (wrong total height used to reserve space)
 - Fixed justification issue in markup text
@@ -506,6 +513,8 @@ Computing, Mumbai (http://www.cdacmumbai.in), for clearing license issues of the
 
 Kudos to <b>Mark Dootson</b> for contributing major enhancements of wxPdfDC and it's integration
 into the wxWidgets printing framework.
+
+Kudos to <b>Dieter Schmeer</b> for contributing several enhancements for the XML markup handling.
 
 Since wxPdfDocument is based on the great \b FPDF PHP class and several of the contributions to it
 found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank
@@ -1043,8 +1052,7 @@ and all attribute values must be enclosed in double quotes.
 
 Usually the current position should be at the left margin when calling wxPdfDocument::WriteXML.
 If the current position is \b not at left margin and the text passed to wxPdfDocument::WriteXML
-occupies more than a single line, you may get strange results. Until version \b 1.0 of wxPdfDocument
-will be released the behaviour of wxPdfDocument::WriteXML might change without prior notice.
+occupies more than a single line, you may get strange results.
 
 Currently there is only limited error handling. You will get strange results or no results at all
 if tags are incorrectly used. Unknown tags and all their content are silently ignored.
@@ -1052,6 +1060,31 @@ if tags are incorrectly used. Unknown tags and all their content are silently ig
 \section tagref Reference of supported tags
 
 The following sections describe the tags supported by the wxPdfDocument markup language.
+
+\subsection notes Notes
+
+Starting with version 1.0.2 of <b><i>wxPdfDocument</i></b> numeric values for the attributes of
+markup elements that denote measures (like margins, line widths, cell heights and so on) may include
+the measurement unit. If no unit is given, the default unit of the wxPdfDocument instance is assumed.
+The latter rule has 2 exceptions:
+- a font size is measured in points ("pt")
+- an image size (width, height, and viewport) is measured in pixels ("px")
+
+The following 2-letter units can be used:
+- <b>pt</b> = point (72 points = 1 inch)
+- <b>mm</b> = millimeter (25.4 millimeters = 1 inch)
+- <b>cm</b> = centimeter (2.54 centimeters = 1 inch)
+- <b>in</b> = inch
+- <b>px</b> = pixel (see note below)
+
+<b>Note</b>: For image related values measured in pixels (unit <b>px</b>) the resulting value will be multiplied with the
+image scale factor to allow to compensate for high-res images. For values that are not image related the unit <b>px</b>
+will be treated as a synonym for the unit <b>pt</b>.
+
+<i>Example:</i> <tt>&lt;img src="pic1.png" width="40mm" height="25mm" viewport="0 0 0 20mm"/&gt;</tt>
+
+This defines the size of the image as 40 millimeters x 25 millimeters with a viewport which moves the lower 5 millimeters
+of the image height below the baseline of the surrounding cell.
 
 \subsection simpletags Simple text markup
 
@@ -1117,10 +1150,10 @@ list item is indented.
 <tr bgcolor="#6699dd"><td colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee"><td colspan="2"><b>&lt;ul&gt;</b></td></tr>
 <tr bgcolor="#6699dd"><td><b>Attribute</b></td><td><b>Description</b></td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>type="bullet|dash|<i>number</i>"</tt></td><td>Sets the type of the list item marker
+<tr bgcolor="#eeeeee"><td valign="top"><tt>type="bullet|dash|number"</tt></td><td>Sets the type of the list item marker
 <p><tt><b>bullet</b></tt> displays a bullet character</p>
 <p><tt><b>dash</b></tt> displays a dash character</p>
-<p><tt><i>number</i></tt> has a value between 0 and 255. The corresponding character of the \b ZapfDingBats font
+<p><tt><b>number</b></tt> has a value between 0 and 255. The corresponding character of the \b ZapfDingBats font
 is used as the list item marker</p></td></tr>
 </table>
 
@@ -1141,7 +1174,7 @@ list item is indented.
 <p><tt><b>I</b></tt> displays a uppercase roman number as the list item enumerator</p>
 <p><tt><b>z1|z2|z3|z4</b></tt> displays number symbols of one of the 4 number series in the \b ZapfDingBats font. This option should only be used for lists of at most 10 items.</p>
 </td></tr>
-<tr bgcolor="#ddeeff"><td><tt>start="<i>number</i>"</tt></td><td><i>number</i> represents the enumerator value of the first list item</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>start="number"</tt></td><td><i>number</i> represents the enumerator value of the first list item</td></tr>
 </table>
 
 \subsection ptag Paragraph
@@ -1165,9 +1198,11 @@ A horizontal rule is a line of specified width which is drawn on a separate line
 <tr bgcolor="#6699dd"><td colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee"><td colspan="2"><b>&lt;hr&gt;</b></td></tr>
 <tr bgcolor="#6699dd"><td><b>Attribute</b></td><td><b>Description</b></td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>width="<i>number</i>"</tt></td><td>The width of the horizontal rule
+<tr bgcolor="#eeeeee"><td valign="top"><tt>width="number"</tt></td><td>The width of the horizontal rule
 is an integer <i>number</i> between 1 and 100 giving the width in percent of the available width (from left to right margin).
 The default value is 100.</td></tr>
+<tr bgcolor="#ddeeff"><td valign="top"><tt>linewidth="number"</tt></td><td>The line width of the ruler.</td></tr>
+
 </table>
 
 \subsection atag Internal or external link
@@ -1179,10 +1214,10 @@ loading the referenced URL.
 <tr bgcolor="#6699dd"><td colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee"><td colspan="2"><b>&lt;a&gt;</b></td></tr>
 <tr bgcolor="#6699dd"><td><b>Attribute</b></td><td><b>Description</b></td></tr>
-<tr bgcolor="#eeeeee"><td><tt>href="<i>url</i>"</tt></td><td><i>url</i> is an unified resource locator.
+<tr bgcolor="#eeeeee"><td><tt>href="url"</tt></td><td><i>url</i> is an unified resource locator.
 If <i>url</i> starts with <b>#</b> it is interpreted as a reference to an internal link anchor;
 the characters following <b>#</b> are used as the name of the anchor.</td></tr>
-<tr bgcolor="#6699dd"><td><tt>name="<i>anchor</i>"</tt></td><td><i>anchor</i> is the name of an internal link anchor.</td></tr>
+<tr bgcolor="#ddeeff"><td><tt>name="anchor"</tt></td><td><i>anchor</i> is the name of an internal link anchor.</td></tr>
 </table>
 
 <b>Note:</b> Either the <b><tt>name</tt></b> or the <b><tt>href</tt></b> attribute may be specified, but not both.
@@ -1196,10 +1231,10 @@ font size and colour can be set. Attributes not given retain their previous valu
 <tr bgcolor="#6699dd"><td colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee"><td colspan="2"><b>&lt;font&gt;</b></td></tr>
 <tr bgcolor="#6699dd"><td><b>Attribute</b></td><td><b>Description</b></td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>face="<i>fontfamily</i>"</tt></td><td>The name of the font family. It can be the name of one of the
+<tr bgcolor="#eeeeee"><td valign="top"><tt>face="fontfamily"</tt></td><td>The name of the font family. It can be the name of one of the
 14 core fonts or the name of a font previously added by wxPdfDocument::AddFont.</td></tr>
-<tr bgcolor="#ddeeff"><td><tt>size="<i>fontsize</i>"</tt></td><td>The font size in points</td></tr>
-<tr bgcolor="#eeeeee"><td><tt>color="<i>fontcolour</i>"</tt></td><td>The font colour in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
+<tr bgcolor="#ddeeff"><td><tt>size="fontsize"</tt></td><td>The font size in points</td></tr>
+<tr bgcolor="#eeeeee"><td><tt>color="fontcolour"</tt></td><td>The font colour in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
 or as a named colour, i.e. <b><i>red</i></b>.</td></tr>
 </table>
 
@@ -1224,12 +1259,19 @@ In the current implementation output of an image always starts on a new line.
 <tr bgcolor="#6699dd"><td colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee"><td colspan="2"><b>&lt;img&gt;</b></td></tr>
 <tr bgcolor="#6699dd"><td><b>Attribute</b></td><td><b>Description</b></td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>src="<i>imagefile</i>"</tt></td><td>The name of the image file.</td></tr>
-<tr bgcolor="#ddeeff"><td valign="top"><tt>width="<i>image width</i>"</tt></td><td>The width of the image measured in pixels.</td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>height="<i>image height</i>"</tt></td><td>The height of the image measured in pixels.</td></tr>
+<tr bgcolor="#eeeeee"><td valign="top"><tt>src="imagefile"</tt></td><td>The name of the image file.</td></tr>
+<tr bgcolor="#ddeeff"><td valign="top"><tt>width="image width"</tt></td><td>The width of the image measured in pixels.</td></tr>
+<tr bgcolor="#eeeeee"><td valign="top"><tt>height="image height"</tt></td><td>The height of the image measured in pixels.</td></tr>
 <tr bgcolor="#ddeeff"><td valign="top"><tt>align="left|right|center"</tt></td><td>As specified by this
 option the image will be \b left or \b right aligned, or \b centered.
 The default is \b left aligned.</td></tr>
+<tr bgcolor="#eeeeee"><td valign="top" nowrap><tt>viewport="tlx tly brx bry"</tt></td><td>The viewport into the image that should correspond
+to the actual content of the surrounding cell. The viewport is defined as a rectangular area by specifying the coordinates of
+the top left corner (<i>tlx,tly</i>) and the bottom right corner (<i>brx,bry</i>). The viewport coordinates are measured in pixels.
+The values <i>tlx</i> and <i>tly</i> may be negative, in which case the viewport will be larger than the image.
+The values <i>brx</i> and <i>bry</i> may be specified as <b><i>0</i></b>, in which case they will be replaced
+internally by the <i>width</i> and the <i>height</i> of the image.
+</td></tr>
 </table>
 
 \section tabletag Tables
@@ -1269,7 +1311,7 @@ The <b><tt>table</tt></b> tag may have the following attributes:
 <tr bgcolor="#6699dd"><td colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee"><td colspan="2"><b>&lt;table&gt;</b></td></tr>
 <tr bgcolor="#6699dd"><td><b>Attribute</b></td><td><b>Description</b></td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>border="<i>number</i>"</tt></td><td>Table cells may have borders on each side.
+<tr bgcolor="#eeeeee"><td valign="top"><tt>border="number"</tt></td><td>Table cells may have borders on each side.
 This attribute specifies whether cells will have borders on every side or not. This may be overriden for each individual cell.
 The attribute value consists of the combination of up to 4 letters:
 <p>\b 0 - no borders<br>
@@ -1277,7 +1319,7 @@ The attribute value consists of the combination of up to 4 letters:
 </td></tr>
 <tr bgcolor="#ddeeff"><td valign="top"><tt>align="left|right|center"</tt></td><td>Defines the horizontal alignment of the table. Default is the alignment of the surrounding context.</td></tr>
 <tr bgcolor="#eeeeee"><td><tt>valign="top|middle|bottom"</tt></td><td>Defines the vertical alignment of the table. Default is <i>top</i>.</td></tr>
-<tr bgcolor="#ddeeff"><td valign="top"><tt>cellpadding="<i>number</i>"</tt></td><td><i>Number</i> defines the padding width on each side of a cell. Default is 0.</td></tr>
+<tr bgcolor="#ddeeff"><td valign="top"><tt>cellpadding="number"</tt></td><td><i>Number</i> defines the padding width on each side of a cell. Default is 0.</td></tr>
 </table>
 
 The supported tags and their attributes are shown in the following tables:
@@ -1286,19 +1328,19 @@ The supported tags and their attributes are shown in the following tables:
 <tr bgcolor="#6699dd"><td><b>Tag</b></td><td><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee"><td><tt>&lt;table&gt; ... &lt;/table&gt;</tt></td><td>Groups the definitions of column widths. Contains one or more &lt;col&gt; tags.</td></tr>
 <tr bgcolor="#eeeeee"><td><tt>&lt;colgroup&gt; ... &lt;/colgroup&gt;</tt></td><td>Groups the definitions of column widths. Contains one or more &lt;col&gt; tags.</td></tr>
-<tr bgcolor="#ddeeff"><td><tt>&lt;col width="<i>width</i>" span="<i>number</i>"&gt; ... &lt;/col&gt;</tt></td><td>
+<tr bgcolor="#ddeeff"><td><tt>&lt;col width="width" span="number"&gt; ... &lt;/col&gt;</tt></td><td>
 Defines the <i>width</i> of one or more columns. <i>number</i> specifies for how many columns the width is specified, default is 1.
 </td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>&lt;thead odd="<i>background colour for odd numbered rows</i>" even="<i>background colour for even numbered rows</i>"&gt; ... &lt;/thead&gt;</tt></td>
+<tr bgcolor="#eeeeee"><td valign="top"><tt>&lt;thead odd="background colour for odd numbered rows" even="background colour for even numbered rows"&gt; ... &lt;/thead&gt;</tt></td>
 <td>Defines a group of table header rows.
 Contains one or more &lt;tr&gt; tags. If a table does not fit on a single page these rows are repeated on each page.
 The attributes <b><tt>odd</tt></b> and <b><tt>even</tt></b> are optional.
 </td></tr>
-<tr bgcolor="#ddeeff"><td valign="top"><tt>&lt;tbody odd="<i>background colour for odd numbered rows</i>" even="<i>background colour for even numbered rows</i>"&gt; ... &lt;/tbody&gt;</tt></td>
+<tr bgcolor="#ddeeff"><td valign="top"><tt>&lt;tbody odd="background colour for odd numbered rows" even="background colour for even numbered rows"&gt; ... &lt;/tbody&gt;</tt></td>
 <td>Defines a group of table body rows. Contains one or more &lt;tr&gt; tags.
 The attributes <b><tt>odd</tt></b> and <b><tt>even</tt></b> are optional.
 </td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>&lt;tr bgcolor="<i>background colour</i>" height="<i>height</i>"&gt; ... &lt;/tr&gt;</tt></td>
+<tr bgcolor="#eeeeee"><td valign="top"><tt>&lt;tr bgcolor="background colour" height="height"&gt; ... &lt;/tr&gt;</tt></td>
 <td>Defines a table row. Contains one or more &lt;td&gt; tags.
 <p>The <i>background colour</i> may be specified in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
 or as a named colour, i.e. <b><i>red</i></b>. If no background colour is given the background is transparent.</p>
@@ -1326,11 +1368,11 @@ the combination of up to 4 letters:
 .</td></tr>
 <tr bgcolor="#ddeeff"><td valign="top"><tt>align="left|right|center"</tt></td><td>Defines the horizontal alignment of the cell content. Default is <i>left</i>.</td></tr>
 <tr bgcolor="#eeeeee"><td><tt>valign="top|middle|bottom"</tt></td><td>Defines the vertical alignment of the cell content. Default is <i>top</i>.</td></tr>
-<tr bgcolor="#ddeeff"><td valign="top"><tt>bgcolor="<i>background colour</i>"</tt></td><td>The background colour of the cell in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
+<tr bgcolor="#ddeeff"><td valign="top"><tt>bgcolor="background colour"</tt></td><td>The background colour of the cell in HTML notation, i.e. <b><i>\#rrggbb</i></b>,
 or as a named colour, i.e. <b><i>red</i></b>. This attribute overrides the background colour specification of the row.
 If neither a row nor a cell background colour is specified the background is transparent.</td></tr>
-<tr bgcolor="#eeeeee"><td valign="top"><tt>rowspan="<i>number</i>"</tt></td><td><i>Number</i> of rows this cell should span. Default is 1.</td></tr>
-<tr bgcolor="#ddeeff"><td valign="top"><tt>colspan="<i>number</i>"</tt></td><td><i>Number</i> of columns this cell should span. Default is 1.</td></tr>
+<tr bgcolor="#eeeeee"><td valign="top"><tt>rowspan="number"</tt></td><td><i>Number</i> of rows this cell should span. Default is 1.</td></tr>
+<tr bgcolor="#ddeeff"><td valign="top"><tt>colspan="number"</tt></td><td><i>Number</i> of columns this cell should span. Default is 1.</td></tr>
 </table>
 
 */

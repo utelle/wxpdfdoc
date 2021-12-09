@@ -1,6 +1,6 @@
 -- wxPdfDocument configuration file for premake5
 --
--- Copyright (C) 2017-2020 Ulrich Telle <ulrich@telle-online.de>
+-- Copyright (C) 2017-2021 Ulrich Telle <ulrich@telle-online.de>
 --
 -- This file is covered by the same licence as the entire wxpdfdoc package. 
 

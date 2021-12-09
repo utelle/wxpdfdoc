@@ -20,6 +20,12 @@
 #include <wx/wx.h>
 #endif
 
+#include <wx/filesys.h>
+//#include <wx/filefn.h>
+//#include <wx/filename.h>
+#include <wx/uri.h>
+#include <wx/url.h>
+
 #include <wx/image.h>
 #include <wx/paper.h>
 #include <wx/wfstream.h>
@@ -77,6 +83,7 @@ wxPdfDocument::wxPdfDocument(int orientation, double pageWidth, double pageHeigh
 void
 wxPdfDocument::SetScaleFactor(const wxString& unit)
 {
+  m_userUnit = unit;
   // Scale factor
   if (unit == wxS("pt"))
   {
@@ -93,6 +100,7 @@ wxPdfDocument::SetScaleFactor(const wxString& unit)
   else // if (unit == "mm") or unknown
   {
     m_k = 72. / 25.4;
+    m_userUnit = "mm";
   }
 }
 
@@ -235,6 +243,12 @@ wxPdfDocument::Initialize(int orientation)
   // Full width display mode
   SetDisplayMode(wxPDF_ZOOM_FULLWIDTH);
   m_zoomFactor = 100.;
+
+  // Default layout mode
+  m_layoutMode = wxPDF_LAYOUT_CONTINUOUS;
+
+  // Default paper handling
+  m_paperHandling = wxPDF_PAPERHANDLING_DEFAULT;
 
   // Default viewer preferences
   m_viewerPrefs = 0;
@@ -1652,10 +1666,26 @@ wxPdfDocument::WriteGlyphArray(wxPdfArrayDouble& x, wxPdfArrayDouble& y, wxPdfAr
 }
 
 wxSize
-wxPdfDocument::GetImageSize(const wxString& file, const wxString& mimeType)
+wxPdfDocument::GetImageSize(const wxString& fileName, const wxString& mimeType)
 {
   wxSize imageSize(0, 0);
   wxImage image;
+
+  wxFileSystem fs;
+  wxString fileURL = fileName;
+  wxURI uri(fileName);
+  if (!uri.HasScheme())
+  {
+    fileURL = wxFileSystem::FileNameToURL(fileName);
+  }
+  wxFSFile* imageFile = fs.OpenFile(fileURL);
+  if (imageFile != NULL)
+  {
+    wxString mimeType = imageFile->GetMimeType();
+    image.LoadFile(*imageFile->GetStream(), mimeType);
+    delete imageFile;
+  }
+#if 0
   if (mimeType.IsEmpty())
   {
     // Auto detect image type
@@ -1666,6 +1696,7 @@ wxPdfDocument::GetImageSize(const wxString& file, const wxString& mimeType)
     // Use mimetype as specified
     image.LoadFile(file, mimeType);
   }
+#endif
   if (image.IsOk())
   {
     imageSize = image.GetSize();
@@ -2064,6 +2095,10 @@ wxPdfDocument::SetViewerPreferences(int preferences)
   {
     m_PDFVersion = wxS("1.4");
   }
+  if (((m_viewerPrefs & wxPDF_VIEWER_NOPRINTSCALING) != 0) && (m_PDFVersion < wxS("1.6")))
+  {
+    m_PDFVersion = wxS("1.6");
+  }
 }
 
 void
@@ -2232,6 +2267,27 @@ wxPdfDocument::SetDisplayMode(wxPdfZoom zoom, wxPdfLayout layout, double zoomFac
       break;
     default:
       m_layoutMode = wxPDF_LAYOUT_CONTINUOUS;
+      break;
+  }
+}
+
+void
+wxPdfDocument::SetPaperHandling(wxPdfPaperHandling paperHandling)
+{
+  switch (paperHandling)
+  {
+    case wxPDF_PAPERHANDLING_SIMPLEX:
+    case wxPDF_PAPERHANDLING_DUPLEX_FLIP_SHORT_EDGE:
+    case wxPDF_PAPERHANDLING_DUPLEX_FLIP_LONG_EDGE:
+      m_paperHandling = paperHandling;
+      if (m_PDFVersion < wxS("1.7"))
+      {
+        m_PDFVersion = wxS("1.7");
+      }
+      break;
+    case wxPDF_PAPERHANDLING_DEFAULT:
+    default:
+      m_paperHandling = wxPDF_PAPERHANDLING_DEFAULT;
       break;
   }
 }

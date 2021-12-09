@@ -74,62 +74,47 @@ wxPdfUtility::Double2String(double value, int precision)
 double
 wxPdfUtility::String2Double(const wxString& str)
 {
-  wxString value = str.Strip(wxString::both);
-  double result = 0;
-  double sign = 1;
-  int scale = 0;
-  int exponent = 0;
-  int expsign = 1;
-  int j = 0;
-  int jMax = (int) value.Length();
-  if (jMax > 0)
+  double value = 0;
+  str.ToCDouble(&value);
+  return value;
+}
+
+double
+wxPdfUtility::String2Double(const wxString& str, const wxString& defaultUnit, double scaleFactor)
+{
+  static double convFactor[5][5] = {
+    /*            pt        mm        cm       in       px */
+    /* 0: pt */ { 1.,       25.4/72., 2.54/72, 1./72.,  1.       },
+    /* 1: mm */ { 72./25.4, 1.,       1./10.,  1./25.4, 72./25.4 },
+    /* 2: cm */ { 72./2.54, 10.,      1.,      1./2.54, 72./2.54 },
+    /* 3: in */ { 72.,      25.4,     2.54,    1.,      72.      },
+    /* 4: px */ { 1.,       25.4/72., 2.54/72, 1./72.,  1.       }
+  };
+  static wxString allowed[] = { "pt", "mm", "cm", "in", "px" };
+  static wxArrayString allowedUnits(5, allowed);
+  static int ixPixel = allowedUnits.Index("px");
+
+  wxString strValue = str.Strip(wxString::both);
+  wxString valueUnit = (strValue.length() > 2) ? strValue.Right(2) : defaultUnit;
+
+  int ixDefaultUnit = allowedUnits.Index(defaultUnit);
+  ixDefaultUnit = (ixDefaultUnit != wxNOT_FOUND) ? ixDefaultUnit : 1;
+
+  int ixValueUnit = allowedUnits.Index(valueUnit);
+  ixValueUnit = (ixValueUnit != wxNOT_FOUND) ? ixValueUnit : ixDefaultUnit;
+
+  double value = 0;
+  strValue.ToCDouble(&value);
+
+  if (ixValueUnit != ixDefaultUnit)
   {
-    if (value[j] == wxS('+'))
+    value *= convFactor[ixValueUnit][ixDefaultUnit];
+    if (ixDefaultUnit == 4)
     {
-      j++;
+      value *= scaleFactor;
     }
-    else if (value[j] == wxS('-'))
-    {
-      sign = -1;
-      j++;
-    }
-    while (j < jMax && wxIsdigit(value[j]))
-    {
-      result = result*10 + (value[j] - wxS('0'));
-      j++;
-    }
-    if (j < jMax && value[j] == wxS('.'))
-    {
-      j++;
-      while (j < jMax && wxIsdigit(value[j]))
-      {
-        result = result*10 + (value[j] - wxS('0'));
-        scale++;
-        j++;
-      }
-    }
-    if (j < jMax && (value[j] == wxS('E') || value[j] == wxS('e')))
-    {
-      j++;
-      if (value[j] == wxS('+'))
-      {
-        j++;
-      }
-      else if (value[j] == wxS('-'))
-      {
-        expsign = -1;
-        j++;
-      }
-      while (j < jMax && wxIsdigit(value[j]))
-      {
-        exponent = exponent*10 + (value[j] - wxS('0'));
-        j++;
-      }
-      exponent *= expsign;
-    }
-    result = sign * result * pow(10.0, exponent-scale);
   }
-  return result;
+  return value;
 }
 
 wxString

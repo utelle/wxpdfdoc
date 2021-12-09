@@ -158,6 +158,8 @@ for clearing license issues of the Raghu font series.
 Kudos to Mark Dootson for contributing major enhancements of wxPdfDC and
 it's integration into the wxWidgets printing framework.
 
+Kudos to Dieter Schmeer for contributing several enhancements for the XML markup handling.
+
 Thanks to one of the wxWidgets core developers, Vadim Zeitlin, the build system
 could be overhauled and continuous integration could be added.
 
