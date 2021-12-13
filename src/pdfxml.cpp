@@ -1032,7 +1032,10 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
     {
       // --- Line break
       Ln();
-      //# context.AddHeight(GetLineHeight());
+      if (context.GetLastLineWidth() == 0)
+      {
+        context.AddHeight(GetLineHeight());
+      }
       context.MarkLastLine();
       context.AddLine();
     }
@@ -1050,7 +1053,8 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       context.AppendContext(newContext);
       PrepareXmlCell(child, *newContext);
       newContext->MarkLastLine();
-      context.AddHeight(newContext->GetHeight()+GetLineHeight());
+      double verticalSpace = (child->GetNext() == NULL) ? 0 : GetLineHeight();
+      context.AddHeight(newContext->GetHeight() + verticalSpace);
       Ln();
       Ln();
     }
@@ -1700,7 +1704,10 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       {
         Ln();
       }
-      Ln();
+      if (child->GetNext() != NULL)
+      {
+        Ln();
+      }
     }
     else if (name == wxS("hr"))
     {
