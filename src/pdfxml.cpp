@@ -50,6 +50,23 @@ GetXmlAttribute(const wxXmlNode* node, const wxString& attrName, const wxString&
   return node->GetAttribute(attrName, defaultVal);
 }
 
+static bool
+IsLastContentNode(wxXmlNode* node)
+{
+  while (node != NULL)
+  {
+    // If we reach a table cell node, there is no further content
+    if (node->GetName().IsSameAs("td", false))
+      return true;
+    // If we find a successor, there exists further content
+    if (node->GetNext())
+      return false;
+    node = node->GetParent();
+  }
+  // If we reach the document root, there is no further content
+  return true;
+}
+
 wxArrayDouble
 wxPdfDocument::ApplyViewport(const wxString& viewport, double width, double height)
 {
@@ -1053,7 +1070,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       context.AppendContext(newContext);
       PrepareXmlCell(child, *newContext);
       newContext->MarkLastLine();
-      double verticalSpace = (child->GetNext() == NULL) ? 0 : GetLineHeight();
+      double verticalSpace = IsLastContentNode(child) ? 0 : GetLineHeight();
       context.AddHeight(newContext->GetHeight() + verticalSpace);
       Ln();
       Ln();
@@ -1704,7 +1721,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       {
         Ln();
       }
-      if (child->GetNext() != NULL)
+      if (!IsLastContentNode(child))
       {
         Ln();
       }
