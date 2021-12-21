@@ -81,6 +81,7 @@ General changes:<br>
 - Added method wxPdfDocument::SetPaperHandling for better printout handling
 
 Fixed bugs:<br>
+- Fixed markup handling for paragraphs in table cells
 - Fixed markup table handling (wrong total height used to reserve space)
 - Fixed justification issue in markup text
 - Adjusted handling of pens and brushes in wxPdfDC

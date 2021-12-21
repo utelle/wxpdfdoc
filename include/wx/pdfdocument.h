@@ -2871,6 +2871,7 @@ private:
   wxSize               m_defPageSize;         ///< default page width
   wxSize               m_curPageSize;         ///< current page width
   wxPdfPageSizeMap*    m_pageSizes;           ///< array indicating page size changes
+  wxXmlNode*           m_xmlRoot;             ///< root node of current markup tree
 
   wxString             m_userUnit;            ///< string representation of user unit
   double               m_k;                   ///< scale factor (number of points in user unit)

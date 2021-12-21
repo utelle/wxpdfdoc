@@ -51,9 +51,9 @@ GetXmlAttribute(const wxXmlNode* node, const wxString& attrName, const wxString&
 }
 
 static bool
-IsLastContentNode(wxXmlNode* node)
+IsLastContentNode(wxXmlNode* node, const wxXmlNode* root, bool applyFinalVerticalSpace = true)
 {
-  while (node != NULL)
+  while (node != NULL && node != root)
   {
     // If we reach a table cell node, there is no further content
     if (node->GetName().IsSameAs("td", false))
@@ -64,7 +64,8 @@ IsLastContentNode(wxXmlNode* node)
     node = node->GetParent();
   }
   // If we reach the document root, there is no further content
-  return true;
+  // Decide about vertical space based on requested behaviour
+  return !applyFinalVerticalSpace;
 }
 
 wxArrayDouble
@@ -1070,7 +1071,7 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       context.AppendContext(newContext);
       PrepareXmlCell(child, *newContext);
       newContext->MarkLastLine();
-      double verticalSpace = IsLastContentNode(child) ? 0 : GetLineHeight();
+      double verticalSpace = IsLastContentNode(child, m_xmlRoot) ? 0 : GetLineHeight();
       context.AddHeight(newContext->GetHeight() + verticalSpace);
       Ln();
       Ln();
@@ -1412,14 +1413,14 @@ wxPdfDocument::WriteXml(const wxString& xmlString)
   {
     if (xmlDocument.IsOk())
     {
-      wxXmlNode* root = xmlDocument.GetRoot();
+      m_xmlRoot = xmlDocument.GetRoot();
       double maxWidth = GetPageWidth() - GetRightMargin() - GetX();
       wxPdfCellContext context(maxWidth, wxPDF_ALIGN_LEFT);
       double saveX = GetX();
       double saveY = GetY();
-      PrepareXmlCell(root, context);
+      PrepareXmlCell(m_xmlRoot, context);
       SetXY(saveX, saveY);
-      WriteXmlCell(root, context);
+      WriteXmlCell(m_xmlRoot, context);
     }
     else
     {
@@ -1443,6 +1444,7 @@ wxPdfDocument::WriteXml(wxXmlNode* node)
   {
     SetLineHeight(GetFontSize()*1.25 / GetScaleFactor());
   }
+  m_xmlRoot = node;
   double maxWidth = GetPageWidth() - GetRightMargin() - GetX();
   wxPdfCellContext context(maxWidth, wxPDF_ALIGN_LEFT);
   double saveX = GetX();
@@ -1721,7 +1723,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
       {
         Ln();
       }
-      if (!IsLastContentNode(child))
+      if (!IsLastContentNode(child, m_xmlRoot))
       {
         Ln();
       }
