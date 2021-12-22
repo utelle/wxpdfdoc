@@ -1864,7 +1864,7 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         }
         else if (align == wxS("center"))
         {
-          delta = 0.5 * (context.GetMaxWidth() - vpHeight);
+          delta = 0.5 * (context.GetMaxWidth() - vpWidth);
         }
         else
         {
