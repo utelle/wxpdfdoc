@@ -88,7 +88,6 @@ Fixed bugs:<br>
 
 </dd>
 
-<dl>
 <dt><b>1.0.1</b> - <i>September 2021</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets versions 3.0.x and 3.1.x.
