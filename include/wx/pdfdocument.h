@@ -209,6 +209,18 @@ public:
   */
   virtual double GetImageScale();
 
+  /// Returns the page orientation.
+  /**
+  * \return page orientation.
+  */
+  virtual int GetPageOrientation();
+
+  /// Returns the default page orientation.
+  /**
+  * \return page orientation.
+  */
+  virtual int GetDefaultPageOrientation();
+
   /// Returns the page width in units.
   /**
   * \return int page width.
@@ -473,9 +485,10 @@ public:
   *   \li wxPORTRAIT
   *   \li wxLANDSCAPE
   * The default value is the one passed to the constructor.
+  * \param useDefaultPageSize Flag whether to use the default page size or the current page size
   * \see FPDF(), Header(), Footer(), SetMargins()
   */
-  virtual void AddPage(int orientation = -1);
+  virtual void AddPage(int orientation = -1, bool useDefaultPageSize = true);
 
   virtual void AddPage(int orientation, wxPaperSize format);
 

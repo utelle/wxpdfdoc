@@ -533,7 +533,7 @@ wxPdfTable::Write()
     if (newPage)
     {
       newPage = false;
-      m_document->AddPage();
+      m_document->AddPage(m_document->GetPageOrientation(), false);
       writeHeader = m_headRowLast > m_headRowFirst;
       y = m_document->GetY();
     }

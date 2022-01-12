@@ -572,6 +572,18 @@ wxPdfDocument::GetImageScale()
   return m_imgscale;
 }
 
+int
+wxPdfDocument::GetPageOrientation()
+{
+  return m_curOrientation;
+}
+
+int
+wxPdfDocument::GetDefaultPageOrientation()
+{
+  return m_defOrientation;
+}
+
 double
 wxPdfDocument::GetPageWidth()
 {
@@ -611,9 +623,9 @@ wxPdfDocument::Open()
 }
 
 void
-wxPdfDocument::AddPage(int orientation)
+wxPdfDocument::AddPage(int orientation, bool useDefaultPageSize)
 {
-  AddPage(orientation, m_defPageSize);
+  AddPage(orientation, useDefaultPageSize ? m_defPageSize : m_curPageSize);
 }
 
 void
