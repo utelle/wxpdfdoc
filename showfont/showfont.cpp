@@ -127,6 +127,7 @@ private:
   long             m_fontIndex;   ///< Index of the requested font within a font collection
   wxString         m_includes;    ///< Include ranges
   wxString         m_excludes;    ///< Exclude ranges
+  bool             m_center;      ///< Center characters in cells
   Range*           m_ranges;      ///< Character code ranges for inclusion or exclusion
   Range*           m_lastRange;   ///< Pointer to last range added
 
@@ -455,31 +456,8 @@ ShowFont::DrawCharCode(double x, double y, wxUint32 charCode)
   m_pdf->SetFont(m_sampleFont, wxPDF_FONTSTYLE_REGULAR, m_fontSize);
   m_pdf->SetXY(x, y + 1);
   wxString glyph;
-#if wxCHECK_VERSION(2,9,0)
   glyph.Append(wxUniChar(charCode));
-#else
-#if SIZEOF_WCHAR_T == 2
-  if (charCode <= 0xffff)
-  {
-    glyph.Append(wxChar(charCode));
-  }
-  else if (charCode >= 0x110000)
-  {
-    glyph.Append(wxChar(0));
-  }
-  else
-  {
-    wchar_t surrogate[3];
-    surrogate[2] = 0;
-    surrogate[0] = (wxUint16) ((charCode >> 10) + 0xd7c0);
-    surrogate[1] = (wxUint16) ((charCode & 0x3ff) + 0xdc00);
-    glyph.Append(wxString(surrogate, wxMBConvUTF16(), 2));
-  }
-#else
-  glyph.Append(wxChar(charCode));
-#endif
-#endif
-  m_pdf->Cell(CELL_WIDTH, CELL_WIDTH, glyph, 0, 0, wxPDF_ALIGN_CENTER);
+  m_pdf->Cell(CELL_WIDTH, CELL_WIDTH, glyph, 0, 0, m_center ? wxPDF_ALIGN_CENTER : wxPDF_ALIGN_LEFT);
 }
 
 void
@@ -542,7 +520,6 @@ ShowFont::TopCellOrigin(int cellPos)
 
 static const wxCmdLineEntryDesc cmdLineDesc[] =
 {
-#if wxCHECK_VERSION(2,9,0)
   { wxCMD_LINE_OPTION, "f", "font",          "Create samples for FONT file",                             wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
   { wxCMD_LINE_OPTION, "o", "output",        "Save samples to OUTPUT file",                              wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
   { wxCMD_LINE_OPTION, "e", "encoding",      "Encoding of FONT (required for Type1 fonts)",              wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
@@ -550,15 +527,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, "n", "index",         "Font index in FONT",                                       wxCMD_LINE_VAL_NUMBER, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, "i", "include-range", "Show characters in range(s) (s1[-e1][,s2[-e2]...])",       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, "x", "exclude-range", "Don't show characters in range(s) (s1[-e1][,s2[-e2]...])", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-#else
-  { wxCMD_LINE_OPTION, wxS("f"), wxS("font"),          wxS("Create samples for FONT file"),                             wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
-  { wxCMD_LINE_OPTION, wxS("o"), wxS("output"),        wxS("Save samples to OUTPUT file"),                              wxCMD_LINE_VAL_STRING, wxCMD_LINE_OPTION_MANDATORY },
-  { wxCMD_LINE_OPTION, wxS("e"), wxS("encoding"),      wxS("Encoding of FONT (required for Type1 fonts)"),              wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_OPTION, wxS("h"), wxS("help"),          wxS("Show this information message and exit"),                   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_OPTION, wxS("n"), wxS("index"),         wxS("Font index in FONT"),                                       wxCMD_LINE_VAL_NUMBER, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_OPTION, wxS("i"), wxS("include-range"), wxS("Show characters in range(s) (s1[-e1][,s2[-e2]...])"),       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_OPTION, wxS("x"), wxS("exclude-range"), wxS("Don't show characters in range(s) (s1[-e1][,s2[-e2]...])"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
-#endif
+  { wxCMD_LINE_SWITCH, "c", "center",        "Center characters in cells",                               wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_NONE }
 };
 
@@ -572,7 +541,7 @@ ShowFont::OnInit()
   wxPdfFontManager::GetFontManager()->AddSearchPath(fontPath);
   wxSetWorkingDirectory(cwdPath);
 
-  m_version = wxS("1.1.0 (January 2017)");
+  m_version = wxS("1.2.0 (January 2022)");
   m_ranges = NULL;
   bool valid = false;
   //gets the parameters from cmd line
@@ -607,6 +576,7 @@ ShowFont::OnInit()
         valid = AddRange(range, false);
         if (valid) m_excludes = range;
       }
+      m_center = parser.Found(wxS("center"));
     }
     if (!valid)
     {

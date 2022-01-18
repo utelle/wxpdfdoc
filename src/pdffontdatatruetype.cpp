@@ -703,16 +703,24 @@ wxPdfFontDataTrueTypeUnicode::ConvertCID2GID(const wxString& s,
     {
       wxUint32 c1 = *ch;
       ++ch;
-      wxUint32 c2 = *ch;
-      if ((c2 < 0xdc00) || (c2 > 0xdfff))
+      if (ch != s.end())
       {
-        charIter = m_gn->end();
-        --ch;
+        wxUint32 c2 = *ch;
+        if ((c2 < 0xdc00) || (c2 > 0xdfff))
+        {
+          charIter = m_gn->end();
+          --ch;
+        }
+        else
+        {
+          wxUint32 cc = ((c1 - 0xd7c0) << 10) + (c2 - 0xdc00);
+          charIter = m_gn->find(cc);
+        }
       }
       else
       {
-        wxUint32 cc = ((c1 - 0xd7c0) << 10) + (c2 - 0xdc00);
-        charIter = m_gn->find(cc);
+        --ch;
+        charIter = m_gn->find(*ch);
       }
     }
     if (charIter != m_gn->end())
