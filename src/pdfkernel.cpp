@@ -1532,17 +1532,21 @@ wxPdfDocument::PutFonts()
 
       // Embed ToUnicode CMap
       // A specification of the mapping from CIDs to Unicode values
-      NewObj();
-      wxMemoryOutputStream mos;
-      /* size_t mapSize = */ font->WriteUnicodeMap(&mos);
-      size_t mapLen = CalculateStreamLength(mos.TellO());
-      OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long) mapLen));
-      // Decompresses data encoded using the public-domain zlib/deflate compression
-      // method, reproducing the original text or binary data
-      Out("/Filter /FlateDecode");
-      Out(">>");
-      PutStream(mos);
-      Out("endobj");
+      // Put it in a block of its own just for consistency with the code below,
+      // even if this is done unconditionally.
+      {
+          NewObj();
+          wxMemoryOutputStream mos;
+          /* size_t mapSize = */ font->WriteUnicodeMap(&mos);
+          size_t mapLen = CalculateStreamLength(mos.TellO());
+          OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long) mapLen));
+          // Decompresses data encoded using the public-domain zlib/deflate compression
+          // method, reproducing the original text or binary data
+          Out("/Filter /FlateDecode");
+          Out(">>");
+          PutStream(mos);
+          Out("endobj");
+      }
 
       if (type == wxS("TrueTypeUnicode"))
       {
