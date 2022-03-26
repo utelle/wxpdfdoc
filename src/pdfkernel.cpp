@@ -2369,6 +2369,13 @@ wxPdfDocument::PutPatterns()
           patternData = "0 3 m 10 3 l 0 8 m 10 8 l 3 0 m 3 3 l 3 8 m 3 10 l 8 3 m 8 8 l";
           corrFactor = 2;
           break;
+
+          // These pattern styles are not supported here, but still list them
+          // to avoid -Wswitch (and similar) warnings.
+        case wxPDF_PATTERNSTYLE_NONE:
+        case wxPDF_PATTERNSTYLE_IMAGE:
+        case wxPDF_PATTERNSTYLE_TEMPLATE:
+          break;
       }
       OutAscii(wxString(wxS("/Matrix [")) +
         wxPdfUtility::Double2String((pattern->GetWidth() * m_k) / 10.0 * corrFactor, 4) + wxS(" 0 0 ") +
