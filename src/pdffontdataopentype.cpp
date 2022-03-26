@@ -625,6 +625,7 @@ wxPdfFontDataOpenTypeUnicode::WriteCIDSet(wxOutputStream* setData,
   wxPdfChar2GlyphMap* subsetGlyphs)
 {
   wxUnusedVar(encoding);
+  wxUnusedVar(usedGlyphs);
   wxUnusedVar(subsetGlyphs);
 
   size_t gCount = m_gn->size();
@@ -641,12 +642,11 @@ wxPdfFontDataOpenTypeUnicode::WriteCIDSet(wxOutputStream* setData,
   wxPdfChar2GlyphMap::const_iterator c2gMapIter;
   for (c2gMapIter = m_gn->begin(); c2gMapIter != m_gn->end(); ++c2gMapIter)
   {
-    wxUint32 cid = c2gMapIter->first;
     wxUint32 gid = c2gMapIter->second;
     // All CIDs (= GIDs) will be set, because only the outlines of the unused glyphs are removed from the font data.
     bool setMap = true;
     // Set GID
-    // Note: One would expect that cid is used to index the mapping array.
+    // Note: One would expect that CID is used to index the mapping array.
     // However, wxPdfDocument already replaces CIDs by GIDs on adding text strings
     // to PDF content. Therefore gid is used as the array index.
     if (setMap)
