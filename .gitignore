@@ -1,3 +1,4 @@
 aclocal.m4
 configure
+configure~
 Makefile.in
