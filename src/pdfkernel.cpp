@@ -1295,16 +1295,13 @@ wxPdfDocument::PutFonts()
       NewObj();
       font->SetFileIndex(m_n);
 
-      bool compressed = true;
       wxMemoryOutputStream p;
       size_t fontSize1 = font->WriteFontData(&p);
 
       size_t fontLen = CalculateStreamLength(p.TellO());
       OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long) fontLen));
-      if (compressed)
-      {
-        Out("/Filter /FlateDecode");
-      }
+      // Note that font data is always compressed, so do _not_ check m_compress here
+      Out("/Filter /FlateDecode");
       if (type == wxS("OpenTypeUnicode"))
       {
         Out("/Subtype /CIDFontType0C");
@@ -1535,38 +1532,34 @@ wxPdfDocument::PutFonts()
 
       // Embed ToUnicode CMap
       // A specification of the mapping from CIDs to Unicode values
-      NewObj();
-      bool compressed = true;
-      wxMemoryOutputStream mos;
-      /* size_t mapSize = */ font->WriteUnicodeMap(&mos);
-      size_t mapLen = CalculateStreamLength(mos.TellO());
-      OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long) mapLen));
-      if (compressed)
+      // Put it in a block of its own just for consistency with the code below,
+      // even if this is done unconditionally.
       {
-        // Decompresses data encoded using the public-domain zlib/deflate compression
-        // method, reproducing the original text or binary data
-        Out("/Filter /FlateDecode");
+          NewObj();
+          wxMemoryOutputStream mos;
+          /* size_t mapSize = */ font->WriteUnicodeMap(&mos);
+          size_t mapLen = CalculateStreamLength(mos.TellO());
+          OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long) mapLen));
+          // Decompresses data encoded using the public-domain zlib/deflate compression
+          // method, reproducing the original text or binary data
+          Out("/Filter /FlateDecode");
+          Out(">>");
+          PutStream(mos);
+          Out("endobj");
       }
-      Out(">>");
-      PutStream(mos);
-      Out("endobj");
 
       if (type == wxS("TrueTypeUnicode"))
       {
         // Embed CIDToGIDMap
         // A specification of the mapping from CIDs to glyph indices
         NewObj();
-        bool compressed = true;
         wxMemoryOutputStream mos;
         /* size_t mapSize = */ font->WriteCIDToGIDMap(&mos);
         size_t mapLen = CalculateStreamLength(mos.TellO());
         OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long)mapLen));
-        if (compressed)
-        {
-          // Decompresses data encoded using the public-domain zlib/deflate compression
-          // method, reproducing the original text or binary data
-          Out("/Filter /FlateDecode");
-        }
+        // Decompresses data encoded using the public-domain zlib/deflate compression
+        // method, reproducing the original text or binary data
+        Out("/Filter /FlateDecode");
         Out(">>");
         PutStream(mos);
         Out("endobj");
@@ -1576,17 +1569,13 @@ wxPdfDocument::PutFonts()
         // Embed CID set
         // A specification which CIDs are present in the subset
         NewObj();
-        bool compressed = true;
         wxMemoryOutputStream mos;
         /* size_t mapSize = */ font->WriteCIDSet(&mos);
         size_t setLen = CalculateStreamLength(mos.TellO());
         OutAscii(wxString::Format(wxS("<</Length %lu"), (unsigned long)setLen));
-        if (compressed)
-        {
-          // Decompresses data encoded using the public-domain zlib/deflate compression
-          // method, reproducing the original text or binary data
-          Out("/Filter /FlateDecode");
-        }
+        // Decompresses data encoded using the public-domain zlib/deflate compression
+        // method, reproducing the original text or binary data
+        Out("/Filter /FlateDecode");
         Out(">>");
         PutStream(mos);
         Out("endobj");
@@ -2368,6 +2357,13 @@ wxPdfDocument::PutPatterns()
         case wxPDF_PATTERNSTYLE_BRICK_HATCH:
           patternData = "0 3 m 10 3 l 0 8 m 10 8 l 3 0 m 3 3 l 3 8 m 3 10 l 8 3 m 8 8 l";
           corrFactor = 2;
+          break;
+
+          // These pattern styles are not supported here, but still list them
+          // to avoid -Wswitch (and similar) warnings.
+        case wxPDF_PATTERNSTYLE_NONE:
+        case wxPDF_PATTERNSTYLE_IMAGE:
+        case wxPDF_PATTERNSTYLE_TEMPLATE:
           break;
       }
       OutAscii(wxString(wxS("/Matrix [")) +

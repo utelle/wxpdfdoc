@@ -1693,8 +1693,10 @@ wxPdfDocument::GetImageSize(const wxString& fileName, const wxString& mimeType)
   wxFSFile* imageFile = fs.OpenFile(fileURL);
   if (imageFile != NULL)
   {
-    wxString mimeType = imageFile->GetMimeType();
-    image.LoadFile(*imageFile->GetStream(), mimeType);
+    wxString mimeTypeToUse = mimeType;
+    if ( mimeTypeToUse.empty() )
+        mimeTypeToUse = imageFile->GetMimeType();
+    image.LoadFile(*imageFile->GetStream(), mimeTypeToUse);
     delete imageFile;
   }
 #if 0

@@ -19,7 +19,7 @@ AM_MAINTAINER_MODE([enable])
 AM_SILENT_RULES([yes])
 
 AC_ARG_ENABLE(samples,
-             [AC_HELP_STRING([--disable-samples],
+             [AS_HELP_STRING([--disable-samples],
                              [don't build the samples])],
              [case "x${enableval}" in
                    x) ;;
@@ -31,7 +31,7 @@ AC_ARG_ENABLE(samples,
 AM_CONDITIONAL([BUILD_SAMPLES], [test -n "$BUILD_SAMPLES"])
 
 AC_ARG_ENABLE(utilities,
-             [AC_HELP_STRING([--disable-utilities],
+             [AS_HELP_STRING([--disable-utilities],
                              [don't build the utilities])],
              [case "x${enableval}" in
                    x) ;;
