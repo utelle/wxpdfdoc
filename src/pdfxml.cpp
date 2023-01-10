@@ -508,13 +508,15 @@ wxPdfTable::InsertCell(wxPdfTableCell* cell)
   }
 }
 
-double wxPdfTable::WriteOnPage(bool writeHeader, double x, double y)
+double
+wxPdfTable::WriteOnPage(bool writeHeader, double x, double y)
 {
   y = WriteRowsOnPage(m_bodyRowFirst, m_bodyRowLast, x, y, writeHeader);
   return y;
 }
 
-double wxPdfTable::WriteRowsOnPage(unsigned firstRow, unsigned lastRow, double x, double y, bool writeHeader)
+double
+wxPdfTable::WriteRowsOnPage(unsigned firstRow, unsigned lastRow, double x, double y, bool writeHeader)
 {
   if (writeHeader)
   {
@@ -524,7 +526,8 @@ double wxPdfTable::WriteRowsOnPage(unsigned firstRow, unsigned lastRow, double x
   return y;
 }
 
-double wxPdfTable::WriteOnMultiplePages(bool writeHeader, const wxArrayInt& firstRowsOnNextPage, double x, double y)
+double
+wxPdfTable::WriteOnMultiplePages(bool writeHeader, const wxArrayInt& firstRowsOnNextPage, double x, double y)
 {
   wxArrayInt::const_iterator endIter = firstRowsOnNextPage.end();
   unsigned int firstRow = m_bodyRowFirst;
@@ -578,7 +581,8 @@ wxPdfTable::Write()
 }
 
 
-double wxPdfTable::WriteRows(unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)
+double
+wxPdfTable::WriteRows(unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)
 {
   WriteFillingOfRows(firstRow, lastRow, x, y);
   WriteBordersOfRows(firstRow, lastRow, x, y);
@@ -586,7 +590,8 @@ double wxPdfTable::WriteRows(unsigned int firstRow, unsigned int lastRow, double
   return newY;
 }
 
-void wxPdfTable::WriteFillingOfCell(unsigned int row, unsigned int col, double x, double y) const
+void
+wxPdfTable::WriteFillingOfCell(unsigned int row, unsigned int col, double x, double y) const
 {
   wxPdfCellHashMap::const_iterator foundCell = m_table.find((row << 16) | col);
   if (foundCell != m_table.end())
@@ -598,7 +603,8 @@ void wxPdfTable::WriteFillingOfCell(unsigned int row, unsigned int col, double x
   }
 }
 
-void wxPdfTable::WriteFillingOfRow(unsigned int row, double x, double y) const
+void
+wxPdfTable::WriteFillingOfRow(unsigned int row, double x, double y) const
 {
   m_document->SetXY(x, y + m_pad);
   for (unsigned int col = 0; col < m_nCols; col++)
@@ -608,7 +614,8 @@ void wxPdfTable::WriteFillingOfRow(unsigned int row, double x, double y) const
   }
 }
 
-void wxPdfTable::WriteFillingOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y) const
+void
+wxPdfTable::WriteFillingOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y) const
 {
   for (unsigned int row = firstRow; row < lastRow; ++row)
   {
@@ -617,7 +624,8 @@ void wxPdfTable::WriteFillingOfRows(unsigned int firstRow, unsigned int lastRow,
   }
 }
 
-void wxPdfTable::WriteBordersOfCell(unsigned int row, unsigned int col, double x, double y)
+void
+wxPdfTable::WriteBordersOfCell(unsigned int row, unsigned int col, double x, double y)
 {
   wxPdfCellHashMap::const_iterator foundCell = m_table.find((row << 16) | col);
   if (foundCell != m_table.end())
@@ -629,7 +637,8 @@ void wxPdfTable::WriteBordersOfCell(unsigned int row, unsigned int col, double x
   }
 }
 
-void wxPdfTable::WriteBordersOfRow(unsigned int row, double x, double y)
+void
+wxPdfTable::WriteBordersOfRow(unsigned int row, double x, double y)
 {
   m_document->SetXY(x, y + m_pad);
   for (unsigned int col = 0; col < m_nCols; col++)
@@ -639,7 +648,8 @@ void wxPdfTable::WriteBordersOfRow(unsigned int row, double x, double y)
   }
 }
 
-void wxPdfTable::WriteBordersOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y)
+void
+wxPdfTable::WriteBordersOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y)
 {
   for (unsigned int row = firstRow; row < lastRow; ++row)
   {
@@ -648,7 +658,8 @@ void wxPdfTable::WriteBordersOfRows(unsigned int firstRow, unsigned int lastRow,
   }
 }
 
-void wxPdfTable::WriteContentOfCell(unsigned int row, unsigned int col, double x, double y, bool isHeaderRow)
+void
+wxPdfTable::WriteContentOfCell(unsigned int row, unsigned int col, double x, double y, bool isHeaderRow)
 {
   wxPdfCellHashMap::const_iterator foundCell = m_table.find((row << 16) | col);
   if (foundCell != m_table.end())
@@ -660,7 +671,8 @@ void wxPdfTable::WriteContentOfCell(unsigned int row, unsigned int col, double x
   }
 }
 
-void wxPdfTable::WriteContentOfRow(unsigned int row, double x, double y, bool isHeaderRow)
+void
+wxPdfTable::WriteContentOfRow(unsigned int row, double x, double y, bool isHeaderRow)
 {
   m_document->SetXY(x, y + m_pad);
   for (unsigned int col = 0; col < m_nCols; col++)
@@ -670,7 +682,8 @@ void wxPdfTable::WriteContentOfRow(unsigned int row, double x, double y, bool is
   }
 }
 
-double wxPdfTable::WriteContentOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)
+double
+wxPdfTable::WriteContentOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)
 {
   for (unsigned int row = firstRow; row < lastRow; ++row)
   {
@@ -680,7 +693,8 @@ double wxPdfTable::WriteContentOfRows(unsigned int firstRow, unsigned int lastRo
   return y;
 }
 
-wxArrayInt wxPdfTable::GetFirstRowsOnNextPage() const
+wxArrayInt
+wxPdfTable::GetFirstRowsOnNextPage() const
 {
   const double breakMargin = m_document->GetBreakMargin();
   const double pageHeight = m_document->GetPageHeight();
@@ -727,7 +741,8 @@ wxArrayInt wxPdfTable::GetFirstRowsOnNextPage() const
   return firstRows;
 }
 
-void wxPdfTable::DrawCellBorders(double x, double y, double w, double h, wxPdfTableCell* cell) const
+void
+wxPdfTable::DrawCellBorders(double x, double y, double w, double h, wxPdfTableCell* cell) const
 {
   int border = cell->GetBorder();
   if (border != wxPDF_BORDER_NONE)
@@ -764,7 +779,8 @@ void wxPdfTable::DrawCellBorders(double x, double y, double w, double h, wxPdfTa
   }
 }
 
-void wxPdfTable::DrawCellFilling(double x, double y, double w, double h, wxPdfTableCell* cell) const
+void
+wxPdfTable::DrawCellFilling(double x, double y, double w, double h, wxPdfTableCell* cell) const
 {
   if (cell->HasCellColour())
   {
@@ -775,7 +791,8 @@ void wxPdfTable::DrawCellFilling(double x, double y, double w, double h, wxPdfTa
   }
 }
 
-void wxPdfTable::DrawCellContent(double x, double y, bool isHeaderRow, double w, double h, wxPdfTableCell* cell)
+void
+wxPdfTable::DrawCellContent(double x, double y, bool isHeaderRow, double w, double h, wxPdfTableCell* cell)
 {
   m_document->SetLeftMargin(x + m_pad);
   m_document->SetLeftMargin(x + m_pad);
@@ -827,7 +844,8 @@ void wxPdfTable::DrawCellContent(double x, double y, bool isHeaderRow, double w,
   }
 }
 
-void wxPdfTable::CalculateCellDimension(unsigned row, unsigned col, double& w, double& h, wxPdfTableCell* cell) const
+void
+wxPdfTable::CalculateCellDimension(unsigned row, unsigned col, double& w, double& h, wxPdfTableCell* cell) const
 {
   unsigned int rowspan, colspan;
   w = 0;
