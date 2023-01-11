@@ -526,32 +526,41 @@ wxPdfTable::WriteRowsOnPage(unsigned firstRow, unsigned lastRow, double x, doubl
   return y;
 }
 
-double
-wxPdfTable::WriteOnMultiplePages(bool writeHeader, const wxArrayInt& firstRowsOnNextPage, double x, double y)
+unsigned int
+wxPdfTable::AddPage(wxArrayInt::const_iterator iter, wxArrayInt::const_iterator endIter)
 {
-  wxArrayInt::const_iterator endIter = firstRowsOnNextPage.end();
-  unsigned int firstRow = m_bodyRowFirst;
-  unsigned int firstPageBreak = *firstRowsOnNextPage.begin();
-
-  if(firstPageBreak > firstRow)
+  m_document->AddPage(m_document->GetPageOrientation(), false);
+  //Determine last table row on page
+  wxArrayInt::const_iterator nextIter = iter + 1;
+  unsigned int lastRow = m_bodyRowLast;
+  if (nextIter != endIter)
   {
-    y = WriteRowsOnPage(firstRow, firstPageBreak, x, y, writeHeader);
+    lastRow = *nextIter;
   }
+  return lastRow;
+}
 
-  for(wxArrayInt::const_iterator iter = firstRowsOnNextPage.begin(); iter != endIter; ++iter)
+double
+wxPdfTable::WriteTable(bool writeHeader, const wxArrayInt& lastRowsOnPage, double x, double y)
+{
+  wxArrayInt::const_iterator endIter = lastRowsOnPage.end();
+  unsigned int firstRow = m_bodyRowFirst;
+  unsigned int lastRow = lastRowsOnPage.front();
+
+  for(wxArrayInt::const_iterator iter = lastRowsOnPage.begin(); iter != endIter; ++iter)
   {
-    m_document->AddPage(m_document->GetPageOrientation(), false);
-    y = m_document->GetY();
-    firstRow = *iter;
-    //Determine last table row on page
-    unsigned int lastRow = m_bodyRowLast;
-    wxArrayInt::const_iterator nextIter = iter + 1;
-    if(nextIter != endIter)
+    //check if we have to insert a new page first.
+    //basically it's always true beginning with the second iteration
+    //and when the header + first line doesn't fit on the first page
+    if (firstRow >= lastRow)
     {
-      lastRow = (*nextIter);
+      lastRow = *iter;
+      m_document->AddPage(m_document->GetPageOrientation(), false);
+      y = m_document->GetY();
     }
-    //Write rows on page
+    //write rows on page
     y = WriteRowsOnPage(firstRow, lastRow, x, y, writeHeader);
+    firstRow = lastRow;
   }
   return y;
 }
@@ -565,18 +574,9 @@ wxPdfTable::Write()
 
   // check if table is about more pages
   // if yes, the first body rows are in the returning array
-  const wxArrayInt firstRowsOnNextPage = GetFirstRowsOnNextPage();
-
-  //Case we get everything on the same Page
-  if(firstRowsOnNextPage.empty())
-  {
-    y = WriteOnPage(writeHeader, x, y);
-  }
-  else
-  {
-    //Case we have just one line break
-    y = WriteOnMultiplePages(writeHeader, firstRowsOnNextPage, x, y);
-  }
+  const wxArrayInt lastRowsOnPage = GetLastRowsOnPage();
+ 
+  y = WriteTable(writeHeader, lastRowsOnPage, x, y);
   m_document->SetXY(x, y);
 }
 
@@ -694,7 +694,7 @@ wxPdfTable::WriteContentOfRows(unsigned int firstRow, unsigned int lastRow, doub
 }
 
 wxArrayInt
-wxPdfTable::GetFirstRowsOnNextPage() const
+wxPdfTable::GetLastRowsOnPage() const
 {
   const double breakMargin = m_document->GetBreakMargin();
   const double pageHeight = m_document->GetPageHeight();
@@ -711,13 +711,13 @@ wxPdfTable::GetFirstRowsOnNextPage() const
     }
   }
   double y = m_document->GetY();
-  wxArrayInt firstRows;
+  wxArrayInt lastRows;
 
   //this means basically that we have a line break before drawing the table
   y += m_headHeight + firstBodyRowHeight;
   if (y > yMax)
   {
-    firstRows.Add(m_bodyRowFirst);
+    lastRows.Add(m_headRowLast);
     //Maybe we have a header at the top of the next page
     y = m_document->GetHeaderHeight();
   }
@@ -727,7 +727,8 @@ wxPdfTable::GetFirstRowsOnNextPage() const
     const double rowHeight = m_rowHeights.find(row)->second;
     if (y + rowHeight > yMax)
     {
-      firstRows.Add(row);
+      //since m_bodyRowLast and m_headRowLast are alway one behind last, last row on page is always one behind too.
+      lastRows.Add(row); 
       //Maybe we have a header at the top of the next page
       y = m_document->GetHeaderHeight();
     }
@@ -738,7 +739,10 @@ wxPdfTable::GetFirstRowsOnNextPage() const
     }
     y += rowHeight;
   }
-  return firstRows;
+
+  lastRows.Add(m_bodyRowLast);
+
+  return lastRows;
 }
 
 void

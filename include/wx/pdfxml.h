@@ -281,7 +281,9 @@ public:
   void InsertCell(wxPdfTableCell* c);
   double WriteOnPage(bool writeHeader, double x, double y);
   double WriteRowsOnPage(unsigned firstRow, unsigned lastRow, double x, double y, bool writeHeader);
-  double WriteOnMultiplePages(bool writeHeader, const wxArrayInt& firstRowsOnNextPage, double x, double y);
+  // Add a page and return last table row on page
+  unsigned int AddPage(wxArrayInt::const_iterator iter, wxArrayInt::const_iterator endIter);
+  double WriteTable(bool writeHeader, const wxArrayInt& lastRowsOnPage, double x, double y);
 
   /// Get height of row
   double GetRowHeight(int row) { const double height = m_rowHeights[row]; return height; };
@@ -357,7 +359,7 @@ private:
   ///Calculate Rows after a page break in a table
   ///In case of line breaks the function returns an array containing first body rows on a next page
   ///In case of no new pages, the array is empty
-  wxArrayInt GetFirstRowsOnNextPage() const;
+  wxArrayInt GetLastRowsOnPage() const;
   /// Draw cell borders
   void DrawCellBorders(double x, double y, double w, double h, wxPdfTableCell* cell) const;
   /// Draw cell filling
