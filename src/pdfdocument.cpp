@@ -2918,3 +2918,8 @@ wxPdfDocument::GetTextRenderMode() const
 {
   return m_textRenderMode;
 }
+
+double wxPdfDocument::GetHeaderHeight() const
+{
+  return m_headerHeight;
+}

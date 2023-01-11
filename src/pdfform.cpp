@@ -655,8 +655,3 @@ wxPdfDocument::LoadZapfDingBats()
     m_fontSize    = saveSize / m_k;
   }
 }
-
-double wxPdfDocument::GetHeaderHeight() const
-{
-  return m_headerHeight;
-}
