@@ -861,28 +861,6 @@ wxPdfTable::CalculateCellDimension(unsigned row, unsigned col, double& w, double
 }
 
 void
-wxPdfTable::WriteRow(unsigned int row, double x, double y)
-{
-  bool isHeaderRow = (row >= m_headRowFirst && row < m_headRowLast);
-  unsigned int col;
-  double w, h;
-  m_document->SetXY(x, y+m_pad);
-  for (col = 0; col < m_nCols; col++)
-  {
-    wxPdfCellHashMap::iterator foundCell = m_table.find((row << 16) | col);
-    if (foundCell != m_table.end())
-    {
-      wxPdfTableCell* cell = foundCell->second;
-      CalculateCellDimension(row, col, w, h, cell);
-      DrawCellFilling(x, y, w, h, cell);
-      DrawCellBorders(x, y, w, h, cell);
-      DrawCellContent(x, y, isHeaderRow, w, h, cell);
-    }
-    x += m_colWidths[col];
-  }
-}
-
-void
 wxPdfTable::SetColumnWidth(int col, double width)
 {
   m_colWidths[col] = width;

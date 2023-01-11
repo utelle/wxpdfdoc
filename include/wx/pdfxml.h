@@ -290,10 +290,6 @@ public:
   void Write();
   double WriteRows(unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow);
 
-
-  /// Write one table row to the document
-  void WriteRow(unsigned int row, double x, double y);
-
   /// Set cell padding
   void SetPad(double pad) { m_pad = pad; }
 
