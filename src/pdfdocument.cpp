@@ -731,8 +731,9 @@ wxPdfDocument::AddPage(int orientation, wxSize pageSize)
   m_colourFlag = cf;
 
   // Page header
+  double y = GetY();
   Header();
-
+  m_headerHeight = GetY() - y;
   // Restore line width
   if (m_lineWidth != lw)
   {
@@ -2916,4 +2917,9 @@ wxPdfTextRenderMode
 wxPdfDocument::GetTextRenderMode() const
 {
   return m_textRenderMode;
+}
+
+double wxPdfDocument::GetHeaderHeight() const
+{
+  return m_headerHeight;
 }

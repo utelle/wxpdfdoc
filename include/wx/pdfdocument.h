@@ -2857,6 +2857,12 @@ protected:
 
   void LoadZapfDingBats();
 
+  /**
+   * \brief 
+   * \return Get the height of the header at the top of the page
+   */
+   double GetHeaderHeight() const; 
+
 private:
   /// Return a string key by a font name and a font encoding
   wxString MakeFontKey(const wxString& fontName, const wxString& fontEncoding);
@@ -2897,6 +2903,7 @@ private:
   double               m_w;                   ///< current width of page in user unit
   double               m_h;                   ///< current height of page in user unit
   double               m_imgscale;            ///< image scale factor
+  double               m_headerHeight;        ///< height of the user defined header
 
   double               m_tMargin;             ///< top margin
   double               m_bMargin;             ///< page break margin

@@ -508,165 +508,359 @@ wxPdfTable::InsertCell(wxPdfTableCell* cell)
   }
 }
 
-void
-wxPdfTable::Write()
+double
+wxPdfTable::WriteOnPage(bool writeHeader, double x, double y)
 {
-  bool writeHeader = m_headRowLast > m_headRowFirst;
-  bool newPage = false;
-  double saveLeftMargin = m_document->GetLeftMargin();
-  double x, y;
-  unsigned int row, headRow;
-  y = m_document->GetY();
-  double breakMargin = m_document->GetBreakMargin();
-  double pageHeight = m_document->GetPageHeight();
-  double yMax = pageHeight - breakMargin;
-  if (y + m_headHeight + m_maxHeights[m_bodyRowFirst] > yMax)
+  y = WriteRowsOnPage(m_bodyRowFirst, m_bodyRowLast, x, y, writeHeader);
+  return y;
+}
+
+double
+wxPdfTable::WriteRowsOnPage(unsigned firstRow, unsigned lastRow, double x, double y, bool writeHeader)
+{
+  if (writeHeader)
   {
-    newPage = true;
+    y = WriteRows(m_headRowFirst, m_headRowLast, x, y, true);
   }
-  for (row = m_bodyRowFirst; row < m_bodyRowLast; row++)
+  y = WriteRows(firstRow, lastRow, x, y, false);
+  return y;
+}
+
+unsigned int
+wxPdfTable::AddPage(wxArrayInt::const_iterator iter, wxArrayInt::const_iterator endIter)
+{
+  m_document->AddPage(m_document->GetPageOrientation(), false);
+  //Determine last table row on page
+  wxArrayInt::const_iterator nextIter = iter + 1;
+  unsigned int lastRow = m_bodyRowLast;
+  if (nextIter != endIter)
   {
-    if (!newPage && (y + m_maxHeights[row] > yMax))
+    lastRow = *nextIter;
+  }
+  return lastRow;
+}
+
+double
+wxPdfTable::WriteTable(bool writeHeader, const wxArrayInt& lastRowsOnPage, double x, double y)
+{
+  wxArrayInt::const_iterator endIter = lastRowsOnPage.end();
+  unsigned int firstRow = m_bodyRowFirst;
+  unsigned int lastRow = lastRowsOnPage.front();
+
+  for(wxArrayInt::const_iterator iter = lastRowsOnPage.begin(); iter != endIter; ++iter)
+  {
+    //check if we have to insert a new page first.
+    //basically it's always true beginning with the second iteration
+    //and when the header + first line doesn't fit on the first page
+    if (firstRow >= lastRow)
     {
-      newPage = true;
-    }
-    if (newPage)
-    {
-      newPage = false;
+      lastRow = *iter;
       m_document->AddPage(m_document->GetPageOrientation(), false);
-      writeHeader = m_headRowLast > m_headRowFirst;
       y = m_document->GetY();
     }
-    if (writeHeader)
-    {
-      writeHeader = false;
-      for (headRow = m_headRowFirst; headRow < m_headRowLast; headRow++)
-      {
-        x = saveLeftMargin;
-        WriteRow(headRow, x, y);
-        y += m_rowHeights[headRow];
-      }
-    }
-    x = saveLeftMargin;
-    WriteRow(row, x, y);
-    y += m_rowHeights[row];
+    //write rows on page
+    y = WriteRowsOnPage(firstRow, lastRow, x, y, writeHeader);
+    firstRow = lastRow;
   }
-  m_document->SetXY(saveLeftMargin, y);
+  return y;
 }
 
 void
-wxPdfTable::WriteRow(unsigned int row, double x, double y)
+wxPdfTable::Write()
 {
-  bool isHeaderRow = (row >= m_headRowFirst && row < m_headRowLast);
-  unsigned int col;
-  unsigned int rowspan, colspan;
-  double w, h;
-  m_document->SetXY(x, y+m_pad);
-  for (col = 0; col < m_nCols; col++)
+  const bool writeHeader = m_headRowLast > m_headRowFirst;
+  const double x = m_document->GetLeftMargin();
+  double y = m_document->GetY();
+
+  // check if table is about more pages
+  // if yes, the first body rows are in the returning array
+  const wxArrayInt lastRowsOnPage = GetLastRowsOnPage();
+ 
+  y = WriteTable(writeHeader, lastRowsOnPage, x, y);
+  m_document->SetXY(x, y);
+}
+
+
+double
+wxPdfTable::WriteRows(unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)
+{
+  WriteFillingOfRows(firstRow, lastRow, x, y);
+  WriteBordersOfRows(firstRow, lastRow, x, y);
+  const double newY = WriteContentOfRows(firstRow, lastRow, x, y, isHeaderRow);
+  return newY;
+}
+
+void
+wxPdfTable::WriteFillingOfCell(unsigned int row, unsigned int col, double x, double y) const
+{
+  wxPdfCellHashMap::const_iterator foundCell = m_table.find((row << 16) | col);
+  if (foundCell != m_table.end())
   {
-    wxPdfCellHashMap::iterator foundCell = m_table.find((row << 16) | col);
-    if (foundCell != m_table.end())
+    wxPdfTableCell* cell = foundCell->second;
+    double w, h;
+    CalculateCellDimension(row, col, w, h, cell);
+    DrawCellFilling(x, y, w, h, cell);
+  }
+}
+
+void
+wxPdfTable::WriteFillingOfRow(unsigned int row, double x, double y) const
+{
+  m_document->SetXY(x, y + m_pad);
+  for (unsigned int col = 0; col < m_nCols; col++)
+  {
+    WriteFillingOfCell(row, col, x, y);
+    x += m_colWidths.find(col)->second;
+  }
+}
+
+void
+wxPdfTable::WriteFillingOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y) const
+{
+  for (unsigned int row = firstRow; row < lastRow; ++row)
+  {
+    WriteFillingOfRow(row, x, y);
+    y += m_rowHeights.find(row)->second;
+  }
+}
+
+void
+wxPdfTable::WriteBordersOfCell(unsigned int row, unsigned int col, double x, double y)
+{
+  wxPdfCellHashMap::const_iterator foundCell = m_table.find((row << 16) | col);
+  if (foundCell != m_table.end())
+  {
+    wxPdfTableCell* cell = foundCell->second;
+    double w, h;
+    CalculateCellDimension(row, col, w, h, cell);
+    DrawCellBorders(x, y, w, h, cell);
+  }
+}
+
+void
+wxPdfTable::WriteBordersOfRow(unsigned int row, double x, double y)
+{
+  m_document->SetXY(x, y + m_pad);
+  for (unsigned int col = 0; col < m_nCols; col++)
+  {
+    WriteBordersOfCell(row, col, x, y);
+    x += m_colWidths.find(col)->second;
+  }
+}
+
+void
+wxPdfTable::WriteBordersOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y)
+{
+  for (unsigned int row = firstRow; row < lastRow; ++row)
+  {
+    WriteBordersOfRow(row, x, y);
+    y += m_rowHeights.find(row)->second;
+  }
+}
+
+void
+wxPdfTable::WriteContentOfCell(unsigned int row, unsigned int col, double x, double y, bool isHeaderRow)
+{
+  wxPdfCellHashMap::const_iterator foundCell = m_table.find((row << 16) | col);
+  if (foundCell != m_table.end())
+  {
+    wxPdfTableCell* cell = foundCell->second;
+    double w, h;
+    CalculateCellDimension(row, col, w, h, cell);
+    DrawCellContent(x, y, isHeaderRow, w, h, cell);
+  }
+}
+
+void
+wxPdfTable::WriteContentOfRow(unsigned int row, double x, double y, bool isHeaderRow)
+{
+  m_document->SetXY(x, y + m_pad);
+  for (unsigned int col = 0; col < m_nCols; col++)
+  {
+    WriteContentOfCell(row, col, x, y, isHeaderRow);
+    x += m_colWidths.find(col)->second;
+  }
+}
+
+double
+wxPdfTable::WriteContentOfRows(unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)
+{
+  for (unsigned int row = firstRow; row < lastRow; ++row)
+  {
+    WriteContentOfRow(row, x, y, isHeaderRow);
+    y += m_rowHeights.find(row)->second;
+  }
+  return y;
+}
+
+wxArrayInt
+wxPdfTable::GetLastRowsOnPage() const
+{
+  const double breakMargin = m_document->GetBreakMargin();
+  const double pageHeight = m_document->GetPageHeight();
+  const double yMax = pageHeight - breakMargin;
+  const double firstBodyRowHeight = m_maxHeights.find(m_bodyRowFirst)->second;
+  const bool writeHeader = m_headRowLast > m_headRowFirst;
+  double headerHeight = 0;
+  //in case we have a line break and the table has a header, we need to consider the space of the header at the new page
+  if (writeHeader)
+  {
+    for (unsigned int headRow = m_headRowFirst; headRow < m_headRowLast; headRow++)
     {
-      wxPdfTableCell* cell = foundCell->second;
-      w = 0;
-      for (colspan = 0; colspan < cell->GetColSpan(); colspan++)
-      {
-        w += m_colWidths[col+colspan];
-      }
-      h = 0;
-      for (rowspan = 0; rowspan < cell->GetRowSpan(); rowspan++)
-      {
-        h += m_rowHeights[row+rowspan];
-      }
-      if (cell->HasCellColour())
-      {
-        wxPdfColour saveFillColour = m_document->GetFillColour();
-        m_document->SetFillColour(cell->GetCellColour());
-        m_document->Rect(x, y, w, h, wxPDF_STYLE_FILL);
-        m_document->SetFillColour(saveFillColour);
-      }
-      int border = cell->GetBorder();
-      if (border != wxPDF_BORDER_NONE)
-      {
-        double savedLineWidth = m_document->GetLineWidth();
-        wxPdfColour savedDrawingColour = m_document->GetDrawColour();
-        if (m_borderWidth > 0)
-        {
-          m_document->SetLineWidth(m_borderWidth);
-        }
-        if (m_borderColour.GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
-        {
-          m_document->SetDrawColour(m_borderColour);
-        }
-        if ((border & wxPDF_BORDER_FRAME) == wxPDF_BORDER_FRAME)
-        {
-          m_document->Rect(x, y, w, h);
-        }
-        else
-        {
-          if (border & wxPDF_BORDER_LEFT)   m_document->Line(x,   y,   x,   y+h);
-          if (border & wxPDF_BORDER_TOP)    m_document->Line(x,   y,   x+w, y);
-          if (border & wxPDF_BORDER_BOTTOM) m_document->Line(x,   y+h, x+w, y+h);
-          if (border & wxPDF_BORDER_RIGHT)  m_document->Line(x+w, y,   x+w, y+h);
-        }
-        if (m_borderColour.GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
-        {
-          m_document->SetDrawColour(savedDrawingColour);
-        }
-        if (m_borderWidth > 0)
-        {
-          m_document->SetLineWidth(savedLineWidth);
-        }
-      }
-      m_document->SetLeftMargin(x+m_pad);
-      double delta = h - cell->GetHeight();
-      bool useClipping = false;
-      if (delta < 0)
-      {
-        // cell height is greater than maximum allowed row height
-        // cell content exceeding the row height will be clipped
-        //
-        // TODO: Setting delta = 0 effectively forces top alignment for such cells
-        // Should such a cell be aligned as requested?
-        // That is, should the clipping occur at
-        // - the bottom for wxPDF_ALIGN_TOP,
-        // - the top for wxPDF_ALIGN_BOTTOM,
-        // - the top and the bottom for wxPDF_ALIGN_MIDDLE
-        delta = 0;
-        useClipping = true;
-      }
-      switch (cell->GetVAlign())
-      {
-        case wxPDF_ALIGN_BOTTOM:
-          m_document->SetXY(x+m_pad, y+m_pad+delta);
-          break;
-        case wxPDF_ALIGN_MIDDLE:
-          m_document->SetXY(x+m_pad, y+m_pad+0.5*delta);
-          break;
-        case wxPDF_ALIGN_TOP:
-        default:
-          m_document->SetXY(x+m_pad, y+m_pad);
-          break;
-      }
-      if (useClipping)
-      {
-        m_document->ClippingRect(x, y, w, h);
-      }
-      m_document->WriteXmlCell(cell->GetXmlNode(), *(cell->GetContext()));
-      if (useClipping)
-      {
-        m_document->UnsetClipping();
-      }
-      if (isHeaderRow)
-      {
-        // For header rows it is necessary to prepare the cells for reprocessing
-        delete cell->GetContext();
-        wxPdfCellContext* cellContext = new wxPdfCellContext(cell->GetWidth(), cell->GetHAlign());
-        cell->SetContext(cellContext);
-        m_document->PrepareXmlCell(cell->GetXmlNode(), *cellContext);
-      }
+      headerHeight += m_rowHeights.find(headRow)->second;
     }
-    x += m_colWidths[col];
+  }
+  double y = m_document->GetY();
+  wxArrayInt lastRows;
+
+  //this means basically that we have a line break before drawing the table
+  y += m_headHeight + firstBodyRowHeight;
+  if (y > yMax)
+  {
+    lastRows.Add(m_headRowLast);
+    //Maybe we have a header at the top of the next page
+    y = m_document->GetHeaderHeight();
+  }
+
+  for (unsigned int row = m_bodyRowFirst + 1; row < m_bodyRowLast; ++row)
+  {
+    const double rowHeight = m_rowHeights.find(row)->second;
+    if (y + rowHeight > yMax)
+    {
+      //since m_bodyRowLast and m_headRowLast are alway one behind last, last row on page is always one behind too.
+      lastRows.Add(row); 
+      //Maybe we have a header at the top of the next page
+      y = m_document->GetHeaderHeight();
+    }
+    if (writeHeader)
+    {
+      //consider the table header
+      y += headerHeight;
+    }
+    y += rowHeight;
+  }
+
+  lastRows.Add(m_bodyRowLast);
+
+  return lastRows;
+}
+
+void
+wxPdfTable::DrawCellBorders(double x, double y, double w, double h, wxPdfTableCell* cell) const
+{
+  int border = cell->GetBorder();
+  if (border != wxPDF_BORDER_NONE)
+  {
+    double savedLineWidth = m_document->GetLineWidth();
+    wxPdfColour savedDrawingColour = m_document->GetDrawColour();
+    if (m_borderWidth > 0)
+    {
+      m_document->SetLineWidth(m_borderWidth);
+    }
+    if (m_borderColour.GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+    {
+      m_document->SetDrawColour(m_borderColour);
+    }
+    if ((border & wxPDF_BORDER_FRAME) == wxPDF_BORDER_FRAME)
+    {
+      m_document->Rect(x, y, w, h);
+    }
+    else
+    {
+      if (border & wxPDF_BORDER_LEFT)   m_document->Line(x,   y,   x,   y+h);
+      if (border & wxPDF_BORDER_TOP)    m_document->Line(x,   y,   x+w, y);
+      if (border & wxPDF_BORDER_BOTTOM) m_document->Line(x,   y+h, x+w, y+h);
+      if (border & wxPDF_BORDER_RIGHT)  m_document->Line(x+w, y,   x+w, y+h);
+    }
+    if (m_borderColour.GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+    {
+      m_document->SetDrawColour(savedDrawingColour);
+    }
+    if (m_borderWidth > 0)
+    {
+      m_document->SetLineWidth(savedLineWidth);
+    }
+  }
+}
+
+void
+wxPdfTable::DrawCellFilling(double x, double y, double w, double h, wxPdfTableCell* cell) const
+{
+  if (cell->HasCellColour())
+  {
+    wxPdfColour saveFillColour = m_document->GetFillColour();
+    m_document->SetFillColour(cell->GetCellColour());
+    m_document->Rect(x, y, w, h, wxPDF_STYLE_FILL);
+    m_document->SetFillColour(saveFillColour);
+  }
+}
+
+void
+wxPdfTable::DrawCellContent(double x, double y, bool isHeaderRow, double w, double h, wxPdfTableCell* cell)
+{
+  m_document->SetLeftMargin(x + m_pad);
+  m_document->SetLeftMargin(x + m_pad);
+  double delta = h - cell->GetHeight();
+  bool useClipping = false;
+  if (delta < 0)
+  {
+    // cell height is greater than maximum allowed row height
+    // cell content exceeding the row height will be clipped
+    //
+    // TODO: Setting delta = 0 effectively forces top alignment for such cells
+    // Should such a cell be aligned as requested?
+    // That is, should the clipping occur at
+    // - the bottom for wxPDF_ALIGN_TOP,
+    // - the top for wxPDF_ALIGN_BOTTOM,
+    // - the top and the bottom for wxPDF_ALIGN_MIDDLE
+    delta = 0;
+    useClipping = true;
+  }
+  switch (cell->GetVAlign())
+  {
+  case wxPDF_ALIGN_BOTTOM:
+    m_document->SetXY(x + m_pad, y + m_pad + delta);
+    break;
+  case wxPDF_ALIGN_MIDDLE:
+    m_document->SetXY(x + m_pad, y + m_pad + 0.5 * delta);
+    break;
+  case wxPDF_ALIGN_TOP:
+  default:
+    m_document->SetXY(x + m_pad, y + m_pad);
+    break;
+  }
+  if (useClipping)
+  {
+    m_document->ClippingRect(x, y, w, h);
+  }
+  m_document->WriteXmlCell(cell->GetXmlNode(), *(cell->GetContext()));
+  if (useClipping)
+  {
+    m_document->UnsetClipping();
+  }
+  if (isHeaderRow)
+  {
+    // For header rows it is necessary to prepare the cells for reprocessing
+    delete cell->GetContext();
+    wxPdfCellContext* cellContext = new wxPdfCellContext(cell->GetWidth(), cell->GetHAlign());
+    cell->SetContext(cellContext);
+    m_document->PrepareXmlCell(cell->GetXmlNode(), *cellContext);
+  }
+}
+
+void
+wxPdfTable::CalculateCellDimension(unsigned row, unsigned col, double& w, double& h, wxPdfTableCell* cell) const
+{
+  unsigned int rowspan, colspan;
+  w = 0;
+  for (colspan = 0; colspan < cell->GetColSpan(); colspan++)
+  {
+    w += m_colWidths.find(col+colspan)->second;
+  }
+  h = 0;
+  for (rowspan = 0; rowspan < cell->GetRowSpan(); rowspan++)
+  {
+    h += m_rowHeights.find(row+rowspan)->second;
   }
 }
 
