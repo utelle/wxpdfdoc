@@ -23,12 +23,12 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
     - name: Install dependencies (macOS)
       run: |
-        brew update
+        # brew update
         brew install automake
         brew install wxmac
       if: matrix.os == 'macos-latest'
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Configure
       run: |
         autoreconf
@@ -38,7 +38,8 @@ jobs:
         make
     - name: Testing
       run: |
-        ./samples/minimal/minimal -t -s ./samples/minimal -f ../../lib/fonts
+         pwd
+        ./samples/minimal/minimal -t -s ./samples/minimal -f ./lib/fonts
     - name: Installing
       run: |
         sudo make install
