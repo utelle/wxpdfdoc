@@ -543,6 +543,9 @@ wxPdfTable::AddPage(wxArrayInt::const_iterator iter, wxArrayInt::const_iterator 
 double
 wxPdfTable::WriteTable(bool writeHeader, const wxArrayInt& lastRowsOnPage, double x, double y)
 {
+  if (lastRowsOnPage.empty())
+    return y;
+
   wxArrayInt::const_iterator endIter = lastRowsOnPage.end();
   unsigned int firstRow = m_bodyRowFirst;
   unsigned int lastRow = lastRowsOnPage.front();
@@ -696,52 +699,55 @@ wxPdfTable::WriteContentOfRows(unsigned int firstRow, unsigned int lastRow, doub
 wxArrayInt
 wxPdfTable::GetLastRowsOnPage() const
 {
-  const double breakMargin = m_document->GetBreakMargin();
-  const double pageHeight = m_document->GetPageHeight();
-  const double yMax = pageHeight - breakMargin;
-  const double firstBodyRowHeight = m_maxHeights.find(m_bodyRowFirst)->second;
-  const bool writeHeader = m_headRowLast > m_headRowFirst;
-  double headerHeight = 0;
-  //in case we have a line break and the table has a header, we need to consider the space of the header at the new page
-  if (writeHeader)
-  {
-    for (unsigned int headRow = m_headRowFirst; headRow < m_headRowLast; headRow++)
-    {
-      headerHeight += m_rowHeights.find(headRow)->second;
-    }
-  }
-  double y = m_document->GetY();
+  wxPdfDoubleHashMap::const_iterator iterBodyFirst = m_maxHeights.find(m_bodyRowFirst);
   wxArrayInt lastRows;
-
-  //this means basically that we have a line break before drawing the table
-  y += m_headHeight + firstBodyRowHeight;
-  if (y > yMax)
+  if (iterBodyFirst != m_maxHeights.end())
   {
-    lastRows.Add(m_headRowLast);
-    //Maybe we have a header at the top of the next page
-    y = m_document->GetHeaderHeight();
-  }
-
-  for (unsigned int row = m_bodyRowFirst + 1; row < m_bodyRowLast; ++row)
-  {
-    const double rowHeight = m_rowHeights.find(row)->second;
-    if (y + rowHeight > yMax)
+    const double breakMargin = m_document->GetBreakMargin();
+    const double pageHeight = m_document->GetPageHeight();
+    const double yMax = pageHeight - breakMargin;
+    const double firstBodyRowHeight = iterBodyFirst->second;
+    const bool writeHeader = m_headRowLast > m_headRowFirst;
+    double headerHeight = 0;
+    //in case we have a line break and the table has a header, we need to consider the space of the header at the new page
+    if (writeHeader)
     {
-      //since m_bodyRowLast and m_headRowLast are alway one behind last, last row on page is always one behind too.
-      lastRows.Add(row); 
+      for (unsigned int headRow = m_headRowFirst; headRow < m_headRowLast; headRow++)
+      {
+        headerHeight += m_rowHeights.find(headRow)->second;
+      }
+    }
+    double y = m_document->GetY();
+
+    //this means basically that we have a line break before drawing the table
+    y += m_headHeight + firstBodyRowHeight;
+    if (y > yMax)
+    {
+      lastRows.Add(m_headRowLast);
       //Maybe we have a header at the top of the next page
       y = m_document->GetHeaderHeight();
     }
-    if (writeHeader)
+
+    for (unsigned int row = m_bodyRowFirst + 1; row < m_bodyRowLast; ++row)
     {
-      //consider the table header
-      y += headerHeight;
+      const double rowHeight = m_rowHeights.find(row)->second;
+      if (y + rowHeight > yMax)
+      {
+        //since m_bodyRowLast and m_headRowLast are alway one behind last, last row on page is always one behind too.
+        lastRows.Add(row);
+        //Maybe we have a header at the top of the next page
+        y = m_document->GetHeaderHeight();
+      }
+      if (writeHeader)
+      {
+        //consider the table header
+        y += headerHeight;
+      }
+      y += rowHeight;
     }
-    y += rowHeight;
+
+    lastRows.Add(m_bodyRowLast);
   }
-
-  lastRows.Add(m_bodyRowLast);
-
   return lastRows;
 }
 
