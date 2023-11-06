@@ -709,6 +709,10 @@ wxPdfTable::GetLastRowsOnPage() const
     const double firstBodyRowHeight = iterBodyFirst->second;
     const bool writeHeader = m_headRowLast > m_headRowFirst;
     double headerHeight = 0;
+
+    //m_document->GetHeaderHeight() is header height minus top margin, so we have to consider top margin as well
+    const double topTotalMargin = m_document->GetTopMargin() + m_document->GetHeaderHeight();
+
     //in case we have a line break and the table has a header, we need to consider the space of the header at the new page
     if (writeHeader)
     {
@@ -725,7 +729,7 @@ wxPdfTable::GetLastRowsOnPage() const
     {
       lastRows.Add(m_headRowLast);
       //Maybe we have a header at the top of the next page
-      y = m_document->GetHeaderHeight();
+      y = topTotalMargin;
     }
 
     for (unsigned int row = m_bodyRowFirst + 1; row < m_bodyRowLast; ++row)
@@ -736,7 +740,7 @@ wxPdfTable::GetLastRowsOnPage() const
         //since m_bodyRowLast and m_headRowLast are alway one behind last, last row on page is always one behind too.
         lastRows.Add(row);
         //Maybe we have a header at the top of the next page
-        y = m_document->GetHeaderHeight();
+        y = topTotalMargin;
       }
       if (writeHeader)
       {
