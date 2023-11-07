@@ -711,7 +711,14 @@ wxPdfTable::GetLastRowsOnPage() const
 
     //m_document->GetHeaderHeight() is header height minus top margin, so we have to consider top margin as well
     const double topTotalMargin = m_document->GetTopMargin() + m_document->GetHeaderHeight() + m_headHeight;
-       
+
+    if (topTotalMargin + firstBodyRowHeight > yMax)
+    {
+      wxLogError(wxString(wxS("wxPdfDocument::wxPdfTable: ")) +
+        wxString(_("Not possible to draw at least one table line on a page.")));
+      return lastRows;
+    }
+
     double y = m_document->GetY();
 
     //this means basically that we have a line break before drawing the table
