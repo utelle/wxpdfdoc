@@ -69,6 +69,24 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>1.0.3</b> - <i>November 2023</i></dt>
+<dd>
+wxPdfDocument is compatible with wxWidgets versions 3.0.x, 3.1.x and 3.2.x.
+
+General changes:<br>
+- Updated Unicode data for ShowFont utility
+
+Fixed bugs:<br>
+- Fixed handling of long table: take top page margin, page header and table header into account for page breaks.
+- Fixed handling for empty table bodies.
+- Fixed handling of the height of (optional) table header rows (taking it into account for calculating table parts fitting on a page).
+- Fixed isue #81. Improve handling of table cell borders in markup. Table cell borders could be (partially) hidden by table cell backgrounds.
+- Actually use wxPdfDocument::GetImageSize() MIME type parameter.
+- Fixed handling of surrogates for TrueType fonts.
+- Fixed problem with automatic page break
+
+</dd>
+
 <dt><b>1.0.2</b> - <i>December 2021</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets versions 3.0.x and 3.1.x.

@@ -12,8 +12,8 @@
 
 #define PDFDOC_MAJOR_VERSION      1
 #define PDFDOC_MINOR_VERSION      0
-#define PDFDOC_RELEASE_NUMBER     2
+#define PDFDOC_RELEASE_NUMBER     3
 #define PDFDOC_SUBRELEASE_NUMBER  0
-#define PDFDOC_VERSION_STRING     "wxPdfDocument 1.0.2"
+#define PDFDOC_VERSION_STRING     "wxPdfDocument 1.0.3"
 
 #endif // _PDFDOC_VERSION_H_
