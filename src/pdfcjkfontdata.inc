@@ -169,5 +169,5 @@ static const wxPdfCjkFontDesc gs_cjkFontTable[] =
 #endif
 
 // Last dummy entry
-  { wxEmptyString,   wxEmptyString,                                     wxEmptyString, wxEmptyString, wxEmptyString, wxEmptyString,    NULL,       wxEmptyString,               0,    0,    0, 0, 0,  0,    0,   0,    0,  0 }
+  { wxS(""),         wxS(""),                                           wxS(""),       wxS(""),       wxS(""),  wxS(""),               NULL,       wxS(""),                     0,    0,    0, 0, 0,  0,    0,   0,    0,  0 }
 };

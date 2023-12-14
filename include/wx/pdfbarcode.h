@@ -22,10 +22,10 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfDocument;
 
 /// Special function code characters for Code128 barcodes
-const wxStringCharType CODE128_FNC1 = 0xf1;
-const wxStringCharType CODE128_FNC3 = 0xf2;
-const wxStringCharType CODE128_FNC2 = 0xf3;
-const wxStringCharType CODE128_FNC4 = 0xf4;
+const int CODE128_FNC1 = 0xf1;
+const int CODE128_FNC3 = 0xf2;
+const int CODE128_FNC2 = 0xf3;
+const int CODE128_FNC4 = 0xf4;
 
 /// Class representing barcode objects.
 /**

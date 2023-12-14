@@ -1312,7 +1312,7 @@ wxPdfFontManagerBase::InitializeCoreFonts()
                wxString::Format(_("Registering encodings for core fonts failed.")));
   }
   int j;
-  for (j = 0; gs_coreFontTable[j].name != wxEmptyString; ++j)
+  for (j = 0; gs_coreFontTable[j].name[0] != 0; ++j)
   {
     const wxPdfCoreFontDesc& coreFontDesc = gs_coreFontTable[j];
     wxString family(coreFontDesc.family);
@@ -1345,7 +1345,7 @@ wxPdfFontManagerBase::InitializeCjkFonts()
   wxPdfFontDataType0* cjkFontData;
   bool ok;
   int j, k;
-  for (j = 0; gs_cjkFontTable[j].name != wxEmptyString; ++j)
+  for (j = 0; gs_cjkFontTable[j].name[0] != 0; ++j)
   {
     const wxPdfCjkFontDesc& cjkFontDesc = gs_cjkFontTable[j];
     wxPdfEncodingCheckerMap::const_iterator ecIter = m_encodingCheckerMap->find(cjkFontDesc.encoding);
