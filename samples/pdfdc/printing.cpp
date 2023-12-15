@@ -188,7 +188,7 @@ bool MyApp::OnInit(void)
     g_pageSetupData->SetMarginBottomRight(wxPoint(15, 15));
 
     // Create the main frame window
-    frame = new MyFrame((wxFrame *) NULL, _T("wxWidgets Printing Demo"),
+    frame = new MyFrame((wxFrame *) NULL, "wxWidgets Printing Demo",
         wxPoint(0, 0), wxSize(400, 400));
 
 #if wxUSE_STATUSBAR
@@ -202,14 +202,14 @@ bool MyApp::OnInit(void)
     // Make a menubar
     wxMenu *file_menu = new wxMenu;
 
-    file_menu->Append(WXPRINT_PRINT,        _T("&Print..."),       _T("Print"));
-    file_menu->Append(WXPRINT_PDF,          _T("PDF..."),          _T("PDF"));
-    file_menu->Append(WXPRINT_PDF_TPL,      _T("PDF Template..."), _T("PDF Template"));
-    file_menu->Append(WXPRINT_PAGE_SETUP,   _T("Page Set&up..."),  _T("Page setup"));
+    file_menu->Append(WXPRINT_PRINT,        "&Print...",      "Print");
+    file_menu->Append(WXPRINT_PDF,          "PDF...",         "PDF");
+    file_menu->Append(WXPRINT_PDF_TPL,      "PDF Template...", "PDF Template");
+    file_menu->Append(WXPRINT_PAGE_SETUP,   "Page Set&up...",  "Page setup");
 #ifdef __WXMAC__
-    file_menu->Append(WXPRINT_PAGE_MARGINS, _T("Page Margins..."), _T("Page margins"));
+    file_menu->Append(WXPRINT_PAGE_MARGINS, "Page Margins...", "Page margins");
 #endif
-    file_menu->Append(WXPRINT_PREVIEW,      _T("Print Pre&view"),  _T("Preview"));
+    file_menu->Append(WXPRINT_PREVIEW,      "Print Pre&view",  "Preview");
 
 #if wxUSE_ACCEL
     // Accelerators
@@ -221,39 +221,39 @@ bool MyApp::OnInit(void)
 
 #if defined(__WXMSW__) && wxTEST_POSTSCRIPT_IN_MSW
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_PRINT_PS,      _T("Print PostScript..."),      _T("Print (PostScript)"));
-    file_menu->Append(WXPRINT_PAGE_SETUP_PS, _T("Page Setup PostScript..."), _T("Page setup (PostScript)"));
-    file_menu->Append(WXPRINT_PREVIEW_PS,    _T("Print Preview PostScript"), _T("Preview (PostScript)"));
+    file_menu->Append(WXPRINT_PRINT_PS,      "Print PostScript...",      "Print (PostScript)");
+    file_menu->Append(WXPRINT_PAGE_SETUP_PS, "Page Setup PostScript...", "Page setup (PostScript)");
+    file_menu->Append(WXPRINT_PREVIEW_PS,    "Print Preview PostScript", "Preview (PostScript)");
 #endif
 
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_ANGLEUP,       _T("Angle up\tAlt-U"),   _T("Raise rotated text angle"));
-    file_menu->Append(WXPRINT_ANGLEDOWN,     _T("Angle down\tAlt-D"), _T("Lower rotated text angle"));
+    file_menu->Append(WXPRINT_ANGLEUP,       "Angle up\tAlt-U",   "Raise rotated text angle");
+    file_menu->Append(WXPRINT_ANGLEDOWN,     "Angle down\tAlt-D", "Lower rotated text angle");
     file_menu->AppendSeparator();
-    file_menu->Append(WXPRINT_QUIT,          _T("E&xit"),             _T("Exit program"));
+    file_menu->Append(WXPRINT_QUIT,          "E&xit",             "Exit program");
 
     wxMenu *printing_menu = new wxMenu;
-    printing_menu->Append(WXPDFPRINT_PAGE_SETUP_ALL, _T("PDF Page Setup All..."), _T("PDF Page Setup (All)"));
-    printing_menu->Append(WXPDFPRINT_PAGE_SETUP_MINIMAL, _T("PDF Page Setup Minimal..."), _T("PDF Page Setup (Minimal)"));
-    printing_menu->Append(WXPDFPRINT_PRINT_DIALOG_ALL, _T("PDF Print Dialog All..."), _T("PDF Print Dialog (All)"));
-    printing_menu->Append(WXPDFPRINT_PRINT_DIALOG_MINIMAL, _T("PDF Print Dialog Minimal..."), _T("PDF Print Dialog (Minimal)"));
+    printing_menu->Append(WXPDFPRINT_PAGE_SETUP_ALL, "PDF Page Setup All...", "PDF Page Setup (All)");
+    printing_menu->Append(WXPDFPRINT_PAGE_SETUP_MINIMAL, "PDF Page Setup Minimal...", "PDF Page Setup (Minimal)");
+    printing_menu->Append(WXPDFPRINT_PRINT_DIALOG_ALL, "PDF Print Dialog All...", "PDF Print Dialog (All)");
+    printing_menu->Append(WXPDFPRINT_PRINT_DIALOG_MINIMAL, "PDF Print Dialog Minimal...", "PDF Print Dialog (Minimal)");
 #if wxUSE_RICHTEXT
-    printing_menu->Append(WXPDFPRINT_RICHTEXT_PRINT, _T("PDF RichText Print..."), _T("PDF RichText (Print)"));
-    printing_menu->Append(WXPDFPRINT_RICHTEXT_PREVIEW, _T("PDF RichText Preview..."), _T("PDF RichText (Preview)"));
+    printing_menu->Append(WXPDFPRINT_RICHTEXT_PRINT, "PDF RichText Print...", "PDF RichText (Print)");
+    printing_menu->Append(WXPDFPRINT_RICHTEXT_PREVIEW, "PDF RichText Preview...", "PDF RichText (Preview)");
 #endif
 #if wxUSE_HTML
-    printing_menu->Append(WXPDFPRINT_HTML_PRINT, _T("PDF Html Print..."), _T("PDF Html (Print)"));
-    printing_menu->Append(WXPDFPRINT_HTML_PREVIEW, _T("PDF Html Preview..."), _T("PDF Html (Preview)"));
+    printing_menu->Append(WXPDFPRINT_HTML_PRINT, "PDF Html Print...", "PDF Html (Print)");
+    printing_menu->Append(WXPDFPRINT_HTML_PREVIEW, "PDF Html Preview...", "PDF Html (Preview)");
 #endif
 
     wxMenu *help_menu = new wxMenu;
-    help_menu->Append(WXPRINT_ABOUT, _T("&About"), _T("About this demo"));
+    help_menu->Append(WXPRINT_ABOUT, "&About", "About this demo");
 
     wxMenuBar *menu_bar = new wxMenuBar;
 
-    menu_bar->Append(file_menu, _T("&File"));
-    menu_bar->Append(printing_menu, _T("wxPdf&Printing"));
-    menu_bar->Append(help_menu, _T("&Help"));
+    menu_bar->Append(file_menu, "&File");
+    menu_bar->Append(printing_menu, "wxPdf&Printing");
+    menu_bar->Append(help_menu, "&Help");
 
     // Associate the menu bar with the frame
     frame->SetMenuBar(menu_bar);
@@ -273,7 +273,7 @@ bool MyApp::OnInit(void)
     frame->Show();
 
 #if wxUSE_STATUSBAR
-    frame->SetStatusText(_T("Printing demo"));
+    frame->SetStatusText("Printing demo");
 #endif // wxUSE_STATUSBAR
 
     SetTopWindow(frame);
@@ -367,13 +367,13 @@ void MyFrame::OnPrint(wxCommandEvent& WXUNUSED(event))
     wxPrintDialogData printDialogData(* g_printData);
 
     wxPrinter printer(& printDialogData);
-    MyPrintout printout(_T("My printout"));
+    MyPrintout printout(wxS("My printout"));
     if (!printer.Print(this, &printout, true /*prompt*/))
     {
         if (wxPrinter::GetLastError() == wxPRINTER_ERROR)
-            wxMessageBox(_T("There was a problem printing.\nPerhaps your current printer is not set correctly?"), _T("Printing"), wxOK);
+            wxMessageBox("There was a problem printing.\nPerhaps your current printer is not set correctly?", "Printing", wxOK);
         else
-            wxMessageBox(_T("You canceled printing"), _T("Printing"), wxOK);
+            wxMessageBox("You canceled printing", "Printing", wxOK);
     }
     else
     {
@@ -470,11 +470,11 @@ void MyFrame::OnPrintPreview(wxCommandEvent& WXUNUSED(event))
     if (!preview->Ok())
     {
         delete preview;
-        wxMessageBox(_T("There was a problem previewing.\nPerhaps your current printer is not set correctly?"), _T("Previewing"), wxOK);
+        wxMessageBox("There was a problem previewing.\nPerhaps your current printer is not set correctly?", "Previewing", wxOK);
         return;
     }
 
-    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, _T("Demo Print Preview"), wxPoint(100, 100), wxSize(600, 650));
+    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, "Demo Print Preview", wxPoint(100, 100), wxSize(600, 650));
     frame->Centre(wxBOTH);
     frame->Initialize();
     frame->Show();
@@ -495,7 +495,7 @@ void MyFrame::OnPageSetup(wxCommandEvent& WXUNUSED(event))
 void MyFrame::OnPrintPS(wxCommandEvent& WXUNUSED(event))
 {
     wxPostScriptPrinter printer(g_printData);
-    MyPrintout printout(_T("My printout"));
+    MyPrintout printout("My printout");
     printer.Print(this, &printout, true/*prompt*/);
 
     (*g_printData) = printer.GetPrintData();
@@ -506,7 +506,7 @@ void MyFrame::OnPrintPreviewPS(wxCommandEvent& WXUNUSED(event))
     // Pass two printout objects: for preview, and possible printing.
     wxPrintDialogData printDialogData(* g_printData);
     wxPrintPreview *preview = new wxPrintPreview(new MyPrintout, new MyPrintout, & printDialogData);
-    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, _T("Demo Print Preview"), wxPoint(100, 100), wxSize(600, 650));
+    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, "Demo Print Preview", wxPoint(100, 100), wxSize(600, 650));
     frame->Centre(wxBOTH);
     frame->Initialize();
     frame->Show();
@@ -541,8 +541,8 @@ void MyFrame::OnPageMargins(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnPrintAbout(wxCommandEvent& WXUNUSED(event))
 {
-    (void)wxMessageBox(_T("wxWidgets printing demo\nAuthor: Julian Smart"),
-        _T("About wxWidgets printing demo"), wxOK|wxCENTRE);
+    (void)wxMessageBox("wxWidgets printing demo\nAuthor: Julian Smart",
+        "About wxWidgets printing demo", wxOK|wxCENTRE);
 }
 
 void MyFrame::OnAngleUp(wxCommandEvent& WXUNUSED(event))
@@ -726,7 +726,7 @@ void MyFrame::OnPdfPageSetupMinimal(wxCommandEvent&  WXUNUSED(event) )
    dialogData->EnablePaper(true);
    dialogData->EnableOrientation(false);
 
-   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, dialogData, _T("Minimal PDF Page Setup"));
+   wxPdfPageSetupDialog* dialog = new wxPdfPageSetupDialog(this, dialogData, "Minimal PDF Page Setup");
    if( dialog->ShowModal() == wxID_OK )
    {
      // dialogData now has user choices
@@ -1476,7 +1476,7 @@ void MyPrintout::DrawPageTwo()
     dc->SetBrush(*wxTRANSPARENT_BRUSH);
 
     { // GetTextExtent demo:
-        wxString words[7] = {_T("This "), _T("is "), _T("GetTextExtent "), _T("testing "), _T("string. "), _T("Enjoy "), _T("it!")};
+        wxString words[7] = {"This ", "is ", "GetTextExtent ", "testing ", "string. ", "Enjoy ", "it!"};
         wxCoord w, h;
         wxCoord x = 200, y= 250;
         wxFont fnt(15, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
@@ -1498,7 +1498,7 @@ void MyPrintout::DrawPageTwo()
 
     dc->SetFont(wxGetApp().m_testFont);
 
-    dc->DrawText(_T("Some test text"), 200, 300 );
+    dc->DrawText("Some test text", 200, 300 );
 
     // TESTING
 
@@ -1521,7 +1521,7 @@ void MyPrintout::DrawPageTwo()
     dc->DrawLine( (long)leftMarginLogical, (long)bottomMarginLogical,
         (long)rightMarginLogical,  (long)bottomMarginLogical);
 
-    WritePageHeader(this, dc, _T("A header"), logUnitsFactor);
+    WritePageHeader(this, dc, wxS("A header"), logUnitsFactor);
 }
 
 // Writes a header on a page. Margin units are in millimetres.
