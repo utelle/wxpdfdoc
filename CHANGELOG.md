@@ -7,6 +7,8 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [Unreleased]
 
+## [1.1.0] - 2024-01-27
+
 ### Changed
 
 - The signature of methods `ScaleX`, `ScaleY`, `ScaleXY`, `Scale`, `MirrorH`, `MirrorV`, `SkewX`, `SkewY`, `Skew`, `Rotate`, and `UseTemplate` has been changed to get rid of the negative default values for the position parameters. This was necessary to support negative coordinates in all graphics operations. If an application had explicitly specified the default value (`-1`) in calls to one of the above methods, these values have to be replaced by calls to method `GetX` resp `GetY`.
@@ -476,7 +478,8 @@ First public release
 
 - Planning and basic PDF features implemented
 
-[Unreleased]: ../../compare/v1.0.3...HEAD
+[Unreleased]: ../../compare/v1.1.0...HEAD
+[1.1.0]: ../../compare/v1.0.3...v1.1.0
 [1.0.3]: ../../compare/v1.0.2...v1.0.3
 [1.0.2]: ../../compare/v1.0.1...v1.0.2
 [1.0.1]: ../../compare/v1.0.0...v1.0.1
