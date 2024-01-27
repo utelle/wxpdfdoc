@@ -7,6 +7,15 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [Unreleased]
 
+### Changed
+
+- The signature of methods `ScaleX`, `ScaleY`, `ScaleXY`, `Scale`, `MirrorH`, `MirrorV`, `SkewX`, `SkewY`, `Skew`, `Rotate`, and `UseTemplate` has been changed to get rid of the negative default values for the position parameters. This was necessary to support negative coordinates in all graphics operations. If an application had explicitly specified the default value (`-1`) in calls to one of the above methods, these values have to be replaced by calls to method `GetX` resp `GetY`.
+
+### Fixed
+
+- Fixed issue #92 "Rotated text at wrong position". The problem arose from the use of negative coordinates. All graphics operations now support negative coordinates, too.
+- Fixed output of wrong text background colour for rotated text in `wxPdfDC`.
+
 ## [1.0.3] - 2023-11-16
 
 ### Fixed

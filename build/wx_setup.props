@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="UserMacros">
     <wxRootDir>$(WXWIN)</wxRootDir>
-    <wxShortVersionString>31</wxShortVersionString>
+    <wxShortVersionString>32</wxShortVersionString>
     <wxToolkitPrefix>msw</wxToolkitPrefix>
     <!-- Use following definition to exclude the toolset version in the compiler prefix
     -->

@@ -245,8 +245,8 @@ private:
   bool MustSetCurrentPen(const wxPen& currentPen) const;
   bool MustSetCurrentBrush(const wxBrush& currentBrush) const;
 
-  void SetupPen();
-  void SetupBrush();
+  void SetupPen(bool force = false);
+  void SetupBrush(bool force = false);
   void SetupAlpha();
   void SetupTextAlpha();
   void CalculateFontMetrics(wxPdfFontDescription* desc, int pointSize,

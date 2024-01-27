@@ -1075,6 +1075,20 @@ public:
   */
   virtual void Shape(const wxPdfShape& shape, int style = wxPDF_STYLE_DRAW);
 
+  /// Performs a rotation around the current position.
+  /**
+  * \param angle angle in degrees.
+  *
+  * The rotation affects all elements which are printed after the method call
+  * (with the exception of the clickable areas).
+  *
+  * Remarks:
+  * \li Only the display is altered. The GetX() and GetY() methods are not affected,
+  *  nor the automatic page break mechanism.
+  * \li Rotation is not kept from page to page. Each page begins with a null rotation.
+  */
+  virtual void Rotate(double angle);
+
   /// Performs a rotation around a given center.
   /**
   * \param angle angle in degrees.
@@ -1089,7 +1103,7 @@ public:
   *  nor the automatic page break mechanism.
   * \li Rotation is not kept from page to page. Each page begins with a null rotation.
   */
-  virtual void Rotate(double angle, double x = -1, double y = -1);
+  virtual void Rotate(double angle, double x, double y);
 
   /// Sets the font embedding mode
   /**
@@ -1935,56 +1949,99 @@ public:
   */
   virtual void StartTransform();
 
+  /// Performs scaling in X direction only with the current position as the scaling center.
+  /**
+  * A scaling transformation is applied for the X direction.
+  * \param sx: scaling factor for width as percent. 0 is not allowed.
+  */
+  virtual bool ScaleX(double sx);
+
   /// Performs scaling in X direction only
   /**
   * A scaling transformation is applied for the X direction.
   * \param sx: scaling factor for width as percent. 0 is not allowed.
-  * \param x: abscissa of the scaling center. Default is current x position
-  * \param y: ordinate of the scaling center. Default is current y position
+  * \param x: abscissa of the scaling center.
+  * \param y: ordinate of the scaling center.
   */
-  virtual bool ScaleX(double sx, double x = -1, double y = -1);
+  virtual bool ScaleX(double sx, double x, double y);
+
+  /// Performs scaling in Y direction only with the current position as the scaling center.
+  /**
+  * A scaling transformation is applied for the Y direction.
+  * \param sy: scaling factor for height as percent. 0 is not allowed.
+  */
+  virtual bool ScaleY(double sy);
 
   /// Performs scaling in Y direction only
   /**
   * A scaling transformation is applied for the Y direction.
   * \param sy: scaling factor for height as percent. 0 is not allowed.
-  * \param x: abscissa of the scaling center. Default is current x position
-  * \param y: ordinate of the scaling center. Default is current y position
+  * \param x: abscissa of the scaling center.
+  * \param y: ordinate of the scaling center.
   */
-  virtual bool ScaleY(double sy, double x = -1, double y = -1);
+  virtual bool ScaleY(double sy, double x, double y);
+
+  /// Performs equal scaling in X and Y direction with the current position as the scaling center.
+  /**
+  * A scaling transformation is applied for both - X and Y - directions.
+  * \param s: scaling factor for width and height as percent. 0 is not allowed.
+  */
+  virtual bool ScaleXY(double s);
 
   /// Performs equal scaling in X and Y direction
   /**
   * A scaling transformation is applied for both - X and Y - directions.
   * \param s: scaling factor for width and height as percent. 0 is not allowed.
-  * \param x: abscissa of the scaling center. Default is current x position
-  * \param y: ordinate of the scaling center. Default is current y position
+  * \param x: abscissa of the scaling center.
+  * \param y: ordinate of the scaling center.
   */
-  virtual bool ScaleXY(double s, double x = -1, double y = -1);
+  virtual bool ScaleXY(double s, double x, double y);
+
+  /// Performs scaling in X and Y direction with the current position as the scaling center.
+  /**
+  * A scaling transformation is applied independently for X and Y direction.
+  * \param sx: scaling factor for width in percent. 0 is not allowed.
+  * \param sy: scaling factor for height in percent. 0 is not allowed.
+  */
+  virtual bool Scale(double sx, double sy);
 
   /// Performs scaling in X and Y direction
   /**
   * A scaling transformation is applied independently for X and Y direction.
   * \param sx: scaling factor for width in percent. 0 is not allowed.
   * \param sy: scaling factor for height in percent. 0 is not allowed.
-  * \param x: abscissa of the scaling center. Default is current x position
-  * \param y: ordinate of the scaling center. Default is current y position
+  * \param x: abscissa of the scaling center.
+  * \param y: ordinate of the scaling center.
   */
-  virtual bool Scale(double sx, double sy, double x = -1, double y = -1);
+  virtual bool Scale(double sx, double sy, double x, double y);
+
+  /// Performs a horizontal mirroring transformation
+  /**
+  * Alias for scaling -100% in x-direction
+  * \note The current position is used as the scaling center.
+  */
+  virtual void MirrorH();
 
   /// Performs a horizontal mirroring transformation
   /**
   * Alias for scaling -100% in x-direction
   * \param x: abscissa of the axis of reflection
   */
-  virtual void MirrorH(double x = -1);
+  virtual void MirrorH(double x);
+
+  /// Performs a vertical mirroring transformation
+  /**
+  * Alias for scaling -100% in y-direction
+  * \note The current position is used as the scaling center.
+  */
+  virtual void MirrorV();
 
   /// Performs a vertical mirroring transformation
   /**
   * Alias for scaling -100% in y-direction
   * \param y: abscissa of the axis of reflection
   */
-  virtual void MirrorV(double y = -1);
+  virtual void MirrorV(double y);
 
   /// Moves the X origin
   /**
@@ -2005,13 +2062,25 @@ public:
   */
   virtual void Translate(double tx, double ty);
 
+  /// Performs a skewing in X direction only with the current position as the skewing center.
+  /**
+  * \param xAngle: angle in degrees between -90 (skew to the left) and 90 (skew to the right)
+  */
+  virtual bool SkewX(double xAngle);
+
   /// Performs a skewing in both X direction only
   /**
   * \param xAngle: angle in degrees between -90 (skew to the left) and 90 (skew to the right)
   * \param x: abscissa of the skewing center. default is current x position
   * \param y: ordinate of the skewing center. default is current y position
   */
-  virtual bool SkewX(double xAngle, double x = -1, double y = -1);
+  virtual bool SkewX(double xAngle, double x, double y);
+
+  /// Performs a skewing in Y direction only with the current position as the skewing center.
+  /**
+  * \param yAngle: angle in degrees between -90 (skew to the bottom) and 90 (skew to the top)
+  */
+  virtual bool SkewY(double yAngle);
 
   /// Performs a skewing in Y direction only
   /**
@@ -2019,7 +2088,14 @@ public:
   * \param x: abscissa of the skewing center. default is current x position
   * \param y: ordinate of the skewing center. default is current y position
   */
-  virtual bool SkewY(double yAngle, double x = -1, double y = -1);
+  virtual bool SkewY(double yAngle, double x, double y);
+
+  /// Performs a skewing in both X and Y directions with the current position as the skewing center.
+  /**
+  * \param xAngle: angle in degrees between -90 (skew to the left) and 90 (skew to the right)
+  * \param yAngle: angle in degrees between -90 (skew to the bottom) and 90 (skew to the top)
+  */
+  virtual bool Skew(double xAngle, double yAngle);
 
   /// Performs a skewing in both X and Y directions
   /**
@@ -2028,7 +2104,7 @@ public:
   * \param x: abscissa of the skewing center. default is current x position
   * \param y: ordinate of the skewing center. default is current y position
   */
-  virtual bool Skew(double xAngle, double yAngle, double x = -1, double y = -1);
+  virtual bool Skew(double xAngle, double yAngle, double x, double y);
 
   virtual void Transform( double a, double b, double c, double d, double tx, double ty );
 
@@ -2363,10 +2439,22 @@ public:
   /// Uses a template in current page or in another template
   /**
   * Uses the specified template just like an image in the current page or
+  * in another template at the current position with default size.
+  *
+  * The width or height is calculated using GetTemplateSize internally.
+  *
+  * \param templateId A valid template ID
+  * \see BeginTemplate(), EndTemplate(), ImportPage()
+  */
+  virtual void UseTemplate(int templateId);
+
+  /// Uses a template in current page or in another template
+  /**
+  * Uses the specified template just like an image in the current page or
   * in another template.
   *
-  * All parameters are optional. The width or height is calculated using
-  * GetTemplateSize internally.
+  * Width and height parameters are optional. The width or height is calculated
+  * using GetTemplateSize internally.
   * By default the size as defined by BeginTemplate is used.
   *
   * \param templateId A valid template ID
@@ -2379,7 +2467,7 @@ public:
   * Attention: The template may be displayed distorted, if both width and height
   * are given with values > 0 and do not correspond to the dimensions of the template.
   */
-  virtual void UseTemplate(int templateId, double x = -1, double y = -1, double width = 0, double height = 0);
+  virtual void UseTemplate(int templateId, double x, double y, double width = 0, double height = 0);
 
   /// Sets a source file for the external template feature.
   /**
