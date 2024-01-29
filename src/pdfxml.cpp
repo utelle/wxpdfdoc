@@ -738,12 +738,13 @@ wxPdfTable::GetLastRowsOnPage() const
     for (unsigned int row = m_bodyRowFirst; row < m_bodyRowLast; ++row)
     {
       const double rowHeight = m_rowHeights.find(row)->second;
+      const double maxHeight = m_maxHeights.find(row)->second;
       if (rowHeight > availablePageHeight)
       {
         wxLogError(wxString(wxS("wxPdfDocument::wxPdfTable: ")) +
           wxString::Format(_("Height of table row %d greater than available page height. Output will be distorted."), row));
       }
-      if (y + rowHeight > yMax)
+      if (y + maxHeight > yMax)
       {
         // Set page break before current row
         lastRows.Add(row);
