@@ -47,7 +47,7 @@
 #include "wx/pdffontparser.h"
 #include "wx/pdfutility.h"
 
-#include <vld.h>
+//#include <vld.h>
 
 #if WXPDFDOC_INHERIT_WXOBJECT
 IMPLEMENT_DYNAMIC_CLASS(wxPdfDocument, wxObject)
