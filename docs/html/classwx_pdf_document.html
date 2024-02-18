@@ -18,8 +18,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.2.0</span>
    </div>
   </td>
  </tr>
@@ -63,9 +64,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a26e039c2d5ae7d4775152422093efcba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a10628a918bb96326f47a1d06399685" id="r_a9a10628a918bb96326f47a1d06399685"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a10628a918bb96326f47a1d06399685">~wxPdfDocument</a> ()</td></tr>
 <tr class="separator:a9a10628a918bb96326f47a1d06399685"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3fbf75f90d89d6f01ae0ca363e8706cd" id="r_a3fbf75f90d89d6f01ae0ca363e8706cd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fbf75f90d89d6f01ae0ca363e8706cd">SetProtection</a> (int permissions, const wxString &amp;userPassword=wxEmptyString, const wxString &amp;ownerPassword=wxEmptyString, <a class="el" href="pdfproperties_8h.html#aa3c5eba1f0c78533604a3a57da21e118">wxPdfEncryptionMethod</a> encryptionMethod=<a class="el" href="pdfproperties_8h.html#aa3c5eba1f0c78533604a3a57da21e118aa700910a44ac2a0b5b930000de8e62b0">wxPDF_ENCRYPTION_RC4V1</a>, int keyLength=0)</td></tr>
-<tr class="memdesc:a3fbf75f90d89d6f01ae0ca363e8706cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set permissions as well as user and owner passwords.  <br /></td></tr>
-<tr class="separator:a3fbf75f90d89d6f01ae0ca363e8706cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd4c9a2c38a5864de06cfbe4c4cae55b" id="r_afd4c9a2c38a5864de06cfbe4c4cae55b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd4c9a2c38a5864de06cfbe4c4cae55b">SetProtection</a> (int permissions, const wxString &amp;userPassword=wxEmptyString, const wxString &amp;ownerPassword=wxEmptyString, <a class="el" href="pdfproperties_8h.html#aa3c5eba1f0c78533604a3a57da21e118">wxPdfEncryptionMethod</a> encryptionMethod=<a class="el" href="pdfproperties_8h.html#aa3c5eba1f0c78533604a3a57da21e118aa700910a44ac2a0b5b930000de8e62b0">wxPDF_ENCRYPTION_RC4V1</a>, int keyLength=0)</td></tr>
+<tr class="memdesc:afd4c9a2c38a5864de06cfbe4c4cae55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set permissions as well as user and owner passwords.  <br /></td></tr>
+<tr class="separator:afd4c9a2c38a5864de06cfbe4c4cae55b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f2fdd10e4bc04dc3373a223a6b3dc6e" id="r_a4f2fdd10e4bc04dc3373a223a6b3dc6e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4f2fdd10e4bc04dc3373a223a6b3dc6e">SetImageScale</a> (double scale)</td></tr>
 <tr class="memdesc:a4f2fdd10e4bc04dc3373a223a6b3dc6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the image scale.  <br /></td></tr>
 <tr class="separator:a4f2fdd10e4bc04dc3373a223a6b3dc6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -923,6 +924,15 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a3d715389bc5e0c2b3effdc21b189f46c" id="r_a3d715389bc5e0c2b3effdc21b189f46c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d715389bc5e0c2b3effdc21b189f46c">OutEscape</a> (const char *s, size_t len)</td></tr>
 <tr class="memdesc:a3d715389bc5e0c2b3effdc21b189f46c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add \ before \, ( and )  <br /></td></tr>
 <tr class="separator:a3d715389bc5e0c2b3effdc21b189f46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a532b065c38337549cda9239deabfb0ce" id="r_a532b065c38337549cda9239deabfb0ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a532b065c38337549cda9239deabfb0ce">OutEscape</a> (const std::string &amp;s)</td></tr>
+<tr class="memdesc:a532b065c38337549cda9239deabfb0ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add \ before \, ( and )  <br /></td></tr>
+<tr class="separator:a532b065c38337549cda9239deabfb0ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f637b8adeb9581df69892b79ba6708" id="r_a31f637b8adeb9581df69892b79ba6708"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31f637b8adeb9581df69892b79ba6708">OutHex</a> (const char *s, size_t len)</td></tr>
+<tr class="memdesc:a31f637b8adeb9581df69892b79ba6708"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a hex string to the document.  <br /></td></tr>
+<tr class="separator:a31f637b8adeb9581df69892b79ba6708"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7730e02a80268c74d58c9741120f8937" id="r_a7730e02a80268c74d58c9741120f8937"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7730e02a80268c74d58c9741120f8937">OutHex</a> (const std::string &amp;s)</td></tr>
+<tr class="memdesc:a7730e02a80268c74d58c9741120f8937"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a hex string to the document.  <br /></td></tr>
+<tr class="separator:a7730e02a80268c74d58c9741120f8937"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebb513eb375c17ee3d0afde2f948af2e" id="r_aebb513eb375c17ee3d0afde2f948af2e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebb513eb375c17ee3d0afde2f948af2e">OutAscii</a> (const wxString &amp;s, bool newline=true)</td></tr>
 <tr class="memdesc:aebb513eb375c17ee3d0afde2f948af2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add ASCII string.  <br /></td></tr>
 <tr class="separator:aebb513eb375c17ee3d0afde2f948af2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -6672,7 +6682,7 @@ or a combination of them. </td></tr>
 </div>
 </div>
 <a id="a3d715389bc5e0c2b3effdc21b189f46c" name="a3d715389bc5e0c2b3effdc21b189f46c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d715389bc5e0c2b3effdc21b189f46c">&#9670;&#160;</a></span>OutEscape()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d715389bc5e0c2b3effdc21b189f46c">&#9670;&#160;</a></span>OutEscape() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -6699,6 +6709,91 @@ or a combination of them. </td></tr>
 </div><div class="memdoc">
 
 <p>Add \ before \, ( and ) </p>
+
+</div>
+</div>
+<a id="a532b065c38337549cda9239deabfb0ce" name="a532b065c38337549cda9239deabfb0ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a532b065c38337549cda9239deabfb0ce">&#9670;&#160;</a></span>OutEscape() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wxPdfDocument::OutEscape </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add \ before \, ( and ) </p>
+
+</div>
+</div>
+<a id="a31f637b8adeb9581df69892b79ba6708" name="a31f637b8adeb9581df69892b79ba6708"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31f637b8adeb9581df69892b79ba6708">&#9670;&#160;</a></span>OutHex() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wxPdfDocument::OutHex </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>s</em>, </span></td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>len</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a hex string to the document. </p>
+
+</div>
+</div>
+<a id="a7730e02a80268c74d58c9741120f8937" name="a7730e02a80268c74d58c9741120f8937"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7730e02a80268c74d58c9741120f8937">&#9670;&#160;</a></span>OutHex() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wxPdfDocument::OutHex </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>s</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a hex string to the document. </p>
 
 </div>
 </div>
@@ -11177,8 +11272,8 @@ It is also possible to pass an empty string. In that case, the current family is
 
 </div>
 </div>
-<a id="a3fbf75f90d89d6f01ae0ca363e8706cd" name="a3fbf75f90d89d6f01ae0ca363e8706cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fbf75f90d89d6f01ae0ca363e8706cd">&#9670;&#160;</a></span>SetProtection()</h2>
+<a id="afd4c9a2c38a5864de06cfbe4c4cae55b" name="afd4c9a2c38a5864de06cfbe4c4cae55b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd4c9a2c38a5864de06cfbe4c4cae55b">&#9670;&#160;</a></span>SetProtection()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -11187,7 +11282,7 @@ It is also possible to pass an empty string. In that case, the current family is
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void wxPdfDocument::SetProtection </td>
+          <td class="memname">virtual bool wxPdfDocument::SetProtection </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>permissions</em>, </span></td>
         </tr>
@@ -11229,12 +11324,15 @@ It is also possible to pass an empty string. In that case, the current family is
 <li>wxPDF_ENCRYPTION_RC4V1 RC4 method, version 1, with 40 bit encryption key (default) </li>
 <li>wxPDF_ENCRYPTION_RC4V2 RC4 method, version 2, with 40..128 bit encryption key </li>
 <li>wxPDF_ENCRYPTION_AESV2 AES method, with 128 bit encryption key </li>
+<li>wxPDF_ENCRYPTION_AESV3 AES method, with 256 bit encryption key </li>
+<li>wxPDF_ENCRYPTION_AESV3R6 AES method, with 256 bit encryption key (PDF 2.0) </li>
 </ul>
 </td></tr>
-    <tr><td class="paramname">keyLength</td><td>Length of the key used for encryption (Default: 0) The default value selects the standard encryption method revision 2 with a key length of 40 bits. Specifying a value &gt; 0 selects the standard encryption method revision 3 with the given key length, the key length has to be in the range 40..128 and has to be dividable by 8. The key length is adjusted accordingly if these conditions are not met. NOTE: Adobe Reader supports only 40- and 128-bit encryption keys. </td></tr>
+    <tr><td class="paramname">keyLength</td><td>Length of the key used for encryption (Default: 0) The default value selects the standard encryption method revision 2 with a key length of 40 bits. Specifying a value &gt; 0 selects the standard encryption method revision 3 with the given key length, the key length has to be in the range 40..128 and has to be dividable by 8. The key length is adjusted accordingly if these conditions are not met. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true, if the provided passwords are valid, false otherwise. </dd></dl>
 
 </div>
 </div>

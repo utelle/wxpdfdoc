@@ -18,8 +18,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.2.0</span>
    </div>
   </td>
  </tr>
@@ -115,7 +116,7 @@ Macros</h2></td></tr>
 <tr class="memdesc:a51698f1d84f1a19bf569be8d997e2b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow filling forms.  <br /></td></tr>
 <tr class="separator:a51698f1d84f1a19bf569be8d997e2b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a114d6518d3a4ac28097da527fe444c82" id="r_a114d6518d3a4ac28097da527fe444c82"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a114d6518d3a4ac28097da527fe444c82">wxPDF_PERMISSION_EXTRACT</a>&#160;&#160;&#160;0x0200</td></tr>
-<tr class="memdesc:a114d6518d3a4ac28097da527fe444c82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow extract text and/or garphics.  <br /></td></tr>
+<tr class="memdesc:a114d6518d3a4ac28097da527fe444c82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow extract text and/or graphics.  <br /></td></tr>
 <tr class="separator:a114d6518d3a4ac28097da527fe444c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0fe398d8422cbc2d154b398f60b2c64" id="r_ab0fe398d8422cbc2d154b398f60b2c64"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab0fe398d8422cbc2d154b398f60b2c64">wxPDF_PERMISSION_ASSEMBLE</a>&#160;&#160;&#160;0x0400</td></tr>
 <tr class="memdesc:ab0fe398d8422cbc2d154b398f60b2c64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow assemble document.  <br /></td></tr>
@@ -167,9 +168,14 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a99fb83031ce9923c84392b4e92f956b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Font style flags.  <a href="#a99fb83031ce9923c84392b4e92f956b5">More...</a><br /></td></tr>
 <tr class="separator:a99fb83031ce9923c84392b4e92f956b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3c5eba1f0c78533604a3a57da21e118" id="r_aa3c5eba1f0c78533604a3a57da21e118"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3c5eba1f0c78533604a3a57da21e118">wxPdfEncryptionMethod</a> { <a class="el" href="#aa3c5eba1f0c78533604a3a57da21e118aa700910a44ac2a0b5b930000de8e62b0">wxPDF_ENCRYPTION_RC4V1</a>
+<tr class="memitem:aa3c5eba1f0c78533604a3a57da21e118" id="r_aa3c5eba1f0c78533604a3a57da21e118"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3c5eba1f0c78533604a3a57da21e118">wxPdfEncryptionMethod</a> { <br />
+&#160;&#160;<a class="el" href="#aa3c5eba1f0c78533604a3a57da21e118aa700910a44ac2a0b5b930000de8e62b0">wxPDF_ENCRYPTION_RC4V1</a>
 , <a class="el" href="#aa3c5eba1f0c78533604a3a57da21e118aeb236c775bf9e3715c6e39f58820fa8e">wxPDF_ENCRYPTION_RC4V2</a>
 , <a class="el" href="#aa3c5eba1f0c78533604a3a57da21e118aed44be3938565a55807757a6249d5b49">wxPDF_ENCRYPTION_AESV2</a>
+, <a class="el" href="#aa3c5eba1f0c78533604a3a57da21e118a3191d88235fb648f55d00a4a70235400">wxPDF_ENCRYPTION_AESV3</a>
+, <br />
+&#160;&#160;<a class="el" href="#aa3c5eba1f0c78533604a3a57da21e118a544927ba375a51881a9c2e95b04b6c50">wxPDF_ENCRYPTION_AESV3R6</a>
+<br />
  }</td></tr>
 <tr class="memdesc:aa3c5eba1f0c78533604a3a57da21e118"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encryption methods.  <a href="#aa3c5eba1f0c78533604a3a57da21e118">More...</a><br /></td></tr>
 <tr class="separator:aa3c5eba1f0c78533604a3a57da21e118"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -596,7 +602,7 @@ Enumerations</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Allow extract text and/or garphics. </p>
+<p>Allow extract text and/or graphics. </p>
 
 </div>
 </div>
@@ -993,6 +999,8 @@ Enumerations</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa3c5eba1f0c78533604a3a57da21e118aa700910a44ac2a0b5b930000de8e62b0" name="aa3c5eba1f0c78533604a3a57da21e118aa700910a44ac2a0b5b930000de8e62b0"></a>wxPDF_ENCRYPTION_RC4V1&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa3c5eba1f0c78533604a3a57da21e118aeb236c775bf9e3715c6e39f58820fa8e" name="aa3c5eba1f0c78533604a3a57da21e118aeb236c775bf9e3715c6e39f58820fa8e"></a>wxPDF_ENCRYPTION_RC4V2&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aa3c5eba1f0c78533604a3a57da21e118aed44be3938565a55807757a6249d5b49" name="aa3c5eba1f0c78533604a3a57da21e118aed44be3938565a55807757a6249d5b49"></a>wxPDF_ENCRYPTION_AESV2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa3c5eba1f0c78533604a3a57da21e118a3191d88235fb648f55d00a4a70235400" name="aa3c5eba1f0c78533604a3a57da21e118a3191d88235fb648f55d00a4a70235400"></a>wxPDF_ENCRYPTION_AESV3&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aa3c5eba1f0c78533604a3a57da21e118a544927ba375a51881a9c2e95b04b6c50" name="aa3c5eba1f0c78533604a3a57da21e118a544927ba375a51881a9c2e95b04b6c50"></a>wxPDF_ENCRYPTION_AESV3R6&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>

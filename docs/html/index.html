@@ -18,8 +18,9 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr id="projectrow">
+  <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.1.0</span>
+   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.2.0</span>
    </div>
   </td>
  </tr>
@@ -79,6 +80,24 @@ What is wxPdfDocument?</h1>
 <h1><a class="anchor" id="version"></a>
 Version history</h1>
 <dl>
+<dt><b>1.2.0</b> - <em>February 2024</em> </dt>
+<dd><p class="startdd">Changes:<br  />
+</p><ul>
+<li>Added support for document protection with AES-256 encryption (PDF 2.0).</li>
+<li>Added support for importing PDF documents protected with AES encryption.</li>
+</ul>
+<p class="interdd">Fixed bugs:<br  />
+</p><ul>
+<li>Fixed problem with page breaks in XML tables.</li>
+</ul>
+<p class="interdd"><b>Notes:</b><br  />
+</p><ul>
+<li>The library now requires a C++11 compiler for compilation.</li>
+<li>Build support for Visual C++ versions below 2015 has been removed.</li>
+</ul>
+<p class="interdd"></p>
+<p class="enddd"></p>
+</dd>
 <dt><b>1.1.0</b> - <em>January 2024</em> </dt>
 <dd><p class="startdd"><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is compatible with wxWidgets versions 3.0.x, 3.1.x and 3.2.x.</p>
 <p class="interdd">Changes:<br  />
