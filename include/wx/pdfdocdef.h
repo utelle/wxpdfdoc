@@ -1,11 +1,12 @@
-///////////////////////////////////////////////////////////////////////////////
-// Name:        pdfdocdef.h
-// Purpose:
-// Author:      Ulrich Telle
-// Created:     2005-08-04
-// Copyright:   (c) Ulrich Telle
-// Licence:     wxWindows licence
-///////////////////////////////////////////////////////////////////////////////
+/*
+** Name:        pdfdocdef.h
+** Purpose:     Compile time definitions and documentation
+** Author:      Ulrich Telle
+** Created:     2005-08-04
+** Copyright:   (c) 2005-2024 Ulrich Telle
+** Licence:     wxWindows licence
+** SPDX-License-Identifier: LGPL-3.0+ WITH WxWindows-exception-3.1
+*/
 
 /// \file pdfdocdef.h Compile time switches for the \b wxPdfDocument component
 
@@ -69,6 +70,21 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>1.2.0</b> - <i>February 2024</i></dt>
+<dd>
+Changes:<br>
+- Added support for document protection with AES-256 encryption (PDF 2.0).
+- Added support for importing PDF documents protected with AES encryption.
+
+Fixed bugs:<br>
+- Fixed problem with page breaks in XML tables.
+
+<b>Notes:</b><br>
+- The library now requires a C++11 compiler for compilation.
+- Build support for Visual C++ versions below 2015 has been removed.
+
+</dd>
+
 <dt><b>1.1.0</b> - <i>January 2024</i></dt>
 <dd>
 wxPdfDocument is compatible with wxWidgets versions 3.0.x, 3.1.x and 3.2.x.

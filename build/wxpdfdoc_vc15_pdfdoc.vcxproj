@@ -635,8 +635,21 @@
     <ClInclude Include="..\include\wx\pdftemplate.h" />
     <ClInclude Include="..\include\wx\pdfutility.h" />
     <ClInclude Include="..\include\wx\pdfxml.h" />
+    <ClInclude Include="..\src\crypto\random.h" />
+    <ClInclude Include="..\src\crypto\saslprep.h" />
+    <ClInclude Include="..\src\crypto\sha256.h" />
+    <ClInclude Include="..\src\crypto\sha384.h" />
+    <ClInclude Include="..\src\crypto\sha512.h" />
+    <ClInclude Include="..\src\crypto\unicode_norm.h" />
+    <ClInclude Include="..\src\crypto\unicode_norm_table.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\crypto\random.cpp" />
+    <ClCompile Include="..\src\crypto\saslprep.cpp" />
+    <ClCompile Include="..\src\crypto\sha256.cpp" />
+    <ClCompile Include="..\src\crypto\sha384.cpp" />
+    <ClCompile Include="..\src\crypto\sha512.cpp" />
+    <ClCompile Include="..\src\crypto\unicode_norm.cpp" />
     <ClCompile Include="..\src\pdfannotation.cpp" />
     <ClCompile Include="..\src\pdfbarcode.cpp" />
     <ClCompile Include="..\src\pdfcffdecoder.cpp" />

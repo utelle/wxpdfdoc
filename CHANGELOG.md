@@ -7,6 +7,22 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [Unreleased]
 
+## [1.2.0] - 2024-02-18
+
+### Added
+
+- Added support for document protection with AES-256 encryption (PDF 2.0).
+- Added support for importing PDF documents protected with AES encryption.
+
+### Changed
+
+- The library now requires a C++11 compiler for compilation.
+- Build support for Visual C++ versions below 2015 has been removed.
+
+### Fixed
+
+- Fixed problem with page breaks in XML tables.
+
 ## [1.1.0] - 2024-01-27
 
 ### Changed
@@ -478,7 +494,8 @@ First public release
 
 - Planning and basic PDF features implemented
 
-[Unreleased]: ../../compare/v1.1.0...HEAD
+[Unreleased]: ../../compare/v1.2.0...HEAD
+[1.2.0]: ../../compare/v1.1.0...v1.2.0
 [1.1.0]: ../../compare/v1.0.3...v1.1.0
 [1.0.3]: ../../compare/v1.0.2...v1.0.3
 [1.0.2]: ../../compare/v1.0.1...v1.0.2

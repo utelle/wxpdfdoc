@@ -1,11 +1,12 @@
-///////////////////////////////////////////////////////////////////////////////
-// Name:        pdfproperties.h
-// Purpose:
-// Author:      Ulrich Telle
-// Created:     2006-07-13
-// Copyright:   (c) Ulrich Telle
-// Licence:     wxWindows licence
-///////////////////////////////////////////////////////////////////////////////
+/*
+** Name:        pdfproperties.h
+** Purpose:     Defines and enumerations for various PDF properties
+** Author:      Ulrich Telle
+** Created:     2006-07-13
+** Copyright:   (c) 2006-2024 Ulrich Telle
+** Licence:     wxWindows licence
+** SPDX-License-Identifier: LGPL-3.0+ WITH WxWindows-exception-3.1
+*/
 
 /// \file pdfproperties.h Interface of the several wxPdfDocument property classes
 
@@ -78,7 +79,7 @@ enum
 #define wxPDF_PERMISSION_COPY     0x0010  ///< Allow text copying
 #define wxPDF_PERMISSION_ANNOT    0x0020  ///< Allow annotations
 #define wxPDF_PERMISSION_FILLFORM 0x0100  ///< Allow filling forms
-#define wxPDF_PERMISSION_EXTRACT  0x0200  ///< Allow extract text and/or garphics
+#define wxPDF_PERMISSION_EXTRACT  0x0200  ///< Allow extract text and/or graphics
 #define wxPDF_PERMISSION_ASSEMBLE 0x0400  ///< Allow assemble document
 #define wxPDF_PERMISSION_HLPRINT  0x0800  ///< Allow high resolution print
 #define wxPDF_PERMISSION_ALL      0x0F3C  ///< Allow anything
@@ -88,7 +89,9 @@ enum wxPdfEncryptionMethod
 {
   wxPDF_ENCRYPTION_RC4V1,
   wxPDF_ENCRYPTION_RC4V2,
-  wxPDF_ENCRYPTION_AESV2
+  wxPDF_ENCRYPTION_AESV2,
+  wxPDF_ENCRYPTION_AESV3,
+  wxPDF_ENCRYPTION_AESV3R6
 };
 
 /// Page box types

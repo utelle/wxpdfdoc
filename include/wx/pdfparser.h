@@ -91,22 +91,22 @@ public:
   void NextValidToken();
 
   /// Get the type of the last token
-  int GetTokenType();
+  int GetTokenType() const;
 
   /// Get the token value as a string
-  wxString GetStringValue();
+  wxString GetStringValue() const;
 
   /// Get the token value as an integer
-  int GetIntValue();
+  int GetIntValue() const;
 
   /// Check whether the token is a hexadecimal string
-  bool IsHexString() { return m_hexString; }
+  bool IsHexString() const { return m_hexString; }
 
   /// Get object reference
-  int GetReference();
+  int GetReference() const;
 
   /// Get object generation
-  int GetGeneration();
+  int GetGeneration() const;
 
   /// Check byte whether it represents a white space character
   static bool IsWhitespace(int ch);
@@ -159,13 +159,13 @@ public:
   virtual ~wxPdfParser();
 
   /// Check whether the PDF document to be parsed is valid
-  bool IsOk();
+  bool IsOk() const;
 
   /// Get PDF version of parsed document
-  wxString GetPdfVersion() { return m_pdfVersion; }
+  wxString GetPdfVersion() const { return m_pdfVersion; }
 
   /// Get number of pages in the parsed document
-  unsigned int GetPageCount();
+  unsigned int GetPageCount() const;
 
   /// Get the document information dictionary
   bool GetSourceInfo(wxPdfInfo& info);
@@ -210,7 +210,7 @@ public:
   void SetUseRawStream(bool useRawStream) { m_useRawStream = useRawStream; }
 
   /// Get flag whether a stream should be decoded or not
-  bool GetUseRawStream() { return m_useRawStream; }
+  bool GetUseRawStream() const { return m_useRawStream; }
 
 protected:
   /// Get the resources of a specific page identified by a page object

@@ -1,11 +1,12 @@
-///////////////////////////////////////////////////////////////////////////////
-// Name:        pdfencrypt.h
-// Purpose:
-// Author:      Ulrich Telle
-// Created:     2005-08-16
-// Copyright:   (c) Ulrich Telle
-// Licence:     wxWindows licence
-///////////////////////////////////////////////////////////////////////////////
+/*
+** Name:        pdfencrypt.h
+** Purpose:     Encryption support for PDF
+** Author:      Ulrich Telle
+** Created:     2005-08-16
+** Copyright:   (c) 2005-2024 Ulrich Telle
+** Licence:     wxWindows licence
+** SPDX-License-Identifier: LGPL-3.0+ WITH WxWindows-exception-3.1
+*/
 
 /// \file pdfencrypt.h Interface of the wxPdfFont class
 
@@ -20,6 +21,8 @@
 
 // Forward declaration of exported classes
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfRijndael;
+
+class wxPdfRandomBytesGenerator;
 
 /// Class representing PDF encryption methods. (For internal use only)
 class WXDLLIMPEXP_PDFDOC wxPdfEncrypt
@@ -53,23 +56,39 @@ public:
   * \param password the password given by the user
   * \param uValue the U value from the document's encryption dictionary
   * \param oValue the O value from the document's encryption dictionary
+  * \param ueValue the UE value from the document's encryption dictionary
+  * \param oeValue the OE value from the document's encryption dictionary
+  * \param permsValue the Perms value from the document's encryption dictionary
   * \param pValue the P value from the document's encryption dictionary
   * \param lengthValue the length value  from the document's encryption dictionary
   * \param rValue the R value from the document's encryption dictionary
+  * \param vValue the V value from the document's encryption dictionary
   * \return TRUE if the document could be authenticated successfully, FALSE otherwise
   */
   bool Authenticate(const wxString& documentID, const wxString& password,
                     const wxString& uValue, const wxString& oValue,
-                    int pValue, int lengthValue, int rValue);
+                    const wxString& ueValue, const wxString& oeValue, const wxString& permsValue,
+                    int pValue, int lengthValue, int rValue, int vValue);
+
+  bool PasswordIsValid(const wxString& password) const;
 
   /// Get the U object value (user)
-  const unsigned char* GetUValue() const { return m_uValue; }
+  const std::string& GetUValue() const { return m_uValue; }
+
+  /// Get the UE object value (user)
+  const std::string& GetUEValue() const { return m_ue; }
 
   /// Get the O object value (owner)
-  const unsigned char* GetOValue() const { return m_oValue; }
+  const std::string& GetOValue() const { return m_oValue; }
+
+  /// Get the OE object value (owner)
+  const std::string& GetOEValue() const { return m_oe; }
 
   /// Get the P object value (protection)
   int GetPValue() const { return m_pValue; }
+
+  /// Get the Perms object value (protection)
+  const std::string& GetPermsValue() const { return m_permsValue; }
 
   /// Get the revision number of the encryption method
   int GetRevision() const { return m_rValue; }
@@ -85,6 +104,14 @@ public:
   */
   void Encrypt(int n, int g, wxString& str);
 
+  /// Decrypt a wxString
+  /**
+  * \param n number of the associated PDF object
+  * \param g generation of the associated PDF object
+  * \param str string to decrypt
+  */
+  void Decrypt(int n, int g, wxString& str);
+
   /// Encrypt a character string
   /**
   * \param n number of the associated PDF object
@@ -94,9 +121,18 @@ public:
   */
   void Encrypt(int n, int g, unsigned char* str, unsigned int len);
 
+  /// Decrypt a character string
+  /**
+  * \param n number of the associated PDF object
+  * \param g generation of the associated PDF object
+  * \param str string to decrypt
+  * \param len length of the string to decrypt
+  */
+  int Decrypt(int n, int g, unsigned char* str, unsigned int len);
+
   /// Calculate stream size
   /**
-  * \param length lenght of the original stream
+  * \param length length of the original stream
   * \return the length of the encrypted stream
   */
   size_t CalculateStreamLength(size_t length);
@@ -121,31 +157,44 @@ public:
 
 protected:
   /// Pad a password to 32 characters
-  void PadPassword(const wxString& password, unsigned char pswd[32]);
+  std::string PadPassword(const wxString& password);
 
   /// Compute owner key
-  void ComputeOwnerKey(unsigned char userPad[32], unsigned char ownerPad[32],
-                       unsigned int keylength, int revision, bool authenticate,
-                       unsigned char ownerKey[32]);
+  std::string ComputeOwnerKey(const std::string& userPad, const std::string& ownerPad,
+                              unsigned int keylength, int revision, bool authenticate);
 
   /// Compute encryption key and user key
-  void ComputeEncryptionKey(const wxString& documentID,
-                            unsigned char userPad[32], unsigned char ownerKey[32],
-                            int pValue, unsigned int keyLength, int revision,
-                            unsigned char userKey[32]);
+  std::string ComputeEncryptionKey(const wxString& documentID,
+                                   const std::string& userPad, const std::string& ownerKey,
+                                   int pValue, unsigned int keyLength, int revision);
 
   /// Check two keys for equality
-  bool CheckKey(unsigned char key1[32], unsigned char key2[32]);
+  bool CheckKey(const std::string& key1, const std::string& key2);
 
   /// RC4 encryption
   void RC4(unsigned char* key, unsigned int keylen,
-           unsigned char* textin, unsigned int textlen,
+           const unsigned char* textin, unsigned int textlen,
            unsigned char* textout);
 
-  /// AES encryption
-  void AES(unsigned char* key, unsigned int keylen,
-           unsigned char* textin, unsigned int textlen,
-           unsigned char* textout);
+  /// AES-128 encryption
+  void AESEncrypt(unsigned char* key, unsigned int keylen,
+                  unsigned char* textin, unsigned int textlen,
+                  unsigned char* textout);
+
+  /// AES-128 decryption
+  int AESDecrypt(unsigned char* key, unsigned int keylen,
+                 unsigned char* textin, unsigned int textlen,
+                 unsigned char* textout);
+
+  /// AES-256 encryption
+  void AESV3Encrypt(const unsigned char* key, unsigned int keylen,
+                    const unsigned char* textin, unsigned int textlen,
+                    unsigned char* textout);
+
+  /// AES-256 decryption
+  int AESV3Decrypt(const unsigned char* key, unsigned int keylen,
+                   unsigned char* textin, unsigned int textlen,
+                   unsigned char* textout);
 
   /// Calculate the binary MD5 message digest of the given data
   static void GetMD5Binary(const unsigned char* data, unsigned int length, unsigned char* digest);
@@ -154,17 +203,70 @@ protected:
   static void GenerateInitialVector(unsigned char iv[16]);
 
 private:
+  /// Compute encryption parameters for revision below 5
+  void ComputeEncryptionParameters(const wxString& userPassword, const wxString& ownerPassword);
+
+  /// Compute encryption parameters for revision 5 and higher
+  void ComputeEncryptionParametersV5(const wxString& userPassword, const wxString& ownerPassword);
+
+  /// Prepare UTF-8 password
+  std::string PreparePasswordV5(const std::string& password);
+
+  /// Compute U and UE for revision 5 and higher
+  void ComputeUandUEforV5(const std::string& userPassword, const std::string& encryptionKey);
+
+  /// Compute O and OE for revision 5 and higher
+  void ComputeOandOEforV5(const std::string& ownerPassword, const std::string& encryptionKey);
+
+  /// Compute Perms for revision 5 and higher
+  void ComputePermsV5(const std::string& encryptionKey);
+
+  /// Compute hash for revision 5 and higher
+  std::string HashV5(const std::string& password, const std::string& salt, const std::string& udata);
+
+  /// Check for valid password for revision below 5
+  bool CheckEncryptionParameters(const wxString& password);
+
+  /// Check for valid password for revision 5 and higher
+  bool CheckEncryptionParametersV5(const wxString& password);
+
+  /// Check for valid owner password for revision 5 and higher
+  bool CheckOwnerPasswordV5(const std::string& password);
+
+  /// Check for valid user password for revision 5 and higher
+  bool CheckUserPasswordV5(const std::string& userPassword);
+
   wxString       m_documentId;         ///< Document ID
-  unsigned char  m_uValue[32];         ///< U entry in pdf document
-  unsigned char  m_oValue[32];         ///< O entry in pdf document
+  std::string    m_uValue;             ///< U entry in pdf document
+  std::string    m_oValue;             ///< O entry in pdf document
   int            m_pValue;             ///< P entry in pdf document
   int            m_rValue;             ///< Revision
+  int            m_vValue;             ///< Version
   unsigned char  m_encryptionKey[16];  ///< Encryption key
   unsigned int   m_keyLength;          ///< Length of encryption key
   unsigned char  m_rc4key[16];         ///< last RC4 key
   unsigned char  m_rc4last[256];       ///< last RC4 state table
 
+  std::string m_u;
+  std::string m_ue;
+  std::string m_uValidSalt;
+  std::string m_uKeySalt;
+  std::string m_o;
+  std::string m_oe;
+  std::string m_oValidSalt;
+  std::string m_oKeySalt;
+  std::string m_permsValue;
+  std::string m_fileEncryptionKey;
+  bool m_encryptMetaData;
+
   wxPdfRijndael* m_aes;                ///< AES encryptor
+  wxPdfRandomBytesGenerator* m_rbg;    ///< Random bytes generator
+};
+
+/// Class representing SHA2 hashing methods. (For internal use only)
+class WXDLLIMPEXP_PDFDOC wxPdfSHA2
+{
+public:
 };
 
 #endif

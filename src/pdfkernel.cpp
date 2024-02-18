@@ -1,11 +1,12 @@
-
-// Name:        pdfkernel.cpp
-// Purpose:     Implementation of wxPdfDocument (internal methods)
-// Author:      Ulrich Telle
-// Created:     2006-01-27
-// Copyright:   (c) Ulrich Telle
-// Licence:     wxWindows licence
-///////////////////////////////////////////////////////////////////////////////
+/*
+** Name:        pdfkernel.cpp
+** Purpose:     Implementation of wxPdfDocument (internal methods)
+** Author:      Ulrich Telle
+** Created:     2006-01-27
+** Copyright:   (c) 2006-2024 Ulrich Telle
+** Licence:     wxWindows licence
+** SPDX-License-Identifier: LGPL-3.0+ WITH WxWindows-exception-3.1
+*/
 
 /// \file pdfkernel.cpp Implementation of the wxPdfDocument class (internal methods)
 
@@ -2171,17 +2172,38 @@ wxPdfDocument::PutFiles()
 void
 wxPdfDocument::PutEncryption()
 {
+  int revision = m_encryptor->GetRevision();
   Out("/Filter /Standard");
-  switch (m_encryptor->GetRevision())
+  switch (revision)
   {
+    case 6:
+      {
+        Out("/V 5");
+        Out("/R 6");
+        Out("/CF <</StdCF <</CFM /AESV3 /Length 32 /AuthEvent /DocOpen>>>>");
+        Out("/StrF /StdCF");
+        Out("/StmF /StdCF");
+        OutAscii(wxString::Format(wxS("/Length %d"), m_encryptor->GetKeyLength()));
+      }
+      break;
+    case 5:
+      {
+        Out("/V 5");
+        Out("/R 5");
+        Out("/CF <</StdCF <</CFM /AESV3 /Length 32 /AuthEvent /DocOpen>>>>");
+        Out("/StrF /StdCF");
+        Out("/StmF /StdCF");
+        OutAscii(wxString::Format(wxS("/Length %d"), m_encryptor->GetKeyLength()));
+      }
+      break;
     case 4:
       {
         Out("/V 4");
         Out("/R 4");
-        Out("/Length 128");
         Out("/CF <</StdCF <</CFM /AESV2 /Length 16 /AuthEvent /DocOpen>>>>");
         Out("/StrF /StdCF");
         Out("/StmF /StdCF");
+        OutAscii(wxString::Format(wxS("/Length %d"), m_encryptor->GetKeyLength()));
       }
       break;
     case 3:
@@ -2199,13 +2221,20 @@ wxPdfDocument::PutEncryption()
       }
       break;
   }
-  Out("/O (",false);
-  OutEscape((char*) m_encryptor->GetOValue(),32);
-  Out(")");
-  Out("/U (",false);
-  OutEscape((char*) m_encryptor->GetUValue(),32);
-  Out(")");
+  Out("/O ",false);
+  OutHex(m_encryptor->GetOValue());
+  Out("/U ",false);
+  OutHex(m_encryptor->GetUValue());
   OutAscii(wxString::Format(wxS("/P %d"), m_encryptor->GetPValue()));
+  if (revision > 4)
+  {
+    Out("/OE ", false);
+    OutHex(m_encryptor->GetOEValue());
+    Out("/UE ", false);
+    OutHex(m_encryptor->GetUEValue());
+    Out("/Perms ", false);
+    OutHex(m_encryptor->GetPermsValue());
+  }
 }
 
 void
@@ -2863,6 +2892,36 @@ wxPdfDocument::OutEscape(const char* s, size_t len)
         break;
     }
   }
+}
+
+void
+wxPdfDocument::OutEscape(const std::string& s)
+{
+  OutEscape(s.c_str(), s.length());
+}
+
+void
+wxPdfDocument::OutHex(const char* s, size_t len)
+{
+  static char hexDigits[17] = "0123456789ABCDEF";
+  size_t j;
+  char hexDigit;
+
+  Out("<", false);
+  for (j = 0; j < len; ++j)
+  {
+    hexDigit = hexDigits[(s[j] >> 4) & 0x0f];
+    Out(&hexDigit, 1, false);
+    hexDigit = hexDigits[s[j] & 0x0f];
+    Out(&hexDigit, 1, false);
+  }
+  Out(">");
+}
+
+void
+wxPdfDocument::OutHex(const std::string& s)
+{
+  OutHex(s.c_str(), s.length());
 }
 
 void

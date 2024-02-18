@@ -12,7 +12,7 @@ endif
 
 # Flags used for compiling all the targets and linking all the executables
 # (libraries use LIBADD which is set for lib@WXPDFDOC_LIBNAME@.la only).
-AM_CXXFLAGS = -I$(top_srcdir)/include $(WX_CXXFLAGS)
+AM_CXXFLAGS = -I$(top_srcdir)/include $(WX_CXXFLAGS) -std=c++11
 LDADD = lib@WXPDFDOC_LIBNAME@.la $(WX_LIBS)
 
 # Target-specific assignments are GNU Make-specific, but there doesn't seem to
@@ -92,7 +92,13 @@ lib@WXPDFDOC_LIBNAME@_la_SOURCES = \
     src/pdfrijndael.cpp \
     src/pdftemplate.cpp \
     src/pdfutility.cpp \
-    src/pdfxml.cpp
+    src/pdfxml.cpp \
+    src/crypto/random.cpp \
+    src/crypto/saslprep.cpp \
+    src/crypto/sha256.cpp \
+    src/crypto/sha384.cpp \
+    src/crypto/sha512.cpp \
+    src/crypto/unicode_norm.cpp
 
 includewx_HEADERS = \
     include/wx/pdfannotation.h \
@@ -149,7 +155,14 @@ includewx_HEADERS = \
     include/wx/pdfspotcolour.h \
     include/wx/pdftemplate.h \
     include/wx/pdfutility.h \
-    include/wx/pdfxml.h
+    include/wx/pdfxml.h \
+    src/crypto/random.h \
+    src/crypto/saslprep.h \
+    src/crypto/sha256.h \
+    src/crypto/sha384.h \
+    src/crypto/sha512.h \
+    src/crypto/unicode_norm.h \
+    src/crypto/unicode_norm_table.h
 
 noinst_HEADERS = \
     src/pdfcjkfontdata.inc \
