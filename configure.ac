@@ -94,7 +94,7 @@ AC_LANG(C++)
 
 AC_ARG_VAR(WX_CONFIG, [Path to wx-config script (default: search in PATH).])
 WX_CONFIG_OPTIONS
-WX_CONFIG_CHECK([3.0.0],
+WX_CONFIG_CHECK([3.2.0],
     [],
     [AC_MSG_FAILURE([wxWidgets required but not detected.])],
     [base,core,xml]

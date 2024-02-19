@@ -9,6 +9,8 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [1.2.0] - 2024-02-18
 
+**wxPdfDocument** is compatible with wxWidgets versions 3.2.x and above.
+
 ### Added
 
 - Added support for document protection with AES-256 encryption (PDF 2.0).
