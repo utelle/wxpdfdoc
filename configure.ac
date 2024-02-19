@@ -60,6 +60,8 @@ fi
 
 dnl Detect the target system
 
+AC_CANONICAL_HOST
+
 build_linux=no
 build_windows=no
 build_mac=no
