@@ -12,6 +12,7 @@
 #ifndef WXPDFDOC_CRYPTO_RANDOM_H_
 #define WXPDFDOC_CRYPTO_RANDOM_H_
 
+#include <cstddef>
 #include <cstdint>
 
 namespace wxpdfdoc {
