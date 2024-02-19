@@ -16,7 +16,7 @@ AM_CXXFLAGS = -I$(top_srcdir)/include $(WX_CXXFLAGS) -std=c++11
 LDADD = lib@WXPDFDOC_LIBNAME@.la $(WX_LIBS)
 
 if HOST_OSX
-AM_LDFLAGS += -framework Security
+AM_LDFLAGS = -framework Security
 endif
 
 # Target-specific assignments are GNU Make-specific, but there doesn't seem to
