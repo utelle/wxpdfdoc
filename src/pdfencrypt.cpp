@@ -35,6 +35,8 @@
 #include "crypto/random.h"
 #include "crypto/saslprep.h"
 
+#include <vector>
+
 using namespace wxpdfdoc::crypto;
 
 #define MD5_HASHBYTES 16
@@ -543,7 +545,11 @@ wxPdfEncrypt::PasswordIsValid(const wxString& password) const
   if (m_rValue > 4)
   {
     std::string saslPassword;
+#if wxCHECK_VERSION(3,1,5)
     saslprep_rc rc = saslprep(password.utf8_string(), saslPassword);
+#else
+    saslprep_rc rc = saslprep(std::string(password.utf8_str()), saslPassword);
+#endif
     if (rc != SASLPREP_SUCCESS)
     {
       wxLogError(wxString(wxS("wxPdfEncrypt::PasswordIsValid: ")) + wxString(_("Invalid password for SASLprep.")));
@@ -658,8 +664,13 @@ wxPdfEncrypt::ComputeEncryptionParametersV5(const wxString& userPassword, const 
   m_rbg->GetRandomBytes(dataK, m_keyLength);
   m_fileEncryptionKey = std::string(reinterpret_cast<char*>(dataK), m_keyLength);
 
+#if wxCHECK_VERSION(3,1,5)
   ComputeUandUEforV5(userPassword.utf8_string(), m_fileEncryptionKey);
   ComputeOandOEforV5(ownerPassword.utf8_string(), m_fileEncryptionKey);
+#else
+  ComputeUandUEforV5(std::string(userPassword.utf8_str()), m_fileEncryptionKey);
+  ComputeOandOEforV5(std::string(ownerPassword.utf8_str()), m_fileEncryptionKey);
+#endif
   ComputePermsV5(m_fileEncryptionKey);
 }
 
@@ -745,7 +756,11 @@ wxPdfEncrypt::CheckEncryptionParametersV5(const wxString& password)
 {
   bool ok = false;
   bool checkPermissions = true;
+#if wxCHECK_VERSION(3,1,5)
   std::string pswd = PreparePasswordV5(password.utf8_string());
+#else
+  std::string pswd = PreparePasswordV5(std::string(password.utf8_str()));
+#endif
 
   // Algorithm 2A from the PDF 2.0
   std::string keySalt;
