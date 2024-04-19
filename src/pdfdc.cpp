@@ -1011,23 +1011,7 @@ wxPdfDCImpl::DoDrawBitmap(const wxBitmap& bitmap, wxCoord x, wxCoord y, bool use
 void
 wxPdfDCImpl::DoDrawText(const wxString& text, wxCoord x, wxCoord y)
 {
-  if (text.Find(wxS('\n')) == wxNOT_FOUND)
-  {
-    // text contains a single line: just draw it
-    DoDrawRotatedText(text, x, y, 0.0);
-  }
-  else
-  {
-    // this is a multiline text: split it and print the lines one by one
-    wxCoord charH = GetCharHeight();
-    wxCoord curY = y;
-    wxStringTokenizer tok( text, "\n" );
-    while( tok.HasMoreTokens() ) {
-      wxString s = tok.GetNextToken();
-      DoDrawRotatedText(s, x, curY, 0.0);
-      curY += charH;
-    }
-  }
+  DoDrawRotatedText(text, x, y, 0.0);
 }
 
 void
