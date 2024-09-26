@@ -24,6 +24,7 @@
 #include <wx/font.h>
 #include <wx/paper.h>
 #include <wx/tokenzr.h>
+#include <wx/display.h>
 
 #include "wx/pdfdc.h"
 #include "wx/pdffontmanager.h"
@@ -190,8 +191,8 @@ wxPdfDCImpl::Init()
   m_ppi = 72;
   m_pdfDocument = NULL;
 
-  wxScreenDC screendc;
-  m_ppiPdfFont = screendc.GetPPI().GetHeight();
+  wxDisplay display;
+  m_ppiPdfFont = display.GetPPI().GetHeight();
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
 
   m_cachedRGB = 0;
