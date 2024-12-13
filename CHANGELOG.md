@@ -7,6 +7,10 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [Unreleased]
 
+### Changed
+
+- Improved font lookup in wxPdfFontManager to search also under the font family alias, if given
+
 ## [1.2.0] - 2024-02-18
 
 **wxPdfDocument** is compatible with wxWidgets versions 3.2.x and above.

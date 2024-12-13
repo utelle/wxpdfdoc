@@ -1086,16 +1086,20 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
   int searchStyle = (fontStyle & ~wxPDF_FONTSTYLE_DECORATION_MASK) & wxPDF_FONTSTYLE_MASK;
   wxPdfFontData* fontData = NULL;
 
+  // 0. Determine whether a family alias exists
+  wxPdfFontFamilyMap::const_iterator familyAliasIter = m_fontFamilyMap.end();
+  wxPdfFontAliasMap::const_iterator aliasIter = m_fontAliasMap.find(lcFontName);
+  if (aliasIter != m_fontAliasMap.end())
+  {
+    familyAliasIter = m_fontFamilyMap.find(aliasIter->second);
+  }
+
   // Check whether font name equals font family
   wxPdfFontFamilyMap::const_iterator familyIter = m_fontFamilyMap.find(lcFontName);
   if (familyIter == m_fontFamilyMap.end())
   {
-    // 1. Check family alias if given name was not a family name
-    wxPdfFontAliasMap::const_iterator aliasIter = m_fontAliasMap.find(lcFontName);
-    if (aliasIter != m_fontAliasMap.end())
-    {
-      familyIter = m_fontFamilyMap.find(aliasIter->second);
-    }
+    // 1. Use family alias (may be empty)
+    familyIter = familyAliasIter;
   }
 
   if (familyIter != m_fontFamilyMap.end())
@@ -1103,14 +1107,28 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
     // 2. Check whether the family contains a font with the requested style
     size_t n = familyIter->second.GetCount();
     size_t j;
-    for (j = 0; j < n && fontData == NULL; ++j)
+    do
     {
-      fontData = m_fontList[familyIter->second[j]]->GetFontData();
-      if (fontData->GetStyle() != searchStyle)
+      for (j = 0; j < n && fontData == NULL; ++j)
       {
-        fontData = NULL;
+        fontData = m_fontList[familyIter->second[j]]->GetFontData();
+        if (fontData->GetStyle() != searchStyle)
+        {
+          fontData = NULL;
+        }
+      }
+      n = 0;
+      // Search in alias font family if not already searched
+      if (fontData == NULL && familyAliasIter != familyIter)
+      {
+        if (familyAliasIter != m_fontFamilyMap.end())
+        {
+          familyIter = familyAliasIter;
+          n = familyIter->second.GetCount();
+        }
       }
     }
+    while (n > 0);
   }
 
   if (fontData == NULL)
