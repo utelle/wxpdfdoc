@@ -191,8 +191,14 @@ wxPdfDCImpl::Init()
   m_ppi = 72;
   m_pdfDocument = NULL;
 
+#if wxCHECK_VERSION(3,1,5)
   wxDisplay display;
   m_ppiPdfFont = display.GetPPI().GetHeight();
+#else
+  wxScreenDC screendc;
+  m_ppiPdfFont = screendc.GetPPI().GetHeight();
+#endif
+
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
 
   m_cachedRGB = 0;

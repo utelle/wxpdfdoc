@@ -570,6 +570,7 @@ wxPdfPrinter::Setup(wxWindow* WXUNUSED(parent))
 void
 wxPdfPrinter::GetPdfScreenPPI(int* x, int* y)
 {
+#if wxCHECK_VERSION(3,1,5)
   wxDisplay display;
 
   if (x)
@@ -581,6 +582,19 @@ wxPdfPrinter::GetPdfScreenPPI(int* x, int* y)
   {
     *y = display.GetPPI().GetHeight();
   }
+#else
+  wxScreenDC dc;
+
+  if (x)
+  {
+    *x = dc.GetPPI().GetWidth();
+  }
+
+  if (y)
+  {
+    *y = dc.GetPPI().GetHeight();
+  }
+#endif
 }
 
 // ----------------------------------------------------------------------------
@@ -852,6 +866,7 @@ wxPdfPrintPreviewImpl::Print(bool interactive)
 void
 wxPdfPrintPreviewImpl::GetPdfScreenPPI(int* x, int* y)
 {
+#if wxCHECK_VERSION(3,1,5)
   wxDisplay display;
 
   if (x)
@@ -863,6 +878,19 @@ wxPdfPrintPreviewImpl::GetPdfScreenPPI(int* x, int* y)
   {
     *y = display.GetPPI().GetHeight();
   }
+#else
+  wxScreenDC dc;
+
+  if (x)
+  {
+    *x = dc.GetPPI().GetWidth();
+  }
+
+  if (y)
+  {
+    *y = dc.GetPPI().GetHeight();
+  }
+#endif
 }
 
 void
