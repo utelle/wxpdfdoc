@@ -5,7 +5,7 @@ dnl Copyright (C) 2017 Vadim Zeitlin <vadim@wxwidgets.org>
 dnl
 dnl This file is covered by the same licence as the entire wxpdfdoc package.
 
-AC_INIT([wxpdfdoc], [1.2.0], [github@telle-online.de])
+AC_INIT([wxpdfdoc], [1.2.1], [github@telle-online.de])
 
 dnl This is the version tested with, might work with earlier ones.
 AC_PREREQ([2.69])
@@ -94,7 +94,7 @@ AC_LANG(C++)
 
 AC_ARG_VAR(WX_CONFIG, [Path to wx-config script (default: search in PATH).])
 WX_CONFIG_OPTIONS
-WX_CONFIG_CHECK([3.2.0],
+WX_CONFIG_CHECK([3.0.0],
     [],
     [AC_MSG_FAILURE([wxWidgets required but not detected.])],
     [base,core,xml]
@@ -108,7 +108,7 @@ dnl we can't use "--optional-libs" wx-config option to do it all in one check
 dnl for as long as we support 2.8 in which wx-config doesn't have this option
 dnl yet).
 core_WX_LIBS=$WX_LIBS
-WX_CONFIG_CHECK([2.8.0],
+WX_CONFIG_CHECK([3.0.0],
     [WX_LIBS_PDFDC_SAMPLE=$WX_LIBS],
     [AC_MSG_WARN([Some wxWidgets libraries not available, pdfdc sample won't be built])],
     [adv,base,core,html,richtext,xml]

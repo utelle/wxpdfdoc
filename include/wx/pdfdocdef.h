@@ -3,7 +3,7 @@
 ** Purpose:     Compile time definitions and documentation
 ** Author:      Ulrich Telle
 ** Created:     2005-08-04
-** Copyright:   (c) 2005-2024 Ulrich Telle
+** Copyright:   (c) 2005-2025 Ulrich Telle
 ** Licence:     wxWindows licence
 ** SPDX-License-Identifier: LGPL-3.0+ WITH WxWindows-exception-3.1
 */
@@ -70,6 +70,19 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>1.2.1</b> - <i>January 2025</i></dt>
+<dd>
+Changes:<br>
+- Improved font lookup in wxPdfFontManager to search also under the font family alias, if given
+- Replaced use of wxScreenDC by wxDisplay
+- Restored support for wxWidgets 3.0.x
+
+Fixed bugs:<br>
+- Check for availability of header file "Security/SecRandom.h" (fix issue #94)
+- Fixed wxPdfDCImpl::DoDrawText for multiline text
+
+</dd>
+
 <dt><b>1.2.0</b> - <i>February 2024</i></dt>
 <dd>
 Changes:<br>

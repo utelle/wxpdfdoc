@@ -38,7 +38,7 @@ class WXDLLIMPEXP_PDFDOC wxPdfGlyphListEntry
 {
 public:
   /// Default constructor
-  wxPdfGlyphListEntry() {};
+  wxPdfGlyphListEntry() : m_gid(0), m_uid(0) {};
 
   /// Destructor
   ~wxPdfGlyphListEntry() {};

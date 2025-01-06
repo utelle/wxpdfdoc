@@ -19,12 +19,12 @@ creation of simple drawings.
 
 ## Version information
 
-* 1.2.0 - *February 2024*
-  - Added support for document protection with AES-256 encryption (PDF 2.0).
-  - Added support for importing PDF documents protected with AES encryption.
-  - The library now requires a C++11 compiler for compilation.
-  - Build support for Visual C++ versions below 2015 has been removed.
-  - Fixed problem with page breaks in XML tables.
+* 1.2.1 - *January 2025*
+  - Improved font lookup in wxPdfFontManager to search also under the font family alias, if given
+  - Replaced use of wxScreenDC by wxDisplay
+  - Restored support for wxWidgets 3.0.x
+  - Check for availability of header file "Security/SecRandom.h" (fix issue #94)
+  - Fixed wxPdfDCImpl::DoDrawText for multiline text
 
 For further version information please consult the [CHANGELOG](CHANGELOG.md).
  
