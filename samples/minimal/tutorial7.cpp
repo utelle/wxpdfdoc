@@ -186,7 +186,7 @@ fontSample(bool testMode)
     pdf.SetCompression(false);
   }
 
-  wxPdfFontManager::GetFontManager()->RegisterFont("Amaranth-Regular.woff", "Amaranth");
+  wxPdfFontManager::GetFontManager()->RegisterFont("AmaranthRegular.woff", "Amaranth");
   wxPdfFontManager::GetFontManager()->RegisterFont("HussarBoldWeb.woff2", "Hussar");
   wxPdfFontManager::GetFontManager()->RegisterFont((const char*) texturamodern_ttf, texturamodern_ttf_size, "TexturaModern");
 
