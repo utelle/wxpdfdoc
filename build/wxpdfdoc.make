@@ -18,12 +18,19 @@ endif
 # Configurations
 # #############################################
 
+ifeq ($(origin CC), default)
+  CC = gcc
+endif
+ifeq ($(origin CXX), default)
+  CXX = g++
+endif
+ifeq ($(origin AR), default)
+  AR = ar
+endif
 RESCOMP = windres
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS += -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS +=
 include config.gcc
 
 define PREBUILDCMDS
@@ -38,9 +45,11 @@ TARGETDIR = ../lib/gcc_lib
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win32/Debug/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib32 -m32
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
@@ -49,9 +58,11 @@ TARGETDIR = ../lib/gcc_x64_lib
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win64/Debug/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win64/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win64/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib64 -m64
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
@@ -60,9 +71,11 @@ TARGETDIR = ../lib/gcc_lib
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win32/Release/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib32 -m32 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
@@ -71,9 +84,11 @@ TARGETDIR = ../lib/gcc_x64_lib
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win64/Release/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win64/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win64/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib64 -m64 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
@@ -82,9 +97,11 @@ TARGETDIR = ../lib/gcc_lib_wxdll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win32/Debug_wxDLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win32/Debug wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug wxDLL/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug\ wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug\ wxDLL/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
@@ -93,9 +110,11 @@ TARGETDIR = ../lib/gcc_x64_lib_wxdll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win64/Debug_wxDLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win64/Debug wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug wxDLL/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win64/Debug\ wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug\ wxDLL/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
@@ -104,9 +123,11 @@ TARGETDIR = ../lib/gcc_lib_wxdll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win32/Release_wxDLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win32/Release wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release wxDLL/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release\ wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release\ wxDLL/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
@@ -115,9 +136,11 @@ TARGETDIR = ../lib/gcc_x64_lib_wxdll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win64/Release_wxDLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win64/Release wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release wxDLL/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win64/Release\ wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release\ wxDLL/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
@@ -126,9 +149,11 @@ TARGETDIR = ../lib/gcc_dll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win32/Debug_DLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win32/Debug DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug DLL/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug\ DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug\ DLL/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -shared -Wl,--out-implib="../lib/gcc_dll/libwxpdfdoc$(wxFlavour)d.a"
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
@@ -137,9 +162,11 @@ TARGETDIR = ../lib/gcc_x64_dll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win64/Debug_DLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win64/Debug DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug DLL/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win64/Debug\ DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug\ DLL/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -shared -Wl,--out-implib="../lib/gcc_x64_dll/libwxpdfdoc$(wxFlavour)d.a"
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
@@ -148,9 +175,11 @@ TARGETDIR = ../lib/gcc_dll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win32/Release_DLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win32/Release DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release DLL/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release\ DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release\ DLL/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -shared -Wl,--out-implib="../lib/gcc_dll/libwxpdfdoc$(wxFlavour).a" -s
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
@@ -159,9 +188,11 @@ TARGETDIR = ../lib/gcc_x64_dll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win64/Release_DLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
-INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include
+INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
+LIBS += lib/$(wxCompilerPrefix)/Win64/Release DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release DLL/libzint.lib -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win64/Release\ DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release\ DLL/libzint.lib
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -shared -Wl,--out-implib="../lib/gcc_x64_dll/libwxpdfdoc$(wxFlavour).a" -s
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
@@ -174,13 +205,13 @@ endif
 # File sets
 # #############################################
 
-CUSTOM :=
 GENERATED :=
 OBJECTS :=
+RESOURCES :=
 
-CUSTOM += $(OBJDIR)/pdfdoc_version.res
 GENERATED += $(OBJDIR)/pdfannotation.o
 GENERATED += $(OBJDIR)/pdfbarcode.o
+GENERATED += $(OBJDIR)/pdfbarcodezint.o
 GENERATED += $(OBJDIR)/pdfcffdecoder.o
 GENERATED += $(OBJDIR)/pdfcffindex.o
 GENERATED += $(OBJDIR)/pdfcolour.o
@@ -208,6 +239,7 @@ GENERATED += $(OBJDIR)/pdffontsubsetcff.o
 GENERATED += $(OBJDIR)/pdffontsubsettruetype.o
 GENERATED += $(OBJDIR)/pdffontvolt.o
 GENERATED += $(OBJDIR)/pdfform.o
+GENERATED += $(OBJDIR)/pdfgc.o
 GENERATED += $(OBJDIR)/pdfgradient.o
 GENERATED += $(OBJDIR)/pdfgraphics.o
 GENERATED += $(OBJDIR)/pdfimage.o
@@ -228,8 +260,11 @@ GENERATED += $(OBJDIR)/sha256.o
 GENERATED += $(OBJDIR)/sha384.o
 GENERATED += $(OBJDIR)/sha512.o
 GENERATED += $(OBJDIR)/unicode_norm.o
+GENERATED += $(OBJDIR)/woff2converter.o
+GENERATED += $(OBJDIR)/woffconverter.o
 OBJECTS += $(OBJDIR)/pdfannotation.o
 OBJECTS += $(OBJDIR)/pdfbarcode.o
+OBJECTS += $(OBJDIR)/pdfbarcodezint.o
 OBJECTS += $(OBJDIR)/pdfcffdecoder.o
 OBJECTS += $(OBJDIR)/pdfcffindex.o
 OBJECTS += $(OBJDIR)/pdfcolour.o
@@ -256,6 +291,7 @@ OBJECTS += $(OBJDIR)/pdffontsubsetcff.o
 OBJECTS += $(OBJDIR)/pdffontsubsettruetype.o
 OBJECTS += $(OBJDIR)/pdffontvolt.o
 OBJECTS += $(OBJDIR)/pdfform.o
+OBJECTS += $(OBJDIR)/pdfgc.o
 OBJECTS += $(OBJDIR)/pdfgradient.o
 OBJECTS += $(OBJDIR)/pdfgraphics.o
 OBJECTS += $(OBJDIR)/pdfimage.o
@@ -276,6 +312,9 @@ OBJECTS += $(OBJDIR)/sha256.o
 OBJECTS += $(OBJDIR)/sha384.o
 OBJECTS += $(OBJDIR)/sha512.o
 OBJECTS += $(OBJDIR)/unicode_norm.o
+OBJECTS += $(OBJDIR)/woff2converter.o
+OBJECTS += $(OBJDIR)/woffconverter.o
+RESOURCES += $(OBJDIR)/pdfdoc_version.res
 
 # Rules
 # #############################################
@@ -283,7 +322,7 @@ OBJECTS += $(OBJDIR)/unicode_norm.o
 all: $(TARGET)
 	@:
 
-$(TARGET): $(CUSTOM) $(GENERATED) $(OBJECTS) $(LDDEPS) | $(TARGETDIR)
+$(TARGET): $(GENERATED) $(OBJECTS) $(LDDEPS) $(RESOURCES) | $(TARGETDIR)
 	$(PRELINKCMDS)
 	@echo Linking wxpdfdoc
 	$(SILENT) $(LINKCMD)
@@ -320,7 +359,6 @@ endif
 prebuild: | $(OBJDIR)
 	$(PREBUILDCMDS)
 
-$(CUSTOM): | prebuild
 ifneq (,$(PCH))
 $(OBJECTS): $(GCH) | $(PCH_PLACEHOLDER)
 $(GCH): $(PCH) | prebuild
@@ -344,6 +382,9 @@ $(OBJDIR)/pdfannotation.o: ../src/pdfannotation.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfbarcode.o: ../src/pdfbarcode.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/pdfbarcodezint.o: ../src/pdfbarcodezint.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfcffdecoder.o: ../src/pdfcffdecoder.cpp
@@ -427,6 +468,9 @@ $(OBJDIR)/pdffontvolt.o: ../src/pdffontvolt.cpp
 $(OBJDIR)/pdfform.o: ../src/pdfform.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/pdfgc.o: ../src/pdfgc.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfgradient.o: ../src/pdfgradient.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -485,6 +529,12 @@ $(OBJDIR)/sha512.o: ../src/crypto/sha512.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/unicode_norm.o: ../src/crypto/unicode_norm.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/woff2converter.o: ../src/woff/woff2converter.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/woffconverter.o: ../src/woff/woffconverter.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 

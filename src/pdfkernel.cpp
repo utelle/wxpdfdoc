@@ -3,7 +3,7 @@
 ** Purpose:     Implementation of wxPdfDocument (internal methods)
 ** Author:      Ulrich Telle
 ** Created:     2006-01-27
-** Copyright:   (c) 2006-2024 Ulrich Telle
+** Copyright:   (c) 2006-2025 Ulrich Telle
 ** Licence:     wxWindows licence
 ** SPDX-License-Identifier: LGPL-3.0+ WITH WxWindows-exception-3.1
 */

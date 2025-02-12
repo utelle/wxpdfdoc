@@ -172,6 +172,9 @@ twoEncodings(bool testMode)
   return rc;
 }
 
+// TexturaModern font
+#include "texturamodern.h"
+
 int
 fontSample(bool testMode)
 {
@@ -182,6 +185,10 @@ fontSample(bool testMode)
     pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
     pdf.SetCompression(false);
   }
+
+  wxPdfFontManager::GetFontManager()->RegisterFont("Amaranth-Regular.woff", "Amaranth");
+  wxPdfFontManager::GetFontManager()->RegisterFont("HussarBoldWeb.woff2", "Hussar");
+  wxPdfFontManager::GetFontManager()->RegisterFont((const char*) texturamodern_ttf, texturamodern_ttf_size, "TexturaModern");
 
 #if wxUSE_UNICODE
 #if defined(__WXMSW__) || defined(__WXMAC__)
@@ -206,36 +213,28 @@ fontSample(bool testMode)
     pdf.AddFont(wxS("Vera"),wxS(""),wxS("vera.xml"));
     pdf.SetFont(wxS("Vera"),wxS(""),16);
     pdf.Cell(0,10,wxS("This is the TrueType Unicode font BitstreamVeraSans!"));
-    pdf.Ln(25);
-#endif
+    pdf.Ln(20);
 
-#if wxUSE_UNICODE
     pdf.SetFont(wxS("GFSDidot"),wxS(""),16);
     pdf.Cell(0,10,wxS("And this is OpenType Unicode font GFSDidot:"));
     pdf.Ln(10);
     pdf.Cell(0,10,wxS("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
     pdf.Ln(10);
     pdf.Cell(0,10,wxS("abcdefghijklmnopqrstuvwxyz"));
-    pdf.Ln(25);
+    pdf.Ln(20);
 #endif
 
 #if wxUSE_UNICODE
+    pdf.Ln(10);
     pdf.SetFont(wxS("liz"),wxS(""),16);
     pdf.Cell(0,10,wxS("And this is OpenType font LIZ:"));
     pdf.Ln(10);
     pdf.Cell(0,10,wxS("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
-    pdf.Ln(10);
-
-#if defined(__WXMSW__) || defined(__WXMAC__)
-    // TODO: using wxFont objects does not work in console application under Linux
-    pdf.SetFont(wxS("Normal"),wxS(""),16);
-    pdf.Cell(0,10,wxS("And this is wxFont wxNORMAL_FONT:"));
-    pdf.Ln(10);
-    pdf.Cell(0,10,wxS("abcdefghijklmnopqrstuvwxyz"));
-    pdf.Ln(10);
-#endif
+    pdf.Ln(20);
 #endif
 
+    pdf.SetFont(wxS("Helvetica"), wxS(""), 16);
+    pdf.Cell(0, 10, wxS("And this is font Feta for music notes:"));
     pdf.SetFont(wxS("Feta"),wxS(""),35);
     pdf.SetLineWidth(0.6);
     pdf.Rect(10,150,95,16);
@@ -262,6 +261,28 @@ fontSample(bool testMode)
     pdf.Line(76,159,76,168);
     pdf.Line(90,161,90,151);
     pdf.Line(100,167,100,157);
+
+    pdf.SetXY(20, 175);
+
+#if wxUSE_UNICODE
+#if defined(__WXMSW__) || defined(__WXMAC__)
+    // TODO: using wxFont objects does not work in console application under Linux
+    pdf.SetFont(wxS("Normal"),wxS(""),16);
+    pdf.Cell(0,10,wxS("And this is wxFont wxNORMAL_FONT:"));
+    pdf.Ln(10);
+    pdf.Cell(0,10,wxS("abcdefghijklmnopqrstuvwxyz"));
+    pdf.Ln(20);
+#endif
+#endif
+
+    pdf.SetFont(wxS("Hussar"), wxS(""), 16);
+    pdf.Cell(0, 10, wxS("Enjoy WOFF2 font HussarBoldWeb with wxPdfDocument!"));
+    pdf.Ln(20);
+    pdf.SetFont(wxS("Amaranth"), wxS(""), 25);
+    pdf.Cell(0, 10, wxS("Enjoy WOFF font Amaranth with wxPdfDocument!"));
+    pdf.Ln(20);
+    pdf.SetFont(wxS("TexturaModern"), wxS(""), 30);
+    pdf.Cell(0, 10, wxS("Enjoy byte stream font TexturaModern with wxPdfDocument!"));
 
     pdf.SaveAsFile(wxS("tutorial7.pdf"));
   }

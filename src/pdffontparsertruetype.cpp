@@ -31,6 +31,9 @@
 #include "wx/pdffontparsertruetype.h"
 #include "wx/pdfencoding.h"
 
+#include "woff/woffconverter.h"
+#include "woff/woff2converter.h"
+
 // --- Windows specific loading of TrueType font data
 
 #ifdef __WXMSW__
@@ -87,11 +90,11 @@ static bool
 ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
 {
   bool ok = false;
-  fontData = NULL;
+  fontData = nullptr;
   fontDataSize = 0;
 
   // Check if font is in TrueType collection
-  if (GetFontData(hdc, TTC_FILE, 0, NULL, 0) != GDI_ERROR)
+  if (GetFontData(hdc, TTC_FILE, 0, nullptr, 0) != GDI_ERROR)
   {
     // Extract font data from TTC (TrueType Collection)
     // 1. Read number of tables in the font (ushort value at offset 2)
@@ -142,7 +145,7 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
     // 4. Copying header into target buffer.
     //    Patch offsets with correct values while copying data.
     BYTE* buffer = new BYTE[bufferSize];
-    if (buffer == NULL)
+    if (!buffer)
     {
       delete [] fontHeader;
       wxLogError(wxString(wxS("ExtractFontData: ")) +
@@ -193,11 +196,11 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
   else
   {
     // Check if font is TrueType
-    DWORD bufferSize = GetFontData(hdc, 0, 0, NULL, 0);
+    DWORD bufferSize = GetFontData(hdc, 0, 0, nullptr, 0);
     if (bufferSize != GDI_ERROR)
     {
       BYTE* buffer = new BYTE[bufferSize];
-      if (buffer != NULL)
+      if (buffer)
       {
         ok = (GetFontData(hdc, 0, 0, buffer, bufferSize) != GDI_ERROR);
         if (ok)
@@ -225,7 +228,7 @@ ExtractFontData(HDC hdc, DWORD& fontDataSize, BYTE*& fontData)
 wxMemoryInputStream*
 wxPdfFontParserTrueType::LoadTrueTypeFontStream(const wxFont& font)
 {
-  wxMemoryInputStream* fontStream = NULL;
+  wxMemoryInputStream* fontStream = nullptr;
   LOGFONT lf = font.GetNativeFontInfo()->lf;
 
   HDC hdc = CreateCompatibleDC(0);
@@ -392,44 +395,44 @@ wxPdfFontParserTrueType::wxPdfFontParserTrueType()
 {
   m_tableDirectory = new wxPdfTableDirectory();
   m_isFixedPitch = false;
-  m_cmap10 = NULL;
-  m_cmap31 = NULL;
-  m_cmapExt = NULL;
-  m_kp = NULL;
+  m_cmap10 = nullptr;
+  m_cmap31 = nullptr;
+  m_cmapExt = nullptr;
+  m_kp = nullptr;
   m_isMacCoreText = false;
-  m_savedStream = NULL;
+  m_savedStream = nullptr;
 }
 
 wxPdfFontParserTrueType::~wxPdfFontParserTrueType()
 {
   wxPdfCMap::iterator cMapIter;
-  if (m_cmap10 != NULL)
+  if (m_cmap10)
   {
     for (cMapIter = m_cmap10->begin(); cMapIter != m_cmap10->end(); cMapIter++)
     {
-      if (cMapIter->second != NULL)
+      if (cMapIter->second)
       {
         delete cMapIter->second;
       }
     }
     delete m_cmap10;
   }
-  if (m_cmap31 != NULL)
+  if (m_cmap31)
   {
     for (cMapIter = m_cmap31->begin(); cMapIter != m_cmap31->end(); cMapIter++)
     {
-      if (cMapIter->second != NULL)
+      if (cMapIter->second)
       {
         delete cMapIter->second;
       }
     }
     delete m_cmap31;
   }
-  if (m_cmapExt != NULL)
+  if (m_cmapExt)
   {
     for (cMapIter = m_cmapExt->begin(); cMapIter != m_cmapExt->end(); cMapIter++)
     {
-      if (cMapIter->second != NULL)
+      if (cMapIter->second)
       {
         delete cMapIter->second;
       }
@@ -447,10 +450,10 @@ wxPdfFontParserTrueType::ClearTableDirectory()
   wxPdfTableDirectory::iterator entry = m_tableDirectory->begin();
   for (entry = m_tableDirectory->begin(); entry != m_tableDirectory->end(); entry++)
   {
-    if (entry->second != NULL)
+    if (entry->second)
     {
       delete entry->second;
-      entry->second = NULL;
+      entry->second = nullptr;
     }
   }
 }
@@ -524,7 +527,7 @@ wxPdfFontParserTrueType::GetCollectionFontCount(const wxString& fontFileName)
   wxFileSystem fs;
 
   wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
-  if (fontFile != NULL)
+  if (fontFile)
   {
     m_inFont = fontFile->GetStream();
     m_inFont->SeekI(0);
@@ -548,14 +551,15 @@ wxPdfFontData*
 wxPdfFontParserTrueType::IdentifyFont(const wxString& fontFileName, int fontIndex)
 {
   bool ok = true;
-  wxPdfFontData* fontData = NULL;
+  bool deleteStream = false;
+  wxPdfFontData* fontData = nullptr;
   m_fileName = fontFileName;
   wxFileName fileName(fontFileName);
   wxFileSystem fs;
 
   // Open font file
   wxFSFile* fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
-  if (fontFile != NULL)
+  if (fontFile)
   {
     m_inFont = fontFile->GetStream();
     m_inFont->SeekI(0);
@@ -598,15 +602,41 @@ wxPdfFontParserTrueType::IdentifyFont(const wxString& fontFileName, int fontInde
     }
     else
     {
+      bool isWoff = false;
+      wxMemoryInputStream* fontStream = nullptr;
       m_directoryOffset = 0;
       fontIndex = 0;
+      if (fileName.GetExt().Lower().IsSameAs(wxS("woff")))
+      {
+        isWoff = true;
+        fontStream = WoffConverter::Convert(m_inFont);
+      }
+      else if (fileName.GetExt().Lower().IsSameAs(wxS("woff2")))
+      {
+        isWoff = true;
+        fontStream = Woff2Converter::Convert(m_inFont);
+      }
+      if (isWoff)
+      {
+        if (fontStream)
+        {
+          deleteStream = true;
+          m_inFont = fontStream;
+        }
+        else
+        {
+          wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
+                     wxString::Format(_("Font file '%s' is not a valid WOFF/WOFF2 file."), fontFileName.c_str()));
+          ok = false;
+        }
+      }
     }
 
     // Identify single font
     if (ok)
     {
       fontData = IdentifyFont();
-      if (fontData != NULL)
+      if (fontData)
       {
         fontData->SetFontFileName(m_fileName);
         fontData->SetFontIndex(fontIndex);
@@ -616,6 +646,10 @@ wxPdfFontParserTrueType::IdentifyFont(const wxString& fontFileName, int fontInde
         wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
                    wxString::Format(_("Reading of font directory failed for font file '%s'."), fontFileName.c_str()));
       }
+    }
+    if (deleteStream)
+    {
+      delete m_inFont;
     }
     delete fontFile;
   }
@@ -632,11 +666,11 @@ wxPdfFontData*
 wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
 {
   bool ok = true;
-  wxPdfFontData* fontData = NULL;
+  wxPdfFontData* fontData = nullptr;
   m_fileName = wxEmptyString;
 
   wxMemoryInputStream* fontStream = LoadTrueTypeFontStream(font);
-  if (fontStream != NULL)
+  if (fontStream)
   {
     m_inFont = fontStream;
     m_inFont->SeekI(0);
@@ -647,7 +681,7 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
     if (ok)
     {
       fontData = IdentifyFont();
-      if (fontData != NULL)
+      if (fontData)
       {
         fontData->SetFont(font);
         fontData->SetFontIndex(0);
@@ -673,19 +707,19 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
 wxPdfFontData*
 wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
 {
-  wxPdfFontData* fontData = NULL;
+  wxPdfFontData* fontData = nullptr;
 #if wxPDFMACOSX_HAS_CORE_TEXT
   m_fontRef = font.OSXGetCTFont();
 
   m_isMacCoreText = true;
   m_fileName = wxEmptyString;
 
-  m_inFont = NULL;
+  m_inFont = nullptr;
   m_directoryOffset = 0;
 
   // Identify single font
   fontData = IdentifyFont();
-  if (fontData != NULL)
+  if (fontData)
   {
     fontData->SetFont(font);
     fontData->SetFontIndex(0);
@@ -701,9 +735,39 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
 #endif
 
 wxPdfFontData*
+wxPdfFontParserTrueType::IdentifyFont(const char* fontBuffer, size_t fontBufferSize)
+{
+  bool ok = true;
+  wxPdfFontData* fontData = nullptr;
+  m_fileName = wxEmptyString;
+
+  wxMemoryInputStream* fontStream = new wxMemoryInputStream(fontBuffer, fontBufferSize);
+
+  m_inFont = fontStream;
+  m_inFont->SeekI(0);
+  m_directoryOffset = 0;
+
+  fontData = IdentifyFont();
+  if (fontData)
+  {
+    fontData->SetFontBuffer(fontBuffer);
+    fontData->SetFontBufferSize(fontBufferSize);
+    fontData->SetFontIndex(0);
+  }
+  else
+  {
+    wxLogError(wxString(wxS("wxPdfFontParserTrueType::IdentifyFont: ")) +
+               wxString(_("Reading of font directory failed for font buffer with size '%lu'."), (unsigned long) fontBufferSize));
+  }
+
+  delete fontStream;
+  return fontData;
+}
+
+wxPdfFontData*
 wxPdfFontParserTrueType::IdentifyFont()
 {
-  wxPdfFontData* fontData = NULL;
+  wxPdfFontData* fontData = nullptr;
 #if wxUSE_UNICODE
   if (ReadTableDirectory())
   {
@@ -742,11 +806,11 @@ bool
 wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
 {
   bool ok = false;
-  if (fontData != NULL)
+  if (fontData)
   {
-    wxFSFile* fontFile = NULL;
-    wxMemoryInputStream* fontStream = NULL;
-    m_inFont = NULL;
+    wxFSFile* fontFile = nullptr;
+    wxMemoryInputStream* fontStream = nullptr;
+    m_inFont = nullptr;
     int fontIndex = fontData->GetFontIndex();
     m_fileName = fontData->GetFontFileName();
     m_fontName = fontData->GetName();
@@ -755,37 +819,59 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
       wxFileName fileName(m_fileName);
       wxFileSystem fs;
       fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
-      if (fontFile != NULL)
+      if (fontFile)
       {
         m_inFont = fontFile->GetStream();
-      }
-    }
-    else
-    {
-#if defined(__WXMSW__)
-      wxFont font = fontData->GetFont();
-      if (font.IsOk())
-      {
-        fontStream = LoadTrueTypeFontStream(font);
-        if (fontStream != NULL)
+        if (fileName.GetExt().Lower().IsSameAs(wxS("woff")))
+        {
+          fontStream = WoffConverter::Convert(m_inFont);
+        }
+        else if (fileName.GetExt().Lower().IsSameAs(wxS("woff2")))
+        {
+          fontStream = Woff2Converter::Convert(m_inFont);
+        }
+        if (fontStream)
         {
           m_inFont = fontStream;
         }
       }
-#elif defined(__WXMAC__)
-#if wxPDFMACOSX_HAS_CORE_TEXT
-      wxFont font = fontData->GetFont();
-      if (font.IsOk())
+    }
+    else
+    {
+      const char* fontBuffer = fontData->GetFontBuffer();
+      size_t fontBufferSize = fontData->GetFontBufferSize();
+      if (fontBuffer && fontBufferSize > 0)
       {
-        m_fontRef = font.OSXGetCTFont();
-        m_isMacCoreText = true;
-        fontStream = new wxMemoryInputStream("dummy", 5);
+        fontStream = new wxMemoryInputStream(fontBuffer, fontBufferSize);
         m_inFont = fontStream;
       }
+      else
+      {
+#if defined(__WXMSW__)
+        wxFont font = fontData->GetFont();
+        if (font.IsOk())
+        {
+          fontStream = LoadTrueTypeFontStream(font);
+          if (fontStream)
+          {
+            m_inFont = fontStream;
+          }
+        }
+#elif defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+        wxFont font = fontData->GetFont();
+        if (font.IsOk())
+        {
+          m_fontRef = font.OSXGetCTFont();
+          m_isMacCoreText = true;
+          fontStream = new wxMemoryInputStream("dummy", 5);
+          m_inFont = fontStream;
+        }
 #endif
 #endif
+      }
     }
-    if (m_inFont != NULL)
+    if (m_inFont)
     {
       m_inFont->SeekI(0);
 
@@ -864,11 +950,11 @@ wxPdfFontParserTrueType::LoadFontData(wxPdfFontData* fontData)
                      wxString::Format(_("Reading of font directory failed for font file '%s'."), m_fileName.c_str()));
         }
       }
-      if (fontFile != NULL)
+      if (fontFile)
       {
         delete fontFile;
       }
-      if (fontStream != NULL)
+      if (fontStream)
       {
         delete fontStream;
       }
@@ -897,13 +983,13 @@ wxPdfFontParserTrueType::PrepareFontData(wxPdfFontData* fontData)
     wxPdfChar2GlyphMap* glyphs = new wxPdfChar2GlyphMap();
 
     wxPdfCMap* cMap;
-    if (m_cmapExt != NULL)
+    if (m_cmapExt)
       cMap = m_cmapExt;
-    else if (!m_fontSpecific && m_cmap31 != NULL)
+    else if (!m_fontSpecific && m_cmap31)
       cMap = m_cmap31;
-    else if (m_fontSpecific && m_cmap10 != NULL)
+    else if (m_fontSpecific && m_cmap10)
       cMap = m_cmap10;
-    else if (m_cmap31 != NULL)
+    else if (m_cmap31)
       cMap = m_cmap31;
     else
       cMap = m_cmap10;
@@ -1009,7 +1095,7 @@ static const wxStringCharType* checkTableNames[] = {
   wxS("cmap"), wxS("head"), wxS("hhea"), wxS("hmtx"), wxS("name"),
   wxS("post"),
   wxS("glyf"), wxS("loca"),
-  NULL
+  nullptr
 };
 
 bool
@@ -1018,7 +1104,7 @@ wxPdfFontParserTrueType::CheckTables()
   bool ok = true;
   int maxTableCount = (m_tableDirectory->find(wxS("CFF ")) == m_tableDirectory->end()) ? 8 : 6;
   int tableCount = 0;
-  while (ok && tableCount < maxTableCount && checkTableNames[tableCount] != NULL)
+  while (ok && tableCount < maxTableCount && checkTableNames[tableCount])
   {
     if (m_tableDirectory->find(checkTableNames[tableCount]) == m_tableDirectory->end())
     {
@@ -1114,7 +1200,7 @@ wxPdfFontParserTrueType::GetBaseFont()
     }
     if (fontName.IsEmpty())
     {
-      wxFileName::SplitPath(m_fileName, NULL, &fontName, NULL);
+      wxFileName::SplitPath(m_fileName, nullptr, &fontName, nullptr);
       fontName.Replace(wxS(" "), wxS("-"));
     }
     ReleaseTable();
@@ -1442,7 +1528,7 @@ wxPdfFontParserTrueType::ReadMaps()
   flags |= m_fontSpecific ? 4 : 32;
   m_fd.SetFlags(flags);
 
-  bool ok = (m_cmap10 != NULL) || (m_cmap31 != NULL) || (m_cmapExt != NULL);
+  bool ok = m_cmap10 || m_cmap31 || m_cmapExt;
   if (!ok)
   {
     wxLogError(wxString(wxS("wxPdfFontParserTrueType::ReadMaps: ")) +
@@ -1622,7 +1708,7 @@ wxPdfFontParserTrueType::ReadKerning(int unitsPerEm)
     tableLocation = entry->second;
     LockTable(wxS("kern"));
     m_kp = new wxPdfKernPairMap();
-    wxPdfKernWidthMap* kwMap = NULL;
+    wxPdfKernWidthMap* kwMap = nullptr;
     wxPdfKernWidthMap::iterator kw;
     wxUint32 u1, u2;
     wxUint32 u1prev = 0;

@@ -313,6 +313,8 @@ public:
 #if wxUSE_UNICODE
   wxPdfFont RegisterFont(const wxFont& font, const wxString& aliasName = wxEmptyString);
 
+  wxPdfFont RegisterFont(const char* fontData, size_t fontDataSize, const wxString& aliasName = wxEmptyString);
+
   int RegisterFontCollection(const wxString& fontCollectionFileName);
 #endif
 
@@ -550,7 +552,8 @@ wxPdfFontManagerBase::RegisterFont(const wxString& fontFileName, const wxString&
   {
     wxFileName fileName(fullFontFileName);
     wxString ext = fileName.GetExt().Lower();
-    if (ext.IsSameAs(wxS("ttf")) || ext.IsSameAs(wxS("otf")) || ext.IsSameAs(wxS("ttc")))
+    if (ext.IsSameAs(wxS("ttf")) || ext.IsSameAs(wxS("otf")) || ext.IsSameAs(wxS("ttc")) ||
+        ext.IsSameAs(wxS("woff")) || ext.IsSameAs(wxS("woff2")))
     {
 #if wxUSE_UNICODE
       // TrueType font, OpenType font, or TrueType collection
@@ -809,6 +812,25 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
   wxLogError(wxString(wxS("wxPdfFontManagerBase::RegisterFont: ")) +
              wxString(_("Method 'RegisterFont' for wxFont instances is not available for your platform.")));
 #endif
+  return regFont;
+}
+
+wxPdfFont
+wxPdfFontManagerBase::RegisterFont(const char* fontBuffer, size_t fontBufferSize, const wxString& aliasName)
+{
+  wxPdfFont regFont;
+  wxPdfFontParserTrueType fontParser;
+  wxPdfFontData* fontData = fontParser.IdentifyFont(fontBuffer, fontBufferSize);
+  if (fontData)
+  {
+    fontData->SetAlias(aliasName);
+    if (!AddFont(fontData, regFont))
+    {
+      wxLogDebug(wxString(wxS("wxPdfFontManagerBase::RegisterFont: ")) +
+                 wxString::Format(_("wxFont '%s' already registered."), fontData->GetName().c_str()));
+      delete fontData;
+    }
+  }
   return regFont;
 }
 
@@ -1721,6 +1743,19 @@ wxPdfFontManager::RegisterFont(const wxFont& font, const wxString& aliasName)
   return m_fontManagerBase->RegisterFont(font, aliasName);
 #else
   wxUnusedVar(font);
+  wxUnusedVar(aliasName);
+  return wxPdfFont();
+#endif
+}
+
+wxPdfFont
+wxPdfFontManager::RegisterFont(const char* fontData, size_t fontDataSize, const wxString& aliasName)
+{
+#if wxUSE_UNICODE
+  return m_fontManagerBase->RegisterFont(fontData, fontDataSize, aliasName);
+#else
+  wxUnusedVar(fontData);
+  wxUnusedVar(fontDataSize);
   wxUnusedVar(aliasName);
   return wxPdfFont();
 #endif

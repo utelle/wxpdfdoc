@@ -98,7 +98,7 @@ public:
   */
   wxPdfFont RegisterFont(const wxString& fontFileName, const wxString& aliasName = wxEmptyString, int fontIndex = 0);
 
-  /// Register a font basedon a wxFont object
+  /// Register a font based on a wxFont object
   /**
   * Register a font based on a wxFont object for later use in creating a PDF document.
   * \param font the wxFont object to be registered
@@ -106,6 +106,20 @@ public:
   * \return the registered font
   */
   wxPdfFont RegisterFont(const wxFont& font, const wxString& aliasName = wxEmptyString);
+
+  /// Register a font based on a font data buffer
+  /**
+  * Register a font based on a font data buffer for later use in creating a PDF document.
+  *
+  * \note The registered font will not take ownership of the font data buffer.
+  * That is, the buffer must be accessible during the life time of the font.
+  *
+  * \param fontData the font data buffer holding a TrueType or OpenType font
+  * \param fontDataSize the size of the font data buffer
+  * \param aliasName an alias name for the font family (default: no alias)
+  * \return the registered font
+  */
+  wxPdfFont RegisterFont(const char* fontData, size_t fontDataSize, const wxString& aliasName = wxEmptyString);
 
   /// Register a font collection
   /**

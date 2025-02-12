@@ -1,0 +1,508 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:        pdfimagewmf.cpp
+// Purpose:     Implementation of wxPdfImage classes
+// Author:      Ulrich Telle
+// Created:     2005-08-11
+// Copyright:   (c) Ulrich Telle
+// Licence:     wxWindows licence
+///////////////////////////////////////////////////////////////////////////////
+
+/// \file pdfimagewmf.cpp Implementation of the wxPdfImage class
+
+// For compilers that support precompilation, includes <wx/wx.h>.
+#include <wx/wxprec.h>
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#ifndef WX_PRECOMP
+#include <wx/wx.h>
+#endif
+
+#include <wx/uri.h>
+#include <wx/url.h>
+#include <wx/gifdecod.h>
+#include <wx/wfstream.h>
+#include <wx/zstream.h>
+
+#include "wx/pdfdocument.h"
+#include "wx/pdfimage.h"
+#include "wx/pdfutility.h"
+
+#if 0
+bool
+wxPdfImage::Parse()
+{
+  // Check whether this image originated from an wxImage and is valid
+  if (m_fromWxImage) return m_validWxImage;
+
+  bool isValid = false;
+
+  if (m_imageStream)
+  {
+    if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("png"))) ||
+        m_type == wxS("png"))
+    {
+      isValid = ParsePNG(m_imageStream);
+    }
+    else if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("jpeg"))) ||
+             m_type == wxS("jpeg") || m_type == wxS("jpg"))
+    {
+      isValid = ParseJPG(m_imageStream);
+    }
+#if wxUSE_GIF
+    else if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("gif"))) ||
+             m_type == wxS("gif"))
+    {
+      isValid = ParseGIF(m_imageStream);
+    }
+#endif // wxUSE_GIF
+    else
+    {
+      if ((m_type.StartsWith(wxS("image/")) && m_type.EndsWith(wxS("wmf"))) ||
+          m_type == wxS("wmf") || m_name.Right(2) == wxS(".wmf"))
+      {
+        m_isFormObj = true;
+        isValid = ParseWMF(m_imageStream);
+      }
+    }
+    if (m_imageFile != NULL)
+    {
+      delete m_imageFile;
+      m_imageFile = NULL;
+    }
+  }
+  return isValid;
+}
+#endif
+
+// --- Parse WMF image file ---
+
+/// Class representing GDI objects while parsing WMF files. (For internal use only)
+class GdiObject
+{
+public:
+  char           type;
+  short          style;
+  unsigned char  r;
+  unsigned char  g;
+  unsigned char  b;
+  unsigned char  a;
+  unsigned short hatch;
+  double         width;
+};
+
+static void
+AddGdiObject(wxArrayPtrVoid& gdiObjects, void* obj)
+{
+  // find next available slot
+  size_t idx;
+  size_t n = gdiObjects.GetCount();
+  for (idx = 0; idx < n; idx++)
+  {
+    if (gdiObjects[idx] == NULL) break;
+  }
+  if (idx < n)
+  {
+    gdiObjects[idx] = obj;
+  }
+  else
+  {
+    gdiObjects.Add(obj);
+  }
+}
+
+bool
+wxPdfImage::ParseWMF(wxInputStream* imageStream)
+{
+  bool isValid = false;
+  char buffer[64];
+
+  wxArrayPtrVoid gdiObjects;
+
+  // check for Aldus placeable metafile header
+  unsigned int key = ReadIntLE(imageStream);
+  int headSize = 18 - 4; // WMF header minus four bytes already read
+  if (key == 0x9AC6CDD7)
+  {
+    headSize += 22; // Aldus header
+  }
+
+  // strip headers
+  imageStream->Read(buffer, headSize);
+
+  // define some state variables
+  short polyFillMode = 0;
+  bool nullPen = false;
+  bool nullBrush = false;
+  bool endRecord = false;
+
+  wxString data = wxEmptyString;
+  wxString op;
+  // read the records
+  unsigned int size;
+  unsigned short func;
+  unsigned short idx;
+  short wo[2] = { 0, 0 };
+  short we[2] = { 0, 0 };
+  short dashArray[8];
+  size_t lenDashArray;
+  size_t i;
+  short j, k, px, py;
+  GdiObject* obj = NULL;
+  while (!imageStream->Eof() && !endRecord)
+  {
+    // size of record given in WORDs (= 2 bytes)
+    size = ReadUIntLE(imageStream);
+    // func is number of GDI function
+    func = ReadUShortLE(imageStream);
+
+    // parameters are read and processed
+    // as necessary by the case statement below.
+    // NB. parameters to GDI functions are stored in reverse order
+    // however structures are not reversed,
+    // e.g. POINT { int x, int y } where x=3000 (0x0BB8) and y=-1200 (0xFB50)
+    // is stored as B8 0B 50 FB
+
+    // process each record.
+    // function numbers are defined in wingdi.h
+    switch (func)
+    {
+      case 0x020b:  // SetWindowOrg
+        // do not allow window origin to be changed
+        // after drawing has begun
+        if (data.Length() == 0)
+        {
+          wo[1] = ReadShortLE(imageStream);
+          wo[0] = ReadShortLE(imageStream);
+        }
+        break;
+
+      case 0x020c:  // SetWindowExt
+        // do not allow window extent to be changed
+        // after drawing has begun
+        if (data.Length() == 0)
+        {
+          we[1] = ReadShortLE(imageStream);
+          we[0] = ReadShortLE(imageStream);
+        }
+        break;
+
+      case 0x02fc:  // CreateBrushIndirect
+        {
+          GdiObject* brush = new GdiObject();
+          brush->style = ReadShortLE(imageStream);
+          imageStream->Read(&brush->r, 1);
+          imageStream->Read(&brush->g, 1);
+          imageStream->Read(&brush->b, 1);
+          imageStream->Read(&brush->a, 1);
+          brush->hatch = ReadUShortLE(imageStream);
+          brush->type = 'B';
+          AddGdiObject(gdiObjects, brush);
+        }
+        break;
+
+      case 0x02fa:  // CreatePenIndirect
+        {
+          GdiObject* pen = new GdiObject();
+          pen->style = ReadShortLE(imageStream);
+          short width = ReadShortLE(imageStream);
+          /* short dummy = */ ReadShortLE(imageStream);
+          imageStream->Read(&pen->r, 1);
+          imageStream->Read(&pen->g, 1);
+          imageStream->Read(&pen->b, 1);
+          imageStream->Read(&pen->a, 1);
+
+          // convert width from twips to user unit
+          pen->width = width / (20 * m_document->m_k);
+          pen->type = 'P';
+          AddGdiObject(gdiObjects, pen);
+        }
+        break;
+
+      // MUST create other GDI objects even if we don't handle them
+      // otherwise object numbering will get out of sequence
+      case 0x06fe: // CreateBitmap
+      case 0x02fd: // CreateBitmapIndirect
+      case 0x00f8: // CreateBrush
+      case 0x02fb: // CreateFontIndirect
+      case 0x00f7: // CreatePalette
+      case 0x01f9: // CreatePatternBrush
+      case 0x06ff: // CreateRegion
+      case 0x0142: // DibCreatePatternBrush
+        {
+          GdiObject* dummy = new GdiObject();
+          dummy->type = 'D';
+          AddGdiObject(gdiObjects, dummy);
+        }
+        break;
+
+      case 0x0106:  // SetPolyFillMode
+        polyFillMode = ReadShortLE(imageStream);
+        break;
+
+      case 0x01f0:  // DeleteObject
+        {
+          idx = ReadUShortLE(imageStream);
+          delete ((GdiObject*) gdiObjects[idx]);
+          gdiObjects[idx] = NULL;
+        }
+        break;
+
+      case 0x012d:  // SelectObject
+        {
+          idx = ReadUShortLE(imageStream);
+          obj = (GdiObject*) gdiObjects[idx];
+
+          switch (obj->type)
+          {
+            case 'B':
+              nullBrush = false;
+
+              if (obj->style == 1) // BS_NULL, BS_HOLLOW
+              {
+                nullBrush = true;
+              }
+              else
+              {
+                data += wxPdfUtility::Double2String(obj->r/255.,3) + wxString(wxS(" "));
+                data += wxPdfUtility::Double2String(obj->g/255.,3) + wxString(wxS(" "));
+                data += wxPdfUtility::Double2String(obj->b/255.,3) + wxString(wxS(" rg\n"));
+              }
+              break;
+
+            case 'P':
+              nullPen = false;
+              lenDashArray = 0;
+
+              // dash parameters are my own - feel free to change them
+              switch (obj->style)
+              {
+                case 0: // PS_SOLID
+                  break;
+                case 1: // PS_DASH
+                  dashArray[0] = 3;
+                  dashArray[1] = 1;
+                  lenDashArray = 2;
+                  break;
+                case 2: // PS_DOT
+                  dashArray[0] = 0;
+                  dashArray[1] = 5;
+                  dashArray[2] = 0;
+                  dashArray[3] = 5;
+                  lenDashArray = 4;
+                  break;
+                case 3: // PS_DASHDOT
+                  dashArray[0] = 2;
+                  dashArray[1] = 1;
+                  dashArray[2] = 0;
+                  dashArray[3] = 5;
+                  dashArray[4] = 1;
+                  lenDashArray = 5;
+                  break;
+                case 4: // PS_DASHDOTDOT
+                  dashArray[0] = 2;
+                  dashArray[1] = 1;
+                  dashArray[2] = 0;
+                  dashArray[3] = 5;
+                  dashArray[4] = 1;
+                  dashArray[5] = 0;
+                  dashArray[6] = 5;
+                  dashArray[7] = 1;
+                  lenDashArray = 8;
+                  break;
+                case 5: // PS_NULL
+                  nullPen = true;
+                  break;
+              }
+
+              if (!nullPen)
+              {
+                data += wxPdfUtility::Double2String(obj->r/255.,3) + wxString(wxS(" "));
+                data += wxPdfUtility::Double2String(obj->g/255.,3) + wxString(wxS(" "));
+                data += wxPdfUtility::Double2String(obj->b/255.,3) + wxString(wxS(" RG\n"));
+
+                data += wxPdfUtility::Double2String(obj->width*m_document->m_k,2) + wxString(wxS(" w\n"));
+              }
+
+              if (lenDashArray > 0)
+              {
+                wxString s = wxS("[");
+                for (i = 0; i < lenDashArray; i++)
+                {
+                  s += wxPdfUtility::Double2String(dashArray[i] * m_document->m_k,4);
+                  if (i != lenDashArray-1)
+                  {
+                    s += wxS(" ");
+                  }
+                }
+                s += wxS("] 0 d\n");
+                data += s;
+              }
+              break;
+          }
+        }
+        break;
+
+      case 0x0325: // Polyline
+      case 0x0324: // Polygon
+        {
+          short* coords = new short[size-3];
+          for (i = 0; i < size-3; i++)
+          {
+            coords[i] = ReadShortLE(imageStream);
+          }
+          short numpoints = coords[0];
+
+          for (k = numpoints; k > 0; k--)
+          {
+            px = coords[2*k-1];
+            py = coords[2*k];
+
+            if (k < numpoints)
+            {
+              data += wxString::Format(wxS("%d %d l\n"), (int) px, (int) py);
+            }
+            else
+            {
+              data += wxString::Format(wxS("%d %d m\n"), (int) px, (int) py);
+            }
+          }
+
+          if (func == 0x0325)
+          {
+            op = wxS("s");
+          }
+          else if (func == 0x0324)
+          {
+            if (nullPen)
+            {
+              if (nullBrush)
+              {
+                op = wxS("n");  // no op
+              }
+              else
+              {
+                op = wxS("f");  // fill
+              }
+            }
+            else
+            {
+              if (nullBrush)
+              {
+                op = wxS("s");  // stroke
+              }
+              else
+              {
+                op = wxS("b");  // stroke and fill
+              }
+            }
+
+            if (polyFillMode == 1 && (op == wxS("b") || op == wxS("f")))
+            {
+              op += wxS("*");  // use even-odd fill rule
+            }
+          }
+          data += op + wxS("\n");
+          delete [] coords;
+        }
+        break;
+
+      case 0x0538: // PolyPolygon
+        {
+          short* coords = new short[size-3];
+          for (i = 0; i < size-3; i++)
+          {
+            coords[i] = ReadShortLE(imageStream);
+          }
+          short numpolygons = coords[0];
+
+          short adjustment = numpolygons;
+
+          for (j = 1; j <= numpolygons; j++)
+          {
+            short numpoints = coords[j + 1];
+
+            for (k = numpoints; k > 0; k--)
+            {
+              px = coords[2*k-1 + adjustment];
+              py = coords[2*k   + adjustment];
+
+              if (k == numpoints)
+              {
+                data += wxString::Format(wxS("%d %d m\n"), (int) px, (int) py);
+              }
+              else
+              {
+                data += wxString::Format(wxS("%d %d m\n"), (int) px, (int) py);
+              }
+            }
+
+            adjustment += numpoints * 2;
+          }
+
+          if (nullPen)
+          {
+            if (nullBrush)
+            {
+              op = wxS("n");  // no op
+            }
+            else
+            {
+              op = wxS("f");  // fill
+            }
+          }
+          else
+          {
+            if (nullBrush)
+            {
+              op = wxS("s");  // stroke
+            }
+            else
+            {
+              op = wxS("b");  // stroke and fill
+            }
+          }
+
+          if (polyFillMode == 1 && (op == wxS("b") || op == wxS("f")))
+          {
+            op += wxS("*");  // use even-odd fill rule
+          }
+
+          data += op + wxS("\n");
+          delete [] coords;
+        }
+        break;
+
+      case 0x0000:
+        endRecord = true;
+        isValid = true;
+        break;
+      default:
+        if (size > 3)
+        {
+          imageStream->SeekI(2*(size-3), wxFromCurrent);
+        }
+        break;
+    }
+  }
+
+  for (i = 0; i < gdiObjects.GetCount(); i++)
+  {
+    if (gdiObjects[i] != NULL)
+    {
+      delete ((GdiObject*) gdiObjects[i]);
+    }
+  }
+  m_x = wo[0];
+  m_y = wo[1];
+  m_width = we[0];
+  m_height = we[1];
+
+  wxCharBuffer wcb(data.ToAscii());
+  m_dataSize = (unsigned int) data.Length();
+  m_data = new char[m_dataSize];
+  memcpy(m_data, (const char*) wcb, m_dataSize);
+  return isValid;
+}

@@ -61,7 +61,7 @@ protection2(bool testMode)
     pdf.SetCreationDate(wxDateTime(1, wxDateTime::Jan, 2017));
     pdf.SetCompression(false);
   }
-  pdf.SetProtection(wxPDF_PERMISSION_NONE, wxS("Hello"), wxS("World"), wxPDF_ENCRYPTION_RC4V2, 128);
+  pdf.SetProtection(wxPDF_PERMISSION_NONE, wxS("Hello"), wxS("World"), wxPDF_ENCRYPTION_AESV3R6, 256);
   pdf.Open();
   pdf.AddPage();
   pdf.SetFont(wxS("Helvetica"));

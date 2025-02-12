@@ -1,6 +1,6 @@
 -- wxPdfDocument configuration file for premake5
 --
--- Copyright (C) 2017-2021 Ulrich Telle <ulrich@telle-online.de>
+-- Copyright (C) 2017-2025 Ulrich Telle <github@telle-online.de>
 --
 -- This file is covered by the same licence as the entire wxpdfdoc package. 
 
@@ -47,14 +47,25 @@ project "wxpdfdoc"
   make_filters( "PDFDOC", "wxpdfdoc", "core,xml" )
 
   files { "src/*.cpp", "src/*.inc", "src/*.rc", "include/wx/*.h",
-          "src/crypto/*.cpp", "src/crypto/*.h"  }
+          "src/crypto/*.cpp", "src/crypto/*.h",
+          "src/woff/*.cpp", "src/woff/*.h"
+        }
   vpaths {
     ["Header Files"] = { "**.h", "**.inc" },
     ["Source Files"] = { "**.cpp", "**.rc" }
   }
-  includedirs { "include" }
+  includedirs { "include",
+                "thirdparty/woff2/include",
+                "thirdparty/zint/backend/fonts",
+                "thirdparty/zint/backend"
+              }
   characterset "Unicode"
+  links { "libwoff2", "libzint" }
 
+-- Third party libraries
+
+dofile "premake5_woff2.lua"
+dofile "premake5_zint.lua"
 
 -- Minimal sample
 project "minimal"

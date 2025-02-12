@@ -19,12 +19,12 @@ creation of simple drawings.
 
 ## Version information
 
-* 1.2.1 - *January 2025*
-  - Improved font lookup in wxPdfFontManager to search also under the font family alias, if given
-  - Replaced use of wxScreenDC by wxDisplay
-  - Restored support for wxWidgets 3.0.x
-  - Check for availability of header file "Security/SecRandom.h" (fix issue #94)
-  - Fixed wxPdfDCImpl::DoDrawText for multiline text
+* 1.3.0 - *February 2025*
+  - Added support for fonts in _Web Open Font Format_ (WOFF/WOFF2)
+  - Added support for TrueType/OpenType fonts given as byte arrays
+  - Added support for additional barcodes (especially 2D barcodes like QR code, DataMatrix etc).
+    In principle, all barcodes supported by the [**Zint library**](https://zint.org.uk/) can be used.
+  - Fixed wxPdfDocument::Translate by adding missing unit conversion factor
 
 For further version information please consult the [CHANGELOG](CHANGELOG.md).
  

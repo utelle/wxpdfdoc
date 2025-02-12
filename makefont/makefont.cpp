@@ -89,8 +89,8 @@ protected:
   bool ReadMap(const wxString& enc, CTGMap& cc2gn);
   short ReadShort(wxInputStream* stream);
   int ReadInt(wxInputStream* stream);
-  void CheckTTF(const wxString& fileName,
-                bool& embeddingAllowed, bool& subsettingAllowed,
+  void CheckTTF(const wxString& fileName, 
+                bool& embeddingAllowed, bool& subsettingAllowed, 
                 int& cffOffset, int& cffLength);
   void CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font, bool includeGlyphInfo);
 
@@ -295,11 +295,7 @@ MakeFont::CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font
   const wxPdfFontDescription& fd = font.GetDescription();
 
   wxXmlNode* rootNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("wxpdfdoc-font-metrics"));
-#if wxCHECK_VERSION(2,9,0)
   rootNode->AddAttribute(wxS("type"), font.GetType() /*wxS("TrueTypeUnicode")*/);
-#else
-  rootNode->AddProperty(wxS("type"), font.GetType() /*wxS("TrueTypeUnicode")*/);
-#endif
   wxXmlNode* node;
   wxXmlNode* textNode;
 
@@ -354,12 +350,12 @@ MakeFont::CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font
   textNode = new wxXmlNode(wxXML_TEXT_NODE, wxS("text"), wxString::Format(wxS("%d"), fd.GetMissingWidth()));
   node->AddChild(textNode);
   descNode->AddChild(node);
-
+  
   node = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("x-height"));
   textNode = new wxXmlNode(wxXML_TEXT_NODE, wxS("text"), wxString::Format(wxS("%d"), fd.GetXHeight()));
   node->AddChild(textNode);
   descNode->AddChild(node);
-
+  
   node = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("underline-position"));
   textNode = new wxXmlNode(wxXML_TEXT_NODE, wxS("text"), wxString::Format(wxS("%d"), fd.GetUnderlinePosition()));
   node->AddChild(textNode);
@@ -378,47 +374,26 @@ MakeFont::CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font
   rootNode->AddChild(node);
 
   node = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("file"));
-#if wxCHECK_VERSION(2,9,0)
   node->AddAttribute(wxS("name"), font.GetFontFile());
-#else
-  node->AddProperty(wxS("name"), font.GetFontFile());
-#endif
   wxString fontType = font.GetType();
   if (fontType == wxS("TrueTypeUnicode") || fontType == wxS("OpenTypeUnicode"))
   {
     // TrueTypeUnicode (name,ctg,originalsize)
-#if wxCHECK_VERSION(2,9,0)
     node->AddAttribute(wxS("ctg"), font.GetCtgFile());
     node->AddAttribute(wxS("originalsize"), wxString::Format(wxS("%d"), font.GetSize1()));
-#else
-    node->AddProperty(wxS("ctg"), font.GetCtgFile());
-    node->AddProperty(wxS("originalsize"), wxString::Format(wxS("%d"), font.GetSize1()));
-#endif
   }
   else if (fontType == wxS("TrueType"))
   {
     // Truetype (name, originalsize)
-#if wxCHECK_VERSION(2,9,0)
     node->AddAttribute(wxS("originalsize"), wxString::Format(wxS("%d"), font.GetSize1()));
-#else
-    node->AddProperty(wxS("originalsize"), wxString::Format(wxS("%d"), font.GetSize1()));
-#endif
   }
   else if  (fontType == wxS("Type1"))
   {
     // Type1 (name, size1, size2)
-#if wxCHECK_VERSION(2,9,0)
     node->AddAttribute(wxS("size1"), wxString::Format(wxS("%d"), font.GetSize1()));
-#else
-    node->AddProperty(wxS("size1"), wxString::Format(wxS("%d"), font.GetSize1()));
-#endif
     if (font.HasSize2())
     {
-#if wxCHECK_VERSION(2,9,0)
       node->AddAttribute(wxS("size2"), wxString::Format(wxS("%d"), font.GetSize2()));
-#else
-      node->AddProperty(wxS("size2"), wxString::Format(wxS("%d"), font.GetSize2()));
-#endif
     }
   }
   rootNode->AddChild(node);
@@ -426,11 +401,7 @@ MakeFont::CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font
   wxXmlNode* widthsNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("widths"));
   if (includeGlyphInfo)
   {
-#if wxCHECK_VERSION(2,9,0)
     widthsNode->AddAttribute(wxS("subsetting"), wxS("enabled"));
-#else
-    widthsNode->AddProperty(wxS("subsetting"), wxS("enabled"));
-#endif
   }
 
   wxPdfGlyphWidthMap* widths = (wxPdfGlyphWidthMap*) font.GetGlyphWidthMap();
@@ -445,25 +416,13 @@ MakeFont::CreateFontMetricsFile(const wxString& xmlFileName, wxPdfFontData& font
   for (j = 0; j < idList.GetCount(); j++)
   {
     node = new wxXmlNode(wxXML_ELEMENT_NODE, wxS("char"));
-#if wxCHECK_VERSION(2,9,0)
     node->AddAttribute(wxS("id"), wxString::Format(wxS("%d"), idList[j]));
-#else
-    node->AddProperty(wxS("id"), wxString::Format(wxS("%d"), idList[j]));
-#endif
     if (includeGlyphInfo)
     {
       int glyph = (*glyphs)[idList[j]];
-#if wxCHECK_VERSION(2,9,0)
       node->AddAttribute(wxS("gn"), wxString::Format(wxS("%d"), glyph));
-#else
-      node->AddProperty(wxS("gn"), wxString::Format(wxS("%d"), glyph));
-#endif
     }
-#if wxCHECK_VERSION(2,9,0)
     node->AddAttribute(wxS("width"), wxString::Format(wxS("%d"), (*widths)[idList[j]]));
-#else
-    node->AddProperty(wxS("width"), wxString::Format(wxS("%d"), (*widths)[idList[j]]));
-#endif
     widthsNode->AddChild(node);
   }
   rootNode->AddChild(widthsNode);
@@ -554,7 +513,7 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
   fd.SetMissingWidth(600);
   fd.SetUnderlinePosition(-100);
   fd.SetUnderlineThickness(50);
-
+  
   bool hasCapHeight = false;
   bool hasXCapHeight = false;
   bool hasXHeight = false;
@@ -914,8 +873,8 @@ MakeFont::MakeFontAFM(const wxString& fontFileName, const wxString& afmFileName,
       }
     }
   }
-  afmFont->SetDiffs(diffs);
-
+  afmFont->SetDiffs(diffs);  
+  
   if (cc2gn.empty())
   {
     flags += 1 << 2;
@@ -1165,7 +1124,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
   {
     cc2gn[j] = '\0';
   }
-
+  
   // Read the UFM font metric file
   wxPdfGlyphWidthMap* widths = new wxPdfGlyphWidthMap();
   wxPdfChar2GlyphMap* glyphs = new wxPdfChar2GlyphMap();
@@ -1462,7 +1421,7 @@ MakeFont::MakeFontImmediate(const wxString& fontFileName)
   size_t len = fontStream.GetLength();
 
   int cffOffset, cffLength;
-  bool embeddingAllowed = false;
+  bool embeddingAllowed = false; 
   bool subsettingAllowed = false;
   CheckTTF(fontFileName, embeddingAllowed, subsettingAllowed, cffOffset, cffLength);
   bool cff = cffOffset > 0;
@@ -1494,7 +1453,7 @@ MakeFont::MakeFontImmediate(const wxString& fontFileName)
         {
           wxUint32 cc = ccIter->first;
           wxUint32 gn = ccIter->second;
-          if (cc >= 0 && cc < 0xFFFF)
+          if (cc < 0xFFFF)
           {
             cc2gn[2*cc]   = (gn >> 8) & 0xFF;
             cc2gn[2*cc+1] =  gn       & 0xFF;
@@ -1533,7 +1492,6 @@ MakeFont::MakeFontImmediate(const wxString& fontFileName)
 
 static const wxCmdLineEntryDesc cmdLineDesc[] =
 {
-#if wxCHECK_VERSION(2,9,0)
   { wxCMD_LINE_OPTION, "a", "afm",       "Adobe Font Metric file (AFM)",                    wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 #if wxUSE_UNICODE
   { wxCMD_LINE_OPTION, "u", "ufm",       "Unicode Font Metric file (UFM)",                  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
@@ -1547,21 +1505,6 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, "p", "patch",     "Patch file (for AFM only)",                       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "t", "type",      "Font type (type = otf, ttf or t1, default: ttf)", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "o", "output",    "Path to output directory",                        wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-#else
-  { wxCMD_LINE_OPTION, wxS("a"), wxS("afm"),       wxS("Adobe Font Metric file (AFM)"),                    wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-#if wxUSE_UNICODE
-  { wxCMD_LINE_OPTION, wxS("u"), wxS("ufm"),       wxS("Unicode Font Metric file (UFM)"),                  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_SWITCH, wxS("i"), wxS("immediate"), wxS("Extract font metrics from ttf/otf font file"),     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_OPTION, wxS("f"), wxS("font"),      wxS("Font file (ttf, otf or pfb)"),                     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_OPTION, wxS("v"), wxS("volt"),      wxS("Visual order layout table"),                       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-#else
-  { wxCMD_LINE_OPTION, wxS("f"), wxS("font"),      wxS("Font file (ttf or pfb)"),                          wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-#endif
-  { wxCMD_LINE_OPTION, wxS("e"), wxS("enc"),       wxS("Character encoding of the font (for AFM only)"),   wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_OPTION, wxS("p"), wxS("patch"),     wxS("Patch file (for AFM only)"),                       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_OPTION, wxS("t"), wxS("type"),      wxS("Font type (type = otf, ttf or t1, default: ttf)"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-  { wxCMD_LINE_OPTION, wxS("o"), wxS("output"),    wxS("Path to output directory"),                        wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-#endif
   { wxCMD_LINE_NONE }
 };
 
@@ -1579,7 +1522,7 @@ MakeFont::OnInit()
   bool valid = false;
   //gets the parameters from cmd line
   wxCmdLineParser parser (cmdLineDesc, argc, argv);
-  wxString logo = wxS("wxPdfDocument MakeFont Utility Version ") + m_version +
+  wxString logo = wxS("wxPdfDocument MakeFont Utility Version ") + m_version + 
                   wxS("\n\nCreate wxPdfDocument font support files.\n") +
                   wxS("Please specify file extensions in ALL file name parameters.\n") +
                   wxS("Select exactly one method to provide font metrics.\n");

@@ -303,13 +303,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -325,13 +325,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -347,7 +347,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -356,7 +356,7 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -373,7 +373,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -382,7 +382,7 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -399,13 +399,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -421,13 +421,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -443,7 +443,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -452,7 +452,7 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -469,7 +469,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -478,7 +478,7 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -495,13 +495,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -515,13 +515,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -535,7 +535,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -544,7 +544,7 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -559,7 +559,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -568,7 +568,7 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -583,6 +583,7 @@
     <ClInclude Include="..\include\wx\pdfarraydouble.h" />
     <ClInclude Include="..\include\wx\pdfarraytypes.h" />
     <ClInclude Include="..\include\wx\pdfbarcode.h" />
+    <ClInclude Include="..\include\wx\pdfbarcodezint.h" />
     <ClInclude Include="..\include\wx\pdfbookmark.h" />
     <ClInclude Include="..\include\wx\pdfcffdecoder.h" />
     <ClInclude Include="..\include\wx\pdfcffindex.h" />
@@ -616,6 +617,7 @@
     <ClInclude Include="..\include\wx\pdffontsubsettruetype.h" />
     <ClInclude Include="..\include\wx\pdffontvolt.h" />
     <ClInclude Include="..\include\wx\pdfform.h" />
+    <ClInclude Include="..\include\wx\pdfgc.h" />
     <ClInclude Include="..\include\wx\pdfgradient.h" />
     <ClInclude Include="..\include\wx\pdfgraphics.h" />
     <ClInclude Include="..\include\wx\pdfimage.h" />
@@ -641,6 +643,8 @@
     <ClInclude Include="..\src\crypto\sha512.h" />
     <ClInclude Include="..\src\crypto\unicode_norm.h" />
     <ClInclude Include="..\src\crypto\unicode_norm_table.h" />
+    <ClInclude Include="..\src\woff\woff2converter.h" />
+    <ClInclude Include="..\src\woff\woffconverter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\crypto\random.cpp" />
@@ -651,6 +655,7 @@
     <ClCompile Include="..\src\crypto\unicode_norm.cpp" />
     <ClCompile Include="..\src\pdfannotation.cpp" />
     <ClCompile Include="..\src\pdfbarcode.cpp" />
+    <ClCompile Include="..\src\pdfbarcodezint.cpp" />
     <ClCompile Include="..\src\pdfcffdecoder.cpp" />
     <ClCompile Include="..\src\pdfcffindex.cpp" />
     <ClCompile Include="..\src\pdfcolour.cpp" />
@@ -677,6 +682,7 @@
     <ClCompile Include="..\src\pdffontsubsettruetype.cpp" />
     <ClCompile Include="..\src\pdffontvolt.cpp" />
     <ClCompile Include="..\src\pdfform.cpp" />
+    <ClCompile Include="..\src\pdfgc.cpp" />
     <ClCompile Include="..\src\pdfgradient.cpp" />
     <ClCompile Include="..\src\pdfgraphics.cpp" />
     <ClCompile Include="..\src\pdfimage.cpp" />
@@ -691,6 +697,8 @@
     <ClCompile Include="..\src\pdftemplate.cpp" />
     <ClCompile Include="..\src\pdfutility.cpp" />
     <ClCompile Include="..\src\pdfxml.cpp" />
+    <ClCompile Include="..\src\woff\woff2converter.cpp" />
+    <ClCompile Include="..\src\woff\woffconverter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\pdfcjkfontdata.inc" />
@@ -703,6 +711,14 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\pdfdoc_version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="libwoff2_vc14.vcxproj">
+      <Project>{00935DA7-EC5F-B8B2-1579-A65A01A5ED40}</Project>
+    </ProjectReference>
+    <ProjectReference Include="libzint_vc14.vcxproj">
+      <Project>{C1FD7079-2DDD-EF14-36F5-7AEBA2535676}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

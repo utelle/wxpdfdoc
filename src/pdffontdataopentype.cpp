@@ -31,14 +31,17 @@
 
 #include "wx/pdffontsubsetcff.h"
 
+#include "woff/woffconverter.h"
+#include "woff/woff2converter.h"
+
 #if wxUSE_UNICODE
 
 wxPdfFontDataOpenTypeUnicode::wxPdfFontDataOpenTypeUnicode()
   : wxPdfFontData()
 {
   m_type = wxS("OpenTypeUnicode");
-  m_gw   = NULL;
-  m_conv = NULL;
+  m_gw   = nullptr;
+  m_conv = nullptr;
   m_cff = true;
 
   m_embedRequired = true;
@@ -49,11 +52,11 @@ wxPdfFontDataOpenTypeUnicode::wxPdfFontDataOpenTypeUnicode()
 wxPdfFontDataOpenTypeUnicode::~wxPdfFontDataOpenTypeUnicode()
 {
   // delete m_cw;
-  if (m_conv != NULL)
+  if (m_conv)
   {
     delete m_conv;
   }
-  if (m_gw != NULL)
+  if (m_gw)
   {
     delete m_gw;
   }
@@ -62,7 +65,7 @@ wxPdfFontDataOpenTypeUnicode::~wxPdfFontDataOpenTypeUnicode()
 void
 wxPdfFontDataOpenTypeUnicode::CreateDefaultEncodingConv()
 {
-  if (m_conv == NULL)
+  if (!m_conv)
   {
     m_conv = new wxMBConvUTF16BE();
   }
@@ -189,7 +192,7 @@ wxPdfFontDataOpenTypeUnicode::LoadFontMetrics(wxXmlNode* root)
       m_initialized = fileName.MakeAbsolute(m_path) && fileName.FileExists() && fileName.IsFileReadable();
     }
   }
-  if (m_initialized && m_gn == NULL)
+  if (m_initialized && !m_gn)
   {
     // We now always need a cid to gid mapping whether subsetting is enabled or not
     // So we read the CTG file produced by MakeFont and create the map
@@ -198,7 +201,7 @@ wxPdfFontDataOpenTypeUnicode::LoadFontMetrics(wxXmlNode* root)
     fileName.MakeAbsolute(m_path);
     wxFileSystem fs;
     wxFSFile* ctgFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
-    wxInputStream* ctgStream = NULL;
+    wxInputStream* ctgStream = nullptr;
     if (ctgFile)
     {
       ctgStream = ctgFile->GetStream();
@@ -213,7 +216,7 @@ wxPdfFontDataOpenTypeUnicode::LoadFontMetrics(wxXmlNode* root)
     if (ctgStream)
     {
       size_t ctgLen;
-      unsigned char* cc2gn = NULL;
+      unsigned char* cc2gn = nullptr;
       if (compressed)
       {
         wxZlibInputStream zin(*ctgStream);
@@ -266,7 +269,7 @@ wxPdfFontDataOpenTypeUnicode::Initialize()
 void
 wxPdfFontDataOpenTypeUnicode::SetGlyphWidths(const wxPdfArrayUint16& glyphWidths)
 {
-  if (m_gw == NULL)
+  if (!m_gw)
   {
     m_gw = new wxPdfArrayUint16();
   }
@@ -332,7 +335,7 @@ wxPdfFontDataOpenTypeUnicode::ConvertCID2GID(const wxString& s,
                                              wxPdfChar2GlyphMap* subsetGlyphs) const
 {
   wxUnusedVar(encoding);
-  bool doSubsetting = usedGlyphs != NULL && subsetGlyphs != NULL;
+  bool doSubsetting = usedGlyphs && subsetGlyphs;
   wxString t;
   wxPdfChar2GlyphMap::const_iterator charIter;
   wxUint32 glyph, subsetGlyph;
@@ -375,9 +378,9 @@ wxPdfFontDataOpenTypeUnicode::ConvertGlyph(wxUint32 glyph,
 {
   wxUnusedVar(encoding);
   wxString t = wxEmptyString;
-  if (m_gw != NULL && glyph < m_gw->size())
+  if (m_gw && glyph < m_gw->size())
   {
-    bool doSubsetting = usedGlyphs != NULL && subsetGlyphs != NULL;
+    bool doSubsetting = usedGlyphs && subsetGlyphs;
     wxUint32 subsetGlyph;
     if (doSubsetting)
     {
@@ -420,7 +423,7 @@ wxPdfFontDataOpenTypeUnicode::GetWidthsAsString(bool subset, wxPdfSortedArrayInt
     {
       glyph = 0;
     }
-    if (glyph != 0 && (!subset || usedGlyphs == NULL ||
+    if (glyph != 0 && (!subset || !usedGlyphs ||
                        (subset && SubsetSupported() && (usedGlyphs->Index(glyph) != wxNOT_FOUND))))
     {
       if (subset)
@@ -444,63 +447,101 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
 #endif
 #endif
   size_t fontSize1 = 0;
-  wxFSFile* fontFile = NULL;
-  wxInputStream* fontStream = NULL;
+  wxFSFile* fontFile = nullptr;
+  wxInputStream* fontStream = nullptr;
+  bool deleteFontStream = false;
   bool compressed = false;
   wxFileName fileName;
-  if (m_fontFileName.IsEmpty())
+  wxString fontFullPath = wxEmptyString;
+
+  if (m_fontBuffer && m_fontBufferSize > 0)
   {
-#if defined(__WXMSW__)
-    if (m_file.IsEmpty() && m_font.IsOk())
-    {
-      fontStream = wxPdfFontParserTrueType::LoadTrueTypeFontStream(m_font);
-    }
-    else
-#elif defined(__WXMAC__)
-#if wxPDFMACOSX_HAS_CORE_TEXT
-    if (m_file.IsEmpty() && m_font.IsOk())
-    {
-      CTFontRef fontRef = m_font.OSXGetCTFont();
-      tableRef.reset(CTFontCopyTable(fontRef, kCTFontTableCFF, 0));
-      const UInt8* tableData = CFDataGetBytePtr(tableRef);
-      CFIndex      tableLen  = CFDataGetLength(tableRef);
-      fontStream = new wxMemoryInputStream((const char*) tableData, (size_t) tableLen);
-    }
-    else
-#endif
-#endif
-    {
-      // Font data preprocessed by MakeFont
-      compressed = m_file.Lower().Right(2) == wxS(".z");
-      fileName = m_file;
-      fileName.MakeAbsolute(m_path);
-    }
+    deleteFontStream = true;
+    fontStream = new wxMemoryInputStream(m_fontBuffer, m_fontBufferSize);
+    fontFullPath = wxString::Format(_("Font buffer size '%lu'"), (unsigned long)m_fontBufferSize);
   }
   else
   {
-    fileName = m_fontFileName;
-  }
-
-  if (fileName.IsOk())
-  {
-    // Open font file
-    wxFileSystem fs;
-    fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
-    if (fontFile)
+    if (m_fontFileName.IsEmpty())
     {
-      fontStream = fontFile->GetStream();
+#if defined(__WXMSW__)
+      if (m_file.IsEmpty() && m_font.IsOk())
+      {
+        fontStream = wxPdfFontParserTrueType::LoadTrueTypeFontStream(m_font);
+      }
+      else
+#elif defined(__WXMAC__)
+#if wxPDFMACOSX_HAS_CORE_TEXT
+      if (m_file.IsEmpty() && m_font.IsOk())
+      {
+        CTFontRef fontRef = m_font.OSXGetCTFont();
+        tableRef.reset(CTFontCopyTable(fontRef, kCTFontTableCFF, 0));
+        const UInt8* tableData = CFDataGetBytePtr(tableRef);
+        CFIndex      tableLen = CFDataGetLength(tableRef);
+        fontStream = new wxMemoryInputStream((const char*)tableData, (size_t)tableLen);
+      }
+      else
+#endif
+#endif
+      {
+        // Font data preprocessed by MakeFont
+        compressed = m_file.Lower().Right(2) == wxS(".z");
+        fileName = m_file;
+        fileName.MakeAbsolute(m_path);
+      }
     }
     else
     {
-      // usually this should not happen since file accessability was already checked
-      wxLogError(wxString(wxS("wxPdfFontDataOpenTypeUnicode::WriteFontData: ")) +
-                 wxString::Format(_("Font file '%s' not found."), fileName.GetFullPath().c_str()));
+      fileName = m_fontFileName;
+    }
+
+    if (fileName.IsOk())
+    {
+      // Open font file
+      wxFileSystem fs;
+      fontFile = fs.OpenFile(wxFileSystem::FileNameToURL(fileName));
+      if (fontFile)
+      {
+        bool isWoff = false;
+        wxMemoryInputStream* woffStream = nullptr;
+        fontFullPath = fileName.GetFullPath();
+        fontStream = fontFile->GetStream();
+        if (fileName.GetExt().Lower().IsSameAs(wxS("woff")))
+        {
+          isWoff = true;
+          woffStream = WoffConverter::Convert(fontStream);
+        }
+        else if (fileName.GetExt().Lower().IsSameAs(wxS("woff2")))
+        {
+          isWoff = true;
+          woffStream = Woff2Converter::Convert(fontStream);
+        }
+        if (isWoff)
+        {
+          fontStream = woffStream;
+          if (woffStream)
+          {
+            deleteFontStream = true;
+          }
+          else
+          {
+            wxLogError(wxString(wxS("wxPdfFontDataOpenTypeUnicode::WriteFontData: ")) +
+                       wxString::Format(_("Font file '%s' is not a valid WOFF/WOFF2 file."), fileName.GetFullPath().c_str()));
+          }
+        }
+      }
+      else
+      {
+        // usually this should not happen since file accessability was already checked
+        wxLogError(wxString(wxS("wxPdfFontDataOpenTypeUnicode::WriteFontData: ")) +
+                   wxString::Format(_("Font file '%s' not found."), fileName.GetFullPath().c_str()));
+      }
     }
   }
 
-  if (fontStream != NULL)
+  if (fontStream)
   {
-    if (usedGlyphs != NULL)
+    if (usedGlyphs)
     {
       if (compressed)
       {
@@ -509,6 +550,10 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
         wxMemoryOutputStream zUncompressed;
         zUncompressed.Write(zCompressed);
         zUncompressed.Close();
+        if (deleteFontStream)
+        {
+          delete fontStream;
+        }
         fontStream = new wxMemoryInputStream(zUncompressed);
       }
       else
@@ -521,13 +566,17 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
         cffStream.Write(buffer, m_cffLength);
         cffStream.Close();
         delete [] buffer;
+        if (deleteFontStream)
+        {
+          delete fontStream;
+        }
         fontStream = new wxMemoryInputStream(cffStream);
       }
 
       // Assemble subset
-      wxPdfFontSubsetCff subset(fileName.GetFullPath());
+      wxPdfFontSubsetCff subset(fontFullPath);
       wxMemoryOutputStream* subsetStream = subset.CreateSubset(fontStream, subsetGlyphs, false);
-      if (fontStream != NULL)
+      if (fontStream)
       {
         delete fontStream;
       }
@@ -561,7 +610,7 @@ wxPdfFontDataOpenTypeUnicode::WriteFontData(wxOutputStream* fontData, wxPdfSorte
     }
   }
 
-  if (fontFile != NULL)
+  if (fontFile)
   {
     delete fontFile;
   }
@@ -580,13 +629,13 @@ wxPdfFontDataOpenTypeUnicode::WriteUnicodeMap(wxOutputStream* mapData,
   wxPdfChar2GlyphMap::const_iterator charIter = m_gn->begin();
   for (charIter = m_gn->begin(); charIter != m_gn->end(); ++charIter)
   {
-    if (usedGlyphs != NULL)
+    if (usedGlyphs)
     {
       int usedGlyphIndex = usedGlyphs->Index(charIter->second);
       if (usedGlyphIndex != wxNOT_FOUND)
       {
         wxPdfGlyphListEntry* glEntry = new wxPdfGlyphListEntry();
-        if (subsetGlyphs != NULL)
+        if (subsetGlyphs)
         {
           glEntry->m_gid = (*subsetGlyphs)[charIter->second];
         }

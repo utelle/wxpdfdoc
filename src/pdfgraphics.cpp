@@ -3,7 +3,7 @@
 // Purpose:     Implementation of wxPdfDocument graphics primitives
 // Author:      Ulrich Telle
 // Created:     2006-01-27
-// Copyright:   (c) Ulrich Telle
+// Copyright:   (c) 2006-2025 Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -1435,7 +1435,7 @@ SolveCyclic(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b,
   {
     bb[i] = b[i];
   }
-  // Solve A · x = rhs.
+  // Solve A Â· x = rhs.
   x.SetCount(n);
   if (!SolveTridiagonalGeneral(a, bb, c, r, x))
   {
@@ -1448,7 +1448,7 @@ SolveCyclic(const wxPdfArrayDouble& a, const wxPdfArrayDouble& b,
   u[0] = gamma;
   u[n-1] = alpha;
 
-  // Solve A · z = u.
+  // Solve A Â· z = u.
   wxPdfArrayDouble z;
   z.SetCount(n);
   if (!SolveTridiagonalGeneral(a, bb, c, u, z))
@@ -2036,8 +2036,8 @@ wxPdfDocument::Translate(double tx, double ty)
   tm[1] = 0;
   tm[2] = 0;
   tm[3] = 1;
-  tm[4] = tx;
-  tm[5] = (m_yAxisOriginTop) ? ty : -ty;
+  tm[4] = tx * m_k;
+  tm[5] = (m_yAxisOriginTop) ? ty * m_k : -ty * m_k;
   // translate the coordinate system
   Transform(tm);
 }

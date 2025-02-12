@@ -61,18 +61,18 @@
 
 typedef struct tPdfLabelFormat
 {
-  const wxChar* name;
-  wxPaperSize   paperSize;
-  const wxChar* metric;
-  double        marginLeft;
-  double        marginTop;
-  int           nx;
-  int           ny;
-  double        xSpace;
-  double        ySpace;
-  double        width;
-  double        height;
-  double        fontSize;
+  const wxStringCharType* name;
+  wxPaperSize             paperSize;
+  const wxStringCharType* metric;
+  double                  marginLeft;
+  double                  marginTop;
+  int                     nx;
+  int                     ny;
+  double                  xSpace;
+  double                  ySpace;
+  double                  width;
+  double                  height;
+  double                  fontSize;
 } PdfLabelFormat;
 
 static PdfLabelFormat s_averyLabels[] =

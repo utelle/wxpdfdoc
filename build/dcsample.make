@@ -18,6 +18,15 @@ endif
 # Configurations
 # #############################################
 
+ifeq ($(origin CC), default)
+  CC = gcc
+endif
+ifeq ($(origin CXX), default)
+  CXX = g++
+endif
+ifeq ($(origin AR), default)
+  AR = ar
+endif
 RESCOMP = windres
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
@@ -185,14 +194,14 @@ endif
 # File sets
 # #############################################
 
-CUSTOM :=
 GENERATED :=
 OBJECTS :=
+RESOURCES :=
 
-CUSTOM += $(OBJDIR)/printing.res
 GENERATED += $(OBJDIR)/printing.o
 GENERATED += $(OBJDIR)/printing.res
 OBJECTS += $(OBJDIR)/printing.o
+RESOURCES += $(OBJDIR)/printing.res
 
 # Rules
 # #############################################
@@ -200,7 +209,7 @@ OBJECTS += $(OBJDIR)/printing.o
 all: $(TARGET)
 	@:
 
-$(TARGET): $(CUSTOM) $(GENERATED) $(OBJECTS) $(LDDEPS) | $(TARGETDIR)
+$(TARGET): $(GENERATED) $(OBJECTS) $(LDDEPS) $(RESOURCES) | $(TARGETDIR)
 	$(PRELINKCMDS)
 	@echo Linking dcsample
 	$(SILENT) $(LINKCMD)
@@ -237,7 +246,6 @@ endif
 prebuild: | $(OBJDIR)
 	$(PREBUILDCMDS)
 
-$(CUSTOM): | prebuild
 ifneq (,$(PCH))
 $(OBJECTS): $(GCH) | $(PCH_PLACEHOLDER)
 $(GCH): $(PCH) | prebuild

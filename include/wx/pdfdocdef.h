@@ -16,10 +16,9 @@
 
 wxPdfDocument is a C++ class which allows wxWidgets applications to generate PDF files.
 The code is a port of <a href="http://www.fpdf.org"><b>FPDF</b></a> - a free PHP class for
-generating PDF files - to C++ using the <a href="http://www.wxwidgets.org"><b>wxWidgets</b></a>
+generating PDF files - to C++ using the <a href="https://www.wxwidgets.org"><b>wxWidgets</b></a>
 library. wxPdfDocument does not make use of any libraries like
-<a href="http://www.pdflib.com"><b>PDFlib</b></a> or
-<a href="http://www.fastio.com"><b>ClibPDF</b></a> which require a fee at least for
+<a href="https://www.pdflib.com"><b>PDFlib</b></a> which require a fee at least for
 commercial usage. wxPdfDocument is published under the <b>wxWidgets (formerly wxWindows)
 license</b>. This means you may use it for any kind of usage and modify it to suit your needs.
 
@@ -70,6 +69,19 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>1.3.0</b> - <i>February 2025</i></dt>
+<dd>
+Changes:<br>
+- Added support for fonts in <i>Web Open Font Format</i> (WOFF/WOFF2)
+- Added support for TrueType/OpenType fonts given as byte arrays
+- Added support for additional barcodes (especially 2D barcodes like QR code, DataMatrix etc).
+  In principle, all barcodes supported by the <a href="https://zint.org.uk/"><b>Zint library</b></a> can be used.
+
+Fixed bugs:<br>
+- Fixed wxPdfDocument::Translate by adding missing unit conversion factor
+
+</dd>
+
 <dt><b>1.2.1</b> - <i>January 2025</i></dt>
 <dd>
 Changes:<br>
@@ -78,7 +90,7 @@ Changes:<br>
 - Restored support for wxWidgets 3.0.x
 
 Fixed bugs:<br>
-- Check for availability of header file "Security/SecRandom.h" (fix issue #94)
+- Check for availability of header file Security/SecRandom.h
 - Fixed wxPdfDCImpl::DoDrawText for multiline text
 
 </dd>
@@ -450,8 +462,8 @@ Added features:<br>
 
 wxPdfDocument is compatible with wxWidgets version 2.8.0 as well as with version 2.6.x.
 
-As an add-on preprocessed font files for the free <a href="http://dejavu.sourceforge.net">DejaVu fonts</a>
-(version 2.12) are provided in the file release <b><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=468705">wxPdfDocument Add-Ons</a></b>.
+As an add-on preprocessed font files for the free <a href="https://dejavu-fonts.github.io/">DejaVu fonts</a>
+(version 2.12) are provided in the file release <b><a href="https://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=468705">wxPdfDocument Add-Ons</a></b>.
 
 <b>Attention</b>: For supporting font subsetting for ordinary non-Unicode TrueType fonts
 the format of the font definition files has been extended. Font definition files created
@@ -459,7 +471,7 @@ with prior versions of the \ref makefont are still usable, but do not support fo
 It is recommended to regenerate own font definition files. Unfortunately common AFM font metric
 files do not contain glyph information which is required by the \ref makefont to create the
 character-to-glyph mapping. Therefore the utility <tt>ttf2ufm</tt> had to be changed.
-The modified version including a Windows executable is available in the file release <b><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=468705">wxPdfDocument Add-Ons</a></b>.
+The modified version including a Windows executable is available in the file release <b><a href="https://sourceforge.net/project/showfiles.php?group_id=51305&package_id=45182&release_id=468705">wxPdfDocument Add-Ons</a></b>.
 </dd>
 
 <dt><b>0.7.6</b> - <i>October 2006</i></dt>
@@ -561,18 +573,17 @@ potential combinations. <b>If you find bugs please report them to the author!</b
 
 \section acknowledgement Acknowledgements
 
-I'm very grateful to <b>Bruno Lowagie</b>, the main author of the <b>iText Java library</b>
-(http://www.lowagie.com/iText), for allowing to take lots of ideas and inspirations
-from this great Java PDF library. Especially the font handling and font subsetting
+I'm very grateful to <a href="https://www.lowagie.com"><b>Bruno Lowagie</b></a>, the main author of the <a href="https://itextpdf.com/"><b>iText Java library</b></a>,
+for allowing to take lots of ideas and inspirations from this great Java PDF library. Especially the font handling and font subsetting
 was influenced in that way.
 
 Many thanks go to <b>Ben Moores</b> who provided code for layers and patterns he wrote for
-his PDF extension for <b>Mapnik</b> (http://www.mapnik.org). This code has been extended
+his PDF extension for <a href="http://www.mapnik.org"><b>Mapnik</b></a>. This code has been extended
 based on ideas from the <b>iText Java library</b> and was incorporated into wxPdfDocument.
 
-Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of the PHP library \b mPDF
-(http://mpdf.bpm1.com); special thanks to <b>K Vinod Kumar</b> of the Centre for Development of Advanced
-Computing, Mumbai (http://www.cdacmumbai.in), for clearing license issues of the Raghu font series.
+Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of the PHP library <a href="https://mpdf.github.io/"><b>mPDF</b></a>;
+special thanks to <b>K Vinod Kumar</b> of the <a href="https://www.cdac.in/"><b>Centre for Development of Advanced
+Computing, Mumbai</b></a>, for clearing license issues of the Raghu font series.
 
 Kudos to <b>Mark Dootson</b> for contributing major enhancements of wxPdfDC and it's integration
 into the wxWidgets printing framework.
@@ -869,8 +880,7 @@ The first step for a \b TrueType font consists in generating the AFM file (or UF
 <b>Unicode TrueType</b> font). A utility exists to do this task: <tt>ttf2ufm</tt> - a special version of
 <tt>ttf2pt1</tt> - allowing to create AFM and/or UFM files. <tt>ttf2ufm</tt> has been modified to
 generate AFM and UFM files containing all the information which is required by the utility program
-\b makefont. An archive containing the modified source code of <tt>ttf2ufm</tt> and a Windows executable can be
-downloaded from <b><a href="http://wxcode.sourceforge.net/docs/wxpdfdoc/ttf2ufm.zip">here</a></b>.
+\b makefont.
 The command line to use is the following:
 
 <tt>ttf2ufm -a font.ttf font </tt>
@@ -898,7 +908,7 @@ To do this, a utility program, \b makefont, is provided.
 <tr><td><tt>-i</tt></td><td>Extract font metrics directly from <b>TrueType Unicode</b> or <b>OpenType Unicode</b> fonts</td></tr>
 <tr><td valign="top"><tt>-f font.{ttf|otf|pfb}</tt></td><td>font file (<tt>.ttf</tt> = TrueType, <tt>.otf</tt> = OpenType, <tt>.pfb</tt> = Type1).
 <br>If you own a Type1 font in ASCII format (<tt>.pfa</tt>), you can convert it to binary format with
-<a href="http://www.lcdf.org/~eddietwo/type/#t1utils">t1utils</a>.
+<a href="https://www.lcdf.org/~eddietwo/type/#t1utils">t1utils</a>.
 <br>If you don't want to embed the font, omit this parameter. In this case, type is given by the type parameter.
 </td></tr>
 <tr><td valign="top"><tt>-e encoding</tt></td><td>font encoding, i.e. cp1252. Omit this parameter for a symbolic font.like <i>Symbol</i>
@@ -1008,9 +1018,9 @@ subsetting.
 
 \b ShowFont can be used to generate font samples in PDF form showing the Unicode
 coverage of the font similar in appearance to the Unicode charts. The concept of
-this application is based on <a href="http://fntsample.sourceforge.net">FntSample</a>,
-developed by Eugeniy Meshcheryakov for use with <a href="http://dejavu-fonts.org">DejaVu Fonts</a>
-project, but the code is written from scratch in C++ using <a href="http://www.wxwidgets.org">wxWidgets</a>
+this application is based on <a href="https://fntsample.sourceforge.net">FntSample</a>,
+developed by Eugeniy Meshcheryakov for use with <a href="https://dejavu-fonts.github.io/">DejaVu Fonts</a>
+project, but the code is written from scratch in C++ using <a href="https://www.wxwidgets.org">wxWidgets</a>
 and wxPdfDocument.
 
 \section useshowfont Usage

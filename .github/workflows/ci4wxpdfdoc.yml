@@ -23,12 +23,15 @@ jobs:
         sudo add-apt-repository ppa:kicad/kicad-7.0-releases
         sudo apt update
         sudo apt-get install -y libwxgtk3.2-dev
+        sudo apt-get install -y libzint-dev libwoff-dev
       if: matrix.os == 'ubuntu-latest'
     - name: Install dependencies (macOS)
       run: |
         # brew update
         brew install automake
         brew install wxwidgets
+        brew install zint
+        brew install woff2
       if: matrix.os == 'macos-latest'
     - name: Checkout
       uses: actions/checkout@v3

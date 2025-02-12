@@ -19,6 +19,8 @@
 #endif
 
 #include <wx/cmdline.h>
+#include "wx/fs_mem.h"
+#include "wx/fs_zip.h"
 #include <wx/filefn.h>
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
@@ -202,6 +204,10 @@ PdfDocTutorial::OnInit()
       m_rc = -2;
       ok = false;
     }
+
+    // Add file system handler
+    wxFileSystem::AddHandler(new wxMemoryFSHandler);
+    wxFileSystem::AddHandler(new wxZipFSHandler);
 
     wxPathList fontPaths;
     fontPaths.Add(m_fontDirectory);

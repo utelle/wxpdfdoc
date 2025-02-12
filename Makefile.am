@@ -6,21 +6,193 @@
 
 ACLOCAL_AMFLAGS = -I admin/m4
 
+PDFDOC_LIBS=
+ZINT_SRCS=
+ZINT_HDRS = \
+  thirdparty/zint/backend/fonts/normal_ttf.h \
+  thirdparty/zint/backend/fonts/upcean_ttf.h
+ZINT_CFLAGS = -I$(top_srcdir)/thirdparty/zint/backend/fonts
+ZINT_CXXFLAGS = -I$(top_srcdir)/thirdparty/zint/backend/fonts
+WOFF_SRCS=
+WOFF_HDRS=
+WOFF_CFLAGS=
+WOFF_CXXFLAGS=
+
+if HAVE_ZINT
+$(info HAVE_ZINT is defined.)
+PDFDOC_LIBS += -lzint
+else
+$(info HAVE_ZINT is NOT defined.)
+ZINT_SRCS += \
+  thirdparty/zint/backend/2of5.c \
+  thirdparty/zint/backend/2of5inter.c \
+  thirdparty/zint/backend/2of5inter_based.c \
+  thirdparty/zint/backend/auspost.c \
+  thirdparty/zint/backend/aztec.c \
+  thirdparty/zint/backend/bc412.c \
+  thirdparty/zint/backend/bmp.c \
+  thirdparty/zint/backend/channel.c \
+  thirdparty/zint/backend/codabar.c \
+  thirdparty/zint/backend/codablock.c \
+  thirdparty/zint/backend/code.c \
+  thirdparty/zint/backend/code1.c \
+  thirdparty/zint/backend/code11.c \
+  thirdparty/zint/backend/code128.c \
+  thirdparty/zint/backend/code128_based.c \
+  thirdparty/zint/backend/code16k.c \
+  thirdparty/zint/backend/code49.c \
+  thirdparty/zint/backend/common.c \
+  thirdparty/zint/backend/composite.c \
+  thirdparty/zint/backend/dllversion.c \
+  thirdparty/zint/backend/dmatrix.c \
+  thirdparty/zint/backend/dotcode.c \
+  thirdparty/zint/backend/dxfilmedge.c \
+  thirdparty/zint/backend/eci.c \
+  thirdparty/zint/backend/emf.c \
+  thirdparty/zint/backend/filemem.c \
+  thirdparty/zint/backend/general_field.c \
+  thirdparty/zint/backend/gif.c \
+  thirdparty/zint/backend/gridmtx.c \
+  thirdparty/zint/backend/gs1.c \
+  thirdparty/zint/backend/hanxin.c \
+  thirdparty/zint/backend/imail.c \
+  thirdparty/zint/backend/large.c \
+  thirdparty/zint/backend/library.c \
+  thirdparty/zint/backend/mailmark.c \
+  thirdparty/zint/backend/maxicode.c \
+  thirdparty/zint/backend/medical.c \
+  thirdparty/zint/backend/output.c \
+  thirdparty/zint/backend/pcx.c \
+  thirdparty/zint/backend/pdf417.c \
+  thirdparty/zint/backend/plessey.c \
+  thirdparty/zint/backend/png.c \
+  thirdparty/zint/backend/postal.c \
+  thirdparty/zint/backend/ps.c \
+  thirdparty/zint/backend/qr.c \
+  thirdparty/zint/backend/raster.c \
+  thirdparty/zint/backend/reedsol.c \
+  thirdparty/zint/backend/rss.c \
+  thirdparty/zint/backend/svg.c \
+  thirdparty/zint/backend/telepen.c \
+  thirdparty/zint/backend/tif.c \
+  thirdparty/zint/backend/ultra.c \
+  thirdparty/zint/backend/upcean.c \
+  thirdparty/zint/backend/vector.c
+ZINT_HDRS += \
+  thirdparty/zint/backend/aztec.h \
+  thirdparty/zint/backend/big5.h \
+  thirdparty/zint/backend/bmp.h \
+  thirdparty/zint/backend/channel_precalcs.h \
+  thirdparty/zint/backend/code1.h \
+  thirdparty/zint/backend/code128.h \
+  thirdparty/zint/backend/code49.h \
+  thirdparty/zint/backend/common.h \
+  thirdparty/zint/backend/composite.h \
+  thirdparty/zint/backend/dmatrix.h \
+  thirdparty/zint/backend/dmatrix_trace.h \
+  thirdparty/zint/backend/eci.h \
+  thirdparty/zint/backend/eci_sb.h \
+  thirdparty/zint/backend/emf.h \
+  thirdparty/zint/backend/filemem.h \
+  thirdparty/zint/backend/gb18030.h \
+  thirdparty/zint/backend/gb2312.h \
+  thirdparty/zint/backend/gbk.h \
+  thirdparty/zint/backend/general_field.h \
+  thirdparty/zint/backend/gridmtx.h \
+  thirdparty/zint/backend/gs1.h \
+  thirdparty/zint/backend/gs1_lint.h \
+  thirdparty/zint/backend/hanxin.h \
+  thirdparty/zint/backend/iso3166.h \
+  thirdparty/zint/backend/iso4217.h \
+  thirdparty/zint/backend/ksx1001.h \
+  thirdparty/zint/backend/large.h \
+  thirdparty/zint/backend/maxicode.h \
+  thirdparty/zint/backend/output.h \
+  thirdparty/zint/backend/pcx.h \
+  thirdparty/zint/backend/pdf417.h \
+  thirdparty/zint/backend/pdf417_tabs.h \
+  thirdparty/zint/backend/pdf417_trace.h \
+  thirdparty/zint/backend/qr.h \
+  thirdparty/zint/backend/raster_font.h \
+  thirdparty/zint/backend/reedsol.h \
+  thirdparty/zint/backend/reedsol_logs.h \
+  thirdparty/zint/backend/rss.h \
+  thirdparty/zint/backend/sjis.h \
+  thirdparty/zint/backend/tif.h \
+  thirdparty/zint/backend/tif_lzw.h \
+  thirdparty/zint/backend/zfiletypes.h \
+  thirdparty/zint/backend/zint.h \
+  thirdparty/zint/backend/zintconfig.h
+ZINT_CFLAGS += -I$(top_srcdir)/thirdparty/zint/backend
+ZINT_CXXFLAGS += -I$(top_srcdir)/thirdparty/zint/backend
+endif
+
+if HAVE_WOFF2
+$(info HAVE_WOFF2 is defined.)
+PDFDOC_LIBS += -lwoff2dec
+else
+$(info HAVE_WOFF2 is NOT defined.)
+WOFF_SRCS += \
+  thirdparty/woff2/src/woff2_dec.cc \
+  thirdparty/woff2/src/woff2_common.cc \
+  thirdparty/woff2/src/woff2_out.cc \
+  thirdparty/woff2/src/table_tags.cc \
+  thirdparty/woff2/src/variable_length.cc \
+  thirdparty/woff2/brotli/dec/bit_reader.c \
+  thirdparty/woff2/brotli/dec/decode.c \
+  thirdparty/woff2/brotli/dec/huffman.c \
+  thirdparty/woff2/brotli/dec/state.c \
+  thirdparty/woff2/brotli/common/constants.c \
+  thirdparty/woff2/brotli/common/context.c \
+  thirdparty/woff2/brotli/common/dictionary.c \
+  thirdparty/woff2/brotli/common/platform.c \
+  thirdparty/woff2/brotli/common/shared_dictionary.c \
+  thirdparty/woff2/brotli/common/transform.c
+WOFF_HDRS += \
+  thirdparty/woff2/src/buffer.h \
+  thirdparty/woff2/src/port.h \
+  thirdparty/woff2/src/round.h \
+  thirdparty/woff2/src/store_bytes.h \
+  thirdparty/woff2/src/table_tags.h \
+  thirdparty/woff2/src/variable_length.h \
+  thirdparty/woff2/src/woff2_common.h \
+  thirdparty/woff2/brotli/dec/bit_reader.h \
+  thirdparty/woff2/brotli/dec/huffman.h \
+  thirdparty/woff2/brotli/dec/prefix.h \
+  thirdparty/woff2/brotli/dec/state.h \
+  thirdparty/woff2/brotli/common/constants.h \
+  thirdparty/woff2/brotli/common/context.h \
+  thirdparty/woff2/brotli/common/dictionary.h \
+  thirdparty/woff2/brotli/common/platform.h \
+  thirdparty/woff2/brotli/common/shared_dictionary_internal.h \
+  thirdparty/woff2/brotli/common/transform.h \
+  thirdparty/woff2/brotli/common/version.h
+WOFF_CFLAGS += \
+  -I$(top_srcdir)/thirdparty/woff2/include \
+  -I$(top_srcdir)/thirdparty/woff2/src \
+  -I$(top_srcdir)/thirdparty/woff2/brotli/include
+WOFF_CXXFLAGS += \
+  -I$(top_srcdir)/thirdparty/woff2/include \
+  -I$(top_srcdir)/thirdparty/woff2/src \
+  -I$(top_srcdir)/thirdparty/woff2/brotli/include
+endif
+
 if USE_MSW
 MSW_LIBS = -lgdi32
 endif
 
 # Flags used for compiling all the targets and linking all the executables
 # (libraries use LIBADD which is set for lib@WXPDFDOC_LIBNAME@.la only).
-AM_CXXFLAGS = -I$(top_srcdir)/include $(WX_CXXFLAGS) -std=c++11
-LDADD = lib@WXPDFDOC_LIBNAME@.la $(WX_LIBS)
+AM_CFLAGS = -I$(top_srcdir)/include $(WOFF_CFLAGS) $(ZINT_CFLAGS) -std=c99
+AM_CXXFLAGS = -I$(top_srcdir)/include $(WX_CXXFLAGS) $(WOFF_CXXFLAGS) $(ZINT_CXXFLAGS) -std=c++11
+LDADD = lib@WXPDFDOC_LIBNAME@.la $(WX_LIBS) $(PDFDOC_LIBS)
 
 if HOST_OSX
 AM_LDFLAGS = -framework Security
 endif
 
 # Target-specific assignments are GNU Make-specific, but there doesn't seem to
-# be any other way to define different compilation optiosn when building
+# be any other way to define different compilation options when building
 # shared and static libraries with libtool.
 if USE_SHARED
 %.lo: AM_CXXFLAGS += -DWXMAKINGDLL_PDFDOC
@@ -57,6 +229,7 @@ lib_LTLIBRARIES = lib@WXPDFDOC_LIBNAME@.la
 lib@WXPDFDOC_LIBNAME@_la_SOURCES = \
     src/pdfannotation.cpp \
     src/pdfbarcode.cpp \
+    src/pdfbarcodezint.cpp \
     src/pdfcffdecoder.cpp \
     src/pdfcffindex.cpp \
     src/pdfcolour.cpp \
@@ -102,13 +275,16 @@ lib@WXPDFDOC_LIBNAME@_la_SOURCES = \
     src/crypto/sha256.cpp \
     src/crypto/sha384.cpp \
     src/crypto/sha512.cpp \
-    src/crypto/unicode_norm.cpp
+    src/crypto/unicode_norm.cpp \
+    src/woff/woff2converter.cpp \
+    src/woff/woffconverter.cpp
 
 includewx_HEADERS = \
     include/wx/pdfannotation.h \
     include/wx/pdfarraydouble.h \
     include/wx/pdfarraytypes.h \
     include/wx/pdfbarcode.h \
+    include/wx/pdfbarcodezint.h \
     include/wx/pdfbookmark.h \
     include/wx/pdfcffdecoder.h \
     include/wx/pdfcffindex.h \
@@ -159,14 +335,7 @@ includewx_HEADERS = \
     include/wx/pdfspotcolour.h \
     include/wx/pdftemplate.h \
     include/wx/pdfutility.h \
-    include/wx/pdfxml.h \
-    src/crypto/random.h \
-    src/crypto/saslprep.h \
-    src/crypto/sha256.h \
-    src/crypto/sha384.h \
-    src/crypto/sha512.h \
-    src/crypto/unicode_norm.h \
-    src/crypto/unicode_norm_table.h
+    include/wx/pdfxml.h
 
 noinst_HEADERS = \
     src/pdfcjkfontdata.inc \
@@ -175,11 +344,32 @@ noinst_HEADERS = \
     src/pdfcolourdata.inc \
     src/pdfcorefontdata.inc \
     src/pdfcorefontkerning.inc \
-    src/pdfglyphnames.inc
+    src/pdfglyphnames.inc \
+    src/crypto/random.h \
+    src/crypto/saslprep.h \
+    src/crypto/sha256.h \
+    src/crypto/sha384.h \
+    src/crypto/sha512.h \
+    src/crypto/unicode_norm.h \
+    src/crypto/unicode_norm_table.h \
+    src/woff/woff2converter.h \
+    src/woff/woffconverter.h
+
+if !HAVE_ZINT
+$(info HAVE_ZINT NOT defined - Add Zint sources and headers.)
+lib@WXPDFDOC_LIBNAME@_la_SOURCES += $(ZINT_SRCS)
+noinst_HEADERS += $(ZINT_HDRS) 
+endif
+
+if !HAVE_WOFF2
+$(info HAVE_WOFF2 NOT defined - Add WOFF2 sources and headers.)
+lib@WXPDFDOC_LIBNAME@_la_SOURCES += $(WOFF_SRCS)
+noinst_HEADERS += $(WOFF_HDRS) 
+endif
 
 lib@WXPDFDOC_LIBNAME@_la_LDFLAGS = -no-undefined $(AM_LDFLAGS)
 if USE_SHARED
-lib@WXPDFDOC_LIBNAME@_la_LIBADD = $(WX_LIBS) $(MSW_LIBS)
+lib@WXPDFDOC_LIBNAME@_la_LIBADD = $(WX_LIBS) $(MSW_LIBS) $(PDFDOC_LIBS)
 endif
 
 

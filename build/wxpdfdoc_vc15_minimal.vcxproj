@@ -560,6 +560,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\samples\minimal\texturamodern.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\samples\minimal\attachment.cpp" />
     <ClCompile Include="..\samples\minimal\barcodes.cpp" />
     <ClCompile Include="..\samples\minimal\bookmark.cpp" />

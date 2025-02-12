@@ -7,6 +7,19 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-02-12
+
+### Added
+
+- Added support for fonts in _Web Open Font Format_ (WOFF/WOFF2)
+- Added support for TrueType/OpenType fonts given as byte arrays
+- Added support for additional barcodes (especially 2D barcodes like QR code, DataMatrix etc).
+  In principle, all barcodes supported by the [**Zint library**](https://zint.org.uk/) can be used.
+
+### Fixed
+
+- Fixed wxPdfDocument::Translate by adding missing unit conversion factor
+
 ## [1.2.1] - 2025-01-06
 
 ### Changed
@@ -509,7 +522,8 @@ First public release
 
 - Planning and basic PDF features implemented
 
-[Unreleased]: ../../compare/v1.2.1...HEAD
+[Unreleased]: ../../compare/v1.3.0...HEAD
+[1.3.0]: ../../compare/v1.2.1...v1.3.0
 [1.2.1]: ../../compare/v1.2.0...v1.2.1
 [1.2.0]: ../../compare/v1.1.0...v1.2.0
 [1.1.0]: ../../compare/v1.0.3...v1.1.0

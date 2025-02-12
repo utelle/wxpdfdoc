@@ -80,6 +80,14 @@ public:
   wxPdfFontData* IdentifyFont(const wxFont& font);
 #endif
 
+  /// Identify font based on a font data buffer
+  /**
+  * \param fontData the font data buffer to be identified
+  * \param fontDataSize the size of the font data buffer
+  * \return a reference to a new font data instance
+  */
+  wxPdfFontData* IdentifyFont(const char* fontBuffer, size_t fontBufferSize);
+
   /// Load the font data
   /**
   * Before using a font it's data have be loaded into memory. This method tries

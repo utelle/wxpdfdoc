@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{21EB8090-0D4E-1035-B6D3-48EBA215DCB7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{E9C7FDCE-D52A-8D73-7EB0-C5296AF258F6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{21EB8090-0D4E-1035-B6D3-48EBA215DCB7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -19,6 +19,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\wx\pdfbarcode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\wx\pdfbarcodezint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\wx\pdfbookmark.h">
@@ -120,6 +123,9 @@
     <ClInclude Include="..\include\wx\pdfform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\wx\pdfgc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\wx\pdfgradient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -195,6 +201,12 @@
     <ClInclude Include="..\src\crypto\unicode_norm_table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\woff\woff2converter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\woff\woffconverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\crypto\random.cpp">
@@ -219,6 +231,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\pdfbarcode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\pdfbarcodezint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\pdfcffdecoder.cpp">
@@ -299,6 +314,9 @@
     <ClCompile Include="..\src\pdfform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\pdfgc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\pdfgradient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -339,6 +357,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\pdfxml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\woff\woff2converter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\woff\woffconverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

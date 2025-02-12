@@ -3,7 +3,7 @@
 // Purpose:     Implementation of wxPdfBarCodeCreator
 // Author:      Ulrich Telle
 // Created:     2005-09-12
-// Copyright:   (c) Ulrich Telle
+// Copyright:   (c) 2005-2025 Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -22,6 +22,9 @@
 
 #include "wx/pdfbarcode.h"
 #include "wx/pdfdocument.h"
+
+#include "wx/pdfbarcodezint.h"
+#include <zint.h>
 
 wxPdfBarCodeCreator::wxPdfBarCodeCreator(wxPdfDocument& document)
 {
@@ -1402,4 +1405,110 @@ wxPdfBarCodeCreator::Code128Draw(double x, double y, const wxString& barcode, do
       xPos += (bars[j]+bars[j+1]) * w;
     }
   }
+}
+
+bool
+wxPdfBarCodeCreator::QRCode(double x, double y, const wxString& barcode, double scale, int version)
+{
+  wxPdfBarcodeZint bc;
+  bc.SetSymbology(wxPdfBarcode::Symbology::SYM_QRCODE);
+  bc.SetText(barcode);
+  bc.SetShowText(false);
+  if (version > 0) bc.SetOption2(version);
+  if (bc.HasCompliantHeight(wxPdfBarcode::Symbology::SYM_QRCODE))
+  {
+    bc.SetCompliantHeight(true);
+  }
+  if (scale > 0)
+  {
+    bc.SetScale(scale);
+  }
+  bc.Render(*m_document, x, y);
+  if (bc.GetError() > 0)
+  {
+    wxLogError(wxString(wxS("wxPdfBarCodeCreator::QRCode: Zint error=")) + bc.GetLastError());
+    return false;
+  }
+  return true;
+}
+
+bool
+wxPdfBarCodeCreator::QRCodeDotty(double x, double y, const wxString& barcode, double scale, int version)
+{
+  wxPdfBarcodeZint bc;
+  bc.SetSymbology(wxPdfBarcode::Symbology::SYM_QRCODE);
+  bc.SetText(barcode);
+  bc.SetShowText(false);
+  bc.SetDotty(true);
+  if (version > 0) bc.SetOption2(version);
+  if (bc.HasCompliantHeight(wxPdfBarcode::Symbology::SYM_QRCODE))
+  {
+    bc.SetCompliantHeight(true);
+  }
+  if (scale > 0)
+  {
+    bc.SetScale(scale);
+  }
+  bc.Render(*m_document, x, y);
+  if (bc.GetError() > 0)
+  {
+    wxLogError(wxString(wxS("wxPdfBarCodeCreator::QRCodeDotty: Zint error=")) + bc.GetLastError());
+    return false;
+  }
+  return true;
+}
+
+bool
+wxPdfBarCodeCreator::DataMatrix(double x, double y, const wxString& barcode, double scale, int version, int option)
+{
+  wxPdfBarcodeZint bc;
+  bc.SetSymbology(wxPdfBarcode::Symbology::SYM_DATAMATRIX);
+  bc.SetText(barcode);
+  bc.SetShowText(false);
+  if (scale > 0)
+  {
+    bc.SetScale(scale);
+  }
+  if (version > 0) bc.SetOption2(version);
+  if (option > 0) bc.SetOption3(option);
+  bc.Render(*m_document, x, y);
+  if (bc.GetError() > 0)
+  {
+    wxLogError(wxString(wxS("wxPdfBarCodeCreator::DataMatrix: Zint error=")) + bc.GetLastError());
+    return false;
+  }
+  return true;
+}
+
+bool
+wxPdfBarCodeCreator::MaxiCode(double x, double y, const wxString& primary, const wxString& secondary, double scale)
+{
+  wxPdfBarcodeZint bc;
+  bc.SetSymbology(wxPdfBarcode::Symbology::SYM_MAXICODE);
+  bc.SetPrimaryMessage(primary);
+  bc.SetText(secondary);
+  bc.SetShowText(false);
+  if (scale > 0)
+  {
+    bc.SetScale(scale);
+  }
+  bc.Render(*m_document, x, y);
+  if (bc.GetError() > 0)
+  {
+    wxLogError(wxString(wxS("wxPdfBarCodeCreator::MaxiCode: Zint error=")) + bc.GetLastError());
+    return false;
+  }
+  return true;
+}
+
+bool
+wxPdfBarCodeCreator::GenericBarcode(double x, double y, wxPdfBarcodeZint& barcode)
+{
+  barcode.Render(*m_document, x, y);
+  if (barcode.GetError() > 0)
+  {
+    wxLogError(wxString(wxS("wxPdfBarCodeCreator::GenericBarcode: Zint error=")) + barcode.GetLastError());
+    return false;
+  }
+  return true;
 }

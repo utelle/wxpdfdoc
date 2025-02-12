@@ -17,6 +17,7 @@
 
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
+#include "wx/pdfarraytypes.h"
 #include "wx/pdffontdescription.h"
 #include "wx/pdfproperties.h"
 

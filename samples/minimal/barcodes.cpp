@@ -20,6 +20,7 @@
 
 #include "wx/pdfbarcode.h"
 #include "wx/pdfdoc.h"
+#include "wx/pdfbarcodezint.h"
 
 /**
 * Barcodes
@@ -83,6 +84,36 @@ barcodes(bool testMode)
   barcode.EAN128(50, 220, code128, 20);
   pdf.SetXY(50, 245);
   pdf.Write(5, wxS("EAN with AIs: ")+code128);
+
+  pdf.AddPage();
+
+  pdf.SetXY(20, 20);
+  pdf.Write(5, wxS("QR codes (scale factors 1.0, 1.2, 0.8; dotty)"));
+  barcode.QRCode(20, 30, "https://github.com/utelle/wxpdfdoc");
+  barcode.QRCode(65, 30, "https://github.com/utelle/wxpdfdoc", 1.2);
+  barcode.QRCode(120, 30, "https://github.com/utelle/wxpdfdoc", 0.8);
+  barcode.QRCodeDotty(160, 30, "https://github.com/utelle/wxpdfdoc", 0.8);
+
+  pdf.SetXY(20, 85);
+  pdf.Write(5, wxS("DataMatrix"));
+  barcode.DataMatrix(20, 95, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+  pdf.SetXY(20, 130);
+  pdf.Write(5, wxS("MaxiCode"));
+  barcode.MaxiCode(20, 140, "999999999840012", "Secondary Message Here");
+
+  pdf.SetXY(20, 200);
+  pdf.Write(5, wxS("User-defined barcodes via Generic Barcode"));
+  wxPdfBarcodeZint zintCode;
+  zintCode.SetSymbology(wxPdfBarcode::Symbology::SYM_UPCA);
+  zintCode.SetText("72527270270+12345");
+  zintCode.SetShowText(true);
+  zintCode.SetScale(0.5);
+  zintCode.SetCompliantHeight(true);
+  zintCode.SetRotateAngle(270);
+  barcode.GenericBarcode(20, 210, zintCode);
+  zintCode.SetRotateAngle(0);
+  barcode.GenericBarcode(50, 210, zintCode);
 
   pdf.SaveAsFile(wxS("barcodes.pdf"));
 

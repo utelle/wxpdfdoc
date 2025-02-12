@@ -64,7 +64,7 @@ transformation(bool testMode)
   // Start Transformation
   pdf.StartTransform();
   // Translate 20 to the right, 15 to the bottom
-  pdf.Translate(20, 15);
+  pdf.Translate(10, 5);
   pdf.Rect(125, 20, 40, 10, wxPDF_STYLE_DRAW);
   pdf.Text(125, 19, wxS("Translate"));
   // Stop Transformation

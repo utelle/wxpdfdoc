@@ -3,7 +3,7 @@
 // Purpose:
 // Author:      Ulrich Telle
 // Created:     2005-09-12
-// Copyright:   (c) Ulrich Telle
+// Copyright:   (c) 2005-2025 Ulrich Telle
 // Licence:     wxWindows licence
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -17,6 +17,7 @@
 
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
+#include "wx/pdfbarcodezint.h"
 
 // Forward declarations
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfDocument;
@@ -171,6 +172,60 @@ public:
   * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
   */
   bool EAN128(double x, double y, const wxString& barcode, double h, double w = 0.21);
+
+  /// Draw a QR barcode
+  /**
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode value of barcode
+  * \param scale scaling factor (default 1, if value <= 0)
+  * \param version version, allowing to specify the symbol size (automatic, if value <= 0)
+  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  */
+  bool QRCode(double x, double y, const wxString& barcode, double scale = -1, int version = -1);
+
+  /// Draw a dotty QR barcode
+  /**
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode value of barcode
+  * \param scale scaling factor (default 1, if value <= 0)
+  * \param version version, allowing to specify the symbol size (automatic, if value <= 0)
+  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  */
+  bool QRCodeDotty(double x, double y, const wxString& barcode, double scale = -1, int version = -1);
+
+  /// Draw a Data Matrix barcode
+  /**
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode value of barcode
+  * \param scale scaling factor (default 1, if value <= 0)
+  * \param version version, allowing to specify the symbol size (automatic, if value <= 0)
+  * \param option option to request square symbols, if version is selected automatically (none, if value <= 0)
+  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  */
+  bool DataMatrix(double x, double y, const wxString& barcode, double scale = -1, int version = -1, int option = -1);
+
+  /// Draw a MaxiCode barcode
+  /**
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param primary primary data value of barcode
+  * \param secondary secondary data value of barcode
+  * \param scale scaling factor (default 1, if value <= 0)
+  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  */
+  bool MaxiCode(double x, double y, const wxString& primary, const wxString& secondary, double scale = -1);
+
+  /// Draw a generic Zint barcode
+  /**
+  * \param x abscissa of barcode
+  * \param y ordinate of barcode
+  * \param barcode generic Zint barcode object
+  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  */
+  bool GenericBarcode(double x, double y, wxPdfBarcodeZint& barcode);
 
 protected:
   /// Calculate check digit

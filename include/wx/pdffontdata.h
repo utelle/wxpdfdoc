@@ -156,7 +156,7 @@ public:
   *   \li contains "italic" or "oblique" the style is set to italic
   *   \li equals "b" the style is set to bold
   *   \li equals "i" the style is set to italic
-  *   \li equals "bi" or "ib" ´the style is set to bolditalic
+  *   \li equals "bi" or "ib" Â´the style is set to bolditalic
   */
   void SetStyle(const wxString& style);
 
@@ -217,6 +217,30 @@ public:
   */
   wxFont GetFont() const { return m_font; }
 #endif
+
+  /// Set associated font data buffer
+  /**
+  * \param fontBuffer the wxFont to be associated with the font
+  */
+  void SetFontBuffer(const char* fontBuffer) { m_fontBuffer = fontBuffer; }
+
+  /// Get associated font data buffer
+  /**
+  * \return the associated wxFont
+  */
+  const char* GetFontBuffer() const { return m_fontBuffer; }
+
+  /// Set the size of the associated font data buffer
+  /**
+  * \param fontBufferSize the size of the associated font data buffer
+  */
+  void SetFontBufferSize(size_t fontBufferSize) { m_fontBufferSize = fontBufferSize; }
+
+  /// Get the size of the associated font data buffer
+  /**
+  * \return the size of the associated font data buffer
+  */
+  size_t GetFontBufferSize() const { return m_fontBufferSize; }
 
   /// Set fully qualified font file name
   /**
@@ -723,9 +747,11 @@ protected:
   bool                  m_embedSupported;  ///< Flag whether embedding of the font is allowed and supported
   bool                  m_subsetSupported; ///< Flag whether subsetting of the font is allowed and supported
 
-  wxString              m_fontFileName; ///< Qualified name of the font file
-  int                   m_fontIndex;    ///< Index of the font in case of a font collection
-  wxFont                m_font;         ///< Associated wxFont object (currently used by wxMSW only)
+  wxString              m_fontFileName;    ///< Qualified name of the font file
+  int                   m_fontIndex;       ///< Index of the font in case of a font collection
+  wxFont                m_font;            ///< Associated wxFont object (currently used by wxMSW only)
+  const char*           m_fontBuffer;      ///< Associated font data buffer
+  size_t                m_fontBufferSize;  ///< Size of the associated font data buffer
 
   wxPdfGlyphWidthMap*   m_cw;    ///< Mapping of character ids to character widths
   wxPdfChar2GlyphMap*   m_gn;    ///< Mapping of character ids to glyph numbers
