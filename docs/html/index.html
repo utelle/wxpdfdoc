@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.2.1</span>
+   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -59,7 +59,7 @@ $(function(){ initResizable(false); });
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="intro"></a>
 What is wxPdfDocument?</h1>
-<p><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is a C++ class which allows wxWidgets applications to generate PDF files. The code is a port of <a href="http://www.fpdf.org"><b>FPDF</b></a> - a free PHP class for generating PDF files - to C++ using the <a href="http://www.wxwidgets.org"><b>wxWidgets</b></a> library. <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> does not make use of any libraries like <a href="http://www.pdflib.com"><b>PDFlib</b></a> or <a href="http://www.fastio.com"><b>ClibPDF</b></a> which require a fee at least for commercial usage. <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is published under the <b>wxWidgets (formerly wxWindows) license</b>. This means you may use it for any kind of usage and modify it to suit your needs.</p>
+<p><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is a C++ class which allows wxWidgets applications to generate PDF files. The code is a port of <a href="http://www.fpdf.org"><b>FPDF</b></a> - a free PHP class for generating PDF files - to C++ using the <a href="https://www.wxwidgets.org"><b>wxWidgets</b></a> library. <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> does not make use of any libraries like <a href="https://www.pdflib.com"><b>PDFlib</b></a> which require a fee at least for commercial usage. <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is published under the <b>wxWidgets (formerly wxWindows) license</b>. This means you may use it for any kind of usage and modify it to suit your needs.</p>
 <p><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> offers all advantages of <b>FPDF</b>. Several add-on PHP scripts found on the FPDF web site are incorporated into <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a>. The main features are:</p>
 <ul>
 <li>Choice of measure unit, page format and margins</li>
@@ -93,6 +93,20 @@ What is wxPdfDocument?</h1>
 <h1><a class="anchor" id="version"></a>
 Version history</h1>
 <dl>
+<dt><b>1.3.0</b> - <em>February 2025</em> </dt>
+<dd><p class="startdd">Changes:<br  />
+</p><ul>
+<li>Added support for fonts in <em>Web Open Font Format</em> (WOFF/WOFF2)</li>
+<li>Added support for TrueType/OpenType fonts given as byte arrays</li>
+<li>Added support for additional barcodes (especially 2D barcodes like QR code, DataMatrix etc). In principle, all barcodes supported by the <a href="https://zint.org.uk/"><b>Zint library</b></a> can be used.</li>
+</ul>
+<p class="interdd">Fixed bugs:<br  />
+</p><ul>
+<li>Fixed <a class="el" href="classwx_pdf_document.html#a535aaf32733b7666c861dd3f44607aea" title="Moves the origin.">wxPdfDocument::Translate</a> by adding missing unit conversion factor</li>
+</ul>
+<p class="interdd"></p>
+<p class="enddd"></p>
+</dd>
 <dt><b>1.2.1</b> - <em>January 2025</em> </dt>
 <dd><p class="startdd">Changes:<br  />
 </p><ul>
@@ -102,7 +116,7 @@ Version history</h1>
 </ul>
 <p class="interdd">Fixed bugs:<br  />
 </p><ul>
-<li>Check for availability of header file "Security/SecRandom.h" (fix issue #94)</li>
+<li>Check for availability of header file Security/SecRandom.h</li>
 <li>Fixed <a class="el" href="classwx_pdf_d_c_impl.html#a4f62ca7024e9b5b407bb918a6daa2146">wxPdfDCImpl::DoDrawText</a> for multiline text</li>
 </ul>
 <p class="interdd"></p>
@@ -469,8 +483,8 @@ Version history</h1>
 <li>support for AES encryption (additional standard encryption method in PDF version 1.6 and above)</li>
 </ul>
 <p class="interdd"><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is compatible with wxWidgets version 2.8.0 as well as with version 2.6.x.</p>
-<p class="interdd">As an add-on preprocessed font files for the free <a href="http://dejavu.sourceforge.net">DejaVu fonts</a> (version 2.12) are provided in the file release <b><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&amp;package_id=45182&amp;release_id=468705">wxPdfDocument Add-Ons</a></b>.</p>
-<p class="interdd"><b>Attention</b>: For supporting font subsetting for ordinary non-Unicode TrueType fonts the format of the font definition files has been extended. Font definition files created with prior versions of the <a class="el" href="makefont.html">MakeFont Utility</a> are still usable, but do not support font subsetting. It is recommended to regenerate own font definition files. Unfortunately common AFM font metric files do not contain glyph information which is required by the <a class="el" href="makefont.html">MakeFont Utility</a> to create the character-to-glyph mapping. Therefore the utility <code>ttf2ufm</code> had to be changed. The modified version including a Windows executable is available in the file release <b><a href="http://sourceforge.net/project/showfiles.php?group_id=51305&amp;package_id=45182&amp;release_id=468705">wxPdfDocument Add-Ons</a></b>. </p>
+<p class="interdd">As an add-on preprocessed font files for the free <a href="https://dejavu-fonts.github.io/">DejaVu fonts</a> (version 2.12) are provided in the file release <b><a href="https://sourceforge.net/project/showfiles.php?group_id=51305&amp;package_id=45182&amp;release_id=468705">wxPdfDocument Add-Ons</a></b>.</p>
+<p class="interdd"><b>Attention</b>: For supporting font subsetting for ordinary non-Unicode TrueType fonts the format of the font definition files has been extended. Font definition files created with prior versions of the <a class="el" href="makefont.html">MakeFont Utility</a> are still usable, but do not support font subsetting. It is recommended to regenerate own font definition files. Unfortunately common AFM font metric files do not contain glyph information which is required by the <a class="el" href="makefont.html">MakeFont Utility</a> to create the character-to-glyph mapping. Therefore the utility <code>ttf2ufm</code> had to be changed. The modified version including a Windows executable is available in the file release <b><a href="https://sourceforge.net/project/showfiles.php?group_id=51305&amp;package_id=45182&amp;release_id=468705">wxPdfDocument Add-Ons</a></b>. </p>
 <p class="enddd"></p>
 </dd>
 <dt><b>0.7.6</b> - <em>October 2006</em> </dt>
@@ -558,9 +572,9 @@ Known issues</h1>
 <p>Currently there are no known issues regarding the functionality of the <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> component. All features were thoroughly tested individually, but it's almost impossible to check all potential combinations. <b>If you find bugs please report them to the author!</b></p>
 <h1><a class="anchor" id="acknowledgement"></a>
 Acknowledgements</h1>
-<p>I'm very grateful to <b>Bruno Lowagie</b>, the main author of the <b>iText Java library</b> (<a href="http://www.lowagie.com/iText">http://www.lowagie.com/iText</a>), for allowing to take lots of ideas and inspirations from this great Java PDF library. Especially the font handling and font subsetting was influenced in that way.</p>
-<p>Many thanks go to <b>Ben Moores</b> who provided code for layers and patterns he wrote for his PDF extension for <b>Mapnik</b> (<a href="http://www.mapnik.org">http://www.mapnik.org</a>). This code has been extended based on ideas from the <b>iText Java library</b> and was incorporated into <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a>.</p>
-<p>Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of the PHP library <b>mPDF</b> (<a href="http://mpdf.bpm1.com">http://mpdf.bpm1.com</a>); special thanks to <b>K Vinod Kumar</b> of the Centre for Development of Advanced Computing, Mumbai (<a href="http://www.cdacmumbai.in">http://www.cdacmumbai.in</a>), for clearing license issues of the Raghu font series.</p>
+<p>I'm very grateful to <a href="https://www.lowagie.com"><b>Bruno Lowagie</b></a>, the main author of the <a href="https://itextpdf.com/"><b>iText Java library</b></a>, for allowing to take lots of ideas and inspirations from this great Java PDF library. Especially the font handling and font subsetting was influenced in that way.</p>
+<p>Many thanks go to <b>Ben Moores</b> who provided code for layers and patterns he wrote for his PDF extension for <a href="http://www.mapnik.org"><b>Mapnik</b></a>. This code has been extended based on ideas from the <b>iText Java library</b> and was incorporated into <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a>.</p>
+<p>Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of the PHP library <a href="https://mpdf.github.io/"><b>mPDF</b></a>; special thanks to <b>K Vinod Kumar</b> of the <a href="https://www.cdac.in/"><b>Centre for Development of Advanced Computing, Mumbai</b></a>, for clearing license issues of the Raghu font series.</p>
 <p>Kudos to <b>Mark Dootson</b> for contributing major enhancements of <a class="el" href="classwx_pdf_d_c.html" title="Class representing a PDF drawing context.">wxPdfDC</a> and it's integration into the wxWidgets printing framework.</p>
 <p>Kudos to <b>Dieter Schmeer</b> for contributing several enhancements for the XML markup handling.</p>
 <p>Since <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> is based on the great <b>FPDF</b> PHP class and several of the contributions to it found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank</p>

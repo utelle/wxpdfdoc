@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.2.1</span>
+   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -60,6 +60,7 @@ $(function(){ initResizable(false); });
 <li>GenerateEncryptionKey()&#160;:&#160;<a class="el" href="classwx_pdf_encrypt.html#a67010bce5bcddf1c6d7a880849828d3a">wxPdfEncrypt</a></li>
 <li>GenerateFontSubset()&#160;:&#160;<a class="el" href="classwx_pdf_font_subset_cff.html#ae2d0b17759c43d32648a1d205cc764bd">wxPdfFontSubsetCff</a></li>
 <li>GenerateInitialVector()&#160;:&#160;<a class="el" href="classwx_pdf_encrypt.html#af4357e076b8f1337e243d7b3dd922d17">wxPdfEncrypt</a></li>
+<li>GenericBarcode()&#160;:&#160;<a class="el" href="classwx_pdf_bar_code_creator.html#a75c0f990cd17c15afcfa8496354083be">wxPdfBarCodeCreator</a></li>
 <li>Get()&#160;:&#160;<a class="el" href="classwx_pdf_array.html#a8e7d4b49d2aec65cb8370823af8c9249">wxPdfArray</a>, <a class="el" href="classwx_pdf_dictionary.html#a17fd065f6d0eb14a4f13c305e965586e">wxPdfDictionary</a>, <a class="el" href="classwx_pdf_stream.html#a8aa1446589ddd4e4cefef95e1ebc7ffd">wxPdfStream</a></li>
 <li>GetAction()&#160;:&#160;<a class="el" href="classwx_pdf_push_button.html#aa6702e565d4ffdb6ba4522a3c51c69c6">wxPdfPushButton</a></li>
 <li>GetActualId()&#160;:&#160;<a class="el" href="classwx_pdf_object.html#a68c664c759f44b7794a67694a438dc8e">wxPdfObject</a></li>
@@ -72,10 +73,13 @@ $(function(){ initResizable(false); });
 <li>GetBackground()&#160;:&#160;<a class="el" href="classwx_pdf_preview_d_c_impl.html#af3ce171bea9a5ea12e7167a1d14f31ca">wxPdfPreviewDCImpl</a></li>
 <li>GetBackgroundColour()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_widget.html#a4b798711657adfafa55f770adcb84452">wxPdfAnnotationWidget</a></li>
 <li>GetBackgroundMode()&#160;:&#160;<a class="el" href="classwx_pdf_preview_d_c_impl.html#add2741f0330052724166b21fc8848f1d">wxPdfPreviewDCImpl</a></li>
+<li>GetBarcodeName()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a13a439c9cd051edfc28b9e1560769594">wxPdfBarcodeZint</a></li>
 <li>GetBaseEncoding()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#ac97109e05d0ecb72ff1386236a002cd6">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_details.html#a08eaf4ddc456a5db415a09d7b4884baa">wxPdfFontDetails</a>, <a class="el" href="classwx_pdf_font_extended.html#a3bf8bb7c95eba496cfd2d52ed8245774">wxPdfFontExtended</a></li>
 <li>GetBaseEncodingName()&#160;:&#160;<a class="el" href="classwx_pdf_encoding.html#a998aee614ccaa4b478b5ff631ad48edf">wxPdfEncoding</a></li>
 <li>GetBaseFont()&#160;:&#160;<a class="el" href="classwx_pdf_font_parser_true_type.html#af81514df33ac6576f2b190536abea3c6">wxPdfFontParserTrueType</a></li>
 <li>GetBBoxTopPosition()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a8b60e94eb76723e0d7deded870ae620e">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#a019f9e2f48341c0b74b3ab6d05c40edb">wxPdfFontExtended</a></li>
+<li>GetBgColour()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a72ac4375d12b71f157f8588838cae698">wxPdfBarcodeZint</a></li>
+<li>GetBgColourStr()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#aa30a9ae5f4ad2b2802f40a7f74f5e6af">wxPdfBarcodeZint</a></li>
 <li>GetBitsPerComponent()&#160;:&#160;<a class="el" href="classwx_pdf_image.html#a81dd319da298babf1eebc8375fdcf84d">wxPdfImage</a></li>
 <li>GetBlack()&#160;:&#160;<a class="el" href="classwx_pdf_spot_colour.html#acf2442177b8c7b0d6f4228978afda5ae">wxPdfSpotColour</a></li>
 <li>GetBlendMode()&#160;:&#160;<a class="el" href="classwx_pdf_ext_g_state.html#ad003943b9b25fda91461ab455f108b41">wxPdfExtGState</a></li>
@@ -83,7 +87,8 @@ $(function(){ initResizable(false); });
 <li>GetBorder()&#160;:&#160;<a class="el" href="classwx_pdf_table_cell.html#a5078c6ae6de9403810045959ffc603bc">wxPdfTableCell</a></li>
 <li>GetBorderColour()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_widget.html#af179fd8a17d083df5aa4c50035b83701">wxPdfAnnotationWidget</a></li>
 <li>GetBorderStyle()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_widget.html#aa842833b13329c282d7517dd25c2360d">wxPdfAnnotationWidget</a></li>
-<li>GetBorderWidth()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_widget.html#ab4b8b0056716d8215157b4d750b187b1">wxPdfAnnotationWidget</a></li>
+<li>GetBorderType()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#ab591628741f6877974b531b9a7e944b4">wxPdfBarcodeZint</a></li>
+<li>GetBorderWidth()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_widget.html#ab4b8b0056716d8215157b4d750b187b1">wxPdfAnnotationWidget</a>, <a class="el" href="classwx_pdf_barcode_zint.html#af7d1cb44d7965eaf025868095f5cd064">wxPdfBarcodeZint</a></li>
 <li>GetBreakMargin()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a23a5a03ddaf89cd5c4997111684ec5d1">wxPdfDocument</a></li>
 <li>GetBrush()&#160;:&#160;<a class="el" href="classwx_pdf_preview_d_c_impl.html#adf33ed72be4a4902310d8412b277560b">wxPdfPreviewDCImpl</a></li>
 <li>GetBuffer()&#160;:&#160;<a class="el" href="classwx_pdf_cff_index_element.html#ad2aebce4b5e3c07cf3a4570217179e22">wxPdfCffIndexElement</a>, <a class="el" href="classwx_pdf_coons_patch_gradient.html#a828a7bd3cfc5cc473174c9a816333c1d">wxPdfCoonsPatchGradient</a>, <a class="el" href="classwx_pdf_stream.html#a38ce7cc253f0d0171df1f4513e0ae3dd">wxPdfStream</a></li>
@@ -102,6 +107,7 @@ $(function(){ initResizable(false); });
 <li>GetCheckDigit()&#160;:&#160;<a class="el" href="classwx_pdf_bar_code_creator.html#a29d2f189c96dfc91dbfa8de96699eeb5">wxPdfBarCodeCreator</a></li>
 <li>GetChildren()&#160;:&#160;<a class="el" href="classwx_pdf_layer.html#a2999a274eb19743947ba7ef64f7afdec">wxPdfLayer</a></li>
 <li>GetCMap()&#160;:&#160;<a class="el" href="classwx_pdf_encoding.html#a8c114ee09322aec46372e2cf4aa0e9b2">wxPdfEncoding</a>, <a class="el" href="classwx_pdf_font_data.html#a5d49798d00913bcb2c9a291bffcd70ca">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#ab5d32f3a12c0569604283106fdf1ef84">wxPdfFontExtended</a></li>
+<li>GetCMYK()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a00803aa1394bb14ce7dfaf6f9ee4f0fc">wxPdfBarcodeZint</a></li>
 <li>GetCol()&#160;:&#160;<a class="el" href="classwx_pdf_table_cell.html#aaec5d00ce3ca376b6fe86c430b3b5d2f">wxPdfTableCell</a></li>
 <li>GetCollectionFontCount()&#160;:&#160;<a class="el" href="classwx_pdf_font_parser_true_type.html#a013b711b5968e59c6cea6ea030cc3bb4">wxPdfFontParserTrueType</a></li>
 <li>GetColour()&#160;:&#160;<a class="el" href="classwx_pdf_colour.html#a3d25c1e5ed5a788be42ca62ae96891e4">wxPdfColour</a>, <a class="el" href="classwx_pdf_line_style.html#acb66db20efd24ff2b94d6abfba0b5743">wxPdfLineStyle</a></li>
@@ -113,6 +119,7 @@ $(function(){ initResizable(false); });
 <li>GetColourType()&#160;:&#160;<a class="el" href="classwx_pdf_colour.html#afb70d62fd415ff23427629b6b919c7b0">wxPdfColour</a>, <a class="el" href="classwx_pdf_coons_patch_gradient.html#a0776962a058440814dd316e0fde7025c">wxPdfCoonsPatchGradient</a>, <a class="el" href="classwx_pdf_coons_patch_mesh.html#a2c921d58998826382a327e0c02fcc902">wxPdfCoonsPatchMesh</a></li>
 <li>GetColourValue()&#160;:&#160;<a class="el" href="classwx_pdf_colour.html#acc3e35501277044e0842da7de81e5233">wxPdfColour</a></li>
 <li>GetColSpan()&#160;:&#160;<a class="el" href="classwx_pdf_table_cell.html#a8e5e2937c6c03c4a30844f72fcce5684">wxPdfTableCell</a></li>
+<li>GetCompliantHeight()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#ab2e722bb8a120f2f28ceae855f921fc2">wxPdfBarcodeZint</a></li>
 <li>GetContent()&#160;:&#160;<a class="el" href="classwx_pdf_parser.html#a2afb597e42c5498a65f32aaad941af8e">wxPdfParser</a></li>
 <li>GetContext()&#160;:&#160;<a class="el" href="classwx_pdf_table_cell.html#a7c43a3703aa8cc07a64a572a2c8464b5">wxPdfTableCell</a></li>
 <li>GetContextCount()&#160;:&#160;<a class="el" href="classwx_pdf_cell_context.html#a66d874028883d71614b2e4e43bf431e0">wxPdfCellContext</a></li>
@@ -133,6 +140,7 @@ $(function(){ initResizable(false); });
 <li>GetDefaultEmbed()&#160;:&#160;<a class="el" href="classwx_pdf_font_manager.html#a072e285b6bc804f876cb5902a1b2a35b">wxPdfFontManager</a></li>
 <li>GetDefaultPageOrientation()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a40b42ef9b983acf47449db9782998bd7">wxPdfDocument</a></li>
 <li>GetDefaultSubset()&#160;:&#160;<a class="el" href="classwx_pdf_font_manager.html#ae8fb06ac2b817a5560337f897c22b6b0">wxPdfFontManager</a></li>
+<li>GetDefaultXdim()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a951e402c3302afea316ac8acb2648bc3">wxPdfBarcodeZint</a></li>
 <li>GetDepth()&#160;:&#160;<a class="el" href="classwx_pdf_d_c_impl.html#adbf6cf20f704654509a3010d7b28115d">wxPdfDCImpl</a>, <a class="el" href="classwx_pdf_preview_d_c_impl.html#aa1a09bcc3d207eec6a1590bb08ff1701">wxPdfPreviewDCImpl</a></li>
 <li>GetDescent()&#160;:&#160;<a class="el" href="classwx_pdf_font_description.html#a362abea64c5854e04056f688a759d90c">wxPdfFontDescription</a></li>
 <li>GetDescription()&#160;:&#160;<a class="el" href="classwx_pdf_font.html#adb024f1d0749bd167ba76e3782e5ffd1">wxPdfFont</a>, <a class="el" href="classwx_pdf_font_data.html#aecdd0ec22696e7d99ea3f373c154f2c8">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_details.html#a4a1b15c68bebf3bb2e95a6820aa53acc">wxPdfFontDetails</a>, <a class="el" href="classwx_pdf_font_extended.html#aa1495af0bede86116be54d86cd87a0fc">wxPdfFontExtended</a></li>
@@ -146,10 +154,17 @@ $(function(){ initResizable(false); });
 <li>GetDocumentKeywords()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#a5f49445ef0e6c8671af04f8d2f89b100">wxPdfPrintData</a></li>
 <li>GetDocumentSubject()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#ae8ec14e0dddbf2dc3507e47345889a08">wxPdfPrintData</a></li>
 <li>GetDocumentTitle()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#a62d80644c54d17ddaf489fdce134ac60">wxPdfPrintData</a></li>
+<li>GetDotSize()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#acf4a89e37fd66ab257985e970ac24afe">wxPdfBarcodeZint</a></li>
+<li>GetDotty()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a9f5aa3c397669b43c3a493fe92f56b49">wxPdfBarcodeZint</a></li>
+<li>GetDpmm()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#aa3f36ba813e76f866069a957ba37423d">wxPdfBarcodeZint</a></li>
 <li>GetDrawColour()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a09c4c369fbb596192c7c860aa31c181a">wxPdfDocument</a>, <a class="el" href="classwx_pdf_pattern.html#adc0f72e88eb9391807b4328c6fd9a479">wxPdfPattern</a></li>
 <li>GetDrawingStyle()&#160;:&#160;<a class="el" href="classwx_pdf_d_c_impl.html#a5e83aee3ef807e7fbf1d11a82f54e15a">wxPdfDCImpl</a></li>
+<li>GetECI()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#aef868502df08372bc1273c8236b7339e">wxPdfBarcodeZint</a></li>
 <li>GetEdgeFlag()&#160;:&#160;<a class="el" href="classwx_pdf_coons_patch.html#a5be6c81f006ee031ba33ea228f6899d9">wxPdfCoonsPatch</a></li>
 <li>GetEmbed()&#160;:&#160;<a class="el" href="classwx_pdf_font.html#a713da6a97b422ae4cbbff043d7854e91">wxPdfFont</a></li>
+<li>GetEncodedHeight()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#aca29c4b1daa9a46837ec39c1c6d2236c">wxPdfBarcodeZint</a></li>
+<li>GetEncodedRows()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a6a0083068f8e1ce505acbfbc05f9dee6">wxPdfBarcodeZint</a></li>
+<li>GetEncodedWidth()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#ac94b97bb4fd39fee5bf57c49dae69615">wxPdfBarcodeZint</a></li>
 <li>GetEncoding()&#160;:&#160;<a class="el" href="classwx_pdf_font.html#adf3171d6c3b870bbdd5c9c32805efaf5">wxPdfFont</a>, <a class="el" href="classwx_pdf_font_data.html#a8eca186c23fb0e755660fa927b9f5962">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#a37b7db3ca0dab67a4971770205eae80e">wxPdfFontExtended</a>, <a class="el" href="classwx_pdf_font_manager.html#a2725564a3e7b17f80302be7031db6f35">wxPdfFontManager</a></li>
 <li>GetEncodingConv()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#aec887225badc5079e9dcbe30f021313f">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_data_core.html#a70eaee90bc5969af1732b6774d302ef4">wxPdfFontDataCore</a>, <a class="el" href="classwx_pdf_font_data_open_type_unicode.html#a7df1511037d7eb9173f35b4f91e6beb9">wxPdfFontDataOpenTypeUnicode</a>, <a class="el" href="classwx_pdf_font_data_true_type.html#ad70b803e50a1790c3c4033494f2bc6f1">wxPdfFontDataTrueType</a>, <a class="el" href="classwx_pdf_font_data_true_type_unicode.html#a32ee08ce069466e041be29f90632d37e">wxPdfFontDataTrueTypeUnicode</a>, <a class="el" href="classwx_pdf_font_data_type0.html#a1c3471c8de6c9157dd7f7eb7c1e3f7f3">wxPdfFontDataType0</a>, <a class="el" href="classwx_pdf_font_data_type1.html#a1d50e54bf29f386df5839beea98ddca6">wxPdfFontDataType1</a>, <a class="el" href="classwx_pdf_font_details.html#a902b2249f3201b510fd5e7a018f87fce">wxPdfFontDetails</a>, <a class="el" href="classwx_pdf_font_extended.html#a2092c8d96d75f701f503c8f186086277">wxPdfFontExtended</a></li>
 <li>GetEncodingMap()&#160;:&#160;<a class="el" href="classwx_pdf_encoding.html#ac992c210603c8be9454fd75568db224c">wxPdfEncoding</a>, <a class="el" href="classwx_pdf_font_data_type1.html#a94aa641afb7dda957587b963cb2ce470">wxPdfFontDataType1</a></li>
@@ -157,8 +172,11 @@ $(function(){ initResizable(false); });
 <li>GetEncodingType()&#160;:&#160;<a class="el" href="classwx_pdf_font_data_type1.html#a06237a999b765b0121c3d4edc9248e39">wxPdfFontDataType1</a></li>
 <li>GetEncryptionMethod()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#a3e23779d3226542591f14ebd052002cf">wxPdfPrintData</a></li>
 <li>GetEnglishName()&#160;:&#160;<a class="el" href="classwx_pdf_font_parser_true_type.html#ae594a3fbf779c77f92b64c03105ed701">wxPdfFontParserTrueType</a></li>
+<li>GetError()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a2c87d4b4ef34bb8e377b3879b1267a9e">wxPdfBarcodeZint</a></li>
 <li>GetF()&#160;:&#160;<a class="el" href="classwx_pdf_image.html#aee888eb6dc05305db895b1111d6e6bda">wxPdfImage</a></li>
 <li>GetFamily()&#160;:&#160;<a class="el" href="classwx_pdf_font.html#a6d7c89be4c52d624083e51057a199e29">wxPdfFont</a>, <a class="el" href="classwx_pdf_font_data.html#a1ad9308f1c449e85ea2273acdf0f9b49">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#a4d05064631f7e65c3a6564f913ab67ed">wxPdfFontExtended</a></li>
+<li>GetFgColour()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#af1423100ac514f7dd0f7a72d9d60f408">wxPdfBarcodeZint</a></li>
+<li>GetFgColourStr()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a76ed9916c421465b60b5a1ae4801b227">wxPdfBarcodeZint</a></li>
 <li>GetFileIndex()&#160;:&#160;<a class="el" href="classwx_pdf_font_details.html#a48fbd64bc47e0e2271d52610865921fb">wxPdfFontDetails</a></li>
 <li>GetFilename()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#adff290026156fe701953061111eeef48">wxPdfPrintData</a></li>
 <li>GetFilePath()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a02396257c0a5ff8b3bd2aa524bdb1561">wxPdfFontData</a></li>
@@ -171,6 +189,8 @@ $(function(){ initResizable(false); });
 <li>GetFlags()&#160;:&#160;<a class="el" href="classwx_pdf_font_description.html#afe0eb04baa908f187d840d7b944cf6f4">wxPdfFontDescription</a></li>
 <li>GetFont()&#160;:&#160;<a class="el" href="classwx_pdf_font_details.html#a8613bd681c994dfc274defaf7d857211">wxPdfFontDetails</a>, <a class="el" href="classwx_pdf_font_manager.html#af6d74455c32e3a9ed789e3158b14dd3e">wxPdfFontManager</a>, <a class="el" href="classwx_pdf_preview_d_c_impl.html#a378081e096dc82fa4213c50c1a308b2f">wxPdfPreviewDCImpl</a></li>
 <li>GetFontBBox()&#160;:&#160;<a class="el" href="classwx_pdf_font_description.html#a7ed83da60f0adcd7cc76716c6f602ded">wxPdfFontDescription</a></li>
+<li>GetFontBuffer()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a0b54b49d460e387c99a8525b1153372b">wxPdfFontData</a></li>
+<li>GetFontBufferSize()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a91ccce080704b7ce82ede8ea90e050f1">wxPdfFontData</a></li>
 <li>GetFontCount()&#160;:&#160;<a class="el" href="classwx_pdf_font_manager.html#a80acbc950f3d939d3ae000b0589ea214">wxPdfFontManager</a></li>
 <li>GetFontDescription()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a5fc0b24d1d65f854fe29d9ce58ce8fc3">wxPdfDocument</a>, <a class="el" href="classwx_pdf_font_data.html#a7e9cae8e009d81ce0700c5e2f648f101">wxPdfFontData</a></li>
 <li>GetFontFamily()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a61683ff1122c71dde7d30394eb9b0b8a">wxPdfDocument</a>, <a class="el" href="classwx_pdf_font_details.html#a5fba3ed8fb83b5876be0e54de3530265">wxPdfFontDetails</a></li>
@@ -178,6 +198,7 @@ $(function(){ initResizable(false); });
 <li>GetFontFileName()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a4dc35dcac5fcd1e17e0efa92cd993bea">wxPdfFontData</a></li>
 <li>GetFontIndex()&#160;:&#160;<a class="el" href="classwx_pdf_combo_box.html#a629253b52bb46519b639c57b68202b31">wxPdfComboBox</a>, <a class="el" href="classwx_pdf_font_data.html#a481a7e4269b6640b1f782bb8a457543d">wxPdfFontData</a>, <a class="el" href="classwx_pdf_push_button.html#a40f4ce1c3c53bf81fca993dbe9f0fa85">wxPdfPushButton</a>, <a class="el" href="classwx_pdf_text_field.html#afea6e8aeaf5759f2dec32964b47e3f32">wxPdfTextField</a></li>
 <li>GetFontManager()&#160;:&#160;<a class="el" href="classwx_pdf_font_manager.html#a9beb708d46ee35b12c265314ca3c3473">wxPdfFontManager</a></li>
+<li>GetFontSetting()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a7329d4ede1e80407514e20edb73c24ad">wxPdfBarcodeZint</a></li>
 <li>GetFontSize()&#160;:&#160;<a class="el" href="classwx_pdf_combo_box.html#a97737290aa64b03b87d434047209e8ed">wxPdfComboBox</a>, <a class="el" href="classwx_pdf_document.html#a554f11302204913e472467b69f948ce2">wxPdfDocument</a>, <a class="el" href="classwx_pdf_push_button.html#ae60e3675090012d78f2646095d1a15b8">wxPdfPushButton</a>, <a class="el" href="classwx_pdf_text_field.html#a2563dd1e044f6f4ceb06d72fb688aa5a">wxPdfTextField</a></li>
 <li>GetFontStyle()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a420c20b88ae4926684673b875aff1ef2">wxPdfDocument</a></li>
 <li>GetFontStyles()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a8790ce4f4d3eeed24037891783ce18ca">wxPdfDocument</a></li>
@@ -191,17 +212,20 @@ $(function(){ initResizable(false); });
 <li>GetGlyphWidth()&#160;:&#160;<a class="el" href="classwx_pdf_font_parser_true_type.html#acaf619e158224a6e9abc4ee41f080a17">wxPdfFontParserTrueType</a></li>
 <li>GetGlyphWidthMap()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a7d861a77a6c3438fd6f82dc45bb733fe">wxPdfFontData</a></li>
 <li>GetGroup()&#160;:&#160;<a class="el" href="classwx_pdf_layer_group.html#ad8e4b38d74d22515bd297f7ff14d28b9">wxPdfLayerGroup</a></li>
+<li>GetGS1NoCheckMode()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a602ebf0a9c556571ccde32b93f117a24">wxPdfBarcodeZint</a></li>
+<li>GetGuardDescent()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#ac97f3e2ebca0689ce0e923c3a9d9d1a9">wxPdfBarcodeZint</a></li>
 <li>GetHAlign()&#160;:&#160;<a class="el" href="classwx_pdf_cell_context.html#adee8713ff4473ee60b94468b81086d10">wxPdfCellContext</a>, <a class="el" href="classwx_pdf_table_cell.html#adf655483e301e72cd94e6de004613f68">wxPdfTableCell</a></li>
 <li>GetHashMap()&#160;:&#160;<a class="el" href="classwx_pdf_dictionary.html#aad89d0fedfe44ad39b1262c66275d7ec">wxPdfDictionary</a></li>
 <li>GetHeaderHeight()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#aabfa92f33d07b7db176a2ac7b66104b9">wxPdfDocument</a></li>
 <li>GetHeadHeight()&#160;:&#160;<a class="el" href="classwx_pdf_table.html#a10a8e4de8bd91981183c3e85bb400538">wxPdfTable</a></li>
-<li>GetHeight()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_object.html#a0c0d4fb72e1846f5fec2ca453f6f278a">wxPdfAnnotationObject</a>, <a class="el" href="classwx_pdf_cell_context.html#acaaa7f258f5548330f02c794a1c17179">wxPdfCellContext</a>, <a class="el" href="classwx_pdf_image.html#acf1baac44f13661a80c647152678698a">wxPdfImage</a>, <a class="el" href="classwx_pdf_page_link.html#a6e4addeb36ec871eb2ed0328b3c957fd">wxPdfPageLink</a>, <a class="el" href="classwx_pdf_pattern.html#a92ecdbe19374d99fc7991ebc92999b33">wxPdfPattern</a>, <a class="el" href="classwx_pdf_table_cell.html#a883dc78a50d86e599063910e692fa143">wxPdfTableCell</a>, <a class="el" href="classwx_pdf_template.html#a48bb6169470f09b52eab47831031c952">wxPdfTemplate</a></li>
+<li>GetHeight()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_object.html#a0c0d4fb72e1846f5fec2ca453f6f278a">wxPdfAnnotationObject</a>, <a class="el" href="classwx_pdf_barcode_zint.html#aa212f3045b52a9717f69c075b5fd2f31">wxPdfBarcodeZint</a>, <a class="el" href="classwx_pdf_cell_context.html#acaaa7f258f5548330f02c794a1c17179">wxPdfCellContext</a>, <a class="el" href="classwx_pdf_image.html#acf1baac44f13661a80c647152678698a">wxPdfImage</a>, <a class="el" href="classwx_pdf_page_link.html#a6e4addeb36ec871eb2ed0328b3c957fd">wxPdfPageLink</a>, <a class="el" href="classwx_pdf_pattern.html#a92ecdbe19374d99fc7991ebc92999b33">wxPdfPattern</a>, <a class="el" href="classwx_pdf_table_cell.html#a883dc78a50d86e599063910e692fa143">wxPdfTableCell</a>, <a class="el" href="classwx_pdf_template.html#a48bb6169470f09b52eab47831031c952">wxPdfTemplate</a></li>
 <li>GetHex()&#160;:&#160;<a class="el" href="classwx_pdf_tokenizer.html#ad853f8b37703a6a2076d7e6ea7ac773b">wxPdfTokenizer</a></li>
 <li>GetHRef()&#160;:&#160;<a class="el" href="classwx_pdf_cell_context.html#af0bfd494a74861e6776bf3fd8b560b49">wxPdfCellContext</a></li>
 <li>GetImage()&#160;:&#160;<a class="el" href="classwx_pdf_pattern.html#af0ca0ced193e8492778ced2d36aabf88">wxPdfPattern</a></li>
 <li>GetImageScale()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#ae7adc05d0280be06616b1998817fcbf2">wxPdfDocument</a></li>
 <li>GetImageSize()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a96e35b428d36da5d902697d371cb853c">wxPdfDocument</a></li>
 <li>GetIndex()&#160;:&#160;<a class="el" href="classwx_pdf_font_details.html#ad71f1618f8794c9b6db3a273386e1971">wxPdfFontDetails</a>, <a class="el" href="classwx_pdf_image.html#afa7794cca19f2ff0a04d819ea5a2661e">wxPdfImage</a>, <a class="el" href="classwx_pdf_ocg.html#a2eb854802126e681ac6545e22167dde8">wxPdfOcg</a>, <a class="el" href="classwx_pdf_pattern.html#aeb0b2e2bb0baea83085111ba90e3ddf1">wxPdfPattern</a>, <a class="el" href="classwx_pdf_radio_button.html#a0fb4bcc4235b4ddc601b7e89fc59b80b">wxPdfRadioButton</a>, <a class="el" href="classwx_pdf_spot_colour.html#a0e581486ceed71e05f6d7fc87dd94448">wxPdfSpotColour</a>, <a class="el" href="classwx_pdf_template.html#a6ad286ad12de9620389ec08b3be25d4b">wxPdfTemplate</a></li>
+<li>GetInputMode()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#af0bdc0875ab36a755977033f3776a24b">wxPdfBarcodeZint</a></li>
 <li>GetInt()&#160;:&#160;<a class="el" href="classwx_pdf_number.html#a351fa61d859372eb17574120713f1b8e">wxPdfNumber</a></li>
 <li>GetIntent()&#160;:&#160;<a class="el" href="classwx_pdf_layer.html#ab5f9562295cab785bb7ab01952e3ede2">wxPdfLayer</a></li>
 <li>GetIntExp()&#160;:&#160;<a class="el" href="classwx_pdf_axial_gradient.html#a345acbeeaa8d079b280db4b2262d53d3">wxPdfAxialGradient</a></li>
@@ -216,6 +240,7 @@ $(function(){ initResizable(false); });
 <li>GetKnownEncodings()&#160;:&#160;<a class="el" href="classwx_pdf_encoding.html#a4c109b8005945b00e382278e15fb83f4">wxPdfEncoding</a></li>
 <li>GetLast()&#160;:&#160;<a class="el" href="classwx_pdf_bookmark.html#a627fdbf250abe35b7c3388bbbd1de70c">wxPdfBookmark</a></li>
 <li>GetLastChar()&#160;:&#160;<a class="el" href="classwx_pdf_cell_context.html#a2aa318e74d48ba642538d7a403f1f6c4">wxPdfCellContext</a></li>
+<li>GetLastError()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a80e8fb0b6eb16ce6e9368737b583b152">wxPdfBarcodeZint</a></li>
 <li>GetLastImageBottomRightX()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a9004deefdb8bc0336015756b52037ac6">wxPdfDocument</a></li>
 <li>GetLastImageBottomRightY()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a9d2ff215ff5092423676e4373d0cf2d8">wxPdfDocument</a></li>
 <li>GetLastLineWidth()&#160;:&#160;<a class="el" href="classwx_pdf_cell_context.html#a31957012bc796974c8f7194b96ddad12">wxPdfCellContext</a></li>
@@ -269,6 +294,9 @@ $(function(){ initResizable(false); });
 <li>GetOEValue()&#160;:&#160;<a class="el" href="classwx_pdf_encrypt.html#aba461477246cb8fdd09224a2ed8c8f71">wxPdfEncrypt</a></li>
 <li>GetOffset()&#160;:&#160;<a class="el" href="classwx_pdf_cff_index_element.html#a2b1bb755ebf4750dce6e93b740303b7c">wxPdfCffIndexElement</a>, <a class="el" href="classwx_pdf_stream.html#ac4c25c445ce63508d61489dfb2032faa">wxPdfStream</a></li>
 <li>GetOpenTypeMetrics()&#160;:&#160;<a class="el" href="classwx_pdf_font_description.html#a0813e78d12fb24046cb13bfb0f5a6ff1">wxPdfFontDescription</a></li>
+<li>GetOption1()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#acce390661fa77f452c8f81c186160524">wxPdfBarcodeZint</a></li>
+<li>GetOption2()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#ae7c1a1a157b44e5e18668d50e54d24b3">wxPdfBarcodeZint</a></li>
+<li>GetOption3()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a60a1388f059c3f7e4088f33b3453ba2d">wxPdfBarcodeZint</a></li>
 <li>GetOrdering()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#ae1ce695dc5a353e24a6936a7e69e07fa">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#ae7913ca8938e6ecb8bff09913136efea">wxPdfFontExtended</a></li>
 <li>GetOrientation()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#aa243826993265fb3cc92a54f84d73432">wxPdfPrintData</a></li>
 <li>GetOriginalName()&#160;:&#160;<a class="el" href="classwx_pdf_font_details.html#adb7cca8136a110665fda6e9c1cc4c838">wxPdfFontDetails</a></li>
@@ -314,6 +342,7 @@ $(function(){ initResizable(false); });
 <li>GetPosition()&#160;:&#160;<a class="el" href="classwx_pdf_link.html#a169b9d1c4231ebcfca75e5b149d7e1b2">wxPdfLink</a></li>
 <li>GetPPI()&#160;:&#160;<a class="el" href="classwx_pdf_d_c_impl.html#a7c789b4d25101c74034ea5ba31222cb5">wxPdfDCImpl</a>, <a class="el" href="classwx_pdf_preview_d_c_impl.html#a18f619530cebd6894fb637e8742401c9">wxPdfPreviewDCImpl</a></li>
 <li>GetPrev()&#160;:&#160;<a class="el" href="classwx_pdf_bookmark.html#a2bf0b01c1225e6be1f64b00bd8b9eb92">wxPdfBookmark</a></li>
+<li>GetPrimaryMessage()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a1c569d70cb09bc80a518ce8a41cfeec7">wxPdfBarcodeZint</a></li>
 <li>GetPrintData()&#160;:&#160;<a class="el" href="classwx_pdf_d_c_impl.html#aede980fa7a608e03917cad8126fd560e">wxPdfDCImpl</a>, <a class="el" href="classwx_pdf_print_dialog.html#ab9d2ef9b0cdb8f3048a8a5ebfa1cab9e">wxPdfPrintDialog</a></li>
 <li>GetPrintDC()&#160;:&#160;<a class="el" href="classwx_pdf_print_dialog.html#a04bf512522fe3dab9a0d33269e4a523e">wxPdfPrintDialog</a></li>
 <li>GetPrintDialogData()&#160;:&#160;<a class="el" href="classwx_pdf_print_dialog.html#a5189197cd444754991e07c025a3f0a96">wxPdfPrintDialog</a>, <a class="el" href="classwx_pdf_print_preview.html#ae80059c3c678798d5a83625f71f072b9">wxPdfPrintPreview</a></li>
@@ -331,12 +360,16 @@ $(function(){ initResizable(false); });
 <li>GetResources()&#160;:&#160;<a class="el" href="classwx_pdf_template.html#ac52815b2899af85a85fc94b973232206">wxPdfTemplate</a></li>
 <li>GetRevision()&#160;:&#160;<a class="el" href="classwx_pdf_encrypt.html#a1b9de8dc46148619e39e343c558da3eb">wxPdfEncrypt</a></li>
 <li>GetRightMargin()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a0f2042c89d66e2b6a60ceb280c15a354">wxPdfDocument</a></li>
+<li>GetRotateAngle()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#ae81363b0638d7723984c4da408548e41">wxPdfBarcodeZint</a></li>
 <li>GetRow()&#160;:&#160;<a class="el" href="classwx_pdf_table_cell.html#aa2a10cde76c6b6c5e19b2b9ef844ff51">wxPdfTableCell</a></li>
 <li>GetRowHeight()&#160;:&#160;<a class="el" href="classwx_pdf_table.html#a169845f7ed8b49f17143930bd0ffb120">wxPdfTable</a></li>
 <li>GetRowSpan()&#160;:&#160;<a class="el" href="classwx_pdf_table_cell.html#a59dae74a1abfb70ac27facf59e42d617">wxPdfTableCell</a></li>
+<li>GetScale()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#ad0305327016b9808d09d1a72ceafa18f">wxPdfBarcodeZint</a></li>
 <li>GetScaleFactor()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a4ccace22e4da98a7f5c809a81619ce9c">wxPdfDocument</a></li>
+<li>GetSecurityLevel()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a1eb5c84967f174f51074340a6f5c5b41">wxPdfBarcodeZint</a></li>
 <li>GetSegment()&#160;:&#160;<a class="el" href="classwx_pdf_shape.html#a74ae904380cc24c8a287816d2852b8d9">wxPdfShape</a></li>
 <li>GetSegmentCount()&#160;:&#160;<a class="el" href="classwx_pdf_shape.html#ae422185685c35b5bb186cf9eb85cb692">wxPdfShape</a></li>
+<li>GetSegments()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a4ebc761ad1700ce826e27559f83f0595">wxPdfBarcodeZint</a></li>
 <li>GetSize()&#160;:&#160;<a class="el" href="classwx_pdf_array.html#ad355d3f2de137bdaa02407d71b0d7d36">wxPdfArray</a></li>
 <li>GetSize1()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a3b47f37e20f95fc7f146588aaa82ca08">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#a055116ad147308e98d5e6900ea7fe868">wxPdfFontExtended</a></li>
 <li>GetSize2()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a4c913fe317e99de52571ba4146265712">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#ae0a2c08f56fcfb78b85aa21d4bf89609">wxPdfFontExtended</a></li>
@@ -348,11 +381,15 @@ $(function(){ initResizable(false); });
 <li>GetStreamBytesRaw()&#160;:&#160;<a class="el" href="classwx_pdf_parser.html#a60a8c2fa12c3f616e9629dbe26d556f0">wxPdfParser</a></li>
 <li>GetStringValue()&#160;:&#160;<a class="el" href="classwx_pdf_tokenizer.html#ace5eef258b62b551d2bc94370666695c">wxPdfTokenizer</a></li>
 <li>GetStringWidth()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#aa0d55214cc8a519e76ff141935962f52">wxPdfDocument</a>, <a class="el" href="classwx_pdf_font.html#a009b7d9bd6901545ee384d0e7bc26c1a">wxPdfFont</a>, <a class="el" href="classwx_pdf_font_data.html#a470bb58ae6b70c442cbbcd4eef3c2f8b">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_data_core.html#a01b419a3f4753b35bdbf90983c697452">wxPdfFontDataCore</a>, <a class="el" href="classwx_pdf_font_data_open_type_unicode.html#a04592b8a3a51fa906f3c08fcb7f2b55d">wxPdfFontDataOpenTypeUnicode</a>, <a class="el" href="classwx_pdf_font_data_true_type.html#af8e1b535764f766c755e633f838d8d17">wxPdfFontDataTrueType</a>, <a class="el" href="classwx_pdf_font_data_true_type_unicode.html#aa5cd88d4b6da9560e1da64f1c740f690">wxPdfFontDataTrueTypeUnicode</a>, <a class="el" href="classwx_pdf_font_data_type0.html#a94c0837178f9c8655cbeddb6aa455274">wxPdfFontDataType0</a>, <a class="el" href="classwx_pdf_font_data_type1.html#a04a383dc174eeb59f43fbaf1d7c725a7">wxPdfFontDataType1</a>, <a class="el" href="classwx_pdf_font_details.html#a6581fa33eaae045bdaf5f49359c1ffad">wxPdfFontDetails</a>, <a class="el" href="classwx_pdf_font_extended.html#ab0305b8d46e459af63b5400da1b4b20c">wxPdfFontExtended</a></li>
+<li>GetStructAppCount()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a4f619ea5ef7b03e285d6f4a479be10e0">wxPdfBarcodeZint</a></li>
+<li>GetStructAppID()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a26f8e21c3a521e1c5430b4dccccda85a">wxPdfBarcodeZint</a></li>
+<li>GetStructAppIndex()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a563a0fd7df6f129eab9e1a785eb202fa">wxPdfBarcodeZint</a></li>
 <li>GetStyle()&#160;:&#160;<a class="el" href="classwx_pdf_font.html#a671ba723b068e3830556d571c48f82f0">wxPdfFont</a>, <a class="el" href="classwx_pdf_font_data.html#a7fe3e4445626a7dde1454055fcd519c8">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#abe872056ad593275245bfc656313bd43">wxPdfFontExtended</a></li>
 <li>GetSubject()&#160;:&#160;<a class="el" href="classwx_pdf_info.html#a8da4fe5c6fe9b974be5193a7dc9e1895">wxPdfInfo</a></li>
 <li>GetSubset()&#160;:&#160;<a class="el" href="classwx_pdf_font.html#aac32089089a3c5742027fc424292d118">wxPdfFont</a></li>
 <li>GetSupplement()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a928df1a52ab2d55d842d9ca03ecc59de">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_extended.html#a8243c4fcaa7c3e8530bbf3a17ee51ace">wxPdfFontExtended</a></li>
 <li>GetSupportedUnicodeCharacters()&#160;:&#160;<a class="el" href="classwx_pdf_font.html#abfca04b9f56acf7d411bbb2e2ca6e03e">wxPdfFont</a></li>
+<li>GetSymbology()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a94af12e8a05ff4fde581f476a8d5761e">wxPdfBarcodeZint</a></li>
 <li>GetTable()&#160;:&#160;<a class="el" href="classwx_pdf_cell_context.html#aec1dc984ed5fb0485e400a7e23f003be">wxPdfCellContext</a></li>
 <li>GetTemplateBBox()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#ae008a860f1aa6c8bfd1eedaddf2286a3">wxPdfDocument</a></li>
 <li>GetTemplateDocument()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#a306be78efc2520ee863dc6f1b7c82d58">wxPdfPrintData</a></li>
@@ -361,10 +398,11 @@ $(function(){ initResizable(false); });
 <li>GetTemplateMode()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#a3f25da5278767f68f67a0d7934dd3046">wxPdfPrintData</a></li>
 <li>GetTemplateSize()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#ab1d799cbf730d17f1a9f12fb0780a4c8">wxPdfDocument</a></li>
 <li>GetTemplateWidth()&#160;:&#160;<a class="el" href="classwx_pdf_print_data.html#a32c772e88eef6ede514b3b11d270f845">wxPdfPrintData</a></li>
-<li>GetText()&#160;:&#160;<a class="el" href="classwx_pdf_annotation.html#a72bdbb01fdeb5642c228e3f540f1425e">wxPdfAnnotation</a>, <a class="el" href="classwx_pdf_bookmark.html#a611324adb2048065186c059fa1320470">wxPdfBookmark</a></li>
+<li>GetText()&#160;:&#160;<a class="el" href="classwx_pdf_annotation.html#a72bdbb01fdeb5642c228e3f540f1425e">wxPdfAnnotation</a>, <a class="el" href="classwx_pdf_barcode_zint.html#a5aa59f7ecfd2196c7e92efe9c54e15a4">wxPdfBarcodeZint</a>, <a class="el" href="classwx_pdf_bookmark.html#a611324adb2048065186c059fa1320470">wxPdfBookmark</a></li>
 <li>GetTextBackground()&#160;:&#160;<a class="el" href="classwx_pdf_preview_d_c_impl.html#a404e1f4ace33e5cba8d1ce4cb4553b74">wxPdfPreviewDCImpl</a></li>
 <li>GetTextColour()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_widget.html#a55520540bc99f2928515ed30690ac5ec">wxPdfAnnotationWidget</a>, <a class="el" href="classwx_pdf_document.html#a9ed8fbd194b046a3d55cad3070160dd0">wxPdfDocument</a></li>
 <li>GetTextForeground()&#160;:&#160;<a class="el" href="classwx_pdf_preview_d_c_impl.html#acd7dcba413450d132b500794765088aa">wxPdfPreviewDCImpl</a></li>
+<li>GetTextGap()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a52ded571e1787d38a5d9dfbb1940b315">wxPdfBarcodeZint</a></li>
 <li>GetTextRenderMode()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a5f06e763e8fc00b357895d4766124761">wxPdfDocument</a></li>
 <li>GetTitle()&#160;:&#160;<a class="el" href="classwx_pdf_info.html#af70d485a70c1c82b02456e98c4e9e6ba">wxPdfInfo</a>, <a class="el" href="classwx_pdf_layer.html#ad281a8364118bce798e8664be693ddcc">wxPdfLayer</a></li>
 <li>GetTokenType()&#160;:&#160;<a class="el" href="classwx_pdf_tokenizer.html#a8f087ec68badc06ba26c928689397672">wxPdfTokenizer</a></li>
@@ -388,8 +426,14 @@ $(function(){ initResizable(false); });
 <li>GetUValue()&#160;:&#160;<a class="el" href="classwx_pdf_encrypt.html#a611a82d8e12342cc52e1aa0833c6e400">wxPdfEncrypt</a></li>
 <li>GetVAlign()&#160;:&#160;<a class="el" href="classwx_pdf_cell_context.html#a73f3c986bb510054a2d67c648d7ef54c">wxPdfCellContext</a>, <a class="el" href="classwx_pdf_table_cell.html#aebbc846b89b59ed39cf9405cfe9466e1">wxPdfTableCell</a></li>
 <li>GetValue()&#160;:&#160;<a class="el" href="classwx_pdf_boolean.html#af7df0722e215ab8790fad74468c4d096">wxPdfBoolean</a>, <a class="el" href="classwx_pdf_check_box.html#a66263b74da4f92b75bee92d5c8550558">wxPdfCheckBox</a>, <a class="el" href="classwx_pdf_combo_box.html#aaf3d003ea9edd7bce1d976267c5d7b5a">wxPdfComboBox</a>, <a class="el" href="classwx_pdf_literal.html#acc4f38f87f391f2f2c855d62b7d466f6">wxPdfLiteral</a>, <a class="el" href="classwx_pdf_number.html#a818e8d7035048682bcd0357b6690006a">wxPdfNumber</a>, <a class="el" href="classwx_pdf_string.html#a8a5a1ca5ef38f141746d324baac3e574">wxPdfString</a>, <a class="el" href="classwx_pdf_text_field.html#a393ba68372588e54442a7c1b7ab37cdd">wxPdfTextField</a></li>
+<li>GetVectorHeight()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#aba8f94d7a22b499fbeac692c84aa43cd">wxPdfBarcodeZint</a></li>
+<li>GetVectorWidth()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a2189b55aefeb32127ad8a0680fed6490">wxPdfBarcodeZint</a></li>
+<li>GetVersion()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a7e9ab934494838724fd9f9de46e2c16e">wxPdfBarcodeZint</a></li>
+<li>GetVerticalWhitespace()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a569cf0ad056740d9dcfcbb10576ba014">wxPdfBarcodeZint</a></li>
 <li>GetVisibilityPolicy()&#160;:&#160;<a class="el" href="classwx_pdf_layer_membership.html#a65c07a57775cc11735231d9245c7e591">wxPdfLayerMembership</a></li>
-<li>GetWidth()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_object.html#a368a43dcfa9be87827a8cbf16e5d1e66">wxPdfAnnotationObject</a>, <a class="el" href="classwx_pdf_image.html#add81524a6fcdb277903f471401f9b77b">wxPdfImage</a>, <a class="el" href="classwx_pdf_line_style.html#a679e550091b5e8e0c514fc8803a7a7fd">wxPdfLineStyle</a>, <a class="el" href="classwx_pdf_page_link.html#a40393446049c589b49ec64f5206ecd30">wxPdfPageLink</a>, <a class="el" href="classwx_pdf_pattern.html#a5c4f82beac2e592f0e389d2299aa1388">wxPdfPattern</a>, <a class="el" href="classwx_pdf_table_cell.html#aa232d9e6998026f25b3cb7f7bf0fa0e7">wxPdfTableCell</a>, <a class="el" href="classwx_pdf_template.html#a0512e617123414a481e9dd136d7b985a">wxPdfTemplate</a></li>
+<li>GetWarnLevel()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a12d4446fe9c62f6c0f1a05c6ea05e249">wxPdfBarcodeZint</a></li>
+<li>GetWhitespace()&#160;:&#160;<a class="el" href="classwx_pdf_barcode_zint.html#a7d8a7d916bc0597f4d5b0feb9ed64450">wxPdfBarcodeZint</a></li>
+<li>GetWidth()&#160;:&#160;<a class="el" href="classwx_pdf_annotation_object.html#a368a43dcfa9be87827a8cbf16e5d1e66">wxPdfAnnotationObject</a>, <a class="el" href="classwx_pdf_barcode_zint.html#a069934774b5495dcbbc8c51b02565247">wxPdfBarcodeZint</a>, <a class="el" href="classwx_pdf_image.html#add81524a6fcdb277903f471401f9b77b">wxPdfImage</a>, <a class="el" href="classwx_pdf_line_style.html#a679e550091b5e8e0c514fc8803a7a7fd">wxPdfLineStyle</a>, <a class="el" href="classwx_pdf_page_link.html#a40393446049c589b49ec64f5206ecd30">wxPdfPageLink</a>, <a class="el" href="classwx_pdf_pattern.html#a5c4f82beac2e592f0e389d2299aa1388">wxPdfPattern</a>, <a class="el" href="classwx_pdf_table_cell.html#aa232d9e6998026f25b3cb7f7bf0fa0e7">wxPdfTableCell</a>, <a class="el" href="classwx_pdf_template.html#a0512e617123414a481e9dd136d7b985a">wxPdfTemplate</a></li>
 <li>GetWidthsAsString()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a9741b69ec68f764d36108bb4f2352609">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_data_core.html#a37876f872e45c3421d470b7f1b87f0c5">wxPdfFontDataCore</a>, <a class="el" href="classwx_pdf_font_data_open_type_unicode.html#a05815529c672ce296474aa2f2aed8e84">wxPdfFontDataOpenTypeUnicode</a>, <a class="el" href="classwx_pdf_font_data_true_type.html#ab3617b6dc2e6af249a054830870ce4c1">wxPdfFontDataTrueType</a>, <a class="el" href="classwx_pdf_font_data_true_type_unicode.html#a41a6e15adcb7cf74d744b89f3a4ad032">wxPdfFontDataTrueTypeUnicode</a>, <a class="el" href="classwx_pdf_font_data_type0.html#a19078959fc89cfd97f6e37e083d5c3bd">wxPdfFontDataType0</a>, <a class="el" href="classwx_pdf_font_data_type1.html#a677ea4c4a5fdd8cb87a2a9f573a2d963">wxPdfFontDataType1</a>, <a class="el" href="classwx_pdf_font_details.html#aaee6cfa6025cd6875c5d063c7f96b7e9">wxPdfFontDetails</a>, <a class="el" href="classwx_pdf_font_extended.html#a1696a81e0704d6781c7d603f3d8d1521">wxPdfFontExtended</a></li>
 <li>GetWinEncodingConv()&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#abe387454a888977191b4753a4a5b413d">wxPdfFontData</a></li>
 <li>GetX()&#160;:&#160;<a class="el" href="classwx_pdf_annotation.html#a09e389be13ec3358e947262383fc2fa1">wxPdfAnnotation</a>, <a class="el" href="classwx_pdf_annotation_object.html#a49f7b244a2599a34cb9e43282fa7a8f2">wxPdfAnnotationObject</a>, <a class="el" href="classwx_pdf_coons_patch.html#af16b58a5b28ac8eea5800d16d352c603">wxPdfCoonsPatch</a>, <a class="el" href="classwx_pdf_document.html#a207c8d33f30e11728bdfcb2b26df036a">wxPdfDocument</a>, <a class="el" href="classwx_pdf_image.html#aa254490466c926b367ef8e77fa40afb2">wxPdfImage</a>, <a class="el" href="classwx_pdf_page_link.html#a4551be8bd71cc07b4885619380139783">wxPdfPageLink</a>, <a class="el" href="classwx_pdf_template.html#a74cc3548eccfbb60ebf8d389bf38ce94">wxPdfTemplate</a></li>

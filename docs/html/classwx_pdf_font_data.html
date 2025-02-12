@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.2.1</span>
+   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -157,6 +157,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4fb7225fb6fca877bbeedce7d46a7413" id="r_a4fb7225fb6fca877bbeedce7d46a7413"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4fb7225fb6fca877bbeedce7d46a7413">SetSubsetSupported</a> (bool subsetSupported)</td></tr>
 <tr class="memdesc:a4fb7225fb6fca877bbeedce7d46a7413"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set subset support flag.  <br /></td></tr>
 <tr class="separator:a4fb7225fb6fca877bbeedce7d46a7413"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dea5e564f4b5c27213271e4393f5af5" id="r_a8dea5e564f4b5c27213271e4393f5af5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8dea5e564f4b5c27213271e4393f5af5">SetFontBuffer</a> (const char *fontBuffer)</td></tr>
+<tr class="memdesc:a8dea5e564f4b5c27213271e4393f5af5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set associated font data buffer.  <br /></td></tr>
+<tr class="separator:a8dea5e564f4b5c27213271e4393f5af5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b54b49d460e387c99a8525b1153372b" id="r_a0b54b49d460e387c99a8525b1153372b"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b54b49d460e387c99a8525b1153372b">GetFontBuffer</a> () const</td></tr>
+<tr class="memdesc:a0b54b49d460e387c99a8525b1153372b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get associated font data buffer.  <br /></td></tr>
+<tr class="separator:a0b54b49d460e387c99a8525b1153372b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab37060fcb97e4ccd52090fc5b75dda5e" id="r_ab37060fcb97e4ccd52090fc5b75dda5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab37060fcb97e4ccd52090fc5b75dda5e">SetFontBufferSize</a> (size_t fontBufferSize)</td></tr>
+<tr class="memdesc:ab37060fcb97e4ccd52090fc5b75dda5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the size of the associated font data buffer.  <br /></td></tr>
+<tr class="separator:ab37060fcb97e4ccd52090fc5b75dda5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91ccce080704b7ce82ede8ea90e050f1" id="r_a91ccce080704b7ce82ede8ea90e050f1"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a91ccce080704b7ce82ede8ea90e050f1">GetFontBufferSize</a> () const</td></tr>
+<tr class="memdesc:a91ccce080704b7ce82ede8ea90e050f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the size of the associated font data buffer.  <br /></td></tr>
+<tr class="separator:a91ccce080704b7ce82ede8ea90e050f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86283ae1b01e68447b8f76908a6c37a2" id="r_a86283ae1b01e68447b8f76908a6c37a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86283ae1b01e68447b8f76908a6c37a2">SetFontFileName</a> (const wxString &amp;fontFileName)</td></tr>
 <tr class="memdesc:a86283ae1b01e68447b8f76908a6c37a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set fully qualified font file name.  <br /></td></tr>
 <tr class="separator:a86283ae1b01e68447b8f76908a6c37a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -427,6 +439,12 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:aa1561b625331b26e4aea23a566dfb096" id="r_aa1561b625331b26e4aea23a566dfb096"><td class="memItemLeft" align="right" valign="top">wxFont&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1561b625331b26e4aea23a566dfb096">m_font</a></td></tr>
 <tr class="memdesc:aa1561b625331b26e4aea23a566dfb096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associated wxFont object (currently used by wxMSW only)  <br /></td></tr>
 <tr class="separator:aa1561b625331b26e4aea23a566dfb096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acae969398c68871d95c196eac0353a03" id="r_acae969398c68871d95c196eac0353a03"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acae969398c68871d95c196eac0353a03">m_fontBuffer</a></td></tr>
+<tr class="memdesc:acae969398c68871d95c196eac0353a03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Associated font data buffer.  <br /></td></tr>
+<tr class="separator:acae969398c68871d95c196eac0353a03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c5ad27a3cb6a3835077006b9eac4a6b" id="r_a9c5ad27a3cb6a3835077006b9eac4a6b"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c5ad27a3cb6a3835077006b9eac4a6b">m_fontBufferSize</a></td></tr>
+<tr class="memdesc:a9c5ad27a3cb6a3835077006b9eac4a6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the associated font data buffer.  <br /></td></tr>
+<tr class="separator:a9c5ad27a3cb6a3835077006b9eac4a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c87c391aa4079bda7ae43c6e0f550b4" id="r_a0c87c391aa4079bda7ae43c6e0f550b4"><td class="memItemLeft" align="right" valign="top">wxPdfGlyphWidthMap *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c87c391aa4079bda7ae43c6e0f550b4">m_cw</a></td></tr>
 <tr class="memdesc:a0c87c391aa4079bda7ae43c6e0f550b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapping of character ids to character widths.  <br /></td></tr>
 <tr class="separator:a0c87c391aa4079bda7ae43c6e0f550b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1255,6 +1273,62 @@ Friends</h2></td></tr>
 
 <p>Get path of font files. </p>
 <dl class="section return"><dt>Returns</dt><dd>the path where the font file is located </dd></dl>
+
+</div>
+</div>
+<a id="a0b54b49d460e387c99a8525b1153372b" name="a0b54b49d460e387c99a8525b1153372b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b54b49d460e387c99a8525b1153372b">&#9670;&#160;</a></span>GetFontBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * wxPdfFontData::GetFontBuffer </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get associated font data buffer. </p>
+<dl class="section return"><dt>Returns</dt><dd>the associated wxFont </dd></dl>
+
+</div>
+</div>
+<a id="a91ccce080704b7ce82ede8ea90e050f1" name="a91ccce080704b7ce82ede8ea90e050f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91ccce080704b7ce82ede8ea90e050f1">&#9670;&#160;</a></span>GetFontBufferSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t wxPdfFontData::GetFontBufferSize </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the size of the associated font data buffer. </p>
+<dl class="section return"><dt>Returns</dt><dd>the size of the associated font data buffer </dd></dl>
 
 </div>
 </div>
@@ -2330,6 +2404,72 @@ Friends</h2></td></tr>
 
 </div>
 </div>
+<a id="a8dea5e564f4b5c27213271e4393f5af5" name="a8dea5e564f4b5c27213271e4393f5af5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dea5e564f4b5c27213271e4393f5af5">&#9670;&#160;</a></span>SetFontBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wxPdfFontData::SetFontBuffer </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>fontBuffer</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set associated font data buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fontBuffer</td><td>the wxFont to be associated with the font </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab37060fcb97e4ccd52090fc5b75dda5e" name="ab37060fcb97e4ccd52090fc5b75dda5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab37060fcb97e4ccd52090fc5b75dda5e">&#9670;&#160;</a></span>SetFontBufferSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void wxPdfFontData::SetFontBufferSize </td>
+          <td>(</td>
+          <td class="paramtype">size_t</td>          <td class="paramname"><span class="paramname"><em>fontBufferSize</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the size of the associated font data buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fontBufferSize</td><td>the size of the associated font data buffer </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a8c086176c13aa709c54b119e57c9496d" name="a8c086176c13aa709c54b119e57c9496d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8c086176c13aa709c54b119e57c9496d">&#9670;&#160;</a></span>SetFontFile()</h2>
 
@@ -2681,7 +2821,7 @@ Friends</h2></td></tr>
 <li>contains "italic" or "oblique" the style is set to italic </li>
 <li>equals "b" the style is set to bold </li>
 <li>equals "i" the style is set to italic </li>
-<li>equals "bi" or "ib" ´the style is set to bolditalic </li>
+<li>equals "bi" or "ib" Â´the style is set to bolditalic </li>
 </ul>
 </td></tr>
   </table>
@@ -3705,6 +3845,54 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Associated wxFont object (currently used by wxMSW only) </p>
+
+</div>
+</div>
+<a id="acae969398c68871d95c196eac0353a03" name="acae969398c68871d95c196eac0353a03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acae969398c68871d95c196eac0353a03">&#9670;&#160;</a></span>m_fontBuffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char* wxPdfFontData::m_fontBuffer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Associated font data buffer. </p>
+
+</div>
+</div>
+<a id="a9c5ad27a3cb6a3835077006b9eac4a6b" name="a9c5ad27a3cb6a3835077006b9eac4a6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c5ad27a3cb6a3835077006b9eac4a6b">&#9670;&#160;</a></span>m_fontBufferSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t wxPdfFontData::m_fontBufferSize</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Size of the associated font data buffer. </p>
 
 </div>
 </div>

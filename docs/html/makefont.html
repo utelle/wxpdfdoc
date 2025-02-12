@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.2.1</span>
+   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -70,7 +70,7 @@ Adding new fonts and encoding support</h1>
 <p>For <b>Type1</b>, the first one is theoretically not necessary because the AFM file is usually shipped with the font. In case you have only a metric file in PFM format, it must be converted to AFM first.</p>
 <h1><a class="anchor" id="mkfontgen1"></a>
 Generation of the metric file</h1>
-<p>The first step for a <b>TrueType</b> font consists in generating the AFM file (or UFM file in case of a <b>Unicode TrueType</b> font). A utility exists to do this task: <code>ttf2ufm</code> - a special version of <code>ttf2pt1</code> - allowing to create AFM and/or UFM files. <code>ttf2ufm</code> has been modified to generate AFM and UFM files containing all the information which is required by the utility program <b>makefont</b>. An archive containing the modified source code of <code>ttf2ufm</code> and a Windows executable can be downloaded from <b><a href="http://wxcode.sourceforge.net/docs/wxpdfdoc/ttf2ufm.zip">here</a></b>. The command line to use is the following:</p>
+<p>The first step for a <b>TrueType</b> font consists in generating the AFM file (or UFM file in case of a <b>Unicode TrueType</b> font). A utility exists to do this task: <code>ttf2ufm</code> - a special version of <code>ttf2pt1</code> - allowing to create AFM and/or UFM files. <code>ttf2ufm</code> has been modified to generate AFM and UFM files containing all the information which is required by the utility program <b>makefont</b>. The command line to use is the following:</p>
 <p><code>ttf2ufm -a font.ttf font </code></p>
 <p>For example, for Comic Sans MS Regular:</p>
 <p><code>ttf2ufm -a c:/windows/fonts/comic.ttf comic </code></p>
@@ -89,7 +89,7 @@ Generation of the font definition file</h1>
 <td><code>-i</code></td><td>Extract font metrics directly from <b>TrueType Unicode</b> or <b>OpenType Unicode</b> fonts </td></tr>
 <tr>
 <td valign="top"><code>-f font.{ttf|otf|pfb}</code></td><td>font file (<code>.ttf</code> = TrueType, <code>.otf</code> = OpenType, <code>.pfb</code> = Type1). <br  />
-If you own a Type1 font in ASCII format (<code>.pfa</code>), you can convert it to binary format with <a href="http://www.lcdf.org/~eddietwo/type/#t1utils">t1utils</a>. <br  />
+If you own a Type1 font in ASCII format (<code>.pfa</code>), you can convert it to binary format with <a href="https://www.lcdf.org/~eddietwo/type/#t1utils">t1utils</a>. <br  />
 If you don't want to embed the font, omit this parameter. In this case, type is given by the type parameter.  </td></tr>
 <tr>
 <td valign="top"><code>-e encoding</code></td><td><p class="starttd">font encoding, i.e. cp1252. Omit this parameter for a symbolic font.like <em>Symbol</em> or <em>ZapfDingBats</em>.</p>

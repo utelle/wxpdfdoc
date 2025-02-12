@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
   <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.2.1</span>
+   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.0</span>
    </div>
   </td>
  </tr>
@@ -76,6 +76,7 @@ $(function(){ initResizable(false); });
 <li>m_direction&#160;:&#160;<a class="el" href="classwx_pdf_rijndael.html#ab20680ae4d210415eb141acc3ed1ae7c">wxPdfRijndael</a></li>
 <li>m_directoryOffset&#160;:&#160;<a class="el" href="classwx_pdf_font_parser_true_type.html#adf986ef005ccd2453391343f563bdb02">wxPdfFontParserTrueType</a></li>
 <li>m_document&#160;:&#160;<a class="el" href="classwx_pdf_image.html#abd8c6c09cde9f795fe378ae6a63df7be">wxPdfImage</a></li>
+<li>m_eci&#160;:&#160;<a class="el" href="classwx_pdf_zint_seg.html#acdf60123085c5b0fc3302cd7b89faf4e">wxPdfZintSeg</a></li>
 <li>m_embedRequired&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#ab805d1b6cdb5f30855f4d12dc5ed560a">wxPdfFontData</a></li>
 <li>m_embedSupported&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#abf651c98464f580a6d9effe42cbc8ce7">wxPdfFontData</a></li>
 <li>m_enc&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a685e15d8b7925c33b5414e9a7fff0bf8">wxPdfFontData</a></li>
@@ -90,6 +91,8 @@ $(function(){ initResizable(false); });
 <li>m_fileName&#160;:&#160;<a class="el" href="classwx_pdf_font_parser.html#afc73571bb60b0ac7592a5f3e2fec1477">wxPdfFontParser</a></li>
 <li>m_fn&#160;:&#160;<a class="el" href="classwx_pdf_font_details.html#aba86fa9bed95e97a8538ffbc8a0aefc7">wxPdfFontDetails</a></li>
 <li>m_font&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#aa1561b625331b26e4aea23a566dfb096">wxPdfFontData</a>, <a class="el" href="classwx_pdf_font_details.html#a064e7c5318de5a46366054605020c6cd">wxPdfFontDetails</a></li>
+<li>m_fontBuffer&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#acae969398c68871d95c196eac0353a03">wxPdfFontData</a></li>
+<li>m_fontBufferSize&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a9c5ad27a3cb6a3835077006b9eac4a6b">wxPdfFontData</a></li>
 <li>m_fontFileName&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a7d52b85cab5c99ee194ecae3733b734b">wxPdfFontData</a></li>
 <li>m_fontIndex&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#aeadd80109f9f83d0c1897336e09db471">wxPdfFontData</a></li>
 <li>m_fontName&#160;:&#160;<a class="el" href="classwx_pdf_font_parser.html#a5df56da1c185d1e09dfa5604979ea4cd">wxPdfFontParser</a></li>
@@ -147,6 +150,7 @@ $(function(){ initResizable(false); });
 <li>m_subsetSupported&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a00cdf1f4c998735fa2b6557e8cd66f78">wxPdfFontData</a></li>
 <li>m_supplement&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#a47e0eef400be969c0d6c322edf4f811d">wxPdfFontData</a></li>
 <li>m_tableDirectory&#160;:&#160;<a class="el" href="classwx_pdf_font_parser_true_type.html#acd662870f09b1f910fda48da37ab3699">wxPdfFontParserTrueType</a></li>
+<li>m_text&#160;:&#160;<a class="el" href="classwx_pdf_zint_seg.html#a1c28ad034ae50194707dcbcc8c4b5358">wxPdfZintSeg</a></li>
 <li>m_trns&#160;:&#160;<a class="el" href="classwx_pdf_image.html#acca9b59970b7f33889d3d7a0c5e66ec8">wxPdfImage</a></li>
 <li>m_trnsSize&#160;:&#160;<a class="el" href="classwx_pdf_image.html#af92d4024f7096986c1ba45993651b9b5">wxPdfImage</a></li>
 <li>m_type&#160;:&#160;<a class="el" href="classwx_pdf_font_data.html#ac11b29d9ef4e8766586a17c011212779">wxPdfFontData</a>, <a class="el" href="classwx_pdf_gradient.html#af8c0d1ae79d9bbade9a7476523ffea00">wxPdfGradient</a>, <a class="el" href="classwx_pdf_image.html#a35e92789e108aeb2707da683b8b04e91">wxPdfImage</a>, <a class="el" href="classwx_pdf_object.html#accdeac683e31f346f5865cc129b02c5b">wxPdfObject</a>, <a class="el" href="classwx_pdf_ocg.html#a6d87f1ad74918e58050e8382058558a9">wxPdfOcg</a>, <a class="el" href="classwx_pdf_x_ref_entry.html#a525e43bfd80aeddf46460d15650fd4a9">wxPdfXRefEntry</a></li>
@@ -160,6 +164,7 @@ $(function(){ initResizable(false); });
 <li>m_y&#160;:&#160;<a class="el" href="classwx_pdf_image.html#aa2414b6c540da06ee64b2f6bba342a78">wxPdfImage</a></li>
 <li>Marker()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a722652dbf08b7a4f06120adcceb0634e">wxPdfDocument</a></li>
 <li>MarkLastLine()&#160;:&#160;<a class="el" href="classwx_pdf_cell_context.html#a7b4add69ef040d5140d31cf623bae4c0">wxPdfCellContext</a></li>
+<li>MaxiCode()&#160;:&#160;<a class="el" href="classwx_pdf_bar_code_creator.html#a02d2e578a69686e335ec350ca9c24e7b">wxPdfBarCodeCreator</a></li>
 <li>MeasurePathLength()&#160;:&#160;<a class="el" href="classwx_pdf_flat_path.html#a8b39c567b75317047bff14008a92c66b">wxPdfFlatPath</a></li>
 <li>MidAxialGradient()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a0eae4076bb2959cb6fc489e8be3ba3e6">wxPdfDocument</a></li>
 <li>MirrorH()&#160;:&#160;<a class="el" href="classwx_pdf_document.html#a6ed7bce671752bae72c5b86c567a999b">wxPdfDocument</a></li>
