@@ -618,7 +618,6 @@
     <ClInclude Include="..\include\wx\pdffontsubsettruetype.h" />
     <ClInclude Include="..\include\wx\pdffontvolt.h" />
     <ClInclude Include="..\include\wx\pdfform.h" />
-    <ClInclude Include="..\include\wx\pdfgc.h" />
     <ClInclude Include="..\include\wx\pdfgradient.h" />
     <ClInclude Include="..\include\wx\pdfgraphics.h" />
     <ClInclude Include="..\include\wx\pdfimage.h" />
@@ -683,7 +682,6 @@
     <ClCompile Include="..\src\pdffontsubsettruetype.cpp" />
     <ClCompile Include="..\src\pdffontvolt.cpp" />
     <ClCompile Include="..\src\pdfform.cpp" />
-    <ClCompile Include="..\src\pdfgc.cpp" />
     <ClCompile Include="..\src\pdfgradient.cpp" />
     <ClCompile Include="..\src\pdfgraphics.cpp" />
     <ClCompile Include="..\src\pdfimage.cpp" />

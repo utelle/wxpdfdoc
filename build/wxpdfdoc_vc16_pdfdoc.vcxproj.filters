@@ -123,9 +123,6 @@
     <ClInclude Include="..\include\wx\pdfform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\wx\pdfgc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\wx\pdfgradient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -312,9 +309,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\pdfform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\pdfgc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\pdfgradient.cpp">

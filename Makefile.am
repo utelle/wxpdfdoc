@@ -123,8 +123,8 @@ ZINT_HDRS += \
   thirdparty/zint/backend/zfiletypes.h \
   thirdparty/zint/backend/zint.h \
   thirdparty/zint/backend/zintconfig.h
-ZINT_CFLAGS += -I$(top_srcdir)/thirdparty/zint/backend
-ZINT_CXXFLAGS += -I$(top_srcdir)/thirdparty/zint/backend
+ZINT_CFLAGS += -I$(top_srcdir)/thirdparty/zint/backend -DZINT_NO_PNG
+ZINT_CXXFLAGS += -I$(top_srcdir)/thirdparty/zint/backend -DZINT_NO_PNG
 endif
 
 if HAVE_WOFF2
