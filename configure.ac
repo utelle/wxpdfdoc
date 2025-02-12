@@ -80,6 +80,7 @@ esac
 if [test "x$build_mac" = xyes]; then
 CFLAGS="-I$(brew --prefix)/include $CFLAGS"
 CPPFLAGS="-I$(brew --prefix)/include $CPPFLAGS"
+LDFLAGS="-L$(brew --prefix)/lib $LDFLAGS"
 fi
 
 dnl Check for Zint
