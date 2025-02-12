@@ -54,6 +54,34 @@ AC_ARG_WITH([woff2-builtin],
     [],
     [with_woff2_builtin=no])
 
+dnl Detect the target system
+
+AC_CANONICAL_HOST
+
+build_linux=no
+build_windows=no
+build_mac=no
+
+case "${host_os}" in
+    linux*)
+        build_linux=yes
+        ;;
+    cygwin*|mingw*)
+        build_windows=yes
+        ;;
+    darwin*)
+        build_mac=yes
+        ;;
+    *)
+        AC_MSG_ERROR(["OS $host_os is not supported"])
+        ;;
+esac
+
+if [test "x$build_mac" = xyes]; then
+CFLAGS="-I$(brew --prefix)/include $CFLAGS"
+CPPFLAGS="-I$(brew --prefix)/include $CPPFLAGS"
+fi
+
 dnl Check for Zint
 haveZint=false
 AC_CHECK_HEADERS(zint.h, [
@@ -98,29 +126,6 @@ AM_CONDITIONAL(USE_MSW, [test -n "$USE_MSW"])
 if test -n "$USE_MSW"; then
     AC_CHECK_TOOL([WINDRES], [windres], no)
 fi
-
-dnl Detect the target system
-
-AC_CANONICAL_HOST
-
-build_linux=no
-build_windows=no
-build_mac=no
-
-case "${host_os}" in
-    linux*)
-        build_linux=yes
-        ;;
-    cygwin*|mingw*)
-        build_windows=yes
-        ;;
-    darwin*)
-        build_mac=yes
-        ;;
-    *)
-        AC_MSG_ERROR(["OS $host_os is not supported"])
-        ;;
-esac
 
 dnl Pass the conditionals to automake
 AM_CONDITIONAL([HOST_LINUX], [test "$build_linux" = "yes"])
