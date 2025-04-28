@@ -1,6 +1,6 @@
 -- wxWidgets configuration file for premake5
 --
--- Copyright (C) 2017-2020 Ulrich Telle <ulrich@telle-online.de>
+-- Copyright (C) 2017-2025 Ulrich Telle <github@telle-online.de>
 --
 -- Based on the script for premake4 created by
 -- laurent.humbertclaude@gmail.com and v.krishnakumar@gmail.com 
@@ -47,7 +47,7 @@ if not _OPTIONS["wx_env"] then
    _OPTIONS["wx_env"] = "WXWIN"
 end
 
-wxMonolithic = ((_ACTION == "gmake" or _ACTION == "gmake2") and _OPTIONS["monolithic"])
+wxMonolithic = ((_ACTION == "gmakelegacy" or _ACTION == "gmake") and _OPTIONS["monolithic"])
 
 -- Determine version of Visual Studio action
 msvc_useProps = false
@@ -85,7 +85,7 @@ if ( vc_version ~= "" ) then
 end
 
 require('vstudio')
-require('gmake2')
+require('gmake')
 
 premake.api.register {
   name = "wxUseProps",
@@ -114,15 +114,34 @@ premake.override(premake.vstudio.vc2010.elements, "project", function(base, prj)
 	return calls
 end)
 
-premake.override(premake.modules.gmake2, "target", function(base, cfg, toolset)
+premake.override(premake.modules.gmake, "target", function(base, cfg, toolset)
   local targetpath = string.gsub(premake.project.getrelative(cfg.project, cfg.buildtarget.directory), ' ', '_')
   premake.outln('TARGETDIR = ' .. targetpath)
   premake.outln('TARGET = $(TARGETDIR)/' .. cfg.buildtarget.name)
 end)
   
-premake.override(premake.modules.gmake2, "objdir", function(base, cfg, toolset)
+premake.override(premake.modules.gmake, "objdir", function(base, cfg, toolset)
   local objpath = string.gsub(premake.project.getrelative(cfg.project, cfg.objdir), ' ', '_')
   premake.outln('OBJDIR = ' .. objpath)
+end)
+
+premake.override(premake.modules.gmake.cpp, "libs", function(base, cfg, toolset)
+		local flags = toolset.getlinks(cfg)
+--    print("entry libs")
+--    print(table.concat(flags, ", "))
+    for i, flagEntry in pairs(flags) do
+      flags[i] = string.gsub(flagEntry, ' ', '_')
+    end
+--    print(table.concat(flags, ", "))
+		premake.outln('LIBS +=' .. premake.modules.gmake.list(flags, true))
+end)
+
+premake.override(premake.modules.gmake.cpp, "ldDeps",	function(base, cfg, toolset)
+		local deps = premake.config.getlinks(cfg, "siblings", "fullpath")
+    for i, depsEntry in pairs(deps) do
+      deps[i] = string.gsub(depsEntry, ' ', '_')
+    end
+		premake.outln('LDDEPS +=' .. premake.modules.gmake.list(premake.esc(deps)))
 end)
 
 -- Activate loading of separate props file

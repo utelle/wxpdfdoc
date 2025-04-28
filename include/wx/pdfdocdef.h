@@ -69,6 +69,13 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>1.3.1</b> - <i>April 2025</i></dt>
+<dd>
+Fixed bugs:<br>
+- Adjusted make files to properly handle white space in path names (issue #96)
+
+</dd>
+
 <dt><b>1.3.0</b> - <i>February 2025</i></dt>
 <dd>
 Changes:<br>

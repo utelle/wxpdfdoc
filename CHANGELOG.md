@@ -7,6 +7,12 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [Unreleased]
 
+## [1.3.1] - 2025-04-28
+
+### Fixed
+
+- Adjusted make files to properly handle white space in path names (issue #96)
+
 ## [1.3.0] - 2025-02-12
 
 ### Added
@@ -522,7 +528,8 @@ First public release
 
 - Planning and basic PDF features implemented
 
-[Unreleased]: ../../compare/v1.3.0...HEAD
+[Unreleased]: ../../compare/v1.3.1...HEAD
+[1.3.1]: ../../compare/v1.3.0...v1.3.1
 [1.3.0]: ../../compare/v1.2.1...v1.3.0
 [1.2.1]: ../../compare/v1.2.0...v1.2.1
 [1.2.0]: ../../compare/v1.1.0...v1.2.0
