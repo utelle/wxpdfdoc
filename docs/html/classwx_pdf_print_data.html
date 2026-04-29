@@ -61,6 +61,9 @@ $(function(){ initResizable(false); });
 </div><!--header-->
 <div class="contents">
 
+<p>Class for holding print configuration data.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;pdfprint.h&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for wxPdfPrintData:</div>
@@ -72,115 +75,171 @@ Inheritance diagram for wxPdfPrintData:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a157aad40f07ad8889abbeee52a60223f" id="r_a157aad40f07ad8889abbeee52a60223f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a157aad40f07ad8889abbeee52a60223f">wxPdfPrintData</a> ()</td></tr>
+<tr class="memdesc:a157aad40f07ad8889abbeee52a60223f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
 <tr class="separator:a157aad40f07ad8889abbeee52a60223f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81f7eb72b344b8ad1c4c068193d291fa" id="r_a81f7eb72b344b8ad1c4c068193d291fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81f7eb72b344b8ad1c4c068193d291fa">wxPdfPrintData</a> (<a class="el" href="classwx_pdf_print_data.html">wxPdfPrintData</a> *pdfPrintData)</td></tr>
+<tr class="memdesc:a81f7eb72b344b8ad1c4c068193d291fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <br /></td></tr>
 <tr class="separator:a81f7eb72b344b8ad1c4c068193d291fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba0d90185537cf73bd20cf2aab412002" id="r_aba0d90185537cf73bd20cf2aab412002"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba0d90185537cf73bd20cf2aab412002">wxPdfPrintData</a> (wxPrintData *printData)</td></tr>
+<tr class="memdesc:aba0d90185537cf73bd20cf2aab412002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from wxPrintData.  <br /></td></tr>
 <tr class="separator:aba0d90185537cf73bd20cf2aab412002"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b2141c23867f45e8dec74988fb83d24" id="r_a0b2141c23867f45e8dec74988fb83d24"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b2141c23867f45e8dec74988fb83d24">wxPdfPrintData</a> (wxPrintDialogData *printDialogData)</td></tr>
+<tr class="memdesc:a0b2141c23867f45e8dec74988fb83d24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from wxPrintDialogData.  <br /></td></tr>
 <tr class="separator:a0b2141c23867f45e8dec74988fb83d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57ad668753f68ff9610ebd56f957a8b8" id="r_a57ad668753f68ff9610ebd56f957a8b8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57ad668753f68ff9610ebd56f957a8b8">wxPdfPrintData</a> (wxPageSetupDialogData *pageSetupDialogData)</td></tr>
+<tr class="memdesc:a57ad668753f68ff9610ebd56f957a8b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from wxPageSetupDialogData.  <br /></td></tr>
 <tr class="separator:a57ad668753f68ff9610ebd56f957a8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a047f0cab84d86ef4aac44e13c10b31f2" id="r_a047f0cab84d86ef4aac44e13c10b31f2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a047f0cab84d86ef4aac44e13c10b31f2">Ok</a> () const</td></tr>
+<tr class="memdesc:a047f0cab84d86ef4aac44e13c10b31f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the print data is valid.  <br /></td></tr>
 <tr class="separator:a047f0cab84d86ef4aac44e13c10b31f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a41e44ad143e2a618c96b32c415e383" id="r_a5a41e44ad143e2a618c96b32c415e383"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a41e44ad143e2a618c96b32c415e383">IsOk</a> () const</td></tr>
+<tr class="memdesc:a5a41e44ad143e2a618c96b32c415e383"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the print data is valid.  <br /></td></tr>
 <tr class="separator:a5a41e44ad143e2a618c96b32c415e383"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa243826993265fb3cc92a54f84d73432" id="r_aa243826993265fb3cc92a54f84d73432"><td class="memItemLeft" align="right" valign="top">wxPrintOrientation&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa243826993265fb3cc92a54f84d73432">GetOrientation</a> () const</td></tr>
+<tr class="memdesc:aa243826993265fb3cc92a54f84d73432"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get page orientation.  <br /></td></tr>
 <tr class="separator:aa243826993265fb3cc92a54f84d73432"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38a69b11196973e284800fa9188129d5" id="r_a38a69b11196973e284800fa9188129d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38a69b11196973e284800fa9188129d5">SetOrientation</a> (wxPrintOrientation orient)</td></tr>
+<tr class="memdesc:a38a69b11196973e284800fa9188129d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set page orientation.  <br /></td></tr>
 <tr class="separator:a38a69b11196973e284800fa9188129d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab99aa2ab41b3c4bec11438c8eadaea0f" id="r_ab99aa2ab41b3c4bec11438c8eadaea0f"><td class="memItemLeft" align="right" valign="top">wxPaperSize&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab99aa2ab41b3c4bec11438c8eadaea0f">GetPaperId</a> () const</td></tr>
+<tr class="memdesc:ab99aa2ab41b3c4bec11438c8eadaea0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get paper size ID.  <br /></td></tr>
 <tr class="separator:ab99aa2ab41b3c4bec11438c8eadaea0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adca7fe630928b8a11d6ab8d20e122282" id="r_adca7fe630928b8a11d6ab8d20e122282"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adca7fe630928b8a11d6ab8d20e122282">SetPaperId</a> (wxPaperSize sizeId)</td></tr>
+<tr class="memdesc:adca7fe630928b8a11d6ab8d20e122282"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set paper size ID.  <br /></td></tr>
 <tr class="separator:adca7fe630928b8a11d6ab8d20e122282"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0b1176dc872d5463acb9b8f9195ef8e" id="r_aa0b1176dc872d5463acb9b8f9195ef8e"><td class="memItemLeft" align="right" valign="top">wxPrintQuality&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0b1176dc872d5463acb9b8f9195ef8e">GetQuality</a> () const</td></tr>
+<tr class="memdesc:aa0b1176dc872d5463acb9b8f9195ef8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get print quality.  <br /></td></tr>
 <tr class="separator:aa0b1176dc872d5463acb9b8f9195ef8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44e6583013fd0ebb85172899c408b03d" id="r_a44e6583013fd0ebb85172899c408b03d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44e6583013fd0ebb85172899c408b03d">SetQuality</a> (wxPrintQuality quality)</td></tr>
+<tr class="memdesc:a44e6583013fd0ebb85172899c408b03d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set print quality.  <br /></td></tr>
 <tr class="separator:a44e6583013fd0ebb85172899c408b03d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adff290026156fe701953061111eeef48" id="r_adff290026156fe701953061111eeef48"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adff290026156fe701953061111eeef48">GetFilename</a> () const</td></tr>
+<tr class="memdesc:adff290026156fe701953061111eeef48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get output filename.  <br /></td></tr>
 <tr class="separator:adff290026156fe701953061111eeef48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f18c800c9b74f1a881c38d9490ab8ce" id="r_a7f18c800c9b74f1a881c38d9490ab8ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f18c800c9b74f1a881c38d9490ab8ce">SetFilename</a> (const wxString &amp;filename)</td></tr>
+<tr class="memdesc:a7f18c800c9b74f1a881c38d9490ab8ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set output filename.  <br /></td></tr>
 <tr class="separator:a7f18c800c9b74f1a881c38d9490ab8ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a27d06bd87ee1696464e3b7a5a15e43" id="r_a0a27d06bd87ee1696464e3b7a5a15e43"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a27d06bd87ee1696464e3b7a5a15e43">GetFromPage</a> () const</td></tr>
+<tr class="memdesc:a0a27d06bd87ee1696464e3b7a5a15e43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get first page to print.  <br /></td></tr>
 <tr class="separator:a0a27d06bd87ee1696464e3b7a5a15e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07c8bb23f0bba1d517c4c50e60bd967e" id="r_a07c8bb23f0bba1d517c4c50e60bd967e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07c8bb23f0bba1d517c4c50e60bd967e">GetToPage</a> () const</td></tr>
+<tr class="memdesc:a07c8bb23f0bba1d517c4c50e60bd967e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get last page to print.  <br /></td></tr>
 <tr class="separator:a07c8bb23f0bba1d517c4c50e60bd967e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2573fae2251290a3f2002f280ff6a65d" id="r_a2573fae2251290a3f2002f280ff6a65d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2573fae2251290a3f2002f280ff6a65d">GetMinPage</a> () const</td></tr>
+<tr class="memdesc:a2573fae2251290a3f2002f280ff6a65d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get minimum page number.  <br /></td></tr>
 <tr class="separator:a2573fae2251290a3f2002f280ff6a65d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c0af58bf389816e922675e4334e5732" id="r_a3c0af58bf389816e922675e4334e5732"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c0af58bf389816e922675e4334e5732">GetMaxPage</a> () const</td></tr>
+<tr class="memdesc:a3c0af58bf389816e922675e4334e5732"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get maximum page number.  <br /></td></tr>
 <tr class="separator:a3c0af58bf389816e922675e4334e5732"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6031f8d902991fb497b54fdf98535a59" id="r_a6031f8d902991fb497b54fdf98535a59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6031f8d902991fb497b54fdf98535a59">SetFromPage</a> (int v)</td></tr>
+<tr class="memdesc:a6031f8d902991fb497b54fdf98535a59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set first page to print.  <br /></td></tr>
 <tr class="separator:a6031f8d902991fb497b54fdf98535a59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00c3b83628c006d699253c9900d4a335" id="r_a00c3b83628c006d699253c9900d4a335"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00c3b83628c006d699253c9900d4a335">SetToPage</a> (int v)</td></tr>
+<tr class="memdesc:a00c3b83628c006d699253c9900d4a335"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set last page to print.  <br /></td></tr>
 <tr class="separator:a00c3b83628c006d699253c9900d4a335"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affa39e833de5e396f89a9efc5c335947" id="r_affa39e833de5e396f89a9efc5c335947"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#affa39e833de5e396f89a9efc5c335947">SetMinPage</a> (int v)</td></tr>
+<tr class="memdesc:affa39e833de5e396f89a9efc5c335947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set minimum page number.  <br /></td></tr>
 <tr class="separator:affa39e833de5e396f89a9efc5c335947"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c8b2804c96dbb7a628b0408d1d413ac" id="r_a1c8b2804c96dbb7a628b0408d1d413ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c8b2804c96dbb7a628b0408d1d413ac">SetMaxPage</a> (int v)</td></tr>
+<tr class="memdesc:a1c8b2804c96dbb7a628b0408d1d413ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set maximum page number.  <br /></td></tr>
 <tr class="separator:a1c8b2804c96dbb7a628b0408d1d413ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c967a4dfbbc68a67153cf43d76213d0" id="r_a7c967a4dfbbc68a67153cf43d76213d0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c967a4dfbbc68a67153cf43d76213d0">GetPrintDialogFlags</a> () const</td></tr>
+<tr class="memdesc:a7c967a4dfbbc68a67153cf43d76213d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get print dialog flags.  <br /></td></tr>
 <tr class="separator:a7c967a4dfbbc68a67153cf43d76213d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82aaaee3fe4b6067b6f277729ab620fe" id="r_a82aaaee3fe4b6067b6f277729ab620fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82aaaee3fe4b6067b6f277729ab620fe">SetPrintDialogFlags</a> (int flags)</td></tr>
+<tr class="memdesc:a82aaaee3fe4b6067b6f277729ab620fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set print dialog flags.  <br /></td></tr>
 <tr class="separator:a82aaaee3fe4b6067b6f277729ab620fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac3fd8a21cb7156e92f47137873bf3bf6" id="r_ac3fd8a21cb7156e92f47137873bf3bf6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac3fd8a21cb7156e92f47137873bf3bf6">SetTemplate</a> (<a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *pdfDocument, double templateWidth, double templateHeight)</td></tr>
+<tr class="memdesc:ac3fd8a21cb7156e92f47137873bf3bf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set template document.  <br /></td></tr>
 <tr class="separator:ac3fd8a21cb7156e92f47137873bf3bf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a306be78efc2520ee863dc6f1b7c82d58" id="r_a306be78efc2520ee863dc6f1b7c82d58"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a306be78efc2520ee863dc6f1b7c82d58">GetTemplateDocument</a> () const</td></tr>
+<tr class="memdesc:a306be78efc2520ee863dc6f1b7c82d58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get template document.  <br /></td></tr>
 <tr class="separator:a306be78efc2520ee863dc6f1b7c82d58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32c772e88eef6ede514b3b11d270f845" id="r_a32c772e88eef6ede514b3b11d270f845"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32c772e88eef6ede514b3b11d270f845">GetTemplateWidth</a> () const</td></tr>
+<tr class="memdesc:a32c772e88eef6ede514b3b11d270f845"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get template width.  <br /></td></tr>
 <tr class="separator:a32c772e88eef6ede514b3b11d270f845"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abeeb5529f9223c13c0af5fbfadb42491" id="r_abeeb5529f9223c13c0af5fbfadb42491"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abeeb5529f9223c13c0af5fbfadb42491">GetTemplateHeight</a> () const</td></tr>
+<tr class="memdesc:abeeb5529f9223c13c0af5fbfadb42491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get template height.  <br /></td></tr>
 <tr class="separator:abeeb5529f9223c13c0af5fbfadb42491"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f25da5278767f68f67a0d7934dd3046" id="r_a3f25da5278767f68f67a0d7934dd3046"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f25da5278767f68f67a0d7934dd3046">GetTemplateMode</a> () const</td></tr>
+<tr class="memdesc:a3f25da5278767f68f67a0d7934dd3046"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get template mode.  <br /></td></tr>
 <tr class="separator:a3f25da5278767f68f67a0d7934dd3046"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab256f125d8255e2227beb612fda1857c" id="r_ab256f125d8255e2227beb612fda1857c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab256f125d8255e2227beb612fda1857c">GetPrintResolution</a> () const</td></tr>
+<tr class="memdesc:ab256f125d8255e2227beb612fda1857c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get print resolution.  <br /></td></tr>
 <tr class="separator:ab256f125d8255e2227beb612fda1857c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aebb9ca796c988a352fd6f609aa9402ac" id="r_aebb9ca796c988a352fd6f609aa9402ac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebb9ca796c988a352fd6f609aa9402ac">SetPrintResolution</a> (int resolution)</td></tr>
+<tr class="memdesc:aebb9ca796c988a352fd6f609aa9402ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set print resolution.  <br /></td></tr>
 <tr class="separator:aebb9ca796c988a352fd6f609aa9402ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1c54c4e4a03a616f7817869e18a4fd7" id="r_ad1c54c4e4a03a616f7817869e18a4fd7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1c54c4e4a03a616f7817869e18a4fd7">GetLaunchDocumentViewer</a> () const</td></tr>
+<tr class="memdesc:ad1c54c4e4a03a616f7817869e18a4fd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get document viewer launch flag.  <br /></td></tr>
 <tr class="separator:ad1c54c4e4a03a616f7817869e18a4fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c70d152025ca6a031ac0d5515e6d01e" id="r_a7c70d152025ca6a031ac0d5515e6d01e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c70d152025ca6a031ac0d5515e6d01e">SetLaunchDocumentViewer</a> (bool enable)</td></tr>
+<tr class="memdesc:a7c70d152025ca6a031ac0d5515e6d01e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set document viewer launch flag.  <br /></td></tr>
 <tr class="separator:a7c70d152025ca6a031ac0d5515e6d01e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62d80644c54d17ddaf489fdce134ac60" id="r_a62d80644c54d17ddaf489fdce134ac60"><td class="memItemLeft" align="right" valign="top">const wxString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62d80644c54d17ddaf489fdce134ac60">GetDocumentTitle</a> () const</td></tr>
+<tr class="memdesc:a62d80644c54d17ddaf489fdce134ac60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get document title.  <br /></td></tr>
 <tr class="separator:a62d80644c54d17ddaf489fdce134ac60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8ec14e0dddbf2dc3507e47345889a08" id="r_ae8ec14e0dddbf2dc3507e47345889a08"><td class="memItemLeft" align="right" valign="top">const wxString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8ec14e0dddbf2dc3507e47345889a08">GetDocumentSubject</a> () const</td></tr>
+<tr class="memdesc:ae8ec14e0dddbf2dc3507e47345889a08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get document subject.  <br /></td></tr>
 <tr class="separator:ae8ec14e0dddbf2dc3507e47345889a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ca508fe585647daa7a0778e2a21c87a" id="r_a6ca508fe585647daa7a0778e2a21c87a"><td class="memItemLeft" align="right" valign="top">const wxString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ca508fe585647daa7a0778e2a21c87a">GetDocumentAuthor</a> () const</td></tr>
+<tr class="memdesc:a6ca508fe585647daa7a0778e2a21c87a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get document author.  <br /></td></tr>
 <tr class="separator:a6ca508fe585647daa7a0778e2a21c87a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f49445ef0e6c8671af04f8d2f89b100" id="r_a5f49445ef0e6c8671af04f8d2f89b100"><td class="memItemLeft" align="right" valign="top">const wxString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5f49445ef0e6c8671af04f8d2f89b100">GetDocumentKeywords</a> () const</td></tr>
+<tr class="memdesc:a5f49445ef0e6c8671af04f8d2f89b100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get document keywords.  <br /></td></tr>
 <tr class="separator:a5f49445ef0e6c8671af04f8d2f89b100"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf4ec6484b1b7b1650a2ecfee79f2f36" id="r_abf4ec6484b1b7b1650a2ecfee79f2f36"><td class="memItemLeft" align="right" valign="top">const wxString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf4ec6484b1b7b1650a2ecfee79f2f36">GetDocumentCreator</a> () const</td></tr>
+<tr class="memdesc:abf4ec6484b1b7b1650a2ecfee79f2f36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get document creator.  <br /></td></tr>
 <tr class="separator:abf4ec6484b1b7b1650a2ecfee79f2f36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef7fc074a1172c089ed564afdf80d7af" id="r_aef7fc074a1172c089ed564afdf80d7af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aef7fc074a1172c089ed564afdf80d7af">SetDocumentTitle</a> (const wxString &amp;title)</td></tr>
+<tr class="memdesc:aef7fc074a1172c089ed564afdf80d7af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set document title.  <br /></td></tr>
 <tr class="separator:aef7fc074a1172c089ed564afdf80d7af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41ea43fe5816b6b8928e65d572e1faf3" id="r_a41ea43fe5816b6b8928e65d572e1faf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41ea43fe5816b6b8928e65d572e1faf3">SetDocumentSubject</a> (const wxString &amp;subject)</td></tr>
+<tr class="memdesc:a41ea43fe5816b6b8928e65d572e1faf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set document subject.  <br /></td></tr>
 <tr class="separator:a41ea43fe5816b6b8928e65d572e1faf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7a44061fcebf1e21b61e4801a3bbb20" id="r_af7a44061fcebf1e21b61e4801a3bbb20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7a44061fcebf1e21b61e4801a3bbb20">SetDocumentAuthor</a> (const wxString &amp;author)</td></tr>
+<tr class="memdesc:af7a44061fcebf1e21b61e4801a3bbb20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set document author.  <br /></td></tr>
 <tr class="separator:af7a44061fcebf1e21b61e4801a3bbb20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acee6405c2bd7dd852a0f0ef44333acdf" id="r_acee6405c2bd7dd852a0f0ef44333acdf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acee6405c2bd7dd852a0f0ef44333acdf">SetDocumentKeywords</a> (const wxString &amp;keywords)</td></tr>
+<tr class="memdesc:acee6405c2bd7dd852a0f0ef44333acdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set document keywords.  <br /></td></tr>
 <tr class="separator:acee6405c2bd7dd852a0f0ef44333acdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b56ebff0c73e642eaad8b9ac3787ebc" id="r_a3b56ebff0c73e642eaad8b9ac3787ebc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3b56ebff0c73e642eaad8b9ac3787ebc">SetDocumentCreator</a> (const wxString &amp;creator)</td></tr>
+<tr class="memdesc:a3b56ebff0c73e642eaad8b9ac3787ebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set document creator.  <br /></td></tr>
 <tr class="separator:a3b56ebff0c73e642eaad8b9ac3787ebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ccf019182471ea31ba426742571b68d" id="r_a0ccf019182471ea31ba426742571b68d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ccf019182471ea31ba426742571b68d">IsProtectionEnabled</a> () const</td></tr>
+<tr class="memdesc:a0ccf019182471ea31ba426742571b68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether document protection is enabled.  <br /></td></tr>
 <tr class="separator:a0ccf019182471ea31ba426742571b68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac720f639b00fcd9d71e4df96381439dd" id="r_ac720f639b00fcd9d71e4df96381439dd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac720f639b00fcd9d71e4df96381439dd">SetDocumentProtection</a> (int permissions, const wxString &amp;userPassword=wxEmptyString, const wxString &amp;ownerPassword=wxEmptyString, <a class="el" href="pdfproperties_8h.html#aa3c5eba1f0c78533604a3a57da21e118">wxPdfEncryptionMethod</a> encryptionMethod=<a class="el" href="pdfproperties_8h.html#aa3c5eba1f0c78533604a3a57da21e118aa700910a44ac2a0b5b930000de8e62b0">wxPDF_ENCRYPTION_RC4V1</a>, int keyLength=0)</td></tr>
+<tr class="memdesc:ac720f639b00fcd9d71e4df96381439dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set document protection.  <br /></td></tr>
 <tr class="separator:ac720f639b00fcd9d71e4df96381439dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc4191918912ce1ae7f2eb67f3aba68a" id="r_abc4191918912ce1ae7f2eb67f3aba68a"><td class="memItemLeft" align="right" valign="top">const wxString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc4191918912ce1ae7f2eb67f3aba68a">GetUserPassword</a> () const</td></tr>
+<tr class="memdesc:abc4191918912ce1ae7f2eb67f3aba68a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get user password.  <br /></td></tr>
 <tr class="separator:abc4191918912ce1ae7f2eb67f3aba68a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9ad15317036c7f27ef15ff69bf02767" id="r_ac9ad15317036c7f27ef15ff69bf02767"><td class="memItemLeft" align="right" valign="top">const wxString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9ad15317036c7f27ef15ff69bf02767">GetOwnerPassword</a> () const</td></tr>
+<tr class="memdesc:ac9ad15317036c7f27ef15ff69bf02767"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get owner password.  <br /></td></tr>
 <tr class="separator:ac9ad15317036c7f27ef15ff69bf02767"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0094dd72cd62416c03645784ea817cb" id="r_ad0094dd72cd62416c03645784ea817cb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0094dd72cd62416c03645784ea817cb">GetPermissions</a> () const</td></tr>
+<tr class="memdesc:ad0094dd72cd62416c03645784ea817cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get permissions.  <br /></td></tr>
 <tr class="separator:ad0094dd72cd62416c03645784ea817cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e23779d3226542591f14ebd052002cf" id="r_a3e23779d3226542591f14ebd052002cf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="pdfproperties_8h.html#aa3c5eba1f0c78533604a3a57da21e118">wxPdfEncryptionMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3e23779d3226542591f14ebd052002cf">GetEncryptionMethod</a> () const</td></tr>
+<tr class="memdesc:a3e23779d3226542591f14ebd052002cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get encryption method.  <br /></td></tr>
 <tr class="separator:a3e23779d3226542591f14ebd052002cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dcb55b8db7cc741ac53d76b9116edd3" id="r_a1dcb55b8db7cc741ac53d76b9116edd3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dcb55b8db7cc741ac53d76b9116edd3">GetKeyLength</a> () const</td></tr>
+<tr class="memdesc:a1dcb55b8db7cc741ac53d76b9116edd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get key length.  <br /></td></tr>
 <tr class="separator:a1dcb55b8db7cc741ac53d76b9116edd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4b9a613588e7d9f7346eae2144540b3" id="r_ac4b9a613588e7d9f7346eae2144540b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4b9a613588e7d9f7346eae2144540b3">ClearDocumentProtection</a> ()</td></tr>
+<tr class="memdesc:ac4b9a613588e7d9f7346eae2144540b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear document protection settings.  <br /></td></tr>
 <tr class="separator:ac4b9a613588e7d9f7346eae2144540b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0e3eca5d3e940643b389a800c8cb19c" id="r_af0e3eca5d3e940643b389a800c8cb19c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af0e3eca5d3e940643b389a800c8cb19c">UpdateDocument</a> (<a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *pdfDoc)</td></tr>
+<tr class="memdesc:af0e3eca5d3e940643b389a800c8cb19c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update document metadata and protection settings.  <br /></td></tr>
 <tr class="separator:af0e3eca5d3e940643b389a800c8cb19c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d85b5fa9f5ca94bb72017de5b5cef7f" id="r_a8d85b5fa9f5ca94bb72017de5b5cef7f"><td class="memItemLeft" align="right" valign="top">wxPrintData *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d85b5fa9f5ca94bb72017de5b5cef7f">CreatePrintData</a> () const</td></tr>
+<tr class="memdesc:a8d85b5fa9f5ca94bb72017de5b5cef7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create wxPrintData from this instance.  <br /></td></tr>
 <tr class="separator:a8d85b5fa9f5ca94bb72017de5b5cef7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class for holding print configuration data. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a157aad40f07ad8889abbeee52a60223f" name="a157aad40f07ad8889abbeee52a60223f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a157aad40f07ad8889abbeee52a60223f">&#9670;&#160;</a></span>wxPdfPrintData() <span class="overload">[1/5]</span></h2>
 
@@ -195,6 +254,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Default constructor. </p>
 
 </div>
 </div>
@@ -213,6 +274,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Copy constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pdfPrintData</td><td>The data to copy from </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="aba0d90185537cf73bd20cf2aab412002" name="aba0d90185537cf73bd20cf2aab412002"></a>
@@ -229,6 +298,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor from wxPrintData. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printData</td><td>The print data to initialize from </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -247,6 +324,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor from wxPrintDialogData. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printDialogData</td><td>The print dialog data to initialize from </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a57ad668753f68ff9610ebd56f957a8b8" name="a57ad668753f68ff9610ebd56f957a8b8"></a>
@@ -263,6 +348,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor from wxPageSetupDialogData. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageSetupDialogData</td><td>The page setup dialog data to initialize from </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -282,6 +375,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Clear document protection settings. </p>
+
 </div>
 </div>
 <a id="a8d85b5fa9f5ca94bb72017de5b5cef7f" name="a8d85b5fa9f5ca94bb72017de5b5cef7f"></a>
@@ -298,6 +393,9 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Create wxPrintData from this instance. </p>
+<dl class="section return"><dt>Returns</dt><dd>A new wxPrintData instance </dd></dl>
 
 </div>
 </div>
@@ -324,6 +422,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get document author. </p>
+<dl class="section return"><dt>Returns</dt><dd>The document author </dd></dl>
+
 </div>
 </div>
 <a id="abf4ec6484b1b7b1650a2ecfee79f2f36" name="abf4ec6484b1b7b1650a2ecfee79f2f36"></a>
@@ -348,6 +449,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get document creator. </p>
+<dl class="section return"><dt>Returns</dt><dd>The document creator </dd></dl>
 
 </div>
 </div>
@@ -374,6 +478,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get document keywords. </p>
+<dl class="section return"><dt>Returns</dt><dd>The document keywords </dd></dl>
+
 </div>
 </div>
 <a id="ae8ec14e0dddbf2dc3507e47345889a08" name="ae8ec14e0dddbf2dc3507e47345889a08"></a>
@@ -398,6 +505,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get document subject. </p>
+<dl class="section return"><dt>Returns</dt><dd>The document subject </dd></dl>
 
 </div>
 </div>
@@ -424,6 +534,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get document title. </p>
+<dl class="section return"><dt>Returns</dt><dd>The document title </dd></dl>
+
 </div>
 </div>
 <a id="a3e23779d3226542591f14ebd052002cf" name="a3e23779d3226542591f14ebd052002cf"></a>
@@ -448,6 +561,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get encryption method. </p>
+<dl class="section return"><dt>Returns</dt><dd>The encryption method </dd></dl>
 
 </div>
 </div>
@@ -474,6 +590,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get output filename. </p>
+<dl class="section return"><dt>Returns</dt><dd>The output filename </dd></dl>
+
 </div>
 </div>
 <a id="a0a27d06bd87ee1696464e3b7a5a15e43" name="a0a27d06bd87ee1696464e3b7a5a15e43"></a>
@@ -498,6 +617,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get first page to print. </p>
+<dl class="section return"><dt>Returns</dt><dd>The first page number </dd></dl>
 
 </div>
 </div>
@@ -524,6 +646,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get key length. </p>
+<dl class="section return"><dt>Returns</dt><dd>The encryption key length </dd></dl>
+
 </div>
 </div>
 <a id="ad1c54c4e4a03a616f7817869e18a4fd7" name="ad1c54c4e4a03a616f7817869e18a4fd7"></a>
@@ -548,6 +673,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get document viewer launch flag. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if document viewer should be launched, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -574,6 +702,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get maximum page number. </p>
+<dl class="section return"><dt>Returns</dt><dd>The maximum page number </dd></dl>
+
 </div>
 </div>
 <a id="a2573fae2251290a3f2002f280ff6a65d" name="a2573fae2251290a3f2002f280ff6a65d"></a>
@@ -598,6 +729,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get minimum page number. </p>
+<dl class="section return"><dt>Returns</dt><dd>The minimum page number </dd></dl>
 
 </div>
 </div>
@@ -624,6 +758,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get page orientation. </p>
+<dl class="section return"><dt>Returns</dt><dd>The print orientation </dd></dl>
+
 </div>
 </div>
 <a id="ac9ad15317036c7f27ef15ff69bf02767" name="ac9ad15317036c7f27ef15ff69bf02767"></a>
@@ -648,6 +785,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get owner password. </p>
+<dl class="section return"><dt>Returns</dt><dd>The owner password </dd></dl>
 
 </div>
 </div>
@@ -674,6 +814,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get paper size ID. </p>
+<dl class="section return"><dt>Returns</dt><dd>The paper size ID </dd></dl>
+
 </div>
 </div>
 <a id="ad0094dd72cd62416c03645784ea817cb" name="ad0094dd72cd62416c03645784ea817cb"></a>
@@ -698,6 +841,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get permissions. </p>
+<dl class="section return"><dt>Returns</dt><dd>The permissions bitmask </dd></dl>
 
 </div>
 </div>
@@ -724,6 +870,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get print dialog flags. </p>
+<dl class="section return"><dt>Returns</dt><dd>The print dialog flags </dd></dl>
+
 </div>
 </div>
 <a id="ab256f125d8255e2227beb612fda1857c" name="ab256f125d8255e2227beb612fda1857c"></a>
@@ -740,6 +889,9 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Get print resolution. </p>
+<dl class="section return"><dt>Returns</dt><dd>The print resolution in DPI </dd></dl>
 
 </div>
 </div>
@@ -766,6 +918,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get print quality. </p>
+<dl class="section return"><dt>Returns</dt><dd>The print quality </dd></dl>
+
 </div>
 </div>
 <a id="a306be78efc2520ee863dc6f1b7c82d58" name="a306be78efc2520ee863dc6f1b7c82d58"></a>
@@ -790,6 +945,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get template document. </p>
+<dl class="section return"><dt>Returns</dt><dd>The template document </dd></dl>
 
 </div>
 </div>
@@ -816,6 +974,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get template height. </p>
+<dl class="section return"><dt>Returns</dt><dd>The template height </dd></dl>
+
 </div>
 </div>
 <a id="a3f25da5278767f68f67a0d7934dd3046" name="a3f25da5278767f68f67a0d7934dd3046"></a>
@@ -840,6 +1001,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get template mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if in template mode, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -866,6 +1030,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get template width. </p>
+<dl class="section return"><dt>Returns</dt><dd>The template width </dd></dl>
+
 </div>
 </div>
 <a id="a07c8bb23f0bba1d517c4c50e60bd967e" name="a07c8bb23f0bba1d517c4c50e60bd967e"></a>
@@ -890,6 +1057,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get last page to print. </p>
+<dl class="section return"><dt>Returns</dt><dd>The last page number </dd></dl>
 
 </div>
 </div>
@@ -916,6 +1086,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get user password. </p>
+<dl class="section return"><dt>Returns</dt><dd>The user password </dd></dl>
+
 </div>
 </div>
 <a id="a5a41e44ad143e2a618c96b32c415e383" name="a5a41e44ad143e2a618c96b32c415e383"></a>
@@ -940,6 +1113,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Check whether the print data is valid. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if valid, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -966,6 +1142,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Check whether document protection is enabled. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if protection is enabled, FALSE otherwise </dd></dl>
+
 </div>
 </div>
 <a id="a047f0cab84d86ef4aac44e13c10b31f2" name="a047f0cab84d86ef4aac44e13c10b31f2"></a>
@@ -990,6 +1169,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Check whether the print data is valid. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if valid, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -1016,6 +1198,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set document author. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">author</td><td>The document author </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a3b56ebff0c73e642eaad8b9ac3787ebc" name="a3b56ebff0c73e642eaad8b9ac3787ebc"></a>
@@ -1041,6 +1231,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set document creator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">creator</td><td>The document creator </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="acee6405c2bd7dd852a0f0ef44333acdf" name="acee6405c2bd7dd852a0f0ef44333acdf"></a>
@@ -1065,6 +1263,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set document keywords. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keywords</td><td>The document keywords </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1102,6 +1308,18 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set document protection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">permissions</td><td>The permissions bitmask </td></tr>
+    <tr><td class="paramname">userPassword</td><td>The user password </td></tr>
+    <tr><td class="paramname">ownerPassword</td><td>The owner password </td></tr>
+    <tr><td class="paramname">encryptionMethod</td><td>The encryption method </td></tr>
+    <tr><td class="paramname">keyLength</td><td>The encryption key length </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a41ea43fe5816b6b8928e65d572e1faf3" name="a41ea43fe5816b6b8928e65d572e1faf3"></a>
@@ -1126,6 +1344,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set document subject. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">subject</td><td>The document subject </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1152,6 +1378,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set document title. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">title</td><td>The document title </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a7f18c800c9b74f1a881c38d9490ab8ce" name="a7f18c800c9b74f1a881c38d9490ab8ce"></a>
@@ -1176,6 +1410,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set output filename. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>The output filename </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1202,6 +1444,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set first page to print. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>The first page number </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a7c70d152025ca6a031ac0d5515e6d01e" name="a7c70d152025ca6a031ac0d5515e6d01e"></a>
@@ -1226,6 +1476,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set document viewer launch flag. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enable</td><td>TRUE if document viewer should be launched, FALSE otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1252,6 +1510,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set maximum page number. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>The maximum page number </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="affa39e833de5e396f89a9efc5c335947" name="affa39e833de5e396f89a9efc5c335947"></a>
@@ -1276,6 +1542,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set minimum page number. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>The minimum page number </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1302,6 +1576,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set page orientation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">orient</td><td>The print orientation </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="adca7fe630928b8a11d6ab8d20e122282" name="adca7fe630928b8a11d6ab8d20e122282"></a>
@@ -1326,6 +1608,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set paper size ID. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sizeId</td><td>The paper size ID </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1352,6 +1642,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set print dialog flags. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">flags</td><td>The print dialog flags </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="aebb9ca796c988a352fd6f609aa9402ac" name="aebb9ca796c988a352fd6f609aa9402ac"></a>
@@ -1377,6 +1675,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set print resolution. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">resolution</td><td>The print resolution in DPI </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a44e6583013fd0ebb85172899c408b03d" name="a44e6583013fd0ebb85172899c408b03d"></a>
@@ -1401,6 +1707,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set print quality. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">quality</td><td>The print quality </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1428,6 +1742,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Set template document. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pdfDocument</td><td>The template document </td></tr>
+    <tr><td class="paramname">templateWidth</td><td>The template width </td></tr>
+    <tr><td class="paramname">templateHeight</td><td>The template height </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a00c3b83628c006d699253c9900d4a335" name="a00c3b83628c006d699253c9900d4a335"></a>
@@ -1453,6 +1777,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set last page to print. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>The last page number </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="af0e3eca5d3e940643b389a800c8cb19c" name="af0e3eca5d3e940643b389a800c8cb19c"></a>
@@ -1469,6 +1801,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Update document metadata and protection settings. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pdfDoc</td><td>The document to update </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

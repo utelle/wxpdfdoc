@@ -168,10 +168,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3af52eaac1d163d4f38c90d2b590aa2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get width of last space character.  <br /></td></tr>
 <tr class="separator:a3af52eaac1d163d4f38c90d2b590aa2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32e7df11997eb63050553456affda2fa" id="r_a32e7df11997eb63050553456affda2fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32e7df11997eb63050553456affda2fa">SetCharacterSpacing</a> (double charSpacing)</td></tr>
-<tr class="memdesc:a32e7df11997eb63050553456affda2fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remember the width of the last space character.  <br /></td></tr>
+<tr class="memdesc:a32e7df11997eb63050553456affda2fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remember the character spacing.  <br /></td></tr>
 <tr class="separator:a32e7df11997eb63050553456affda2fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64ada879ab8ecb49df9005bd71a93c6e" id="r_a64ada879ab8ecb49df9005bd71a93c6e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64ada879ab8ecb49df9005bd71a93c6e">GetCharacterSpacing</a> ()</td></tr>
-<tr class="memdesc:a64ada879ab8ecb49df9005bd71a93c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get width of last space character.  <br /></td></tr>
+<tr class="memdesc:a64ada879ab8ecb49df9005bd71a93c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get character spacing.  <br /></td></tr>
 <tr class="separator:a64ada879ab8ecb49df9005bd71a93c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9bc3aa7e868f39ecd083219536992ee" id="r_ad9bc3aa7e868f39ecd083219536992ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9bc3aa7e868f39ecd083219536992ee">SetHRef</a> (const wxString &amp;href)</td></tr>
 <tr class="memdesc:ad9bc3aa7e868f39ecd083219536992ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set hyper link reference.  <br /></td></tr>
@@ -180,10 +180,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af0bfd494a74861e6776bf3fd8b560b49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get hyper link reference.  <br /></td></tr>
 <tr class="separator:af0bfd494a74861e6776bf3fd8b560b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d66d1dd70f9121b5227d6db870decc6" id="r_a0d66d1dd70f9121b5227d6db870decc6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d66d1dd70f9121b5227d6db870decc6">SetTable</a> (<a class="el" href="classwx_pdf_table.html">wxPdfTable</a> *table)</td></tr>
-<tr class="memdesc:a0d66d1dd70f9121b5227d6db870decc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set table reference.  <br /></td></tr>
+<tr class="memdesc:a0d66d1dd70f9121b5227d6db870decc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set reference to an embedded markup table.  <br /></td></tr>
 <tr class="separator:a0d66d1dd70f9121b5227d6db870decc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec1dc984ed5fb0485e400a7e23f003be" id="r_aec1dc984ed5fb0485e400a7e23f003be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwx_pdf_table.html">wxPdfTable</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec1dc984ed5fb0485e400a7e23f003be">GetTable</a> ()</td></tr>
-<tr class="memdesc:aec1dc984ed5fb0485e400a7e23f003be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get table reference.  <br /></td></tr>
+<tr class="memdesc:aec1dc984ed5fb0485e400a7e23f003be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get reference to an embedded markup table.  <br /></td></tr>
 <tr class="separator:aec1dc984ed5fb0485e400a7e23f003be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -214,6 +214,14 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxWidth</td><td>Maximum allowed width for the cell </td></tr>
+    <tr><td class="paramname">hAlign</td><td>Horizontal alignment </td></tr>
+    <tr><td class="paramname">vAlign</td><td>Vertical alignment </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -261,6 +269,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Adjust number of spaces of current line. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">spaces</td><td>Number of spaces to add </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -280,6 +294,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Adjust width of current line. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>Width to add </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -307,6 +327,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Increase total height of cell. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">height</td><td>Height to add </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -330,6 +356,13 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Add width and number of spaces of the last line of the current context. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>Line width </td></tr>
+    <tr><td class="paramname">spaces</td><td>Number of spaces </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -368,6 +401,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Append context to context list. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">context</td><td>Pointer to cell context to append </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -395,6 +434,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check whether alignment has been taken care of. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if aligned, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -421,7 +461,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get width of last space character. </p>
+<p>Get character spacing. </p>
+<dl class="section return"><dt>Returns</dt><dd>Character spacing </dd></dl>
 
 </div>
 </div>
@@ -449,6 +490,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the number of contexts. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of contexts </dd></dl>
 
 </div>
 </div>
@@ -468,6 +510,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get current context. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to current cell context </dd></dl>
 
 </div>
 </div>
@@ -495,6 +538,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get number of current line. </p>
+<dl class="section return"><dt>Returns</dt><dd>Current line index </dd></dl>
 
 </div>
 </div>
@@ -514,6 +558,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get number of spaces of current line. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of spaces </dd></dl>
 
 </div>
 </div>
@@ -533,6 +578,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get width of current line. </p>
+<dl class="section return"><dt>Returns</dt><dd>Current line width </dd></dl>
 
 </div>
 </div>
@@ -560,6 +606,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get cell fill style. </p>
+<dl class="section return"><dt>Returns</dt><dd>Fill style </dd></dl>
 
 </div>
 </div>
@@ -587,6 +634,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get horizontal alignment. </p>
+<dl class="section return"><dt>Returns</dt><dd>Horizontal alignment </dd></dl>
 
 </div>
 </div>
@@ -614,6 +662,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get total height of cell. </p>
+<dl class="section return"><dt>Returns</dt><dd>Total height </dd></dl>
 
 </div>
 </div>
@@ -641,6 +690,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get hyper link reference. </p>
+<dl class="section return"><dt>Returns</dt><dd>Reference to hyperlink string </dd></dl>
 
 </div>
 </div>
@@ -668,6 +718,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get last character of previous chunk. </p>
+<dl class="section return"><dt>Returns</dt><dd>Last character </dd></dl>
 
 </div>
 </div>
@@ -687,6 +738,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the width of the last line. </p>
+<dl class="section return"><dt>Returns</dt><dd>Last line width </dd></dl>
 
 </div>
 </div>
@@ -714,6 +766,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get width of last space character. </p>
+<dl class="section return"><dt>Returns</dt><dd>Space width </dd></dl>
 
 </div>
 </div>
@@ -741,6 +794,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get number of lines in cell. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of lines </dd></dl>
 
 </div>
 </div>
@@ -760,6 +814,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get line delta measure. </p>
+<dl class="section return"><dt>Returns</dt><dd>Line delta </dd></dl>
 
 </div>
 </div>
@@ -787,6 +842,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get maximum width of cell. </p>
+<dl class="section return"><dt>Returns</dt><dd>Maximum width </dd></dl>
 
 </div>
 </div>
@@ -813,7 +869,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get table reference. </p>
+<p>Get reference to an embedded markup table. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the embedded table object </dd></dl>
 
 </div>
 </div>
@@ -841,6 +898,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get vertical alignment. </p>
+<dl class="section return"><dt>Returns</dt><dd>Vertical alignment </dd></dl>
 
 </div>
 </div>
@@ -898,6 +956,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check whether current line is marked as last line. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if current line is the last line, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -970,7 +1029,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Remember the width of the last space character. </p>
+<p>Remember the character spacing. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">charSpacing</td><td>Character spacing </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -998,6 +1063,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set cell fill style. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fillStyle</td><td>Fill style </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1025,6 +1096,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set hyper link reference. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">href</td><td>Hyperlink reference </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1052,6 +1129,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Remember the last character of the last chunk. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>Character to remember </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1079,6 +1162,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Remember the width of the last space character. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">w</td><td>Space width </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1105,7 +1194,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Set table reference. </p>
+<p>Set reference to an embedded markup table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table</td><td>Pointer to the embedded table object </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1133,6 +1228,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set vertical alignment. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vAlign</td><td>Vertical alignment </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -90,12 +90,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac5bc6a3dd6171ed728f765bd3036ab15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a cell into the cell array.  <br /></td></tr>
 <tr class="separator:ac5bc6a3dd6171ed728f765bd3036ab15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1b6a6438ad1da2a90da87925e831d7d4" id="r_a1b6a6438ad1da2a90da87925e831d7d4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b6a6438ad1da2a90da87925e831d7d4">WriteOnPage</a> (bool writeHeader, double x, double y)</td></tr>
+<tr class="memdesc:a1b6a6438ad1da2a90da87925e831d7d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write table header on current page.  <br /></td></tr>
 <tr class="separator:a1b6a6438ad1da2a90da87925e831d7d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4f3f7aecac63f383120266a14ad3e57" id="r_ac4f3f7aecac63f383120266a14ad3e57"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4f3f7aecac63f383120266a14ad3e57">WriteRowsOnPage</a> (unsigned firstRow, unsigned lastRow, double x, double y, bool writeHeader)</td></tr>
+<tr class="memdesc:ac4f3f7aecac63f383120266a14ad3e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write range of rows on current page.  <br /></td></tr>
 <tr class="separator:ac4f3f7aecac63f383120266a14ad3e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3df896c4a7ed0f1c7e5ca9a8c140a4e9" id="r_a3df896c4a7ed0f1c7e5ca9a8c140a4e9"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3df896c4a7ed0f1c7e5ca9a8c140a4e9">AddPage</a> (wxArrayInt::const_iterator iter, wxArrayInt::const_iterator endIter)</td></tr>
+<tr class="memdesc:a3df896c4a7ed0f1c7e5ca9a8c140a4e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a page and return last table row on page.  <br /></td></tr>
 <tr class="separator:a3df896c4a7ed0f1c7e5ca9a8c140a4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a481ab0d34683f77565218ec76b96c5cd" id="r_a481ab0d34683f77565218ec76b96c5cd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a481ab0d34683f77565218ec76b96c5cd">WriteTable</a> (bool writeHeader, const wxArrayInt &amp;lastRowsOnPage, double x, double y)</td></tr>
+<tr class="memdesc:a481ab0d34683f77565218ec76b96c5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the whole table.  <br /></td></tr>
 <tr class="separator:a481ab0d34683f77565218ec76b96c5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a169845f7ed8b49f17143930bd0ffb120" id="r_a169845f7ed8b49f17143930bd0ffb120"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a169845f7ed8b49f17143930bd0ffb120">GetRowHeight</a> (int row)</td></tr>
 <tr class="memdesc:a169845f7ed8b49f17143930bd0ffb120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get height of row.  <br /></td></tr>
@@ -104,6 +108,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a41b95de3c67be210e013b23eb5a34375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write table to document.  <br /></td></tr>
 <tr class="separator:a41b95de3c67be210e013b23eb5a34375"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a392560252b9f312cade3706b776f57ac" id="r_a392560252b9f312cade3706b776f57ac"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a392560252b9f312cade3706b776f57ac">WriteRows</a> (unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)</td></tr>
+<tr class="memdesc:a392560252b9f312cade3706b776f57ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write range of rows.  <br /></td></tr>
 <tr class="separator:a392560252b9f312cade3706b776f57ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7de1988b6e49d9c7392e64f262e1018" id="r_ad7de1988b6e49d9c7392e64f262e1018"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7de1988b6e49d9c7392e64f262e1018">SetPad</a> (double pad)</td></tr>
 <tr class="memdesc:ad7de1988b6e49d9c7392e64f262e1018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set cell padding.  <br /></td></tr>
@@ -112,7 +117,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a285c67e2fcaef16ee814e712ad95b869"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get cell padding.  <br /></td></tr>
 <tr class="separator:a285c67e2fcaef16ee814e712ad95b869"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62ef0d3e9313e520a059a919e7249d38" id="r_a62ef0d3e9313e520a059a919e7249d38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62ef0d3e9313e520a059a919e7249d38">SetBorder</a> (bool border)</td></tr>
-<tr class="memdesc:a62ef0d3e9313e520a059a919e7249d38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set border.  <br /></td></tr>
+<tr class="memdesc:a62ef0d3e9313e520a059a919e7249d38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set border flag.  <br /></td></tr>
 <tr class="separator:a62ef0d3e9313e520a059a919e7249d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1434c2159eb672a97a4f415be355ddd1" id="r_a1434c2159eb672a97a4f415be355ddd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1434c2159eb672a97a4f415be355ddd1">SetBorderWidth</a> (double borderWidth)</td></tr>
 <tr class="memdesc:a1434c2159eb672a97a4f415be355ddd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set border size.  <br /></td></tr>
@@ -167,6 +172,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">document</td><td>Pointer to the associated PDF document </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -217,6 +228,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Add a page and return last table row on page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">iter</td><td>Iterator to current row index </td></tr>
+    <tr><td class="paramname">endIter</td><td>Iterator to end of row index list </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Index of last row on page </dd></dl>
+
 </div>
 </div>
 <a id="a147cd49d5d1ff2ec7f7e6d6ffea1893c" name="a147cd49d5d1ff2ec7f7e6d6ffea1893c"></a>
@@ -243,6 +264,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get height of table body. </p>
+<dl class="section return"><dt>Returns</dt><dd>Body height </dd></dl>
 
 </div>
 </div>
@@ -270,6 +292,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get height of table head. </p>
+<dl class="section return"><dt>Returns</dt><dd>Header height </dd></dl>
 
 </div>
 </div>
@@ -297,6 +320,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get cell padding. </p>
+<dl class="section return"><dt>Returns</dt><dd>Padding </dd></dl>
 
 </div>
 </div>
@@ -324,6 +348,13 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get height of row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>Row index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Row height </dd></dl>
 
 </div>
 </div>
@@ -351,6 +382,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get total height of table. </p>
+<dl class="section return"><dt>Returns</dt><dd>Total height </dd></dl>
 
 </div>
 </div>
@@ -378,6 +410,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get total width of table. </p>
+<dl class="section return"><dt>Returns</dt><dd>Total width </dd></dl>
 
 </div>
 </div>
@@ -405,6 +438,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check whether border should be drawn. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if border should be drawn, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -424,6 +458,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Insert a cell into the cell array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>Pointer to the table cell to insert </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -451,6 +491,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set index of first body row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>Row index </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -478,6 +524,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set index of last body row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>Row index </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -504,7 +556,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Set border. </p>
+<p>Set border flag. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">border</td><td>Border flag </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -532,6 +590,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set border colour. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">borderColour</td><td>Border colour </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -559,6 +623,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set border size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">borderWidth</td><td>Border width </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -578,6 +648,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Calculate cell dimensions respecting a maximum allowed width. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxWidth</td><td>Maximum allowed width </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -601,6 +677,13 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set width of column. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">col</td><td>Column index </td></tr>
+    <tr><td class="paramname">width</td><td>Column width </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -628,6 +711,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set index of first header row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>Row index </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -655,6 +744,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set index of last header row. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>Row index </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -686,6 +781,13 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set maximum allowed row height. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>Row index </td></tr>
+    <tr><td class="paramname">height</td><td>Maximum height </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -717,6 +819,13 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set minimum required row height. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">row</td><td>Row index </td></tr>
+    <tr><td class="paramname">height</td><td>Minimum height </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -744,6 +853,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set cell padding. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pad</td><td>Padding </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -790,6 +905,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Write table header on current page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writeHeader</td><td>Flag whether to write the header </td></tr>
+    <tr><td class="paramname">x</td><td>Abscissa of the top left corner </td></tr>
+    <tr><td class="paramname">y</td><td>Ordinate of the top left corner </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Vertical position after writing </dd></dl>
+
 </div>
 </div>
 <a id="a392560252b9f312cade3706b776f57ac" name="a392560252b9f312cade3706b776f57ac"></a>
@@ -825,6 +951,19 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Write range of rows. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">firstRow</td><td>Index of first row </td></tr>
+    <tr><td class="paramname">lastRow</td><td>Index of last row </td></tr>
+    <tr><td class="paramname">x</td><td>Abscissa of the top left corner </td></tr>
+    <tr><td class="paramname">y</td><td>Ordinate of the top left corner </td></tr>
+    <tr><td class="paramname">isHeaderRow</td><td>Flag whether the rows are header rows </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Vertical position after writing </dd></dl>
 
 </div>
 </div>
@@ -862,6 +1001,19 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Write range of rows on current page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">firstRow</td><td>Index of first row </td></tr>
+    <tr><td class="paramname">lastRow</td><td>Index of last row </td></tr>
+    <tr><td class="paramname">x</td><td>Abscissa of the top left corner </td></tr>
+    <tr><td class="paramname">y</td><td>Ordinate of the top left corner </td></tr>
+    <tr><td class="paramname">writeHeader</td><td>Flag whether to write the header </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Vertical position after writing </dd></dl>
+
 </div>
 </div>
 <a id="a481ab0d34683f77565218ec76b96c5cd" name="a481ab0d34683f77565218ec76b96c5cd"></a>
@@ -892,6 +1044,18 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Write the whole table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writeHeader</td><td>Flag whether to write the header </td></tr>
+    <tr><td class="paramname">lastRowsOnPage</td><td>List of last rows on each page </td></tr>
+    <tr><td class="paramname">x</td><td>Abscissa of the top left corner </td></tr>
+    <tr><td class="paramname">y</td><td>Ordinate of the top left corner </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Vertical position after writing </dd></dl>
 
 </div>
 </div>

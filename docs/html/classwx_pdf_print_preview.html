@@ -61,6 +61,9 @@ $(function(){ initResizable(false); });
 </div><!--header-->
 <div class="contents">
 
+<p>Class for managing the print preview process for PDF documents.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;pdfprint.h&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for wxPdfPrintPreview:</div>
@@ -72,65 +75,96 @@ Inheritance diagram for wxPdfPrintPreview:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac287bf607cc0860bd0e349fdd753091c" id="r_ac287bf607cc0860bd0e349fdd753091c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac287bf607cc0860bd0e349fdd753091c">wxPdfPrintPreview</a> (wxPrintout *printout, wxPrintout *printoutForPrinting)</td></tr>
+<tr class="memdesc:ac287bf607cc0860bd0e349fdd753091c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="separator:ac287bf607cc0860bd0e349fdd753091c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8528757739318e6978aaa1590d2c41a3" id="r_a8528757739318e6978aaa1590d2c41a3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8528757739318e6978aaa1590d2c41a3">wxPdfPrintPreview</a> (wxPrintout *printout, wxPrintout *printoutForPrinting, wxPrintDialogData *data)</td></tr>
+<tr class="memdesc:a8528757739318e6978aaa1590d2c41a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from wxPrintDialogData.  <br /></td></tr>
 <tr class="separator:a8528757739318e6978aaa1590d2c41a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5aae122ce899cee2a8597bec2a3e1047" id="r_a5aae122ce899cee2a8597bec2a3e1047"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5aae122ce899cee2a8597bec2a3e1047">wxPdfPrintPreview</a> (wxPrintout *printout, wxPrintout *printoutForPrinting, wxPrintData *data)</td></tr>
+<tr class="memdesc:a5aae122ce899cee2a8597bec2a3e1047"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from wxPrintData.  <br /></td></tr>
 <tr class="separator:a5aae122ce899cee2a8597bec2a3e1047"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d9d24f4743fb4d114d4dcf73083566d" id="r_a0d9d24f4743fb4d114d4dcf73083566d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0d9d24f4743fb4d114d4dcf73083566d">wxPdfPrintPreview</a> (wxPrintout *printout, wxPrintout *printoutForPrinting, <a class="el" href="classwx_pdf_print_data.html">wxPdfPrintData</a> *data)</td></tr>
+<tr class="memdesc:a0d9d24f4743fb4d114d4dcf73083566d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from <a class="el" href="classwx_pdf_print_data.html" title="Class for holding print configuration data.">wxPdfPrintData</a>.  <br /></td></tr>
 <tr class="separator:a0d9d24f4743fb4d114d4dcf73083566d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a799272d9871d4bace5d006ae55aa79ff" id="r_a799272d9871d4bace5d006ae55aa79ff"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a799272d9871d4bace5d006ae55aa79ff">~wxPdfPrintPreview</a> ()</td></tr>
+<tr class="memdesc:a799272d9871d4bace5d006ae55aa79ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="separator:a799272d9871d4bace5d006ae55aa79ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a693e15980179ef7549be619dc0d7593d" id="r_a693e15980179ef7549be619dc0d7593d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a693e15980179ef7549be619dc0d7593d">SetCurrentPage</a> (int pageNum)</td></tr>
+<tr class="memdesc:a693e15980179ef7549be619dc0d7593d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current page.  <br /></td></tr>
 <tr class="separator:a693e15980179ef7549be619dc0d7593d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c81808ed1fd1505770295b7b2ad628a" id="r_a3c81808ed1fd1505770295b7b2ad628a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c81808ed1fd1505770295b7b2ad628a">GetCurrentPage</a> () const</td></tr>
+<tr class="memdesc:a3c81808ed1fd1505770295b7b2ad628a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current page.  <br /></td></tr>
 <tr class="separator:a3c81808ed1fd1505770295b7b2ad628a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1e11c23f13ca0404482e2bbc5e3f3c5" id="r_ac1e11c23f13ca0404482e2bbc5e3f3c5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac1e11c23f13ca0404482e2bbc5e3f3c5">SetPrintout</a> (wxPrintout *printout)</td></tr>
+<tr class="memdesc:ac1e11c23f13ca0404482e2bbc5e3f3c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the printout.  <br /></td></tr>
 <tr class="separator:ac1e11c23f13ca0404482e2bbc5e3f3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3789bd55fc2c7c136209a9d10ee49dcb" id="r_a3789bd55fc2c7c136209a9d10ee49dcb"><td class="memItemLeft" align="right" valign="top">virtual wxPrintout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3789bd55fc2c7c136209a9d10ee49dcb">GetPrintout</a> () const</td></tr>
+<tr class="memdesc:a3789bd55fc2c7c136209a9d10ee49dcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the preview printout.  <br /></td></tr>
 <tr class="separator:a3789bd55fc2c7c136209a9d10ee49dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0dbe14dcd0acc9890fe915b29f721de7" id="r_a0dbe14dcd0acc9890fe915b29f721de7"><td class="memItemLeft" align="right" valign="top">virtual wxPrintout *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dbe14dcd0acc9890fe915b29f721de7">GetPrintoutForPrinting</a> () const</td></tr>
+<tr class="memdesc:a0dbe14dcd0acc9890fe915b29f721de7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the printing printout.  <br /></td></tr>
 <tr class="separator:a0dbe14dcd0acc9890fe915b29f721de7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf1ed2afbcdac450af9b224f22d69e3a" id="r_acf1ed2afbcdac450af9b224f22d69e3a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf1ed2afbcdac450af9b224f22d69e3a">SetFrame</a> (wxFrame *frame)</td></tr>
+<tr class="memdesc:acf1ed2afbcdac450af9b224f22d69e3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the frame.  <br /></td></tr>
 <tr class="separator:acf1ed2afbcdac450af9b224f22d69e3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accaf7534c907a71f66ebd4b8ccdef34e" id="r_accaf7534c907a71f66ebd4b8ccdef34e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#accaf7534c907a71f66ebd4b8ccdef34e">SetCanvas</a> (wxPreviewCanvas *canvas)</td></tr>
+<tr class="memdesc:accaf7534c907a71f66ebd4b8ccdef34e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the canvas.  <br /></td></tr>
 <tr class="separator:accaf7534c907a71f66ebd4b8ccdef34e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c201a40b3a21852705b8b93816955ed" id="r_a8c201a40b3a21852705b8b93816955ed"><td class="memItemLeft" align="right" valign="top">virtual wxFrame *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8c201a40b3a21852705b8b93816955ed">GetFrame</a> () const</td></tr>
+<tr class="memdesc:a8c201a40b3a21852705b8b93816955ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the frame.  <br /></td></tr>
 <tr class="separator:a8c201a40b3a21852705b8b93816955ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7aa98a720b081ec60964089fbeb93a5f" id="r_a7aa98a720b081ec60964089fbeb93a5f"><td class="memItemLeft" align="right" valign="top">virtual wxPreviewCanvas *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7aa98a720b081ec60964089fbeb93a5f">GetCanvas</a> () const</td></tr>
+<tr class="memdesc:a7aa98a720b081ec60964089fbeb93a5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the canvas.  <br /></td></tr>
 <tr class="separator:a7aa98a720b081ec60964089fbeb93a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52cccbea840c1111790e97a5dc6c1633" id="r_a52cccbea840c1111790e97a5dc6c1633"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52cccbea840c1111790e97a5dc6c1633">PaintPage</a> (wxPreviewCanvas *canvas, wxDC &amp;dc)</td></tr>
+<tr class="memdesc:a52cccbea840c1111790e97a5dc6c1633"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paint the page.  <br /></td></tr>
 <tr class="separator:a52cccbea840c1111790e97a5dc6c1633"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b46e17f4cff7d33b76626f4f4a63b84" id="r_a4b46e17f4cff7d33b76626f4f4a63b84"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b46e17f4cff7d33b76626f4f4a63b84">UpdatePageRendering</a> ()</td></tr>
+<tr class="memdesc:a4b46e17f4cff7d33b76626f4f4a63b84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update page rendering.  <br /></td></tr>
 <tr class="separator:a4b46e17f4cff7d33b76626f4f4a63b84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a124b5b876e6f7bb75adb436bc81aa100" id="r_a124b5b876e6f7bb75adb436bc81aa100"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a124b5b876e6f7bb75adb436bc81aa100">DrawBlankPage</a> (wxPreviewCanvas *canvas, wxDC &amp;dc)</td></tr>
+<tr class="memdesc:a124b5b876e6f7bb75adb436bc81aa100"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a blank page.  <br /></td></tr>
 <tr class="separator:a124b5b876e6f7bb75adb436bc81aa100"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a186fed7dd9b5f54379760ac26ba21593" id="r_a186fed7dd9b5f54379760ac26ba21593"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a186fed7dd9b5f54379760ac26ba21593">AdjustScrollbars</a> (wxPreviewCanvas *canvas)</td></tr>
+<tr class="memdesc:a186fed7dd9b5f54379760ac26ba21593"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjust scrollbars.  <br /></td></tr>
 <tr class="separator:a186fed7dd9b5f54379760ac26ba21593"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ba9f192667de71eeaa76ecf55850fbf" id="r_a9ba9f192667de71eeaa76ecf55850fbf"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ba9f192667de71eeaa76ecf55850fbf">RenderPage</a> (int pageNum)</td></tr>
+<tr class="memdesc:a9ba9f192667de71eeaa76ecf55850fbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Render the page.  <br /></td></tr>
 <tr class="separator:a9ba9f192667de71eeaa76ecf55850fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cfecb6728ea653f2532d4bdfbe7db71" id="r_a8cfecb6728ea653f2532d4bdfbe7db71"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8cfecb6728ea653f2532d4bdfbe7db71">SetZoom</a> (int percent)</td></tr>
+<tr class="memdesc:a8cfecb6728ea653f2532d4bdfbe7db71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the zoom factor.  <br /></td></tr>
 <tr class="separator:a8cfecb6728ea653f2532d4bdfbe7db71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad46415a8d715f15d153b1620fc708f03" id="r_ad46415a8d715f15d153b1620fc708f03"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad46415a8d715f15d153b1620fc708f03">GetZoom</a> () const</td></tr>
+<tr class="memdesc:ad46415a8d715f15d153b1620fc708f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the zoom factor.  <br /></td></tr>
 <tr class="separator:ad46415a8d715f15d153b1620fc708f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a884079fb2978ec2c77e35b527878f637" id="r_a884079fb2978ec2c77e35b527878f637"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a884079fb2978ec2c77e35b527878f637">Print</a> (bool interactive)</td></tr>
+<tr class="memdesc:a884079fb2978ec2c77e35b527878f637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the document.  <br /></td></tr>
 <tr class="separator:a884079fb2978ec2c77e35b527878f637"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac84560ab1bfbd1310904c3c239e57849" id="r_ac84560ab1bfbd1310904c3c239e57849"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac84560ab1bfbd1310904c3c239e57849">DetermineScaling</a> ()</td></tr>
+<tr class="memdesc:ac84560ab1bfbd1310904c3c239e57849"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine scaling.  <br /></td></tr>
 <tr class="separator:ac84560ab1bfbd1310904c3c239e57849"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae80059c3c678798d5a83625f71f072b9" id="r_ae80059c3c678798d5a83625f71f072b9"><td class="memItemLeft" align="right" valign="top">virtual wxPrintDialogData &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae80059c3c678798d5a83625f71f072b9">GetPrintDialogData</a> ()</td></tr>
+<tr class="memdesc:ae80059c3c678798d5a83625f71f072b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the print dialog data.  <br /></td></tr>
 <tr class="separator:ae80059c3c678798d5a83625f71f072b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c48a1051a1c3ac973fec6600c5c9e1a" id="r_a9c48a1051a1c3ac973fec6600c5c9e1a"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c48a1051a1c3ac973fec6600c5c9e1a">GetMaxPage</a> () const</td></tr>
+<tr class="memdesc:a9c48a1051a1c3ac973fec6600c5c9e1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the maximum page number.  <br /></td></tr>
 <tr class="separator:a9c48a1051a1c3ac973fec6600c5c9e1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab396c327db4c72a6cb308ef41c325f6f" id="r_ab396c327db4c72a6cb308ef41c325f6f"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab396c327db4c72a6cb308ef41c325f6f">GetMinPage</a> () const</td></tr>
+<tr class="memdesc:ab396c327db4c72a6cb308ef41c325f6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the minimum page number.  <br /></td></tr>
 <tr class="separator:ab396c327db4c72a6cb308ef41c325f6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab185f0063bf42bab49cc13f0f1a2c75a" id="r_ab185f0063bf42bab49cc13f0f1a2c75a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab185f0063bf42bab49cc13f0f1a2c75a">Ok</a> () const</td></tr>
+<tr class="memdesc:ab185f0063bf42bab49cc13f0f1a2c75a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the preview is valid.  <br /></td></tr>
 <tr class="separator:ab185f0063bf42bab49cc13f0f1a2c75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aada3a8857d5a93695b4a3a9da37850b4" id="r_aada3a8857d5a93695b4a3a9da37850b4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aada3a8857d5a93695b4a3a9da37850b4">IsOk</a> () const</td></tr>
+<tr class="memdesc:aada3a8857d5a93695b4a3a9da37850b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the preview is valid.  <br /></td></tr>
 <tr class="separator:aada3a8857d5a93695b4a3a9da37850b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa04fa75b570d5735db03a6006877b7a" id="r_aaa04fa75b570d5735db03a6006877b7a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa04fa75b570d5735db03a6006877b7a">SetOk</a> (bool ok)</td></tr>
+<tr class="memdesc:aaa04fa75b570d5735db03a6006877b7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the preview valid flag.  <br /></td></tr>
 <tr class="separator:aaa04fa75b570d5735db03a6006877b7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class for managing the print preview process for PDF documents. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac287bf607cc0860bd0e349fdd753091c" name="ac287bf607cc0860bd0e349fdd753091c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac287bf607cc0860bd0e349fdd753091c">&#9670;&#160;</a></span>wxPdfPrintPreview() <span class="overload">[1/4]</span></h2>
 
@@ -149,6 +183,15 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printout</td><td>The printout to preview </td></tr>
+    <tr><td class="paramname">printoutForPrinting</td><td>The printout to use for printing </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -176,6 +219,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor from wxPrintDialogData. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printout</td><td>The printout to preview </td></tr>
+    <tr><td class="paramname">printoutForPrinting</td><td>The printout to use for printing </td></tr>
+    <tr><td class="paramname">data</td><td>The print dialog data </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a5aae122ce899cee2a8597bec2a3e1047" name="a5aae122ce899cee2a8597bec2a3e1047"></a>
@@ -201,6 +254,16 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor from wxPrintData. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printout</td><td>The printout to preview </td></tr>
+    <tr><td class="paramname">printoutForPrinting</td><td>The printout to use for printing </td></tr>
+    <tr><td class="paramname">data</td><td>The print data </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -228,6 +291,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor from <a class="el" href="classwx_pdf_print_data.html" title="Class for holding print configuration data.">wxPdfPrintData</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printout</td><td>The printout to preview </td></tr>
+    <tr><td class="paramname">printoutForPrinting</td><td>The printout to use for printing </td></tr>
+    <tr><td class="paramname">data</td><td>The PDF print data </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a799272d9871d4bace5d006ae55aa79ff" name="a799272d9871d4bace5d006ae55aa79ff"></a>
@@ -252,6 +325,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Destructor. </p>
 
 </div>
 </div>
@@ -279,6 +354,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Adjust scrollbars. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">canvas</td><td>The canvas </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ac84560ab1bfbd1310904c3c239e57849" name="ac84560ab1bfbd1310904c3c239e57849"></a>
@@ -303,6 +386,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Determine scaling. </p>
 
 </div>
 </div>
@@ -333,6 +418,16 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Draw a blank page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">canvas</td><td>The canvas </td></tr>
+    <tr><td class="paramname">dc</td><td>The device context </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
+
 </div>
 </div>
 <a id="a7aa98a720b081ec60964089fbeb93a5f" name="a7aa98a720b081ec60964089fbeb93a5f"></a>
@@ -357,6 +452,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get the canvas. </p>
+<dl class="section return"><dt>Returns</dt><dd>The canvas </dd></dl>
 
 </div>
 </div>
@@ -383,6 +481,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the current page. </p>
+<dl class="section return"><dt>Returns</dt><dd>The current page number </dd></dl>
+
 </div>
 </div>
 <a id="a8c201a40b3a21852705b8b93816955ed" name="a8c201a40b3a21852705b8b93816955ed"></a>
@@ -407,6 +508,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get the frame. </p>
+<dl class="section return"><dt>Returns</dt><dd>The frame </dd></dl>
 
 </div>
 </div>
@@ -433,6 +537,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the maximum page number. </p>
+<dl class="section return"><dt>Returns</dt><dd>The maximum page number </dd></dl>
+
 </div>
 </div>
 <a id="ab396c327db4c72a6cb308ef41c325f6f" name="ab396c327db4c72a6cb308ef41c325f6f"></a>
@@ -457,6 +564,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get the minimum page number. </p>
+<dl class="section return"><dt>Returns</dt><dd>The minimum page number </dd></dl>
 
 </div>
 </div>
@@ -483,6 +593,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the print dialog data. </p>
+<dl class="section return"><dt>Returns</dt><dd>The print dialog data </dd></dl>
+
 </div>
 </div>
 <a id="a3789bd55fc2c7c136209a9d10ee49dcb" name="a3789bd55fc2c7c136209a9d10ee49dcb"></a>
@@ -507,6 +620,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get the preview printout. </p>
+<dl class="section return"><dt>Returns</dt><dd>The preview printout </dd></dl>
 
 </div>
 </div>
@@ -533,6 +649,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the printing printout. </p>
+<dl class="section return"><dt>Returns</dt><dd>The printing printout </dd></dl>
+
 </div>
 </div>
 <a id="ad46415a8d715f15d153b1620fc708f03" name="ad46415a8d715f15d153b1620fc708f03"></a>
@@ -557,6 +676,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Get the zoom factor. </p>
+<dl class="section return"><dt>Returns</dt><dd>The zoom factor in percent </dd></dl>
 
 </div>
 </div>
@@ -583,6 +705,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Check whether the preview is valid. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if valid, FALSE otherwise </dd></dl>
+
 </div>
 </div>
 <a id="ab185f0063bf42bab49cc13f0f1a2c75a" name="ab185f0063bf42bab49cc13f0f1a2c75a"></a>
@@ -607,6 +732,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Check whether the preview is valid. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if valid, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -637,6 +765,16 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Paint the page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">canvas</td><td>The canvas </td></tr>
+    <tr><td class="paramname">dc</td><td>The device context </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
+
 </div>
 </div>
 <a id="a884079fb2978ec2c77e35b527878f637" name="a884079fb2978ec2c77e35b527878f637"></a>
@@ -661,6 +799,15 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Print the document. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">interactive</td><td>TRUE to show the print dialog, FALSE otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -687,6 +834,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Render the page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageNum</td><td>The page number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
+
 </div>
 </div>
 <a id="accaf7534c907a71f66ebd4b8ccdef34e" name="accaf7534c907a71f66ebd4b8ccdef34e"></a>
@@ -711,6 +867,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set the canvas. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">canvas</td><td>The canvas </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -737,6 +901,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set the current page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageNum</td><td>The page number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
+
 </div>
 </div>
 <a id="acf1ed2afbcdac450af9b224f22d69e3a" name="acf1ed2afbcdac450af9b224f22d69e3a"></a>
@@ -761,6 +934,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set the frame. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">frame</td><td>The frame </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -787,6 +968,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set the preview valid flag. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ok</td><td>TRUE if valid, FALSE otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="ac1e11c23f13ca0404482e2bbc5e3f3c5" name="ac1e11c23f13ca0404482e2bbc5e3f3c5"></a>
@@ -811,6 +1000,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Set the printout. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">printout</td><td>The printout </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -837,6 +1034,14 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set the zoom factor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">percent</td><td>The zoom factor in percent </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a4b46e17f4cff7d33b76626f4f4a63b84" name="a4b46e17f4cff7d33b76626f4f4a63b84"></a>
@@ -861,6 +1066,9 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Update page rendering. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
 
 </div>
 </div>

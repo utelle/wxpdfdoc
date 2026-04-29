@@ -144,6 +144,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing a tokenizer for parsing PDF documents. </p>
+<p>The tokenizer reads a PDF stream and breaks it into tokens like strings, names, numbers, etc. It also handles identifying the XRef (Cross-Reference) table, which contains the byte offsets of all indirect objects in the PDF file. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1e093d91eff3c36e0b29e1d9d0f81976" name="a1e093d91eff3c36e0b29e1d9d0f81976"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e093d91eff3c36e0b29e1d9d0f81976">&#9670;&#160;</a></span>wxPdfTokenizer()</h2>
@@ -161,6 +162,12 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">inputStream</td><td>The stream to tokenize </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -208,6 +215,12 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Go back one position in the stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>The character to put back </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -227,6 +240,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check the header of the document stream. </p>
+<dl class="section return"><dt>Returns</dt><dd>The PDF version string (e.g., "%PDF-1.4") </dd></dl>
 
 </div>
 </div>
@@ -246,6 +260,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get object generation. </p>
+<dl class="section return"><dt>Returns</dt><dd>The object generation number </dd></dl>
 
 </div>
 </div>
@@ -273,6 +288,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get hexadecimal character. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>The integer value </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The hex character value </dd></dl>
 
 </div>
 </div>
@@ -292,6 +314,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the token value as an integer. </p>
+<dl class="section return"><dt>Returns</dt><dd>The integer value of the token </dd></dl>
 
 </div>
 </div>
@@ -311,6 +334,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get length of stream. </p>
+<dl class="section return"><dt>Returns</dt><dd>The total length of the stream </dd></dl>
 
 </div>
 </div>
@@ -330,6 +354,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get object reference. </p>
+<dl class="section return"><dt>Returns</dt><dd>The object reference number </dd></dl>
 
 </div>
 </div>
@@ -349,6 +374,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Find the offset of the startxref tag. </p>
+<dl class="section return"><dt>Returns</dt><dd>The byte offset of the cross-reference table </dd></dl>
 
 </div>
 </div>
@@ -368,6 +394,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the token value as a string. </p>
+<dl class="section return"><dt>Returns</dt><dd>The string value of the token </dd></dl>
 
 </div>
 </div>
@@ -387,6 +414,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the type of the last token. </p>
+<dl class="section return"><dt>Returns</dt><dd>The token type (e.g., <code>TOKEN_STRING</code>, <code>TOKEN_NUMBER</code>) </dd></dl>
 
 </div>
 </div>
@@ -414,6 +442,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check byte whether it is a delimiter. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>The character to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if it is a delimiter, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -441,6 +476,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check byte whether it is a delimiter or a whitespace character. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>The character to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if it is a delimiter or whitespace, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -468,6 +510,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check whether the token is a hexadecimal string. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if it is a hex string, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -495,6 +538,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check byte whether it represents a white space character. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ch</td><td>The character to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if it is whitespace, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -514,6 +564,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the next token. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if a token was found, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -533,6 +584,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the next valid token. </p>
+<p>Skips comments and whitespace to find the next meaningful token. </p>
 
 </div>
 </div>
@@ -552,6 +604,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Read size bytes from stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>The number of bytes to read </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A memory stream containing the read bytes </dd></dl>
 
 </div>
 </div>
@@ -571,6 +630,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Read one byte from stream. </p>
+<dl class="section return"><dt>Returns</dt><dd>The character read, or EOF </dd></dl>
 
 </div>
 </div>
@@ -590,6 +650,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Read a string. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">size</td><td>The number of characters to read </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The string read from the stream </dd></dl>
 
 </div>
 </div>
@@ -609,6 +676,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set current offset position in stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pos</td><td>The offset to seek to </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The new offset position </dd></dl>
 
 </div>
 </div>
@@ -628,6 +702,7 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get current offset position in stream. </p>
+<dl class="section return"><dt>Returns</dt><dd>The current offset position </dd></dl>
 
 </div>
 </div>

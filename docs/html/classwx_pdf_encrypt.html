@@ -84,6 +84,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3a7f0d6e33c38b48c62b57bf888d282b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Authenticate a document.  <br /></td></tr>
 <tr class="separator:a3a7f0d6e33c38b48c62b57bf888d282b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44718cc660711aa5460c595293f3d7bc" id="r_a44718cc660711aa5460c595293f3d7bc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44718cc660711aa5460c595293f3d7bc">PasswordIsValid</a> (const wxString &amp;password) const</td></tr>
+<tr class="memdesc:a44718cc660711aa5460c595293f3d7bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the given password is valid.  <br /></td></tr>
 <tr class="separator:a44718cc660711aa5460c595293f3d7bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a611a82d8e12342cc52e1aa0833c6e400" id="r_a611a82d8e12342cc52e1aa0833c6e400"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a611a82d8e12342cc52e1aa0833c6e400">GetUValue</a> () const</td></tr>
 <tr class="memdesc:a611a82d8e12342cc52e1aa0833c6e400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the U object value (user)  <br /></td></tr>
@@ -985,6 +986,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the key length of the encryption key in bits. </p>
+<dl class="section return"><dt>Returns</dt><dd>The key length in bits </dd></dl>
 
 </div>
 </div>
@@ -1048,6 +1050,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the OE object value (owner) </p>
+<dl class="section return"><dt>Returns</dt><dd>The owner encryption key verification value </dd></dl>
 
 </div>
 </div>
@@ -1075,6 +1078,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the O object value (owner) </p>
+<dl class="section return"><dt>Returns</dt><dd>The owner verification value </dd></dl>
 
 </div>
 </div>
@@ -1102,6 +1106,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the Perms object value (protection) </p>
+<dl class="section return"><dt>Returns</dt><dd>The permissions verification value </dd></dl>
 
 </div>
 </div>
@@ -1129,6 +1134,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the P object value (protection) </p>
+<dl class="section return"><dt>Returns</dt><dd>The protection flags </dd></dl>
 
 </div>
 </div>
@@ -1156,6 +1162,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the revision number of the encryption method. </p>
+<dl class="section return"><dt>Returns</dt><dd>The encryption revision </dd></dl>
 
 </div>
 </div>
@@ -1183,6 +1190,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the UE object value (user) </p>
+<dl class="section return"><dt>Returns</dt><dd>The user encryption key verification value </dd></dl>
 
 </div>
 </div>
@@ -1210,6 +1218,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the U object value (user) </p>
+<dl class="section return"><dt>Returns</dt><dd>The user verification value </dd></dl>
 
 </div>
 </div>
@@ -1254,6 +1263,15 @@ Static Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Check whether the given password is valid. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">password</td><td>The password to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if the password is valid, FALSE otherwise </dd></dl>
 
 </div>
 </div>

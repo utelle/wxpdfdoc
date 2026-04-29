@@ -61,6 +61,9 @@ $(function(){ initResizable(false); });
 </div><!--header-->
 <div class="contents">
 
+<p>Class for managing the printing process to PDF.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;pdfprint.h&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for wxPdfPrinter:</div>
@@ -72,23 +75,33 @@ Inheritance diagram for wxPdfPrinter:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a1e075e63fec4ac4ba59e2970c690ffd7" id="r_a1e075e63fec4ac4ba59e2970c690ffd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e075e63fec4ac4ba59e2970c690ffd7">wxPdfPrinter</a> ()</td></tr>
+<tr class="memdesc:a1e075e63fec4ac4ba59e2970c690ffd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
 <tr class="separator:a1e075e63fec4ac4ba59e2970c690ffd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa36f16516b2af68795f0292008fc1c7c" id="r_aa36f16516b2af68795f0292008fc1c7c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa36f16516b2af68795f0292008fc1c7c">wxPdfPrinter</a> (wxPrintDialogData *data)</td></tr>
+<tr class="memdesc:aa36f16516b2af68795f0292008fc1c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from wxPrintDialogData.  <br /></td></tr>
 <tr class="separator:aa36f16516b2af68795f0292008fc1c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a261b76484ddca988bedf8d629b49fcca" id="r_a261b76484ddca988bedf8d629b49fcca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a261b76484ddca988bedf8d629b49fcca">wxPdfPrinter</a> (<a class="el" href="classwx_pdf_print_data.html">wxPdfPrintData</a> *data)</td></tr>
+<tr class="memdesc:a261b76484ddca988bedf8d629b49fcca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from <a class="el" href="classwx_pdf_print_data.html" title="Class for holding print configuration data.">wxPdfPrintData</a>.  <br /></td></tr>
 <tr class="separator:a261b76484ddca988bedf8d629b49fcca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52f2f1b43951c7e226d27752a84f71fe" id="r_a52f2f1b43951c7e226d27752a84f71fe"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a52f2f1b43951c7e226d27752a84f71fe">wxPdfPrinter</a> (wxPrintData *data)</td></tr>
+<tr class="memdesc:a52f2f1b43951c7e226d27752a84f71fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from wxPrintData.  <br /></td></tr>
 <tr class="separator:a52f2f1b43951c7e226d27752a84f71fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7b9896aad5a45fea16ec2034bcca0f0" id="r_ae7b9896aad5a45fea16ec2034bcca0f0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7b9896aad5a45fea16ec2034bcca0f0">Print</a> (wxWindow *parent, wxPrintout *printout, bool prompt=true)</td></tr>
+<tr class="memdesc:ae7b9896aad5a45fea16ec2034bcca0f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a printout.  <br /></td></tr>
 <tr class="separator:ae7b9896aad5a45fea16ec2034bcca0f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7623277414ef47b817bea74ff9c3254" id="r_ad7623277414ef47b817bea74ff9c3254"><td class="memItemLeft" align="right" valign="top">virtual wxDC *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7623277414ef47b817bea74ff9c3254">PrintDialog</a> (wxWindow *parent)</td></tr>
+<tr class="memdesc:ad7623277414ef47b817bea74ff9c3254"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show the print dialog.  <br /></td></tr>
 <tr class="separator:ad7623277414ef47b817bea74ff9c3254"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca4e326860698e8328d4316dbdd390c6" id="r_aca4e326860698e8328d4316dbdd390c6"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca4e326860698e8328d4316dbdd390c6">Setup</a> (wxWindow *parent)</td></tr>
+<tr class="memdesc:aca4e326860698e8328d4316dbdd390c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show the setup dialog.  <br /></td></tr>
 <tr class="separator:aca4e326860698e8328d4316dbdd390c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5a62eae033191c38fc2745a227cb8f4" id="r_ae5a62eae033191c38fc2745a227cb8f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5a62eae033191c38fc2745a227cb8f4">ShowProgressDialog</a> (bool show)</td></tr>
+<tr class="memdesc:ae5a62eae033191c38fc2745a227cb8f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show or hide the progress dialog.  <br /></td></tr>
 <tr class="separator:ae5a62eae033191c38fc2745a227cb8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class for managing the printing process to PDF. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1e075e63fec4ac4ba59e2970c690ffd7" name="a1e075e63fec4ac4ba59e2970c690ffd7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e075e63fec4ac4ba59e2970c690ffd7">&#9670;&#160;</a></span>wxPdfPrinter() <span class="overload">[1/4]</span></h2>
 
@@ -103,6 +116,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Default constructor. </p>
 
 </div>
 </div>
@@ -121,6 +136,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor from wxPrintDialogData. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The print dialog data </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a261b76484ddca988bedf8d629b49fcca" name="a261b76484ddca988bedf8d629b49fcca"></a>
@@ -138,6 +161,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Constructor from <a class="el" href="classwx_pdf_print_data.html" title="Class for holding print configuration data.">wxPdfPrintData</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The PDF print data </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a52f2f1b43951c7e226d27752a84f71fe" name="a52f2f1b43951c7e226d27752a84f71fe"></a>
@@ -154,6 +185,14 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor from wxPrintData. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>The print data </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -190,6 +229,17 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Print a printout. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>The parent window </td></tr>
+    <tr><td class="paramname">printout</td><td>The printout to print </td></tr>
+    <tr><td class="paramname">prompt</td><td>TRUE to show the print dialog, FALSE otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
+
 </div>
 </div>
 <a id="ad7623277414ef47b817bea74ff9c3254" name="ad7623277414ef47b817bea74ff9c3254"></a>
@@ -214,6 +264,15 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Show the print dialog. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>The parent window </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The device context if successful, NULL otherwise </dd></dl>
 
 </div>
 </div>
@@ -240,6 +299,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Show the setup dialog. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>The parent window </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
+
 </div>
 </div>
 <a id="ae5a62eae033191c38fc2745a227cb8f4" name="ae5a62eae033191c38fc2745a227cb8f4"></a>
@@ -264,6 +332,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Show or hide the progress dialog. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">show</td><td>TRUE to show the progress dialog, FALSE otherwise </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -79,7 +79,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa8060e15172883896713cd858168e408"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructor.  <br /></td></tr>
 <tr class="separator:aa8060e15172883896713cd858168e408"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad9096be5dd1ee7604670e53fad1ea8e" id="r_aad9096be5dd1ee7604670e53fad1ea8e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwx_pdf_font.html">wxPdfFont</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad9096be5dd1ee7604670e53fad1ea8e">operator=</a> (const <a class="el" href="classwx_pdf_font.html">wxPdfFont</a> &amp;font)</td></tr>
-<tr class="memdesc:aad9096be5dd1ee7604670e53fad1ea8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment.  <br /></td></tr>
+<tr class="memdesc:aad9096be5dd1ee7604670e53fad1ea8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assignment operator.  <br /></td></tr>
 <tr class="separator:aad9096be5dd1ee7604670e53fad1ea8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1da0a324bdb6dd31ab9a018d09e577e" id="r_af1da0a324bdb6dd31ab9a018d09e577e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af1da0a324bdb6dd31ab9a018d09e577e">IsValid</a> () const</td></tr>
 <tr class="memdesc:af1da0a324bdb6dd31ab9a018d09e577e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether font is valid.  <br /></td></tr>
@@ -133,7 +133,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a760617b8a80db82e2253dbe602e37eb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get encoding.  <br /></td></tr>
 <tr class="separator:a760617b8a80db82e2253dbe602e37eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f6130df7a1d81ec6617657f20f05787" id="r_a2f6130df7a1d81ec6617657f20f05787"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f6130df7a1d81ec6617657f20f05787">CanShow</a> (const wxString &amp;s)</td></tr>
-<tr class="memdesc:a2f6130df7a1d81ec6617657f20f05787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the font oan show all characters of a given string.  <br /></td></tr>
+<tr class="memdesc:a2f6130df7a1d81ec6617657f20f05787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the font can show all characters of a given string.  <br /></td></tr>
 <tr class="separator:a2f6130df7a1d81ec6617657f20f05787"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfca04b9f56acf7d411bbb2e2ca6e03e" id="r_abfca04b9f56acf7d411bbb2e2ca6e03e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abfca04b9f56acf7d411bbb2e2ca6e03e">GetSupportedUnicodeCharacters</a> (wxPdfArrayUint32 &amp;unicodeCharacters) const</td></tr>
 <tr class="memdesc:abfca04b9f56acf7d411bbb2e2ca6e03e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get list of supported unicode characters.  <br /></td></tr>
@@ -217,6 +217,12 @@ Friends</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Copy constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">font</td><td>Font to copy </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -236,7 +242,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Check whether the font oan show all characters of a given string. </p>
+<p>Check whether the font can show all characters of a given string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>the string to be checked </td></tr>
@@ -638,7 +644,14 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Assignment. </p>
+<p>Assignment operator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">font</td><td>Font to assign </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Reference to this font </dd></dl>
 
 </div>
 </div>

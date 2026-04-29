@@ -75,23 +75,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a4bcfecd824f40f2f15ab1c19eb626921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
 <tr class="separator:a4bcfecd824f40f2f15ab1c19eb626921"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ffd04e6663110bfaad56f3d69094c03" id="r_a0ffd04e6663110bfaad56f3d69094c03"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ffd04e6663110bfaad56f3d69094c03">GetNextCode</a> ()</td></tr>
-<tr class="memdesc:a0ffd04e6663110bfaad56f3d69094c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get next code.  <br /></td></tr>
+<tr class="memdesc:a0ffd04e6663110bfaad56f3d69094c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get next code from the encoded stream.  <br /></td></tr>
 <tr class="separator:a0ffd04e6663110bfaad56f3d69094c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c77ad14ae898be862b7f0eb94343612" id="r_a5c77ad14ae898be862b7f0eb94343612"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5c77ad14ae898be862b7f0eb94343612">Decode</a> (wxMemoryInputStream *dataIn, wxMemoryOutputStream *dataOut)</td></tr>
 <tr class="memdesc:a5c77ad14ae898be862b7f0eb94343612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decode a byte stream.  <br /></td></tr>
 <tr class="separator:a5c77ad14ae898be862b7f0eb94343612"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad25789e228b1bf89439934828c4e5a25" id="r_ad25789e228b1bf89439934828c4e5a25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad25789e228b1bf89439934828c4e5a25">InitializeStringTable</a> ()</td></tr>
-<tr class="memdesc:ad25789e228b1bf89439934828c4e5a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the string table.  <br /></td></tr>
+<tr class="memdesc:ad25789e228b1bf89439934828c4e5a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the string table with initial 256 entries.  <br /></td></tr>
 <tr class="separator:ad25789e228b1bf89439934828c4e5a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7d57427a869130a33c1417e3fa6d867" id="r_ae7d57427a869130a33c1417e3fa6d867"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7d57427a869130a33c1417e3fa6d867">WriteString</a> (int code)</td></tr>
-<tr class="memdesc:ae7d57427a869130a33c1417e3fa6d867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write decoded string into output buffer.  <br /></td></tr>
+<tr class="memdesc:ae7d57427a869130a33c1417e3fa6d867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write decoded string associated with code into output buffer.  <br /></td></tr>
 <tr class="separator:ae7d57427a869130a33c1417e3fa6d867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51f954f054c685e54125018d46acb400" id="r_a51f954f054c685e54125018d46acb400"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51f954f054c685e54125018d46acb400">AddStringToTable</a> (int oldCode, char newString)</td></tr>
-<tr class="memdesc:a51f954f054c685e54125018d46acb400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add string to string table.  <br /></td></tr>
+<tr class="memdesc:a51f954f054c685e54125018d46acb400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new string to the string table.  <br /></td></tr>
 <tr class="separator:a51f954f054c685e54125018d46acb400"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing an LZW decoder. (For internal use only) </p>
+<p>Decodes streams that use the Lempel-Ziv-Welch (LZW) compression algorithm, commonly used in PDF and TIFF files. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acc25c3b191ede6b6a4831a33d008c4e9" name="acc25c3b191ede6b6a4831a33d008c4e9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc25c3b191ede6b6a4831a33d008c4e9">&#9670;&#160;</a></span>wxPdfLzwDecoder()</h2>
@@ -159,7 +160,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Add string to string table. </p>
+<p>Add a new string to the string table. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oldCode</td><td>The previous code </td></tr>
+    <tr><td class="paramname">newString</td><td>The new character to append </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -183,6 +191,14 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Decode a byte stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dataIn</td><td>The encoded input stream </td></tr>
+    <tr><td class="paramname">dataOut</td><td>The decoded output stream </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -201,7 +217,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get next code. </p>
+<p>Get next code from the encoded stream. </p>
+<dl class="section return"><dt>Returns</dt><dd>The next LZW code </dd></dl>
 
 </div>
 </div>
@@ -220,7 +237,7 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initialize the string table. </p>
+<p>Initialize the string table with initial 256 entries. </p>
 
 </div>
 </div>
@@ -239,7 +256,13 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Write decoded string into output buffer. </p>
+<p>Write decoded string associated with code into output buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">code</td><td>The code to look up in the string table </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

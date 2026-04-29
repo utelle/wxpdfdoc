@@ -74,6 +74,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aea1a0bd90ce725002ab27fe3d0c13fff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="separator:aea1a0bd90ce725002ab27fe3d0c13fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26e039c2d5ae7d4775152422093efcba" id="r_a26e039c2d5ae7d4775152422093efcba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26e039c2d5ae7d4775152422093efcba">wxPdfDocument</a> (int orientation, double pageWidth, double pageHeight, const wxString &amp;unit=wxString(wxS(&quot;mm&quot;)))</td></tr>
+<tr class="memdesc:a26e039c2d5ae7d4775152422093efcba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
 <tr class="separator:a26e039c2d5ae7d4775152422093efcba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a10628a918bb96326f47a1d06399685" id="r_a9a10628a918bb96326f47a1d06399685"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9a10628a918bb96326f47a1d06399685">~wxPdfDocument</a> ()</td></tr>
 <tr class="separator:a9a10628a918bb96326f47a1d06399685"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,8 +187,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a063ed979eb6061b5c8548c4fc6a6dff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a new page to the document.  <br /></td></tr>
 <tr class="separator:a063ed979eb6061b5c8548c4fc6a6dff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5d61e820efb64a24ff0ed940f4807f2" id="r_af5d61e820efb64a24ff0ed940f4807f2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5d61e820efb64a24ff0ed940f4807f2">AddPage</a> (int orientation, wxPaperSize format)</td></tr>
+<tr class="memdesc:af5d61e820efb64a24ff0ed940f4807f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a new page with the specified orientation and format.  <br /></td></tr>
 <tr class="separator:af5d61e820efb64a24ff0ed940f4807f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0f5496239075c273db413fea3d54692" id="r_ad0f5496239075c273db413fea3d54692"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0f5496239075c273db413fea3d54692">AddPage</a> (int orientation, double pageWidth, double pageHeight)</td></tr>
+<tr class="memdesc:ad0f5496239075c273db413fea3d54692"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a new page with the specified orientation and dimensions.  <br /></td></tr>
 <tr class="separator:ad0f5496239075c273db413fea3d54692"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab59584db49886fd3c0919d6cd5fd0d9b" id="r_ab59584db49886fd3c0919d6cd5fd0d9b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab59584db49886fd3c0919d6cd5fd0d9b">Header</a> ()</td></tr>
 <tr class="memdesc:ab59584db49886fd3c0919d6cd5fd0d9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method is used to render the page header.  <br /></td></tr>
@@ -605,6 +608,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab675b70adc2ff2cd6ae0aee71e9ac1f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a skewing in both X and Y directions.  <br /></td></tr>
 <tr class="separator:ab675b70adc2ff2cd6ae0aee71e9ac1f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4dc7b0339e141c137d085df602c45af9" id="r_a4dc7b0339e141c137d085df602c45af9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4dc7b0339e141c137d085df602c45af9">Transform</a> (double a, double b, double c, double d, double tx, double ty)</td></tr>
+<tr class="memdesc:a4dc7b0339e141c137d085df602c45af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs a transformation.  <br /></td></tr>
 <tr class="separator:a4dc7b0339e141c137d085df602c45af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af54ca2343009a4ddc49090af34df0aeb" id="r_af54ca2343009a4ddc49090af34df0aeb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af54ca2343009a4ddc49090af34df0aeb">StopTransform</a> ()</td></tr>
 <tr class="memdesc:af54ca2343009a4ddc49090af34df0aeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Leaves a transformation environment.  <br /></td></tr>
@@ -756,7 +760,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab04907f7e6f8ec49e40f124d6b7f060c" id="r_ab04907f7e6f8ec49e40f124d6b7f060c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab04907f7e6f8ec49e40f124d6b7f060c">Initialize</a> (int orientation)</td></tr>
-<tr class="memdesc:ab04907f7e6f8ec49e40f124d6b7f060c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize.  <br /></td></tr>
+<tr class="memdesc:ab04907f7e6f8ec49e40f124d6b7f060c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the document.  <br /></td></tr>
 <tr class="separator:ab04907f7e6f8ec49e40f124d6b7f060c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a437b490a9be8df3241fd52072016d985" id="r_a437b490a9be8df3241fd52072016d985"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a437b490a9be8df3241fd52072016d985">SaveGraphicState</a> ()</td></tr>
 <tr class="memdesc:a437b490a9be8df3241fd52072016d985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save graphic state.  <br /></td></tr>
@@ -777,7 +781,7 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a049daaf8d726e25112caac12e4e32156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select font based on wxFont object.  <br /></td></tr>
 <tr class="separator:a049daaf8d726e25112caac12e4e32156"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28d9323ae8d3336100423fa88849b534" id="r_a28d9323ae8d3336100423fa88849b534"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a28d9323ae8d3336100423fa88849b534">SelectFont</a> (const <a class="el" href="classwx_pdf_font.html">wxPdfFont</a> &amp;font, int style, double size=0, bool setFont=true)</td></tr>
-<tr class="memdesc:a28d9323ae8d3336100423fa88849b534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select font based on wxFont object.  <br /></td></tr>
+<tr class="memdesc:a28d9323ae8d3336100423fa88849b534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select font based on <a class="el" href="classwx_pdf_font.html" title="Class representing a font providing a basic interface.">wxPdfFont</a> object.  <br /></td></tr>
 <tr class="separator:a28d9323ae8d3336100423fa88849b534"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4eeb55d4fa1bc5500bf7ddcfdb9a1a7" id="r_ac4eeb55d4fa1bc5500bf7ddcfdb9a1a7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4eeb55d4fa1bc5500bf7ddcfdb9a1a7">ForceCurrentFont</a> ()</td></tr>
 <tr class="memdesc:ac4eeb55d4fa1bc5500bf7ddcfdb9a1a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force selecting the current font.  <br /></td></tr>
@@ -1004,12 +1008,16 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a3a0e5c47bfb7efff63a85ac17a1d3563"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set internal scale factor.  <br /></td></tr>
 <tr class="separator:a3a0e5c47bfb7efff63a85ac17a1d3563"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa215c51f8f61cabb8960420a2eaddca8" id="r_aa215c51f8f61cabb8960420a2eaddca8"><td class="memItemLeft" align="right" valign="top">wxSize&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa215c51f8f61cabb8960420a2eaddca8">CalculatePageSize</a> (wxPaperSize format)</td></tr>
+<tr class="memdesc:aa215c51f8f61cabb8960420a2eaddca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate page size for a given paper format.  <br /></td></tr>
 <tr class="separator:aa215c51f8f61cabb8960420a2eaddca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c813bbeebf72cb6ab5e8208a597d375" id="r_a1c813bbeebf72cb6ab5e8208a597d375"><td class="memItemLeft" align="right" valign="top">wxSize&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c813bbeebf72cb6ab5e8208a597d375">CalculatePageSize</a> (double pageWidth, double pageHeight)</td></tr>
+<tr class="memdesc:a1c813bbeebf72cb6ab5e8208a597d375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate page size for given dimensions.  <br /></td></tr>
 <tr class="separator:a1c813bbeebf72cb6ab5e8208a597d375"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a5265bd6097e4c8562052ace18de19e" id="r_a7a5265bd6097e4c8562052ace18de19e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a5265bd6097e4c8562052ace18de19e">AddPage</a> (int orientation, wxSize pageSize)</td></tr>
+<tr class="memdesc:a7a5265bd6097e4c8562052ace18de19e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a new page with specified orientation and size.  <br /></td></tr>
 <tr class="separator:a7a5265bd6097e4c8562052ace18de19e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7908ff2e5f7a401a9a780ddc07fc47d9" id="r_a7908ff2e5f7a401a9a780ddc07fc47d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7908ff2e5f7a401a9a780ddc07fc47d9">LoadZapfDingBats</a> ()</td></tr>
+<tr class="memdesc:a7908ff2e5f7a401a9a780ddc07fc47d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the ZapfDingbats core font.  <br /></td></tr>
 <tr class="separator:a7908ff2e5f7a401a9a780ddc07fc47d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabfa92f33d07b7db176a2ac7b66104b9" id="r_aabfa92f33d07b7db176a2ac7b66104b9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabfa92f33d07b7db176a2ac7b66104b9">GetHeaderHeight</a> () const</td></tr>
 <tr class="separator:aabfa92f33d07b7db176a2ac7b66104b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1098,6 +1106,17 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">orientation</td><td>Defines the default page orientation. </td></tr>
+    <tr><td class="paramname">pageWidth</td><td>Defines the page width in user units. </td></tr>
+    <tr><td class="paramname">pageHeight</td><td>Defines the page height in user units. </td></tr>
+    <tr><td class="paramname">unit</td><td>Defines the user units (pt: points, mm: millimeters, cm: centimeters, in: inches). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -1474,6 +1493,16 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Adds a new page with the specified orientation and dimensions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">orientation</td><td>Page orientation (<code>wxPORTRAIT</code>, <code>wxLANDSCAPE</code>). </td></tr>
+    <tr><td class="paramname">pageWidth</td><td>Page width in user units. </td></tr>
+    <tr><td class="paramname">pageHeight</td><td>Page height in user units. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="af5d61e820efb64a24ff0ed940f4807f2" name="af5d61e820efb64a24ff0ed940f4807f2"></a>
@@ -1503,6 +1532,15 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Adds a new page with the specified orientation and format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">orientation</td><td>Page orientation (<code>wxPORTRAIT</code>, <code>wxLANDSCAPE</code>). </td></tr>
+    <tr><td class="paramname">format</td><td>Paper size format. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a7a5265bd6097e4c8562052ace18de19e" name="a7a5265bd6097e4c8562052ace18de19e"></a>
@@ -1531,6 +1569,15 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Adds a new page with specified orientation and size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">orientation</td><td>Page orientation (<code>wxPORTRAIT</code>, <code>wxLANDSCAPE</code>) </td></tr>
+    <tr><td class="paramname">pageSize</td><td>Page size in user units </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -2316,6 +2363,16 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Calculate page size for given dimensions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageWidth</td><td>Page width </td></tr>
+    <tr><td class="paramname">pageHeight</td><td>Page height </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Page size in user units </dd></dl>
+
 </div>
 </div>
 <a id="aa215c51f8f61cabb8960420a2eaddca8" name="aa215c51f8f61cabb8960420a2eaddca8"></a>
@@ -2340,6 +2397,15 @@ Friends</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Calculate page size for a given paper format. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">format</td><td>Paper size format </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Page size in user units </dd></dl>
 
 </div>
 </div>
@@ -4488,6 +4554,7 @@ R: right align</li>
 </div><div class="memdoc">
 
 <p>Get x coordinate of bottom right corner of last inserted image. </p>
+<dl class="section return"><dt>Returns</dt><dd>The x coordinate in user units </dd></dl>
 
 </div>
 </div>
@@ -4515,6 +4582,7 @@ R: right align</li>
 </div><div class="memdoc">
 
 <p>Get y coordinate of bottom right corner of last inserted image. </p>
+<dl class="section return"><dt>Returns</dt><dd>The y coordinate in user units </dd></dl>
 
 </div>
 </div>
@@ -5120,6 +5188,7 @@ R: right align</li>
 </div><div class="memdoc">
 
 <p>Returns the text render mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>The current text render mode </dd></dl>
 
 </div>
 </div>
@@ -5680,7 +5749,13 @@ R: right align</li>
 </table>
 </div><div class="memdoc">
 
-<p>Initialize. </p>
+<p>Initialize the document. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">orientation</td><td>Initial page orientation </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -6053,6 +6128,8 @@ R: right align</li>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Loads the ZapfDingbats core font. </p>
 
 </div>
 </div>
@@ -9354,6 +9431,14 @@ or a combination of them. </td></tr>
 </div><div class="memdoc">
 
 <p>Select font based on wxFont object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">font</td><td>wxFont object </td></tr>
+    <tr><td class="paramname">setFont</td><td>Flag whether to set the font in PDF output </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if font was selected, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -9394,7 +9479,17 @@ or a combination of them. </td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Select font based on wxFont object. </p>
+<p>Select font based on <a class="el" href="classwx_pdf_font.html" title="Class representing a font providing a basic interface.">wxPdfFont</a> object. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">font</td><td><a class="el" href="classwx_pdf_font.html" title="Class representing a font providing a basic interface.">wxPdfFont</a> object </td></tr>
+    <tr><td class="paramname">style</td><td>Font style flags </td></tr>
+    <tr><td class="paramname">size</td><td>Font size </td></tr>
+    <tr><td class="paramname">setFont</td><td>Flag whether to set the font in PDF output </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if font was selected, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -9436,6 +9531,16 @@ or a combination of them. </td></tr>
 </div><div class="memdoc">
 
 <p>Select font. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">family</td><td>Font family </td></tr>
+    <tr><td class="paramname">style</td><td>Font style string </td></tr>
+    <tr><td class="paramname">size</td><td>Font size </td></tr>
+    <tr><td class="paramname">setFont</td><td>Flag whether to set the font in PDF output </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if font was selected, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -9477,6 +9582,16 @@ or a combination of them. </td></tr>
 </div><div class="memdoc">
 
 <p>Select font. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">family</td><td>Font family </td></tr>
+    <tr><td class="paramname">style</td><td>Font style flags </td></tr>
+    <tr><td class="paramname">size</td><td>Font size </td></tr>
+    <tr><td class="paramname">setFont</td><td>Flag whether to set the font in PDF output </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if font was selected, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -11407,6 +11522,12 @@ It is also possible to pass an empty string. In that case, the current family is
 </div><div class="memdoc">
 
 <p>Set internal scale factor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unit</td><td>Unit string ("pt", "mm", "cm", "in") </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -12935,6 +13056,19 @@ or a combination of them. </td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Performs a transformation. </p>
+<p>Applies a transformation matrix to the current coordinate system. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>element 1,1 of the matrix </td></tr>
+    <tr><td class="paramname">b</td><td>element 1,2 of the matrix </td></tr>
+    <tr><td class="paramname">c</td><td>element 2,1 of the matrix </td></tr>
+    <tr><td class="paramname">d</td><td>element 2,2 of the matrix </td></tr>
+    <tr><td class="paramname">tx</td><td>horizontal translation </td></tr>
+    <tr><td class="paramname">ty</td><td>vertical translation </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

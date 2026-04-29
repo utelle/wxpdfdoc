@@ -79,17 +79,18 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a525e43bfd80aeddf46460d15650fd4a9" id="r_a525e43bfd80aeddf46460d15650fd4a9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a525e43bfd80aeddf46460d15650fd4a9">m_type</a></td></tr>
-<tr class="memdesc:a525e43bfd80aeddf46460d15650fd4a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of XRef entry.  <br /></td></tr>
+<tr class="memdesc:a525e43bfd80aeddf46460d15650fd4a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of XRef entry (0: free, 1: normal, 2: in stream)  <br /></td></tr>
 <tr class="separator:a525e43bfd80aeddf46460d15650fd4a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a560f42b5bba1d90f03c6bd764d3bcb73" id="r_a560f42b5bba1d90f03c6bd764d3bcb73"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a560f42b5bba1d90f03c6bd764d3bcb73">m_ofs_idx</a></td></tr>
-<tr class="memdesc:a560f42b5bba1d90f03c6bd764d3bcb73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Offset or index of object.  <br /></td></tr>
+<tr class="memdesc:a560f42b5bba1d90f03c6bd764d3bcb73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Byte offset of object (type 1) or index in object stream (type 2)  <br /></td></tr>
 <tr class="separator:a560f42b5bba1d90f03c6bd764d3bcb73"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0eb5bbece87d9c04457e33cf7a85b044" id="r_a0eb5bbece87d9c04457e33cf7a85b044"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0eb5bbece87d9c04457e33cf7a85b044">m_gen_ref</a></td></tr>
-<tr class="memdesc:a0eb5bbece87d9c04457e33cf7a85b044"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generation of object or reference of object stream containing the object.  <br /></td></tr>
+<tr class="memdesc:a0eb5bbece87d9c04457e33cf7a85b044"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generation number (type 1) or object number of the object stream (type 2)  <br /></td></tr>
 <tr class="separator:a0eb5bbece87d9c04457e33cf7a85b044"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing an XRef entry (for internal use only) </p>
+<p>This class stores information about an entry in the PDF cross-reference table, which is used to locate objects within the file or within object streams. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a13c9100a4ac5f101ff963c4bfbfcc6f0" name="a13c9100a4ac5f101ff963c4bfbfcc6f0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a13c9100a4ac5f101ff963c4bfbfcc6f0">&#9670;&#160;</a></span>wxPdfXRefEntry()</h2>
@@ -150,7 +151,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Generation of object or reference of object stream containing the object. </p>
+<p>Generation number (type 1) or object number of the object stream (type 2) </p>
 
 </div>
 </div>
@@ -166,7 +167,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Offset or index of object. </p>
+<p>Byte offset of object (type 1) or index in object stream (type 2) </p>
 
 </div>
 </div>
@@ -182,7 +183,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Type of XRef entry. </p>
+<p>Type of XRef entry (0: free, 1: normal, 2: in stream) </p>
 
 </div>
 </div>

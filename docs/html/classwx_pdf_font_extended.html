@@ -154,7 +154,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:afd0b4660811f0edcd44c9eb1a2cec0d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get kerning width array.  <br /></td></tr>
 <tr class="separator:afd0b4660811f0edcd44c9eb1a2cec0d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e8a3e66bbec07ccbff7a160e59d7c01" id="r_a8e8a3e66bbec07ccbff7a160e59d7c01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8e8a3e66bbec07ccbff7a160e59d7c01">CanShow</a> (const wxString &amp;s) const</td></tr>
-<tr class="memdesc:a8e8a3e66bbec07ccbff7a160e59d7c01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the font oan show all characters of a given string.  <br /></td></tr>
+<tr class="memdesc:a8e8a3e66bbec07ccbff7a160e59d7c01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the font can show all characters of a given string.  <br /></td></tr>
 <tr class="separator:a8e8a3e66bbec07ccbff7a160e59d7c01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf3c22a851adb2ac83dd9dc088e76b01" id="r_aaf3c22a851adb2ac83dd9dc088e76b01"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf3c22a851adb2ac83dd9dc088e76b01">ConvertCID2GID</a> (const wxString &amp;s, wxPdfSortedArrayInt *usedGlyphs=NULL, wxPdfChar2GlyphMap *subsetGlyphs=NULL)</td></tr>
 <tr class="memdesc:aaf3c22a851adb2ac83dd9dc088e76b01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert character codes to glyph numbers.  <br /></td></tr>
@@ -310,6 +310,13 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Apply VOLT (Visual OpenType Layout Tool) data to a string. VOLT data provides advanced OpenType layout information (such as ligatures, contextual alternates, and kerning) to perform complex glyph substitution and positioning based on the font's internal OpenType tables. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txt</td><td>the input string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the string with OpenType layout transformations applied </dd></dl>
 
 </div>
 </div>
@@ -328,7 +335,7 @@ Friends</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Check whether the font oan show all characters of a given string. </p>
+<p>Check whether the font can show all characters of a given string. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>the string to be checked </td></tr>
@@ -984,6 +991,7 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Check whether the font has associated VOLT (Visual OpenType Layout Tool) data. </p><dl class="section return"><dt>Returns</dt><dd>TRUE if the font has VOLT data, FALSE otherwise </dd></dl>
 
 </div>
 </div>

@@ -234,6 +234,12 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">offset</td><td>The offset of the stream data </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -281,6 +287,13 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get a value identified by the given key from the associated dictionary. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The object associated with the key in the stream dictionary </dd></dl>
 
 </div>
 </div>
@@ -308,6 +321,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the stream data buffer. </p>
+<dl class="section return"><dt>Returns</dt><dd>The memory output stream containing the data </dd></dl>
 
 </div>
 </div>
@@ -335,6 +349,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the associated stream dictionary. </p>
+<dl class="section return"><dt>Returns</dt><dd>The stream dictionary </dd></dl>
 
 </div>
 </div>
@@ -354,6 +369,13 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the offset of an object in the object stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The object index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The offset of the object, or -1 if the index is out of range </dd></dl>
 
 </div>
 </div>
@@ -381,6 +403,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get a pointer to the object offsets array. </p>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to the array of object offsets </dd></dl>
 
 </div>
 </div>
@@ -408,6 +431,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the offset of the stream data. </p>
+<dl class="section return"><dt>Returns</dt><dd>The stream data offset </dd></dl>
 
 </div>
 </div>
@@ -435,6 +459,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get flag whether the offsets of objects in an object stream are available. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if the offsets are available, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -462,6 +487,12 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set the stream data buffer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>The memory output stream containing the data </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -489,6 +520,12 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set the associated stream dictionary. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dictionary</td><td>The stream dictionary </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -516,6 +553,12 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set flag whether an object stream has already read the object index. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hasObjOffsets</td><td>Flag whether the object stream has object offsets </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

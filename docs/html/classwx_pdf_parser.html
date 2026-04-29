@@ -211,6 +211,7 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing a PDF parser. (For internal use only) </p>
+<p>The parser uses a tokenizer to read the PDF file, identifies all indirect objects via the cross-reference (XRef) table, and provides methods to access page-specific resources and content streams. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2cfbde01e95ca76c3d68cc54d400f462" name="a2cfbde01e95ca76c3d68cc54d400f462"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2cfbde01e95ca76c3d68cc54d400f462">&#9670;&#160;</a></span>wxPdfParser()</h2>
@@ -232,6 +233,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>The name of the PDF file to parse </td></tr>
+    <tr><td class="paramname">password</td><td>The password for encrypted documents </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -288,6 +296,14 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Append a referenced object to the queue. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">originalObjectId</td><td>The original ID in the source file </td></tr>
+    <tr><td class="paramname">actualObjectId</td><td>The new ID in the destination document </td></tr>
+    <tr><td class="paramname">obj</td><td>The PDF object </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -444,6 +460,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the content stream collection of a specific page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">pageno</td><td>The page number (1-based) </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">contents</td><td>Array to be filled with content stream objects </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -498,6 +521,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the map of referenced objects. </p>
+<dl class="section return"><dt>Returns</dt><dd>The object map </dd></dl>
 
 </div>
 </div>
@@ -525,6 +549,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the queue of referenced objects. </p>
+<dl class="section return"><dt>Returns</dt><dd>The object queue </dd></dl>
 
 </div>
 </div>
@@ -544,6 +569,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the art box of a specific page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageno</td><td>The page number (1-based) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The art box array </dd></dl>
 
 </div>
 </div>
@@ -563,6 +595,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the bleed box of a specific page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageno</td><td>The page number (1-based) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The bleed box array </dd></dl>
 
 </div>
 </div>
@@ -644,6 +683,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get number of pages in the parsed document. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of pages </dd></dl>
 
 </div>
 </div>
@@ -663,6 +703,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the crop box of a specific page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageno</td><td>The page number (1-based) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The crop box array </dd></dl>
 
 </div>
 </div>
@@ -682,6 +729,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the media box of a specific page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageno</td><td>The page number (1-based) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The media box array </dd></dl>
 
 </div>
 </div>
@@ -701,6 +755,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the resources of a specific page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageno</td><td>The page number (1-based) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The resources dictionary object </dd></dl>
 
 </div>
 </div>
@@ -747,6 +808,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the rotation of a specific page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageno</td><td>The page number (1-based) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The page rotation in degrees </dd></dl>
 
 </div>
 </div>
@@ -793,6 +861,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the trim box of a specific page. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pageno</td><td>The page number (1-based) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The trim box array </dd></dl>
 
 </div>
 </div>
@@ -820,6 +895,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get PDF version of parsed document. </p>
+<dl class="section return"><dt>Returns</dt><dd>The PDF version string </dd></dl>
 
 </div>
 </div>
@@ -839,6 +915,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the document information dictionary. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">info</td><td>The info object to populate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if successful, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -920,6 +1003,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get flag whether a stream should be decoded or not. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if skip decoding, FALSE if decode </dd></dl>
 
 </div>
 </div>
@@ -939,6 +1023,7 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check whether the PDF document to be parsed is valid. </p>
+<dl class="section return"><dt>Returns</dt><dd>TRUE if the document was parsed successfully, FALSE otherwise </dd></dl>
 
 </div>
 </div>
@@ -1297,6 +1382,13 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Resolve an object. </p>
+<p>If the object is a reference, it is resolved to the actual object. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td>The object to resolve </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The resolved PDF object </dd></dl>
 
 </div>
 </div>
@@ -1351,6 +1443,12 @@ Static Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set flag whether a stream should be decoded or not. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">useRawStream</td><td>TRUE to skip decoding, FALSE to decode </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
