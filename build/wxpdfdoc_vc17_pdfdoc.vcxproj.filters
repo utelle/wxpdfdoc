@@ -123,10 +123,10 @@
     <ClInclude Include="..\include\wx\pdfform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\wx\pdfgradient.h">
+    <ClInclude Include="..\include\wx\pdfgc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\wx\pdfgc.h">
+    <ClInclude Include="..\include\wx\pdfgradient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\wx\pdfgraphics.h">
@@ -201,10 +201,19 @@
     <ClInclude Include="..\src\crypto\unicode_norm_table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\private_graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\srgb2014icc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\woff\woff2converter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\woff\woffconverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\wxmemdbg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -314,10 +323,10 @@
     <ClCompile Include="..\src\pdfform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\pdfgradient.cpp">
+    <ClCompile Include="..\src\pdfgc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\pdfgc.cpp">
+    <ClCompile Include="..\src\pdfgradient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\pdfgraphics.cpp">

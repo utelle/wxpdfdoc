@@ -49,20 +49,20 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
-LIBS += ../lib/gcc_lib/libwxpdfdoc$(wxFlavour)d.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_lib/libwxpdfdoc$(wxFlavour)d.a
+LIBS += ../lib/$(wxCompilerPrefix)_lib/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_lib/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib32 -m32
 
-else ifeq ($(config),debug_win64)
-TARGETDIR = bin/gcc/Win64/Debug
+else ifeq ($(config),debug_x64)
+TARGETDIR = bin/gcc/x64/Debug
 TARGET = $(TARGETDIR)/minimald.exe
-OBJDIR = obj/gcc/Win64/Debug/minimal
+OBJDIR = obj/gcc/x64/Debug/minimal
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DWXUSINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
-LIBS += ../lib/gcc_x64_lib/libwxpdfdoc$(wxFlavour)d.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_x64_lib/libwxpdfdoc$(wxFlavour)d.a
+LIBS += ../lib/$(wxCompilerPrefix)_x64_lib/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/x64/Debug/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_x64_lib/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/x64/Debug/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib64 -m64
 
 else ifeq ($(config),release_win32)
@@ -73,20 +73,20 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
-LIBS += ../lib/gcc_lib/libwxpdfdoc$(wxFlavour).a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_lib/libwxpdfdoc$(wxFlavour).a
+LIBS += ../lib/$(wxCompilerPrefix)_lib/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_lib/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib32 -m32 -s
 
-else ifeq ($(config),release_win64)
-TARGETDIR = bin/gcc/Win64/Release
+else ifeq ($(config),release_x64)
+TARGETDIR = bin/gcc/x64/Release
 TARGET = $(TARGETDIR)/minimal.exe
-OBJDIR = obj/gcc/Win64/Release/minimal
+OBJDIR = obj/gcc/x64/Release/minimal
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DWXUSINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
-LIBS += ../lib/gcc_x64_lib/libwxpdfdoc$(wxFlavour).a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_x64_lib/libwxpdfdoc$(wxFlavour).a
+LIBS += ../lib/$(wxCompilerPrefix)_x64_lib/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/x64/Release/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_x64_lib/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/x64/Release/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),debug_wxdll_win32)
@@ -97,20 +97,20 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
-LIBS += ../lib/gcc_lib_wxdll/libwxpdfdoc$(wxFlavour)d.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_lib_wxdll/libwxpdfdoc$(wxFlavour)d.a
+LIBS += ../lib/$(wxCompilerPrefix)_lib_wxdll/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_lib_wxdll/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32
 
-else ifeq ($(config),debug_wxdll_win64)
-TARGETDIR = bin/gcc/Win64/Debug_wxDLL
+else ifeq ($(config),debug_wxdll_x64)
+TARGETDIR = bin/gcc/x64/Debug_wxDLL
 TARGET = $(TARGETDIR)/minimald.exe
-OBJDIR = obj/gcc/Win64/Debug_wxDLL/minimal
+OBJDIR = obj/gcc/x64/Debug_wxDLL/minimal
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DWXUSINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
-LIBS += ../lib/gcc_x64_lib_wxdll/libwxpdfdoc$(wxFlavour)d.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_x64_lib_wxdll/libwxpdfdoc$(wxFlavour)d.a
+LIBS += ../lib/$(wxCompilerPrefix)_x64_lib_wxdll/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/x64/Debug_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug_wxDLL/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_x64_lib_wxdll/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/x64/Debug_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug_wxDLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64
 
 else ifeq ($(config),release_wxdll_win32)
@@ -121,20 +121,20 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
-LIBS += ../lib/gcc_lib_wxdll/libwxpdfdoc$(wxFlavour).a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_lib_wxdll/libwxpdfdoc$(wxFlavour).a
+LIBS += ../lib/$(wxCompilerPrefix)_lib_wxdll/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_lib_wxdll/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -s
 
-else ifeq ($(config),release_wxdll_win64)
-TARGETDIR = bin/gcc/Win64/Release_wxDLL
+else ifeq ($(config),release_wxdll_x64)
+TARGETDIR = bin/gcc/x64/Release_wxDLL
 TARGET = $(TARGETDIR)/minimal.exe
-OBJDIR = obj/gcc/Win64/Release_wxDLL/minimal
+OBJDIR = obj/gcc/x64/Release_wxDLL/minimal
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DWXUSINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
-LIBS += ../lib/gcc_x64_lib_wxdll/libwxpdfdoc$(wxFlavour).a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_x64_lib_wxdll/libwxpdfdoc$(wxFlavour).a
+LIBS += ../lib/$(wxCompilerPrefix)_x64_lib_wxdll/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/x64/Release_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release_wxDLL/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_x64_lib_wxdll/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/x64/Release_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release_wxDLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),debug_dll_win32)
@@ -145,20 +145,20 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
-LIBS += ../lib/gcc_dll/libwxpdfdoc$(wxFlavour)d.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_dll/libwxpdfdoc$(wxFlavour)d.a
+LIBS += ../lib/$(wxCompilerPrefix)_dll/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_dll/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32
 
-else ifeq ($(config),debug_dll_win64)
-TARGETDIR = bin/gcc/Win64/Debug_DLL
+else ifeq ($(config),debug_dll_x64)
+TARGETDIR = bin/gcc/x64/Debug_DLL
 TARGET = $(TARGETDIR)/minimald.exe
-OBJDIR = obj/gcc/Win64/Debug_DLL/minimal
+OBJDIR = obj/gcc/x64/Debug_DLL/minimal
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DWXUSINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
-LIBS += ../lib/gcc_x64_dll/libwxpdfdoc$(wxFlavour)d.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_x64_dll/libwxpdfdoc$(wxFlavour)d.a
+LIBS += ../lib/$(wxCompilerPrefix)_x64_dll/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/x64/Debug_DLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug_DLL/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_x64_dll/libwxpdfdoc$(wxFlavour)d.a lib/$(wxCompilerPrefix)/x64/Debug_DLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug_DLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64
 
 else ifeq ($(config),release_dll_win32)
@@ -169,20 +169,20 @@ DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CR
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
-LIBS += ../lib/gcc_dll/libwxpdfdoc$(wxFlavour).a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_dll/libwxpdfdoc$(wxFlavour).a
+LIBS += ../lib/$(wxCompilerPrefix)_dll/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/Win32/Release_DLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release_DLL/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_dll/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/Win32/Release_DLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release_DLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -s
 
-else ifeq ($(config),release_dll_win64)
-TARGETDIR = bin/gcc/Win64/Release_DLL
+else ifeq ($(config),release_dll_x64)
+TARGETDIR = bin/gcc/x64/Release_DLL
 TARGET = $(TARGETDIR)/minimal.exe
-OBJDIR = obj/gcc/Win64/Release_DLL/minimal
+OBJDIR = obj/gcc/x64/Release_DLL/minimal
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DWXUSINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../samples/minimal -I../include
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
-LIBS += ../lib/gcc_x64_dll/libwxpdfdoc$(wxFlavour).a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += ../lib/gcc_x64_dll/libwxpdfdoc$(wxFlavour).a
+LIBS += ../lib/$(wxCompilerPrefix)_x64_dll/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/x64/Release_DLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release_DLL/libzint.a -l$(wxToolkitLibNamePrefix)core -l$(wxBaseLibNamePrefix)_xml -l$(wxBaseLibNamePrefix) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += ../lib/$(wxCompilerPrefix)_x64_dll/libwxpdfdoc$(wxFlavour).a lib/$(wxCompilerPrefix)/x64/Release_DLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release_DLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -s
 
 endif
@@ -295,7 +295,7 @@ ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -rf $(OBJDIR)
 else
 	$(SILENT) if exist $(subst /,\\,$(TARGET)) del $(subst /,\\,$(TARGET))
-	$(SILENT) if exist $(subst /,\\,$(GENERATED)) del /s /q $(subst /,\\,$(GENERATED))
+	$(SILENT) $(foreach f,$(subst /,\\,$(GENERATED)),if exist $(f) del /s /q $(f) >nul &)
 	$(SILENT) if exist $(subst /,\\,$(OBJDIR)) rmdir /s /q $(subst /,\\,$(OBJDIR))
 endif
 

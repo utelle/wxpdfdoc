@@ -19,14 +19,14 @@ ifeq ($(config),debug_win32)
   makefont_config = debug_win32
   showfont_config = debug_win32
 
-else ifeq ($(config),debug_win64)
-  wxpdfdoc_config = debug_win64
-  libwoff2_config = debug_win64
-  libzint_config = debug_win64
-  minimal_config = debug_win64
-  dcsample_config = debug_win64
-  makefont_config = debug_win64
-  showfont_config = debug_win64
+else ifeq ($(config),debug_x64)
+  wxpdfdoc_config = debug_x64
+  libwoff2_config = debug_x64
+  libzint_config = debug_x64
+  minimal_config = debug_x64
+  dcsample_config = debug_x64
+  makefont_config = debug_x64
+  showfont_config = debug_x64
 
 else ifeq ($(config),release_win32)
   wxpdfdoc_config = release_win32
@@ -37,14 +37,14 @@ else ifeq ($(config),release_win32)
   makefont_config = release_win32
   showfont_config = release_win32
 
-else ifeq ($(config),release_win64)
-  wxpdfdoc_config = release_win64
-  libwoff2_config = release_win64
-  libzint_config = release_win64
-  minimal_config = release_win64
-  dcsample_config = release_win64
-  makefont_config = release_win64
-  showfont_config = release_win64
+else ifeq ($(config),release_x64)
+  wxpdfdoc_config = release_x64
+  libwoff2_config = release_x64
+  libzint_config = release_x64
+  minimal_config = release_x64
+  dcsample_config = release_x64
+  makefont_config = release_x64
+  showfont_config = release_x64
 
 else ifeq ($(config),debug_wxdll_win32)
   wxpdfdoc_config = debug_wxdll_win32
@@ -55,14 +55,14 @@ else ifeq ($(config),debug_wxdll_win32)
   makefont_config = debug_wxdll_win32
   showfont_config = debug_wxdll_win32
 
-else ifeq ($(config),debug_wxdll_win64)
-  wxpdfdoc_config = debug_wxdll_win64
-  libwoff2_config = debug_wxdll_win64
-  libzint_config = debug_wxdll_win64
-  minimal_config = debug_wxdll_win64
-  dcsample_config = debug_wxdll_win64
-  makefont_config = debug_wxdll_win64
-  showfont_config = debug_wxdll_win64
+else ifeq ($(config),debug_wxdll_x64)
+  wxpdfdoc_config = debug_wxdll_x64
+  libwoff2_config = debug_wxdll_x64
+  libzint_config = debug_wxdll_x64
+  minimal_config = debug_wxdll_x64
+  dcsample_config = debug_wxdll_x64
+  makefont_config = debug_wxdll_x64
+  showfont_config = debug_wxdll_x64
 
 else ifeq ($(config),release_wxdll_win32)
   wxpdfdoc_config = release_wxdll_win32
@@ -73,14 +73,14 @@ else ifeq ($(config),release_wxdll_win32)
   makefont_config = release_wxdll_win32
   showfont_config = release_wxdll_win32
 
-else ifeq ($(config),release_wxdll_win64)
-  wxpdfdoc_config = release_wxdll_win64
-  libwoff2_config = release_wxdll_win64
-  libzint_config = release_wxdll_win64
-  minimal_config = release_wxdll_win64
-  dcsample_config = release_wxdll_win64
-  makefont_config = release_wxdll_win64
-  showfont_config = release_wxdll_win64
+else ifeq ($(config),release_wxdll_x64)
+  wxpdfdoc_config = release_wxdll_x64
+  libwoff2_config = release_wxdll_x64
+  libzint_config = release_wxdll_x64
+  minimal_config = release_wxdll_x64
+  dcsample_config = release_wxdll_x64
+  makefont_config = release_wxdll_x64
+  showfont_config = release_wxdll_x64
 
 else ifeq ($(config),debug_dll_win32)
   wxpdfdoc_config = debug_dll_win32
@@ -91,14 +91,14 @@ else ifeq ($(config),debug_dll_win32)
   makefont_config = debug_dll_win32
   showfont_config = debug_dll_win32
 
-else ifeq ($(config),debug_dll_win64)
-  wxpdfdoc_config = debug_dll_win64
-  libwoff2_config = debug_dll_win64
-  libzint_config = debug_dll_win64
-  minimal_config = debug_dll_win64
-  dcsample_config = debug_dll_win64
-  makefont_config = debug_dll_win64
-  showfont_config = debug_dll_win64
+else ifeq ($(config),debug_dll_x64)
+  wxpdfdoc_config = debug_dll_x64
+  libwoff2_config = debug_dll_x64
+  libzint_config = debug_dll_x64
+  minimal_config = debug_dll_x64
+  dcsample_config = debug_dll_x64
+  makefont_config = debug_dll_x64
+  showfont_config = debug_dll_x64
 
 else ifeq ($(config),release_dll_win32)
   wxpdfdoc_config = release_dll_win32
@@ -109,14 +109,14 @@ else ifeq ($(config),release_dll_win32)
   makefont_config = release_dll_win32
   showfont_config = release_dll_win32
 
-else ifeq ($(config),release_dll_win64)
-  wxpdfdoc_config = release_dll_win64
-  libwoff2_config = release_dll_win64
-  libzint_config = release_dll_win64
-  minimal_config = release_dll_win64
-  dcsample_config = release_dll_win64
-  makefont_config = release_dll_win64
-  showfont_config = release_dll_win64
+else ifeq ($(config),release_dll_x64)
+  wxpdfdoc_config = release_dll_x64
+  libwoff2_config = release_dll_x64
+  libzint_config = release_dll_x64
+  minimal_config = release_dll_x64
+  dcsample_config = release_dll_x64
+  makefont_config = release_dll_x64
+  showfont_config = release_dll_x64
 
 else
   $(error "invalid configuration $(config)")
@@ -214,17 +214,17 @@ help:
 	@echo ""
 	@echo "CONFIGURATIONS:"
 	@echo "  debug_win32"
-	@echo "  debug_win64"
+	@echo "  debug_x64"
 	@echo "  release_win32"
-	@echo "  release_win64"
+	@echo "  release_x64"
 	@echo "  debug_wxdll_win32"
-	@echo "  debug_wxdll_win64"
+	@echo "  debug_wxdll_x64"
 	@echo "  release_wxdll_win32"
-	@echo "  release_wxdll_win64"
+	@echo "  release_wxdll_x64"
 	@echo "  debug_dll_win32"
-	@echo "  debug_dll_win64"
+	@echo "  debug_dll_x64"
 	@echo "  release_dll_win32"
-	@echo "  release_dll_win64"
+	@echo "  release_dll_x64"
 	@echo ""
 	@echo "TARGETS:"
 	@echo "   all (default)"

@@ -46,17 +46,17 @@ endef
 
 ifeq ($(config),debug_win32)
 TARGETDIR = lib/$(wxCompilerPrefix)/Win32/Debug
-TARGET = $(TARGETDIR)/libwoff2.lib
+TARGET = $(TARGETDIR)/libwoff2.a
 OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win32/Debug
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
-else ifeq ($(config),debug_win64)
-TARGETDIR = lib/$(wxCompilerPrefix)/Win64/Debug
-TARGET = $(TARGETDIR)/libwoff2.lib
-OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win64/Debug
+else ifeq ($(config),debug_x64)
+TARGETDIR = lib/$(wxCompilerPrefix)/x64/Debug
+TARGET = $(TARGETDIR)/libwoff2.a
+OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/x64/Debug
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
@@ -64,17 +64,17 @@ ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release_win32)
 TARGETDIR = lib/$(wxCompilerPrefix)/Win32/Release
-TARGET = $(TARGETDIR)/libwoff2.lib
+TARGET = $(TARGETDIR)/libwoff2.a
 OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win32/Release
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
-else ifeq ($(config),release_win64)
-TARGETDIR = lib/$(wxCompilerPrefix)/Win64/Release
-TARGET = $(TARGETDIR)/libwoff2.lib
-OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win64/Release
+else ifeq ($(config),release_x64)
+TARGETDIR = lib/$(wxCompilerPrefix)/x64/Release
+TARGET = $(TARGETDIR)/libwoff2.a
+OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/x64/Release
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
@@ -82,17 +82,17 @@ ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),debug_wxdll_win32)
 TARGETDIR = lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL
-TARGET = $(TARGETDIR)/libwoff2.lib
+TARGET = $(TARGETDIR)/libwoff2.a
 OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win32/Debug_wxDLL
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
-else ifeq ($(config),debug_wxdll_win64)
-TARGETDIR = lib/$(wxCompilerPrefix)/Win64/Debug_wxDLL
-TARGET = $(TARGETDIR)/libwoff2.lib
-OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win64/Debug_wxDLL
+else ifeq ($(config),debug_wxdll_x64)
+TARGETDIR = lib/$(wxCompilerPrefix)/x64/Debug_wxDLL
+TARGET = $(TARGETDIR)/libwoff2.a
+OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/x64/Debug_wxDLL
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
@@ -100,17 +100,17 @@ ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release_wxdll_win32)
 TARGETDIR = lib/$(wxCompilerPrefix)/Win32/Release_wxDLL
-TARGET = $(TARGETDIR)/libwoff2.lib
+TARGET = $(TARGETDIR)/libwoff2.a
 OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win32/Release_wxDLL
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
-else ifeq ($(config),release_wxdll_win64)
-TARGETDIR = lib/$(wxCompilerPrefix)/Win64/Release_wxDLL
-TARGET = $(TARGETDIR)/libwoff2.lib
-OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win64/Release_wxDLL
+else ifeq ($(config),release_wxdll_x64)
+TARGETDIR = lib/$(wxCompilerPrefix)/x64/Release_wxDLL
+TARGET = $(TARGETDIR)/libwoff2.a
+OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/x64/Release_wxDLL
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
@@ -118,17 +118,17 @@ ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s
 
 else ifeq ($(config),debug_dll_win32)
 TARGETDIR = lib/$(wxCompilerPrefix)/Win32/Debug_DLL
-TARGET = $(TARGETDIR)/libwoff2.lib
+TARGET = $(TARGETDIR)/libwoff2.a
 OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win32/Debug_DLL
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32
 
-else ifeq ($(config),debug_dll_win64)
-TARGETDIR = lib/$(wxCompilerPrefix)/Win64/Debug_DLL
-TARGET = $(TARGETDIR)/libwoff2.lib
-OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win64/Debug_DLL
+else ifeq ($(config),debug_dll_x64)
+TARGETDIR = lib/$(wxCompilerPrefix)/x64/Debug_DLL
+TARGET = $(TARGETDIR)/libwoff2.a
+OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/x64/Debug_DLL
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
@@ -136,17 +136,17 @@ ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64
 
 else ifeq ($(config),release_dll_win32)
 TARGETDIR = lib/$(wxCompilerPrefix)/Win32/Release_DLL
-TARGET = $(TARGETDIR)/libwoff2.lib
+TARGET = $(TARGETDIR)/libwoff2.a
 OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win32/Release_DLL
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib32 -m32 -s
 
-else ifeq ($(config),release_dll_win64)
-TARGETDIR = lib/$(wxCompilerPrefix)/Win64/Release_DLL
-TARGET = $(TARGETDIR)/libwoff2.lib
-OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/Win64/Release_DLL
+else ifeq ($(config),release_dll_x64)
+TARGETDIR = lib/$(wxCompilerPrefix)/x64/Release_DLL
+TARGET = $(TARGETDIR)/libwoff2.a
+OBJDIR = obj/libwoff2/$(wxCompilerPrefix)/x64/Release_DLL
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -D_LIB -DWOFF2_DUMMY
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
@@ -231,7 +231,7 @@ ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -rf $(OBJDIR)
 else
 	$(SILENT) if exist $(subst /,\\,$(TARGET)) del $(subst /,\\,$(TARGET))
-	$(SILENT) if exist $(subst /,\\,$(GENERATED)) del /s /q $(subst /,\\,$(GENERATED))
+	$(SILENT) $(foreach f,$(subst /,\\,$(GENERATED)),if exist $(f) del /s /q $(f) >nul &)
 	$(SILENT) if exist $(subst /,\\,$(OBJDIR)) rmdir /s /q $(subst /,\\,$(OBJDIR))
 endif
 

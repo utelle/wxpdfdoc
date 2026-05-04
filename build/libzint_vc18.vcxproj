@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -56,80 +56,79 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>libzint</RootNamespace>
     <ProjectName>libzint</ProjectName>
-    <LatestTargetPlatformVersion>$([Microsoft.Build.Utilities.ToolLocationHelper]::GetLatestSDKTargetPlatformVersion('Windows', '10.0'))</LatestTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_wxDLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_wxDLL|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_wxDLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_wxDLL|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -176,74 +175,74 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)lib\vc15\Win32\Debug\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\Win32\Debug\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\Win32\Debug\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\Win32\Debug\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(ProjectDir)lib\vc15\x64\Debug\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\x64\Debug\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\x64\Debug\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\x64\Debug\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)lib\vc15\Win32\Release\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\Win32\Release\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\Win32\Release\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\Win32\Release\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(ProjectDir)lib\vc15\x64\Release\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\x64\Release\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\x64\Release\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\x64\Release\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_wxDLL|Win32'">
-    <OutDir>$(ProjectDir)lib\vc15\Win32\Debug_wxDLL\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\Win32\Debug_wxDLL\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\Win32\Debug_wxDLL\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\Win32\Debug_wxDLL\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_wxDLL|x64'">
-    <OutDir>$(ProjectDir)lib\vc15\x64\Debug_wxDLL\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\x64\Debug_wxDLL\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\x64\Debug_wxDLL\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\x64\Debug_wxDLL\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_wxDLL|Win32'">
-    <OutDir>$(ProjectDir)lib\vc15\Win32\Release_wxDLL\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\Win32\Release_wxDLL\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\Win32\Release_wxDLL\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\Win32\Release_wxDLL\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_wxDLL|x64'">
-    <OutDir>$(ProjectDir)lib\vc15\x64\Release_wxDLL\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\x64\Release_wxDLL\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\x64\Release_wxDLL\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\x64\Release_wxDLL\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
-    <OutDir>$(ProjectDir)lib\vc15\Win32\Debug_DLL\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\Win32\Debug_DLL\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\Win32\Debug_DLL\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\Win32\Debug_DLL\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
-    <OutDir>$(ProjectDir)lib\vc15\x64\Debug_DLL\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\x64\Debug_DLL\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\x64\Debug_DLL\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\x64\Debug_DLL\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
-    <OutDir>$(ProjectDir)lib\vc15\Win32\Release_DLL\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\Win32\Release_DLL\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\Win32\Release_DLL\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\Win32\Release_DLL\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
-    <OutDir>$(ProjectDir)lib\vc15\x64\Release_DLL\</OutDir>
-    <IntDir>$(ProjectDir)obj\libzint\vc15\x64\Release_DLL\</IntDir>
+    <OutDir>$(ProjectDir)lib\vc18\x64\Release_DLL\</OutDir>
+    <IntDir>$(ProjectDir)obj\libzint\vc18\x64\Release_DLL\</IntDir>
     <TargetName>libzint</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -255,6 +254,7 @@
       <AdditionalIncludeDirectories>..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -271,6 +271,7 @@
       <AdditionalIncludeDirectories>..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -290,6 +291,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -310,6 +312,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -327,6 +330,7 @@
       <AdditionalIncludeDirectories>..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -343,6 +347,7 @@
       <AdditionalIncludeDirectories>..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -362,6 +367,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -382,6 +388,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -399,6 +406,7 @@
       <AdditionalIncludeDirectories>..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -415,6 +423,7 @@
       <AdditionalIncludeDirectories>..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -434,6 +443,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -454,6 +464,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

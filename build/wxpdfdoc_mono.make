@@ -41,159 +41,159 @@ define POSTBUILDCMDS
 endef
 
 ifeq ($(config),debug_win32)
-TARGETDIR = ../lib/gcc_lib
+TARGETDIR = ../lib/$(wxCompilerPrefix)_lib
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win32/Debug/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug/libzint.lib -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug/libzint.lib
+LIBS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug/libzint.a -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib32 -m32
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
-else ifeq ($(config),debug_win64)
-TARGETDIR = ../lib/gcc_x64_lib
+else ifeq ($(config),debug_x64)
+TARGETDIR = ../lib/$(wxCompilerPrefix)_x64_lib
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
-OBJDIR = obj/gcc/Win64/Debug/wxpdfdoc
+OBJDIR = obj/gcc/x64/Debug/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win64/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug/libzint.lib -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win64/Debug/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug/libzint.lib
+LIBS += lib/$(wxCompilerPrefix)/x64/Debug/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug/libzint.a -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/x64/Debug/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib64 -m64
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
 else ifeq ($(config),release_win32)
-TARGETDIR = ../lib/gcc_lib
+TARGETDIR = ../lib/$(wxCompilerPrefix)_lib
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win32/Release/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release/libzint.lib -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release/libzint.lib
+LIBS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release/libzint.a -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib32 -m32 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
-else ifeq ($(config),release_win64)
-TARGETDIR = ../lib/gcc_x64_lib
+else ifeq ($(config),release_x64)
+TARGETDIR = ../lib/$(wxCompilerPrefix)_x64_lib
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
-OBJDIR = obj/gcc/Win64/Release/wxpdfdoc
+OBJDIR = obj/gcc/x64/Release/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win64/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release/libzint.lib -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win64/Release/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release/libzint.lib
+LIBS += lib/$(wxCompilerPrefix)/x64/Release/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release/libzint.a -l$(wxMonolithicLibName) -lwxjpeg$(wxSuffixDebug) -lwxpng$(wxSuffixDebug) -lwxzlib$(wxSuffixDebug) -lwxtiff$(wxSuffixDebug) -lwxexpat$(wxSuffixDebug) -lwxregex$(wxSuffix) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/x64/Release/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_lib" -L/usr/lib64 -m64 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
 else ifeq ($(config),debug_wxdll_win32)
-TARGETDIR = ../lib/gcc_lib_wxdll
+TARGETDIR = ../lib/$(wxCompilerPrefix)_lib_wxdll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win32/Debug_wxDLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libzint.lib -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libzint.lib
+LIBS += lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libzint.a -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug_wxDLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
-else ifeq ($(config),debug_wxdll_win64)
-TARGETDIR = ../lib/gcc_x64_lib_wxdll
+else ifeq ($(config),debug_wxdll_x64)
+TARGETDIR = ../lib/$(wxCompilerPrefix)_x64_lib_wxdll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
-OBJDIR = obj/gcc/Win64/Debug_wxDLL/wxpdfdoc
+OBJDIR = obj/gcc/x64/Debug_wxDLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win64/Debug_wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug_wxDLL/libzint.lib -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win64/Debug_wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug_wxDLL/libzint.lib
+LIBS += lib/$(wxCompilerPrefix)/x64/Debug_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug_wxDLL/libzint.a -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/x64/Debug_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug_wxDLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
 else ifeq ($(config),release_wxdll_win32)
-TARGETDIR = ../lib/gcc_lib_wxdll
+TARGETDIR = ../lib/$(wxCompilerPrefix)_lib_wxdll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win32/Release_wxDLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libzint.lib -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libzint.lib
+LIBS += lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libzint.a -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release_wxDLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
-else ifeq ($(config),release_wxdll_win64)
-TARGETDIR = ../lib/gcc_x64_lib_wxdll
+else ifeq ($(config),release_wxdll_x64)
+TARGETDIR = ../lib/$(wxCompilerPrefix)_x64_lib_wxdll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
-OBJDIR = obj/gcc/Win64/Release_wxDLL/wxpdfdoc
+OBJDIR = obj/gcc/x64/Release_wxDLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_LIB -DWXMAKINGLIB_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win64/Release_wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release_wxDLL/libzint.lib -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win64/Release_wxDLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release_wxDLL/libzint.lib
+LIBS += lib/$(wxCompilerPrefix)/x64/Release_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release_wxDLL/libzint.a -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/x64/Release_wxDLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release_wxDLL/libzint.a
 ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -s
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 
 else ifeq ($(config),debug_dll_win32)
-TARGETDIR = ../lib/gcc_dll
+TARGETDIR = ../lib/$(wxCompilerPrefix)_dll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
 OBJDIR = obj/gcc/Win32/Debug_DLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -g -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libzint.lib -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libzint.lib
-ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -shared -Wl,--out-implib="../lib/gcc_dll/libwxpdfdoc$(wxFlavour)d.a"
+LIBS += lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libzint.a -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Debug_DLL/libzint.a
+ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -shared -Wl,--out-implib="../lib/$(wxCompilerPrefix)_dll/libwxpdfdoc$(wxFlavour)d.a"
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
-else ifeq ($(config),debug_dll_win64)
-TARGETDIR = ../lib/gcc_x64_dll
+else ifeq ($(config),debug_dll_x64)
+TARGETDIR = ../lib/$(wxCompilerPrefix)_x64_dll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour)d.a
-OBJDIR = obj/gcc/Win64/Debug_DLL/wxpdfdoc
+OBJDIR = obj/gcc/x64/Debug_DLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DDEBUG -D_DEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -D__WXDEBUG__ -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win64/Debug_DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug_DLL/libzint.lib -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win64/Debug_DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Debug_DLL/libzint.lib
-ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -shared -Wl,--out-implib="../lib/gcc_x64_dll/libwxpdfdoc$(wxFlavour)d.a"
+LIBS += lib/$(wxCompilerPrefix)/x64/Debug_DLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug_DLL/libzint.a -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/x64/Debug_DLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Debug_DLL/libzint.a
+ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -shared -Wl,--out-implib="../lib/$(wxCompilerPrefix)_x64_dll/libwxpdfdoc$(wxFlavour)d.a"
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
 else ifeq ($(config),release_dll_win32)
-TARGETDIR = ../lib/gcc_dll
+TARGETDIR = ../lib/$(wxCompilerPrefix)_dll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
 OBJDIR = obj/gcc/Win32/Release_DLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m32 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m32 -O2 -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win32/Release_DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release_DLL/libzint.lib -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release_DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win32/Release_DLL/libzint.lib
-ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -shared -Wl,--out-implib="../lib/gcc_dll/libwxpdfdoc$(wxFlavour).a" -s
+LIBS += lib/$(wxCompilerPrefix)/Win32/Release_DLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release_DLL/libzint.a -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/Win32/Release_DLL/libwoff2.a lib/$(wxCompilerPrefix)/Win32/Release_DLL/libzint.a
+ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib32 -m32 -shared -Wl,--out-implib="../lib/$(wxCompilerPrefix)_dll/libwxpdfdoc$(wxFlavour).a" -s
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
-else ifeq ($(config),release_dll_win64)
-TARGETDIR = ../lib/gcc_x64_dll
+else ifeq ($(config),release_dll_x64)
+TARGETDIR = ../lib/$(wxCompilerPrefix)_x64_dll
 TARGET = $(TARGETDIR)/libwxpdfdoc$(wxFlavour).a
-OBJDIR = obj/gcc/Win64/Release_DLL/wxpdfdoc
+OBJDIR = obj/gcc/x64/Release_DLL/wxpdfdoc
 DEFINES += -D_WINDOWS -D_CRT_SECURE_NO_WARNINGS -D_CRT_SECURE_NO_DEPRECATE -D_CRT_NONSTDC_NO_DEPRECATE -DNDEBUG -DPDFDOC_DLLNAME=wxpdfdoc$(wxSuffixDebug) -D_USRDLL -DWXMAKINGDLL_PDFDOC -D_UNICODE -DWXUSINGDLL -D__WXMSW__
 INCLUDES += -I"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll/msw$(wxSuffix)" -I"$(wxRootDir)/include" -I../include -I../thirdparty/woff2/include -I../thirdparty/zint/backend/fonts -I../thirdparty/zint/backend
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -std=c++11
-LIBS += lib/$(wxCompilerPrefix)/Win64/Release_DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release_DLL/libzint.lib -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lwsock32 -lwininet -loleacc -luxtheme
-LDDEPS += lib/$(wxCompilerPrefix)/Win64/Release_DLL/libwoff2.lib lib/$(wxCompilerPrefix)/Win64/Release_DLL/libzint.lib
-ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -shared -Wl,--out-implib="../lib/gcc_x64_dll/libwxpdfdoc$(wxFlavour).a" -s
+LIBS += lib/$(wxCompilerPrefix)/x64/Release_DLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release_DLL/libzint.a -l$(wxMonolithicLibName) -lkernel32 -luser32 -lgdi32 -lgdiplus -lmsimg32 -lcomdlg32 -lwinspool -lwinmm -lshell32 -lshlwapi -lcomctl32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lversion -lws2_32 -lwininet -loleacc -luxtheme
+LDDEPS += lib/$(wxCompilerPrefix)/x64/Release_DLL/libwoff2.a lib/$(wxCompilerPrefix)/x64/Release_DLL/libzint.a
+ALL_LDFLAGS += $(LDFLAGS) -L"$(wxRootDir)/lib/$(wxCompilerPrefix)$(wxArchSuffix)_dll" -L/usr/lib64 -m64 -shared -Wl,--out-implib="../lib/$(wxCompilerPrefix)_x64_dll/libwxpdfdoc$(wxFlavour).a" -s
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 
 endif
@@ -352,7 +352,7 @@ ifeq (posix,$(SHELLTYPE))
 	$(SILENT) rm -rf $(OBJDIR)
 else
 	$(SILENT) if exist $(subst /,\\,$(TARGET)) del $(subst /,\\,$(TARGET))
-	$(SILENT) if exist $(subst /,\\,$(GENERATED)) del /s /q $(subst /,\\,$(GENERATED))
+	$(SILENT) $(foreach f,$(subst /,\\,$(GENERATED)),if exist $(f) del /s /q $(f) >nul &)
 	$(SILENT) if exist $(subst /,\\,$(OBJDIR)) rmdir /s /q $(subst /,\\,$(OBJDIR))
 endif
 

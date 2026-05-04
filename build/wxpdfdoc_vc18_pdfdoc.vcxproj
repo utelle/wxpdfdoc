@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -62,73 +62,73 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_wxDLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_wxDLL|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_wxDLL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_wxDLL|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -176,77 +176,77 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\Win32\Debug\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\Win32\Debug\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)d</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\x64\Debug\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\x64\Debug\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)d</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\Win32\Release\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\Win32\Release\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\x64\Release\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\x64\Release\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_wxDLL|Win32'">
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\Win32\Debug_wxDLL\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\Win32\Debug_wxDLL\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)d</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_wxDLL|x64'">
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\x64\Debug_wxDLL\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\x64\Debug_wxDLL\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)d</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_wxDLL|Win32'">
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\Win32\Release_wxDLL\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\Win32\Release_wxDLL\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_wxDLL|x64'">
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\x64\Release_wxDLL\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\x64\Release_wxDLL\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\Win32\Debug_DLL\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\Win32\Debug_DLL\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)d</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_DLL|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\x64\Debug_DLL\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\x64\Debug_DLL\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)d</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\Win32\Release_DLL\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\Win32\Release_DLL\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_DLL|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(wxOutDir)\</OutDir>
-    <IntDir>$(ProjectDir)obj\vc14\x64\Release_DLL\wxpdfdoc\</IntDir>
+    <IntDir>$(ProjectDir)obj\vc18\x64\Release_DLL\wxpdfdoc\</IntDir>
     <TargetName>wxpdfdoc$(wxFlavour)</TargetName>
     <TargetExt>.dll</TargetExt>
   </PropertyGroup>
@@ -258,6 +258,7 @@
       <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -282,6 +283,7 @@
       <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_lib\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -309,6 +311,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -337,6 +340,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -362,6 +366,7 @@
       <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -386,6 +391,7 @@
       <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -413,6 +419,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -441,6 +448,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_LIB;WXMAKINGLIB_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -466,6 +474,7 @@
       <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -488,6 +497,7 @@
       <AdditionalIncludeDirectories>$(wxRootDir)\include\msvc;$(wxRootDir)\lib\$(wxCompilerPrefix)$(wxArchSuffix)_dll\msw$(wxSuffix);$(wxRootDir)\include;..\include;..\thirdparty\woff2\include;..\thirdparty\zint\backend\fonts;..\thirdparty\zint\backend;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;DEBUG;_DEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;__WXDEBUG__;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -513,6 +523,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -539,6 +550,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_WINDOWS;_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;NDEBUG;PDFDOC_DLLNAME=$(TargetName);_USRDLL;WXMAKINGDLL_PDFDOC;_UNICODE;WXUSINGDLL;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -692,10 +704,10 @@
     <ResourceCompile Include="..\src\pdfdoc_version.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="libwoff2_vc14.vcxproj">
+    <ProjectReference Include="libwoff2_vc18.vcxproj">
       <Project>{00935DA7-EC5F-B8B2-1579-A65A01A5ED40}</Project>
     </ProjectReference>
-    <ProjectReference Include="libzint_vc14.vcxproj">
+    <ProjectReference Include="libzint_vc18.vcxproj">
       <Project>{C1FD7079-2DDD-EF14-36F5-7AEBA2535676}</Project>
     </ProjectReference>
   </ItemGroup>

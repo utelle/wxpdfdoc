@@ -201,10 +201,19 @@
     <ClInclude Include="..\src\crypto\unicode_norm_table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\private_graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\srgb2014icc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\woff\woff2converter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\woff\woffconverter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\wxmemdbg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
