@@ -34,7 +34,7 @@
     #include "wx/window.h"
 #endif
 
-#include "wx/private_graphics.h"
+#include "private_graphics.h"
 #include "wx/rawbmp.h"
 #include "wx/vector.h"
 
