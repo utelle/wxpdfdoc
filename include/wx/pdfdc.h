@@ -226,6 +226,14 @@ public:
   virtual void SetTextForeground(const wxColour& colour) wxOVERRIDE;
   virtual void ComputeScaleAndOrigin() wxOVERRIDE;
 
+#if wxUSE_GRAPHICS_CONTEXT
+  /// Returns a wxGraphicsContext that draws into the same PDF document
+  /// as this DC. Lazily created on first call; the DC retains ownership
+  /// of both the context and the underlying wxPdfDocument.
+  virtual wxGraphicsContext* GetGraphicsContext() const wxOVERRIDE;
+  virtual void SetGraphicsContext(wxGraphicsContext* ctx) wxOVERRIDE;
+#endif // wxUSE_GRAPHICS_CONTEXT
+
 #if 0
   // RTL related functions
   // ---------------------
@@ -371,6 +379,13 @@ private:
   int  m_jpegQuality;
 
   static int    ms_imageCount;
+
+#if wxUSE_GRAPHICS_CONTEXT
+  // Lazily-allocated GC that draws into m_pdfDocument. Owned by this DC;
+  // mutable so the const GetGraphicsContext() accessor can build it on
+  // first use, matching the pattern in wxWindowsDCImpl etc.
+  mutable wxGraphicsContext* m_graphicContext;
+#endif
 
   wxDECLARE_DYNAMIC_CLASS(wxPdfDCImpl);
 };

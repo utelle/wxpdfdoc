@@ -256,6 +256,7 @@ lib@WXPDFDOC_LIBNAME@_la_SOURCES = \
     src/pdffontsubsettruetype.cpp \
     src/pdffontvolt.cpp \
     src/pdfform.cpp \
+    src/pdfgc.cpp \
     src/pdfgradient.cpp \
     src/pdfgraphics.cpp \
     src/pdfimage.cpp \
@@ -318,6 +319,7 @@ includewx_HEADERS = \
     include/wx/pdffontsubsettruetype.h \
     include/wx/pdffontvolt.h \
     include/wx/pdfform.h \
+    include/wx/pdfgc.h \
     include/wx/pdfgradient.h \
     include/wx/pdfgraphics.h \
     include/wx/pdfimage.h \

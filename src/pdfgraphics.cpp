@@ -1639,35 +1639,34 @@ void
 wxPdfDocument::ClippingText(double x, double y, const wxString& txt, bool outline)
 {
   wxString op = outline ? wxS("5") : wxS("7");
+  StartTransform();
   if (m_yAxisOriginTop)
   {
-    OutAscii(wxString(wxS("q BT 1 0 0 -1 ")) +
+    OutAscii(wxString(wxS("BT 1 0 0 -1 ")) +
              wxPdfUtility::Double2String(x*m_k,2) + wxString(wxS(" ")) +
              wxPdfUtility::Double2String(y*m_k,2) + wxString(wxS(" Tm ")) +
              op + wxString(wxS(" Tr (")),false);
   }
   else
   {
-    OutAscii(wxString(wxS("q BT ")) +
+    OutAscii(wxString(wxS("BT ")) +
              wxPdfUtility::Double2String(x*m_k,2) + wxString(wxS(" ")) +
              wxPdfUtility::Double2String(y*m_k,2) + wxString(wxS(" Td ")) +
              op + wxString(wxS(" Tr (")),false);
   }
   TextEscape(txt,false);
   Out(") Tj ET");
-  SaveGraphicState();
 }
 
 void
 wxPdfDocument::ClippingRect(double x, double y, double w, double h, bool outline)
 {
   wxString op = outline ? wxS("S") : wxS("n");
-  OutAscii(wxString(wxS("q ")) +
-           wxPdfUtility::Double2String(x*m_k,2) + wxString(wxS(" ")) +
+  StartTransform();
+  OutAscii(wxPdfUtility::Double2String(x*m_k,2) + wxString(wxS(" ")) +
            wxPdfUtility::Double2String(y*m_k,2) + wxString(wxS(" ")) +
            wxPdfUtility::Double2String(w*m_k,2) + wxString(wxS(" ")) +
            wxPdfUtility::Double2String(h*m_k,2) + wxString(wxS(" re W ")) + op);
-  SaveGraphicState();
 }
 
 void
@@ -1681,8 +1680,8 @@ wxPdfDocument::ClippingEllipse(double x, double y, double rx, double ry, bool ou
   double lx = 4./3. * (sqrt(2.)-1.) * rx;
   double ly = 4./3. * (sqrt(2.)-1.) * ry;
 
-  OutAscii(wxString(wxS("q ")) +
-           wxPdfUtility::Double2String((x+rx)*m_k,2) + wxString(wxS(" ")) +
+  StartTransform();
+  OutAscii(wxPdfUtility::Double2String((x+rx)*m_k,2) + wxString(wxS(" ")) +
            wxPdfUtility::Double2String(y*m_k,2) + wxString(wxS(" m ")) +
            wxPdfUtility::Double2String((x+rx)*m_k,2) + wxString(wxS(" ")) +
            wxPdfUtility::Double2String((y-ly)*m_k,2) + wxString(wxS(" ")) +
@@ -1711,7 +1710,6 @@ wxPdfDocument::ClippingEllipse(double x, double y, double rx, double ry, bool ou
            wxPdfUtility::Double2String((y+ly)*m_k,2) + wxString(wxS(" ")) +
            wxPdfUtility::Double2String((x+rx)*m_k,2) + wxString(wxS(" ")) +
            wxPdfUtility::Double2String(y*m_k,2) + wxString(wxS(" c W ")) + op);
-  SaveGraphicState();
 }
 
 void
@@ -1721,7 +1719,7 @@ wxPdfDocument::ClippingPolygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble
 
   wxString op = outline ? wxS("S") : wxS("n");
 
-  Out("q");
+  StartTransform();
   OutPoint(x[0], y[0]);
   unsigned int i;
   for (i = 1; i < np; i++)
@@ -1730,14 +1728,12 @@ wxPdfDocument::ClippingPolygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble
   }
   OutLine(x[0], y[0]);
   OutAscii(wxString(wxS("h W ")) + op);
-  SaveGraphicState();
 }
 
 void
 wxPdfDocument::ClippingPath()
 {
-  Out("q");
-  SaveGraphicState();
+  StartTransform();
 }
 
 void
@@ -1822,8 +1818,7 @@ wxPdfDocument::ClippingPath(const wxPdfShape& shape, int style)
 void
 wxPdfDocument::UnsetClipping()
 {
-  Out("Q");
-  RestoreGraphicState();
+  StopTransform();
 }
 
 void

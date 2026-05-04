@@ -30,6 +30,11 @@
 #include "wx/pdffontmanager.h"
 #include "wx/pdfutility.h"
 
+#if wxUSE_GRAPHICS_CONTEXT
+#include "wx/pdfgc.h"
+#include <wx/graphics.h>
+#endif
+
 #include <math.h>
 
 //-------------------------------------------------------------------------------
@@ -166,6 +171,12 @@ wxPdfDCImpl::wxPdfDCImpl(wxPdfDC* owner, wxPdfDocument* pdfDocument, double temp
 
 wxPdfDCImpl::~wxPdfDCImpl()
 {
+#if wxUSE_GRAPHICS_CONTEXT
+  // Delete the GC before the document so the GC's destructor (which
+  // doesn't own the document) can't dangle.
+  delete m_graphicContext;
+  m_graphicContext = NULL;
+#endif
   if (m_pdfDocument != NULL)
   {
     if (!m_templateMode)
@@ -190,6 +201,9 @@ wxPdfDCImpl::Init()
   m_templateMode = false;
   m_ppi = 72;
   m_pdfDocument = NULL;
+#if wxUSE_GRAPHICS_CONTEXT
+  m_graphicContext = NULL;
+#endif
 
 #if wxCHECK_VERSION(3,1,5)
   wxDisplay display;
@@ -492,6 +506,38 @@ wxPdfDCImpl::ComputeScaleAndOrigin()
   m_scaleX = m_logicalScaleX * m_userScaleX;
   m_scaleY = m_logicalScaleY * m_userScaleY;
 }
+
+#if wxUSE_GRAPHICS_CONTEXT
+wxGraphicsContext*
+wxPdfDCImpl::GetGraphicsContext() const
+{
+  if (m_graphicContext)
+  {
+    return m_graphicContext;
+  }
+
+  // We need a live document to draw into. If StartDoc() hasn't been
+  // called yet there's nothing to attach to, so return NULL.
+  if (!m_pdfDocument)
+  {
+    return NULL;
+  }
+
+  wxPdfDC* dc = static_cast<wxPdfDC*>(GetOwner());
+  m_graphicContext =
+    static_cast<wxPdfGraphicsRenderer*>(wxPdfGraphicsRenderer::GetPdfRenderer())
+      ->CreateContext(dc);
+  return m_graphicContext;
+}
+
+void
+wxPdfDCImpl::SetGraphicsContext(wxGraphicsContext* ctx)
+{
+  if (ctx == m_graphicContext) return;
+  delete m_graphicContext;
+  m_graphicContext = ctx;
+}
+#endif // wxUSE_GRAPHICS_CONTEXT
 
 void
 wxPdfDCImpl::SetMapMode(wxMappingMode mode)

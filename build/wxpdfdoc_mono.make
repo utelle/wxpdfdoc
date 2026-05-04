@@ -239,6 +239,7 @@ GENERATED += $(OBJDIR)/pdffontsubsetcff.o
 GENERATED += $(OBJDIR)/pdffontsubsettruetype.o
 GENERATED += $(OBJDIR)/pdffontvolt.o
 GENERATED += $(OBJDIR)/pdfform.o
+GENERATED += $(OBJDIR)/pdfgc.o
 GENERATED += $(OBJDIR)/pdfgradient.o
 GENERATED += $(OBJDIR)/pdfgraphics.o
 GENERATED += $(OBJDIR)/pdfimage.o
@@ -290,6 +291,7 @@ OBJECTS += $(OBJDIR)/pdffontsubsetcff.o
 OBJECTS += $(OBJDIR)/pdffontsubsettruetype.o
 OBJECTS += $(OBJDIR)/pdffontvolt.o
 OBJECTS += $(OBJDIR)/pdfform.o
+OBJECTS += $(OBJDIR)/pdfgc.o
 OBJECTS += $(OBJDIR)/pdfgradient.o
 OBJECTS += $(OBJDIR)/pdfgraphics.o
 OBJECTS += $(OBJDIR)/pdfimage.o
@@ -464,6 +466,9 @@ $(OBJDIR)/pdffontvolt.o: ../src/pdffontvolt.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfform.o: ../src/pdfform.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/pdfgc.o: ../src/pdfgc.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfgradient.o: ../src/pdfgradient.cpp
