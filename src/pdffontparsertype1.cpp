@@ -2212,10 +2212,10 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
 }
 
 void
-wxPdfFontParserType1::ParseFontMatrix(wxInputStream* WXUNUSED(stream))
+wxPdfFontParserType1::ParseFontMatrix(wxInputStream* stream)
 {
+  (void)GetArray(stream);
 #if 0
-  wxString matrix = GetArray(stream);
   // If the font matrix is not [ 0.001 0 0 0.001 0 0]
   // font metrics need to be transformed accordingly
   int unitsPerEm;
