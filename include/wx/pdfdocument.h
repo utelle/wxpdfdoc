@@ -1160,6 +1160,8 @@ public:
   *   \li B: bold
   *   \li I: italic
   *   \li BI or IB: bold italic
+  *   \li O: overline
+  *   \li S: strikethrough
   * \param file The font definition file. By default, the name is built from the family and style,
   *  in lower case with no space.
   * \see SetFont()
@@ -1228,6 +1230,8 @@ public:
   *   \li I: italic
   *   \li BI or IB: bold italic
   *   \li U: underline
+  *   \li O: overline
+  *   \li S: strikethrough
   * or any combination. The default value is regular. Bold and italic styles do not apply to Symbol and ZapfDingbats
   * \param size Font size in points. The default value is the current size. If no size has been
   * specified since the beginning of the document, the value taken is 12
@@ -1274,13 +1278,14 @@ public:
   * The font referenced by the wxFont object will be added to the document if necessary.
   *
   * \param font The font to be set.
-  * \param style Font style. Possible values are (case insensitive):
-  *   \li empty string: regular (default)
-  *   \li B: bold
-  *   \li I: italic
-  *   \li BI or IB: bold italic
-  *   \li U: underline
-  * or any combination. The default value is regular. Bold and italic styles do not apply to Symbol and ZapfDingbats
+  * \param style Font style. Possible values are:
+  *   \li wxPDF_FONTSTYLE_REGULAR    : regular (default)
+  *   \li wxPDF_FONTSTYLE_ITALIC     : italic
+  *   \li wxPDF_FONTSTYLE_BOLD       : bold
+  *   \li wxPDF_FONTSTYLE_UNDERLINE  : underline
+  *   \li wxPDF_FONTSTYLE_OVERLINE   : overline
+  *   \li wxPDF_FONTSTYLE_STRIKEOUT  : strike through
+  * or any combination. Bold and italic styles do not apply to Symbol and ZapfDingbats
   * \param size Font size in points. The default value is the current size. If no size has been
   * \see AddFont(), SetFont(), SetFontSize(), Cell(), MultiCell(), Write()
   */
@@ -1325,7 +1330,13 @@ public:
 
   /// Gets the style of the current font.
   /**
-  * \return The style of the current font as a string
+  * \return The style of the current font as a string.
+  * The string may contain any combination of the following characters:
+  *   \li B: bold
+  *   \li I: italic
+  *   \li U: underline
+  *   \li O: overline
+  *   \li S: strikethrough
   * \see SetFont()
   */
   virtual const wxString GetFontStyle() const;
