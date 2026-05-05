@@ -211,7 +211,7 @@ read_urandom(void* buf, size_t n)
 {
   size_t i;
   ssize_t ret;
-  int fd, count;
+  int fd;
   struct stat st;
   int errnold = errno;
 

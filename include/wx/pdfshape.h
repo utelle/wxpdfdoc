@@ -98,7 +98,6 @@ private:
   wxPdfArrayDouble m_x;       ///< array of abscissa values
   wxPdfArrayDouble m_y;       ///< array of ordinate values
   int              m_subpath; ///< subpath index
-  int              m_segment; ///< segment index
   int              m_index;   ///< points index
 };
 

@@ -23,17 +23,17 @@
 #include "wx/pdfpattern.h"
 
 wxPdfPattern::wxPdfPattern(int index, double width, double height)
-  : m_objIndex(0), m_index(index), m_width(width), m_height(height), m_patternStyle(wxPDF_PATTERNSTYLE_IMAGE)
+  : m_objIndex(0), m_index(index), m_patternStyle(wxPDF_PATTERNSTYLE_IMAGE), m_width(width), m_height(height)
 {
 }
 
 wxPdfPattern::wxPdfPattern(int index, double width, double height, int templateId)
-  : m_objIndex(0), m_index(index), m_width(width), m_height(height), m_patternStyle(wxPDF_PATTERNSTYLE_TEMPLATE), m_templateId(templateId)
+  : m_objIndex(0), m_index(index), m_patternStyle(wxPDF_PATTERNSTYLE_TEMPLATE), m_templateId(templateId), m_width(width), m_height(height)
 {
 }
 
 wxPdfPattern::wxPdfPattern(int index, double width, double height, wxPdfPatternStyle patternStyle, const wxColour& drawColour, const wxColour& fillColour)
-  : m_objIndex(0), m_index(index), m_width(width), m_height(height), m_patternStyle(patternStyle), m_drawColour(drawColour)
+  : m_objIndex(0), m_index(index), m_patternStyle(patternStyle), m_drawColour(drawColour), m_width(width), m_height(height)
 {
   m_hasFillColour = fillColour.IsOk();
   if (m_hasFillColour)

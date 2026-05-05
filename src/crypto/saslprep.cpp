@@ -1241,9 +1241,6 @@ saslprep(const std::string& intxt, std::string& outtxt)
   unsigned char* p;
   pg_wchar* wp;
 
-  /* Ensure we return *output as nullptr on failure */
-  char* output = nullptr;
-
   /*
    * Quick check if the input is pure ASCII.  An ASCII string requires no
    * further processing.

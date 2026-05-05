@@ -39,7 +39,7 @@
 #include "upcean_ttf.h" // OCR-B subset (digits, "<", ">")
 
 static const int maxSegs = 256;
-static const int maxCLISegs = 10; // CLI restricted to 10 segments (including main data)
+// CLI is restricted to 10 segments (including main data)
 
 // Matches RGB(A) hex string or CMYK decimal "C,M,Y,K" percentage string
 static const wxRegEx colorRE("^([0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?)|(((100|[0-9]{0,2}),){3}(100|[0-9]{0,2}))$");
@@ -47,7 +47,6 @@ static const wxRegEx colorRE("^([0-9A-Fa-f]{6}([0-9A-Fa-f]{2})?)|(((100|[0-9]{0,
 static const wxString normalFontFamily = "Arimo"; // Sans-serif metrically compatible with Arial
 static const wxString upceanFontFamily = "OCRB"; // Monospace OCR-B
 static const wxString fontFamilyError = "Arimo";
-static const int fontSizeError = 14; // Point size
 
 static int normalFontID = -2; // Use -2 as `addApplicationFontFromData()` returns -1 on error
 

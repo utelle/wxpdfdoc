@@ -208,7 +208,7 @@ recompose_code(uint32_t start, uint32_t code, uint32_t *result)
 
     int i;
 
-    for (i = 0; i < lengthof(UnicodeDecompMain); i++)
+    for (i = 0; i < (int)lengthof(UnicodeDecompMain); i++)
     {
       entry = &UnicodeDecompMain[i];
 

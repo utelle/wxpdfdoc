@@ -487,7 +487,7 @@ wxPdfEncrypt::HashV5(const std::string& password, const std::string& salt, const
                 wxPdfRijndael::Key16Bytes,
                 reinterpret_cast<unsigned char*>(const_cast<char*>(K.substr(16, 16).c_str())));
 
-    int len = m_aes->blockEncrypt(dataK1, lenData, dataE);
+    (void)m_aes->blockEncrypt(dataK1, lenData, dataE);
 
     // E16mod3 is equivalent to mod 3 of the first 16 bytes of E
     // taken as a (128-bit) big-endian number.
@@ -503,28 +503,28 @@ wxPdfEncrypt::HashV5(const std::string& password, const std::string& salt, const
     {
       case 0:
         {
-          sha256_state hash;
-          sha_init(hash);
-          sha_process(hash, dataE, lenData);
-          sha_done(hash, result);
+          sha256_state hash256;
+          sha_init(hash256);
+          sha_process(hash256, dataE, lenData);
+          sha_done(hash256, result);
           K = std::string(result, 32);
         }
         break;
       case 1:
         {
-          sha384_state hash;
-          sha_init(hash);
-          sha_process(hash, dataE, lenData);
-          sha_done(hash, result);
+          sha384_state hash384;
+          sha_init(hash384);
+          sha_process(hash384, dataE, lenData);
+          sha_done(hash384, result);
           K = std::string(result, 48);
         }
         break;
       case 2:
         {
-          sha512_state hash;
-          sha_init(hash);
-          sha_process(hash, dataE, lenData);
-          sha_done(hash, result);
+          sha512_state hash512;
+          sha_init(hash512);
+          sha_process(hash512, dataE, lenData);
+          sha_done(hash512, result);
           K = std::string(result, 64);
         }
         break;
@@ -592,7 +592,7 @@ wxPdfEncrypt::ComputeUandUEforV5(const std::string& userPassword, const std::str
               nullptr);
   unsigned char tempData[32];
   memcpy(tempData, encryptionKey.c_str(), 32);
-  int len = m_aes->blockEncrypt(tempData, 32, tempData);
+  (void)m_aes->blockEncrypt(tempData, 32, tempData);
   m_ue = std::string(reinterpret_cast<char*>(tempData), 32);
 }
 
@@ -615,7 +615,7 @@ wxPdfEncrypt::ComputeOandOEforV5(const std::string& ownerPassword, const std::st
               nullptr);
   unsigned char tempData[32];
   memcpy(tempData, encryptionKey.c_str(), 32);
-  int len = m_aes->blockEncrypt(tempData, 32, tempData);
+  (void)m_aes->blockEncrypt(tempData, 32, tempData);
   m_oe = std::string(reinterpret_cast<char*>(tempData), 32);
 }
 
@@ -651,7 +651,7 @@ wxPdfEncrypt::ComputePermsV5(const std::string& encryptionKey)
               reinterpret_cast<unsigned char*>(const_cast<char*>(encryptionKey.c_str())),
               wxPdfRijndael::Key32Bytes,
               nullptr);
-  int len = m_aes->blockEncrypt(perms, sizeof(perms), perms);
+  (void)m_aes->blockEncrypt(perms, sizeof(perms), perms);
   m_permsValue = std::string(reinterpret_cast<char*>(perms), sizeof(perms));
 }
 
@@ -788,7 +788,7 @@ wxPdfEncrypt::CheckEncryptionParametersV5(const wxString& password)
               nullptr);
   unsigned char tempData[32];
   memcpy(tempData, encryptedFileKey.c_str(), 32);
-  int len = m_aes->blockDecrypt(tempData, 32, tempData);
+  (void)m_aes->blockDecrypt(tempData, 32, tempData);
   std::string fileKey = std::string(reinterpret_cast<char*>(tempData), 32);
 
   // Decrypt Perms and check against expected value
@@ -820,7 +820,7 @@ wxPdfEncrypt::CheckEncryptionParametersV5(const wxString& password)
     nullptr);
   unsigned char perms[16];
   memcpy(perms, m_permsValue.c_str(), 16);
-  len = m_aes->blockDecrypt(perms, sizeof(perms), perms);
+  (void)m_aes->blockDecrypt(perms, sizeof(perms), perms);
   bool permsValid = (memcmp(perms, permsExpected, 12) == 0);
   ok = ok && permsValid;
 

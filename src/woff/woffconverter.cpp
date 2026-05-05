@@ -227,7 +227,7 @@ wxMemoryInputStream* WoffConverter::Convert(wxInputStream* fontStream)
     }
   }
 
-  if (outTableOffset != totalSfntSize)
+  if ((uint32_t)outTableOffset != totalSfntSize)
   {
     return nullptr;
   }
@@ -235,7 +235,6 @@ wxMemoryInputStream* WoffConverter::Convert(wxInputStream* fontStream)
   for (TableDirectory& td : tdList)
   {
     std::vector<uint8_t> compressedData(td.compLength);
-    std::vector<uint8_t> uncompressedData;
     ArrayCopy(fontData.data(), td.offset, compressedData.data(), 0, td.compLength);
     int expectedUncompressedLen = (int)td.origLengthVal;
     if (td.compLength > td.origLengthVal)
@@ -253,7 +252,7 @@ wxMemoryInputStream* WoffConverter::Convert(wxInputStream* fontStream)
       tblOut.Close();
       wxMemoryInputStream tblIn(tblOut);
 
-      wxFileOffset streamLen = tblIn.SeekI(0, wxFromEnd);
+      (void)tblIn.SeekI(0, wxFromEnd);
       std::vector<uint8_t> uncompressedData(expectedUncompressedLen);
       tblIn.SeekI(0, wxFromStart);
       tblIn.ReadAll(uncompressedData.data(), uncompressedData.size());

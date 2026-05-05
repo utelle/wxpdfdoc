@@ -260,8 +260,6 @@ wxPdfDocument::SelectFont(const wxPdfFont& font, int style, double size, bool se
   if (font.IsValid())
   {
     m_decoration = style & wxPDF_FONTSTYLE_DECORATION_MASK;
-    int fontStyle = font.GetStyle();
-    fontStyle |= m_decoration;
     if (size <= 0)
     {
       size = m_fontSizePt;
@@ -1497,7 +1495,6 @@ wxPdfDocument::PutFonts()
       NewObj();
       Out("<</Type /FontDescriptor");
       OutAscii(wxString(wxS("/FontName /")) + name);
-      wxString s = wxEmptyString;
       OutAscii(wxString::Format(wxS("/Ascent %d"), fd.GetAscent()));
       OutAscii(wxString::Format(wxS("/Descent %d"), fd.GetDescent()));
       OutAscii(wxString::Format(wxS("/CapHeight %d"), fd.GetCapHeight()));

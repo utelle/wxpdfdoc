@@ -279,7 +279,6 @@ private:
   wxArrayInt            m_privateDictOffset;       ///< offsets in private dictionary
 
   int                   m_globalBias;              ///< The bias for the global subroutines
-  int                   m_numHints;                ///< Number of arguments to the stem operators in a subroutine calculated recursively
 
   wxPdfSortedArrayInt*  m_hGlobalSubrsUsed;        ///< A HashMap for keeping the Global subroutines used in the font
   wxArrayInt            m_lGlobalSubrsUsed;        ///< The Global SubroutinesUsed HashMaps as ArrayLists

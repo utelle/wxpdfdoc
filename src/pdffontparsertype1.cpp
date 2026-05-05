@@ -378,7 +378,6 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
     fd.SetUnderlineThickness(50);
 
     wxPdfKernPairMap* kpMap = NULL;
-    wxString encodingScheme;
 
     bool hasCapHeight = false;
     bool hasXCapHeight = false;
@@ -390,8 +389,8 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
 
     wxTextInputStream text(afmFile);
     wxString line;
-    wxString charcode, glyphname;
-    wxString code, param, dummy, glyph;
+    wxString glyphname;
+    wxString code, param;
     wxString token, tokenBoxHeight;
     long nParam;
     long cc, width, boxHeight, glyphNumber;
@@ -504,7 +503,7 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
         }
         else if (code.IsSameAs(wxS("EncodingScheme")))
         {
-          encodingScheme = param;
+          //no-op
         }
         else if (code.IsSameAs(wxS("StartCharMetrics")))
         {
@@ -522,7 +521,7 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
           tokenBoxHeight = wxEmptyString;
           // Character metrics
           param.ToLong(&cc);
-          dummy = tkz.GetNextToken(); // 2
+          (void)tkz.GetNextToken(); // 2
           while (tkz.HasMoreTokens())
           {
             token = tkz.GetNextToken();
@@ -530,7 +529,7 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
             {
               param = tkz.GetNextToken(); // Width
               param.ToLong(&width);
-              dummy = tkz.GetNextToken(); // Semicolon
+              (void)tkz.GetNextToken(); // Semicolon
 
               if (!hasMissingWidth && glyphname.IsSameAs(wxS(".notdef")))
               {
@@ -542,22 +541,22 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
             else if (token.IsSameAs(wxS("N"))) // Glyph name
             {
               glyphname = tkz.GetNextToken(); // Glyph name
-              dummy = tkz.GetNextToken(); // Semicolon
+              (void)tkz.GetNextToken(); // Semicolon
             }
             else if (token.IsSameAs(wxS("G"))) // Glyph number
             {
               param = tkz.GetNextToken(); // Number
               param.ToLong(&glyphNumber);
-              dummy = tkz.GetNextToken(); // Semicolon
+              (void)tkz.GetNextToken(); // Semicolon
             }
             else if (token.IsSameAs(wxS("B"))) // Character bounding box
             {
-              dummy = tkz.GetNextToken(); // x left
-              dummy = tkz.GetNextToken(); // y bottom
-              dummy = tkz.GetNextToken(); // x right
+              (void)tkz.GetNextToken(); // x left
+              (void)tkz.GetNextToken(); // y bottom
+              (void)tkz.GetNextToken(); // x right
               tokenBoxHeight = tkz.GetNextToken(); // y top
               tokenBoxHeight.ToLong(&boxHeight);
-              dummy = tkz.GetNextToken(); // Semicolon
+              (void)tkz.GetNextToken(); // Semicolon
 
               if (!tokenBoxHeight.IsEmpty())
               {
@@ -1210,8 +1209,6 @@ wxPdfFontParserType1::ReadPFM(wxInputStream& pfmFile)
     pfmFile.SeekI(hdr.face);
     ReadString(pfmFile);
   }
-
-  wxString encodingScheme = (hdr.charset != 0) ? wxString(wxS("FontSpecific")) : wxString(wxS("AdobeStandardEncoding"));
 
   int stemV = (hdr.weight > 475 ||
                fontNameLower.Find(wxS("bold")) != wxNOT_FOUND ||
@@ -2215,10 +2212,10 @@ wxPdfFontParserType1::ParseDict(wxInputStream* stream, int start, int length, bo
 }
 
 void
-wxPdfFontParserType1::ParseFontMatrix(wxInputStream* stream)
+wxPdfFontParserType1::ParseFontMatrix(wxInputStream* WXUNUSED(stream))
 {
-  wxString matrix = GetArray(stream);
 #if 0
+  wxString matrix = GetArray(stream);
   // If the font matrix is not [ 0.001 0 0 0.001 0 0]
   // font metrics need to be transformed accordingly
   int unitsPerEm;
