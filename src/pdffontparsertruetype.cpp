@@ -737,7 +737,6 @@ wxPdfFontParserTrueType::IdentifyFont(const wxFont& font)
 wxPdfFontData*
 wxPdfFontParserTrueType::IdentifyFont(const char* fontBuffer, size_t fontBufferSize)
 {
-  bool ok = true;
   wxPdfFontData* fontData = nullptr;
   m_fileName = wxEmptyString;
 
@@ -1356,10 +1355,10 @@ wxPdfFontParserTrueType::ReadMaps()
   entry = m_tableDirectory->find(wxS("post"));
   if (entry == m_tableDirectory->end())
   {
-    static double pi = 4. * atan(1.0);
+    static double my_pi = 4. * atan(1.0);
     double caretSlopeRun = (double) hhea.m_caretSlopeRun;
     double caretSlopeRise = (double) hhea.m_caretSlopeRise;
-    italicAngle = -atan2(caretSlopeRun, caretSlopeRise) * 180. / pi;
+    italicAngle = -atan2(caretSlopeRun, caretSlopeRise) * 180. / my_pi;
   }
   else
   {

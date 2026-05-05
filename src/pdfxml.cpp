@@ -721,7 +721,6 @@ wxPdfTable::GetLastRowsOnPage() const
     const double pageHeight = m_document->GetPageHeight();
     const double yMax = pageHeight - breakMargin;
     const double firstBodyRowHeight = iterBodyFirst->second;
-    const bool writeHeader = m_headRowLast > m_headRowFirst;
     const double topTotalMargin = m_document->GetTopMargin() + m_document->GetHeaderHeight() + m_headHeight;
     const double availablePageHeight = yMax - topTotalMargin;
     double y = m_document->GetY();
@@ -893,7 +892,6 @@ wxPdfDocument::PrepareXmlTable(wxXmlNode* node, wxPdfCellContext& context)
   double maxWidth = context.GetMaxWidth();
   wxPdfBoolHashMap cellused;
   int coldef = 0;
-  int colundef = 0;
   int row = 0;
   int col;
   int i, j;
@@ -929,7 +927,6 @@ wxPdfDocument::PrepareXmlTable(wxXmlNode* node, wxPdfCellContext& context)
           for (col = 0; col < colspan; col++)
           {
             table->SetColumnWidth(coldef++, colwidth);
-            if (colwidth <= 0) colundef++;
           }
         }
         colChild = colChild->GetNext();
@@ -1511,7 +1508,6 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         double len = 0;
         double ls = 0;
         int ns = 0;
-        int nl = 1;
         wxUniChar c = 0;
         while (i < nb)
         {
@@ -1526,7 +1522,6 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             j = i;
             len = 0;
             ns = 0;
-            nl++;
             context.MarkLastLine();
             context.AddLine();
             context.AddHeight(GetLineHeight());
@@ -1582,7 +1577,6 @@ wxPdfDocument::PrepareXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             j = i;
             len = 0;
             ns = 0;
-            nl++;
             context.AddLine();
             context.AddHeight(GetLineHeight());
             wmax = context.GetMaxWidth();
@@ -2272,7 +2266,6 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
         int j = 0;
         double len = 0;
         int ns = 0;
-        int nl = 1;
         wxUniChar c;
         while (i < nb)
         {
@@ -2292,7 +2285,6 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             j = i;
             len = 0;
             ns = 0;
-            nl++;
             context.IncrementCurrentLine();
             Ln();
             DoXmlAlign(context);
@@ -2337,7 +2329,6 @@ wxPdfDocument::WriteXmlCell(wxXmlNode* node, wxPdfCellContext& context)
             j = i;
             len = 0;
             ns = 0;
-            nl++;
             context.IncrementCurrentLine();
             Ln();
             DoXmlAlign(context);

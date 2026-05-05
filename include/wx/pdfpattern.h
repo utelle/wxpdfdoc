@@ -150,10 +150,6 @@ private:
 
   double m_width;      ///< pattern width
   double m_height;     ///< pattern height
-
-  double m_xStep;      ///< repeat offset in x direction
-  double m_yStep;      ///< repeat offset in y direction
-  double m_matrix[6];  ///< transformation matrix
 };
 
 #endif

@@ -92,7 +92,6 @@ wxPdfUtility::String2Double(const wxString& str, const wxString& defaultUnit, do
   };
   static wxString allowed[] = { "pt", "mm", "cm", "in", "px" };
   static wxArrayString allowedUnits(5, allowed);
-  static int ixPixel = allowedUnits.Index("px");
 
   wxString strValue = str.Strip(wxString::both);
   wxString valueUnit = (strValue.length() > 2) ? strValue.Right(2) : defaultUnit;
