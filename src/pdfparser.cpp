@@ -474,13 +474,14 @@ wxPdfParser::SetupDecryptor()
       // Handle entry
     }
   }
-#endif
 
+  bool encryptMetaData = true;
   obj = enc->Get(wxS("EncryptMetadata"));
   if (obj && obj->GetType() == OBJTYPE_BOOLEAN)
   {
-    (void)((wxPdfBoolean*)obj)->GetValue();
+    encryptMetaData = ((wxPdfBoolean*)obj)->GetValue();
   }
+#endif
 
   if (enc->IsCreatedIndirect())
   {
