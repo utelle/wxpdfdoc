@@ -9,6 +9,13 @@ The code is a port of FPDF - a free PHP class for generating PDF files - to
 C++ using the wxWidgets library. Several add-on PHP scripts found
 on the FPDF web site are incorporated into wxPdfDocument.
 
+## Contents
+
+- [Key Features](#key-features)
+- [Installation](#install)
+- [Execution of sample applications](#execsamples)
+- [Acknowledgements](#acknowledge)
+
 ## Key Features
 
 - **Comprehensive Font Support**: Use standard Adobe fonts, Type1, TrueType, OpenType, and WOFF/WOFF2 fonts. Supports font embedding, subsetting, and Unicode (including CJK, Indic, and Right-to-Left scripts).
@@ -22,11 +29,6 @@ on the FPDF web site are incorporated into wxPdfDocument.
 - **Markup & Tables**: Use a simple XML markup language for styled text and complex tables with multi-page support.
 - **Integration**: Includes `wxPdfDC` and `wxPdfGraphicsContext`, providing seamless integration with the wxWidgets `wxDC` and `wxGraphicsContext` APIs and the printing framework.
 - **Standards**: Support for PDF/A-1B conformance.
-
-- [Key Features](#key-features)
-- [Installation](#install)
-- [Execution of sample applications](#execsamples)
-- [Acknowledgements](#acknowledge)
 
 [![Linux / macOS Build Status](https://img.shields.io/github/actions/workflow/status/utelle/wxpdfdoc/ci4wxpdfdoc.yml?branch=main&label=Linux%20/%20macOS)](https://github.com/utelle/wxpdfdoc/actions/workflows/ci4wxpdfdoc.yml)
 [![Windows Build Status](https://img.shields.io/appveyor/ci/utelle/wxpdfdoc/main.svg?label=Windows)](https://ci.appveyor.com/project/utelle/wxpdfdoc)
