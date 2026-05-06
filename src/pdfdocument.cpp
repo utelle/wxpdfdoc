@@ -965,6 +965,38 @@ wxPdfDocument::GetFontStyle() const
   {
     style += wxString(wxS("S"));
   }
+  if (styles & wxPDF_FONTSTYLE_THIN)
+  {
+    style += wxString(wxS("T"));
+  }
+  if (styles & wxPDF_FONTSTYLE_EXTRALIGHT)
+  {
+    style += wxString(wxS("E"));
+  }
+  if (styles & wxPDF_FONTSTYLE_LIGHT)
+  {
+    style += wxString(wxS("L"));
+  }
+  if (styles & wxPDF_FONTSTYLE_MEDIUM)
+  {
+    style += wxString(wxS("M"));
+  }
+  if (styles & wxPDF_FONTSTYLE_SEMIBOLD)
+  {
+    style += wxString(wxS("D"));
+  }
+  if (styles & wxPDF_FONTSTYLE_EXTRABOLD)
+  {
+    style += wxString(wxS("X"));
+  }
+  if (styles & wxPDF_FONTSTYLE_HEAVY)
+  {
+    style += wxString(wxS("H"));
+  }
+  if (styles & wxPDF_FONTSTYLE_EXTRAHEAVY)
+  {
+    style += wxString(wxS("A"));
+  }
   return style;
 }
 

@@ -1160,6 +1160,18 @@ public:
   *   \li B: bold
   *   \li I: italic
   *   \li BI or IB: bold italic
+  *   \li O: overline
+  *   \li S: strikethrough
+  *   \li T: thin
+  *   \li E: extra light
+  *   \li L: light
+  *   \li M: medium
+  *   \li D: demi / semi-bold
+  *   \li X: extra bold
+  *   \li H: heavy / black
+  *   \li A: extra heavy
+  * Granular weights (Thin to ExtraHeavy) are fully supported when using @c wxFont
+  * starting with wxWidgets 3.1.2. In older versions, they fall back to the closest standard weight (Bold or Regular).
   * \param file The font definition file. By default, the name is built from the family and style,
   *  in lower case with no space.
   * \see SetFont()
@@ -1228,6 +1240,16 @@ public:
   *   \li I: italic
   *   \li BI or IB: bold italic
   *   \li U: underline
+  *   \li O: overline
+  *   \li S: strikethrough
+  *   \li T: thin
+  *   \li E: extra light
+  *   \li L: light
+  *   \li M: medium
+  *   \li D: demi / semi-bold
+  *   \li X: extra bold
+  *   \li H: heavy / black
+  *   \li A: extra heavy
   * or any combination. The default value is regular. Bold and italic styles do not apply to Symbol and ZapfDingbats
   * \param size Font size in points. The default value is the current size. If no size has been
   * specified since the beginning of the document, the value taken is 12
@@ -1262,7 +1284,16 @@ public:
   *   \li wxPDF_FONTSTYLE_UNDERLINE  : underline
   *   \li wxPDF_FONTSTYLE_OVERLINE   : overline
   *   \li wxPDF_FONTSTYLE_STRIKEOUT  : strike through
-  * or any combination.
+  *   \li wxPDF_FONTSTYLE_THIN       : thin
+  *   \li wxPDF_FONTSTYLE_EXTRALIGHT : extra light
+  *   \li wxPDF_FONTSTYLE_LIGHT      : light
+  *   \li wxPDF_FONTSTYLE_MEDIUM     : medium
+  *   \li wxPDF_FONTSTYLE_SEMIBOLD   : semi-bold
+  *   \li wxPDF_FONTSTYLE_EXTRABOLD  : extra bold
+  *   \li wxPDF_FONTSTYLE_HEAVY      : heavy
+  *   \li wxPDF_FONTSTYLE_EXTRAHEAVY : extra heavy
+  * or any combination. Granular weights (Thin to ExtraHeavy) are fully supported when using @c wxFont
+  * starting with wxWidgets 3.1.2. In older versions, they fall back to the closest standard weight (Bold or Regular).
   * \param size Font size in points. The default value is the current size. If no size has been
   * specified since the beginning of the document, the value taken is 12
   * \see AddFont(), SetFontSize(), Cell(), MultiCell(), Write()
@@ -1274,13 +1305,24 @@ public:
   * The font referenced by the wxFont object will be added to the document if necessary.
   *
   * \param font The font to be set.
-  * \param style Font style. Possible values are (case insensitive):
-  *   \li empty string: regular (default)
-  *   \li B: bold
-  *   \li I: italic
-  *   \li BI or IB: bold italic
-  *   \li U: underline
-  * or any combination. The default value is regular. Bold and italic styles do not apply to Symbol and ZapfDingbats
+  * \param style Font style. Possible values are:
+  *   \li wxPDF_FONTSTYLE_REGULAR    : regular (default)
+  *   \li wxPDF_FONTSTYLE_ITALIC     : italic
+  *   \li wxPDF_FONTSTYLE_BOLD       : bold
+  *   \li wxPDF_FONTSTYLE_UNDERLINE  : underline
+  *   \li wxPDF_FONTSTYLE_OVERLINE   : overline
+  *   \li wxPDF_FONTSTYLE_STRIKEOUT  : strike through
+  *   \li wxPDF_FONTSTYLE_THIN       : thin
+  *   \li wxPDF_FONTSTYLE_EXTRALIGHT : extra light
+  *   \li wxPDF_FONTSTYLE_LIGHT      : light
+  *   \li wxPDF_FONTSTYLE_MEDIUM     : medium
+  *   \li wxPDF_FONTSTYLE_SEMIBOLD   : semi-bold
+  *   \li wxPDF_FONTSTYLE_EXTRABOLD  : extra bold
+  *   \li wxPDF_FONTSTYLE_HEAVY      : heavy
+  *   \li wxPDF_FONTSTYLE_EXTRAHEAVY : extra heavy
+  * or any combination. Granular weights (Thin to ExtraHeavy) are fully supported when using @c wxFont
+  * starting with wxWidgets 3.1.2. In older versions, they fall back to the closest standard weight (Bold or Regular).
+  * Bold and italic styles do not apply to Symbol and ZapfDingbats
   * \param size Font size in points. The default value is the current size. If no size has been
   * \see AddFont(), SetFont(), SetFontSize(), Cell(), MultiCell(), Write()
   */
@@ -1325,7 +1367,23 @@ public:
 
   /// Gets the style of the current font.
   /**
-  * \return The style of the current font as a string
+  * \return The style of the current font as a string.
+  * The string may contain any combination of the following characters:
+  *   \li B: bold
+  *   \li I: italic
+  *   \li U: underline
+  *   \li O: overline
+  *   \li S: strikethrough
+  *   \li T: thin
+  *   \li E: extra light
+  *   \li L: light
+  *   \li M: medium
+  *   \li D: demi / semi-bold
+  *   \li X: extra bold
+  *   \li H: heavy / black
+  *   \li A: extra heavy
+  * Granular weights (Thin to ExtraHeavy) are fully supported when using @c wxFont
+  * starting with wxWidgets 3.1.2. In older versions, they fall back to the closest standard weight (Bold or Regular).
   * \see SetFont()
   */
   virtual const wxString GetFontStyle() const;

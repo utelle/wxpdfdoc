@@ -156,6 +156,38 @@ wxPdfDocument::SelectFont(const wxString& family, const wxString& style, double 
   {
     styles |= wxPDF_FONTSTYLE_STRIKEOUT;
   }
+  if (ucStyle.Find(wxS('T')) >= 0)
+  {
+    styles |= wxPDF_FONTSTYLE_THIN;
+  }
+  if (ucStyle.Find(wxS('E')) >= 0)
+  {
+    styles |= wxPDF_FONTSTYLE_EXTRALIGHT;
+  }
+  if (ucStyle.Find(wxS('L')) >= 0)
+  {
+    styles |= wxPDF_FONTSTYLE_LIGHT;
+  }
+  if (ucStyle.Find(wxS('M')) >= 0)
+  {
+    styles |= wxPDF_FONTSTYLE_MEDIUM;
+  }
+  if (ucStyle.Find(wxS('D')) >= 0)
+  {
+    styles |= wxPDF_FONTSTYLE_SEMIBOLD;
+  }
+  if (ucStyle.Find(wxS('X')) >= 0)
+  {
+    styles |= wxPDF_FONTSTYLE_EXTRABOLD;
+  }
+  if (ucStyle.Find(wxS('H')) >= 0)
+  {
+    styles |= wxPDF_FONTSTYLE_HEAVY;
+  }
+  if (ucStyle.Find(wxS('A')) >= 0)
+  {
+    styles |= wxPDF_FONTSTYLE_EXTRAHEAVY;
+  }
   return SelectFont(family, styles, size, setFont);
 }
 
@@ -182,10 +214,59 @@ wxPdfDocument::SelectFont(const wxFont& font, bool setFont)
 {
 #if wxUSE_UNICODE
   int styles = wxPDF_FONTSTYLE_REGULAR;
-  if (font.GetWeight() >= wxFONTWEIGHT_BOLD)
+  wxFontWeight weight = font.GetWeight();
+
+#if wxCHECK_VERSION(3,1,2)
+  if (weight >= wxFONTWEIGHT_EXTRAHEAVY)
+  {
+    styles |= wxPDF_FONTSTYLE_EXTRAHEAVY;
+  }
+  else if (weight >= wxFONTWEIGHT_HEAVY)
+  {
+    styles |= wxPDF_FONTSTYLE_HEAVY;
+  }
+  else if (weight >= wxFONTWEIGHT_EXTRABOLD)
+  {
+    styles |= wxPDF_FONTSTYLE_EXTRABOLD;
+  }
+  else if (weight >= wxFONTWEIGHT_BOLD)
   {
     styles |= wxPDF_FONTSTYLE_BOLD;
   }
+  else if (weight >= wxFONTWEIGHT_SEMIBOLD)
+  {
+    styles |= wxPDF_FONTSTYLE_SEMIBOLD;
+  }
+  else if (weight >= wxFONTWEIGHT_MEDIUM)
+  {
+    styles |= wxPDF_FONTSTYLE_MEDIUM;
+  }
+  else if (weight >= wxFONTWEIGHT_NORMAL)
+  {
+    // Regular
+  }
+  else if (weight >= wxFONTWEIGHT_LIGHT)
+  {
+    styles |= wxPDF_FONTSTYLE_LIGHT;
+  }
+  else if (weight >= wxFONTWEIGHT_EXTRALIGHT)
+  {
+    styles |= wxPDF_FONTSTYLE_EXTRALIGHT;
+  }
+  else if (weight >= wxFONTWEIGHT_THIN)
+  {
+    styles |= wxPDF_FONTSTYLE_THIN;
+  }
+#else
+  if (weight >= wxFONTWEIGHT_BOLD)
+  {
+    styles |= wxPDF_FONTSTYLE_BOLD;
+  }
+  else if (weight == wxFONTWEIGHT_LIGHT)
+  {
+    styles |= wxPDF_FONTSTYLE_LIGHT;
+  }
+#endif
   if (font.GetStyle() == wxFONTSTYLE_ITALIC)
   {
     styles |= wxPDF_FONTSTYLE_ITALIC;
