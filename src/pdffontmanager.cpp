@@ -1175,7 +1175,7 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
 
     // Fallback for granular weights: if a specific weight was requested, but not found,
     // try to find the closest standard weight (Bold for Medium and above, Regular otherwise)
-    if (fontData == NULL && (searchStyle & wxPDF_FONTSTYLE_WEIGHT_MASK) > wxPDF_FONTSTYLE_BOLD)
+    if (fontData == NULL && (searchStyle & wxPDF_FONTSTYLE_WEIGHT_MASK) > wxPDF_FONTSTYLE_BOLD && !fontName.StartsWith(wxS(".")))
     {
       const int weight = searchStyle & wxPDF_FONTSTYLE_WEIGHT_MASK;
       // Map Medium and above to Bold; map anything lighter than Medium to Regular
