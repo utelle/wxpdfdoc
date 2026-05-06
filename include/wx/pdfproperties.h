@@ -61,6 +61,8 @@ enum
   wxPDF_FONTSTYLE_OVERLINE   = 1 << 3,
   wxPDF_FONTSTYLE_STRIKEOUT  = 1 << 4,
 
+  /// Granular weights (Thin to ExtraHeavy) are fully supported when using wxFont starting with wxWidgets 3.1.2.
+  /// In older versions, they fall back to the closest standard weight (Bold or Regular).
   wxPDF_FONTSTYLE_THIN       = 1 << 5,
   wxPDF_FONTSTYLE_EXTRALIGHT = 1 << 6,
   wxPDF_FONTSTYLE_LIGHT      = 1 << 7,
