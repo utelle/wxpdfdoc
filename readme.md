@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="samples/minimal/wxpdfdoc.png" alt="wxPdfDocument Logo" />
+</p>
+
 # wxPdfDocument - Generation of PDF documents from wxWidgets applications
 
 **wxPdfDocument** allows wxWidgets applications to generate PDF documents.
@@ -5,12 +9,21 @@ The code is a port of FPDF - a free PHP class for generating PDF files - to
 C++ using the wxWidgets library. Several add-on PHP scripts found
 on the FPDF web site are incorporated into wxPdfDocument.
 
-Embedding of PNG, JPEG, GIF and WMF images is supported. In addition to
-the 14 standard Adobe fonts it is possible to use other Type1, TrueType
-or OpenType fonts - with or without embedding them into the generated
-document. CJK fonts are supported, too. Graphics primitives allow the
-creation of simple drawings.
+## Key Features
 
+- **Comprehensive Font Support**: Use standard Adobe fonts, Type1, TrueType, OpenType, and WOFF/WOFF2 fonts. Supports font embedding, subsetting, and Unicode (including CJK, Indic, and Right-to-Left scripts).
+- **Accessibility**: Generates selectable and searchable text, ensuring compatibility with screen readers and compliance with accessibility standards (ADA/WCAG)—unlike many "Print to PDF" solutions that render text as unsearchable graphics.
+- **Advanced Graphics**: Support for primitives, Bezier splines, transformations, clipping, transparency (alpha channel), patterns, and gradients. Includes `wxPdfGraphicsContext` for high-quality vector graphics.
+- **Image Support**: Embed PNG, JPEG, GIF, and WMF images directly, or use any `wxImage` compatible format.
+- **Barcodes**: Built-in support for 1D barcodes and extensive 2D barcode support via the Zint library.
+- **Interactive Features**: Create bookmarks, internal/external links, annotations, and PDF forms.
+- **Document Protection**: Support for document encryption (including AES-256) and permission management.
+- **Templates & Layers**: Import pages from existing PDF documents as templates and organize content with layers (Optional Content Groups).
+- **Markup & Tables**: Use a simple XML markup language for styled text and complex tables with multi-page support.
+- **Integration**: Includes `wxPdfDC` and `wxPdfGraphicsContext`, providing seamless integration with the wxWidgets `wxDC` and `wxGraphicsContext` APIs and the printing framework.
+- **Standards**: Support for PDF/A-1B conformance.
+
+- [Key Features](#key-features)
 - [Installation](#install)
 - [Execution of sample applications](#execsamples)
 - [Acknowledgements](#acknowledge)
