@@ -28,7 +28,8 @@ on the FPDF web site are incorporated into wxPdfDocument.
 - [Execution of sample applications](#execsamples)
 - [Acknowledgements](#acknowledge)
 
-[![Travis](https://img.shields.io/travis/utelle/wxpdfdoc/master.svg?label=Linux+/+OS+X)](https://travis-ci.org/utelle/wxpdfdoc)
+[![Linux / macOS Build Status](https://img.shields.io/github/actions/workflow/status/utelle/wxpdfdoc/ci4wxpdfdoc.yml?branch=main&label=Linux%20/%20macOS)](https://github.com/utelle/wxpdfdoc/actions/workflows/ci4wxpdfdoc.yml)
+[![Windows Build Status](https://img.shields.io/appveyor/ci/utelle/wxpdfdoc/main.svg?label=Windows)](https://ci.appveyor.com/project/utelle/wxpdfdoc)
 
 ## Version information
 
