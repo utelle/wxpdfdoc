@@ -7,6 +7,14 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [Unreleased]
 
+### Added
+
+- Added support for granular font weights (Thin to ExtraHeavy)
+
+### Fixed
+
+- Fixed issue where bold fonts were not correctly selected when using `wxFont` with `wxFONTWEIGHT_BOLD`
+
 ## [1.3.1] - 2025-04-28
 
 ### Fixed
