@@ -1166,6 +1166,51 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
         fontData = candidate;
       }
     }
+
+    // Fallback for granular weights: if a specific weight was requested, but not found,
+    // try to find the closest standard weight (Bold for Medium and above, Regular otherwise)
+    if (fontData == NULL && (searchStyle & wxPDF_FONTSTYLE_WEIGHT_MASK) > wxPDF_FONTSTYLE_BOLD)
+    {
+      const int weight = searchStyle & wxPDF_FONTSTYLE_WEIGHT_MASK;
+      // Map Medium and above to Bold; map anything lighter than Medium to Regular
+      const int fallbackStyle = (searchStyle & wxPDF_FONTSTYLE_ITALIC) | (weight >= wxPDF_FONTSTYLE_MEDIUM ? wxPDF_FONTSTYLE_BOLD : wxPDF_FONTSTYLE_REGULAR);
+      familyIter = m_fontFamilyMap.find(lcFontName);
+      if (familyIter == m_fontFamilyMap.end())
+        familyIter = familyAliasIter;
+      if (familyIter != m_fontFamilyMap.end())
+      {
+        // First, search within the font family (including aliases)
+        size_t n = familyIter->second.GetCount();
+        size_t j;
+        do
+        {
+          for (j = 0; j < n && fontData == NULL; ++j)
+          {
+            wxPdfFontData* data = m_fontList[familyIter->second[j]]->GetFontData();
+            if (data->GetStyle() == fallbackStyle)
+              fontData = data;
+          }
+          n = 0;
+          if (fontData == NULL && familyAliasIter != familyIter && familyAliasIter != m_fontFamilyMap.end())
+          {
+            familyIter = familyAliasIter;
+            n = familyIter->second.GetCount();
+          }
+        } while (n > 0);
+      }
+      if (fontData == NULL)
+      {
+        // If still not found, check if a font was registered directly under this name with the fallback style
+        wxPdfFontNameMap::const_iterator fontIter = m_fontNameMap.find(lcFontName);
+        if (fontIter != m_fontNameMap.end())
+        {
+          wxPdfFontData* candidate = m_fontList[fontIter->second]->GetFontData();
+          if (candidate->GetStyle() == fallbackStyle)
+            fontData = candidate;
+        }
+      }
+    }
+
     if (fontData == NULL)
     {
       wxString style = ConvertStyleToString(searchStyle);
