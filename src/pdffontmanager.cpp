@@ -641,8 +641,11 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
     if (!AddFont(fontData, regFont))
     {
       delete fontData;
-      wxLogDebug(wxString(wxS("wxPdfFontManagerBase::RegisterFont: ")) +
-                 wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
+      if (!font.GetFaceName().StartsWith(wxS(".")))
+      {
+        wxLogDebug(wxString(wxS("wxPdfFontManagerBase::RegisterFont: ")) +
+                   wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
+      }
     }
   }
 #elif defined(__WXGTK__)
@@ -773,8 +776,11 @@ wxPdfFontManagerBase::RegisterFont(const wxFont& font, const wxString& aliasName
     if (!AddFont(fontData, regFont))
     {
       delete fontData;
-      wxLogDebug(wxString(wxS("wxPdfFontManagerBase::RegisterFont: ")) +
-                 wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
+      if (!font.GetFaceName().StartsWith(wxS(".")))
+      {
+        wxLogDebug(wxString(wxS("wxPdfFontManagerBase::RegisterFont: ")) +
+                   wxString::Format(_("wxFont '%s' already registered."), font.GetFaceName().c_str()));
+      }
     }
   }
 #elif wxPDFMACOSX_HAS_ATSU_TEXT
@@ -1211,7 +1217,7 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
       }
     }
 
-    if (fontData == NULL)
+    if (fontData == NULL && !fontName.StartsWith(wxS(".")))
     {
       wxString style = ConvertStyleToString(searchStyle);
       wxLogDebug(wxString(wxS("wxPdfFontManagerBase::GetFont: ")) +
