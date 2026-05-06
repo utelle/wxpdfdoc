@@ -1162,6 +1162,14 @@ public:
   *   \li BI or IB: bold italic
   *   \li O: overline
   *   \li S: strikethrough
+  *   \li T: thin
+  *   \li E: extra light
+  *   \li L: light
+  *   \li M: medium
+  *   \li D: demi / semi-bold
+  *   \li X: extra bold
+  *   \li H: heavy / black
+  *   \li A: extra heavy
   * \param file The font definition file. By default, the name is built from the family and style,
   *  in lower case with no space.
   * \see SetFont()
@@ -1232,6 +1240,14 @@ public:
   *   \li U: underline
   *   \li O: overline
   *   \li S: strikethrough
+  *   \li T: thin
+  *   \li E: extra light
+  *   \li L: light
+  *   \li M: medium
+  *   \li D: demi / semi-bold
+  *   \li X: extra bold
+  *   \li H: heavy / black
+  *   \li A: extra heavy
   * or any combination. The default value is regular. Bold and italic styles do not apply to Symbol and ZapfDingbats
   * \param size Font size in points. The default value is the current size. If no size has been
   * specified since the beginning of the document, the value taken is 12
@@ -1266,6 +1282,14 @@ public:
   *   \li wxPDF_FONTSTYLE_UNDERLINE  : underline
   *   \li wxPDF_FONTSTYLE_OVERLINE   : overline
   *   \li wxPDF_FONTSTYLE_STRIKEOUT  : strike through
+  *   \li wxPDF_FONTSTYLE_THIN       : thin
+  *   \li wxPDF_FONTSTYLE_EXTRALIGHT : extra light
+  *   \li wxPDF_FONTSTYLE_LIGHT      : light
+  *   \li wxPDF_FONTSTYLE_MEDIUM     : medium
+  *   \li wxPDF_FONTSTYLE_SEMIBOLD   : semi-bold
+  *   \li wxPDF_FONTSTYLE_EXTRABOLD  : extra bold
+  *   \li wxPDF_FONTSTYLE_HEAVY      : heavy
+  *   \li wxPDF_FONTSTYLE_EXTRAHEAVY : extra heavy
   * or any combination.
   * \param size Font size in points. The default value is the current size. If no size has been
   * specified since the beginning of the document, the value taken is 12
@@ -1285,6 +1309,14 @@ public:
   *   \li wxPDF_FONTSTYLE_UNDERLINE  : underline
   *   \li wxPDF_FONTSTYLE_OVERLINE   : overline
   *   \li wxPDF_FONTSTYLE_STRIKEOUT  : strike through
+  *   \li wxPDF_FONTSTYLE_THIN       : thin
+  *   \li wxPDF_FONTSTYLE_EXTRALIGHT : extra light
+  *   \li wxPDF_FONTSTYLE_LIGHT      : light
+  *   \li wxPDF_FONTSTYLE_MEDIUM     : medium
+  *   \li wxPDF_FONTSTYLE_SEMIBOLD   : semi-bold
+  *   \li wxPDF_FONTSTYLE_EXTRABOLD  : extra bold
+  *   \li wxPDF_FONTSTYLE_HEAVY      : heavy
+  *   \li wxPDF_FONTSTYLE_EXTRAHEAVY : extra heavy
   * or any combination. Bold and italic styles do not apply to Symbol and ZapfDingbats
   * \param size Font size in points. The default value is the current size. If no size has been
   * \see AddFont(), SetFont(), SetFontSize(), Cell(), MultiCell(), Write()
@@ -1337,6 +1369,14 @@ public:
   *   \li U: underline
   *   \li O: overline
   *   \li S: strikethrough
+  *   \li T: thin
+  *   \li E: extra light
+  *   \li L: light
+  *   \li M: medium
+  *   \li D: demi / semi-bold
+  *   \li X: extra bold
+  *   \li H: heavy / black
+  *   \li A: extra heavy
   * \see SetFont()
   */
   virtual const wxString GetFontStyle() const;

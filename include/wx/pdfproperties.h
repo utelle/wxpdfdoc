@@ -61,15 +61,41 @@ enum
   wxPDF_FONTSTYLE_OVERLINE   = 1 << 3,
   wxPDF_FONTSTYLE_STRIKEOUT  = 1 << 4,
 
+  wxPDF_FONTSTYLE_THIN       = 1 << 5,
+  wxPDF_FONTSTYLE_EXTRALIGHT = 1 << 6,
+  wxPDF_FONTSTYLE_LIGHT      = 1 << 7,
+  wxPDF_FONTSTYLE_MEDIUM     = 1 << 8,
+  wxPDF_FONTSTYLE_SEMIBOLD   = 1 << 9,
+  wxPDF_FONTSTYLE_EXTRABOLD  = 1 << 10,
+  wxPDF_FONTSTYLE_HEAVY      = 1 << 11,
+  wxPDF_FONTSTYLE_EXTRAHEAVY = 1 << 12,
+
   wxPDF_FONTSTYLE_DECORATION_MASK = wxPDF_FONTSTYLE_UNDERLINE |
                                     wxPDF_FONTSTYLE_OVERLINE  |
                                     wxPDF_FONTSTYLE_STRIKEOUT,  ///< Mask of decoration styles
+  wxPDF_FONTSTYLE_WEIGHT_MASK     = wxPDF_FONTSTYLE_BOLD       |
+                                    wxPDF_FONTSTYLE_THIN       |
+                                    wxPDF_FONTSTYLE_EXTRALIGHT |
+                                    wxPDF_FONTSTYLE_LIGHT      |
+                                    wxPDF_FONTSTYLE_MEDIUM     |
+                                    wxPDF_FONTSTYLE_SEMIBOLD   |
+                                    wxPDF_FONTSTYLE_EXTRABOLD  |
+                                    wxPDF_FONTSTYLE_HEAVY      |
+                                    wxPDF_FONTSTYLE_EXTRAHEAVY, ///< Mask of weight styles
   wxPDF_FONTSTYLE_MASK = wxPDF_FONTSTYLE_REGULAR   |
                          wxPDF_FONTSTYLE_ITALIC    |
                          wxPDF_FONTSTYLE_BOLD      |
                          wxPDF_FONTSTYLE_UNDERLINE |
                          wxPDF_FONTSTYLE_OVERLINE  |
-                         wxPDF_FONTSTYLE_STRIKEOUT
+                         wxPDF_FONTSTYLE_STRIKEOUT |
+                         wxPDF_FONTSTYLE_THIN       |
+                         wxPDF_FONTSTYLE_EXTRALIGHT |
+                         wxPDF_FONTSTYLE_LIGHT      |
+                         wxPDF_FONTSTYLE_MEDIUM     |
+                         wxPDF_FONTSTYLE_SEMIBOLD   |
+                         wxPDF_FONTSTYLE_EXTRABOLD  |
+                         wxPDF_FONTSTYLE_HEAVY      |
+                         wxPDF_FONTSTYLE_EXTRAHEAVY
 };
 
 /// Permission options

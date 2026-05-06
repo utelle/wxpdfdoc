@@ -1186,13 +1186,49 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, const wxString& fontStyl
   wxString localStyle = fontStyle.Lower();
   if (localStyle.length() > 2)
   {
-    if (localStyle.Find(wxS("bold")) != wxNOT_FOUND)
-    {
-      style |= wxPDF_FONTSTYLE_BOLD;
-    }
     if (localStyle.Find(wxS("italic")) != wxNOT_FOUND || localStyle.Find(wxS("oblique")) != wxNOT_FOUND)
     {
       style |= wxPDF_FONTSTYLE_ITALIC;
+    }
+
+    if (localStyle.Find(wxS("extraheavy")) != wxNOT_FOUND || localStyle.Find(wxS("extra-heavy")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_EXTRAHEAVY;
+    }
+    else if (localStyle.Find(wxS("heavy")) != wxNOT_FOUND || localStyle.Find(wxS("black")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_HEAVY;
+    }
+    else if (localStyle.Find(wxS("extrabold")) != wxNOT_FOUND || localStyle.Find(wxS("extra-bold")) != wxNOT_FOUND ||
+             localStyle.Find(wxS("ultrabold")) != wxNOT_FOUND || localStyle.Find(wxS("ultra-bold")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_EXTRABOLD;
+    }
+    else if (localStyle.Find(wxS("semibold")) != wxNOT_FOUND || localStyle.Find(wxS("semi-bold")) != wxNOT_FOUND ||
+             localStyle.Find(wxS("demi")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_SEMIBOLD;
+    }
+    else if (localStyle.Find(wxS("bold")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_BOLD;
+    }
+    else if (localStyle.Find(wxS("medium")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_MEDIUM;
+    }
+    else if (localStyle.Find(wxS("extralight")) != wxNOT_FOUND || localStyle.Find(wxS("extra-light")) != wxNOT_FOUND ||
+             localStyle.Find(wxS("ultralight")) != wxNOT_FOUND || localStyle.Find(wxS("ultra-light")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_EXTRALIGHT;
+    }
+    else if (localStyle.Find(wxS("thin")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_THIN;
+    }
+    else if (localStyle.Find(wxS("light")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_LIGHT;
     }
   }
   else
@@ -1204,6 +1240,38 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, const wxString& fontStyl
     if (localStyle.Find(wxS("i")) != wxNOT_FOUND)
     {
       style |= wxPDF_FONTSTYLE_ITALIC;
+    }
+    if (localStyle.Find(wxS("t")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_THIN;
+    }
+    if (localStyle.Find(wxS("e")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_EXTRALIGHT;
+    }
+    if (localStyle.Find(wxS("l")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_LIGHT;
+    }
+    if (localStyle.Find(wxS("m")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_MEDIUM;
+    }
+    if (localStyle.Find(wxS("d")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_SEMIBOLD;
+    }
+    if (localStyle.Find(wxS("x")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_EXTRABOLD;
+    }
+    if (localStyle.Find(wxS("h")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_HEAVY;
+    }
+    if (localStyle.Find(wxS("a")) != wxNOT_FOUND)
+    {
+      style |= wxPDF_FONTSTYLE_EXTRAHEAVY;
     }
   }
   return GetFont(fontName, style);
@@ -1325,19 +1393,48 @@ wxString
 wxPdfFontManagerBase::ConvertStyleToString(int fontStyle)
 {
   wxString style = wxEmptyString;
-  if ((fontStyle & wxPDF_FONTSTYLE_BOLDITALIC) == wxPDF_FONTSTYLE_BOLDITALIC)
+  if (fontStyle & wxPDF_FONTSTYLE_BOLD)
   {
-    style = wxString(_("BoldItalic"));
+    style += wxString(_("Bold"));
   }
-  else if (fontStyle & wxPDF_FONTSTYLE_BOLD)
+  if (fontStyle & wxPDF_FONTSTYLE_ITALIC)
   {
-    style = wxString(_("Bold"));
+    style += wxString(_("Italic"));
   }
-  else if (fontStyle & wxPDF_FONTSTYLE_ITALIC)
+  if (fontStyle & wxPDF_FONTSTYLE_THIN)
   {
-    style = wxString(_("Italic"));
+    style += wxString(_("Thin"));
   }
-  else
+  if (fontStyle & wxPDF_FONTSTYLE_EXTRALIGHT)
+  {
+    style += wxString(_("ExtraLight"));
+  }
+  if (fontStyle & wxPDF_FONTSTYLE_LIGHT)
+  {
+    style += wxString(_("Light"));
+  }
+  if (fontStyle & wxPDF_FONTSTYLE_MEDIUM)
+  {
+    style += wxString(_("Medium"));
+  }
+  if (fontStyle & wxPDF_FONTSTYLE_SEMIBOLD)
+  {
+    style += wxString(_("SemiBold"));
+  }
+  if (fontStyle & wxPDF_FONTSTYLE_EXTRABOLD)
+  {
+    style += wxString(_("ExtraBold"));
+  }
+  if (fontStyle & wxPDF_FONTSTYLE_HEAVY)
+  {
+    style += wxString(_("Heavy"));
+  }
+  if (fontStyle & wxPDF_FONTSTYLE_EXTRAHEAVY)
+  {
+    style += wxString(_("ExtraHeavy"));
+  }
+
+  if (style.IsEmpty())
   {
     style = wxString(_("Regular"));
   }
