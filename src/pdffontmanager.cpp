@@ -1561,7 +1561,7 @@ wxPdfFontManagerBase::InitializeCjkFonts()
       fontAlias = cjkFontDesc.family;
       cjkFontData->SetFamily(fontAlias);
       cjkFontData->SetAlias(fontAlias);
-      cjkFontData->SetStyleFromName();
+      cjkFontData->SetStyle(fontStyles[k]);
       cjkFontData->SetEncodingChecker(encodingChecker);
       ok = AddFont(cjkFontData);
       if (!ok)
