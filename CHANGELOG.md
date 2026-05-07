@@ -7,8 +7,13 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 ## [Unreleased]
 
+### Changed
+
+- Updated 3rd party libraries _zint_ and _woff2_
+
 ### Added
 
+- Added `wxPdfGraphicsContext` implementation
 - Added support for granular font weights (Thin to ExtraHeavy)
 
 ### Fixed

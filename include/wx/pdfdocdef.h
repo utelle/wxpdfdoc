@@ -69,6 +69,20 @@ Or you can send a mail to the author
 \section version Version history
 
 <dl>
+<dt><b>1.4.0</b> - <i>May 2026</i></dt>
+<dd>
+Changes:<br>
+- Added wxPdfGraphicsContext (contributed by Blake-Madden)
+- Added support for granular font weights (contributed by Blake-Madden)
+- Updated 3rd party libraries <i>zint</i> and <i>woff2</i>
+- Improved documentation (contributed by Blake-Madden)
+
+Fixed bugs:<br>
+- Fixed issue #97: eliminate compile time warnings
+
+</dd>
+
+<dl>
 <dt><b>1.3.1</b> - <i>April 2025</i></dt>
 <dd>
 Fixed bugs:<br>
@@ -592,10 +606,12 @@ Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of
 special thanks to <b>K Vinod Kumar</b> of the <a href="https://www.cdac.in/"><b>Centre for Development of Advanced
 Computing, Mumbai</b></a>, for clearing license issues of the Raghu font series.
 
-Kudos to <b>Mark Dootson</b> for contributing major enhancements of wxPdfDC and it's integration
+Kudos to <b>Mark Dootson</b> for contributing major enhancements of <b><i>wxPdfDC</i></b> and it's integration
 into the wxWidgets printing framework.
 
 Kudos to <b>Dieter Schmeer</b> for contributing several enhancements for the XML markup handling.
+
+Kudos to <b>Blake Madden</b> for contributing a <b><i>wxPdfGraphicsContext</i></b> implementation and support for granular font weights.
 
 Since wxPdfDocument is based on the great \b FPDF PHP class and several of the contributions to it
 found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank
