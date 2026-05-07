@@ -1,0 +1,577 @@
+/*
+    libzint - the open source barcode library
+    Copyright (C) 2020-2026 Robin Stuart <rstuart114@gmail.com>
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+
+    1. Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+    2. Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+    3. Neither the name of the project nor the names of its contributors
+       may be used to endorse or promote products derived from this software
+       without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+    ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+    ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+    OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+    HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+    LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+    OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+    SUCH DAMAGE.
+ */
+/* SPDX-License-Identifier: BSD-3-Clause */
+
+#include "testcommon.h"
+
+static void test_large(const testCtx *const p_ctx) {
+    int debug = p_ctx->debug;
+
+    struct item {
+        int symbology;
+        const char *pattern;
+        int length;
+        int ret;
+        int expected_rows;
+        int expected_width;
+        const char *expected_errtxt;
+    };
+    /* s/\/\*[ 0-9]*\*\//\=printf("\/\*%3d*\/", line(".") - line("'<")): */
+    static const struct item data[] = {
+        /*  0*/ { BARCODE_AUSPOST, "1", 23, 0, 3, 133, "" },
+        /*  1*/ { BARCODE_AUSPOST, "1", 24, ZINT_ERROR_TOO_LONG, -1, -1, "Error 401: Input length 24 too long (maximum 23)" },
+        /*  2*/ { BARCODE_AUSPOST, "1", 8, 0, 3, 73, "" },
+        /*  3*/ { BARCODE_AUSPOST, "1", 9, 0, 3, 103, "" },
+        /*  4*/ { BARCODE_AUSPOST, "1", 13, 0, 3, 103, "" },
+        /*  5*/ { BARCODE_AUSPOST, "1", 16, 0, 3, 103, "" },
+        /*  6*/ { BARCODE_AUSPOST, "1", 17, 0, 3, 133, "" },
+        /*  7*/ { BARCODE_AUSPOST, "1", 18, 0, 3, 133, "" },
+        /*  8*/ { BARCODE_AUSPOST, "1", 22, 0, 3, 133, "" },
+        /*  9*/ { BARCODE_AUSREPLY, "1", 8, 0, 3, 73, "" },
+        /* 10*/ { BARCODE_AUSREPLY, "1", 9, ZINT_ERROR_TOO_LONG, -1, -1, "Error 403: Input length 9 too long (maximum 8)" },
+        /* 11*/ { BARCODE_AUSROUTE, "1", 8, 0, 3, 73, "" },
+        /* 12*/ { BARCODE_AUSROUTE, "1", 9, ZINT_ERROR_TOO_LONG, -1, -1, "Error 403: Input length 9 too long (maximum 8)" },
+        /* 13*/ { BARCODE_AUSREDIRECT, "1", 8, 0, 3, 73, "" },
+        /* 14*/ { BARCODE_AUSREDIRECT, "1", 9, ZINT_ERROR_TOO_LONG, -1, -1, "Error 403: Input length 9 too long (maximum 8)" },
+    };
+    const int data_size = ARRAY_SIZE(data);
+    int i, length, ret;
+    struct zint_symbol *symbol = NULL;
+
+    char data_buf[64];
+
+    testStartSymbol(p_ctx->func_name, &symbol);
+
+    for (i = 0; i < data_size; i++) {
+
+        if (testContinue(p_ctx, i)) continue;
+
+        symbol = ZBarcode_Create();
+        assert_nonnull(symbol, "Symbol not created\n");
+
+        testUtilStrCpyRepeat(data_buf, data[i].pattern, data[i].length);
+        assert_equal(data[i].length, (int) strlen(data_buf), "i:%d length %d != strlen(data_buf) %d\n",
+                    i, data[i].length, (int) strlen(data_buf));
+
+        length = testUtilSetSymbol(symbol, data[i].symbology, -1 /*input_mode*/, -1 /*eci*/,
+                                    -1 /*option_1*/, -1, -1, -1 /*output_options*/,
+                                    data_buf, data[i].length, debug);
+
+        ret = ZBarcode_Encode(symbol, TCU(data_buf), length);
+        assert_equal(ret, data[i].ret, "i:%d ZBarcode_Encode ret %d != %d (%s)\n",
+                    i, ret, data[i].ret, symbol->errtxt);
+
+        if (ret < ZINT_ERROR) {
+            assert_equal(symbol->rows, data[i].expected_rows, "i:%d symbol->rows %d != %d\n",
+                        i, symbol->rows, data[i].expected_rows);
+            assert_equal(symbol->width, data[i].expected_width, "i:%d symbol->width %d != %d\n",
+                        i, symbol->width, data[i].expected_width);
+        }
+        assert_zero(strcmp(symbol->errtxt, data[i].expected_errtxt), "i:%d strcmp(%s, %s) != 0\n",
+                    i, symbol->errtxt, data[i].expected_errtxt);
+
+        ZBarcode_Delete(symbol);
+    }
+
+    testFinish();
+}
+
+static void test_hrt(const testCtx *const p_ctx) {
+    int debug = p_ctx->debug;
+
+    struct item {
+        int symbology;
+        int output_options;
+        const char *data;
+
+        const char *expected;
+        const char *expected_content;
+    };
+    /* s/\/\*[ 0-9]*\*\//\=printf("\/\*%3d*\/", line(".") - line("'<")): */
+    static const struct item data[] = {
+        /*  0*/ { BARCODE_AUSPOST, -1, "12345678", "", "" },
+        /*  1*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "12345678", "", "1112345678" },
+        /*  2*/ { BARCODE_AUSPOST, -1, "1", "", "" },
+        /*  3*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "1", "", "1100000001" },
+        /*  4*/ { BARCODE_AUSPOST, -1, "12", "", "" },
+        /*  5*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "12", "", "1100000012" },
+        /*  6*/ { BARCODE_AUSPOST, -1, "1234567", "", "" },
+        /*  7*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "1234567", "", "1101234567" },
+        /*  8*/ { BARCODE_AUSPOST, -1, "0", "", "" },
+        /*  9*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "0", "", "0000000000" },
+        /* 10*/ { BARCODE_AUSPOST, -1, "123456789", "", "" },
+        /* 11*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "123456789", "", "59123456789" },
+        /* 12*/ { BARCODE_AUSPOST, -1, "1234567890123", "", "" },
+        /* 13*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "1234567890123", "", "591234567890123" },
+        /* 14*/ { BARCODE_AUSPOST, -1, "12345678D0123", "", "" },
+        /* 15*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "12345678D0123", "", "5912345678D0123" },
+        /* 16*/ { BARCODE_AUSPOST, -1, "00000000D0123", "", "" },
+        /* 17*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "00000000D0123", "", "0000000000D0123" },
+        /* 18*/ { BARCODE_AUSPOST, -1, "1234567890123456", "", "" },
+        /* 19*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "1234567890123456", "", "591234567890123456" },
+        /* 20*/ { BARCODE_AUSPOST, -1, "0000000090123456", "", "" },
+        /* 21*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "0000000090123456", "", "000000000090123456" },
+        /* 22*/ { BARCODE_AUSPOST, -1, "123456789012345678", "", "" },
+        /* 23*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "123456789012345678", "", "62123456789012345678" },
+        /* 24*/ { BARCODE_AUSPOST, -1, "12345678901234567D", "", "" },
+        /* 25*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "12345678901234567D", "", "6212345678901234567D" },
+        /* 26*/ { BARCODE_AUSPOST, -1, "12345678901234567890123", "", "" },
+        /* 27*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "12345678901234567890123", "", "6212345678901234567890123" },
+        /* 28*/ { BARCODE_AUSPOST, -1, "00000000901234567890123", "", "" },
+        /* 29*/ { BARCODE_AUSPOST, BARCODE_CONTENT_SEGS, "00000000901234567890123", "", "0000000000901234567890123" },
+        /* 30*/ { BARCODE_AUSREPLY, -1, "1234567", "", "" },
+        /* 31*/ { BARCODE_AUSREPLY, BARCODE_CONTENT_SEGS, "1234567", "", "4501234567" },
+        /* 32*/ { BARCODE_AUSREPLY, -1, "12345678", "", "" },
+        /* 33*/ { BARCODE_AUSREPLY, BARCODE_CONTENT_SEGS, "12345678", "", "4512345678" },
+        /* 34*/ { BARCODE_AUSREPLY, -1, "00000", "", "" },
+        /* 35*/ { BARCODE_AUSREPLY, BARCODE_CONTENT_SEGS, "00000", "", "4500000000" },
+        /* 36*/ { BARCODE_AUSROUTE, -1, "123456", "", "" },
+        /* 37*/ { BARCODE_AUSROUTE, BARCODE_CONTENT_SEGS, "123456", "", "8700123456" },
+        /* 38*/ { BARCODE_AUSROUTE, -1, "12345678", "", "" },
+        /* 39*/ { BARCODE_AUSROUTE, BARCODE_CONTENT_SEGS, "12345678", "", "8712345678" },
+        /* 40*/ { BARCODE_AUSROUTE, -1, "12345", "", "" },
+        /* 41*/ { BARCODE_AUSROUTE, BARCODE_CONTENT_SEGS, "12345", "", "8700012345" },
+        /* 42*/ { BARCODE_AUSREDIRECT, -1, "12345678", "", "" },
+        /* 43*/ { BARCODE_AUSREDIRECT, BARCODE_CONTENT_SEGS, "12345678", "", "9212345678" },
+        /* 44*/ { BARCODE_AUSREDIRECT, -1, "1234", "", "" },
+        /* 45*/ { BARCODE_AUSREDIRECT, BARCODE_CONTENT_SEGS, "1234", "", "9200001234" },
+        /* 46*/ { BARCODE_AUSREDIRECT, -1, "0", "", "" },
+        /* 47*/ { BARCODE_AUSREDIRECT, BARCODE_CONTENT_SEGS, "0", "", "9200000000" },
+    };
+    const int data_size = ARRAY_SIZE(data);
+    int i, length, ret;
+    struct zint_symbol *symbol = NULL;
+    int expected_length, expected_content_length;
+
+    testStartSymbol(p_ctx->func_name, &symbol);
+
+    for (i = 0; i < data_size; i++) {
+
+        if (testContinue(p_ctx, i)) continue;
+
+        symbol = ZBarcode_Create();
+        assert_nonnull(symbol, "Symbol not created\n");
+
+        length = testUtilSetSymbol(symbol, data[i].symbology, -1 /*input_mode*/, -1 /*eci*/,
+                                    -1 /*option_1*/, -1 /*option_2*/, -1 /*option_3*/, data[i].output_options,
+                                    data[i].data, -1, debug);
+        expected_length = (int) strlen(data[i].expected);
+        expected_content_length = (int) strlen(data[i].expected_content);
+
+        ret = ZBarcode_Encode(symbol, TCU(data[i].data), length);
+        assert_zero(ret, "i:%d ZBarcode_Encode ret %d != 0 %s\n", i, ret, symbol->errtxt);
+
+        assert_equal(symbol->text_length, expected_length, "i:%d text_length %d != expected_length %d\n",
+                    i, symbol->text_length, expected_length);
+        assert_zero(strcmp((char *) symbol->text, data[i].expected), "i:%d strcmp(%s, %s) != 0\n",
+                    i, symbol->text, data[i].expected);
+        if (symbol->output_options & BARCODE_CONTENT_SEGS) {
+            assert_nonnull(symbol->content_segs, "i:%d content_segs NULL\n", i);
+            assert_nonnull(symbol->content_segs[0].source, "i:%d content_segs[0].source NULL\n", i);
+            assert_equal(symbol->content_segs[0].length, expected_content_length,
+                        "i:%d content_segs[0].length %d != expected_content_length %d\n",
+                        i, symbol->content_segs[0].length, expected_content_length);
+            assert_zero(memcmp(symbol->content_segs[0].source, data[i].expected_content, expected_content_length),
+                        "i:%d memcmp(%.*s, %s, %d) != 0\n",
+                        i, symbol->content_segs[0].length, symbol->content_segs[0].source, data[i].expected_content,
+                        expected_content_length);
+        } else {
+            assert_null(symbol->content_segs, "i:%d content_segs not NULL\n", i);
+        }
+
+        ZBarcode_Delete(symbol);
+    }
+
+    testFinish();
+}
+
+static void test_input(const testCtx *const p_ctx) {
+    int debug = p_ctx->debug;
+
+    struct item {
+        int symbology;
+        const char *data;
+        int ret;
+        int expected_rows;
+        int expected_width;
+        const char *expected_errtxt;
+    };
+    /* s/\/\*[ 0-9]*\*\//\=printf("\/\*%3d*\/", line(".") - line("'<")): */
+    static const struct item data[] = {
+        /*  0*/ { BARCODE_AUSPOST, "1", 0, 3, 73, "" }, /* Leading zeroes added */
+        /*  1*/ { BARCODE_AUSPOST, "1234567", 0, 3, 73, "" },
+        /*  2*/ { BARCODE_AUSPOST, "12345678", 0, 3, 73, "" },
+        /*  3*/ { BARCODE_AUSPOST, "1234567A", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 405: Invalid character at position 8 in DPID (digits only for Standard Customer Barcode)" },
+        /*  4*/ { BARCODE_AUSPOST, "123456789", 0, 3, 103, "" },
+        /*  5*/ { BARCODE_AUSPOST, "1234567A9", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 402: Invalid character at position 8 in DPID (digits only)" },
+        /*  6*/ { BARCODE_AUSPOST, "12345678A", 0, 3, 103, "" },
+        /*  7*/ { BARCODE_AUSPOST, "12345678AB", 0, 3, 103, "" },
+        /*  8*/ { BARCODE_AUSPOST, "12345678ABc", 0, 3, 103, "" },
+        /*  9*/ { BARCODE_AUSPOST, "12345678ABcd", 0, 3, 103, "" },
+        /* 10*/ { BARCODE_AUSPOST, "12345678ABcd#", 0, 3, 103, "" },
+        /* 11*/ { BARCODE_AUSPOST, "12345678ABcd!", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 404: Invalid character at position 13 in input (alphanumerics, space and \"#\" only)" },
+        /* 12*/ { BARCODE_AUSPOST, "1234567890123456", 0, 3, 103, "" }, /* Barcode 2 all-digits */
+        /* 13*/ { BARCODE_AUSPOST, "12345678ABcd #", 0, 3, 133, "" }, /* Barcode 3 */
+        /* 14*/ { BARCODE_AUSPOST, "123456789012345A", 0, 3, 133, "" }, /* Barcode 3 */
+        /* 15*/ { BARCODE_AUSPOST, "12345678901234567", 0, 3, 133, "" },
+        /* 16*/ { BARCODE_AUSPOST, "12345678901234567890123", 0, 3, 133, "" },
+        /* 17*/ { BARCODE_AUSPOST, "1234567890123456789012A", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 407: Invalid character at position 23 in input (digits only for Customer Barcode 3 length 23)" },
+        /* 18*/ { BARCODE_AUSPOST, "123456789012345678A", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 407: Invalid character at position 19 in input (digits only for Customer Barcode 3 length 19)" },
+        /* 19*/ { BARCODE_AUSPOST, "12345678A0123456789012", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 407: Invalid character at position 9 in input (digits only for Customer Barcode 3 length 22)" },
+        /* 20*/ { BARCODE_AUSREPLY, "12345678", 0, 3, 73, "" },
+        /* 21*/ { BARCODE_AUSREPLY, "1234567", 0, 3, 73, "" }, /* Leading zeroes added */
+        /* 22*/ { BARCODE_AUSREPLY, "123456789", ZINT_ERROR_TOO_LONG, -1, -1, "Error 403: Input length 9 too long (maximum 8)" },
+        /* 23*/ { BARCODE_AUSREPLY, "12345A", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 406: Invalid character at position 6 in DPID (digits only)" },
+        /* 24*/ { BARCODE_AUSROUTE, "123456", 0, 3, 73, "" },
+        /* 25*/ { BARCODE_AUSROUTE, "12345", 0, 3, 73, "" },
+        /* 26*/ { BARCODE_AUSROUTE, "123456789", ZINT_ERROR_TOO_LONG, -1, -1, "Error 403: Input length 9 too long (maximum 8)" },
+        /* 27*/ { BARCODE_AUSROUTE, "1234567A", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 406: Invalid character at position 8 in DPID (digits only)" },
+        /* 28*/ { BARCODE_AUSREDIRECT, "1234", 0, 3, 73, "" },
+        /* 29*/ { BARCODE_AUSREDIRECT, "123", 0, 3, 73, "" },
+        /* 30*/ { BARCODE_AUSREDIRECT, "0", 0, 3, 73, "" },
+        /* 31*/ { BARCODE_AUSREDIRECT, "123456789", ZINT_ERROR_TOO_LONG, -1, -1, "Error 403: Input length 9 too long (maximum 8)" },
+        /* 32*/ { BARCODE_AUSREDIRECT, "A", ZINT_ERROR_INVALID_DATA, -1, -1, "Error 406: Invalid character at position 1 in DPID (digits only)" },
+    };
+    const int data_size = ARRAY_SIZE(data);
+    int i, length, ret;
+    struct zint_symbol *symbol = NULL;
+
+    char cmp_buf[8192];
+    char cmp_msg[1024];
+
+    int do_bwipp = (debug & ZINT_DEBUG_TEST_BWIPP) && testUtilHaveGhostscript(); /* Only do BWIPP test if asked, too slow otherwise */
+
+    testStartSymbol(p_ctx->func_name, &symbol);
+
+    for (i = 0; i < data_size; i++) {
+
+        if (testContinue(p_ctx, i)) continue;
+
+        symbol = ZBarcode_Create();
+        assert_nonnull(symbol, "Symbol not created\n");
+
+        length = testUtilSetSymbol(symbol, data[i].symbology, -1 /*input_mode*/, -1 /*eci*/,
+                                    -1 /*option_1*/, -1, -1, -1 /*output_options*/,
+                                    data[i].data, -1, debug);
+
+        ret = ZBarcode_Encode(symbol, TCU(data[i].data), length);
+        assert_equal(ret, data[i].ret, "i:%d ZBarcode_Encode ret %d != %d (%s)\n",
+                    i, ret, data[i].ret, symbol->errtxt);
+        assert_equal(symbol->errtxt[0] == '\0', ret == 0, "i:%d symbol->errtxt not %s (%s)\n",
+                    i, ret ? "set" : "empty", symbol->errtxt);
+        assert_zero(strcmp(symbol->errtxt, data[i].expected_errtxt), "i:%d strcmp(%s, %s) != 0\n",
+                    i, symbol->errtxt, data[i].expected_errtxt);
+
+        if (ret < ZINT_ERROR) {
+            assert_equal(symbol->rows, data[i].expected_rows, "i:%d symbol->rows %d != %d\n",
+                        i, symbol->rows, data[i].expected_rows);
+            assert_equal(symbol->width, data[i].expected_width, "i:%d symbol->width %d != %d\n",
+                        i, symbol->width, data[i].expected_width);
+
+            if (do_bwipp && testUtilCanBwipp(i, symbol, -1, -1, -1, debug)) {
+                char modules_dump[4096];
+                assert_notequal(testUtilModulesDump(symbol, modules_dump, sizeof(modules_dump)), -1,
+                                "i:%d testUtilModulesDump == -1\n", i);
+                ret = testUtilBwipp(i, symbol, -1, -1, -1, data[i].data, length, NULL, cmp_buf, sizeof(cmp_buf),
+                                    NULL);
+                assert_zero(ret, "i:%d %s testUtilBwipp ret %d != 0\n", i, testUtilBarcodeName(symbol->symbology),
+                            ret);
+
+                ret = testUtilBwippCmp(symbol, cmp_msg, cmp_buf, modules_dump);
+                assert_zero(ret, "i:%d %s testUtilBwippCmp %d != 0 %s\n  actual: %s\nexpected: %s\n",
+                               i, testUtilBarcodeName(symbol->symbology), ret, cmp_msg, cmp_buf, modules_dump);
+            }
+        }
+
+        ZBarcode_Delete(symbol);
+    }
+
+    testFinish();
+}
+
+/* Australia Post Customer Barcoding Technical Specifications (Revised 3 Aug 2012) "AusPost Tech Specs"
+   https://auspost.com.au/content/dam/auspost_corp/media/documents/customer-barcode-technical-specifications-aug2012.pdf
+   Australia Post A Guide To Printing the 4-State Barcode (Revised 16 March 2012) "AusPost Guide"
+   https://auspost.com.au/content/dam/auspost_corp/media/documents/a-guide-to-printing-the-4state-barcode-v31-mar2012.pdf
+*/
+static void test_encode(const testCtx *const p_ctx) {
+    int debug = p_ctx->debug;
+
+    struct item {
+        int symbology;
+        const char *data;
+        int ret;
+
+        int expected_rows;
+        int expected_width;
+        int bwipp_cmp;
+        const char *comment;
+        const char *expected;
+    };
+    /* s/\v(\/\*)[ 0-9]*(\*\/)/\=printf("%s%3d%s", submatch(1), (@z+setreg('z',@z+1)), submatch(2))/ | let @z=0: */
+    static const struct item data[] = {
+        /*  0*/ { BARCODE_AUSPOST, "96184209", 0, 3, 73, 1, "AusPost Tech Specs Diagram 1; verified manually against TEC-IT",
+                    "1000101010100010001010100000101010001010001000001010000010001000001000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000100010000010101010001010000010101010001000101010001000100010000010000"
+                },
+        /*  1*/ { BARCODE_AUSPOST, "39549554", 0, 3, 73, 1, "AusPost Guide Figure 3, same; verified manually against TEC-IT",
+                    "1000101010101010001010001010001010001000101000001000101010001010000000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000100010000010001000100000001000100010000000000010001000000000001010000"
+                },
+        /*  2*/ { BARCODE_AUSPOST, "56439111ABA 9", 0, 3, 103, 1, "AusPost Guide Figure 4, same; verified manually against TEC-IT",
+                    "1000100000101000001010101010001010101010101010101010101010101010100000000000001010100010101010000010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000001000100010101000000010001010001000100010101010100010101010100000101000000010001000101010000000000"
+                },
+        /*  3*/ { BARCODE_AUSPOST, "3221132412345678", 0, 3, 103, 1, "59 Custom 2 N encoding",
+                    "1000100000101010100010001010101010101000101010101000101010101000001000100000101000000000001000000000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000001000100010101010101000100000101010000010001010001000000010101010001010000010001010101000100000000"
+                },
+        /*  4*/ { BARCODE_AUSPOST, "32211324Ab #2", 0, 3, 103, 1, "59 Custom 2 C encoding",
+                    "1000100000101010100010001010101010101000101010101010001010100010100000101000100000000010100000100010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000001000100010101010101000100000101010000010101010001010100010000000100000001000101010000010000000000"
+                },
+        /*  5*/ { BARCODE_AUSPOST, "32211324123456789012345", 0, 3, 133, 1, "62 Custom 3 N encoding",
+                    "1000001010001010100010001010101010101000101010101000101010101000001000100000001010101010100010101010100000100000100010101010100010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010100010101010101000100000101010000010001010001000000010101010001010001010101000101000100000001000001010000010001010100010000"
+                },
+        /*  6*/ { BARCODE_AUSPOST, "32211324aBCd#F hIz", 0, 3, 133, 1, "62 Custom 3 C encoding",
+                    "1000001010001010100010001010101010101000101010000010101010100010000010100010100010100010000010000000000000100010100010101010000000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010100010101010101000100000101010000010100010100010101010001010000010001010100000100010101000000000101000001010100000000010000"
+                },
+        /*  7*/ { BARCODE_AUSPOST, "12345678DEGHJKLMNO", 0, 3, 133, 1, "62 Custom 3 C encoding GDSET 1st part",
+                    "1000001010001010100010101010100000100010000010101010101010001010001010101010101010100010101010101010100000001010000010000000000010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010101000101000100000001010101000101010001010000010101010100000101000100000101000001000000000001000001010000010001010001010000"
+                },
+        /*  8*/ { BARCODE_AUSPOST, "23456789PQRSTUVWXY", 0, 3, 133, 1, "62 Custom 3 C encoding GDSET 2nd part",
+                    "1000001010001000101010101000001000100000001010001010001010000000101000101000100000101000101000100000001000101000101010101000101010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010101010001000000010101010001010001000101000100000101010101010100010101010001010000010001010101000000010001000001010101000000"
+                },
+        /*  9*/ { BARCODE_AUSPOST, "34567890Zcefgijklm", 0, 3, 133, 1, "62 Custom 3 C encoding GDSET 3rd part",
+                    "1000001010001010101010000010001000000010101000001010001010000010100010100010001010001010000010000000100000101000100000001010001010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010100010000000101010100010100010101010100010000010000000100000000000001000000000001000000010100000101000000010101010100010000"
+                },
+        /* 10*/ { BARCODE_AUSPOST, "12345678lnopqrstuv", 0, 3, 133, 1, "62 Custom 3 C encoding GDSET 4th part",
+                    "1000001010001010100010101010100000100010000010000000100000000000001000001000000000000000100000100000000000001010001010101000000010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010101000101000100000001010101000101000000010000010100010001010000010001010000000100000000000100000100000001010001000100000000"
+                },
+        /* 11*/ { BARCODE_AUSPOST, "09876543wxy# ", 0, 3, 103, 1, "59 Custom 2 C encoding GDSET 5th part",
+                    "1000100000101010001000000010001010001010101000001000001000000010100010100000100010000000000010100010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000001000101010001010101000101000100000001000001000000000001010000010100000001010001000001000100000000"
+                },
+        /* 12*/ { BARCODE_AUSPOST, "00000000", 0, 3, 73, 0, "Null (DPID all-zeros) length 8; BWIPP: not supported yet",
+                    "1000101010101010101010101010101010101010101000001000001000001000101000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010101010101010101010101010101010101000101010100000001000001000000"
+                },
+        /* 13*/ { BARCODE_AUSPOST, "00000000ABC 9", 0, 3, 103, 0, "Null length 13; BWIPP: not supported yet",
+                    "1000101010101010101010101010101010101010101010101010101010100010100000000000100000001000101000000000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010101010101010101010101010101010101010101010100010101010100000101000101010001010001000000000000"
+                },
+        /* 14*/ { BARCODE_AUSPOST, "0000000012345678", 0, 3, 103, 0, "Null length 16; BWIPP: not supported yet",
+                    "1000101010101010101010101010101010101010101010101000101010101000001000100000001000101000001010100000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010101010101010101010101010101010101010001010001000000010101010001010001010101010101010101010000"
+                },
+        /* 15*/ { BARCODE_AUSPOST, "00000000aBCd#F hIz", 0, 3, 133, 0, "Null length 18; BWIPP: not supported yet",
+                    "1000101010101010101010101010101010101010101010000010101010100010000010100010100010100010000010000000000000001010100000000000000000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010101010101010101010101010101010101010100010100010101010001010000010001010100000100010101000000000001000001000000000000000000"
+                },
+        /* 16*/ { BARCODE_AUSPOST, "00000000123456789012345", 0, 3, 133, 0, "Null length 23; BWIPP: not supported yet",
+                    "1000101010101010101010101010101010101010101010101000101010101000001000100000001010101010100010101010100000001000100000000000100010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010101010101010101010101010101010101010001010001000000010101010001010001010101000101000100000001000101010000000101010100000000"
+                },
+        /* 17*/ { BARCODE_AUSREPLY, "12345678", 0, 3, 73, 1, "Verified manually against TEC-IT",
+                    "1000101010001010100010101010100000100010000000001000001000000000100010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000000000101000101000100000001010101000101000000000100010101000101000000"
+                },
+        /* 18*/ { BARCODE_AUSROUTE, "34567890", 0, 3, 73, 1, "Verified manually against TEC-IT",
+                    "1000000000101010101010000010001000000010101000100010101010000000101000100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000101010000010000000101010100010100010101000100010101010001010001000000"
+                },
+        /* 19*/ { BARCODE_AUSREDIRECT, "98765432", 0, 3, 73, 1, "Verified manually against TEC-IT",
+                    "1000001010000010000000100010100010101010100000101010101000100010100010100"
+                    "1010101010101010101010101010101010101010101010101010101010101010101010101"
+                    "0000001010100010101010001010001000000010101000000000001010101000001010000"
+                },
+    };
+    const int data_size = ARRAY_SIZE(data);
+    int i, length, ret;
+    struct zint_symbol *symbol = NULL;
+
+    char escaped[1024];
+    char bwipp_buf[8192];
+    char bwipp_msg[1024];
+
+    int do_bwipp = (debug & ZINT_DEBUG_TEST_BWIPP) && testUtilHaveGhostscript(); /* Only do BWIPP test if asked, too slow otherwise */
+
+    testStartSymbol(p_ctx->func_name, &symbol);
+
+    for (i = 0; i < data_size; i++) {
+
+        if (testContinue(p_ctx, i)) continue;
+
+        symbol = ZBarcode_Create();
+        assert_nonnull(symbol, "Symbol not created\n");
+
+        length = testUtilSetSymbol(symbol, data[i].symbology, -1 /*input_mode*/, -1 /*eci*/,
+                                    -1 /*option_1*/, -1, -1, -1 /*output_options*/,
+                                    data[i].data, -1, debug);
+
+        ret = ZBarcode_Encode(symbol, TCU(data[i].data), length);
+        assert_equal(ret, data[i].ret, "i:%d ZBarcode_Encode ret %d != %d (%s)\n",
+                    i, ret, data[i].ret, symbol->errtxt);
+
+        if (p_ctx->generate) {
+            printf("        /*%3d*/ { %s, \"%s\", %s, %d, %d, %d, \"%s\",\n",
+                    i, testUtilBarcodeName(data[i].symbology),
+                    testUtilEscape(data[i].data, length, escaped, sizeof(escaped)),
+                    testUtilErrorName(data[i].ret), symbol->rows, symbol->width, data[i].bwipp_cmp, data[i].comment);
+            testUtilModulesPrint(symbol, "                    ", "\n");
+            printf("                },\n");
+        } else {
+            if (ret < ZINT_ERROR) {
+                int width, row;
+
+                assert_equal(symbol->rows, data[i].expected_rows, "i:%d symbol->rows %d != %d (%s)\n",
+                            i, symbol->rows, data[i].expected_rows, data[i].data);
+                assert_equal(symbol->width, data[i].expected_width, "i:%d symbol->width %d != %d (%s)\n",
+                            i, symbol->width, data[i].expected_width, data[i].data);
+
+                ret = testUtilModulesCmp(symbol, data[i].expected, &width, &row);
+                assert_zero(ret, "i:%d testUtilModulesCmp ret %d != 0 width %d row %d (%s)\n",
+                            i, ret, width, row, data[i].data);
+
+                if (do_bwipp && testUtilCanBwipp(i, symbol, -1, -1, -1, debug)) {
+                    if (!data[i].bwipp_cmp) {
+                        if (debug & ZINT_DEBUG_TEST_PRINT) {
+                            printf("i:%d %s not BWIPP compatible (%s)\n",
+                                    i, testUtilBarcodeName(symbol->symbology), data[i].comment);
+                        }
+                    } else {
+                        ret = testUtilBwipp(i, symbol, -1, -1, -1, data[i].data, length, NULL, bwipp_buf,
+                                            sizeof(bwipp_buf), NULL);
+                        assert_zero(ret, "i:%d %s testUtilBwipp ret %d != 0\n",
+                                    i, testUtilBarcodeName(symbol->symbology), ret);
+
+                        ret = testUtilBwippCmp(symbol, bwipp_msg, bwipp_buf, data[i].expected);
+                        assert_zero(ret, "i:%d %s testUtilBwippCmp %d != 0 %s\n  actual: %s\nexpected: %s\n",
+                                       i, testUtilBarcodeName(symbol->symbology), ret, bwipp_msg, bwipp_buf,
+                                       data[i].expected);
+                    }
+                }
+            }
+        }
+
+        ZBarcode_Delete(symbol);
+    }
+
+    testFinish();
+}
+
+/* #181 Christian Hartlage OSS-Fuzz */
+static void test_fuzz(const testCtx *const p_ctx) {
+    int debug = p_ctx->debug;
+
+    struct item {
+        int symbology;
+        const char *data;
+        int length;
+        int ret;
+    };
+    /* s/\/\*[ 0-9]*\*\//\=printf("\/\*%3d*\/", line(".") - line("'<")): */
+    static const struct item data[] = {
+        /* 0*/ { BARCODE_AUSROUTE, "A\000\000\000", 4, ZINT_ERROR_INVALID_DATA },
+        /* 1*/ { BARCODE_AUSROUTE, "1\000\000\000", 4, ZINT_ERROR_INVALID_DATA },
+        /* 2*/ { BARCODE_AUSREPLY, "A\000\000\000", 4, ZINT_ERROR_INVALID_DATA },
+        /* 3*/ { BARCODE_AUSREPLY, "1\000\000\000", 4, ZINT_ERROR_INVALID_DATA },
+        /* 4*/ { BARCODE_AUSREDIRECT, "A\000\000\000", 4, ZINT_ERROR_INVALID_DATA },
+        /* 5*/ { BARCODE_AUSREDIRECT, "1\000\000\000", 4, ZINT_ERROR_INVALID_DATA },
+    };
+    const int data_size = ARRAY_SIZE(data);
+    int i, length, ret;
+    struct zint_symbol *symbol = NULL;
+
+    testStartSymbol(p_ctx->func_name, &symbol);
+
+    for (i = 0; i < data_size; i++) {
+
+        if (testContinue(p_ctx, i)) continue;
+
+        symbol = ZBarcode_Create();
+        assert_nonnull(symbol, "Symbol not created\n");
+
+        length = testUtilSetSymbol(symbol, data[i].symbology, -1 /*input_mode*/, -1 /*eci*/,
+                                    -1 /*option_1*/, -1, -1, -1 /*output_options*/,
+                                    data[i].data, data[i].length, debug);
+
+        ret = ZBarcode_Encode(symbol, TCU(data[i].data), length);
+        assert_equal(ret, data[i].ret, "i:%d ZBarcode_Encode ret %d != %d (%s)\n", i, ret, data[i].ret, symbol->errtxt);
+
+        ZBarcode_Delete(symbol);
+    }
+
+    testFinish();
+}
+
+int main(int argc, char *argv[]) {
+
+    testFunction funcs[] = { /* name, func */
+        { "test_large", test_large },
+        { "test_hrt", test_hrt },
+        { "test_input", test_input },
+        { "test_encode", test_encode },
+        { "test_fuzz", test_fuzz },
+    };
+
+    testRun(argc, argv, funcs, ARRAY_SIZE(funcs));
+
+    testReport();
+
+    return 0;
+}
+
+/* vim: set ts=4 sw=4 et : */

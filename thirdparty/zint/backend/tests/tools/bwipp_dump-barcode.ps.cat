@@ -1,0 +1,264 @@
+%!PS
+
+% libzint - the open source barcode library
+% Copyright (C) 2022-2026 Robin Stuart <rstuart114@gmail.com>
+% SPDX-License-Identifier: BSD-3-Clause
+
+% Append to BWIPP barcode.ps: cat <bwipp-dir>/build/monolithic/barcode.ps bwipp_dump-barcode.ps.cat > bwipp_dump.ps
+%
+% To compress: tar cv bwipp_dump.ps | xz -e9 > bwipp_dump.ps.tar.xz
+
+% Dumps BWIPP barcode binary to stdout. If `-sn` given, appends a newline after each symbol row, otherwise doesn't.
+%
+% To run e.g. gs -dNOPAUSE -dBATCH -dNODISPLAY -q -sb=databarexpanded -sd='(01)98898765432106' -so='includetext segments=6' bwipp_dump.ps
+% where
+% `-sb=` is the BWIPP barcode routine name
+% `-sd=` is the data (`sd2=`, `sd3=`, `sd4=` are also available for overspill data > ~2K to get around Ghostscript's arg_str_max)
+% `-so=` are options (as space separated key=val pairs (or just key if boolean true))
+
+% For debugging the barcode can be rendered by leaving out `-dBATCH -dNODISPLAY`. Scaling can be specified by `-ss=` (default 2).
+
+% Command line "-s" options put into system dictionary as strings
+/n systemdict /n known def
+
+% Append d2 to d if given
+systemdict /d2 known {
+    /d d length d2 length add string dup dup 0 d putinterval d length d2 putinterval def
+    % Append d3 to d if given
+    systemdict /d3 known {
+        /d d length d3 length add string dup dup 0 d putinterval d length d3 putinterval def
+        % Append d4 to d if given
+        systemdict /d4 known {
+            /d d length d4 length add string dup dup 0 d putinterval d length d4 putinterval def
+        } if
+    } if
+} if
+
+% Strip start/end parens from data if any
+d 0 1 getinterval (\() eq d d length 1 sub 1 getinterval (\)) eq and {
+    /d d 1 d length 2 sub getinterval d length 2 sub string copy def
+} if
+
+% Options
+systemdict /o known {
+    o type /stringtype eq o length 0 gt and {
+        o length 2 ge {
+            % Strip start/end parens from options if any
+            o 0 1 getinterval (\() eq o o length 1 sub 1 getinterval (\)) eq and {
+                /o o 1 o length 2 sub getinterval o length 2 sub string copy def
+            } if
+        } if
+        3 dict begin
+        o {
+            token not {exit} if
+            dup length string cvs (=) search {
+                cvlit exch pop exch def
+            } {
+                cvlit true def
+            } ifelse
+        } loop
+        currentdict end /o exch def
+    } {
+        /o 1 dict def
+    } ifelse
+} {
+    /o 1 dict def
+} ifelse
+
+/uk.co.terryburton.bwipp.global_ctx << /enabledontdraw true >> def
+o (dontdraw) true put
+
+/ret d o b cvn /uk.co.terryburton.bwipp findresource exec def
+
+% pixs is renmatrix input
+ret /pixs known {
+    b (maxicode) eq {
+        /pixs 990 array def
+        0 1 989 { pixs exch 0 put } for
+        ret /pixs get { pixs exch 1 put } forall
+    } {
+        /pixs ret /pixs get def
+    } ifelse
+
+    /pixx ret /pixx known { ret /pixx get } { 0 } ifelse def
+
+    b (codablockf) eq b (hibccodablockf) eq or b (code16k) eq or b (code49) eq or {
+        % Strip separators and boundary bars
+        /testi b (code16k) eq { 16 } { b (code49) eq { 11 } { 21 } ifelse } ifelse def
+        /tmppixs pixs length array def
+        /j 0 def
+        0 pixx pixs length 1 sub {
+            /i exch def
+            pixs i testi add get 1 ne {
+                tmppixs j pixs i pixx getinterval putinterval
+                /j j pixx add def
+            } if
+        } for
+        /pixs j array def
+        pixs 0 tmppixs 0 j getinterval putinterval
+    } if
+
+    b (ean13composite) eq b (ean8composite) eq or b (upcacomposite) eq or b (upcecomposite) eq or {
+        d (|) search {
+            /linear exch def
+            pop pop
+            linear ( ) search {  % Have add-on?
+                pop pop pop
+                % Remove last row from pixs array which just contains add-on overhang
+                /pixs [ pixs 0 pixs length pixx sub getinterval aload pop ] def
+            } { pop } ifelse
+        } { pop } ifelse
+    } if
+
+    /xs systemdict /xs known { systemdict /xs get cvi } { 0 } ifelse def
+    /xe systemdict /xe known { systemdict /xe get cvi } { 0 } ifelse def
+
+    n xs 0 ne or xe 0 ne or pixx 0 ne and {  % If newlines or start/end indexes requested and have row width
+        /pixx ret /pixx get def
+        xs pixx pixs length 1 sub xe sub {  % For i = xs; i < pixs length - xe; i += pixx
+            pixs exch pixx xs sub xe sub getinterval {  % For j = i; j < i + pixx - xs -xe; j++
+                1 string cvs print
+            } forall
+            n { (\n) print } if
+        } for
+    } {  % Else dump the whole thing, no newlines
+        pixs { 1 string cvs print } forall
+    } ifelse
+} {
+    % sbs is renlinear input
+    ret /sbs known {
+        /sbs ret /sbs get def
+
+        % Check if given preprocessor override
+        systemdict /p known {
+            /p systemdict /p get cvx def
+        } {
+            /p { false } def
+        } ifelse
+
+        % Check if given ratio arg to adjust width of bars/spaces (e.g. "0.6" reduces 3 -> 2, "1.3" increases 2 -> 3)
+        systemdict /r known {
+            /r systemdict /r get cvr def
+            systemdict /c known {  % Apply ceiling ratio beforehand
+                /c systemdict /c get cvr def
+                /f { c mul ceiling cvi r mul round cvi } def
+            } {
+                /f { r mul round cvi } def
+            } ifelse
+        } {
+            /f {} def
+        } ifelse
+
+        % If should end sbs loop on bar (i.e. ignore last index of even-length sbs)
+        /limit systemdict /elb known {
+            sbs length 1 add 2 idiv 2 mul 2 sub
+        } {
+            sbs length 1 sub
+        } ifelse def
+
+        /nosbs false def
+
+        % Check for pharmacode2
+        b (pharmacode2) eq {
+            /nosbs true def
+            /bhs ret /bhs get def
+            /bbs ret /bbs get def
+            0 1 bbs length 1 sub {
+                /i exch def
+                i 0 ne { (0) print } if
+                bbs i get 0.1 lt {
+                    bhs i get 0.3 gt { (1) print } { (0) print } ifelse
+                } {
+                    bhs i get 0.1 gt { (1) print } { (0) print } ifelse
+                } ifelse
+            } for
+            n { (\n) print } if
+            0 1 bbs length 1 sub {
+                /i exch def
+                i 0 ne { (0) print } if
+                bbs i get 0.1 lt {
+                    bhs i get 0.1 gt { (1) print } { (0) print } ifelse
+                } {
+                    bhs i get 0.3 gt { (1) print } { (0) print } ifelse
+                } ifelse
+            } for
+            n { (\n) print } if
+        } if
+
+        % Check for 2-track postal
+        b (postnet) eq b (planet) eq or {
+            /nosbs true def
+            /bhs ret /bhs get def
+            0 1 bhs length 1 sub {
+                /i exch def
+                i 0 ne { (0) print } if
+                bhs i get 0.1 gt { (1) print } { (0) print } ifelse
+            } for
+            n { (\n) print } if
+            0 1 bhs length 1 sub {
+                /i exch def
+                i 0 ne { (0) print } if
+                bhs i get 0.01 lt { (0) print } { (1) print } ifelse
+            } for
+            n { (\n) print } if
+        } if
+
+        % Check for 4-track postal
+        b (auspost) eq b (kix) eq or b (royalmail) eq or b (onecode) eq or b (japanpost) eq or b (daft) eq or {
+            /nosbs true def
+            /bhs ret /bhs get def
+            /bbs ret /bbs get def
+            0 1 bbs length 1 sub {
+                /i exch def
+                i 0 ne { (0) print } if
+                bbs i get 0.05 lt {
+                    bhs i get 0.14 gt { (1) print } { (0) print } ifelse
+                } {
+                    bhs i get 0.09 gt { (1) print } { (0) print } ifelse
+                } ifelse
+            } for
+            n { (\n) print } if
+            0 1 bbs length 1 sub {
+                /i exch def
+                i 0 ne { (0) print } if
+                (1) print
+            } for
+            n { (\n) print } if
+            0 1 bbs length 1 sub {
+                /i exch def
+                i 0 ne { (0) print } if
+                bbs i get 0.05 lt {
+                    bhs i get 0.09 gt { (1) print } { (0) print } ifelse
+                } {
+                    (0) print
+                } ifelse
+            } for
+            n { (\n) print } if
+        } if
+
+        % Process sbs
+        nosbs not {
+            0 1 limit {
+                /i exch def
+                p not {  % If not preprocessed
+                    i 2 mod 0 eq {           % i is even
+                        sbs i get f cvi { (1) print } repeat
+                    } {
+                        sbs i get f cvi { (0) print } repeat
+                    } ifelse
+                } if
+            } for
+            n { (\n) print } if
+        } if
+    } if
+} ifelse
+
+% If have renderer
+ret /ren known {
+    % Scale
+    /s systemdict /s known { systemdict /s get cvi } { 2 } ifelse def
+    % If not -dNODISPLAY then render for debugging
+    currentpagedevice /Name get (nullpage) ne { s s scale 10 10 moveto ret ret /ren get exec } if
+} if
+
+% vim: set ts=4 sw=4 et :

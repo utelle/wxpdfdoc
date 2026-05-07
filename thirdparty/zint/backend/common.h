@@ -1,7 +1,7 @@
 /* common.h - Header for all common functions in common.c */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2009-2025 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2009-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -133,36 +133,49 @@ typedef unsigned __int64 uint64_t;
 #  define roundf(arg) floorf((arg) + 0.5f)
 #endif
 
+/* Whether `vsnprintf()` available */
+#if (defined(_MSC_VER) && _MSC_VER < 1900) || defined(ZINT_IS_C89) /* Pre-MSVC 2015 (C++ 14.0) or C89 */
+#define Z_NO_VSNPRINTF
+#endif
+
 /* Is float integral value? (https://stackoverflow.com/a/40404149) */
-#define isfintf(arg) (fmodf(arg, 1.0f) == 0.0f)
+#define z_isfintf(arg) (fmodf(arg, 1.0f) == 0.0f)
 
 /* Simple versions of <ctype.h> functions with no dependence on locale */
-#define z_isdigit(c) ((c) <= '9' && (c) >= '0')
-#define z_isupper(c) ((c) >= 'A' && (c) <= 'Z')
-#define z_islower(c) ((c) >= 'a' && (c) <= 'z')
+#define z_isdigit(ch) ((ch) <= '9' && (ch) >= '0')
+#define z_isupper(ch) ((ch) >= 'A' && (ch) <= 'Z')
+#define z_islower(ch) ((ch) >= 'a' && (ch) <= 'z')
+#define z_isalpha(ch) (z_isupper(ch) || z_islower(ch))
+#define z_isascii(ch) (!((ch) & ~0x7F))
+#define z_iscntrl(ch) (!((ch) & ~0x1F) || (ch) == 127)
 
-/* Helpers to cast away char pointer signedness */
-#define ustrlen(source) strlen((const char *) (source))
-#define ustrcpy(target, source) strcpy((char *) (target), (const char *) (source))
-#define ustrcat(target, source) strcat((char *) (target), (const char *) (source))
-#define ustrncat(target, source, count) strncat((char *) (target), (const char *) (source), (count))
+/* Shorthands to cast away char pointer signedness */
+#define ZUCP(p)     ((unsigned char *) (p))
+#define ZCUCP(p)    ((const unsigned char *) (p))
+#define ZCCP(p)     ((const char *) (p))
+#define z_ustrlen(p) strlen(ZCCP(p))
 
 /* Converts an integer value to its value + '0' (so >= 10 becomes ':', ';' etc) */
-#define itoc(i) ((i) + '0')
+#define z_itoc(i) ((i) + '0')
+/* Converts an integer value to its hexadecimal digit */
+#define z_xtoc(i) ((i) < 10 ? z_itoc(i) : ((i) - 10) + 'A')
 
 /* Converts a character 0-9, A-F to its equivalent integer value */
-INTERNAL int ctoi(const char source);
+INTERNAL int z_ctoi(const char ch);
 
 /* Converts decimal string of length <= 9 to integer value. Returns -1 if not numeric */
-INTERNAL int to_int(const unsigned char source[], const int length);
+INTERNAL int z_to_int(const unsigned char source[], const int length);
 
 /* Converts lower case characters to upper case in string `source` */
-INTERNAL void to_upper(unsigned char source[], const int length);
+INTERNAL void z_to_upper(unsigned char source[], const int length);
 
-/* Returns the number of times a character occurs in `source` */
-INTERNAL int chr_cnt(const unsigned char source[], const int length, const unsigned char c);
+/* Returns the number of times a character `ch` occurs in `source` */
+INTERNAL int z_chr_cnt(const unsigned char source[], const int length, const unsigned char ch);
 
-/* `is_chr()` & `not_sane()` flags */
+/* Zero-fill `dest` buffer, appending `source'. Returns no. of zeroes added */
+INTERNAL int z_zero_fill(const unsigned char source[], const int length, unsigned char *dest, const int dest_length);
+
+/* `z_is_chr()` & `z_not_sane()` flags */
 #define IS_SPC_F    0x0001 /* Space */
 #define IS_HSH_F    0x0002 /* Hash sign # */
 #define IS_AST_F    0x0004 /* Asterisk sign * */
@@ -186,67 +199,66 @@ INTERNAL int chr_cnt(const unsigned char source[], const int length, const unsig
 /* The most commonly used set */
 #define NEON_F      IS_NUM_F /* NEON "0123456789" */
 
-/* Whether a character matches `flg` */
-INTERNAL int is_chr(const unsigned int flg, const unsigned int c);
+/* Whether a character `ch` matches `flag` */
+INTERNAL int z_is_chr(const unsigned int flag, const unsigned int ch);
 
 /* Verifies if a string only uses valid characters, returning 1-based position in `source` if not, 0 for success */
-INTERNAL int not_sane(const unsigned int flg, const unsigned char source[], const int length);
+INTERNAL int z_not_sane(const unsigned int flag, const unsigned char source[], const int length);
 
 /* Verifies if a string only uses valid characters as above, but also returns `test_string` position of each in
    `posns` array */
-INTERNAL int not_sane_lookup(const char test_string[], const int test_length, const unsigned char source[],
+INTERNAL int z_not_sane_lookup(const char test_string[], const int test_length, const unsigned char source[],
                 const int length, int *posns);
 
 /* Returns the position of `data` in `set_string`, or -1 if not found */
-INTERNAL int posn(const char set_string[], const char data);
+INTERNAL int z_posn(const char set_string[], const char data);
 
 
 /* Converts `arg` to a string representing its binary equivalent of length `length` and places in `binary` at
   `bin_posn`. Returns `bin_posn` + `length` */
-INTERNAL int bin_append_posn(const int arg, const int length, char *binary, const int bin_posn);
-
+INTERNAL int z_bin_append_posn(const int arg, const int length, char *binary, const int bin_posn);
 
 #define Z_COMMON_INLINE   1
 
 #ifdef Z_COMMON_INLINE
 
-#  define module_is_set(s, y, x) (((s)->encoded_data[y][(x) >> 3] >> ((x) & 0x07)) & 1)
-#  define set_module(s, y, x) do { (s)->encoded_data[y][(x) >> 3] |= 1 << ((x) & 0x07); } while (0)
-#  define module_colour_is_set(s, y, x) ((s)->encoded_data[y][x])
-#  define set_module_colour(s, y, x, c) do { (s)->encoded_data[y][x] = (c); } while (0)
-#  define unset_module(s, y, x) do { (s)->encoded_data[y][(x) >> 3] &= ~(1 << ((x) & 0x07)); } while (0)
+#  define z_module_is_set(s, y, x) (((s)->encoded_data[y][(x) >> 3] >> ((x) & 0x07)) & 1)
+#  define z_set_module(s, y, x) do { (s)->encoded_data[y][(x) >> 3] |= 1 << ((x) & 0x07); } while (0)
+#  define z_module_colour_is_set(s, y, x) ((s)->encoded_data[y][x])
+#  define z_set_module_colour(s, y, x, c) do { (s)->encoded_data[y][x] = (c); } while (0)
+#  define z_unset_module(s, y, x) do { (s)->encoded_data[y][(x) >> 3] &= ~(1 << ((x) & 0x07)); } while (0)
 
 #else /* Z_COMMON_INLINE */
 
 /* Returns true (1) if a module is dark/black, otherwise false (0) */
-INTERNAL int module_is_set(const struct zint_symbol *symbol, const int y_coord, const int x_coord);
+INTERNAL int z_module_is_set(const struct zint_symbol *symbol, const int y_coord, const int x_coord);
 
 /* Sets a module to dark/black */
-INTERNAL void set_module(struct zint_symbol *symbol, const int y_coord, const int x_coord);
+INTERNAL void z_set_module(struct zint_symbol *symbol, const int y_coord, const int x_coord);
 
 /* Returns true (1-8) if a module is colour, otherwise false (0) */
-INTERNAL int module_colour_is_set(const struct zint_symbol *symbol, const int y_coord, const int x_coord);
+INTERNAL int z_module_colour_is_set(const struct zint_symbol *symbol, const int y_coord, const int x_coord);
 
 /* Sets a module to a colour */
-INTERNAL void set_module_colour(struct zint_symbol *symbol, const int y_coord, const int x_coord,
+INTERNAL void z_set_module_colour(struct zint_symbol *symbol, const int y_coord, const int x_coord,
                 const int colour);
 
 /* Sets a dark/black module to white (i.e. unsets) */
-INTERNAL void unset_module(struct zint_symbol *symbol, const int y_coord, const int x_coord);
+INTERNAL void z_unset_module(struct zint_symbol *symbol, const int y_coord, const int x_coord);
 
 #endif /* Z_COMMON_INLINE */
 
 
 /* Expands from a width pattern to a bit pattern */
-INTERNAL void expand(struct zint_symbol *symbol, const char data[], const int length);
+INTERNAL void z_expand(struct zint_symbol *symbol, const char data[], const int length);
 
 
 /* Set `symbol->errtxt` to "err_id: msg", returning `error_number`. If `err_id` is -1, the "err_id: " prefix is
    omitted */
-INTERNAL int errtxt(const int error_number, struct zint_symbol *symbol, const int err_id, const char *msg);
+INTERNAL int z_errtxt(const int error_number, struct zint_symbol *symbol, const int err_id, const char *msg);
 
 #if defined(__GNUC__) && !defined(__clang__)
-#define ZEXT __extension__ /* Suppress gcc pedantic warnings including when using format "%<n>$" with `errtxtf()` */
+#define ZEXT __extension__ /* Suppress gcc pedantic warnings including when using format "%<n>$" with `z_errtxtf()` */
 #else
 #define ZEXT
 #endif
@@ -254,84 +266,161 @@ INTERNAL int errtxt(const int error_number, struct zint_symbol *symbol, const in
 /* Set `symbol->errtxt` to "err_id: msg" with restricted subset of `printf()` formatting, returning `error_number`.
    If `err_id` is -1, the "err_id: " prefix is omitted. Only the following specifiers are supported: "c", "d", "f",
    "g" and "s", with no modifiers apart from "<n>$" numbering for l10n ("<n>" 1-9), in which case all specifiers must
-   be numbered, "%s" with length precisions: "%.*s", "%<n+1>$.*<n>$s", "%.<p>s" and "%<n>$.<p>s", and "%d" with
-   zero-padded minimum field lengths: "%0<m>d" or %<n>$0<m>d" ("<m>" 1-99) */
-INTERNAL int errtxtf(const int error_number, struct zint_symbol *symbol, const int err_id, const char *fmt, ...)
+   be numbered, "%s" with length precisions: "%.*s", "%<n+1>$.*<n>$s", "%.<p>s" and "%<n>$.<p>s", "%d" with
+   zero-padded minimum field lengths: "%0<m>d" or %<n>$0<m>d" ("<m>" 1-99), and "%f"/"%g" with single-digit precision:
+   "%.<m>f" or "%<n>$.<m>f" */
+INTERNAL int z_errtxtf(const int error_number, struct zint_symbol *symbol, const int err_id, const char *fmt, ...)
     ZINT_FORMAT_PRINTF(4, 5);
 
-/* Helper to prepend/append to existing `symbol->errtxt` by calling `errtxtf(fmt)` with 2 arguments (copy of `errtxt`
-   & `msg`) if `msg` not NULL, or 1 argument (just copy of `errtxt`) if `msg` NULL, returning `error_number` */
-INTERNAL int errtxt_adj(const int error_number, struct zint_symbol *symbol, const char *fmt, const char *msg);
+/* Helper to prepend/append to existing `symbol->errtxt` by calling `z_errtxtf(fmt)` with 2 arguments (copy of
+  `errtxt` & `msg`) if `msg` not NULL, or 1 argument (just copy of `errtxt`) if `msg` NULL, returning `error_number`
+*/
+INTERNAL int z_errtxt_adj(const int error_number, struct zint_symbol *symbol, const char *fmt, const char *msg);
 
 
 /* Whether `symbology` can have row binding */
-INTERNAL int is_stackable(const int symbology);
+INTERNAL int z_is_bindable(const int symbology);
+
+/* Whether `symbology` is EAN */
+INTERNAL int z_is_ean(const int symbology);
 
 /* Whether `symbology` is EAN/UPC */
-INTERNAL int is_upcean(const int symbology);
+INTERNAL int z_is_upcean(const int symbology);
 
 /* Whether `symbology` can have composite 2D component data */
-INTERNAL int is_composite(const int symbology);
+INTERNAL int z_is_composite(const int symbology);
 
 /* Whether `symbology` is a matrix design renderable as dots */
-INTERNAL int is_dotty(const int symbology);
+INTERNAL int z_is_dotty(const int symbology);
 
 /* Whether `symbology` has a fixed aspect ratio (matrix design) */
-INTERNAL int is_fixed_ratio(const int symbology);
+INTERNAL int z_is_fixed_ratio(const int symbology);
 
 
 /* Whether next two characters are digits */
-INTERNAL int is_twodigits(const unsigned char source[], const int length, const int position);
+INTERNAL int z_is_twodigits(const unsigned char source[], const int length, const int position);
 
 /* Returns how many consecutive digits lie immediately ahead up to `max`, or all if `max` is -1 */
-INTERNAL int cnt_digits(const unsigned char source[], const int length, const int position, const int max);
+INTERNAL int z_cnt_digits(const unsigned char source[], const int length, const int position, const int max);
 
 
 /* State machine to decode UTF-8 to Unicode codepoints (state 0 means done, state 12 means error) */
-INTERNAL unsigned int decode_utf8(unsigned int *state, unsigned int *codep, const unsigned char byte);
+INTERNAL unsigned int z_decode_utf8(unsigned int *state, unsigned int *codep, const unsigned char byte);
 
 /* Is string valid UTF-8? */
-INTERNAL int is_valid_utf8(const unsigned char source[], const int length);
+INTERNAL int z_is_valid_utf8(const unsigned char source[], const int length);
 
 /* Converts UTF-8 to Unicode. If `disallow_4byte` unset, allows all values (UTF-32). If `disallow_4byte` set,
  * only allows codepoints <= U+FFFF (ie four-byte sequences not allowed) (UTF-16, no surrogates) */
-INTERNAL int utf8_to_unicode(struct zint_symbol *symbol, const unsigned char source[], unsigned int vals[],
+INTERNAL int z_utf8_to_unicode(struct zint_symbol *symbol, const unsigned char source[], unsigned int vals[],
                 int *length, const int disallow_4byte);
+
+
+/* Check if `source` starts with manual FNC1 in 1st or 2nd position, returning length of extra escape sequence if so,
+   else 0 */
+INTERNAL int z_extra_escape_position_fnc1(const unsigned char source[], const int length);
+
+/* Process `source` for extra escape sequences, placing result in `dest`, updating `p_length`, and setting `fncs` with
+   any found FNC1s. Sets `p_have_extra_escapes` if any sequences found. `eci` is checked to be ASCII-compatible (UTF-8
+   & single-byte ECIs, excl. Binary 899). On error sets `errtxt` & returns error no. */
+INTERNAL int z_extra_escapes(struct zint_symbol *symbol, const unsigned char source[], int *p_length, const int eci,
+                unsigned char *dest, char *fncs, int *p_have_extra_escapes);
+
 
 /* Treats source as ISO/IEC 8859-1 and copies into `symbol->text`, converting to UTF-8. Control chars (incl. DEL) and
    non-ISO/IEC 8859-1 (0x80-9F) are replaced with spaces. Returns warning if truncated, else 0 */
-INTERNAL int hrt_cpy_iso8859_1(struct zint_symbol *symbol, const unsigned char source[], const int length);
+INTERNAL int z_hrt_cpy_iso8859_1(struct zint_symbol *symbol, const unsigned char source[], const int length);
+
+/* No-check as-is copy of ASCII into `symbol->text`, assuming `length` fits */
+INTERNAL void z_hrt_cpy_nochk(struct zint_symbol *symbol, const unsigned char source[], const int length);
+
+/* No-check as-is copy of ASCII into `symbol->text`, appending `separator` (if ASCII - use `\xFF` for none) and then
+   `cat`, assuming total length fits */
+INTERNAL void z_hrt_cpy_cat_nochk(struct zint_symbol *symbol, const unsigned char source[], const int length,
+                const char separator, const unsigned char cat[], const int cat_length);
+
+/* Copy a single ASCII character `ch` into `symbol->text` (i.e. replaces content) */
+INTERNAL void z_hrt_cpy_chr(struct zint_symbol *symbol, const char ch);
+
+/* No-check as-is append of ASCII to `symbol->text`, assuming current `symbol->text_length` + `length` fits */
+INTERNAL void z_hrt_cat_nochk(struct zint_symbol *symbol, const unsigned char source[], const int length);
+
+/* No-check append of `ch` to `symbol->text`, assuming current `symbol->text_length` + 1 fits */
+INTERNAL void z_hrt_cat_chr_nochk(struct zint_symbol *symbol, const char ch);
+
+/* No-check `sprintf()` into `symbol->text`, assuming it fits */
+INTERNAL void z_hrt_printf_nochk(struct zint_symbol *symbol, const char *fmt, ...) ZINT_FORMAT_PRINTF(2, 3);
+
+/* No-check copy of `source` into `symbol->text`, converting GS1 square brackets into round ones. Assumes it fits */
+INTERNAL void z_hrt_conv_gs1_brackets_nochk(struct zint_symbol *symbol, const unsigned char source[],
+                const int length);
+
+
+/* Initialize `content_segs` for `seg_count` segments. On error sets `errtxt`, returning BARCODE_ERROR_MEMORY */
+INTERNAL int z_ct_init_segs(struct zint_symbol *symbol, const int seg_count);
+
+/* Free `content_segs` along with any `source` buffers */
+INTERNAL void z_ct_free_segs(struct zint_symbol *symbol);
+
+/* Copy `segs` to content segs. Seg source copied as-is. If seg length <= 0, content reg length set to `strlen()`.
+   If seg eci not set, content seg eci set to 3. On error sets `errxtxt`, returning BARCODE_ERROR_MEMORY */
+INTERNAL int z_ct_cpy_segs(struct zint_symbol *symbol, const struct zint_seg segs[], const int seg_count);
+
+/* Process content seg `seg_idx` buffer for manual FNC1 extra escape sequences (which must exist),
+   and update its ECI to `eci`, if set, to reflect (feedback) the actual ECI used */
+INTERNAL void z_ct_set_seg_extra_escapes_eci(struct zint_symbol *symbol, const int seg_idx, const int eci);
+
+/* Update the ECI of content seg `seg_idx` to `eci`, to reflect (feedback) the actual ECI used */
+INTERNAL void z_ct_set_seg_eci(struct zint_symbol *symbol, const int seg_idx, const int eci);
+
+/* Copy `source` to content seg 0 buffer, setting content seg ECI to 3. On error sets `errtxt`, returning
+   BARCODE_ERROR_MEMORY */
+INTERNAL int z_ct_cpy(struct zint_symbol *symbol, const unsigned char source[], const int length);
+
+/* Copy `source` to content seg 0 buffer, appending `separator` (if ASCII - use `\xFF` for none) and then `cat`, and
+   setting content seg ECI to 3.  On error sets `errtxt`, returning BARCODE_ERROR_MEMORY */
+INTERNAL int z_ct_cpy_cat(struct zint_symbol *symbol, const unsigned char source[], const int length,
+                const char separator, const unsigned char cat[], const int cat_length);
+
+/* Convert ISO/IEC 8859-1 (binary) `source` to UTF-8, and copy to content seg 0 buffer, setting content seg ECI to 3.
+   On error sets `errtxt`, returning BARCODE_ERROR_MEMORY */
+INTERNAL int z_ct_cpy_iso8859_1(struct zint_symbol *symbol, const unsigned char source[], const int length);
+
+/* `sprintf()` into content seg 0 buffer, assuming formatted data less than 256 bytes. Sets content seg ECI to 3.
+   On error sets `errtxt`, returning BARCODE_ERROR_MEMORY */
+INTERNAL int z_ct_printf_256(struct zint_symbol *symbol, const char *fmt, ...) ZINT_FORMAT_PRINTF(2, 3);
 
 
 /* Sets symbol height, returning a warning if not within minimum and/or maximum if given.
    `default_height` does not include height of fixed-height rows (i.e. separators/composite data) */
-INTERNAL int set_height(struct zint_symbol *symbol, const float min_row_height, const float default_height,
+INTERNAL int z_set_height(struct zint_symbol *symbol, const float min_row_height, const float default_height,
                 const float max_height, const int no_errtxt);
 
 
 /* Removes excess precision from floats - see https://stackoverflow.com/q/503436 */
-INTERNAL float stripf(const float arg);
+INTERNAL float z_stripf(const float arg);
 
 
 /* Returns total length of segments */
-INTERNAL int segs_length(const struct zint_seg segs[], const int seg_count);
+INTERNAL int z_segs_length(const struct zint_seg segs[], const int seg_count);
 
 /* Shallow copies segments, adjusting default ECIs */
-INTERNAL void segs_cpy(const struct zint_symbol *symbol, const struct zint_seg segs[], const int seg_count,
+INTERNAL void z_segs_cpy(const struct zint_symbol *symbol, const struct zint_seg segs[], const int seg_count,
                 struct zint_seg local_segs[]);
 
 
 /* Helper for ZINT_DEBUG_PRINT to put all but graphical ASCII in hex escapes. Output to `buf` if non-NULL, else
    stdout */
-INTERNAL char *debug_print_escape(const unsigned char *source, const int first_len, char *buf);
+INTERNAL char *z_debug_print_escape(const unsigned char *source, const int first_len, char *buf);
 
 #ifdef ZINT_TEST
 /* Dumps hex-formatted codewords in symbol->errtxt (for use in testing) */
-INTERNAL void debug_test_codeword_dump(struct zint_symbol *symbol, const unsigned char *codewords, const int length);
+INTERNAL void z_debug_test_codeword_dump(struct zint_symbol *symbol, const unsigned char *codewords,
+                const int length);
 /* Dumps decimal-formatted codewords in symbol->errtxt (for use in testing) */
-INTERNAL void debug_test_codeword_dump_short(struct zint_symbol *symbol, const short *codewords, const int length);
+INTERNAL void z_debug_test_codeword_dump_short(struct zint_symbol *symbol, const short *codewords, const int length);
 /* Dumps decimal-formatted codewords in symbol->errtxt (for use in testing) */
-INTERNAL void debug_test_codeword_dump_int(struct zint_symbol *symbol, const int *codewords, const int length);
+INTERNAL void z_debug_test_codeword_dump_int(struct zint_symbol *symbol, const int *codewords, const int length);
 #endif
 
 #ifdef __cplusplus

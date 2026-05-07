@@ -464,6 +464,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\zint\backend\aztec.h" />
+    <ClInclude Include="..\thirdparty\zint\backend\aztec_trace.h" />
     <ClInclude Include="..\thirdparty\zint\backend\big5.h" />
     <ClInclude Include="..\thirdparty\zint\backend\bmp.h" />
     <ClInclude Include="..\thirdparty\zint\backend\channel_precalcs.h" />
@@ -507,7 +508,6 @@
     <ClInclude Include="..\thirdparty\zint\backend\rss.h" />
     <ClInclude Include="..\thirdparty\zint\backend\sjis.h" />
     <ClInclude Include="..\thirdparty\zint\backend\tif.h" />
-    <ClInclude Include="..\thirdparty\zint\backend\tif_lzw.h" />
     <ClInclude Include="..\thirdparty\zint\backend\zfiletypes.h" />
     <ClInclude Include="..\thirdparty\zint\backend\zint.h" />
     <ClInclude Include="..\thirdparty\zint\backend\zintconfig.h" />

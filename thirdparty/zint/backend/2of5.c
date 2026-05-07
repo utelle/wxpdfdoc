@@ -1,7 +1,7 @@
 /* 2of5.c - Handles non-interleaved Code 2 of 5 barcodes */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2008-2025 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2008-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -60,28 +60,29 @@ static int c25_common(struct zint_symbol *symbol, const unsigned char source[], 
     int i;
     char dest[818]; /* Largest destination 4 + (80 + 1) * 10 + 3 + 1 = 818 */
     char *d = dest;
-    unsigned char temp[113 + 1 + 1]; /* Largest maximum 113 + optional check digit */
+    unsigned char local_source[113 + 1]; /* Largest maximum 113 + optional check digit */
     const int have_checkdigit = symbol->option_2 == 1 || symbol->option_2 == 2;
+    const int content_segs = symbol->output_options & BARCODE_CONTENT_SEGS;
 
     if (length > max) {
         /* errtxt 301: 303: 305: 307: */
-        return ZEXT errtxtf(ZINT_ERROR_TOO_LONG, symbol, error_base, "Input length %1$d too long (maximum %2$d)",
-                            length, max);
+        return ZEXT z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, error_base, "Input length %1$d too long (maximum %2$d)",
+                                length, max);
     }
-    if ((i = not_sane(NEON_F, source, length))) {
+    if ((i = z_not_sane(NEON_F, source, length))) {
         /* Note: for all "at position" error messages, escape sequences not accounted for */
         /* errtxt 302: 304: 306: 308: */
-        return errtxtf(ZINT_ERROR_INVALID_DATA, symbol, error_base + 1,
+        return z_errtxtf(ZINT_ERROR_INVALID_DATA, symbol, error_base + 1,
                         "Invalid character at position %d in input (digits only)", i);
     }
 
-    ustrcpy(temp, source);
+    memcpy(local_source, source, length);
 
     if (have_checkdigit) {
         /* Add standard GS1 check digit */
-        temp[length] = gs1_check_digit(source, length);
-        temp[++length] = '\0';
-        if (symbol->debug & ZINT_DEBUG_PRINT) printf("Check digit: %c\n", temp[length - 1]);
+        local_source[length] = zint_gs1_check_digit(source, length);
+        length++;
+        if (symbol->debug & ZINT_DEBUG_PRINT) printf("Check digit: %c\n", local_source[length - 1]);
     }
 
     /* Start character */
@@ -89,12 +90,14 @@ static int c25_common(struct zint_symbol *symbol, const unsigned char source[], 
     d += start_length;
 
     if (is_matrix) {
+        /* Standard, Data Logic */
         for (i = 0; i < length; i++, d += 6) {
-            memcpy(d, C25MatrixTable[temp[i] - '0'], 6);
+            memcpy(d, C25MatrixTable[local_source[i] - '0'], 6);
         }
     } else {
+        /* IATA, Industrial */
         for (i = 0; i < length; i++, d += 10) {
-            memcpy(d, C25IndustTable[temp[i] - '0'], 10);
+            memcpy(d, C25IndustTable[local_source[i] - '0'], 10);
         }
     }
 
@@ -102,39 +105,40 @@ static int c25_common(struct zint_symbol *symbol, const unsigned char source[], 
     memcpy(d, start_stop[1], start_length - 1);
     d += start_length - 1;
 
-    expand(symbol, dest, d - dest);
+    z_expand(symbol, dest, (int) (d - dest));
 
-    ustrcpy(symbol->text, temp);
-    if (symbol->option_2 == 2) {
-        /* Remove check digit from HRT */
-        symbol->text[length - 1] = '\0';
+    /* Exclude check digit from HRT if hidden */
+    z_hrt_cpy_nochk(symbol, local_source, length - (symbol->option_2 == 2));
+
+    if (content_segs && z_ct_cpy(symbol, local_source, length)) {
+        return ZINT_ERROR_MEMORY; /* `z_ct_cpy()` only fails with OOM */
     }
 
     return 0;
 }
 
 /* Code 2 of 5 Standard (Code 2 of 5 Matrix) */
-INTERNAL int c25standard(struct zint_symbol *symbol, unsigned char source[], int length) {
+INTERNAL int zint_c25standard(struct zint_symbol *symbol, unsigned char source[], int length) {
     /* 9 + (112 + 1) * 10 + 8 = 1147 */
     return c25_common(symbol, source, length, 112, 1 /*is_matrix*/, C25MatrixStartStop, 6, 301);
 }
 
-/* Code 2 of 5 Industrial */
-INTERNAL int c25ind(struct zint_symbol *symbol, unsigned char source[], int length) {
-    /* 10 + (79 + 1) * 14 + 9 = 1139 */
-    return c25_common(symbol, source, length, 79, 0 /*is_matrix*/, C25IndustStartStop, 6, 303);
-}
-
 /* Code 2 of 5 IATA */
-INTERNAL int c25iata(struct zint_symbol *symbol, unsigned char source[], int length) {
+INTERNAL int zint_c25iata(struct zint_symbol *symbol, unsigned char source[], int length) {
     /* 4 + (80 + 1) * 14 + 5 = 1143 */
     return c25_common(symbol, source, length, 80, 0 /*is_matrix*/, C25IataLogicStartStop, 4, 305);
 }
 
 /* Code 2 of 5 Data Logic */
-INTERNAL int c25logic(struct zint_symbol *symbol, unsigned char source[], int length) {
+INTERNAL int zint_c25logic(struct zint_symbol *symbol, unsigned char source[], int length) {
     /* 4 + (113 + 1) * 10 + 5 = 1149 */
     return c25_common(symbol, source, length, 113, 1 /*is_matrix*/, C25IataLogicStartStop, 4, 307);
+}
+
+/* Code 2 of 5 Industrial */
+INTERNAL int zint_c25ind(struct zint_symbol *symbol, unsigned char source[], int length) {
+    /* 10 + (79 + 1) * 14 + 9 = 1139 */
+    return c25_common(symbol, source, length, 79, 0 /*is_matrix*/, C25IndustStartStop, 6, 303);
 }
 
 /* vim: set ts=4 sw=4 et : */

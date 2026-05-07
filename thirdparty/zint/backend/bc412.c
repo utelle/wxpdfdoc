@@ -1,7 +1,7 @@
 /* bc412.c - Handles IBM BC412 (SEMI T1-95) symbology */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2022-2024 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2022-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -65,21 +65,23 @@ static const char BC412Table[35][8] = {
     {'1','2','1','3','1','1','1','2'}
 };
 
-INTERNAL int bc412(struct zint_symbol *symbol, unsigned char source[], int length) { /* IBM BC412 */
+INTERNAL int zint_bc412(struct zint_symbol *symbol, unsigned char source[], int length) { /* IBM BC412 */
+    static const char stop_start[4] = { '1','1','1','2' }; /* 1st 3 stop, last 2 start */
     unsigned char padded_source[20];
     int posns[35];
     int i, counter_odd = 0, counter_even = 0, check_sum = 0;
     char dest[293]; /* 2 + (36 * 8) + 3 */
     char *d = dest;
     int error_number = 0;
+    const int content_segs = symbol->output_options & BARCODE_CONTENT_SEGS;
 
     if (length > 18) {
-        return errtxtf(ZINT_ERROR_TOO_LONG, symbol, 790, "Input length %d too long (maximum 18)", length);
+        return z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, 790, "Input length %d too long (maximum 18)", length);
     }
     if (length < 7) {
-        return errtxtf(ZINT_ERROR_TOO_LONG, symbol, 792, "Input length %d too short (minimum 7)", length);
+        return z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, 792, "Input length %d too short (minimum 7)", length);
     }
-    to_upper(source, length);
+    z_to_upper(source, length);
 
     padded_source[0] = source[0];
     padded_source[1] = '0';
@@ -87,10 +89,9 @@ INTERNAL int bc412(struct zint_symbol *symbol, unsigned char source[], int lengt
     for (i = 2; i <= length; i++) {
         padded_source[i] = source[i - 1];
     }
-    padded_source[length + 1] = 0;
 
-    if ((i = not_sane_lookup(BROMINE, 35, padded_source, length + 1, posns))) {
-        return errtxtf(ZINT_ERROR_INVALID_DATA, symbol, 791,
+    if ((i = z_not_sane_lookup(BROMINE, 35, padded_source, length + 1, posns))) {
+        return z_errtxtf(ZINT_ERROR_INVALID_DATA, symbol, 791,
                         "Invalid character at position %d in input (alphanumerics only, excluding \"O\")", i - 1);
     }
 
@@ -119,7 +120,7 @@ INTERNAL int bc412(struct zint_symbol *symbol, unsigned char source[], int lengt
     posns[1] = check_sum;
 
     /* Start character */
-    memcpy(d, "12", 2);
+    memcpy(d, stop_start + 2, 2);
     d += 2;
 
     for (i = 0; i <= length; i++, d += 8) {
@@ -127,11 +128,10 @@ INTERNAL int bc412(struct zint_symbol *symbol, unsigned char source[], int lengt
     }
 
     /* Stop character */
-    memcpy(d, "111", 3);
+    memcpy(d, stop_start, 3);
     d += 3;
 
-    expand(symbol, dest, d - dest);
-    ustrcpy(symbol->text, padded_source);
+    z_expand(symbol, dest, (int) (d - dest));
 
     if (symbol->output_options & COMPLIANT_HEIGHT) {
         /* SEMI T1-95 Table 1 "Module" (Character) Height 2mm ± 0.025mm, using Module Spacing 0.12mm ± 0.025mm as
@@ -139,11 +139,17 @@ INTERNAL int bc412(struct zint_symbol *symbol, unsigned char source[], int lengt
         const float min_height = 13.6206894f; /* 1.975 / 0.145 */
         const float default_height = 16.666666f; /* 2.0 / 0.12 */
         const float max_height = 21.3157902f; /* 2.025 / 0.095 */
-        error_number = set_height(symbol, min_height, default_height, max_height, 0 /*no_errtxt*/);
+        error_number = z_set_height(symbol, min_height, default_height, max_height, 0 /*no_errtxt*/);
     } else {
         /* Using compliant height as default as no backwards compatibility to consider */
         const float default_height = 16.666666f; /* 2.0 / 0.12 */
-        (void) set_height(symbol, 0.0f, default_height, 0.0f, 1 /*no_errtxt*/);
+        (void) z_set_height(symbol, 0.0f, default_height, 0.0f, 1 /*no_errtxt*/);
+    }
+
+    z_hrt_cpy_nochk(symbol, padded_source, length + 1);
+
+    if (content_segs && z_ct_cpy(symbol, padded_source, length + 1)) {
+        return ZINT_ERROR_MEMORY; /* `z_ct_cpy()` only fails with OOM */
     }
 
     return error_number;

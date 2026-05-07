@@ -4,7 +4,7 @@
  */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2021-2024 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2021-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -36,640 +36,675 @@
 #ifndef Z_GS1_LINT_H
 #define Z_GS1_LINT_H
 
-/* N18,csum,key (Used by SSCC, GSRN - PROVIDER, GSRN - RECIPIENT) */
-static int n18_csum_key(const unsigned char *data,
+/* N18,csum,gcppos2 (Used by SSCC) */
+static int gs1_n18_csum_gcppos2(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 18
-            && csum(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg)
-            && csum(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_csum(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos2(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos2(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 0);
 }
 
-/* N14,csum,key (Used by GTIN, CONTENT, MTO GTIN) */
-static int n14_csum_key(const unsigned char *data,
+/* N14,csum,gcppos2 (Used by GTIN, CONTENT, MTO GTIN) */
+static int gs1_n14_csum_gcppos2(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 14
-            && csum(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg)
-            && csum(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_csum(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos2(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos2(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..20 (Used by BATCH/LOT, SERIAL, CPV, PCN, GLN EXTENSION COMPONENT, SHIP TO POST, RTN TO POST, REFURB LOT, ...) */
-static int x__20(const unsigned char *data,
+static int gs1_x__20(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 20
-            && cset82(data, data_len, 0, 1, 20, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 20, p_err_no, p_err_posn, err_msg);
 }
 
 /* N6,yymmd0 (Used by PROD DATE, DUE DATE, PACK DATE, BEST BEFORE or BEST BY, SELL BY, USE BY or EXPIRY) */
-static int n6_yymmd0(const unsigned char *data,
+static int gs1_n6_yymmd0(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 6
-            && yymmd0(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
-            && yymmd0(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yymmd0(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_yymmd0(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N2 (Used by VARIANT) */
-static int n2(const unsigned char *data,
+static int gs1_n2(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 2
-            && numeric(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg);
 }
 
 /* X..28 (Used by TPX) */
-static int x__28(const unsigned char *data,
+static int gs1_x__28(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 28
-            && cset82(data, data_len, 0, 1, 28, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 28, p_err_no, p_err_posn, err_msg);
 }
 
 /* X..30 (Used by ADDITIONAL ID, CUST. PART No., SECONDARY SERIAL, REF. TO SOURCE, ORDER NUMBER, ROUTE, SHIP TO...) */
-static int x__30(const unsigned char *data,
+static int gs1_x__30(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 30
-            && cset82(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg);
 }
 
 /* N..6 (Used by MTO VARIANT) */
-static int n__6(const unsigned char *data,
+static int gs1_n__6(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 6
-            && numeric(data, data_len, 0, 1, 6, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 1, 6, p_err_no, p_err_posn, err_msg);
 }
 
-/* N13,csum,key [X..17] (Used by GDTI) */
-static int n13_csum_key__x__17_(const unsigned char *data,
+/* N13,csum,gcppos1 [X..17] (Used by GDTI) */
+static int gs1_n13_csum_gcppos1__x__17_(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 13 && data_len <= 30
-            && csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg)
-            && csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
-            && cset82(data, data_len, 13, 0, 17, p_err_no, p_err_posn, err_msg);
+            && gs1_csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos1(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos1(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_cset82(data, data_len, 13, 0, 17, p_err_no, p_err_posn, err_msg);
 }
 
-/* N13,csum,key [N..12] (Used by GCN) */
-static int n13_csum_key__n__12_(const unsigned char *data,
+/* N13,csum,gcppos1 [N..12] (Used by GCN) */
+static int gs1_n13_csum_gcppos1__n__12_(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 13 && data_len <= 25
-            && csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg)
-            && csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 13, 0, 12, p_err_no, p_err_posn, err_msg);
+            && gs1_csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos1(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos1(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 13, 0, 12, p_err_no, p_err_posn, err_msg);
 }
 
 /* N..8 (Used by VAR. COUNT, COUNT) */
-static int n__8(const unsigned char *data,
+static int gs1_n__8(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 8
-            && numeric(data, data_len, 0, 1, 8, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 1, 8, p_err_no, p_err_posn, err_msg);
 }
 
 /* N6 (Used by NET WEIGHT (kg), LENGTH (m), WIDTH (m), HEIGHT (m), AREA (m²), NET VOLUME (l), NET VOLUME (m³)...) */
-static int n6(const unsigned char *data,
+static int gs1_n6(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 6
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg);
 }
 
 /* N..15 (Used by AMOUNT, PRICE) */
-static int n__15(const unsigned char *data,
+static int gs1_n__15(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 15
-            && numeric(data, data_len, 0, 1, 15, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 1, 15, p_err_no, p_err_posn, err_msg);
 }
 
 /* N3,iso4217 N..15 (Used by AMOUNT, PRICE) */
-static int n3_iso4217_n__15(const unsigned char *data,
+static int gs1_n3_iso4217_n__15(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 4 && data_len <= 18
-            && iso4217(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
-            && iso4217(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 3, 1, 15, p_err_no, p_err_posn, err_msg);
+            && gs1_iso4217(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso4217(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 3, 1, 15, p_err_no, p_err_posn, err_msg);
 }
 
 /* N4 (Used by PRCNT OFF, POINTS) */
-static int n4(const unsigned char *data,
+static int gs1_n4(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 4
-            && numeric(data, data_len, 0, 4, 4, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 4, 4, p_err_no, p_err_posn, err_msg);
 }
 
-/* X..30,key (Used by GINC, GIAI - ASSEMBLY, GIAI) */
-static int x__30_key(const unsigned char *data,
+/* X..30,gcppos1 (Used by GINC, GIAI - ASSEMBLY, GIAI) */
+static int gs1_x__30_gcppos1(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 30
-            && key(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg)
-            && key(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_gcppos1(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg)
+            && gs1_gcppos1(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg, 0);
 }
 
-/* N17,csum,key (Used by GSIN) */
-static int n17_csum_key(const unsigned char *data,
+/* N17,csum,gcppos1 (Used by GSIN) */
+static int gs1_n17_csum_gcppos1(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 17
-            && csum(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg)
-            && csum(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_csum(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos1(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos1(data, data_len, 0, 17, 17, p_err_no, p_err_posn, err_msg, 0);
 }
 
-/* N13,csum,key (Used by SHIP TO LOC, BILL TO, PURCHASE FROM, SHIP FOR LOC, LOC No., PAY TO, PROD/SERV LOC, PARTY) */
-static int n13_csum_key(const unsigned char *data,
+/* N13,csum,gcppos1 (Used by SHIP TO LOC, BILL TO, PURCHASE FROM, SHIP FOR LOC, LOC No., PAY TO, PROD/SERV LOC,...) */
+static int gs1_n13_csum_gcppos1(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 13
-            && csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg)
-            && csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos1(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos1(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N3,iso3166 X..9 (Used by SHIP TO POST) */
-static int n3_iso3166_x__9(const unsigned char *data,
+static int gs1_n3_iso3166_x__9(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 4 && data_len <= 12
-            && iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
-            && iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0)
-            && cset82(data, data_len, 3, 1, 9, p_err_no, p_err_posn, err_msg);
+            && gs1_iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_cset82(data, data_len, 3, 1, 9, p_err_no, p_err_posn, err_msg);
 }
 
 /* N3,iso3166 (Used by ORIGIN, COUNTRY - PROCESS, COUNTRY - FULL PROCESS) */
-static int n3_iso3166(const unsigned char *data,
+static int gs1_n3_iso3166(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 3
-            && iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
-            && iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N3,iso3166 [N3],iso3166 [N3],iso3166 [N3],iso3166 [N3],iso3166 (Used by COUNTRY - INITIAL PROCESS, COUNTRY -...) */
-static int n3_iso3166__n3__iso3166__n3__iso3166__n3__iso3166__n3__iso3166(const unsigned char *data,
+static int gs1_n3_iso3166__n3__iso3166__n3__iso3166__n3__iso3166__n3__iso3166(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 3 && data_len <= 15
-            && iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && iso3166(data, data_len, 3, 0, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && iso3166(data, data_len, 6, 0, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && iso3166(data, data_len, 9, 0, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && iso3166(data, data_len, 12, 0, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
-            && iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 3, 0, 3, p_err_no, p_err_posn, err_msg)
-            && iso3166(data, data_len, 3, 0, 3, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 6, 0, 3, p_err_no, p_err_posn, err_msg)
-            && iso3166(data, data_len, 6, 0, 3, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 9, 0, 3, p_err_no, p_err_posn, err_msg)
-            && iso3166(data, data_len, 9, 0, 3, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 12, 0, 3, p_err_no, p_err_posn, err_msg)
-            && iso3166(data, data_len, 12, 0, 3, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_iso3166(data, data_len, 3, 0, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_iso3166(data, data_len, 6, 0, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_iso3166(data, data_len, 9, 0, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_iso3166(data, data_len, 12, 0, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 3, 0, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166(data, data_len, 3, 0, 3, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 6, 0, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166(data, data_len, 6, 0, 3, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 9, 0, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166(data, data_len, 9, 0, 3, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 12, 0, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166(data, data_len, 12, 0, 3, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..3 (Used by ORIGIN SUBDIVISION, AQUATIC SPECIES) */
-static int x__3(const unsigned char *data,
+static int gs1_x__3(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 3
-            && cset82(data, data_len, 0, 1, 3, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 3, p_err_no, p_err_posn, err_msg);
 }
 
 /* X..35,pcenc (Used by SHIP TO COMP, SHIP TO NAME, RTN TO COMP, RTN TO NAME, SRV DESCRIPTION) */
-static int x__35_pcenc(const unsigned char *data,
+static int gs1_x__35_pcenc(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 35
-            && pcenc(data, data_len, 0, 1, 35, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 35, p_err_no, p_err_posn, err_msg)
-            && pcenc(data, data_len, 0, 1, 35, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_pcenc(data, data_len, 0, 1, 35, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 35, p_err_no, p_err_posn, err_msg)
+            && gs1_pcenc(data, data_len, 0, 1, 35, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..70,pcenc (Used by SHIP TO ADD1, SHIP TO ADD2, SHIP TO SUB, SHIP TO LOC, SHIP TO REG, RTN TO ADD1, RTN TO ...) */
-static int x__70_pcenc(const unsigned char *data,
+static int gs1_x__70_pcenc(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 70
-            && pcenc(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg)
-            && pcenc(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_pcenc(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg)
+            && gs1_pcenc(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X2,iso3166alpha2 (Used by SHIP TO COUNTRY, RTN TO COUNTRY) */
-static int x2_iso3166alpha2(const unsigned char *data,
+static int gs1_x2_iso3166alpha2(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 2
-            && iso3166alpha2(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg)
-            && iso3166alpha2(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_iso3166alpha2(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166alpha2(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N10,latitude N10,longitude (Used by SHIP TO GEO) */
-static int n10_latitude_n10_longitude(const unsigned char *data,
+static int gs1_n10_latitude_n10_longitude(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 20
-            && latitude(data, data_len, 0, 10, 10, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && longitude(data, data_len, 10, 10, 10, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 10, 10, p_err_no, p_err_posn, err_msg)
-            && latitude(data, data_len, 0, 10, 10, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 10, 10, 10, p_err_no, p_err_posn, err_msg)
-            && longitude(data, data_len, 10, 10, 10, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_latitude(data, data_len, 0, 10, 10, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_longitude(data, data_len, 10, 10, 10, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 10, 10, p_err_no, p_err_posn, err_msg)
+            && gs1_latitude(data, data_len, 0, 10, 10, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 10, 10, 10, p_err_no, p_err_posn, err_msg)
+            && gs1_longitude(data, data_len, 10, 10, 10, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N1,yesno (Used by DANGEROUS GOODS, AUTH TO LEAVE, SIG REQUIRED) */
-static int n1_yesno(const unsigned char *data,
+static int gs1_n1_yesno(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 1
-            && yesno(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg)
-            && yesno(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yesno(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_yesno(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N6,yymmd0 N4,hhmi (Used by NOT BEF DEL DT, NOT AFT DEL DT) */
-static int n6_yymmd0_n4_hhmi(const unsigned char *data,
+static int gs1_n6_yymmd0_n4_hhmi(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 10
-            && yymmd0(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && hhmi(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
-            && yymmd0(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg)
-            && hhmi(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yymmd0(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_hhmi(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_yymmd0(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg)
+            && gs1_hhmi(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N6,yymmdd (Used by REL DATE, FIRST FREEZE DATE) */
-static int n6_yymmdd(const unsigned char *data,
+static int gs1_n6_yymmdd(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 6
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N6 [X1],hyphen (Used by MAX TEMP F., MAX TEMP C., MIN TEMP F., MIN TEMP C.) */
-static int n6__x1__hyphen(const unsigned char *data,
+static int gs1_n6__x1__hyphen(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 6 && data_len <= 7
-            && hyphen(data, data_len, 6, 0, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
-            && cset82(data, data_len, 6, 0, 1, p_err_no, p_err_posn, err_msg)
-            && hyphen(data, data_len, 6, 0, 1, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_hyphen(data, data_len, 6, 0, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_cset82(data, data_len, 6, 0, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_hyphen(data, data_len, 6, 0, 1, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N13 (Used by NSN) */
-static int n13(const unsigned char *data,
+static int gs1_n13(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 13
-            && numeric(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 13, 13, p_err_no, p_err_posn, err_msg);
 }
 
 /* N6,yymmdd N4,hhmi (Used by EXPIRY TIME) */
-static int n6_yymmdd_n4_hhmi(const unsigned char *data,
+static int gs1_n6_yymmdd_n4_hhmi(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 10
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && hhmi(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg)
-            && hhmi(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_hhmi(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg)
+            && gs1_hhmi(data, data_len, 6, 4, 4, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N..4 (Used by ACTIVE POTENCY) */
-static int n__4(const unsigned char *data,
+static int gs1_n__4(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 4
-            && numeric(data, data_len, 0, 1, 4, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 1, 4, p_err_no, p_err_posn, err_msg);
 }
 
 /* X..12 (Used by CATCH AREA) */
-static int x__12(const unsigned char *data,
+static int gs1_x__12(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 12
-            && cset82(data, data_len, 0, 1, 12, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 12, p_err_no, p_err_posn, err_msg);
 }
 
 /* N6,yymmdd [N6],yymmdd (Used by HARVEST DATE) */
-static int n6_yymmdd__n6__yymmdd(const unsigned char *data,
+static int gs1_n6_yymmdd__n6__yymmdd(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 6 && data_len <= 12
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && yymmdd(data, data_len, 6, 0, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 6, 0, 6, p_err_no, p_err_posn, err_msg)
-            && yymmdd(data, data_len, 6, 0, 6, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_yymmdd(data, data_len, 6, 0, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 6, 0, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_yymmdd(data, data_len, 6, 0, 6, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..10 (Used by FISHING GEAR TYPE, SUFFIX) */
-static int x__10(const unsigned char *data,
+static int gs1_x__10(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 10
-            && cset82(data, data_len, 0, 1, 10, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 10, p_err_no, p_err_posn, err_msg);
 }
 
 /* X..2 (Used by PROD METHOD) */
-static int x__2(const unsigned char *data,
+static int gs1_x__2(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 2
-            && cset82(data, data_len, 0, 1, 2, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 2, p_err_no, p_err_posn, err_msg);
 }
 
 /* N6,yymmdd [N4],hhmi (Used by TEST BY DATE) */
-static int n6_yymmdd__n4__hhmi(const unsigned char *data,
+static int gs1_n6_yymmdd__n4__hhmi(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 6 && data_len <= 10
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && hhmi(data, data_len, 6, 0, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 6, 0, 4, p_err_no, p_err_posn, err_msg)
-            && hhmi(data, data_len, 6, 0, 4, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_hhmi(data, data_len, 6, 0, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 6, 0, 4, p_err_no, p_err_posn, err_msg)
+            && gs1_hhmi(data, data_len, 6, 0, 4, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N3,iso3166999 X..27 (Used by PROCESSOR # 0, PROCESSOR # 1, PROCESSOR # 2, PROCESSOR # 3, PROCESSOR # 4, PROC...) */
-static int n3_iso3166999_x__27(const unsigned char *data,
+static int gs1_n3_iso3166999_x__27(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 4 && data_len <= 30
-            && iso3166999(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
-            && iso3166999(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0)
-            && cset82(data, data_len, 3, 1, 27, p_err_no, p_err_posn, err_msg);
+            && gs1_iso3166999(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_iso3166999(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_cset82(data, data_len, 3, 1, 27, p_err_no, p_err_posn, err_msg);
 }
 
 /* N1 X1 X1 X1,importeridx (Used by UIC+EXT) */
-static int n1_x1_x1_x1_importeridx(const unsigned char *data,
+static int gs1_n1_x1_x1_x1_importeridx(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 4
-            && importeridx(data, data_len, 3, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg)
-            && cset82(data, data_len, 1, 1, 1, p_err_no, p_err_posn, err_msg)
-            && cset82(data, data_len, 2, 1, 1, p_err_no, p_err_posn, err_msg)
-            && cset82(data, data_len, 3, 1, 1, p_err_no, p_err_posn, err_msg)
-            && importeridx(data, data_len, 3, 1, 1, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_importeridx(data, data_len, 3, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_cset82(data, data_len, 1, 1, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_cset82(data, data_len, 2, 1, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_cset82(data, data_len, 3, 1, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_importeridx(data, data_len, 3, 1, 1, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..4,packagetype (Used by UFRGT UNIT TYPE) */
-static int x__4_packagetype(const unsigned char *data,
+static int gs1_x__4_packagetype(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 4
-            && packagetype(data, data_len, 0, 1, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 4, p_err_no, p_err_posn, err_msg)
-            && packagetype(data, data_len, 0, 1, 4, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_packagetype(data, data_len, 0, 1, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 4, p_err_no, p_err_posn, err_msg)
+            && gs1_packagetype(data, data_len, 0, 1, 4, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X2 X..28 (Used by CERT # 1, CERT # 2, CERT # 3, CERT # 4, CERT # 5, CERT # 6, CERT # 7, CERT # 8, CERT # 9, ...) */
-static int x2_x__28(const unsigned char *data,
+static int gs1_x2_x__28(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 3 && data_len <= 30
-            && cset82(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg)
-            && cset82(data, data_len, 2, 1, 28, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg)
+            && gs1_cset82(data, data_len, 2, 1, 28, p_err_no, p_err_posn, err_msg);
 }
 
 /* N2,mediatype (Used by AIDC MEDIA TYPE) */
-static int n2_mediatype(const unsigned char *data,
+static int gs1_n2_mediatype(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 2
-            && mediatype(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg)
-            && mediatype(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_mediatype(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg)
+            && gs1_mediatype(data, data_len, 0, 2, 2, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..25 (Used by VCN, REF No.) */
-static int x__25(const unsigned char *data,
+static int gs1_x__25(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 25
-            && cset82(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg);
 }
 
 /* N8,yyyymmdd (Used by DOB) */
-static int n8_yyyymmdd(const unsigned char *data,
+static int gs1_n8_yyyymmdd(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 8
-            && yyyymmdd(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg)
-            && yyyymmdd(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yyyymmdd(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg)
+            && gs1_yyyymmdd(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N8,yyyymmdd N4,hhmi (Used by DOB TIME) */
-static int n8_yyyymmdd_n4_hhmi(const unsigned char *data,
+static int gs1_n8_yyyymmdd_n4_hhmi(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 12
-            && yyyymmdd(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && hhmi(data, data_len, 8, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg)
-            && yyyymmdd(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 8, 4, 4, p_err_no, p_err_posn, err_msg)
-            && hhmi(data, data_len, 8, 4, 4, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yyyymmdd(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_hhmi(data, data_len, 8, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg)
+            && gs1_yyyymmdd(data, data_len, 0, 8, 8, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 8, 4, 4, p_err_no, p_err_posn, err_msg)
+            && gs1_hhmi(data, data_len, 8, 4, 4, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N1,iso5218 (Used by BIO SEX) */
-static int n1_iso5218(const unsigned char *data,
+static int gs1_n1_iso5218(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 1
-            && iso5218(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg)
-            && iso5218(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_iso5218(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_iso5218(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..40,pcenc (Used by FAMILY NAME, GIVEN NAME, BABY) */
-static int x__40_pcenc(const unsigned char *data,
+static int gs1_x__40_pcenc(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 40
-            && pcenc(data, data_len, 0, 1, 40, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 40, p_err_no, p_err_posn, err_msg)
-            && pcenc(data, data_len, 0, 1, 40, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_pcenc(data, data_len, 0, 1, 40, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 40, p_err_no, p_err_posn, err_msg)
+            && gs1_pcenc(data, data_len, 0, 1, 40, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..90,pcenc (Used by FULL NAME) */
-static int x__90_pcenc(const unsigned char *data,
+static int gs1_x__90_pcenc(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 90
-            && pcenc(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg)
-            && pcenc(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_pcenc(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg)
+            && gs1_pcenc(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X3,posinseqslash (Used by BIRTH SEQUENCE) */
-static int x3_posinseqslash(const unsigned char *data,
+static int gs1_x3_posinseqslash(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 3
-            && posinseqslash(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
-            && posinseqslash(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_posinseqslash(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_posinseqslash(data, data_len, 0, 3, 3, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N4,nonzero N5,nonzero N3,nonzero N1,winding N1 (Used by DIMENSIONS) */
-static int n4_nonzero_n5_nonzero_n3_nonzero_n1_winding_n1(const unsigned char *data,
+static int gs1_n4_nonzero_n5_nonzero_n3_nonzero_n1_winding_n1(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 14
-            && nonzero(data, data_len, 0, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && nonzero(data, data_len, 4, 5, 5, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && nonzero(data, data_len, 9, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && winding(data, data_len, 12, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 4, 4, p_err_no, p_err_posn, err_msg)
-            && nonzero(data, data_len, 0, 4, 4, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 4, 5, 5, p_err_no, p_err_posn, err_msg)
-            && nonzero(data, data_len, 4, 5, 5, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 9, 3, 3, p_err_no, p_err_posn, err_msg)
-            && nonzero(data, data_len, 9, 3, 3, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 12, 1, 1, p_err_no, p_err_posn, err_msg)
-            && winding(data, data_len, 12, 1, 1, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 13, 1, 1, p_err_no, p_err_posn, err_msg);
+            && gs1_nonzero(data, data_len, 0, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_nonzero(data, data_len, 4, 5, 5, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_nonzero(data, data_len, 9, 3, 3, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_winding(data, data_len, 12, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 4, 4, p_err_no, p_err_posn, err_msg)
+            && gs1_nonzero(data, data_len, 0, 4, 4, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 4, 5, 5, p_err_no, p_err_posn, err_msg)
+            && gs1_nonzero(data, data_len, 4, 5, 5, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 9, 3, 3, p_err_no, p_err_posn, err_msg)
+            && gs1_nonzero(data, data_len, 9, 3, 3, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 12, 1, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_winding(data, data_len, 12, 1, 1, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 13, 1, 1, p_err_no, p_err_posn, err_msg);
 }
 
-/* N1,zero N13,csum,key [X..16] (Used by GRAI) */
-static int n1_zero_n13_csum_key__x__16_(const unsigned char *data,
+/* N1,zero N13,csum,gcppos1 [X..16] (Used by GRAI) */
+static int gs1_n1_zero_n13_csum_gcppos1__x__16_(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 14 && data_len <= 30
-            && zero(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && csum(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg)
-            && zero(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg)
-            && csum(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg, 0)
-            && cset82(data, data_len, 14, 0, 16, p_err_no, p_err_posn, err_msg);
+            && gs1_zero(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_csum(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos1(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg)
+            && gs1_zero(data, data_len, 0, 1, 1, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos1(data, data_len, 1, 13, 13, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_cset82(data, data_len, 14, 0, 16, p_err_no, p_err_posn, err_msg);
 }
 
-/* N14,csum N4,pieceoftotal (Used by ITIP, ITIP CONTENT) */
-static int n14_csum_n4_pieceoftotal(const unsigned char *data,
+/* N14,csum,gcppos2 N4,pieceoftotal (Used by ITIP, ITIP CONTENT) */
+static int gs1_n14_csum_gcppos2_n4_pieceoftotal(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len == 18
-            && csum(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && pieceoftotal(data, data_len, 14, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg)
-            && csum(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 14, 4, 4, p_err_no, p_err_posn, err_msg)
-            && pieceoftotal(data, data_len, 14, 4, 4, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_csum(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos2(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_pieceoftotal(data, data_len, 14, 4, 4, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos2(data, data_len, 0, 14, 14, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 14, 4, 4, p_err_no, p_err_posn, err_msg)
+            && gs1_pieceoftotal(data, data_len, 14, 4, 4, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..34,iban (Used by IBAN) */
-static int x__34_iban(const unsigned char *data,
+static int gs1_x__34_iban(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 34
-            && iban(data, data_len, 0, 1, 34, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 34, p_err_no, p_err_posn, err_msg)
-            && iban(data, data_len, 0, 1, 34, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_iban(data, data_len, 0, 1, 34, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 34, p_err_no, p_err_posn, err_msg)
+            && gs1_iban(data, data_len, 0, 1, 34, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N6,yymmdd N2,hh [N2],mi [N2],ss (Used by PROD TIME) */
-static int n6_yymmdd_n2_hh__n2__mi__n2__ss(const unsigned char *data,
+static int gs1_n6_yymmdd_n2_hh__n2__mi__n2__ss(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 8 && data_len <= 12
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && hh(data, data_len, 6, 2, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && mi(data, data_len, 8, 0, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && ss(data, data_len, 10, 0, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
-            && yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 6, 2, 2, p_err_no, p_err_posn, err_msg)
-            && hh(data, data_len, 6, 2, 2, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 8, 0, 2, p_err_no, p_err_posn, err_msg)
-            && mi(data, data_len, 8, 0, 2, p_err_no, p_err_posn, err_msg, 0)
-            && numeric(data, data_len, 10, 0, 2, p_err_no, p_err_posn, err_msg)
-            && ss(data, data_len, 10, 0, 2, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_hh(data, data_len, 6, 2, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_mi(data, data_len, 8, 0, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_ss(data, data_len, 10, 0, 2, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg)
+            && gs1_yymmdd(data, data_len, 0, 6, 6, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 6, 2, 2, p_err_no, p_err_posn, err_msg)
+            && gs1_hh(data, data_len, 6, 2, 2, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 8, 0, 2, p_err_no, p_err_posn, err_msg)
+            && gs1_mi(data, data_len, 8, 0, 2, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_numeric(data, data_len, 10, 0, 2, p_err_no, p_err_posn, err_msg)
+            && gs1_ss(data, data_len, 10, 0, 2, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..50 (Used by OPTSEN) */
-static int x__50(const unsigned char *data,
+static int gs1_x__50(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 50
-            && cset82(data, data_len, 0, 1, 50, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 50, p_err_no, p_err_posn, err_msg);
 }
 
-/* Y..30,key (Used by CPID) */
-static int y__30_key(const unsigned char *data,
+/* Y..30,gcppos1 (Used by CPID) */
+static int gs1_y__30_gcppos1(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 30
-            && key(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset39(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg)
-            && key(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_gcppos1(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset39(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg)
+            && gs1_gcppos1(data, data_len, 0, 1, 30, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N..12,nozeroprefix (Used by CPID SERIAL) */
-static int n__12_nozeroprefix(const unsigned char *data,
+static int gs1_n__12_nozeroprefix(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 12
-            && nozeroprefix(data, data_len, 0, 1, 12, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && numeric(data, data_len, 0, 1, 12, p_err_no, p_err_posn, err_msg)
-            && nozeroprefix(data, data_len, 0, 1, 12, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_nozeroprefix(data, data_len, 0, 1, 12, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 1, 12, p_err_no, p_err_posn, err_msg)
+            && gs1_nozeroprefix(data, data_len, 0, 1, 12, p_err_no, p_err_posn, err_msg, 0);
 }
 
-/* X..25,csumalpha,key (Used by GMN) */
-static int x__25_csumalpha_key(const unsigned char *data,
+/* X..25,csumalpha,gcppos1 (Used by GMN) */
+static int gs1_x__25_csumalpha_gcppos1(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 25
-            && csumalpha(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg)
-            && csumalpha(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_csumalpha(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos1(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg)
+            && gs1_csumalpha(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos1(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0);
 }
 
-/* X..25,csumalpha,key,hasnondigit (Used by MUDI) */
-static int x__25_csumalpha_key_hasnondigit(const unsigned char *data,
+/* X..25,csumalpha,gcppos1,hasnondigit (Used by MUDI) */
+static int gs1_x__25_csumalpha_gcppos1_hasnondigit(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 25
-            && csumalpha(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && key(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && hasnondigit(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg)
-            && csumalpha(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0)
-            && key(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0)
-            && hasnondigit(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_csumalpha(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos1(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_hasnondigit(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg)
+            && gs1_csumalpha(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos1(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_hasnondigit(data, data_len, 0, 1, 25, p_err_no, p_err_posn, err_msg, 0);
+}
+
+/* N18,csum,gcppos1 (Used by GSRN - PROVIDER, GSRN - RECIPIENT) */
+static int gs1_n18_csum_gcppos1(const unsigned char *data,
+            const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
+    return data_len == 18
+            && gs1_csum(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_gcppos1(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_numeric(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg)
+            && gs1_csum(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 0)
+            && gs1_gcppos1(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* N..10 (Used by SRIN) */
-static int n__10(const unsigned char *data,
+static int gs1_n__10(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 10
-            && numeric(data, data_len, 0, 1, 10, p_err_no, p_err_posn, err_msg);
+            && gs1_numeric(data, data_len, 0, 1, 10, p_err_no, p_err_posn, err_msg);
 }
 
 /* Z..90 (Used by DIGSIG) */
-static int z__90(const unsigned char *data,
+static int gs1_z__90(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 90
-            && cset64(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg);
+            && gs1_cset64(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg);
+}
+
+/* N15 (Used by IMEI, IMEI2) */
+static int gs1_n15(const unsigned char *data,
+            const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
+    return data_len == 15
+            && gs1_numeric(data, data_len, 0, 15, 15, p_err_no, p_err_posn, err_msg);
+}
+
+/* N32 (Used by ESIM) */
+static int gs1_n32(const unsigned char *data,
+            const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
+    return data_len == 32
+            && gs1_numeric(data, data_len, 0, 32, 32, p_err_no, p_err_posn, err_msg);
+}
+
+/* N18 [N..2] (Used by PSIM) */
+static int gs1_n18__n__2_(const unsigned char *data,
+            const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
+    return data_len >= 18 && data_len <= 20
+            && gs1_numeric(data, data_len, 0, 18, 18, p_err_no, p_err_posn, err_msg)
+            && gs1_numeric(data, data_len, 18, 0, 2, p_err_no, p_err_posn, err_msg);
 }
 
 /* X..70,couponcode */
-static int x__70_couponcode(const unsigned char *data,
+static int gs1_x__70_couponcode(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 70
-            && couponcode(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg)
-            && couponcode(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_couponcode(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg)
+            && gs1_couponcode(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..70,couponposoffer */
-static int x__70_couponposoffer(const unsigned char *data,
+static int gs1_x__70_couponposoffer(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 70
-            && couponposoffer(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
-            && cset82(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg)
-            && couponposoffer(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 0);
+            && gs1_couponposoffer(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 1 /*length_only*/)
+            && gs1_cset82(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg)
+            && gs1_couponposoffer(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg, 0);
 }
 
 /* X..70 (Used by PRODUCT URL) */
-static int x__70(const unsigned char *data,
+static int gs1_x__70(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 70
-            && cset82(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 70, p_err_no, p_err_posn, err_msg);
 }
 
 /* X..90 (Used by INTERNAL) */
-static int x__90(const unsigned char *data,
+static int gs1_x__90(const unsigned char *data,
             const int data_len, int *p_err_no, int *p_err_posn, char err_msg[50]) {
     return data_len >= 1 && data_len <= 90
-            && cset82(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg);
+            && gs1_cset82(data, data_len, 0, 1, 90, p_err_no, p_err_posn, err_msg);
 }
 
 /* Entry point. Returns 1 on success, 0 on failure: `*p_err_no` set to 1 if unknown AI, 2 if bad data length */
@@ -678,90 +713,91 @@ static int gs1_lint(const int ai, const unsigned char *data, const int data_len,
 
     /* Assume data length failure */
     *p_err_no = 2;
+    *p_err_posn = 1;
 
     if (ai < 100) {
 
         if (ai == 0) {
-            return n18_csum_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n18_csum_gcppos2(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 1 && ai <= 3) {
-            return n14_csum_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n14_csum_gcppos2(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 10 || ai == 21 || ai == 22) {
-            return x__20(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__20(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if ((ai >= 11 && ai <= 13) || (ai >= 15 && ai <= 17)) {
-            return n6_yymmd0(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6_yymmd0(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 20) {
-            return n2(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n2(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 30 || ai == 37) {
-            return n__8(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n__8(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 90) {
-            return x__30(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__30(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 91) {
-            return x__90(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__90(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 300) {
 
         if (ai == 235) {
-            return x__28(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__28(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 240 || ai == 241 || ai == 250 || ai == 251) {
-            return x__30(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__30(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 242) {
-            return n__6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n__6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 243 || ai == 254) {
-            return x__20(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__20(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 253) {
-            return n13_csum_key__x__17_(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n13_csum_gcppos1__x__17_(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 255) {
-            return n13_csum_key__n__12_(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n13_csum_gcppos1__n__12_(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 500) {
 
         if (ai == 400 || ai == 403) {
-            return x__30(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__30(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 401) {
-            return x__30_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__30_gcppos1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 402) {
-            return n17_csum_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n17_csum_gcppos1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 410 && ai <= 417) {
-            return n13_csum_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n13_csum_gcppos1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 420) {
-            return x__20(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__20(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 421) {
-            return n3_iso3166_x__9(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n3_iso3166_x__9(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 422 || ai == 424 || ai == 426) {
-            return n3_iso3166(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n3_iso3166(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 423 || ai == 425) {
-            return n3_iso3166__n3__iso3166__n3__iso3166__n3__iso3166__n3__iso3166(data,
+            return gs1_n3_iso3166__n3__iso3166__n3__iso3166__n3__iso3166__n3__iso3166(data,
                         data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 427) {
-            return x__3(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__3(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 800) {
 
-        if (ai >= 710 && ai <= 716) {
-            return x__20(data, data_len, p_err_no, p_err_posn, err_msg);
+        if (ai >= 710 && ai <= 717) {
+            return gs1_x__20(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 3200) {
@@ -769,7 +805,7 @@ static int gs1_lint(const int ai, const unsigned char *data, const int data_len,
         if ((ai >= 3100 && ai <= 3105) || (ai >= 3110 && ai <= 3115) || (ai >= 3120 && ai <= 3125)
                 || (ai >= 3130 && ai <= 3135) || (ai >= 3140 && ai <= 3145) || (ai >= 3150 && ai <= 3155)
                 || (ai >= 3160 && ai <= 3165)) {
-            return n6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 3300) {
@@ -777,7 +813,7 @@ static int gs1_lint(const int ai, const unsigned char *data, const int data_len,
         if (ai <= 3205 || (ai >= 3210 && ai <= 3215) || (ai >= 3220 && ai <= 3225) || (ai >= 3230 && ai <= 3235)
                 || (ai >= 3240 && ai <= 3245) || (ai >= 3250 && ai <= 3255) || (ai >= 3260 && ai <= 3265)
                 || (ai >= 3270 && ai <= 3275) || (ai >= 3280 && ai <= 3285) || (ai >= 3290 && ai <= 3295)) {
-            return n6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 3400) {
@@ -785,7 +821,7 @@ static int gs1_lint(const int ai, const unsigned char *data, const int data_len,
         if (ai <= 3305 || (ai >= 3310 && ai <= 3315) || (ai >= 3320 && ai <= 3325) || (ai >= 3330 && ai <= 3335)
                 || (ai >= 3340 && ai <= 3345) || (ai >= 3350 && ai <= 3355) || (ai >= 3360 && ai <= 3365)
                 || (ai >= 3370 && ai <= 3375)) {
-            return n6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 3500) {
@@ -793,7 +829,7 @@ static int gs1_lint(const int ai, const unsigned char *data, const int data_len,
         if (ai <= 3405 || (ai >= 3410 && ai <= 3415) || (ai >= 3420 && ai <= 3425) || (ai >= 3430 && ai <= 3435)
                 || (ai >= 3440 && ai <= 3445) || (ai >= 3450 && ai <= 3455) || (ai >= 3460 && ai <= 3465)
                 || (ai >= 3470 && ai <= 3475) || (ai >= 3480 && ai <= 3485) || (ai >= 3490 && ai <= 3495)) {
-            return n6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 3600) {
@@ -801,7 +837,7 @@ static int gs1_lint(const int ai, const unsigned char *data, const int data_len,
         if (ai <= 3505 || (ai >= 3510 && ai <= 3515) || (ai >= 3520 && ai <= 3525) || (ai >= 3530 && ai <= 3535)
                 || (ai >= 3540 && ai <= 3545) || (ai >= 3550 && ai <= 3555) || (ai >= 3560 && ai <= 3565)
                 || (ai >= 3570 && ai <= 3575)) {
-            return n6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 3700) {
@@ -809,223 +845,616 @@ static int gs1_lint(const int ai, const unsigned char *data, const int data_len,
         if (ai <= 3605 || (ai >= 3610 && ai <= 3615) || (ai >= 3620 && ai <= 3625) || (ai >= 3630 && ai <= 3635)
                 || (ai >= 3640 && ai <= 3645) || (ai >= 3650 && ai <= 3655) || (ai >= 3660 && ai <= 3665)
                 || (ai >= 3670 && ai <= 3675) || (ai >= 3680 && ai <= 3685) || (ai >= 3690 && ai <= 3695)) {
-            return n6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 4000) {
 
         if ((ai >= 3900 && ai <= 3909) || (ai >= 3920 && ai <= 3929)) {
-            return n__15(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n__15(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if ((ai >= 3910 && ai <= 3919) || (ai >= 3930 && ai <= 3939)) {
-            return n3_iso4217_n__15(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n3_iso4217_n__15(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 3940 && ai <= 3943) {
-            return n4(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n4(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 3950 && ai <= 3955) {
-            return n6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 4400) {
 
         if (ai == 4300 || ai == 4301 || ai == 4310 || ai == 4311 || ai == 4320) {
-            return x__35_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__35_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if ((ai >= 4302 && ai <= 4306) || (ai >= 4312 && ai <= 4316)) {
-            return x__70_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__70_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 4307 || ai == 4317) {
-            return x2_iso3166alpha2(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x2_iso3166alpha2(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 4308 || ai == 4319) {
-            return x__30(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__30(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 4309) {
-            return n10_latitude_n10_longitude(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n10_latitude_n10_longitude(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 4318) {
-            return x__20(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__20(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 4321 && ai <= 4323) {
-            return n1_yesno(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n1_yesno(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 4324 || ai == 4325) {
-            return n6_yymmd0_n4_hhmi(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6_yymmd0_n4_hhmi(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 4326) {
-            return n6_yymmdd(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6_yymmdd(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 4330 && ai <= 4333) {
-            return n6__x1__hyphen(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6__x1__hyphen(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 7100) {
 
         if (ai == 7001) {
-            return n13(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n13(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7002) {
-            return x__30(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__30(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7003) {
-            return n6_yymmdd_n4_hhmi(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6_yymmdd_n4_hhmi(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7004) {
-            return n__4(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n__4(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7005) {
-            return x__12(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__12(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7006) {
-            return n6_yymmdd(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6_yymmdd(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7007) {
-            return n6_yymmdd__n6__yymmdd(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6_yymmdd__n6__yymmdd(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7008) {
-            return x__3(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__3(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7009) {
-            return x__10(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__10(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7010) {
-            return x__2(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__2(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7011) {
-            return n6_yymmdd__n4__hhmi(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6_yymmdd__n4__hhmi(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 7020 && ai <= 7022) {
-            return x__20(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__20(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7023) {
-            return x__30_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__30_gcppos1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai >= 7030 && ai <= 7039) {
-            return n3_iso3166999_x__27(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n3_iso3166999_x__27(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7040) {
-            return n1_x1_x1_x1_importeridx(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n1_x1_x1_x1_importeridx(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7041) {
-            return x__4_packagetype(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__4_packagetype(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 7300) {
 
         if (ai >= 7230 && ai <= 7239) {
-            return x2_x__28(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x2_x__28(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7240) {
-            return x__20(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__20(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7241) {
-            return n2_mediatype(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n2_mediatype(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7242) {
-            return x__25(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__25(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7250) {
-            return n8_yyyymmdd(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n8_yyyymmdd(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7251) {
-            return n8_yyyymmdd_n4_hhmi(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n8_yyyymmdd_n4_hhmi(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7252) {
-            return n1_iso5218(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n1_iso5218(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7253 || ai == 7254 || ai == 7259) {
-            return x__40_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__40_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7255) {
-            return x__10(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__10(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7256) {
-            return x__90_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__90_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7257) {
-            return x__70_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__70_pcenc(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 7258) {
-            return x3_posinseqslash(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x3_posinseqslash(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 8100) {
 
         if (ai == 8001) {
-            return n4_nonzero_n5_nonzero_n3_nonzero_n1_winding_n1(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n4_nonzero_n5_nonzero_n3_nonzero_n1_winding_n1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8002 || ai == 8012) {
-            return x__20(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__20(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8003) {
-            return n1_zero_n13_csum_key__x__16_(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n1_zero_n13_csum_gcppos1__x__16_(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8004) {
-            return x__30_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__30_gcppos1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8005) {
-            return n6(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8006 || ai == 8026) {
-            return n14_csum_n4_pieceoftotal(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n14_csum_gcppos2_n4_pieceoftotal(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8007) {
-            return x__34_iban(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__34_iban(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8008) {
-            return n6_yymmdd_n2_hh__n2__mi__n2__ss(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n6_yymmdd_n2_hh__n2__mi__n2__ss(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8009) {
-            return x__50(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__50(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8010) {
-            return y__30_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_y__30_gcppos1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8011) {
-            return n__12_nozeroprefix(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n__12_nozeroprefix(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8013) {
-            return x__25_csumalpha_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__25_csumalpha_gcppos1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8014) {
-            return x__25_csumalpha_key_hasnondigit(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__25_csumalpha_gcppos1_hasnondigit(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8017 || ai == 8018) {
-            return n18_csum_key(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n18_csum_gcppos1(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8019) {
-            return n__10(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n__10(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8020) {
-            return x__25(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__25(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8030) {
-            return z__90(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_z__90(data, data_len, p_err_no, p_err_posn, err_msg);
+        }
+        if (ai == 8040 || ai == 8041) {
+            return gs1_n15(data, data_len, p_err_no, p_err_posn, err_msg);
+        }
+        if (ai == 8042) {
+            return gs1_n32(data, data_len, p_err_no, p_err_posn, err_msg);
+        }
+        if (ai == 8043) {
+            return gs1_n18__n__2_(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 8200) {
 
         if (ai == 8110) {
-            return x__70_couponcode(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__70_couponcode(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8111) {
-            return n4(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_n4(data, data_len, p_err_no, p_err_posn, err_msg);
         }
         if (ai == 8112) {
-            return x__70_couponposoffer(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__70_couponposoffer(data, data_len, p_err_no, p_err_posn, err_msg);
         }
 
     } else if (ai < 8300) {
 
         if (ai == 8200) {
-            return x__70(data, data_len, p_err_no, p_err_posn, err_msg);
+            return gs1_x__70(data, data_len, p_err_no, p_err_posn, err_msg);
         }
     }
 
     /* Unknown AI */
     *p_err_no = 1;
     return 0;
+}
+
+/* Helper to parse non-bracketed input */
+static int gs1_lint_parse_ai(const unsigned char source[], const int length, const int position,
+            int *p_ai, int *p_min, int *p_max) {
+    int ai, ai2, ai3 = -1, ai4 = -1, min, max = 0;
+
+    *p_ai = -1;
+
+    if (position + 1 >= length || !z_isdigit(source[position]) || !z_isdigit(source[position + 1])) {
+        return 0;
+    }
+    ai2 = z_to_int(source + position, 2);
+    if (position + 3 < length && z_isdigit(source[position + 2])) {
+        ai3 = z_to_int(source + position, 3);
+        if (position + 4 < length && z_isdigit(source[position + 3])) {
+            ai4 = z_to_int(source + position, 4);
+        }
+    }
+
+    ai = ai2;
+    if (ai == 0) {
+        min = 18, max = 18;
+    } else if (ai >= 1 && ai <= 3) {
+        min = 14, max = 14;
+    } else if (ai == 10 || ai == 21 || ai == 22) {
+        min = 1, max = 20;
+    } else if ((ai >= 11 && ai <= 13) || (ai >= 15 && ai <= 17)) {
+        min = 6, max = 6;
+    } else if (ai == 20) {
+        min = 2, max = 2;
+    } else if (ai == 30 || ai == 37) {
+        min = 1, max = 8;
+    } else if (ai == 90) {
+        min = 1, max = 30;
+    } else if (ai >= 91) {
+        min = 1, max = 90;
+    }
+
+    if (max == 0 && ai3 != -1) {
+
+        if (ai3 < 300) {
+            ai = ai3;
+            if (ai == 235) {
+                min = 1, max = 28;
+            } else if (ai == 240 || ai == 241 || ai == 250 || ai == 251) {
+                min = 1, max = 30;
+            } else if (ai == 242) {
+                min = 1, max = 6;
+            } else if (ai == 243 || ai == 254) {
+                min = 1, max = 20;
+            } else if (ai == 253) {
+                min = 13, max = 30;
+            } else if (ai == 255) {
+                min = 13, max = 25;
+            }
+
+        } else if (ai3 < 500) {
+            ai = ai3;
+            if (ai == 400 || ai == 403) {
+                min = 1, max = 30;
+            } else if (ai == 401) {
+                min = 1, max = 30;
+            } else if (ai == 402) {
+                min = 17, max = 17;
+            } else if (ai >= 410 && ai <= 417) {
+                min = 13, max = 13;
+            } else if (ai == 420) {
+                min = 1, max = 20;
+            } else if (ai == 421) {
+                min = 4, max = 12;
+            } else if (ai == 422 || ai == 424 || ai == 426) {
+                min = 3, max = 3;
+            } else if (ai == 423 || ai == 425) {
+                min = 3, max = 15;
+            } else if (ai == 427) {
+                min = 1, max = 3;
+            }
+
+        } else if (ai3 < 800) {
+            ai = ai3;
+            if (ai >= 710 && ai <= 717) {
+                min = 1, max = 20;
+            }
+        }
+
+    }
+
+    if (max == 0 && ai4 != -1) {
+
+        if (ai4 < 3200) {
+            ai = ai4;
+            if ((ai >= 3100 && ai <= 3105) || (ai >= 3110 && ai <= 3115) || (ai >= 3120 && ai <= 3125)
+                    || (ai >= 3130 && ai <= 3135) || (ai >= 3140 && ai <= 3145) || (ai >= 3150 && ai <= 3155)
+                    || (ai >= 3160 && ai <= 3165)) {
+                min = 6, max = 6;
+            }
+
+        } else if (ai4 < 3300) {
+            ai = ai4;
+            if (ai <= 3205 || (ai >= 3210 && ai <= 3215) || (ai >= 3220 && ai <= 3225) || (ai >= 3230 && ai <= 3235)
+                    || (ai >= 3240 && ai <= 3245) || (ai >= 3250 && ai <= 3255) || (ai >= 3260 && ai <= 3265)
+                    || (ai >= 3270 && ai <= 3275) || (ai >= 3280 && ai <= 3285) || (ai >= 3290 && ai <= 3295)) {
+                min = 6, max = 6;
+            }
+
+        } else if (ai4 < 3400) {
+            ai = ai4;
+            if (ai <= 3305 || (ai >= 3310 && ai <= 3315) || (ai >= 3320 && ai <= 3325) || (ai >= 3330 && ai <= 3335)
+                    || (ai >= 3340 && ai <= 3345) || (ai >= 3350 && ai <= 3355) || (ai >= 3360 && ai <= 3365)
+                    || (ai >= 3370 && ai <= 3375)) {
+                min = 6, max = 6;
+            }
+
+        } else if (ai4 < 3500) {
+            ai = ai4;
+            if (ai <= 3405 || (ai >= 3410 && ai <= 3415) || (ai >= 3420 && ai <= 3425) || (ai >= 3430 && ai <= 3435)
+                    || (ai >= 3440 && ai <= 3445) || (ai >= 3450 && ai <= 3455) || (ai >= 3460 && ai <= 3465)
+                    || (ai >= 3470 && ai <= 3475) || (ai >= 3480 && ai <= 3485) || (ai >= 3490 && ai <= 3495)) {
+                min = 6, max = 6;
+            }
+
+        } else if (ai4 < 3600) {
+            ai = ai4;
+            if (ai <= 3505 || (ai >= 3510 && ai <= 3515) || (ai >= 3520 && ai <= 3525) || (ai >= 3530 && ai <= 3535)
+                    || (ai >= 3540 && ai <= 3545) || (ai >= 3550 && ai <= 3555) || (ai >= 3560 && ai <= 3565)
+                    || (ai >= 3570 && ai <= 3575)) {
+                min = 6, max = 6;
+            }
+
+        } else if (ai4 < 3700) {
+            ai = ai4;
+            if (ai <= 3605 || (ai >= 3610 && ai <= 3615) || (ai >= 3620 && ai <= 3625) || (ai >= 3630 && ai <= 3635)
+                    || (ai >= 3640 && ai <= 3645) || (ai >= 3650 && ai <= 3655) || (ai >= 3660 && ai <= 3665)
+                    || (ai >= 3670 && ai <= 3675) || (ai >= 3680 && ai <= 3685) || (ai >= 3690 && ai <= 3695)) {
+                min = 6, max = 6;
+            }
+
+        } else if (ai4 < 4000) {
+            ai = ai4;
+            if ((ai >= 3900 && ai <= 3909) || (ai >= 3920 && ai <= 3929)) {
+                min = 1, max = 15;
+            } else if ((ai >= 3910 && ai <= 3919) || (ai >= 3930 && ai <= 3939)) {
+                min = 4, max = 18;
+            } else if (ai >= 3940 && ai <= 3943) {
+                min = 4, max = 4;
+            } else if (ai >= 3950 && ai <= 3955) {
+                min = 6, max = 6;
+            }
+
+        } else if (ai4 < 4400) {
+            ai = ai4;
+            if (ai == 4300 || ai == 4301 || ai == 4310 || ai == 4311 || ai == 4320) {
+                min = 1, max = 35;
+            } else if ((ai >= 4302 && ai <= 4306) || (ai >= 4312 && ai <= 4316)) {
+                min = 1, max = 70;
+            } else if (ai == 4307 || ai == 4317) {
+                min = 2, max = 2;
+            } else if (ai == 4308 || ai == 4319) {
+                min = 1, max = 30;
+            } else if (ai == 4309) {
+                min = 20, max = 20;
+            } else if (ai == 4318) {
+                min = 1, max = 20;
+            } else if (ai >= 4321 && ai <= 4323) {
+                min = 1, max = 1;
+            } else if (ai == 4324 || ai == 4325) {
+                min = 10, max = 10;
+            } else if (ai == 4326) {
+                min = 6, max = 6;
+            } else if (ai >= 4330 && ai <= 4333) {
+                min = 6, max = 7;
+            }
+
+        } else if (ai4 < 7100) {
+            ai = ai4;
+            if (ai == 7001) {
+                min = 13, max = 13;
+            } else if (ai == 7002) {
+                min = 1, max = 30;
+            } else if (ai == 7003) {
+                min = 10, max = 10;
+            } else if (ai == 7004) {
+                min = 1, max = 4;
+            } else if (ai == 7005) {
+                min = 1, max = 12;
+            } else if (ai == 7006) {
+                min = 6, max = 6;
+            } else if (ai == 7007) {
+                min = 6, max = 12;
+            } else if (ai == 7008) {
+                min = 1, max = 3;
+            } else if (ai == 7009) {
+                min = 1, max = 10;
+            } else if (ai == 7010) {
+                min = 1, max = 2;
+            } else if (ai == 7011) {
+                min = 6, max = 10;
+            } else if (ai >= 7020 && ai <= 7022) {
+                min = 1, max = 20;
+            } else if (ai == 7023) {
+                min = 1, max = 30;
+            } else if (ai >= 7030 && ai <= 7039) {
+                min = 4, max = 30;
+            } else if (ai == 7040) {
+                min = 4, max = 4;
+            } else if (ai == 7041) {
+                min = 1, max = 4;
+            }
+
+        } else if (ai4 < 7300) {
+            ai = ai4;
+            if (ai >= 7230 && ai <= 7239) {
+                min = 3, max = 30;
+            } else if (ai == 7240) {
+                min = 1, max = 20;
+            } else if (ai == 7241) {
+                min = 2, max = 2;
+            } else if (ai == 7242) {
+                min = 1, max = 25;
+            } else if (ai == 7250) {
+                min = 8, max = 8;
+            } else if (ai == 7251) {
+                min = 12, max = 12;
+            } else if (ai == 7252) {
+                min = 1, max = 1;
+            } else if (ai == 7253 || ai == 7254 || ai == 7259) {
+                min = 1, max = 40;
+            } else if (ai == 7255) {
+                min = 1, max = 10;
+            } else if (ai == 7256) {
+                min = 1, max = 90;
+            } else if (ai == 7257) {
+                min = 1, max = 70;
+            } else if (ai == 7258) {
+                min = 3, max = 3;
+            }
+
+        } else if (ai4 < 8100) {
+            ai = ai4;
+            if (ai == 8001) {
+                min = 14, max = 14;
+            } else if (ai == 8002 || ai == 8012) {
+                min = 1, max = 20;
+            } else if (ai == 8003) {
+                min = 14, max = 30;
+            } else if (ai == 8004) {
+                min = 1, max = 30;
+            } else if (ai == 8005) {
+                min = 6, max = 6;
+            } else if (ai == 8006 || ai == 8026) {
+                min = 18, max = 18;
+            } else if (ai == 8007) {
+                min = 1, max = 34;
+            } else if (ai == 8008) {
+                min = 8, max = 12;
+            } else if (ai == 8009) {
+                min = 1, max = 50;
+            } else if (ai == 8010) {
+                min = 1, max = 30;
+            } else if (ai == 8011) {
+                min = 1, max = 12;
+            } else if (ai == 8013) {
+                min = 1, max = 25;
+            } else if (ai == 8014) {
+                min = 1, max = 25;
+            } else if (ai == 8017 || ai == 8018) {
+                min = 18, max = 18;
+            } else if (ai == 8019) {
+                min = 1, max = 10;
+            } else if (ai == 8020) {
+                min = 1, max = 25;
+            } else if (ai == 8030) {
+                min = 1, max = 90;
+            } else if (ai == 8040 || ai == 8041) {
+                min = 15, max = 15;
+            } else if (ai == 8042) {
+                min = 32, max = 32;
+            } else if (ai == 8043) {
+                min = 18, max = 20;
+            }
+
+        } else if (ai4 < 8200) {
+            ai = ai4;
+            if (ai == 8110) {
+                min = 1, max = 70;
+            } else if (ai == 8111) {
+                min = 4, max = 4;
+            } else if (ai == 8112) {
+                min = 1, max = 70;
+            }
+
+        } else if (ai4 < 8300) {
+            ai = ai4;
+            if (ai == 8200) {
+                min = 1, max = 70;
+            }
+        }
+    }
+
+    if (max == 0) {
+        *p_ai = ai2; /* Use 2-digit as feedback */
+        return 0;
+    }
+    assert(ai >= 0 && ai <= 9999);
+    assert(min >= 1);
+    assert(max >= min);
+
+    *p_ai = ai;
+    if (p_min) {
+        *p_min = min;
+    }
+    if (p_max) {
+        *p_max = max;
+    }
+    return 1;
+}
+
+/* Parse non-bracketed input */
+static int gs1_lint_parse_raw_caret(const unsigned char source[], const int length,
+            const int ai_max, int *ai_vals, int *ai_locs, int *data_locs, int *data_lens, int *p_ai_count,
+            int *p_err_no, int *p_err_posn) {
+    int i, j;
+    const int gs1_caret = source[0] == '^';
+    const unsigned char separator = gs1_caret ? '^' : '\x1D';
+    int ai, max;
+    int ai_count = 0, ai_len;
+    #ifdef NDEBUG
+    (void)ai_max;
+    #endif
+
+    i = gs1_caret || source[0] == '\x1D'; /* Allow GS at start also */
+
+    if (i >= length) {
+        *p_ai_count = 0; /* For feedback */
+        ai_vals[0] = -1;
+        ai_locs[0] = i - 1;
+        *p_err_no = 1;
+        *p_err_posn = i;
+        return 0;
+    }
+
+    while (i < length) {
+        int data_start, data_max, on_separator, is_predefined_len;
+        assert(ai_count < ai_max);
+        ai_locs[ai_count] = i;
+        if (!gs1_lint_parse_ai(source, length, i, &ai, NULL /*min*/, &max)) {
+            *p_ai_count = ai_count; /* For feedback */
+            ai_vals[ai_count] = ai; /* May be -1 */
+            *p_err_no = 1;
+            *p_err_posn = i + 1; /* Position 1-base */
+            return 0;
+        }
+        ai_vals[ai_count] = ai;
+        ai_len = ai < 100 ? 2 : ai < 1000 ? 3 : 4;
+        is_predefined_len = gs1_predefined_len(source + ai_locs[ai_count]);
+
+        /* Following GS1 Syntax Engine tolerating superfluous FNC1s at end of AI data
+           (for both final AI and AIs with predefined length) */
+        data_start = i + ai_len;
+        data_max = data_start + max;
+        for (j = data_start; j < length && j < data_max; j++) {
+            if (source[j] == separator) {
+                break;
+            }
+        }
+        data_locs[ai_count] = data_start;
+        /* Only checking that have at least one char, haven't exceeded max, and have separator if not predefined */
+        on_separator = j < length && source[j] == separator;
+        if (j == data_start || (j + 1 == length && length > data_max && !on_separator)
+                || (j + 1 < length && !on_separator && !is_predefined_len)) {
+            *p_ai_count = ai_count; /* For feedback */
+            data_lens[ai_count] = j - data_start;
+            *p_err_no = 2;
+            *p_err_posn = i + 1; /* Position 1-base */
+            return 0;
+        }
+        data_lens[ai_count] = j - data_locs[ai_count];
+        ai_count++;
+        i = j + on_separator;
+    }
+
+    *p_ai_count = ai_count;
+    return 1;
 }
 
 #endif /* Z_GS1_LINT_H */

@@ -12,6 +12,9 @@
     <ClInclude Include="..\thirdparty\zint\backend\aztec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\thirdparty\zint\backend\aztec_trace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\thirdparty\zint\backend\big5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -139,9 +142,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\zint\backend\tif.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\thirdparty\zint\backend\tif_lzw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\zint\backend\zfiletypes.h">

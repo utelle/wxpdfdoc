@@ -1,7 +1,7 @@
 /*  ultra.c - Ultracode */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2020-2025 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2020-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -32,6 +32,7 @@
 
 /* This version was developed using AIMD/TSC15032-43 v0.99c Edit 60, dated 4th Nov 2015 */
 
+#include <assert.h>
 #include <stdio.h>
 #include "common.h"
 
@@ -196,19 +197,19 @@ static void ult_gf283(const short DataSize, const short EccSize, int Message[]) 
     ult_genPoly(EccSize, gPoly, gfPwr, gfLog);
 
     /* zero all EccSize codeword values */
-    for (j = 281; (j > (281 - EccSize)); j--) Message[j] = 0;
+    for (j = 281; j > 281 - EccSize; j--) Message[j] = 0;
 
     /* shift message codewords to the right, leave space for ECC checkwords */
-    for (i = DataSize - 1; (i >= 0); j--, i--) Message[j] = Message[i];
+    for (i = DataSize - 1; i >= 0; j--, i--) Message[j] = Message[i];
 
     /* add zeroes to pad left end Message[] for truncated codewords */
     j++;
     for (i = 0; i < j; i++) Message[i] = 0;
 
     /* generate (EccSize) Reed-Solomon checkwords */
-    for (n = j; n < (j + DataSize); n++) {
+    for (n = j; n < j + DataSize; n++) {
         t = (Message[j + DataSize] + Message[n]) % 283;
-        for (i = 0; i < (EccSize - 1); i++) {
+        for (i = 0; i < EccSize - 1; i++) {
             Message[j + DataSize + i] = (Message[j + DataSize + i + 1] + 283
                                         - ULT_GFMUL(t, gPoly[EccSize - 1 - i])) % 283;
         }
@@ -227,7 +228,7 @@ static int ult_find_fragment(const unsigned char source[], const int length, con
     for (j = 0; j < 27; j++) {
         latch = 0;
         fraglen = (int) strlen(ult_fragment[j]);
-        if ((position + fraglen) <= length) {
+        if (position + fraglen <= length) {
             latch = 1;
             for (k = 0; k < fraglen; k++) {
                 if (source[position + k] != ult_fragment[j][k]) {
@@ -258,7 +259,7 @@ static float ult_look_ahead_eightbit(const unsigned char source[], const int len
     }
 
     i = in_locn;
-    while ((i < length) && (i < end_char)) {
+    while (i < length && i < end_char) {
         if (gs1 && source[i] == '\x1D') {
             cw[codeword_count] = 268; /* FNC1 */
         } else {
@@ -284,7 +285,7 @@ static float ult_look_ahead_ascii(unsigned char source[], const int length, cons
             const int gs1) {
     int codeword_count = 0;
     int i;
-    int first_digit, second_digit, done;
+    int done;
     int letters_encoded = 0;
 
     if (current_mode == ULT_EIGHTBIT_MODE) {
@@ -306,35 +307,35 @@ static float ult_look_ahead_ascii(unsigned char source[], const int length, cons
         /* Check for double digits */
         done = 0;
         if (i + 1 < length) {
-            first_digit = posn(ult_digit, source[i]);
-            second_digit = posn(ult_digit, source[i + 1]);
-            if ((first_digit != -1) && (second_digit != -1)) {
+            const int first_digit = z_posn(ult_digit, source[i]);
+            const int second_digit = z_posn(ult_digit, source[i + 1]);
+            if (first_digit != -1 && second_digit != -1) {
                 /* Double digit can be encoded */
-                if ((first_digit >= 0) && (first_digit <= 9) && (second_digit >= 0) && (second_digit <= 9)) {
+                if (first_digit >= 0 && first_digit <= 9 && second_digit >= 0 && second_digit <= 9) {
                     /* Double digit numerics */
                     cw[codeword_count] = (10 * first_digit) + second_digit + 128;
                     codeword_count++;
                     i += 2;
                     done = 1;
-                } else if ((first_digit >= 0) && (first_digit <= 9) && (second_digit == 10)) {
+                } else if (first_digit >= 0 && first_digit <= 9 && second_digit == 10) {
                     /* Single digit followed by selected decimal point character */
                     cw[codeword_count] = first_digit + 228;
                     codeword_count++;
                     i += 2;
                     done = 1;
-                } else if ((first_digit == 10) && (second_digit >= 0) && (second_digit <= 9)) {
+                } else if (first_digit == 10 && second_digit >= 0 && second_digit <= 9) {
                     /* Selected decimal point character followed by single digit */
                     cw[codeword_count] = second_digit + 238;
                     codeword_count++;
                     i += 2;
                     done = 1;
-                } else if ((first_digit >= 0) && (first_digit <= 9) && (second_digit == 11)) {
+                } else if (first_digit >= 0 && first_digit <= 9 && second_digit == 11) {
                     /* Single digit or decimal point followed by field deliminator */
                     cw[codeword_count] = first_digit + 248;
                     codeword_count++;
                     i += 2;
                     done = 1;
-                } else if ((first_digit == 11) && (second_digit >= 0) && (second_digit <= 9)) {
+                } else if (first_digit == 11 && second_digit >= 0 && second_digit <= 9) {
                     /* Field deliminator followed by single digit or decimal point */
                     cw[codeword_count] = second_digit + 259;
                     codeword_count++;
@@ -344,7 +345,7 @@ static float ult_look_ahead_ascii(unsigned char source[], const int length, cons
             }
         }
 
-        if (!done && source[i] < 0x80) {
+        if (!done && z_isascii(source[i])) {
             if (gs1 && source[i] == '\x1D') {
                 cw[codeword_count] = 272; /* FNC1 */
             } else {
@@ -353,7 +354,7 @@ static float ult_look_ahead_ascii(unsigned char source[], const int length, cons
             codeword_count++;
             i++;
         }
-    } while ((i < length) && (i < end_char) && (source[i] < 0x80));
+    } while (i < length && i < end_char && z_isascii(source[i]));
 
     letters_encoded = i - in_locn;
     if (encoded != NULL) {
@@ -395,10 +396,10 @@ static int ult_c43_should_latch_other(const unsigned char source[], const int le
             }
             i += fraglen - 1;
         } else {
-            if (posn(set, source[i]) != -1) {
+            if (z_posn(set, source[i]) != -1) {
                 cnt++;
             }
-            if (posn(alt_set, source[i]) != -1) {
+            if (z_posn(alt_set, source[i]) != -1) {
                 alt_cnt++;
             }
         }
@@ -413,24 +414,24 @@ static int ult_get_subset(const unsigned char source[], const int length, const 
     int subset = 0;
 
     fragno = ult_find_fragment(source, length, in_locn);
-    if ((fragno != -1) && (fragno != 26)) {
+    if (fragno != -1 && fragno != 26) {
         subset = 3;
     } else if (current_subset == 2) {
-        if (posn(ult_c43_set2, source[in_locn]) != -1) {
+        if (z_posn(ult_c43_set2, source[in_locn]) != -1) {
             subset = 2;
-        } else if (posn(ult_c43_set1, source[in_locn]) != -1) {
+        } else if (z_posn(ult_c43_set1, source[in_locn]) != -1) {
             subset = 1;
         }
     } else {
-        if (posn(ult_c43_set1, source[in_locn]) != -1) {
+        if (z_posn(ult_c43_set1, source[in_locn]) != -1) {
             subset = 1;
-        } else if (posn(ult_c43_set2, source[in_locn]) != -1) {
+        } else if (z_posn(ult_c43_set2, source[in_locn]) != -1) {
             subset = 2;
         }
     }
 
     if (subset == 0) {
-        if (posn(ult_c43_set3, source[in_locn]) != -1) {
+        if (z_posn(ult_c43_set3, source[in_locn]) != -1) {
             subset = 3;
         }
     }
@@ -455,10 +456,10 @@ static float ult_look_ahead_c43(const unsigned char source[], const int length, 
     int *subcw = (int *) z_alloca(sizeof(int) * (length + 3) * 2);
 
     if (current_mode == ULT_EIGHTBIT_MODE) {
-        /* Check for permissable URL C43 macro sequences, otherwise encode directly */
+        /* Check for permissible URL C43 macro sequences, otherwise encode directly */
         fragno = ult_find_fragment(source, length, sublocn);
 
-        if ((fragno == 2) || (fragno == 3)) {
+        if (fragno == 2 || fragno == 3) {
             /* http://www. > http:// */
             /* https://www. > https:// */
             fragno -= 2;
@@ -499,7 +500,7 @@ static float ult_look_ahead_c43(const unsigned char source[], const int length, 
                 if (subset == 1) {
                     cw[codeword_count] = 260; /* C43 Compaction Submode C1 */
                     codeword_count++;
-                } else if ((subset == 2) || (subset == 3)) {
+                } else if (subset == 2 || subset == 3) {
                     cw[codeword_count] = 266; /* C43 Compaction Submode C2 */
                     codeword_count++;
                 }
@@ -510,14 +511,14 @@ static float ult_look_ahead_c43(const unsigned char source[], const int length, 
         if (subset == 1) {
             cw[codeword_count] = 278; /* C43 Compaction Submode C1 */
             codeword_count++;
-        } else if ((subset == 2) || (subset == 3)) {
+        } else if (subset == 2 || subset == 3) {
             cw[codeword_count] = 280; /* C43 Compaction Submode C2 */
             codeword_count++;
         }
     }
     unshift_set = subset;
 
-    while ((sublocn < length) && (sublocn < end_char)) {
+    while (sublocn < length && sublocn < end_char) {
         /* Check for FNC1 */
         if (gs1 && source[sublocn] == '\x1D') {
             break;
@@ -529,7 +530,7 @@ static float ult_look_ahead_c43(const unsigned char source[], const int length, 
             break;
         }
 
-        if ((new_subset != subset) && ((new_subset == 1) || (new_subset == 2))) {
+        if (new_subset != subset && (new_subset == 1 || new_subset == 2)) {
             if (ult_c43_should_latch_other(source, length, sublocn, subset)) {
                 subcw[subcodeword_count] = 42; /* Latch to other C43 set */
                 subcodeword_count++;
@@ -537,7 +538,7 @@ static float ult_look_ahead_c43(const unsigned char source[], const int length, 
             } else {
                 subcw[subcodeword_count] = 40; /* Shift to other C43 set for 1 char */
                 subcodeword_count++;
-                subcw[subcodeword_count] = posn(new_subset == 1 ? ult_c43_set1 : ult_c43_set2, source[sublocn]);
+                subcw[subcodeword_count] = z_posn(new_subset == 1 ? ult_c43_set1 : ult_c43_set2, source[sublocn]);
                 subcodeword_count++;
                 sublocn++;
                 continue;
@@ -547,11 +548,11 @@ static float ult_look_ahead_c43(const unsigned char source[], const int length, 
         subset = new_subset;
 
         if (subset == 1) {
-            subcw[subcodeword_count] = posn(ult_c43_set1, source[sublocn]);
+            subcw[subcodeword_count] = z_posn(ult_c43_set1, source[sublocn]);
             subcodeword_count++;
             sublocn++;
         } else if (subset == 2) {
-            subcw[subcodeword_count] = posn(ult_c43_set2, source[sublocn]);
+            subcw[subcodeword_count] = z_posn(ult_c43_set2, source[sublocn]);
             subcodeword_count++;
             sublocn++;
         } else if (subset == 3) {
@@ -571,7 +572,7 @@ static float ult_look_ahead_c43(const unsigned char source[], const int length, 
                 }
             } else {
                 /* C43 Set 3 codewords 19 to 35 */
-                subcw[subcodeword_count] = posn(ult_c43_set3, source[sublocn]) + 19;
+                subcw[subcodeword_count] = z_posn(ult_c43_set3, source[sublocn]) + 19;
                 subcodeword_count++;
                 sublocn++;
             }
@@ -637,6 +638,8 @@ static int ult_generate_codewords(struct zint_symbol *symbol, const unsigned cha
     char *mode = (char *) z_alloca(length + 1);
     int *cw_fragment = (int *) z_alloca(sizeof(int) * (length * 2 + 1));
 
+    assert(length > 0); /* Suppress clang-tidy-21 clang-analyzer-security.ArrayBound */
+
     /* Check for 06 Macro Sequence and crop accordingly */
     if (length >= 9
             && source[0] == '[' && source[1] == ')' && source[2] == '>' && source[3] == '\x1e'
@@ -681,10 +684,10 @@ static int ult_generate_codewords(struct zint_symbol *symbol, const unsigned cha
             mode[input_locn] = 'a';
             current_mode = ULT_ASCII_MODE;
 
-            if ((c43_score > ascii_score) && (c43_score > eightbit_score)) {
+            if (c43_score > ascii_score && c43_score > eightbit_score) {
                 mode[input_locn] = 'c';
                 current_mode = ULT_C43_MODE;
-            } else if ((eightbit_score > ascii_score) && (eightbit_score > c43_score)) {
+            } else if (eightbit_score > ascii_score && eightbit_score > c43_score) {
                 mode[input_locn] = '8';
                 current_mode = ULT_EIGHTBIT_MODE;
             }
@@ -694,6 +697,7 @@ static int ult_generate_codewords(struct zint_symbol *symbol, const unsigned cha
                 }
                 input_locn += ascii_encoded;
             } else if (mode[input_locn] == 'c') {
+                assert(c43_encoded >= 0); /* Suppress clang-tidy-21 clang-analyzer-security.ArrayBound */
                 for (i = 0; i < c43_encoded; i++) {
                     mode[input_locn + i] = 'c';
                 }
@@ -792,7 +796,7 @@ static int ult_generate_codewords(struct zint_symbol *symbol, const unsigned cha
 
 /* Call `ult_generate_codewords()` for each segment, dealing with symbol mode and start codeword beforehand */
 static int ult_generate_codewords_segs(struct zint_symbol *symbol, struct zint_seg segs[], const int seg_count,
-            int codewords[]) {
+            int codewords[], int *p_data_cw_count) {
     int i;
     int codeword_count = 0;
     int symbol_mode;
@@ -802,6 +806,11 @@ static int ult_generate_codewords_segs(struct zint_symbol *symbol, struct zint_s
     int length = segs[0].length;
     const int eci = segs[0].eci;
     const int gs1 = (symbol->input_mode & 0x07) == GS1_MODE;
+    /* Raw text dealt with by `ZBarcode_Encode_Segs()`, except for `eci` feedback.
+       Note not updating `eci` for GS1 mode as not converted */
+    const int content_segs = !gs1 && (symbol->output_options & BARCODE_CONTENT_SEGS);
+
+    assert(length > 0); /* Suppress clang-tidy-23 clang-analyzer-core.uninitialized.Assign */
 
     for (i = 0; i < seg_count; i++) {
         if (segs[i].eci) {
@@ -817,7 +826,7 @@ static int ult_generate_codewords_segs(struct zint_symbol *symbol, struct zint_s
         /* Decide start character codeword (from Table 5) */
         symbol_mode = ULT_ASCII_MODE;
         for (i = 0; i < length; i++) {
-            if (source[i] >= 0x80) {
+            if (!z_isascii(source[i])) {
                 symbol_mode = ULT_EIGHTBIT_MODE;
                 break;
             }
@@ -844,14 +853,14 @@ static int ult_generate_codewords_segs(struct zint_symbol *symbol, struct zint_s
                 codewords[0] = 272;
             }
         } else {
-            if ((eci >= 3) && (eci <= 18) && (eci != 14)) {
+            if (eci >= 3 && eci <= 18 && eci != 14) {
                 /* ECI indicates use of character set within ISO/IEC 8859 */
                 codewords[0] = 257 + (eci - 3);
                 if (codewords[0] > 267) {
-                    /* Avoids ECI 14 for non-existant ISO/IEC 8859-12 */
+                    /* Avoids ECI 14 for non-existent ISO/IEC 8859-12 */
                     codewords[0]--;
                 }
-            } else if ((eci > 18) && (eci <= 898)) {
+            } else if (eci > 18 && eci <= 898) {
                 /* ECI indicates use of character set outside ISO/IEC 8859 */
                 codewords[0] = 275 + (eci / 256);
                 codewords[1] = eci % 256;
@@ -859,7 +868,7 @@ static int ult_generate_codewords_segs(struct zint_symbol *symbol, struct zint_s
             } else if (eci == 899) {
                 /* Non-language byte data */
                 codewords[0] = 280;
-            } else if ((eci > 899) && (eci <= 9999)) {
+            } else if (eci > 899 && eci <= 9999) {
                 /* ECI beyond 899 needs to use fixed length encodable ECI invocation (section 7.6.2) */
                 /* Encode as 3 codewords */
                 codewords[0] = 257; /* ISO/IEC 8859-1 used to enter 8-bit mode */
@@ -880,18 +889,18 @@ static int ult_generate_codewords_segs(struct zint_symbol *symbol, struct zint_s
             }
         }
 
-        if ((codewords[0] == 257) || (codewords[0] == 272)) {
+        if (codewords[0] == 257 || codewords[0] == 272) {
             int fragno = ult_find_fragment(source, length, 0);
 
             /* Check for http:// at start of input */
-            if ((fragno == 0) || (fragno == 2)) {
+            if (fragno == 0 || fragno == 2) {
                 codewords[0] = 281;
                 source += 7;
                 length -= 7;
                 symbol_mode = ULT_EIGHTBIT_MODE;
 
             /* Check for https:// at start of input */
-            } else if ((fragno == 1) || (fragno == 3)) {
+            } else if (fragno == 1 || fragno == 3) {
                 codewords[0] = 282;
                 source += 8;
                 length -= 8;
@@ -901,18 +910,28 @@ static int ult_generate_codewords_segs(struct zint_symbol *symbol, struct zint_s
     }
 
     current_mode = symbol_mode;
-    codeword_count = ult_generate_codewords(symbol, source, length, 0 /*eci*/, gs1, symbol_mode, &current_mode,
-                                            codewords, codeword_count);
+    if (length > 0) {
+        codeword_count = ult_generate_codewords(symbol, source, length, 0 /*eci*/, gs1, symbol_mode, &current_mode,
+                                                codewords, codeword_count);
+    }
+    if (content_segs && segs[0].eci) {
+        z_ct_set_seg_eci(symbol, 0, segs[0].eci);
+    }
 
     for (i = 1; i < seg_count; i++) {
         codeword_count = ult_generate_codewords(symbol, segs[i].source, segs[i].length, segs[i].eci, gs1, symbol_mode,
                                                 &current_mode, codewords, codeword_count);
+        if (content_segs && segs[i].eci) {
+            z_ct_set_seg_eci(symbol, i, segs[i].eci);
+        }
     }
 
-    return codeword_count;
+    *p_data_cw_count = codeword_count;
+
+    return 0;
 }
 
-INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int seg_count) {
+INTERNAL int zint_ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int seg_count) {
     int data_cw_count = 0;
     int acc, qcc;
     int scr[3] = {0}, scr_cw_count = 0; /* Symbol Control Region (only if have Structured Append) */
@@ -921,7 +940,7 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
     int rows, columns;
     int total_cws;
     int pads;
-    int cw_memalloc;
+    int cw_alloc;
     /* Allow for 3 pads in final 57th (60th incl. clock tracks) column of 5-row symbol (57 * 5 == 285) */
     int codeword[282 + 3];
     int i, j, locn;
@@ -934,10 +953,8 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
     int *data_codewords;
     char *pattern;
 
-    (void)seg_count;
-
     if (symbol->eci > 811799) {
-        return errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 590, "ECI code '%d' out of range (0 to 811799)",
+        return z_errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 590, "ECI code '%d' out of range (0 to 811799)",
                         symbol->eci);
     }
 
@@ -945,13 +962,13 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
         int link2 = 2; /* Draft Table 7, Structured Append Group (SAG) with no File Number */
 
         if (symbol->structapp.count < 2 || symbol->structapp.count > 8) {
-            return errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 596,
+            return z_errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 596,
                             "Structured Append count '%d' out of range (2 to 8)", symbol->structapp.count);
         }
         if (symbol->structapp.index < 1 || symbol->structapp.index > symbol->structapp.count) {
-            return ZEXT errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 597,
-                                "Structured Append index '%1$d' out of range (1 to count %2$d)",
-                                symbol->structapp.index, symbol->structapp.count);
+            return ZEXT z_errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 597,
+                                    "Structured Append index '%1$d' out of range (1 to count %2$d)",
+                                    symbol->structapp.index, symbol->structapp.count);
         }
         scr_cw_count = 1;
 
@@ -961,16 +978,16 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
             for (id_len = 1; id_len < 6 && symbol->structapp.id[id_len]; id_len++);
 
             if (id_len > 5) { /* 282 * 283 + 282 = 80088 */
-                return errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 593,
+                return z_errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 593,
                                 "Structured Append ID length %d too long (5 digit maximum)", id_len);
             }
 
-            id = to_int((const unsigned char *) symbol->structapp.id, id_len);
+            id = z_to_int(ZCUCP(symbol->structapp.id), id_len);
             if (id == -1) {
-                return errtxt(ZINT_ERROR_INVALID_OPTION, symbol, 594, "Invalid Structured Append ID (digits only)");
+                return z_errtxt(ZINT_ERROR_INVALID_OPTION, symbol, 594, "Invalid Structured Append ID (digits only)");
             }
             if (id > 80088) {
-                return errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 595,
+                return z_errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 595,
                                 "Structured Append ID value '%d' out of range (1 to 80088)", id);
             }
             if (id) {
@@ -984,14 +1001,16 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
         scr[0] = link2 * 70 + (symbol->structapp.count - 1) * 8 + symbol->structapp.index - 1;
     }
 
-    cw_memalloc = segs_length(segs, seg_count) * 2;
-    if (cw_memalloc < 283) {
-        cw_memalloc = 283;
+    cw_alloc = z_segs_length(segs, seg_count) * 2;
+    if (cw_alloc < 283) {
+        cw_alloc = 283;
     }
 
-    data_codewords = (int *) z_alloca(sizeof(int) * cw_memalloc);
+    data_codewords = (int *) z_alloca(sizeof(int) * cw_alloc);
 
-    data_cw_count = ult_generate_codewords_segs(symbol, segs, seg_count, data_codewords);
+    if (ult_generate_codewords_segs(symbol, segs, seg_count, data_codewords, &data_cw_count)) {
+        return ZINT_ERROR_MEMORY; /* `ult_generate_codewords_segs()` only returns non-zero if OOM */
+    }
 
     if (debug_print) {
         printf("Codewords (%d):", data_cw_count);
@@ -1000,17 +1019,12 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
         }
         fputc('\n', stdout);
     }
-#ifdef ZINT_TEST
-    if (symbol->debug & ZINT_DEBUG_TEST) {
-        debug_test_codeword_dump_int(symbol, data_codewords, data_cw_count);
-    }
-#endif
 
     data_cw_count += 2 + scr_cw_count; /* 2 == MCC + ACC (data codeword count includes start char) */
 
     if (symbol->option_2 > 0) {
         if (symbol->option_2 > 2) {
-            return errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 592, "Revision '%d' out of range (1 or 2 only)",
+            return z_errtxtf(ZINT_ERROR_INVALID_OPTION, symbol, 592, "Revision '%d' out of range (1 or 2 only)",
                             symbol->option_2);
         }
         if (symbol->option_2 == 2) { /* Revision 2, swop and inversion of DCCU/DCCL tiles */
@@ -1019,7 +1033,7 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
     }
 
     /* Default ECC level is EC2 */
-    if ((symbol->option_1 <= 0) || (symbol->option_1 > 6)) {
+    if (symbol->option_1 <= 0 || symbol->option_1 > 6) {
         ecc_level = 2;
     } else {
         ecc_level = symbol->option_1 - 1;
@@ -1029,7 +1043,7 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
     if (ecc_level == 0) {
         qcc = 3;
     } else {
-        if ((data_cw_count % 25) == 0) {
+        if (data_cw_count % 25 == 0) {
             qcc = ult_kec[ecc_level] * (data_cw_count / 25) + 3 + 2;
         } else {
             qcc = ult_kec[ecc_level] * ((data_cw_count / 25) + 1) + 3 + 2;
@@ -1039,6 +1053,9 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
     if (debug_print) {
         printf("EC%d codewords: %d\n", ecc_level, qcc);
     }
+
+    /* Feedback options */
+    symbol->option_1 = ecc_level + 1;
 
     acc = qcc - 3;
     if (scr_cw_count) {
@@ -1059,9 +1076,9 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
     total_cws = data_cw_count + qcc + 3; /* 3 == TCC pattern + RSEC pattern + QCC pattern */
     if (total_cws - 3 > 282) {
         static const int max_data_cws_by_ecc[6] = { 279, 266, 255, 237, 223, 205 };
-        return ZEXT errtxtf(ZINT_ERROR_TOO_LONG, symbol, 591,
-                            "Input too long for ECC level EC%1$d, requires %2$d codewords (maximum %3$d)",
-                            ecc_level, data_cw_count, max_data_cws_by_ecc[ecc_level]);
+        return ZEXT z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, 591,
+                                "Input too long for ECC level EC%1$d, requires %2$d codewords (maximum %3$d)",
+                                ecc_level, data_cw_count, max_data_cws_by_ecc[ecc_level]);
     }
 
     rows = 5;
@@ -1072,7 +1089,7 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
         }
     }
 
-    if ((total_cws % rows) == 0) {
+    if (total_cws % rows == 0) {
         pads = 0;
         columns = total_cws / rows;
     } else {
@@ -1136,12 +1153,17 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
         }
         fputc('\n', stdout);
     }
+#ifdef ZINT_TEST
+    if (symbol->debug & ZINT_DEBUG_TEST) {
+        z_debug_test_codeword_dump_int(symbol, codeword, locn);
+    }
+#endif
 
     total_height = (rows * 6) + 1;
     total_width = columns + 6;
 
     /* Build symbol */
-    pattern = (char *) z_alloca(total_height * total_width);
+    pattern = (char *) z_alloca((size_t) total_height * (size_t) total_width);
 
     for (i = 0; i < (total_height * total_width); i++) {
         pattern[i] = 'W';
@@ -1185,7 +1207,7 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
         for (j = 0; j < 5; j++) {
             tilepat[4 - j] = ult_colour[(ult_tiles[codeword[i]] >> (3 * j)) & 0x07];
         }
-        if ((tiley + 1) >= total_height) {
+        if (tiley + 1 >= total_height) {
             tiley = 0;
             tilex++;
 
@@ -1242,7 +1264,7 @@ INTERNAL int ultra(struct zint_symbol *symbol, struct zint_seg segs[], const int
     for (i = 0; i < total_height; i++) {
         symbol->row_height[i] = 1;
         for (j = 0; j < total_width; j++) {
-            set_module_colour(symbol, i, j, posn(ult_colour, pattern[(i * total_width) + j]));
+            z_set_module_colour(symbol, i, j, z_posn(ult_colour, pattern[(i * total_width) + j]));
         }
     }
     symbol->height = total_height;

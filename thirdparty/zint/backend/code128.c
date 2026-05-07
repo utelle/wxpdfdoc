@@ -1,7 +1,7 @@
 /* code128.c - Handles Code 128 and GS1-128 */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2008-2025 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2008-2026 Robin Stuart <rstuart114@gmail.com>
     Bugfixes thanks to Christian Sakowski and BogDan Vatra
 
     Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@
 /* Code 128 tables checked against ISO/IEC 15417:2007 */
 
 /* Code 128 character encodation - Table 1 (with final CODE16K-only character in place of Stop character) */
-INTERNAL_DATA const char C128Table[107][6] = { /* Used by CODABLOCKF and CODE16K also */
+INTERNAL_DATA const char zint_C128Table[107][6] = { /* Used by CODABLOCKF and CODE16K also */
     {'2','1','2','2','2','2'}, {'2','2','2','1','2','2'}, {'2','2','2','2','2','1'}, {'1','2','1','2','2','3'},
     {'1','2','1','3','2','2'}, {'1','3','1','2','2','2'}, {'1','2','2','2','1','3'}, {'1','2','2','3','1','2'},
     {'1','3','2','2','1','2'}, {'2','2','1','2','1','3'}, {'2','2','1','3','1','2'}, {'2','3','1','2','1','2'},
@@ -122,9 +122,9 @@ static const char c128_start_latch_seq[3][C128_STATES][4] = {
 };
 static const char c128_start_latch_len[3][C128_STATES] = { /* Lengths of above */
     /*        A0          B0            A1                 B1                C0      C1 (not used) */
-    {   0,    1,         1,             3,                 3,                 1         }, /* Normal */
-    {   0,    2,         2,             4,                 4,                 2         }, /* GS1_MODE */
-    {   0,    2,         2,             4,                 4,                 3         }, /* READER_INIT */
+    {   0,    1,         1,             3,                 3,                 1,     64 }, /* Normal */
+    {   0,    2,         2,             4,                 4,                 2,     64 }, /* GS1_MODE */
+    {   0,    2,         2,             4,                 4,                 3,     64 }, /* READER_INIT */
 };
 
 /* Output cost (length) for Code Sets A/B */
@@ -142,7 +142,7 @@ static int c128_cost_ab(const int cset, const unsigned char ch, int *p_mode) {
     }
 
     /* FNC4 */
-    if (C128_A0B0(cset) == (ch >= 128)) { /* If A0/B0 and extended ASCII, or A1/B1 and ASCII */
+    if (C128_A0B0(cset) == !z_isascii(ch)) { /* If A0/B0 and extended ASCII, or A1/B1 and ASCII */
         cost++;
         *p_mode |= 0x20;
     }
@@ -158,7 +158,8 @@ static int c128_cost(const unsigned char source[], const int length, const int i
     const unsigned char ch = source[i];
     const char *const latch_len = prior_cset == 0 ? c128_start_latch_len[start_idx] : c128_latch_len[prior_cset];
     const int is_fnc1 = ch == '\x1D' && fncs[i];
-    const int can_c = is_fnc1 || (z_isdigit(ch) && z_isdigit(source[i + 1])); /* Assumes source NUL-terminated */
+    const int can_c = is_fnc1 ? i != 1 || !z_isalpha(source[0]) /* Don't use C if FNC1 in 2nd position after alpha */
+                                : (z_isdigit(ch) && z_isdigit(source[i + 1])); /* Assumes source NUL-terminated */
     const int manual_c_fail = !can_c && manuals[i] == C128_C0; /* C requested but not doable */
     int min_cost = 999999; /* Max possible cost less than 2 * 256 */
     int min_mode = 0;
@@ -226,7 +227,7 @@ static int c128_cost(const unsigned char source[], const int length, const int i
    https://github.com/bwipp/postscriptbarcode/pull/278 */
 static int c128_set_values(const unsigned char source[], const int length, const int start_idx,
             const char priority[C128_STATES], const char fncs[C128_MAX], const char manuals[C128_MAX],
-            int values[C128_VALUES_MAX], int *p_final_cset) {
+            int values[C128_VALUES_MAX], int *p_first_cset, int *p_final_cset) {
 
     short (*costs)[C128_STATES] = (short (*)[C128_STATES]) z_alloca(sizeof(*costs) * length);
     char (*modes)[C128_STATES] = (char (*)[C128_STATES]) z_alloca(sizeof(*modes) * length);
@@ -236,10 +237,15 @@ static int c128_set_values(const unsigned char source[], const int length, const
 
     memset(costs, 0, sizeof(*costs) * length);
 
+    assert(source[length] == '\0'); /* Terminating NUL required by `c128_cost()` */
     c128_cost(source, length, 0 /*i*/, 0 /*prior_cset*/, start_idx, priority, fncs, manuals, costs, modes);
 
     if (costs[0][0] > C128_SYMBOL_MAX) { /* Total minimal cost (glyph count) */
         return costs[0][0];
+    }
+
+    if (p_first_cset) {
+        *p_first_cset = modes[0][0];
     }
 
     /* Output codewords into `values` */
@@ -254,6 +260,7 @@ static int c128_set_values(const unsigned char source[], const int length, const
         if (cset != prior_cset) {
             int j;
             if (prior_cset == 0) {
+                assert(cset != C128_C1);
                 for (j = 0; j < c128_start_latch_len[start_idx][cset]; j++) {
                     values[glyph_count++] = c128_start_latch_seq[start_idx][cset][j];
                 }
@@ -295,27 +302,28 @@ static int c128_set_values(const unsigned char source[], const int length, const
 
 /* Helper to write out symbol, calculating check digit */
 static void c128_expand(struct zint_symbol *symbol, int values[C128_VALUES_MAX], int glyph_count) {
+    static const char stop[7] = { '2','3','3','1','1','1','2' };
     char dest[640]; /* (102 + 1 (check digit)) * 6 + 7 (Stop) = 625 */
     char *d = dest;
     int total_sum;
     int i;
 
     /* Destination setting and check digit calculation */
-    memcpy(d, C128Table[values[0]], 6);
+    memcpy(d, zint_C128Table[values[0]], 6);
     d += 6;
     total_sum = values[0];
 
     for (i = 1; i < glyph_count; i++, d += 6) {
-        memcpy(d, C128Table[values[i]], 6);
+        memcpy(d, zint_C128Table[values[i]], 6);
         total_sum += values[i] * i; /* Note can't overflow as 106 * C128_SYMBOL_MAX * C128_SYMBOL_MAX = 1102824 */
     }
     total_sum %= 103;
-    memcpy(d, C128Table[total_sum], 6);
+    memcpy(d, zint_C128Table[total_sum], 6);
     d += 6;
     values[glyph_count++] = total_sum; /* For debug/test */
 
     /* Stop character */
-    memcpy(d, "2331112", 7);
+    memcpy(d, stop, 7);
     d += 7;
     values[glyph_count++] = 106; /* For debug/test */
 
@@ -330,11 +338,11 @@ static void c128_expand(struct zint_symbol *symbol, int values[C128_VALUES_MAX],
     }
 #ifdef ZINT_TEST
     if (symbol->debug & ZINT_DEBUG_TEST) {
-        debug_test_codeword_dump_int(symbol, values, glyph_count);
+        z_debug_test_codeword_dump_int(symbol, values, glyph_count);
     }
 #endif
 
-    expand(symbol, dest, d - dest);
+    z_expand(symbol, dest, (int) (d - dest));
 }
 
 /* Helper to set `priority` array based on flags */
@@ -365,7 +373,7 @@ static void c128_set_priority(char priority[C128_STATES], const int have_a, cons
 }
 
 /* Handle Code 128, 128AB and HIBC 128 */
-INTERNAL int code128(struct zint_symbol *symbol, unsigned char source[], int length) {
+INTERNAL int zint_code128(struct zint_symbol *symbol, unsigned char source[], int length) {
     int i;
     int error_number;
     char manuals[C128_MAX] = {0};
@@ -375,15 +383,20 @@ INTERNAL int code128(struct zint_symbol *symbol, unsigned char source[], int len
     char priority[C128_STATES];
     int values[C128_VALUES_MAX] = {0};
     int glyph_count;
+    int first_cset;
     unsigned char src_buf[C128_MAX + 1];
     unsigned char *src = source;
     const int ab_only = symbol->symbology == BARCODE_CODE128AB;
     const int start_idx = (symbol->output_options & READER_INIT) ? 2 : 0;
+    const int content_segs = symbol->output_options & BARCODE_CONTENT_SEGS;
+
+    assert(length); /* Suppress clang-tidy-20.1 warning clang-analyzer-optin.portability.UnixAPI */
 
     if (length > C128_MAX) {
         /* This only blocks ridiculously long input - the actual length of the
            resulting barcode depends on the type of data, so this is trapped later */
-        return errtxtf(ZINT_ERROR_TOO_LONG, symbol, 340, "Input length %d too long (maximum " C128_MAX_S ")", length);
+        return z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, 340, "Input length %d too long (maximum " C128_MAX_S ")",
+                        length);
     }
 
     /* Detect special Code Set escapes for Code 128 in extra escape mode only */
@@ -391,23 +404,27 @@ INTERNAL int code128(struct zint_symbol *symbol, unsigned char source[], int len
         char manual = 0;
         int j = 0;
         for (i = 0; i < length; i++) {
-            if (source[i] == '\\' && i + 2 < length && source[i + 1] == '^'
-                    && ((source[i + 2] >= '@' && source[i + 2] <= 'C') || source[i + 2] == '1'
-                        || source[i + 2] == '^')) {
-                if (source[i + 2] == '^') { /* Escape sequence '\^^' */
-                    manuals[j] = manual;
-                    src_buf[j++] = source[i++];
-                    manuals[j] = manual;
-                    src_buf[j++] = source[i++];
-                    /* Drop second '^' */
-                } else if (source[i + 2] == '1') { /* FNC1 */
-                    i += 2;
-                    fncs[j] = have_fnc1 = 1;
-                    manuals[j] = manual;
-                    src_buf[j++] = '\x1D'; /* Manual FNC1 dummy */
-                } else { /* Manual mode A/B/C/@ */
-                    i += 2;
-                    manual = source[i] == 'C' ? C128_C0 : source[i] - '@'; /* Assuming A0 = 1, B0 = 2 */
+            if (source[i] == '\\' && i + 2 < length && source[i + 1] == '^') {
+                const unsigned char ch = source[i + 2];
+                if ((ch >= '@' && ch <= 'C') || ch == '1' || ch == '^') {
+                    if (ch == '^') { /* Escape sequence '\^^' */
+                        manuals[j] = manual;
+                        src_buf[j++] = source[i++];
+                        manuals[j] = manual;
+                        src_buf[j++] = source[i++];
+                        /* Drop second '^' */
+                    } else if (ch == '1') { /* FNC1 */
+                        i += 2;
+                        fncs[j] = have_fnc1 = 1;
+                        manuals[j] = manual;
+                        src_buf[j++] = '\x1D'; /* Manual FNC1 dummy */
+                    } else { /* Manual mode A/B/C/@ */
+                        i += 2;
+                        manual = ch == 'C' ? C128_C0 : ch - '@'; /* Assuming A0 = 1, B0 = 2 */
+                    }
+                } else {
+                    return z_errtxtf(ZINT_ERROR_INVALID_DATA, symbol, 348, "Unrecognized extra escape \"\\^%c\"",
+                                    !z_isascii(ch) || z_iscntrl(ch) ? '?' : ch);
                 }
             } else {
                 manuals[j] = manual;
@@ -417,7 +434,7 @@ INTERNAL int code128(struct zint_symbol *symbol, unsigned char source[], int len
         if (j != length) {
             length = j;
             if (length == 0) {
-                return errtxt(ZINT_ERROR_INVALID_DATA, symbol, 842, "No input data");
+                return z_errtxt(ZINT_ERROR_INVALID_DATA, symbol, 842, "No input data");
             }
             src = src_buf;
             src[length] = '\0';
@@ -440,36 +457,40 @@ INTERNAL int code128(struct zint_symbol *symbol, unsigned char source[], int len
             have_a |= !mask_0x60;
             have_b |= mask_0x60 == 0x60;
         }
+    } else if (have_fnc1) {
+        have_a = have_b = have_c = 1;
+        for (i = 0; i < length; i++) {
+            have_extended |= src[i] & 0x80;
+        }
     } else {
         int prev_digit, digit = 0;
         for (i = 0; i < length; i++) {
             const unsigned char ch = src[i];
-            const int is_fnc1 = ch == '\x1D' && fncs[i];
-            if (!is_fnc1) {
-                const unsigned char mask_0x60 = ch & 0x60; /* 0 for (ch & 0x7F) < 32, 0x60 for (ch & 0x7F) >= 96 */
-                const int manual = manuals[i];
-                have_extended |= ch & 0x80;
-                have_a |= !mask_0x60 || manual == C128_A0;
-                have_b |= mask_0x60 == 0x60 || manual == C128_B0;
-                prev_digit = digit;
-                digit = z_isdigit(ch);
-                have_c |= prev_digit && digit;
-            }
+            const unsigned char mask_0x60 = ch & 0x60; /* 0 for (ch & 0x7F) < 32, 0x60 for (ch & 0x7F) >= 96 */
+            const int manual = manuals[i];
+            assert(!(ch == '\x1D' && fncs[i])); /* Can't be FNC1 */
+            have_extended |= ch & 0x80;
+            have_a |= !mask_0x60 || manual == C128_A0;
+            have_b |= mask_0x60 == 0x60 || manual == C128_B0;
+            prev_digit = digit;
+            digit = z_isdigit(ch);
+            have_c |= prev_digit && digit;
         }
     }
     c128_set_priority(priority, have_a, have_b, have_c, have_extended);
 
-    glyph_count = c128_set_values(src, length, start_idx, priority, fncs, manuals, values, NULL /*p_final_cset*/);
+    glyph_count = c128_set_values(src, length, start_idx, priority, fncs, manuals, values, &first_cset,
+                                    NULL /*p_final_cset*/);
 
     if (symbol->debug & ZINT_DEBUG_PRINT) {
         printf("Data (%d): %.*s", length, length >= 100 ? 1 : length >= 10 ? 2 : 3, " ");
-        debug_print_escape(src, length, NULL);
+        z_debug_print_escape(src, length, NULL);
         printf("\nGlyphs:    %d\n", glyph_count);
     }
 
     /* Now we know how long the barcode is - stop it from being too long */
     if (glyph_count > C128_SYMBOL_MAX) {
-        return errtxtf(ZINT_ERROR_TOO_LONG, symbol, 341,
+        return z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, 341,
                         "Input too long, requires %d symbol characters (maximum " C128_SYMBOL_MAX_S ")", glyph_count);
     }
 
@@ -477,6 +498,36 @@ INTERNAL int code128(struct zint_symbol *symbol, unsigned char source[], int len
     c128_expand(symbol, values, glyph_count);
 
     /* ISO/IEC 15417:2007 leaves dimensions/height as application specification */
+
+    /* Do content segs before HRT to deal with manual FNC1s in 1st position & 2nd position */
+    if (content_segs) {
+        if (have_fnc1) {
+            int mv_idx = 0;
+            assert(length > 0);
+            /* Remove manual FNC1 in 1st position */
+            if (fncs[0]) {
+                mv_idx = 1;
+            /* Remove manual FNC1 in 2nd position, alphabetic */
+            } else if (length > 1 && fncs[1] && z_isalpha(src[0])) {
+                mv_idx = 2;
+            /* Remove manual FNC1 in 2nd position, 2 digits */
+            } else if (first_cset == C128_C0 && length > 2 && fncs[2] && z_isdigit(src[0]) && z_isdigit(src[1])) {
+                mv_idx = 3;
+            }
+            if (mv_idx) {
+                memmove(src + (mv_idx - 1), src + mv_idx, length - mv_idx);
+                memmove(fncs + (mv_idx - 1), fncs + mv_idx, length - mv_idx);
+                length--;
+            }
+        }
+        if ((symbol->input_mode & 0x07) == DATA_MODE) {
+            if (z_ct_cpy(symbol, src, length)) {
+                return ZINT_ERROR_MEMORY; /* `z_ct_cpy()` only fails with OOM */
+            }
+        } else if (z_ct_cpy_iso8859_1(symbol, src, length)) {
+            return ZINT_ERROR_MEMORY; /* `z_ct_cpy_iso8859_1()` only fails with OOM */
+        }
+    }
 
     /* HRT */
     if (have_fnc1) {
@@ -489,13 +540,13 @@ INTERNAL int code128(struct zint_symbol *symbol, unsigned char source[], int len
         }
         length = j;
     }
-    error_number = hrt_cpy_iso8859_1(symbol, src, length);
+    error_number = z_hrt_cpy_iso8859_1(symbol, src, length); /* Returns warning only */
 
     return error_number;
 }
 
 /* Handle GS1-128 (formerly known as EAN-128), and composite version if `cc_mode` set */
-INTERNAL int gs1_128_cc(struct zint_symbol *symbol, unsigned char source[], int length, const int cc_mode,
+INTERNAL int zint_gs1_128_cc(struct zint_symbol *symbol, unsigned char source[], int length, const int cc_mode,
                 const int cc_rows) {
     int i;
     int error_number;
@@ -508,44 +559,44 @@ INTERNAL int gs1_128_cc(struct zint_symbol *symbol, unsigned char source[], int 
     int separator_row = 0;
     int reduced_length;
     unsigned char *reduced = (unsigned char *) z_alloca(length + 1);
+    const int content_segs = symbol->output_options & BARCODE_CONTENT_SEGS;
 
     if (length > C128_MAX) {
         /* This only blocks ridiculously long input - the actual length of the
            resulting barcode depends on the type of data, so this is trapped later */
-        return errtxtf(ZINT_ERROR_TOO_LONG, symbol, 342, "Input length %d too long (maximum " C128_MAX_S ")", length);
+        return z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, 342, "Input length %d too long (maximum " C128_MAX_S ")",
+                        length);
     }
 
     /* If part of a composite symbol make room for the separator pattern */
     if (symbol->symbology == BARCODE_GS1_128_CC) {
-        separator_row = symbol->rows;
-        symbol->row_height[symbol->rows] = 1;
-        symbol->rows += 1;
+        separator_row = symbol->rows++;
+        symbol->row_height[separator_row] = 1;
     }
 
-    error_number = gs1_verify(symbol, source, length, reduced);
+    error_number = zint_gs1_verify(symbol, source, length, reduced, &reduced_length, 1 /*set_hrt*/);
     if (error_number >= ZINT_ERROR) {
         return error_number;
     }
 
-    reduced_length = (int) ustrlen(reduced);
     memset(fncs, 1, reduced_length);
 
     /* Control and extended chars not allowed so only have B/C (+FNC1) */
     c128_set_priority(priority, 0 /*have_a*/, 1 /*have_b*/, 1 /*have_c*/, 0 /*have_extended*/);
 
     glyph_count = c128_set_values(reduced, reduced_length, 1 /*start_idx*/, priority, fncs, manuals, values,
-                                    &final_cset);
+                                    NULL /*p_first_cset*/, &final_cset);
 
     if (symbol->debug & ZINT_DEBUG_PRINT) {
         printf("Data (%d): %.*s", reduced_length, reduced_length >= 100 ? 1 : reduced_length >= 10 ? 2 : 3, " ");
-        debug_print_escape(reduced, reduced_length, NULL);
+        z_debug_print_escape(reduced, reduced_length, NULL);
         printf("\nGlyphs:    %d\n", glyph_count);
     }
 
     /* Now we can calculate how long the barcode is going to be - and stop it from
        being too long */
     if (glyph_count + (cc_mode != 0) > C128_SYMBOL_MAX) {
-        return errtxtf(ZINT_ERROR_TOO_LONG, symbol, 344,
+        return z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, 344,
                         "Input too long, requires %d symbol characters (maximum " C128_SYMBOL_MAX_S ")",
                         glyph_count + (cc_mode != 0));
     }
@@ -587,21 +638,21 @@ INTERNAL int gs1_128_cc(struct zint_symbol *symbol, unsigned char source[], int 
     /* Add the separator pattern for composite symbols */
     if (symbol->symbology == BARCODE_GS1_128_CC) {
         for (i = 0; i < symbol->width; i++) {
-            if (!(module_is_set(symbol, separator_row + 1, i))) {
-                set_module(symbol, separator_row, i);
+            if (!(z_module_is_set(symbol, separator_row + 1, i))) {
+                z_set_module(symbol, separator_row, i);
             }
         }
     }
 
-    if (reduced_length > 48) { /* GS1 General Specifications 5.4.4.3 */
-        if (error_number == 0) { /* Don't overwrite any `gs1_verify()` warning */
-            error_number = errtxtf(ZINT_WARN_NONCOMPLIANT, symbol, 843,
+    if (reduced_length > 48) { /* GS1 General Specifications Release 26.0 5.4.4.3 Maximum symbol length */
+        if (error_number == 0) { /* Don't overwrite any `zint_gs1_verify()` warning */
+            error_number = z_errtxtf(ZINT_WARN_NONCOMPLIANT, symbol, 843,
                                     "Input too long, requires %d characters (maximum 48)", reduced_length);
         }
     }
 
     if (symbol->output_options & COMPLIANT_HEIGHT) {
-        /* GS1 General Specifications 21.0.1 5.12.3.2 table 2, including footnote (**):
+        /* GS1 General Specifications Release 26.0 5.12.3.2 Symbol specification table 2, including footnote (**):
            same as ITF-14: "in case of further space constraints" height 5.8mm / 1.016mm (X max) ~ 5.7;
            default 31.75mm / 0.495mm ~ 64.14 */
         const float min_height = 5.70866156f; /* 5.8 / 1.016 */
@@ -610,10 +661,10 @@ INTERNAL int gs1_128_cc(struct zint_symbol *symbol, unsigned char source[], int 
             /* Pass back via temporary linear structure */
             symbol->height = symbol->height ? min_height : default_height;
         } else {
-            if (error_number == 0) { /* Don't overwrite any `gs1_verify()` warning */
-                error_number = set_height(symbol, min_height, default_height, 0.0f, 0 /*no_errtxt*/);
+            if (error_number == 0) { /* Don't overwrite any `zint_gs1_verify()` warning */
+                error_number = z_set_height(symbol, min_height, default_height, 0.0f, 0 /*no_errtxt*/);
             } else {
-                (void) set_height(symbol, min_height, default_height, 0.0f, 1 /*no_errtxt*/);
+                (void) z_set_height(symbol, min_height, default_height, 0.0f, 1 /*no_errtxt*/);
             }
         }
     } else {
@@ -621,46 +672,28 @@ INTERNAL int gs1_128_cc(struct zint_symbol *symbol, unsigned char source[], int 
         if (symbol->symbology == BARCODE_GS1_128_CC) {
             symbol->height = height - cc_rows * (cc_mode == 3 ? 3 : 2) - 1.0f;
         } else {
-            (void) set_height(symbol, 0.0f, height, 0.0f, 1 /*no_errtxt*/);
+            (void) z_set_height(symbol, 0.0f, height, 0.0f, 1 /*no_errtxt*/);
         }
     }
 
     /* If no other warnings flag use of READER_INIT in GS1_MODE */
     if (error_number == 0 && (symbol->output_options & READER_INIT)) {
-        error_number = errtxt(ZINT_WARN_INVALID_OPTION, symbol, 845,
+        error_number = z_errtxt(ZINT_WARN_INVALID_OPTION, symbol, 845,
                                 "Cannot use Reader Initialisation in GS1 mode, ignoring");
     }
 
-    if (symbol->input_mode & GS1PARENS_MODE) {
-        i = length < (int) sizeof(symbol->text) ? length : (int) sizeof(symbol->text);
-        memcpy(symbol->text, source, i);
-    } else {
-        int bracket_level = 0; /* Non-compliant closing square brackets may be in text */
-        for (i = 0; i < length && i < (int) sizeof(symbol->text); i++) {
-            if (source[i] == '[') {
-                symbol->text[i] = '(';
-                bracket_level++;
-            } else if (source[i] == ']' && bracket_level) {
-                symbol->text[i] = ')';
-                bracket_level--;
-            } else {
-                symbol->text[i] = source[i];
-            }
-        }
+    /* HRT set by `zint_gs1_verify()` */
+
+    if (content_segs && z_ct_cpy(symbol, reduced, reduced_length)) {
+        return ZINT_ERROR_MEMORY; /* `z_ct_cpy()` only fails with OOM */
     }
-    if (i == sizeof(symbol->text)) {
-        /* Trumps all other warnings */
-        error_number = errtxt(ZINT_WARN_HRT_TRUNCATED, symbol, 844, "Human Readable Text truncated");
-        i--;
-    }
-    symbol->text[i] = '\0';
 
     return error_number;
 }
 
 /* Handle GS1-128 (formerly known as EAN-128) */
-INTERNAL int gs1_128(struct zint_symbol *symbol, unsigned char source[], int length) {
-    return gs1_128_cc(symbol, source, length, 0 /*cc_mode*/, 0 /*cc_rows*/);
+INTERNAL int zint_gs1_128(struct zint_symbol *symbol, unsigned char source[], int length) {
+    return zint_gs1_128_cc(symbol, source, length, 0 /*cc_mode*/, 0 /*cc_rows*/);
 }
 
 /* vim: set ts=4 sw=4 et : */

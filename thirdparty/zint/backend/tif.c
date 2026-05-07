@@ -1,7 +1,7 @@
 /* tif.c - Aldus Tagged Image File Format support */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2016-2025 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2016-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -38,7 +38,6 @@
 #include "filemem.h"
 #include "output.h"
 #include "tif.h"
-#include "tif_lzw.h"
 
 /* PhotometricInterpretation */
 #define TIF_PMI_WHITEISZERO     0
@@ -51,17 +50,17 @@
 #define TIF_NO_COMPRESSION      1
 #define TIF_LZW                 5
 
-static void to_color_map(const unsigned char rgb[4], tiff_color_t *color_map_entry) {
+static void tif_to_color_map(const unsigned char rgb[4], tiff_color_t *color_map_entry) {
     color_map_entry->red = (rgb[0] << 8) | rgb[0];
     color_map_entry->green = (rgb[1] << 8) | rgb[1];
     color_map_entry->blue = (rgb[2] << 8) | rgb[2];
 }
 
-static void to_cmyk(const char *colour, unsigned char *cmyk) {
+static void tif_to_cmyk(const char *colour, unsigned char *cmyk) {
     int cyan, magenta, yellow, black;
     unsigned char alpha;
 
-    (void) out_colour_get_cmyk(colour, &cyan, &magenta, &yellow, &black, &alpha);
+    (void) zint_out_colour_get_cmyk(colour, &cyan, &magenta, &yellow, &black, &alpha);
     cmyk[0] = (unsigned char) roundf(cyan * 0xFF / 100.0f);
     cmyk[1] = (unsigned char) roundf(magenta * 0xFF / 100.0f);
     cmyk[2] = (unsigned char) roundf(yellow * 0xFF / 100.0f);
@@ -69,8 +68,137 @@ static void to_cmyk(const char *colour, unsigned char *cmyk) {
     cmyk[4] = alpha;
 }
 
+/* LZW stuff - see `tif_lzw_compress()` below */
+
+#define TIF_LZW_CLEAR_CODE      256
+#define TIF_LZW_EOI_CODE        257 /* EndOfInformation */
+#define TIF_LZW_MIN_BITS        9
+#define TIF_LZW_MAX_BITS        12
+#define TIF_LZW_TABLE_SIZE      4096 /* (1 << TIF_LZW_MAX_BITS) */
+
+/* Write `code` to output `fmp` in 8-bit batches, returning updated `bytes_put` */
+static int tif_lzw_putCode(struct filemem *fmp, const int code, const int bitsPerCode, int *p_bits, int bytes_put) {
+    int bits = *p_bits & 0x0FFF; /* Actual bits in buffer */
+    int num_bits = (*p_bits >> 16) & 0x0FFF; /* No. of bits in buffer */
+
+    bits = (bits << bitsPerCode) | code;
+
+    for (num_bits += bitsPerCode; num_bits >= 8; num_bits -= 8) {
+        zint_fm_putc((bits >> (num_bits - 8)) & 0xFF, fmp);
+        bytes_put++;
+    }
+
+    bits &= (1 << num_bits) - 1;
+
+    *p_bits = (num_bits << 16) | bits;
+
+    return bytes_put;
+}
+
+/* LZW compression adapted from TwelveMonkeys ImageIO's `LZWEncoder::encode()`, returns no. of bytes written */
+/* Copyright (c) 2015, Harald Kuhr */
+/* SPDX-License-Identifier: BSD-3-Clause */
+/* Tree algorithm from "LZW Compression Used to Encode/Decode a GIF File", Bob Montgomery, 1988, see
+   https://gingko.homeip.net/docs/file_formats/lzwgif.html#bob
+   "manuscript in public domain" according to "Encyclopedia of Graphics File Formats" (2nd edition, 1996)
+   by James D. Murray and William vanRyper, Chapter 9 "Data Compression", p.178
+*/
+/* Copyright (C) 1988 Bob Montgomery */
+static int tif_lzw_compress(struct filemem *fmp, const unsigned char *bp, const unsigned int blen) {
+    short suffixes[TIF_LZW_TABLE_SIZE] = {0}; /* "shade[]" in Montgomery diagram */
+    /* A child is made up of a parent (or prefix) code plus a suffix byte
+       and siblings are strings with a common parent (or prefix) and different suffix bytes */
+    short children[TIF_LZW_TABLE_SIZE] = {0}; /* "child[]" in Montgomery diagram */
+    short siblings[TIF_LZW_TABLE_SIZE] = {0}; /* "sib[]" in Montgomery diagram */
+
+    int parent;
+    int bitsPerCode = TIF_LZW_MIN_BITS; /* "codesize" in Montgomery diagram, goes from 9 to 12 */
+    int nextValidCode = TIF_LZW_EOI_CODE + 1; /* "nvc" - next available slot in `suffixes` */
+    int maxCode = (1 << bitsPerCode) - 1; /* If `nextValidCode` hits this, `bitsPerCode` will have to be adjusted */
+
+    int bits = 0; /* Buffer for partial codes, top 16-bits no. of bits, bottom the bits */
+    int bytes_put = 0; /* No. of bytes output */
+
+    const unsigned char *const be = bp + blen;
+
+    assert(blen != 0);
+
+    /* Init */
+    bytes_put = tif_lzw_putCode(fmp, TIF_LZW_CLEAR_CODE & maxCode, bitsPerCode, &bits, bytes_put);
+    parent = *bp++; /* Parent is 1st code */
+
+    while (bp < be) {
+        const int value = *bp++; /* "color" in Montgomery diagram */
+        int child = children[parent];
+
+        /* Does parent have a child? */
+        if (child) {
+            /* Is child right value? */
+            if (suffixes[child] == value) {
+                parent = child; /* Make new parent */
+            } else {
+                int sibling = child; /* Makes loop easier */
+                /* Try siblings */
+                for (;;) {
+                    /* Does sibling have a sibling? */
+                    if (siblings[sibling]) {
+                        sibling = siblings[sibling];
+                        /* Is sibling right value? */
+                        if (suffixes[sibling] == value) {
+                            parent = sibling; /* Make new parent */
+                            break;
+                        }
+                    } else {
+                        /* Create one */
+                        siblings[sibling] = (short) nextValidCode;
+                        goto update_child; /* Hack to avoid having func with large no. of args */
+                    }
+                }
+            }
+        /* Parent does not have a child */
+        } else {
+            /* Create one */
+            children[parent] = (short) nextValidCode;
+update_child:
+            suffixes[nextValidCode] = (short) value;
+            bytes_put = tif_lzw_putCode(fmp, parent & maxCode, bitsPerCode, &bits, bytes_put); /* Put the code */
+            parent = value;
+            if (++nextValidCode > maxCode) {
+                /* Adjust `bitsPerCode` (code size) if required */
+                if (bitsPerCode == TIF_LZW_MAX_BITS) {
+                    /* Signal reset by writing Clear code */
+                    bytes_put = tif_lzw_putCode(fmp, TIF_LZW_CLEAR_CODE & maxCode, bitsPerCode, &bits, bytes_put);
+
+                    /* Reset tables */
+                    memset(children, 0, sizeof(short) * TIF_LZW_TABLE_SIZE);
+                    memset(siblings, 0, sizeof(short) * TIF_LZW_TABLE_SIZE);
+                    bitsPerCode = TIF_LZW_MIN_BITS;
+                    nextValidCode = TIF_LZW_EOI_CODE + 1;
+                } else {
+                    /* Increase code size */
+                    bitsPerCode++;
+                }
+                maxCode = (1 << bitsPerCode) - 1;
+            }
+        }
+    }
+
+    /* Write EOI when we are done */
+    bytes_put = tif_lzw_putCode(fmp, parent & maxCode, bitsPerCode, &bits, bytes_put);
+    bytes_put = tif_lzw_putCode(fmp, TIF_LZW_EOI_CODE & maxCode, bitsPerCode, &bits, bytes_put);
+
+    /* Flush partial codes */
+    if (bits) {
+        const int num_bits = (bits >> 16) & 0x0FFF;
+        zint_fm_putc((bits << (8 - num_bits)) & 0xFF, fmp); /* Zero pad */
+        bytes_put++;
+    }
+
+    return bytes_put;
+}
+
 /* TIFF Revision 6.0 https://www.adobe.io/content/dam/udp/en/open/standards/tiff/TIFF6.pdf */
-INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pixelbuf) {
+INTERNAL int zint_tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pixelbuf) {
     unsigned char fg[4], bg[4];
     int i;
     int pmi; /* PhotometricInterpretation */
@@ -94,7 +222,6 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
     struct filemem *const fmp = &fm;
     const unsigned char *pb;
     int compression = TIF_NO_COMPRESSION;
-    tif_lzw_state lzw_state;
     long file_pos;
     const int output_to_stdout = symbol->output_options & BARCODE_STDOUT;
     uint32_t *strip_offset;
@@ -111,8 +238,8 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
     uint32_t temp32;
     uint16_t temp16;
 
-    (void) out_colour_get_rgb(symbol->fgcolour, &fg[0], &fg[1], &fg[2], &fg[3]);
-    (void) out_colour_get_rgb(symbol->bgcolour, &bg[0], &bg[1], &bg[2], &bg[3]);
+    (void) zint_out_colour_get_rgb(symbol->fgcolour, &fg[0], &fg[1], &fg[2], &fg[3]);
+    (void) zint_out_colour_get_rgb(symbol->bgcolour, &bg[0], &bg[1], &bg[2], &bg[3]);
 
     if (symbol->symbology == BARCODE_ULTRA) {
         static const unsigned char ultra_chars[8] = { 'W', 'C', 'B', 'M', 'R', 'Y', 'G', 'K' };
@@ -134,9 +261,9 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
                 palette[i][4] = fg[3];
             }
             map['0'] = 8;
-            to_cmyk(symbol->bgcolour, palette[8]);
+            tif_to_cmyk(symbol->bgcolour, palette[8]);
             map['1'] = 9;
-            to_cmyk(symbol->fgcolour, palette[9]);
+            tif_to_cmyk(symbol->fgcolour, palette[9]);
 
             pmi = TIF_PMI_SEPARATED;
             bits_per_sample = 8;
@@ -171,7 +298,7 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
             if (fg[3] == 0xff && bg[3] == 0xff) { /* If no alpha */
                 pmi = TIF_PMI_PALETTE_COLOR;
                 for (i = 0; i < 10; i++) {
-                    to_color_map(palette[i], &color_map[i]);
+                    tif_to_color_map(palette[i], &color_map[i]);
                 }
                 bits_per_sample = 4;
                 samples_per_pixel = 1;
@@ -188,9 +315,9 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
     } else { /* fg/bg only */
         if (symbol->output_options & CMYK_COLOUR) {
             map['0'] = 0;
-            to_cmyk(symbol->bgcolour, palette[0]);
+            tif_to_cmyk(symbol->bgcolour, palette[0]);
             map['1'] = 1;
-            to_cmyk(symbol->fgcolour, palette[1]);
+            tif_to_cmyk(symbol->fgcolour, palette[1]);
 
             pmi = TIF_PMI_SEPARATED;
             bits_per_sample = 8;
@@ -227,7 +354,7 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
 
             pmi = TIF_PMI_PALETTE_COLOR;
             for (i = 0; i < 2; i++) {
-                to_color_map(palette[i], &color_map[i]);
+                tif_to_color_map(palette[i], &color_map[i]);
             }
             if (fg[3] == 0xff && bg[3] == 0xff) { /* If no alpha */
                 bits_per_sample = 4;
@@ -278,6 +405,7 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
 
     bytes_per_strip = rows_per_strip * ((symbol->bitmap_width + pixels_per_sample - 1) / pixels_per_sample)
                         * samples_per_pixel;
+    assert(bytes_per_strip >= 0); /* Suppress clang-tidy-21 clang-analyzer-security.ArrayBound */
 
     strip_offset = (uint32_t *) z_alloca(sizeof(uint32_t) * strip_count);
     strip_bytes = (uint32_t *) z_alloca(sizeof(uint32_t) * strip_count);
@@ -305,25 +433,24 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
     }
 
     if (free_memory > 0xffff0000) {
-        return errtxt(ZINT_ERROR_MEMORY, symbol, 670, "TIF output file size too big");
+        return z_errtxt(ZINT_ERROR_MEMORY, symbol, 670, "TIF output file size too big");
     }
 
     /* Open output file in binary mode */
-    if (!fm_open(fmp, symbol, "wb")) {
-        return ZEXT errtxtf(ZINT_ERROR_FILE_ACCESS, symbol, 672, "Could not open TIF output file (%1$d: %2$s)",
-                            fmp->err, strerror(fmp->err));
+    if (!zint_fm_open(fmp, symbol, "wb")) {
+        return ZEXT z_errtxtf(ZINT_ERROR_FILE_ACCESS, symbol, 672, "Could not open TIF output file (%1$d: %2$s)",
+                                fmp->err, strerror(fmp->err));
     }
     if (!output_to_stdout) {
         compression = TIF_LZW;
-        tif_lzw_init(&lzw_state);
     }
 
     /* Header */
-    out_le_u16(header.byte_order, 0x4949); /* "II" little-endian */
-    out_le_u16(header.identity, 42);
-    out_le_u32(header.offset, free_memory);
+    zint_out_le_u16(header.byte_order, 0x4949); /* "II" little-endian */
+    zint_out_le_u16(header.identity, 42);
+    zint_out_le_u32(header.offset, free_memory);
 
-    fm_write(&header, sizeof(tiff_header_t), 1, fmp);
+    zint_fm_write(&header, sizeof(tiff_header_t), 1, fmp);
     total_bytes_put = sizeof(tiff_header_t);
 
     /* Pixel data */
@@ -369,13 +496,13 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
         if (strip_row == rows_per_strip || (strip == strip_count - 1 && strip_row == rows_last_strip)) {
             /* End of strip */
             if (compression == TIF_LZW) {
-                file_pos = fm_tell(fmp);
-                if (!tif_lzw_encode(&lzw_state, fmp, strip_buf, bytes_put)) { /* Only fails if can't malloc */
-                    tif_lzw_cleanup(&lzw_state);
-                    (void) fm_close(fmp, symbol);
-                    return errtxt(ZINT_ERROR_MEMORY, symbol, 673, "Insufficient memory for TIF LZW hash table");
-                }
-                bytes_put = fm_tell(fmp) - file_pos;
+                #ifndef NDEBUG
+                file_pos = zint_fm_tell(fmp);
+                #endif
+                bytes_put = tif_lzw_compress(fmp, strip_buf, bytes_put);
+                #ifndef NDEBUG
+                assert(bytes_put == (unsigned int) (zint_fm_tell(fmp) - file_pos));
+                #endif
                 if (bytes_put != strip_bytes[strip]) {
                     const int diff = bytes_put - strip_bytes[strip];
                     strip_bytes[strip] = bytes_put;
@@ -384,7 +511,7 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
                     }
                 }
             } else {
-                fm_write(strip_buf, 1, bytes_put, fmp);
+                zint_fm_write(strip_buf, 1, bytes_put, fmp);
             }
             strip++;
             total_bytes_put += bytes_put;
@@ -396,46 +523,44 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
     }
 
     if (total_bytes_put & 1) {
-        fm_putc(0, fmp); /* IFD must be on word boundary */
+        zint_fm_putc(0, fmp); /* IFD must be on word boundary */
         total_bytes_put++;
     }
 
     if (compression == TIF_LZW) {
-        tif_lzw_cleanup(&lzw_state);
-
-        file_pos = fm_tell(fmp);
-        fm_seek(fmp, 4, SEEK_SET);
+        file_pos = zint_fm_tell(fmp);
+        zint_fm_seek(fmp, 4, SEEK_SET);
         free_memory = file_pos;
         temp32 = (uint32_t) free_memory;
         /* Shouldn't happen as `free_memory` checked above to be <= 0xffff0000 & should only decrease */
         if (free_memory != temp32 || (long) free_memory != file_pos) {
-            (void) fm_close(fmp, symbol);
-            return errtxt(ZINT_ERROR_MEMORY, symbol, 982, "TIF output file size too big");
+            (void) zint_fm_close(fmp, symbol);
+            return z_errtxt(ZINT_ERROR_MEMORY, symbol, 982, "TIF output file size too big");
         }
-        out_le_u32(temp32, temp32);
-        fm_write(&temp32, 4, 1, fmp);
-        fm_seek(fmp, file_pos, SEEK_SET);
+        zint_out_le_u32(temp32, temp32);
+        zint_fm_write(&temp32, 4, 1, fmp);
+        zint_fm_seek(fmp, file_pos, SEEK_SET);
     }
 
     /* Image File Directory */
-    out_le_u16(tags[entries].tag, 0x0100); /* ImageWidth */
-    out_le_u16(tags[entries].type, 3); /* SHORT */
-    out_le_u32(tags[entries].count, 1);
-    out_le_u32(tags[entries++].offset, symbol->bitmap_width);
+    zint_out_le_u16(tags[entries].tag, 0x0100); /* ImageWidth */
+    zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+    zint_out_le_u32(tags[entries].count, 1);
+    zint_out_le_u32(tags[entries++].offset, symbol->bitmap_width);
 
-    out_le_u16(tags[entries].tag, 0x0101); /* ImageLength - number of rows */
-    out_le_u16(tags[entries].type, 3); /* SHORT */
-    out_le_u32(tags[entries].count, 1);
-    out_le_u32(tags[entries++].offset, symbol->bitmap_height);
+    zint_out_le_u16(tags[entries].tag, 0x0101); /* ImageLength - number of rows */
+    zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+    zint_out_le_u32(tags[entries].count, 1);
+    zint_out_le_u32(tags[entries++].offset, symbol->bitmap_height);
 
     if (samples_per_pixel != 1 || bits_per_sample != 1) {
-        out_le_u16(tags[entries].tag, 0x0102); /* BitsPerSample */
-        out_le_u16(tags[entries].type, 3); /* SHORT */
-        out_le_u32(tags[entries].count, samples_per_pixel);
+        zint_out_le_u16(tags[entries].tag, 0x0102); /* BitsPerSample */
+        zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+        zint_out_le_u32(tags[entries].count, samples_per_pixel);
         if (samples_per_pixel == 1) {
-            out_le_u32(tags[entries++].offset, bits_per_sample);
+            zint_out_le_u32(tags[entries++].offset, bits_per_sample);
         } else if (samples_per_pixel == 2) { /* 2 SHORTS fit into LONG offset so packed into offset */
-            out_le_u32(tags[entries++].offset, (bits_per_sample << 16) | bits_per_sample);
+            zint_out_le_u32(tags[entries++].offset, (bits_per_sample << 16) | bits_per_sample);
         } else {
             update_offsets[offsets++] = entries;
             tags[entries++].offset = (uint32_t) free_memory;
@@ -443,21 +568,21 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
         }
     }
 
-    out_le_u16(tags[entries].tag, 0x0103); /* Compression */
-    out_le_u16(tags[entries].type, 3); /* SHORT */
-    out_le_u32(tags[entries].count, 1);
-    out_le_u32(tags[entries++].offset, compression);
+    zint_out_le_u16(tags[entries].tag, 0x0103); /* Compression */
+    zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+    zint_out_le_u32(tags[entries].count, 1);
+    zint_out_le_u32(tags[entries++].offset, compression);
 
-    out_le_u16(tags[entries].tag, 0x0106); /* PhotometricInterpretation */
-    out_le_u16(tags[entries].type, 3); /* SHORT */
-    out_le_u32(tags[entries].count, 1);
-    out_le_u32(tags[entries++].offset, pmi);
+    zint_out_le_u16(tags[entries].tag, 0x0106); /* PhotometricInterpretation */
+    zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+    zint_out_le_u32(tags[entries].count, 1);
+    zint_out_le_u32(tags[entries++].offset, pmi);
 
-    out_le_u16(tags[entries].tag, 0x0111); /* StripOffsets */
-    out_le_u16(tags[entries].type, 4); /* LONG */
-    out_le_u32(tags[entries].count, strip_count);
+    zint_out_le_u16(tags[entries].tag, 0x0111); /* StripOffsets */
+    zint_out_le_u16(tags[entries].type, 4); /* LONG */
+    zint_out_le_u32(tags[entries].count, strip_count);
     if (strip_count == 1) {
-        out_le_u32(tags[entries++].offset, strip_offset[0]);
+        zint_out_le_u32(tags[entries++].offset, strip_offset[0]);
     } else {
         update_offsets[offsets++] = entries;
         tags[entries++].offset = (uint32_t) free_memory;
@@ -465,83 +590,83 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
     }
 
     if (samples_per_pixel > 1) {
-        out_le_u16(tags[entries].tag, 0x0115); /* SamplesPerPixel */
-        out_le_u16(tags[entries].type, 3); /* SHORT */
-        out_le_u32(tags[entries].count, 1);
-        out_le_u32(tags[entries++].offset, samples_per_pixel);
+        zint_out_le_u16(tags[entries].tag, 0x0115); /* SamplesPerPixel */
+        zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+        zint_out_le_u32(tags[entries].count, 1);
+        zint_out_le_u32(tags[entries++].offset, samples_per_pixel);
     }
 
-    out_le_u16(tags[entries].tag, 0x0116); /* RowsPerStrip */
-    out_le_u16(tags[entries].type, 4); /* LONG */
-    out_le_u32(tags[entries].count, 1);
-    out_le_u32(tags[entries++].offset, rows_per_strip);
+    zint_out_le_u16(tags[entries].tag, 0x0116); /* RowsPerStrip */
+    zint_out_le_u16(tags[entries].type, 4); /* LONG */
+    zint_out_le_u32(tags[entries].count, 1);
+    zint_out_le_u32(tags[entries++].offset, rows_per_strip);
 
-    out_le_u16(tags[entries].tag, 0x0117); /* StripByteCounts */
-    out_le_u16(tags[entries].type, 4); /* LONG */
-    out_le_u32(tags[entries].count, strip_count);
+    zint_out_le_u16(tags[entries].tag, 0x0117); /* StripByteCounts */
+    zint_out_le_u16(tags[entries].type, 4); /* LONG */
+    zint_out_le_u32(tags[entries].count, strip_count);
     if (strip_count == 1) {
-        out_le_u32(tags[entries++].offset, strip_bytes[0]);
+        zint_out_le_u32(tags[entries++].offset, strip_bytes[0]);
     } else {
         update_offsets[offsets++] = entries;
         tags[entries++].offset = (uint32_t) free_memory;
         free_memory += strip_count * 4;
     }
 
-    out_le_u16(tags[entries].tag, 0x011a); /* XResolution */
-    out_le_u16(tags[entries].type, 5); /* RATIONAL */
-    out_le_u32(tags[entries].count, 1);
+    zint_out_le_u16(tags[entries].tag, 0x011a); /* XResolution */
+    zint_out_le_u16(tags[entries].type, 5); /* RATIONAL */
+    zint_out_le_u32(tags[entries].count, 1);
     update_offsets[offsets++] = entries;
     tags[entries++].offset = (uint32_t) free_memory;
     free_memory += 8;
 
-    out_le_u16(tags[entries].tag, 0x011b); /* YResolution */
-    out_le_u16(tags[entries].type, 5); /* RATIONAL */
-    out_le_u32(tags[entries].count, 1);
+    zint_out_le_u16(tags[entries].tag, 0x011b); /* YResolution */
+    zint_out_le_u16(tags[entries].type, 5); /* RATIONAL */
+    zint_out_le_u32(tags[entries].count, 1);
     update_offsets[offsets++] = entries;
     tags[entries++].offset = (uint32_t) free_memory;
     free_memory += 8;
 
-    out_le_u16(tags[entries].tag, 0x0128); /* ResolutionUnit */
-    out_le_u16(tags[entries].type, 3); /* SHORT */
-    out_le_u32(tags[entries].count, 1);
+    zint_out_le_u16(tags[entries].tag, 0x0128); /* ResolutionUnit */
+    zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+    zint_out_le_u32(tags[entries].count, 1);
     if (symbol->dpmm) {
-        out_le_u32(tags[entries++].offset, 3); /* Centimetres */
+        zint_out_le_u32(tags[entries++].offset, 3); /* Centimetres */
     } else {
-        out_le_u32(tags[entries++].offset, 2); /* Inches */
+        zint_out_le_u32(tags[entries++].offset, 2); /* Inches */
     }
 
     if (color_map_size) {
-        out_le_u16(tags[entries].tag, 0x0140); /* ColorMap */
-        out_le_u16(tags[entries].type, 3); /* SHORT */
-        out_le_u32(tags[entries].count, color_map_size * 3);
+        zint_out_le_u16(tags[entries].tag, 0x0140); /* ColorMap */
+        zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+        zint_out_le_u32(tags[entries].count, color_map_size * 3);
         update_offsets[offsets++] = entries;
         tags[entries++].offset = (uint32_t) free_memory;
         /* free_memory += color_map_size * 3 * 2; Unnecessary as long as last use */
     }
 
     if (extra_samples) {
-        out_le_u16(tags[entries].tag, 0x0152); /* ExtraSamples */
-        out_le_u16(tags[entries].type, 3); /* SHORT */
-        out_le_u32(tags[entries].count, 1);
-        out_le_u32(tags[entries++].offset, extra_samples);
+        zint_out_le_u16(tags[entries].tag, 0x0152); /* ExtraSamples */
+        zint_out_le_u16(tags[entries].type, 3); /* SHORT */
+        zint_out_le_u32(tags[entries].count, 1);
+        zint_out_le_u32(tags[entries++].offset, extra_samples);
     }
 
     ifd_size = sizeof(entries) + sizeof(tiff_tag_t) * entries + sizeof(offset);
     for (i = 0; i < offsets; i++) {
-        out_le_u32(tags[update_offsets[i]].offset, tags[update_offsets[i]].offset + ifd_size);
+        zint_out_le_u32(tags[update_offsets[i]].offset, tags[update_offsets[i]].offset + ifd_size);
     }
 
-    out_le_u16(temp16, entries);
-    fm_write(&temp16, sizeof(entries), 1, fmp);
-    fm_write(&tags, sizeof(tiff_tag_t), entries, fmp);
-    out_le_u32(offset, offset);
-    fm_write(&offset, sizeof(offset), 1, fmp);
+    zint_out_le_u16(temp16, entries);
+    zint_fm_write(&temp16, sizeof(entries), 1, fmp);
+    zint_fm_write(&tags, sizeof(tiff_tag_t), entries, fmp);
+    zint_out_le_u32(offset, offset);
+    zint_fm_write(&offset, sizeof(offset), 1, fmp);
     total_bytes_put += ifd_size;
 
     if (samples_per_pixel > 2) {
-        out_le_u16(bits_per_sample, bits_per_sample);
+        zint_out_le_u16(bits_per_sample, bits_per_sample);
         for (i = 0; i < samples_per_pixel; i++) {
-            fm_write(&bits_per_sample, sizeof(bits_per_sample), 1, fmp);
+            zint_fm_write(&bits_per_sample, sizeof(bits_per_sample), 1, fmp);
         }
         total_bytes_put += sizeof(bits_per_sample) * samples_per_pixel;
     }
@@ -549,60 +674,60 @@ INTERNAL int tif_pixel_plot(struct zint_symbol *symbol, const unsigned char *pix
     if (strip_count != 1) {
         /* Strip offsets */
         for (i = 0; i < strip_count; i++) {
-            out_le_u32(temp32, strip_offset[i]);
-            fm_write(&temp32, 4, 1, fmp);
+            zint_out_le_u32(temp32, strip_offset[i]);
+            zint_fm_write(&temp32, 4, 1, fmp);
         }
 
         /* Strip byte lengths */
         for (i = 0; i < strip_count; i++) {
-            out_le_u32(temp32, strip_bytes[i]);
-            fm_write(&temp32, 4, 1, fmp);
+            zint_out_le_u32(temp32, strip_bytes[i]);
+            zint_fm_write(&temp32, 4, 1, fmp);
         }
         total_bytes_put += strip_count * 8;
     }
 
     /* XResolution */
-    out_le_u32(temp32, symbol->dpmm ? symbol->dpmm : 72);
-    fm_write(&temp32, 4, 1, fmp);
-    out_le_u32(temp32, symbol->dpmm ? 10 /*cm*/ : 1);
-    fm_write(&temp32, 4, 1, fmp);
+    zint_out_le_u32(temp32, symbol->dpmm ? symbol->dpmm : 72);
+    zint_fm_write(&temp32, 4, 1, fmp);
+    zint_out_le_u32(temp32, symbol->dpmm ? 10 /*cm*/ : 1);
+    zint_fm_write(&temp32, 4, 1, fmp);
     total_bytes_put += 8;
 
     /* YResolution */
-    out_le_u32(temp32, symbol->dpmm ? symbol->dpmm : 72);
-    fm_write(&temp32, 4, 1, fmp);
-    out_le_u32(temp32, symbol->dpmm ? 10 /*cm*/ : 1);
-    fm_write(&temp32, 4, 1, fmp);
+    zint_out_le_u32(temp32, symbol->dpmm ? symbol->dpmm : 72);
+    zint_fm_write(&temp32, 4, 1, fmp);
+    zint_out_le_u32(temp32, symbol->dpmm ? 10 /*cm*/ : 1);
+    zint_fm_write(&temp32, 4, 1, fmp);
     total_bytes_put += 8;
 
     if (color_map_size) {
         for (i = 0; i < color_map_size; i++) {
-            fm_write(&color_map[i].red, 2, 1, fmp);
+            zint_fm_write(&color_map[i].red, 2, 1, fmp);
         }
         for (i = 0; i < color_map_size; i++) {
-            fm_write(&color_map[i].green, 2, 1, fmp);
+            zint_fm_write(&color_map[i].green, 2, 1, fmp);
         }
         for (i = 0; i < color_map_size; i++) {
-            fm_write(&color_map[i].blue, 2, 1, fmp);
+            zint_fm_write(&color_map[i].blue, 2, 1, fmp);
         }
         total_bytes_put += 6 * color_map_size;
     }
 
-    if (fm_error(fmp)) {
-        ZEXT errtxtf(0, symbol, 679, "Incomplete write of TIF output (%1$d: %2$s)", fmp->err, strerror(fmp->err));
-        (void) fm_close(fmp, symbol);
+    if (zint_fm_error(fmp)) {
+        ZEXT z_errtxtf(0, symbol, 679, "Incomplete write of TIF output (%1$d: %2$s)", fmp->err, strerror(fmp->err));
+        (void) zint_fm_close(fmp, symbol);
         return ZINT_ERROR_FILE_WRITE;
     }
 
     if (!output_to_stdout) {
-        if (fm_tell(fmp) != total_bytes_put) {
-            (void) fm_close(fmp, symbol);
-            return errtxt(ZINT_ERROR_FILE_WRITE, symbol, 674, "Failed to write all TIF output");
+        if (zint_fm_tell(fmp) != total_bytes_put) {
+            (void) zint_fm_close(fmp, symbol);
+            return z_errtxt(ZINT_ERROR_FILE_WRITE, symbol, 674, "Failed to write all TIF output");
         }
     }
-    if (!fm_close(fmp, symbol)) {
-        return ZEXT errtxtf(ZINT_ERROR_FILE_WRITE, symbol, 981, "Failure on closing TIF output file (%1$d: %2$s)",
-                            fmp->err, strerror(fmp->err));
+    if (!zint_fm_close(fmp, symbol)) {
+        return ZEXT z_errtxtf(ZINT_ERROR_FILE_WRITE, symbol, 981, "Failure on closing TIF output file (%1$d: %2$s)",
+                                fmp->err, strerror(fmp->err));
     }
 
     return 0;

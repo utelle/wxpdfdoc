@@ -1,7 +1,7 @@
 /*  vector.c - Creates vector image objects */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2018-2024 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2018-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -30,24 +30,34 @@
  */
 /* SPDX-License-Identifier: BSD-3-Clause */
 
+#include <assert.h>
+
 #include "common.h"
 #include "output.h"
 #include "zfiletypes.h"
 
-INTERNAL int ps_plot(struct zint_symbol *symbol);
-INTERNAL int svg_plot(struct zint_symbol *symbol);
-INTERNAL int emf_plot(struct zint_symbol *symbol, int rotate_angle);
+INTERNAL int zint_ps_plot(struct zint_symbol *symbol);
+INTERNAL int zint_svg_plot(struct zint_symbol *symbol);
+INTERNAL int zint_emf_plot(struct zint_symbol *symbol, int rotate_angle);
 
 static int vector_add_rect(struct zint_symbol *symbol, const float x, const float y, const float width,
             const float height, struct zint_vector_rect **last_rect) {
     struct zint_vector_rect *rect;
 
+    assert(x >= 0.0f);
+    assert(y >= 0.0f);
+    assert(width >= 0.0f);
+    assert(height >= 0.0f);
+
     if (!(rect = (struct zint_vector_rect *) malloc(sizeof(struct zint_vector_rect)))) {
         /* NOTE: clang-tidy-20 gets confused about return value of function returning a function unfortunately,
            so put on 2 lines (see also "postal.c" `postnet_enc()` & `planet_enc()`, same issue) */
-        errtxt(0, symbol, 691, "Insufficient memory for vector rectangle");
+        z_errtxt(0, symbol, 691, "Insufficient memory for vector rectangle");
         return 0;
     }
+#ifdef ZINT_SANITIZEM /* Suppress clang -fsanitize=memory false positive */
+    memset(rect, 0, sizeof(struct zint_vector_rect));
+#endif
 
     rect->next = NULL;
     rect->x = x;
@@ -70,9 +80,16 @@ static int vector_add_hexagon(struct zint_symbol *symbol, const float x, const f
             const float diameter, struct zint_vector_hexagon **last_hexagon) {
     struct zint_vector_hexagon *hexagon;
 
+    assert(x >= 0.0f);
+    assert(y >= 0.0f);
+    assert(diameter >= 0.0f);
+
     if (!(hexagon = (struct zint_vector_hexagon *) malloc(sizeof(struct zint_vector_hexagon)))) {
-        return errtxt(0, symbol, 692, "Insufficient memory for vector hexagon");
+        return z_errtxt(0, symbol, 692, "Insufficient memory for vector hexagon");
     }
+#ifdef ZINT_SANITIZEM /* Suppress clang -fsanitize=memory false positive */
+    memset(hexagon, 0, sizeof(struct zint_vector_hexagon));
+#endif
     hexagon->next = NULL;
     hexagon->x = x;
     hexagon->y = y;
@@ -93,9 +110,17 @@ static int vector_add_circle(struct zint_symbol *symbol, const float x, const fl
             const float width, const int colour, struct zint_vector_circle **last_circle) {
     struct zint_vector_circle *circle;
 
+    assert(x >= 0.0f);
+    assert(y >= 0.0f);
+    assert(diameter >= 0.0f);
+    assert(width >= 0.0f);
+
     if (!(circle = (struct zint_vector_circle *) malloc(sizeof(struct zint_vector_circle)))) {
-        return errtxt(0, symbol, 693, "Insufficient memory for vector circle");
+        return z_errtxt(0, symbol, 693, "Insufficient memory for vector circle");
     }
+#ifdef ZINT_SANITIZEM /* Suppress clang -fsanitize=memory false positive */
+    memset(circle, 0, sizeof(struct zint_vector_circle));
+#endif
     circle->next = NULL;
     circle->x = x;
     circle->y = y;
@@ -118,21 +143,31 @@ static int vector_add_string(struct zint_symbol *symbol, const unsigned char *te
             struct zint_vector_string **last_string) {
     struct zint_vector_string *string;
 
+    assert(x >= -0.5f); /* May be slightly negative due to fudging */
+    assert(y >= 0.0f);
+    assert(width >= 0.0f);
+
     if (!(string = (struct zint_vector_string *) malloc(sizeof(struct zint_vector_string)))) {
-        return errtxt(0, symbol, 694, "Insufficient memory for vector string");
+        return z_errtxt(0, symbol, 694, "Insufficient memory for vector string");
     }
+#ifdef ZINT_SANITIZEM /* Suppress clang -fsanitize=memory false positive */
+    memset(string, 0, sizeof(struct zint_vector_string));
+#endif
     string->next = NULL;
     string->x = x;
     string->y = y;
     string->width = width;
     string->fsize = fsize;
-    string->length = length == -1 ? (int) ustrlen(text) : length;
+    string->length = length == -1 ? (int) z_ustrlen(text) : length;
     string->rotation = 0;
     string->halign = halign;
     if (!(string->text = (unsigned char *) malloc(string->length + 1))) {
         free(string);
-        return errtxt(0, symbol, 695, "Insufficient memory for vector string text");
+        return z_errtxt(0, symbol, 695, "Insufficient memory for vector string text");
     }
+#ifdef ZINT_SANITIZEM /* Suppress clang -fsanitize=memory false positive */
+    memset(string->text, 0, string->length + 1);
+#endif
     memcpy(string->text, text, string->length);
     string->text[string->length] = '\0';
 
@@ -146,7 +181,7 @@ static int vector_add_string(struct zint_symbol *symbol, const unsigned char *te
     return 1;
 }
 
-INTERNAL void vector_free(struct zint_symbol *symbol) {
+INTERNAL void zint_vector_free(struct zint_symbol *symbol) {
     if (symbol->vector != NULL) {
         struct zint_vector_rect *rect;
         struct zint_vector_hexagon *hex;
@@ -203,46 +238,46 @@ static void vector_scale(struct zint_symbol *symbol, const int file_type) {
         scale = 0.2f;
     }
 
-    if ((file_type == OUT_EMF_FILE) && (symbol->symbology == BARCODE_MAXICODE)) {
+    if (file_type == OUT_EMF_FILE && symbol->symbology == BARCODE_MAXICODE) {
         /* Increase size to overcome limitations in EMF file format */
         scale *= 20;
     }
 
-    symbol->vector->width = stripf(symbol->vector->width * scale);
-    symbol->vector->height = stripf(symbol->vector->height * scale);
+    symbol->vector->width = z_stripf(symbol->vector->width * scale);
+    symbol->vector->height = z_stripf(symbol->vector->height * scale);
 
     rect = symbol->vector->rectangles;
     while (rect) {
-        rect->x = stripf(rect->x * scale);
-        rect->y = stripf(rect->y * scale);
-        rect->height = stripf(rect->height * scale);
-        rect->width = stripf(rect->width * scale);
+        rect->x = z_stripf(rect->x * scale);
+        rect->y = z_stripf(rect->y * scale);
+        rect->height = z_stripf(rect->height * scale);
+        rect->width = z_stripf(rect->width * scale);
         rect = rect->next;
     }
 
     hex = symbol->vector->hexagons;
     while (hex) {
-        hex->x = stripf(hex->x * scale);
-        hex->y = stripf(hex->y * scale);
-        hex->diameter = stripf(hex->diameter * scale);
+        hex->x = z_stripf(hex->x * scale);
+        hex->y = z_stripf(hex->y * scale);
+        hex->diameter = z_stripf(hex->diameter * scale);
         hex = hex->next;
     }
 
     circle = symbol->vector->circles;
     while (circle) {
-        circle->x = stripf(circle->x * scale);
-        circle->y = stripf(circle->y * scale);
-        circle->diameter = stripf(circle->diameter * scale);
-        circle->width = stripf(circle->width * scale);
+        circle->x = z_stripf(circle->x * scale);
+        circle->y = z_stripf(circle->y * scale);
+        circle->diameter = z_stripf(circle->diameter * scale);
+        circle->width = z_stripf(circle->width * scale);
         circle = circle->next;
     }
 
     string = symbol->vector->strings;
     while (string) {
-        string->x = stripf(string->x * scale);
-        string->y = stripf(string->y * scale);
-        string->width = stripf(string->width * scale);
-        string->fsize = stripf(string->fsize * scale);
+        string->x = z_stripf(string->x * scale);
+        string->y = z_stripf(string->y * scale);
+        string->width = z_stripf(string->width * scale);
+        string->fsize = z_stripf(string->fsize * scale);
         string = string->next;
     }
 }
@@ -264,18 +299,18 @@ static void vector_rotate(struct zint_symbol *symbol, const int rotate_angle) {
     while (rect) {
         if (rotate_angle == 90) {
             temp = rect->x;
-            rect->x = stripf(symbol->vector->height - (rect->y + rect->height));
+            rect->x = z_stripf(symbol->vector->height - (rect->y + rect->height));
             rect->y = temp;
             temp = rect->width;
             rect->width = rect->height;
             rect->height = temp;
         } else if (rotate_angle == 180) {
-            rect->x = stripf(symbol->vector->width - (rect->x + rect->width));
-            rect->y = stripf(symbol->vector->height - (rect->y + rect->height));
+            rect->x = z_stripf(symbol->vector->width - (rect->x + rect->width));
+            rect->y = z_stripf(symbol->vector->height - (rect->y + rect->height));
         } else if (rotate_angle == 270) {
             temp = rect->x;
             rect->x = rect->y;
-            rect->y = stripf(symbol->vector->width - (temp + rect->width));
+            rect->y = z_stripf(symbol->vector->width - (temp + rect->width));
             temp = rect->width;
             rect->width = rect->height;
             rect->height = temp;
@@ -287,17 +322,17 @@ static void vector_rotate(struct zint_symbol *symbol, const int rotate_angle) {
     while (hex) {
         if (rotate_angle == 90) {
             temp = hex->x;
-            hex->x = stripf(symbol->vector->height - hex->y);
+            hex->x = z_stripf(symbol->vector->height - hex->y);
             hex->y = temp;
             hex->rotation = 90;
         } else if (rotate_angle == 180) {
-            hex->x = stripf(symbol->vector->width - hex->x);
-            hex->y = stripf(symbol->vector->height - hex->y);
+            hex->x = z_stripf(symbol->vector->width - hex->x);
+            hex->y = z_stripf(symbol->vector->height - hex->y);
             hex->rotation = 180;
         } else if (rotate_angle == 270) {
             temp = hex->x;
             hex->x = hex->y;
-            hex->y = stripf(symbol->vector->width - temp);
+            hex->y = z_stripf(symbol->vector->width - temp);
             hex->rotation = 270;
         }
         hex = hex->next;
@@ -307,15 +342,15 @@ static void vector_rotate(struct zint_symbol *symbol, const int rotate_angle) {
     while (circle) {
         if (rotate_angle == 90) {
             temp = circle->x;
-            circle->x = stripf(symbol->vector->height - circle->y);
+            circle->x = z_stripf(symbol->vector->height - circle->y);
             circle->y = temp;
         } else if (rotate_angle == 180) {
-            circle->x = stripf(symbol->vector->width - circle->x);
-            circle->y = stripf(symbol->vector->height - circle->y);
+            circle->x = z_stripf(symbol->vector->width - circle->x);
+            circle->y = z_stripf(symbol->vector->height - circle->y);
         } else if (rotate_angle == 270) {
             temp = circle->x;
             circle->x = circle->y;
-            circle->y = stripf(symbol->vector->width - temp);
+            circle->y = z_stripf(symbol->vector->width - temp);
         }
         circle = circle->next;
     }
@@ -324,23 +359,23 @@ static void vector_rotate(struct zint_symbol *symbol, const int rotate_angle) {
     while (string) {
         if (rotate_angle == 90) {
             temp = string->x;
-            string->x = stripf(symbol->vector->height - string->y);
+            string->x = z_stripf(symbol->vector->height - string->y);
             string->y = temp;
             string->rotation = 90;
         } else if (rotate_angle == 180) {
-            string->x = stripf(symbol->vector->width - string->x);
-            string->y = stripf(symbol->vector->height - string->y);
+            string->x = z_stripf(symbol->vector->width - string->x);
+            string->y = z_stripf(symbol->vector->height - string->y);
             string->rotation = 180;
         } else if (rotate_angle == 270) {
             temp = string->x;
             string->x = string->y;
-            string->y = stripf(symbol->vector->width - temp);
+            string->y = z_stripf(symbol->vector->width - temp);
             string->rotation = 270;
         }
         string = string->next;
     }
 
-    if ((rotate_angle == 90) || (rotate_angle == 270)) {
+    if (rotate_angle == 90 || rotate_angle == 270) {
         temp = symbol->vector->height;
         symbol->vector->height = symbol->vector->width;
         symbol->vector->width = temp;
@@ -357,8 +392,8 @@ static void vector_reduce_rectangles(struct zint_symbol *symbol) {
         target = prev->next;
 
         while (target) {
-            if ((rect->x == target->x) && (rect->width == target->width)
-                    && (stripf(rect->y + rect->height) == target->y) && (rect->colour == target->colour)) {
+            if (rect->x == target->x && rect->width == target->width && z_stripf(rect->y + rect->height) == target->y
+                    && rect->colour == target->colour) {
                 rect->height += target->height;
                 prev->next = target->next;
                 free(target);
@@ -372,8 +407,8 @@ static void vector_reduce_rectangles(struct zint_symbol *symbol) {
     }
 }
 
-INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_type) {
-    int error_number;
+INTERNAL int zint_plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_type) {
+    int error_number, warn_number = 0;
     int main_width;
     int comp_xoffset = 0;
     int comp_roffset = 0;
@@ -391,17 +426,18 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
     int font_height; /* Font pixel size (so whole integers) */
     float text_gap; /* Gap between barcode and text */
     float guard_descent;
+    float large_bar_height;
     const int upcean_guard_whitespace = !(symbol->output_options & BARCODE_NO_QUIET_ZONES)
                                         && (symbol->output_options & EANUPC_GUARD_WHITESPACE);
     const int is_codablockf = symbol->symbology == BARCODE_CODABLOCKF || symbol->symbology == BARCODE_HIBC_BLOCKF;
     const int no_extend = is_codablockf || symbol->symbology == BARCODE_DPD;
 
-    float large_bar_height;
     int xoffset_comp;
     const float descent = 1.32779717f; /* Arimo value for normal text (font height 7) */
     const float descent_small = 0.948426545f; /* Arimo value for SMALL_TEXT (font height 5) */
 
     /* For UPC/EAN only */
+    float addon_min_row_height = 0.0f;
     float addon_row_yposn = 0.0f; /* Suppress gcc -Wmaybe-uninitialized false positive */
     float addon_row_height = 0.0f; /* Ditto */
     int upcae_outside_font_height = 0; /* UPC-A/E outside digits font size */
@@ -412,6 +448,7 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
     float digit_ascender = 0.0f; /* Avoid gcc -Wmaybe-uninitialized */
     const float antialias_fudge_factor = 0.02f;
     float antialias_fudge = 0.0f; /* Avoid gcc -Wmaybe-uninitialized */
+    float text_gap_antialias;
     int rect_count = 0, last_row_start = 0; /* For UPC/EAN guard bars */
 
     float dot_overspill = 0.0f;
@@ -429,52 +466,55 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
     memset(first_row_rects, 0, sizeof(struct zint_vector_rect *) * (symbol->rows + 1));
 
     /* Free any previous rendering structures */
-    vector_free(symbol);
+    zint_vector_free(symbol);
 
     /* Sanity check colours */
-    error_number = out_check_colour_options(symbol);
+    error_number = zint_out_check_colour_options(symbol);
     if (error_number != 0) {
         return error_number;
     }
     if (symbol->rows <= 0) {
-        return errtxt(ZINT_ERROR_INVALID_OPTION, symbol, 697, "No rows");
+        return z_errtxt(ZINT_ERROR_INVALID_OPTION, symbol, 697, "No rows");
     }
 
     /* Allocate memory */
     if (!(vector = symbol->vector = (struct zint_vector *) malloc(sizeof(struct zint_vector)))) {
-        return errtxt(ZINT_ERROR_MEMORY, symbol, 696, "Insufficient memory for vector header");
+        return z_errtxt(ZINT_ERROR_MEMORY, symbol, 696, "Insufficient memory for vector header");
     }
+#ifdef ZINT_SANITIZEM /* Suppress clang -fsanitize=memory false positive */
+    memset(vector, 0, sizeof(struct zint_vector));
+#endif
     vector->rectangles = NULL;
     vector->hexagons = NULL;
     vector->circles = NULL;
     vector->strings = NULL;
 
-    large_bar_height = out_large_bar_height(symbol, 0 /*si (scale and round)*/, NULL /*row_heights_si*/,
-                        NULL /*symbol_height_si*/);
+    large_bar_height = zint_out_large_bar_height(symbol, 0 /*si (scale and round)*/, NULL /*row_heights_si*/,
+                                                NULL /*symbol_height_si*/);
 
     main_width = symbol->width;
 
-    if (is_composite(symbol->symbology)) {
-        while (!module_is_set(symbol, symbol->rows - 1, comp_xoffset)) {
+    if (z_is_composite(symbol->symbology)) {
+        while (!z_module_is_set(symbol, symbol->rows - 1, comp_xoffset)) {
             comp_xoffset++;
         }
     }
-    if (is_upcean(symbol->symbology)) {
-        upceanflag = out_process_upcean(symbol, comp_xoffset, &main_width, addon, &addon_len, &addon_gap);
-    } else if (is_composite(symbol->symbology)) {
+    if (z_is_upcean(symbol->symbology)) {
+        upceanflag = zint_out_process_upcean(symbol, comp_xoffset, &main_width, addon, &addon_len, &addon_gap);
+    } else if (z_is_composite(symbol->symbology)) {
         int x;
-        for (x = symbol->width - 1; x && !module_is_set(symbol, symbol->rows - 1, x); comp_roffset++, x--);
+        for (x = symbol->width - 1; x && !z_module_is_set(symbol, symbol->rows - 1, x); comp_roffset++, x--);
         main_width -= comp_xoffset + comp_roffset;
     }
 
-    hide_text = ((!symbol->show_hrt) || (ustrlen(symbol->text) == 0));
+    hide_text = !symbol->show_hrt || symbol->text_length == 0;
 
-    out_set_whitespace_offsets(symbol, hide_text, comp_xoffset, &xoffset, &yoffset, &roffset, &boffset, &qz_right,
-        0 /*scaler*/, NULL, NULL, NULL, NULL, NULL);
+    zint_out_set_whitespace_offsets(symbol, hide_text, comp_xoffset, &xoffset, &yoffset, &roffset, &boffset,
+                                    &qz_right, 0 /*scaler*/, NULL, NULL, NULL, NULL, NULL);
 
     xoffset_comp = xoffset + comp_xoffset;
 
-    if ((symbol->symbology != BARCODE_MAXICODE) && (symbol->output_options & BARCODE_DOTTY_MODE)) {
+    if (symbol->symbology != BARCODE_MAXICODE && (symbol->output_options & BARCODE_DOTTY_MODE)) {
         if (symbol->dot_size < 1.0f) {
             dot_overspill = 0.0f;
             /* Offset (1 - dot_size) / 2 + dot_radius == (1 - dot_size + dot_size) / 2 == 1 / 2 */
@@ -506,19 +546,28 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
         text_gap = symbol->text_gap;
         guard_descent = 0.0f;
     }
+    text_gap_antialias = z_stripf(text_gap + antialias_fudge);
 
     if (hide_text) {
         textoffset = guard_descent;
+        if (addon_len && large_bar_height + textoffset < font_height + text_gap_antialias) {
+            textoffset = font_height + text_gap_antialias - large_bar_height;
+        }
     } else {
-        textoffset = font_height + stripf(text_gap + antialias_fudge);
-        if (upceanflag) {
-            if (textoffset < guard_descent) {
-                textoffset = guard_descent;
-            }
+        textoffset = font_height + text_gap_antialias;
+        if (upceanflag && textoffset < guard_descent) {
+            textoffset = guard_descent;
         }
     }
 
-    vector->height = symbol->height + textoffset + dot_overspill + (yoffset + boffset);
+    if (addon_len && large_bar_height + textoffset - (font_height + text_gap_antialias) < 1.0f) {
+        addon_min_row_height = 1.0f - (large_bar_height + textoffset - (font_height + text_gap_antialias));
+        if (addon_min_row_height > 1.0f) {
+            addon_min_row_height = 1.0f;
+        }
+    }
+
+    vector->height = symbol->height + textoffset + addon_min_row_height + dot_overspill + (yoffset + boffset);
 
     /* Plot Maxicode symbols */
     if (symbol->symbology == BARCODE_MAXICODE) {
@@ -545,11 +594,17 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
         bull_width = bull_d_incr / 2.0f;
 
         if (!vector_add_circle(symbol, bull_x, bull_y, hex_ydiameter + bull_d_incr * 5 - bull_width, bull_width, 0,
-                &last_circle)) return ZINT_ERROR_MEMORY;
+                                &last_circle)) {
+            return ZINT_ERROR_MEMORY;
+        }
         if (!vector_add_circle(symbol, bull_x, bull_y, hex_ydiameter + bull_d_incr * 3 - bull_width, bull_width, 0,
-                &last_circle)) return ZINT_ERROR_MEMORY;
+                                &last_circle)) {
+            return ZINT_ERROR_MEMORY;
+        }
         if (!vector_add_circle(symbol, bull_x, bull_y, hex_ydiameter + bull_d_incr - bull_width, bull_width, 0,
-                &last_circle)) return ZINT_ERROR_MEMORY;
+                                &last_circle)) {
+            return ZINT_ERROR_MEMORY;
+        }
 
         /* Hexagons */
         for (r = 0; r < symbol->rows; r++) {
@@ -557,10 +612,11 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
             const float hex_yposn = r * yposn_offset + hex_yradius + yoffset;
             const float xposn_offset = (odd_row ? hex_diameter : hex_radius) + xoffset;
             for (i = 0; i < symbol->width - odd_row; i++) {
-                if (module_is_set(symbol, r, i)) {
+                if (z_module_is_set(symbol, r, i)) {
                     const float hex_xposn = i * hex_diameter + xposn_offset;
-                    if (!vector_add_hexagon(symbol, hex_xposn, hex_yposn, hex_diameter, &last_hexagon))
-                            return ZINT_ERROR_MEMORY;
+                    if (!vector_add_hexagon(symbol, hex_xposn, hex_yposn, hex_diameter, &last_hexagon)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                 }
             }
         }
@@ -568,9 +624,11 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
     } else if (symbol->output_options & BARCODE_DOTTY_MODE) {
         for (r = 0; r < symbol->rows; r++) {
             for (i = 0; i < symbol->width; i++) {
-                if (module_is_set(symbol, r, i)) {
+                if (z_module_is_set(symbol, r, i)) {
                     if (!vector_add_circle(symbol, i + dot_offset + xoffset, r + dot_offset + yoffset,
-                            symbol->dot_size, 0, 0, &last_circle)) return ZINT_ERROR_MEMORY;
+                                            symbol->dot_size, 0, 0, &last_circle)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                 }
             }
         }
@@ -581,14 +639,15 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
             const float row_height = symbol->row_height[r];
 
             for (i = 0; i < symbol->width; i += block_width) {
-                const int fill = module_colour_is_set(symbol, r, i);
+                const int fill = z_module_colour_is_set(symbol, r, i);
                 for (block_width = 1; (i + block_width < symbol->width)
-                                        && module_colour_is_set(symbol, r, i + block_width) == fill; block_width++);
+                                        && z_module_colour_is_set(symbol, r, i + block_width) == fill; block_width++);
                 if (fill) {
                     /* a colour block */
-                    if (!vector_add_rect(symbol, i + xoffset, yposn, block_width, row_height, &last_rect))
-                            return ZINT_ERROR_MEMORY;
-                    last_rect->colour = module_colour_is_set(symbol, r, i);
+                    if (!vector_add_rect(symbol, i + xoffset, yposn, block_width, row_height, &last_rect)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
+                    last_rect->colour = z_module_colour_is_set(symbol, r, i);
                 }
             }
             yposn += row_height;
@@ -601,22 +660,22 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
             last_row_start = rect_count;
 
             for (i = 0; i < symbol->width; i += block_width) {
-                const int fill = module_is_set(symbol, r, i);
+                const int fill = z_module_is_set(symbol, r, i);
                 for (block_width = 1; (i + block_width < symbol->width)
-                                        && module_is_set(symbol, r, i + block_width) == fill; block_width++);
+                                        && z_module_is_set(symbol, r, i + block_width) == fill; block_width++);
 
-                if ((r == (symbol->rows - 1)) && (i > main_width) && (addon_latch == 0)) {
+                if (r == symbol->rows - 1 && i > main_width && addon_latch == 0) {
                     addon_text_yposn = yposn + font_height - digit_ascender;
                     if (addon_text_yposn < 0.0f) {
                         addon_text_yposn = 0.0f;
                     }
-                    addon_row_yposn = yposn + font_height + text_gap + antialias_fudge;
+                    addon_row_yposn = yposn + font_height + text_gap_antialias;
                     addon_row_height = row_height - (addon_row_yposn - yposn);
                     /* Following ISO/IEC 15420:2009 Figure 5 — UPC-A bar code symbol with 2-digit add-on (contrary to
                        GS1 General Specs v24.0 Figure 5.2.6.6-5) descends for all including UPC-A/E */
                     addon_row_height += guard_descent;
-                    if (addon_row_height < 0.5f) {
-                        addon_row_height = 0.5f;
+                    if (addon_row_height < 1.0f) {
+                        addon_row_height = 1.0f;
                     }
                     addon_latch = 1;
                 }
@@ -624,10 +683,13 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
                     /* a bar */
                     if (addon_latch) {
                         if (!vector_add_rect(symbol, i + xoffset, addon_row_yposn, block_width, addon_row_height,
-                                &last_rect)) return ZINT_ERROR_MEMORY;
+                                            &last_rect)) {
+                            return ZINT_ERROR_MEMORY;
+                        }
                     } else {
-                        if (!vector_add_rect(symbol, i + xoffset, yposn, block_width, row_height, &last_rect))
-                                return ZINT_ERROR_MEMORY;
+                        if (!vector_add_rect(symbol, i + xoffset, yposn, block_width, row_height, &last_rect)) {
+                            return ZINT_ERROR_MEMORY;
+                        }
                     }
                     rect_count++;
                 }
@@ -638,19 +700,20 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
     } else {
         yposn = yoffset;
         if (upceanflag && !hide_text) { /* EAN-2, EAN-5 (standalone add-ons) */
-            yposn += font_height + text_gap + antialias_fudge;
+            yposn += font_height + text_gap_antialias;
         }
         for (r = 0; r < symbol->rows; r++) {
             const float row_height = symbol->row_height[r] ? symbol->row_height[r] : large_bar_height;
 
             for (i = 0; i < symbol->width; i += block_width) {
-                const int fill = module_is_set(symbol, r, i);
+                const int fill = z_module_is_set(symbol, r, i);
                 for (block_width = 1; (i + block_width < symbol->width)
-                                        && module_is_set(symbol, r, i + block_width) == fill; block_width++);
+                                        && z_module_is_set(symbol, r, i + block_width) == fill; block_width++);
                 if (fill) {
                     /* a bar */
-                    if (!vector_add_rect(symbol, i + xoffset, yposn, block_width, row_height, &last_rect))
-                            return ZINT_ERROR_MEMORY;
+                    if (!vector_add_rect(symbol, i + xoffset, yposn, block_width, row_height, &last_rect)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                     if (i == 0) {
                         first_row_rects[r] = last_rect;
                     }
@@ -745,27 +808,37 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
                 float text_xposn = -(5.0f - 0.35f) + xoffset_comp;
                 textwidth = 6.2f;
                 if (!vector_add_string(symbol, symbol->text, 1, text_xposn, text_yposn, upcae_outside_font_height,
-                        textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        textwidth, 2 /*right align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 text_xposn = (24.0f + 0.5f) + xoffset_comp;
                 textwidth = 6.0f * 8.5f;
                 if (!vector_add_string(symbol, symbol->text + 1, 6, text_xposn, text_yposn, font_height, textwidth,
-                        0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        0 /*centre align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 /* TODO: GS1 General Specs v24.0 5.2.5 Human readable interpretation says 3X but this could cause
                    digit's righthand to touch any add-on, now that they descend, so use 2X, until clarified */
                 text_xposn = (51.0f - 0.35f) + 2.0f + xoffset_comp;
                 textwidth = 6.2f;
                 if (!vector_add_string(symbol, symbol->text + 7, 1, text_xposn, text_yposn, upcae_outside_font_height,
-                        textwidth, 1 /*left align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        textwidth, 1 /*left align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 if (addon_len) {
                     text_xposn = (addon_len == 2 ? 61.0f : 75.0f) + xoffset_comp + addon_gap;
                     textwidth = addon_len * 8.5f;
                     if (!vector_add_string(symbol, addon, addon_len, text_xposn, addon_text_yposn, font_height,
-                            textwidth, 0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                            textwidth, 0 /*centre align*/, &last_string)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                     if (upcean_guard_whitespace) {
                         text_xposn = symbol->width + gws_right_fudge + qz_right + xoffset;
                         textwidth = 8.5f;
                         if (!vector_add_string(symbol, (const unsigned char *) ">", 1, text_xposn, addon_text_yposn,
-                                font_height, textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                                font_height, textwidth, 2 /*right align*/, &last_string)) {
+                            return ZINT_ERROR_MEMORY;
+                        }
                     }
                 }
 
@@ -775,63 +848,85 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
                     text_xposn = -7.0f - gws_left_fudge + xoffset_comp;
                     textwidth = 8.5f;
                     if (!vector_add_string(symbol, (const unsigned char *) "<", 1, text_xposn, text_yposn,
-                            font_height, textwidth, 1 /*left align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                            font_height, textwidth, 1 /*left align*/, &last_string)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                 }
                 text_xposn = (17.0f + 0.5f) + xoffset_comp;
                 textwidth = 4.0f * 8.5f;
                 if (!vector_add_string(symbol, symbol->text, 4, text_xposn, text_yposn, font_height, textwidth,
-                        0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        0 /*centre align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 text_xposn = (50.0f - 0.5f) + xoffset_comp;
                 if (!vector_add_string(symbol, symbol->text + 4, 4, text_xposn, text_yposn, font_height, textwidth,
-                        0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        0 /*centre align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 if (addon_len) {
                     text_xposn = (addon_len == 2 ? 77.0f : 91.0f) + xoffset_comp + addon_gap;
                     textwidth = addon_len * 8.5f;
                     if (!vector_add_string(symbol, addon, addon_len, text_xposn, addon_text_yposn, font_height,
-                            textwidth, 0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                            textwidth, 0 /*centre align*/, &last_string)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                     if (upcean_guard_whitespace) {
                         text_xposn = symbol->width + gws_right_fudge + qz_right + xoffset;
                         textwidth = 8.5f;
                         if (!vector_add_string(symbol, (const unsigned char *) ">", 1, text_xposn, addon_text_yposn,
-                                font_height, textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                                font_height, textwidth, 2 /*right align*/, &last_string)) {
+                            return ZINT_ERROR_MEMORY;
+                        }
                     }
                 } else if (upcean_guard_whitespace) {
                     text_xposn = symbol->width + gws_right_fudge + qz_right + xoffset;
                     textwidth = 8.5f;
                     if (!vector_add_string(symbol, (const unsigned char *) ">", 1, text_xposn, text_yposn,
-                            font_height, textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                            font_height, textwidth, 2 /*right align*/, &last_string)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                 }
 
             } else if (upceanflag == 12) { /* UPC-A */
                 float text_xposn = -(5.0f - 0.35f) + xoffset_comp;
                 textwidth = 6.2f;
                 if (!vector_add_string(symbol, symbol->text, 1, text_xposn, text_yposn, upcae_outside_font_height,
-                        textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        textwidth, 2 /*right align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 text_xposn = 28.0f + xoffset_comp;
                 textwidth = 5.0f * 8.5f;
                 if (!vector_add_string(symbol, symbol->text + 1, 5, text_xposn, text_yposn, font_height, textwidth,
-                        0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        0 /*centre align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 text_xposn = 67.0f + xoffset_comp;
                 if (!vector_add_string(symbol, symbol->text + 6, 5, text_xposn, text_yposn, font_height, textwidth,
-                        0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        0 /*centre align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 /* TODO: GS1 General Specs v24.0 5.2.5 Human readable interpretation says 5X but this could cause
                    digit's righthand to touch any add-on, now that they descend, so use 4X, until clarified */
                 text_xposn = (95.0f - 0.35f) + 4.0f + xoffset_comp;
                 textwidth = 6.2f;
                 if (!vector_add_string(symbol, symbol->text + 11, 1, text_xposn, text_yposn,
-                        upcae_outside_font_height, textwidth, 1 /*left align*/, &last_string)) {
+                                        upcae_outside_font_height, textwidth, 1 /*left align*/, &last_string)) {
                     return ZINT_ERROR_MEMORY;
                 }
                 if (addon_len) {
                     text_xposn = (addon_len == 2 ? 105.0f : 119.0f) + xoffset_comp + addon_gap;
                     textwidth = addon_len * 8.5f;
                     if (!vector_add_string(symbol, addon, addon_len, text_xposn, addon_text_yposn, font_height,
-                            textwidth, 0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                            textwidth, 0 /*centre align*/, &last_string)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                     if (upcean_guard_whitespace) {
                         text_xposn = symbol->width + gws_right_fudge + qz_right + xoffset;
                         textwidth = 8.5f;
                         if (!vector_add_string(symbol, (const unsigned char *) ">", 1, text_xposn, addon_text_yposn,
-                                font_height, textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                                font_height, textwidth, 2 /*right align*/, &last_string)) {
+                            return ZINT_ERROR_MEMORY;
+                        }
                     }
                 }
 
@@ -839,30 +934,42 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
                 float text_xposn = -(5.0f - 0.1f) + xoffset_comp;
                 textwidth = 8.5f;
                 if (!vector_add_string(symbol, symbol->text, 1, text_xposn, text_yposn, font_height, textwidth,
-                        2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        2 /*right align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 text_xposn = (24.0f + 0.5f) + xoffset_comp;
                 textwidth = 6.0f * 8.5f;
                 if (!vector_add_string(symbol, symbol->text + 1, 6, text_xposn, text_yposn, font_height, textwidth,
-                        0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        0 /*centre align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 text_xposn = (71.0f - 0.5f) + xoffset_comp;
                 if (!vector_add_string(symbol, symbol->text + 7, 6, text_xposn, text_yposn, font_height, textwidth,
-                        0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        0 /*centre align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
                 if (addon_len) {
                     text_xposn = (addon_len == 2 ? 105.0f : 119.0f) + xoffset_comp + addon_gap;
                     textwidth = addon_len * 8.5f;
                     if (!vector_add_string(symbol, addon, addon_len, text_xposn, addon_text_yposn, font_height,
-                            textwidth, 0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                            textwidth, 0 /*centre align*/, &last_string)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                     if (upcean_guard_whitespace) {
                         text_xposn = symbol->width + gws_right_fudge + qz_right + xoffset;
                         textwidth = 8.5f;
                         if (!vector_add_string(symbol, (const unsigned char *) ">", 1, text_xposn, addon_text_yposn,
-                                font_height, textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                                font_height, textwidth, 2 /*right align*/, &last_string)) {
+                            return ZINT_ERROR_MEMORY;
+                        }
                     }
                 } else if (upcean_guard_whitespace) {
                     text_xposn = symbol->width + gws_right_fudge + qz_right + xoffset;
                     textwidth = 8.5f;
                     if (!vector_add_string(symbol, (const unsigned char *) ">", 1, text_xposn, text_yposn,
-                            font_height, textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                            font_height, textwidth, 2 /*right align*/, &last_string)) {
+                        return ZINT_ERROR_MEMORY;
+                    }
                 }
             }
 
@@ -877,15 +984,19 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
             if (text_yposn < 0.0f) {
                 text_yposn = 0.0f;
             }
-            addon_len = (int) ustrlen(symbol->text);
+            addon_len = symbol->text_length;
             textwidth = addon_len * 8.5f;
             if (!vector_add_string(symbol, symbol->text, addon_len, text_xposn, text_yposn, font_height,
-                    textwidth, 0 /*centre align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                    textwidth, 0 /*centre align*/, &last_string)) {
+                return ZINT_ERROR_MEMORY;
+            }
             if (upcean_guard_whitespace) {
                 text_xposn = symbol->width + gws_right_fudge + qz_right + xoffset;
                 textwidth = 8.5f;
                 if (!vector_add_string(symbol, (const unsigned char *) ">", 1, text_xposn, text_yposn,
-                        font_height, textwidth, 2 /*right align*/, &last_string)) return ZINT_ERROR_MEMORY;
+                                        font_height, textwidth, 2 /*right align*/, &last_string)) {
+                    return ZINT_ERROR_MEMORY;
+                }
             }
 
         } else {
@@ -898,12 +1009,14 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
                 text_yposn += symbol->border_width;
             }
             if (!vector_add_string(symbol, symbol->text, -1, text_xposn, text_yposn, font_height, symbol->width, 0,
-                    &last_string)) return ZINT_ERROR_MEMORY;
+                                    &last_string)) {
+                return ZINT_ERROR_MEMORY;
+            }
         }
     }
 
     /* Separator binding for stacked barcodes */
-    if ((symbol->output_options & BARCODE_BIND) && (symbol->rows > 1) && is_stackable(symbol->symbology)) {
+    if ((symbol->output_options & BARCODE_BIND) && symbol->rows > 1 && z_is_bindable(symbol->symbology)) {
         float sep_xoffset = xoffset;
         float sep_width = symbol->width;
         float sep_height = 1.0f, sep_yoffset, sep_half_height;
@@ -916,6 +1029,7 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
             /* Avoid 11-module start and 13-module stop chars */
             sep_xoffset += 11;
             sep_width -= 11 + 13;
+            assert(sep_width >= 0.0f);
         }
         /* Adjust original rectangles so don't overlap with separator(s) (important for RGBA) */
         for (r = 0; r < symbol->rows; r++) {
@@ -934,7 +1048,7 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
                 } else {
                     rect->height -= sep_half_height;
                 }
-                if (rect->height < 0) {
+                if (rect->height < 0.0f) {
                     rect->height = 0.0f;
                     /* TODO: warn? */
                 }
@@ -942,14 +1056,16 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
         }
         for (r = 1; r < symbol->rows; r++) {
             const float row_height = symbol->row_height[r - 1] ? symbol->row_height[r - 1] : large_bar_height;
-            if (!vector_add_rect(symbol, sep_xoffset, (r * row_height) + sep_yoffset, sep_width, sep_height,
-                    &last_rect)) return ZINT_ERROR_MEMORY;
+            const float y = (r * row_height) + sep_yoffset;
+            if (!vector_add_rect(symbol, sep_xoffset, y < 0.0f ? 0.0f : y, sep_width, sep_height, &last_rect)) {
+                return ZINT_ERROR_MEMORY;
+            }
         }
     }
 
     /* Bind/box */
     if (symbol->border_width > 0 && (symbol->output_options & (BARCODE_BOX | BARCODE_BIND | BARCODE_BIND_TOP))) {
-        const int horz_outside = is_fixed_ratio(symbol->symbology);
+        const int horz_outside = z_is_fixed_ratio(symbol->symbology);
         float ybind_top = yoffset - symbol->border_width;
         /* Following equivalent to yoffset + symbol->height + dot_overspill except for BARCODE_MAXICODE */
         float ybind_bot = vector->height - textoffset - boffset;
@@ -961,8 +1077,9 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
             ybind_bot += textoffset;
         }
         /* Top */
-        if (!vector_add_rect(symbol, 0.0f, ybind_top, vector->width, symbol->border_width, &last_rect))
-                return ZINT_ERROR_MEMORY;
+        if (!vector_add_rect(symbol, 0.0f, ybind_top, vector->width, symbol->border_width, &last_rect)) {
+            return ZINT_ERROR_MEMORY;
+        }
         if (!(symbol->output_options & BARCODE_BOX) && no_extend) {
             /* CodaBlockF/DPD bind - does not extend over horizontal whitespace */
             last_rect->x = xoffset;
@@ -970,31 +1087,34 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
         }
         /* Bottom */
         if (!(symbol->output_options & BARCODE_BIND_TOP)) { /* Trumps BARCODE_BOX & BARCODE_BIND */
-            if (!vector_add_rect(symbol, 0.0f, ybind_bot, vector->width, symbol->border_width, &last_rect))
-                    return ZINT_ERROR_MEMORY;
+            if (!vector_add_rect(symbol, 0.0f, ybind_bot, vector->width, symbol->border_width, &last_rect)) {
+                return ZINT_ERROR_MEMORY;
+            }
             if (!(symbol->output_options & BARCODE_BOX) && no_extend) {
                 /* CodaBlockF/DPD bind - does not extend over horizontal whitespace */
                 last_rect->x = xoffset;
                 last_rect->width -= xoffset + roffset;
             }
-        }
-        if (symbol->output_options & BARCODE_BOX) {
-            const float xbox_right = vector->width - symbol->border_width;
-            float box_top = yoffset;
-            /* Following equivalent to symbol->height except for BARCODE_MAXICODE */
-            float box_height = vector->height - textoffset - dot_overspill - yoffset - boffset;
-            if (horz_outside) {
-                box_top = symbol->border_width;
-                box_height = vector->height - symbol->border_width * 2;
-            } else if (upceanflag == 2 || upceanflag == 5) {
-                box_top += textoffset;
+            if (symbol->output_options & BARCODE_BOX) {
+                const float xbox_right = vector->width - symbol->border_width;
+                float box_top = yoffset;
+                /* Following equivalent to symbol->height except for BARCODE_MAXICODE */
+                float box_height = vector->height - textoffset - dot_overspill - yoffset - boffset;
+                if (horz_outside) {
+                    box_top = symbol->border_width;
+                    box_height = vector->height - symbol->border_width * 2;
+                } else if (upceanflag == 2 || upceanflag == 5) {
+                    box_top += textoffset;
+                }
+                /* Left */
+                if (!vector_add_rect(symbol, 0.0f, box_top, symbol->border_width, box_height, &last_rect)) {
+                    return ZINT_ERROR_MEMORY;
+                }
+                /* Right */
+                if (!vector_add_rect(symbol, xbox_right, box_top, symbol->border_width, box_height, &last_rect)) {
+                    return ZINT_ERROR_MEMORY;
+                }
             }
-            /* Left */
-            if (!vector_add_rect(symbol, 0.0f, box_top, symbol->border_width, box_height, &last_rect))
-                    return ZINT_ERROR_MEMORY;
-            /* Right */
-            if (!vector_add_rect(symbol, xbox_right, box_top, symbol->border_width, box_height, &last_rect))
-                    return ZINT_ERROR_MEMORY;
         }
     }
 
@@ -1009,18 +1129,18 @@ INTERNAL int plot_vector(struct zint_symbol *symbol, int rotate_angle, int file_
 
     switch (file_type) {
         case OUT_EPS_FILE:
-            error_number = ps_plot(symbol);
+            error_number = zint_ps_plot(symbol);
             break;
         case OUT_SVG_FILE:
-            error_number = svg_plot(symbol);
+            error_number = zint_svg_plot(symbol);
             break;
         case OUT_EMF_FILE:
-            error_number = emf_plot(symbol, rotate_angle);
+            error_number = zint_emf_plot(symbol, rotate_angle);
             break;
         /* case OUT_BUFFER: No more work needed */
     }
 
-    return error_number;
+    return error_number ? error_number : warn_number;
 }
 
 /* vim: set ts=4 sw=4 et : */

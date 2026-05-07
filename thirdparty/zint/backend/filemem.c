@@ -1,7 +1,7 @@
 /*  filemem.c - write to file/memory abstraction */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2023-2025 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2023-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -84,7 +84,7 @@ static void fm_clear_mem(struct filemem *restrict const fmp) {
         fmp->mem = NULL;
     }
     fmp->memsize = fmp->mempos = fmp->memend = 0;
-#ifdef FM_NO_VSNPRINTF
+#ifdef Z_NO_VSNPRINTF
     if (fmp->fp_null) {
         (void) fclose(fmp->fp_null);
         fmp->fp_null = NULL;
@@ -93,14 +93,14 @@ static void fm_clear_mem(struct filemem *restrict const fmp) {
 }
 
 /* `fopen()` if file, setup memory buffer if BARCODE_MEMORY_FILE, returning 1 on success, 0 on failure */
-INTERNAL int fm_open(struct filemem *restrict const fmp, struct zint_symbol *symbol, const char *mode) {
+INTERNAL int zint_fm_open(struct filemem *restrict const fmp, struct zint_symbol *symbol, const char *mode) {
     assert(fmp && symbol && mode);
     fmp->fp = NULL;
     fmp->mem = NULL;
     fmp->memsize = fmp->mempos = fmp->memend = 0;
     fmp->flags = symbol->output_options & (BARCODE_STDOUT | BARCODE_MEMORY_FILE);
     fmp->err = 0;
-#ifdef FM_NO_VSNPRINTF
+#ifdef Z_NO_VSNPRINTF
     fmp->fp_null = NULL;
 #endif
 
@@ -108,6 +108,9 @@ INTERNAL int fm_open(struct filemem *restrict const fmp, struct zint_symbol *sym
         if (!(fmp->mem = (unsigned char *) malloc(FM_PAGE_SIZE))) {
             return fm_seterr(fmp, ENOMEM);
         }
+#ifdef ZINT_SANITIZEM /* Suppress clang -fsanitize=memory false positive */
+        memset(fmp->mem, 0, FM_PAGE_SIZE);
+#endif
         fmp->memsize = FM_PAGE_SIZE;
         if (symbol->memfile) {
             free(symbol->memfile);
@@ -125,7 +128,7 @@ INTERNAL int fm_open(struct filemem *restrict const fmp, struct zint_symbol *sym
         fmp->fp = stdout;
         return 1;
     }
-    if (!(fmp->fp = out_fopen(symbol->outfile, mode))) {
+    if (!(fmp->fp = zint_out_fopen(symbol->outfile, mode))) {
         return fm_seterr(fmp, errno);
     }
     return 1;
@@ -160,13 +163,16 @@ static int fm_mem_expand(struct filemem *restrict const fmp, const size_t size) 
         fm_clear_mem(fmp);
         return fm_seterr(fmp, new_size > 0x40000000 ? EINVAL : ENOMEM);
     }
+#ifdef ZINT_SANITIZEM /* Suppress clang -fsanitize=memory false positive */
+    memset(new_mem + fmp->memsize, 0, new_size - fmp->memsize);
+#endif
     fmp->mem = new_mem;
     fmp->memsize = new_size;
     return 1;
 }
 
 /* `fwrite()` to file or memory, returning 1 on success, 0 on failure */
-INTERNAL int fm_write(const void *restrict ptr, const size_t size, const size_t nitems,
+INTERNAL int zint_fm_write(const void *restrict ptr, const size_t size, const size_t nitems,
                     struct filemem *restrict const fmp) {
     assert(fmp && ptr);
     if (fmp->err) {
@@ -194,7 +200,7 @@ INTERNAL int fm_write(const void *restrict ptr, const size_t size, const size_t 
 }
 
 /* `fputc()` to file or memory, returning 1 on success, 0 on failure */
-INTERNAL int fm_putc(const int ch, struct filemem *restrict const fmp) {
+INTERNAL int zint_fm_putc(const int ch, struct filemem *restrict const fmp) {
     assert(fmp);
     if (fmp->err) {
         return 0;
@@ -214,7 +220,7 @@ INTERNAL int fm_putc(const int ch, struct filemem *restrict const fmp) {
 }
 
 /* `fputs()` to file or memory, returning 1 on success, 0 on failure */
-INTERNAL int fm_puts(const char *str, struct filemem *restrict const fmp) {
+INTERNAL int zint_fm_puts(const char *str, struct filemem *restrict const fmp) {
     assert(fmp);
     if (fmp->err) {
         return 0;
@@ -234,7 +240,7 @@ INTERNAL int fm_puts(const char *str, struct filemem *restrict const fmp) {
     return 1;
 }
 
-#ifdef FM_NO_VSNPRINTF
+#ifdef Z_NO_VSNPRINTF
 #  ifdef _WIN32
 #    define DEV_NULL "NUL"
 #  else
@@ -248,18 +254,17 @@ static int fm_vprintf(struct filemem *restrict const fmp, const char *fmt, va_li
     int size, check;
 
     /* Adapted from https://stackoverflow.com/a/52558247/664741 */
-#ifdef FM_NO_VSNPRINTF
+#ifdef Z_NO_VSNPRINTF
     if (!fmp->fp_null && !(fmp->fp_null = fopen(DEV_NULL, "wb"))) {
         return fm_seterr(fmp, errno);
     }
 #endif
 
     va_copy(cpy, ap);
-    /* The clang-tidy warning is a bug https://github.com/llvm/llvm-project/issues/40656 */
-#ifdef FM_NO_VSNPRINTF
-    size = vfprintf(fmp->fp_null, fmt, cpy); /* NOLINT(clang-analyzer-valist.Uninitialized) */
+#ifdef Z_NO_VSNPRINTF
+    size = vfprintf(fmp->fp_null, fmt, cpy);
 #else
-    size = vsnprintf(NULL, 0, fmt, cpy); /* NOLINT(clang-analyzer-valist.Uninitialized) */
+    size = vsnprintf(NULL, 0, fmt, cpy);
 #endif
     va_end(cpy);
 
@@ -271,11 +276,9 @@ static int fm_vprintf(struct filemem *restrict const fmp, const char *fmt, va_li
         return 0;
     }
 
-#ifdef FM_NO_VSNPRINTF
-    /* NOLINTNEXTLINE(clang-analyzer-valist.Uninitialized) - see above */
+#ifdef Z_NO_VSNPRINTF
     check = vsprintf((char *) fmp->mem + fmp->mempos, fmt, ap);
 #else
-    /* NOLINTNEXTLINE(clang-analyzer-valist.Uninitialized) - see above */
     check = vsnprintf((char *) fmp->mem + fmp->mempos, size + 1, fmt, ap);
 #endif
 
@@ -288,7 +291,7 @@ static int fm_vprintf(struct filemem *restrict const fmp, const char *fmt, va_li
 }
 
 /* `fprintf()` to file or memory, returning 1 on success, 0 on failure */
-INTERNAL int fm_printf(struct filemem *restrict const fmp, const char *fmt, ...) {
+INTERNAL int zint_fm_printf(struct filemem *restrict const fmp, const char *fmt, ...) {
     va_list ap;
     int ret;
 
@@ -303,14 +306,14 @@ INTERNAL int fm_printf(struct filemem *restrict const fmp, const char *fmt, ...)
         return ret;
     }
     va_start(ap, fmt);
-    ret = vfprintf(fmp->fp, fmt, ap) >= 0; /* NOLINT(clang-analyzer-valist.Uninitialized) - see above */
+    ret = vfprintf(fmp->fp, fmt, ap) >= 0;
     va_end(ap);
     return ret ? 1 : fm_seterr(fmp, errno);
 }
 
 /* Output float without trailing zeroes to `fmp` with decimal pts `dp` (precision), returning 1 on success, 0 on
    failure */
-INTERNAL int fm_putsf(const char *prefix, const int dp, const float arg, struct filemem *restrict const fmp) {
+INTERNAL int zint_fm_putsf(const char *prefix, const int dp, const float arg, struct filemem *restrict const fmp) {
     int i, end;
     char buf[256]; /* Assuming `dp` reasonable */
     const int len = sprintf(buf, "%.*f", dp, arg);
@@ -320,7 +323,7 @@ INTERNAL int fm_putsf(const char *prefix, const int dp, const float arg, struct 
         return 0;
     }
     if (prefix && *prefix) {
-        if (!fm_puts(prefix, fmp)) {
+        if (!zint_fm_puts(prefix, fmp)) {
             return 0;
         }
     }
@@ -342,12 +345,12 @@ INTERNAL int fm_putsf(const char *prefix, const int dp, const float arg, struct 
         }
     }
 
-    return fm_puts(buf, fmp);
+    return zint_fm_puts(buf, fmp);
 }
 
 /* `fclose()` if file, set `symbol->memfile` & `symbol->memfile_size` if memory, returning 1 on success, 0 on
    failure */
-INTERNAL int fm_close(struct filemem *restrict const fmp, struct zint_symbol *symbol) {
+INTERNAL int zint_fm_close(struct filemem *restrict const fmp, struct zint_symbol *symbol) {
     assert(fmp && symbol);
     if (fmp->flags & BARCODE_MEMORY_FILE) {
         if (fmp->err || !fmp->mem) {
@@ -387,7 +390,7 @@ INTERNAL int fm_close(struct filemem *restrict const fmp, struct zint_symbol *sy
 }
 
 /* `fseek()` to file/memory offset, returning 1 if successful, 0 on failure */
-INTERNAL int fm_seek(struct filemem *restrict const fmp, const long offset, const int whence) {
+INTERNAL int zint_fm_seek(struct filemem *restrict const fmp, const long offset, const int whence) {
     assert(fmp);
     if (fmp->err) {
         return 0;
@@ -411,7 +414,7 @@ INTERNAL int fm_seek(struct filemem *restrict const fmp, const long offset, cons
 }
 
 /* `ftell()` returns current file/memory offset if successful, -1 on failure */
-INTERNAL long fm_tell(struct filemem *restrict const fmp) {
+INTERNAL long zint_fm_tell(struct filemem *restrict const fmp) {
     long ret;
     assert(fmp);
     if (fmp->err) {
@@ -434,7 +437,7 @@ INTERNAL long fm_tell(struct filemem *restrict const fmp) {
 }
 
 /* Return `err`, which uses `errno` values; if file and `err` not set, test `ferror()` also */
-INTERNAL int fm_error(struct filemem *restrict const fmp) {
+INTERNAL int zint_fm_error(struct filemem *restrict const fmp) {
     assert(fmp);
     if (fmp->err == 0 && !(fmp->flags & BARCODE_MEMORY_FILE) && ferror(fmp->fp)) {
         (void) fm_seterr(fmp, EIO);
@@ -444,7 +447,7 @@ INTERNAL int fm_error(struct filemem *restrict const fmp) {
 
 /* `fflush()` if file, no-op (apart from error checking) if memory, returning 1 on success, 0 on failure
    NOTE: don't use, included only for libpng compatibility */
-INTERNAL int fm_flush(struct filemem *restrict const fmp) {
+INTERNAL int zint_fm_flush(struct filemem *restrict const fmp) {
     assert(fmp);
     if (fmp->err) {
         return 0;

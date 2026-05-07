@@ -1,7 +1,7 @@
 /* 2of5inter.c - Handles Code 2 of 5 Interleaved */
 /*
     libzint - the open source barcode library
-    Copyright (C) 2008-2025 Robin Stuart <rstuart114@gmail.com>
+    Copyright (C) 2008-2026 Robin Stuart <rstuart114@gmail.com>
 
     Redistribution and use in source and binary forms, with or without
     modification, are permitted provided that the following conditions
@@ -36,26 +36,27 @@
 #include "common.h"
 #include "gs1.h"
 
-static const char C25InterTable[10][5] = {
-    {'1','1','3','3','1'}, {'3','1','1','1','3'}, {'1','3','1','1','3'}, {'3','3','1','1','1'},
-    {'1','1','3','1','3'}, {'3','1','3','1','1'}, {'1','3','3','1','1'}, {'1','1','1','3','3'},
-    {'3','1','1','3','1'}, {'1','3','1','3','1'}
-};
-
 /* Common to Interleaved, and to ITF-14, DP Leitcode, DP Identcode */
-INTERNAL int c25_inter_common(struct zint_symbol *symbol, unsigned char source[], int length,
+INTERNAL int zint_c25_inter_common(struct zint_symbol *symbol, unsigned char source[], int length,
                 const int checkdigit_option, const int dont_set_height) {
+    static const char C25InterTable[10][5] = {
+        {'1','1','3','3','1'}, {'3','1','1','1','3'}, {'1','3','1','1','3'}, {'3','3','1','1','1'},
+        {'1','1','3','1','3'}, {'3','1','3','1','1'}, {'1','3','3','1','1'}, {'1','1','1','3','3'},
+        {'3','1','1','3','1'}, {'1','3','1','3','1'}
+    };
+    static const char stop_start[5] = { '3','1','1','1','1' }; /* 1st 3 stop, last 4 start */
     int i, j, error_number = 0;
     char dest[638]; /* 4 + (125 + 1) * 5 + 3 + 1 = 638 */
     char *d = dest;
-    unsigned char temp[125 + 1 + 1];
+    unsigned char local_source[125 + 1];
     const int have_checkdigit = checkdigit_option == 1 || checkdigit_option == 2;
+    const int content_segs = symbol->output_options & BARCODE_CONTENT_SEGS;
 
     if (length > 125) { /* 4 + (125 + 1) * 9 + 5 = 1143 */
-        return errtxtf(ZINT_ERROR_TOO_LONG, symbol, 309, "Input length %d too long (maximum 125)", length);
+        return z_errtxtf(ZINT_ERROR_TOO_LONG, symbol, 309, "Input length %d too long (maximum 125)", length);
     }
-    if ((i = not_sane(NEON_F, source, length))) {
-        return errtxtf(ZINT_ERROR_INVALID_DATA, symbol, 310,
+    if ((i = z_not_sane(NEON_F, source, length))) {
+        return z_errtxtf(ZINT_ERROR_INVALID_DATA, symbol, 310,
                         "Invalid character at position %d in input (digits only)", i);
     }
 
@@ -63,27 +64,26 @@ INTERNAL int c25_inter_common(struct zint_symbol *symbol, unsigned char source[]
        if an odd number of characters has been entered and no check digit or an even number and have check digit
        then add a leading zero */
     if (have_checkdigit == !(length & 1)) {
-        temp[0] = '0';
-        memcpy(temp + 1, source, length++);
+        local_source[0] = '0';
+        memcpy(local_source + 1, source, length++);
     } else {
-        memcpy(temp, source, length);
+        memcpy(local_source, source, length);
     }
-    temp[length] = '\0';
 
     if (have_checkdigit) {
         /* Add standard GS1 check digit */
-        temp[length] = gs1_check_digit(temp, length);
-        temp[++length] = '\0';
+        local_source[length] = zint_gs1_check_digit(local_source, length);
+        length++;
     }
 
     /* Start character */
-    memcpy(d, "1111", 4);
+    memcpy(d, stop_start + 1, 4);
     d += 4;
 
     for (i = 0; i < length; i += 2) {
         /* Look up the bars and the spaces */
-        const char *const bars = C25InterTable[temp[i] - '0'];
-        const char *const spaces = C25InterTable[temp[i + 1] - '0'];
+        const char *const bars = C25InterTable[local_source[i] - '0'];
+        const char *const spaces = C25InterTable[local_source[i + 1] - '0'];
 
         /* Then merge (interlace) the strings together */
         for (j = 0; j < 5; j++) {
@@ -93,16 +93,10 @@ INTERNAL int c25_inter_common(struct zint_symbol *symbol, unsigned char source[]
     }
 
     /* Stop character */
-    memcpy(d, "311", 3);
+    memcpy(d, stop_start, 3);
     d += 3;
 
-    expand(symbol, dest, d - dest);
-
-    ustrcpy(symbol->text, temp);
-    if (checkdigit_option == 2) {
-        /* Remove check digit from HRT */
-        symbol->text[length - 1] = '\0';
-    }
+    z_expand(symbol, dest, (int) (d - dest));
 
     if (!dont_set_height) {
         if (symbol->output_options & COMPLIANT_HEIGHT) {
@@ -111,24 +105,32 @@ INTERNAL int c25_inter_common(struct zint_symbol *symbol, unsigned char source[]
                width = (P(4N + 6) + N + 6)X = (length / 2) * 18 + 9 */
             /* Taking min X = 0.330mm from Annex D.3.1 (application specification) */
             const float min_height_min = 15.151515f; /* 5.0 / 0.33 */
-            float min_height = stripf((18.0f * (length / 2) + 9.0f) * 0.15f);
+            float min_height = z_stripf((18.0f * (length / 2) + 9.0f) * 0.15f);
             if (min_height < min_height_min) {
                 min_height = min_height_min;
             }
             /* Using 50 as default as none recommended */
-            error_number = set_height(symbol, min_height, min_height > 50.0f ? min_height : 50.0f, 0.0f,
+            error_number = z_set_height(symbol, min_height, min_height > 50.0f ? min_height : 50.0f, 0.0f,
                                         0 /*no_errtxt*/);
         } else {
-            (void) set_height(symbol, 0.0f, 50.0f, 0.0f, 1 /*no_errtxt*/);
+            (void) z_set_height(symbol, 0.0f, 50.0f, 0.0f, 1 /*no_errtxt*/);
         }
+    }
+
+    /* Exclude check digit from HRT if hidden */
+    z_hrt_cpy_nochk(symbol, local_source, length - (symbol->option_2 == 2));
+
+    if (content_segs && z_ct_cpy(symbol, local_source, length)) {
+        return ZINT_ERROR_MEMORY; /* `z_ct_cpy()` only fails with OOM */
     }
 
     return error_number;
 }
 
 /* Code 2 of 5 Interleaved ISO/IEC 16390:2007 */
-INTERNAL int c25inter(struct zint_symbol *symbol, unsigned char source[], int length) {
-    return c25_inter_common(symbol, source, length, symbol->option_2 /*checkdigit_option*/, 0 /*dont_set_height*/);
+INTERNAL int zint_c25inter(struct zint_symbol *symbol, unsigned char source[], int length) {
+    return zint_c25_inter_common(symbol, source, length, symbol->option_2 /*checkdigit_option*/,
+                                0 /*dont_set_height*/);
 }
 
 /* vim: set ts=4 sw=4 et : */
