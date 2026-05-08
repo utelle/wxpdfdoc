@@ -1656,7 +1656,6 @@ wxPdfGraphicsContext::StartPage(wxDouble width, wxDouble height)
   if (!m_templateMode && m_pdfDocument != NULL)
   {
     // Begin a new page
-    // Library needs it this way (always landscape) to size the page correctly
     m_pdfDocument->AddPage(m_printData.GetOrientation());
     wxPdfLineStyle style = m_pdfDocument->GetLineStyle();
     style.SetWidth(1.0);
@@ -1768,10 +1767,14 @@ void wxPdfGraphicsContext::Clip(const wxPdfShape& shape)
 void wxPdfGraphicsContext::ResetClip()
 {
   if (!m_pdfDocument) return;
-  m_pdfDocument->UnsetClipping();
-  // UnsetClipping typically clears the entire stack of q/Q clips
-  // in wxPdfDocument, so we reset our count.
-  m_clipCount = 0;
+  // Unset all clips added at this level.
+  // Each Clip() call emits a 'q' and increments m_clipCount,
+  // so we must call StopTransform() (which emits 'Q') for each.
+  while (m_clipCount > 0)
+  {
+    m_pdfDocument->StopTransform();
+    m_clipCount--;
+  }
 }
 
 void wxPdfGraphicsContext::GetClipBox(wxDouble* x, wxDouble* y,
@@ -2314,7 +2317,7 @@ wxPdfGraphicsContext::GetTextExtent(const wxString& str,
   }
 }
 
-void wxPdfGraphicsContext::GetPartialTextExtents(const wxString& text, wxArrayDouble& widths) const
+void wxPdfGraphicsContext::GetPartialTextExtents(const wxString& WXUNUSED(text), wxArrayDouble& widths) const
 {
   wxLogDebug(wxT("wxPdfGraphicsContext::GetPartialTextExtents - not implemented"));
   widths.Clear();

@@ -20,7 +20,7 @@ on the FPDF web site are incorporated into wxPdfDocument.
 
 - **Comprehensive Font Support**: Use standard Adobe fonts, Type1, TrueType, OpenType, and WOFF/WOFF2 fonts. Supports font embedding, subsetting, and Unicode (including CJK, Indic, and Right-to-Left scripts).
 - **Accessibility**: Generates selectable and searchable text, ensuring compatibility with screen readers and compliance with accessibility standards (ADA/WCAG)—unlike many "Print to PDF" solutions that render text as unsearchable graphics.
-- **Advanced Graphics**: Support for primitives, Bezier splines, transformations, clipping, transparency (alpha channel), patterns, and gradients. Includes `wxPdfGraphicsContext` for high-quality vector graphics.
+- **Advanced Graphics**: Support for primitives, Bézier splines, transformations, clipping, transparency (alpha channel), patterns, and gradients. Includes `wxPdfGraphicsContext` for high-quality vector graphics.
 - **Image Support**: Embed PNG, JPEG, GIF, and WMF images directly, or use any `wxImage` compatible format.
 - **Barcodes**: Built-in support for 1D barcodes and extensive 2D barcode support via the Zint library.
 - **Interactive Features**: Create bookmarks, internal/external links, annotations, and PDF forms.

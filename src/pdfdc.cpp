@@ -205,12 +205,17 @@ wxPdfDCImpl::Init()
   m_graphicContext = NULL;
 #endif
 
-#if wxCHECK_VERSION(3,1,5)
+#if wxCHECK_VERSION(3,1,5) && !defined(__WXMSW__)
   wxDisplay display;
   m_ppiPdfFont = display.GetPPI().GetHeight();
 #else
   wxScreenDC screendc;
   m_ppiPdfFont = screendc.GetPPI().GetHeight();
+#endif
+#if defined(__WXMAC__) || defined(__WXOSX__)
+  // On macOS, the logical resolution is always 72 DPI, regardless of Retina scaling.
+  // wxDisplay::GetPPI() returns the physical resolution, so we force 72 here.
+  m_ppiPdfFont = 72;
 #endif
 
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
@@ -485,15 +490,9 @@ wxPdfDCImpl::DestroyClippingRegion()
   if (m_clipping)
   {
     m_pdfDocument->UnsetClipping();
-    {
-      wxPen x(GetPen()); SetPen(x);
-    }
-    {
-      wxBrush x(GetBrush()); SetBrush(x);
-    }
-    {
-      wxFont x(GetFont()); m_pdfDocument->SetFont(x);
-    }
+    m_pdfPen = wxNullPen;
+    m_pdfBrush = wxNullBrush;
+    m_pdfDocument->ForceCurrentFont();
   }
   ResetClipping();
 }
@@ -715,6 +714,7 @@ wxPdfDCImpl::ResetTransformMatrix()
     m_inTransform = false;
     m_pdfPen = m_pdfPenSaved;
     m_pdfBrush = m_pdfBrushSaved;
+    m_pdfDocument->ForceCurrentFont();
   }
 }
 #endif // wxUSE_DC_TRANSFORM_MATRIX
@@ -1183,6 +1183,8 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
     if (angle != 0)
     {
       m_pdfDocument->StopTransform();
+      m_pdfBrush = wxNullBrush;
+      m_pdfDocument->ForceCurrentFont();
     }
   }
 
@@ -1198,6 +1200,9 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
   }
 
   m_pdfDocument->StopTransform();
+  m_pdfPen = wxNullPen;
+  m_pdfBrush = wxNullBrush;
+  m_pdfDocument->ForceCurrentFont();
 
   if (*fontToUse != old)
   {
