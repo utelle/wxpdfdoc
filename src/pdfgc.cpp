@@ -1651,7 +1651,7 @@ wxPdfGraphicsContext::EndDoc()
 }
 
 void
-wxPdfGraphicsContext::StartPage(wxDouble width, wxDouble height)
+wxPdfGraphicsContext::StartPage(wxDouble WXUNUSED(width), wxDouble WXUNUSED(height))
 {
   if (!m_templateMode && m_pdfDocument != NULL)
   {
@@ -2314,7 +2314,7 @@ wxPdfGraphicsContext::GetTextExtent(const wxString& str,
   }
 }
 
-void wxPdfGraphicsContext::GetPartialTextExtents(const wxString& text, wxArrayDouble& widths) const
+void wxPdfGraphicsContext::GetPartialTextExtents(const wxString& WXUNUSED(text), wxArrayDouble& widths) const
 {
   wxLogDebug(wxT("wxPdfGraphicsContext::GetPartialTextExtents - not implemented"));
   widths.Clear();
