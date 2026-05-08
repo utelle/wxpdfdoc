@@ -1345,6 +1345,7 @@ public:
   virtual void SetFontSize(double size);
 
   /// Force selecting the current font
+  /// \private
   virtual void ForceCurrentFont();
 
   /// Returns the current font.
