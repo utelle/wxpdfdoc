@@ -485,16 +485,10 @@ wxPdfDCImpl::DestroyClippingRegion()
   if (m_clipping)
   {
     m_pdfDocument->UnsetClipping();
-    {
-      wxPen x(GetPen()); SetPen(x);
+    m_pdfPen = wxNullPen;
+    m_pdfBrush = wxNullBrush;
+    m_pdfDocument->ForceCurrentFont();
     }
-    {
-      wxBrush x(GetBrush()); SetBrush(x);
-    }
-    {
-      wxFont x(GetFont()); m_pdfDocument->SetFont(x);
-    }
-  }
   ResetClipping();
 }
 
@@ -715,6 +709,7 @@ wxPdfDCImpl::ResetTransformMatrix()
     m_inTransform = false;
     m_pdfPen = m_pdfPenSaved;
     m_pdfBrush = m_pdfBrushSaved;
+    m_pdfDocument->ForceCurrentFont();
   }
 }
 #endif // wxUSE_DC_TRANSFORM_MATRIX
@@ -1183,6 +1178,8 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
     if (angle != 0)
     {
       m_pdfDocument->StopTransform();
+      m_pdfBrush = wxNullBrush;
+      m_pdfDocument->ForceCurrentFont();
     }
   }
 
@@ -1198,6 +1195,9 @@ wxPdfDCImpl::DoDrawRotatedText(const wxString& text, wxCoord x, wxCoord y, doubl
   }
 
   m_pdfDocument->StopTransform();
+  m_pdfPen = wxNullPen;
+  m_pdfBrush = wxNullBrush;
+  m_pdfDocument->ForceCurrentFont();
 
   if (*fontToUse != old)
   {

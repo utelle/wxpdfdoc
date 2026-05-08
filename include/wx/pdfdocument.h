@@ -1344,6 +1344,9 @@ public:
   */
   virtual void SetFontSize(double size);
 
+  /// Force selecting the current font
+  virtual void ForceCurrentFont();
+
   /// Returns the current font.
   /**
   * \return The current font.
@@ -2816,9 +2819,6 @@ protected:
   * \return TRUE if font was selected, FALSE otherwise
   */
   virtual bool SelectFont(const wxPdfFont& font, int style, double size = 0, bool setFont = true);
-
-  /// Force selecting the current font
-  virtual void ForceCurrentFont();
 
   /// Defines the size of the current font.
   /**
