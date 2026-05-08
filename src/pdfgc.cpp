@@ -1651,12 +1651,11 @@ wxPdfGraphicsContext::EndDoc()
 }
 
 void
-wxPdfGraphicsContext::StartPage(wxDouble WXUNUSED(width), wxDouble WXUNUSED(height))
+wxPdfGraphicsContext::StartPage(wxDouble width, wxDouble height)
 {
   if (!m_templateMode && m_pdfDocument != NULL)
   {
     // Begin a new page
-    // Library needs it this way (always landscape) to size the page correctly
     m_pdfDocument->AddPage(m_printData.GetOrientation());
     wxPdfLineStyle style = m_pdfDocument->GetLineStyle();
     style.SetWidth(1.0);
