@@ -1768,10 +1768,14 @@ void wxPdfGraphicsContext::Clip(const wxPdfShape& shape)
 void wxPdfGraphicsContext::ResetClip()
 {
   if (!m_pdfDocument) return;
-  m_pdfDocument->UnsetClipping();
-  // UnsetClipping typically clears the entire stack of q/Q clips
-  // in wxPdfDocument, so we reset our count.
-  m_clipCount = 0;
+  // Unset all clips added at this level.
+  // Each Clip() call emits a 'q' and increments m_clipCount,
+  // so we must call StopTransform() (which emits 'Q') for each.
+  while (m_clipCount > 0)
+  {
+    m_pdfDocument->StopTransform();
+    m_clipCount--;
+  }
 }
 
 void wxPdfGraphicsContext::GetClipBox(wxDouble* x, wxDouble* y,
