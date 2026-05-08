@@ -205,12 +205,17 @@ wxPdfDCImpl::Init()
   m_graphicContext = NULL;
 #endif
 
-#if wxCHECK_VERSION(3,1,5)
+#if wxCHECK_VERSION(3,1,5) && !defined(__WXMSW__)
   wxDisplay display;
   m_ppiPdfFont = display.GetPPI().GetHeight();
 #else
   wxScreenDC screendc;
   m_ppiPdfFont = screendc.GetPPI().GetHeight();
+#endif
+#if defined(__WXMAC__) || defined(__WXOSX__)
+  // On macOS, the logical resolution is always 72 DPI, regardless of Retina scaling.
+  // wxDisplay::GetPPI() returns the physical resolution, so we force 72 here.
+  m_ppiPdfFont = 72;
 #endif
 
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
@@ -488,7 +493,7 @@ wxPdfDCImpl::DestroyClippingRegion()
     m_pdfPen = wxNullPen;
     m_pdfBrush = wxNullBrush;
     m_pdfDocument->ForceCurrentFont();
-    }
+  }
   ResetClipping();
 }
 
