@@ -142,6 +142,10 @@ and links the sample executables:
 - **`pdfdc`** — a GUI printing demo that shows the `wxPdfDC`
   drawing-context layer and its integration with the wxWidgets printing
   framework.
+- **`pdfgc`** — a GUI sample that demonstrates `wxPdfGraphicsContext`
+  (the `wxGraphicsContext`-compatible layer). A single drawing routine
+  renders the same scene to the on-screen canvas, a saved PDF (via
+  `wxPdfDC::GetGraphicsContext()`), and the system printer.
 
 Requires wxWidgets 3.2 or later. The script defaults to fetching the
 latest snapshot from `master`; edit the `GIT_TAG` to pin to a specific
@@ -156,8 +160,8 @@ cmake --build samples/_cmake --config Release
 
 Or in Visual Studio: **File > Open > Folder...**, select the `samples/`
 folder, and wait for CMake to configure (the first run clones wxWidgets,
-so it will take a few minutes). Then pick `minimal.exe` or `pdfdc.exe`
-from the startup combobox and build.
+so it will take a few minutes). Then pick `minimal.exe`, `pdfdc.exe`, or
+`pdfgc.exe` from the startup combobox and build.
 
 Each executable is placed into its respective `samples/<name>/` folder
 so its relative data paths resolve at runtime.

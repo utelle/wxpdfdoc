@@ -18,6 +18,9 @@
 #   - pdfdc    — GUI printing demo. Shows the wxDC-compatible
 #                drawing-context layer and integration with the printing
 #                framework. Requires wx::richtext and wx::html.
+#   - pdfgc    — GUI sample demonstrating wxPdfGraphicsContext.
+#                A single drawing routine renders the same scene to the
+#                on-screen canvas, a saved PDF, and the system printer.
 #
 # Each executable is emitted into its own "samples/<name>/" folder so the
 # relative paths (data files, ../../lib/fonts, etc.) resolve correctly.
@@ -28,8 +31,8 @@
 #
 # Or in Visual Studio: File > Open > Folder..., select the "samples/" folder,
 # and wait for CMake to configure (will take a moment the first time while
-# wxWidgets is cloned). Finally, select "minimal.exe" or "pdfdc.exe" from
-# the startup combobox and build.
+# wxWidgets is cloned). Finally, select "minimal.exe", "pdfdc.exe", or
+# "pdfgc.exe" from the startup combobox and build.
 
 cmake_minimum_required(VERSION 3.16)
 project(wxpdfdoc_minimal LANGUAGES CXX C)
@@ -123,6 +126,7 @@ if(MSVC)
         _CRT_SECURE_NO_DEPRECATE
         _CRT_NONSTDC_NO_DEPRECATE
     )
+    add_compile_options(/utf-8)
 endif()
 
 # ---------------------------------------------------------------------------
@@ -169,4 +173,25 @@ set_target_properties(pdfdc PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${WXPDFDOC_ROOT}/samples/pdfdc"
     RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${WXPDFDOC_ROOT}/samples/pdfdc"
     VS_DEBUGGER_WORKING_DIRECTORY           "${WXPDFDOC_ROOT}/samples/pdfdc"
+)
+
+# ---------------------------------------------------------------------------
+# pdfgc sample executable (wxPdfGraphicsContext demo)
+# ---------------------------------------------------------------------------
+file(GLOB PDFGC_SRCS CONFIGURE_DEPENDS ${WXPDFDOC_ROOT}/samples/pdfgc/*.cpp)
+
+add_executable(pdfgc WIN32 ${PDFGC_SRCS})
+if(WIN32)
+    target_sources(pdfgc PRIVATE ${WXPDFDOC_ROOT}/samples/pdfgc/pdfgc.rc)
+endif()
+target_include_directories(pdfgc PRIVATE ${WXPDFDOC_ROOT}/samples/pdfgc)
+target_link_libraries(pdfgc PRIVATE wxpdfdoc)
+
+set_target_properties(pdfgc PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY                "${WXPDFDOC_ROOT}/samples/pdfgc"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG          "${WXPDFDOC_ROOT}/samples/pdfgc"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE        "${WXPDFDOC_ROOT}/samples/pdfgc"
+    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${WXPDFDOC_ROOT}/samples/pdfgc"
+    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${WXPDFDOC_ROOT}/samples/pdfgc"
+    VS_DEBUGGER_WORKING_DIRECTORY           "${WXPDFDOC_ROOT}/samples/pdfgc"
 )
