@@ -1576,6 +1576,16 @@ wxPdfGraphicsContext::wxPdfGraphicsContext(wxGraphicsRenderer* renderer, const w
   SetPrintData(data);
 }
 
+wxPdfGraphicsContext::wxPdfGraphicsContext(wxGraphicsRenderer* renderer, wxPdfDocument* pdfDocument)
+  : wxGraphicsContext(renderer)
+{
+  Init();
+  m_pdfDocument = pdfDocument;
+  m_templateMode = true;
+  m_templateWidth = 0.0;
+  m_templateHeight = 0.0;
+}
+
 wxPdfGraphicsContext::wxPdfGraphicsContext(wxGraphicsRenderer* renderer, wxPdfDocument* pdfDocument, double templateWidth, double templateHeight)
   : wxGraphicsContext(renderer)
 {
@@ -2727,7 +2737,7 @@ wxPdfGraphicsContext::CalculateFontMetrics(wxPdfFontDescription* desc, double po
 
 wxIMPLEMENT_DYNAMIC_CLASS(wxPdfGraphicsRenderer, wxGraphicsRenderer);
 
-wxGraphicsRenderer*
+wxPdfGraphicsRenderer*
 wxPdfGraphicsRenderer::GetPdfRenderer()
 {
   static wxPdfGraphicsRenderer s_renderer;
@@ -2760,6 +2770,12 @@ wxPdfGraphicsRenderer::CreateContext(wxPdfDC* dc)
   return new wxPdfGraphicsContext(this, pdfDocument,
                                   static_cast<double>(width),
                                   static_cast<double>(height));
+}
+
+wxGraphicsContext*
+wxPdfGraphicsRenderer::CreateContext(wxPdfDocument* pdfDocument)
+{
+  return new wxPdfGraphicsContext(this, pdfDocument);
 }
 
 wxGraphicsContext*

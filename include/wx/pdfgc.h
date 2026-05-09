@@ -69,6 +69,13 @@ public:
   /// @param data The print data to configure the document.
   wxPdfGraphicsContext(wxGraphicsRenderer* renderer, const wxPrintData& data);
 
+  /// Construct a context that draws into an existing wxPdfDocument.
+  /// The context does not own the document.
+  /// @param renderer Pointer to the graphics renderer.
+  /// @param pdfDocument Pointer to the existing PDF document.
+  wxPdfGraphicsContext(wxGraphicsRenderer* renderer,
+                       wxPdfDocument* pdfDocument);
+
   /// Construct a context that draws into an existing wxPdfDocument as a
   /// template region. The context does not own the document.
   /// @param renderer Pointer to the graphics renderer.
@@ -432,8 +439,8 @@ public:
   virtual ~wxPdfGraphicsRenderer() {}
 
   /// Returns the process-wide PDF graphics renderer.
-  /// @return A pointer to the singleton @c wxGraphicsRenderer.
-  static wxGraphicsRenderer* GetPdfRenderer();
+  /// @return A pointer to the singleton @c wxPdfGraphicsRenderer.
+  static wxPdfGraphicsRenderer* GetPdfRenderer();
 
   // PDF-specific factories --------------------------------------------------
 
@@ -449,6 +456,12 @@ public:
   /// @param dc The wxPdfDC to draw into.
   /// @return A pointer to the created @c wxGraphicsContext.
   wxGraphicsContext* CreateContext(wxPdfDC* dc);
+
+  /// Creates a context that draws into the given existing PDF document.
+  /// The context does not take ownership of the document.
+  /// @param pdfDocument The PDF document to draw into.
+  /// @return A pointer to the created @c wxGraphicsContext.
+  wxGraphicsContext* CreateContext(wxPdfDocument* pdfDocument);
 
   /// Creates a context that draws into the given existing PDF document as
   /// a template region of the given size. The context does not take
