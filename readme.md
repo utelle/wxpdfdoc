@@ -13,6 +13,7 @@ on the FPDF web site are incorporated into wxPdfDocument.
 
 - [Key Features](#key-features)
 - [Installation](#install)
+- [CMake build of the minimal sample](#cmakesample)
 - [Execution of sample applications](#execsamples)
 - [Acknowledgements](#acknowledge)
 
@@ -126,6 +127,37 @@ builds the library and then copies the headers of the component to
 `/usr/local/include` and the lib to `/usr/local/lib` by default, you can use
 `pkg-config --cflags` and `--libs` to find the requires compilation and
 linking flags in general.
+
+## <a name="cmakesample"></a>CMake build of the minimal sample
+
+For a quick, dependency-free way to build and run the minimal sample on
+any platform, a standalone [CMake](https://cmake.org/) script is provided at
+[`build/CMakeLists.txt`](build/CMakeLists.txt). It downloads and
+statically builds wxWidgets via `FetchContent`, builds **wxPdfDocument**,
+and links the minimal sample executable.
+
+Requires wxWidgets 3.2 or later. The script defaults to fetching the
+latest snapshot from `master`; edit the `GIT_TAG` to pin to a specific
+release if desired.
+
+From the repo root:
+
+```
+cmake -S build -B build/_cmake
+cmake --build build/_cmake --config Release
+```
+
+Or in Visual Studio: **File > Open > Folder...**, select the `build/`
+folder, and wait for CMake to configure (the first run clones wxWidgets,
+so it will take a few minutes). Then pick `minimal.exe` from the startup
+combobox and build.
+
+The minimal executable is placed directly into `samples/minimal/`.
+
+Beyond just running the sample, this script also serves as a reference
+for integrating **wxPdfDocument** into your own CMake project.
+It shows which source directories to include, which third-party libraries
+to link, and how to connect the wxWidgets dependency.
 
 ## <a name="execsamples"></a>Executing the sample applications
 
