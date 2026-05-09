@@ -13,7 +13,7 @@ on the FPDF web site are incorporated into wxPdfDocument.
 
 - [Key Features](#key-features)
 - [Installation](#install)
-- [CMake build of the minimal sample](#cmakesample)
+- [CMake build of the samples](#cmakesample)
 - [Execution of sample applications](#execsamples)
 - [Acknowledgements](#acknowledge)
 
@@ -128,13 +128,20 @@ builds the library and then copies the headers of the component to
 `pkg-config --cflags` and `--libs` to find the requires compilation and
 linking flags in general.
 
-## <a name="cmakesample"></a>CMake build of the minimal sample
+## <a name="cmakesample"></a>CMake build of the samples
 
-For a quick, dependency-free way to build and run the minimal sample on
+For a quick, dependency-free way to build and run the samples on
 any platform, a standalone [CMake](https://cmake.org/) script is provided at
 [`build/CMakeLists.txt`](build/CMakeLists.txt). It downloads and
 statically builds wxWidgets via `FetchContent`, builds **wxPdfDocument**,
-and links the minimal sample executable.
+and links the sample executables:
+
+- **`minimal`** — a console program bundling the tutorial/demo programs
+  (tutorial1-7, bookmark, drawing, rotation, gradients, cjktest,
+  indicfonts, charting, barcodes, etc.).
+- **`pdfdc`** — a GUI printing demo that shows the `wxPdfDC`
+  drawing-context layer and its integration with the wxWidgets printing
+  framework.
 
 Requires wxWidgets 3.2 or later. The script defaults to fetching the
 latest snapshot from `master`; edit the `GIT_TAG` to pin to a specific
@@ -149,10 +156,11 @@ cmake --build build/_cmake --config Release
 
 Or in Visual Studio: **File > Open > Folder...**, select the `build/`
 folder, and wait for CMake to configure (the first run clones wxWidgets,
-so it will take a few minutes). Then pick `minimal.exe` from the startup
-combobox and build.
+so it will take a few minutes). Then pick `minimal.exe` or `pdfdc.exe`
+from the startup combobox and build.
 
-The minimal executable is placed directly into `samples/minimal/`.
+Each executable is placed into its respective `samples/<name>/` folder
+so its relative data paths resolve at runtime.
 
 Beyond just running the sample, this script also serves as a reference
 for integrating **wxPdfDocument** into your own CMake project.

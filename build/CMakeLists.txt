@@ -7,10 +7,20 @@
 # Licence:     wxWindows licence
 #############################################################################
 
-# Standalone CMake build for the wxPDFDocument "minimal" sample.
+# Standalone CMake build for the wxPDFDocument samples.
 #
 # This file downloads and builds (statically) wxWidgets, then builds
-# wxPDFDocument and its minimal samples against that.
+# wxPDFDocument and the following sample executables against that:
+#
+#   - minimal  — console program bundling the tutorial/demo programs
+#                (tutorial1-7, bookmark, drawing, rotation, gradients,
+#                cjktest, indicfonts, charting, barcodes, etc.).
+#   - pdfdc    — GUI printing demo. Shows the wxDC-compatible
+#                drawing-context layer and integration with the printing
+#                framework. Requires wx::richtext and wx::html.
+#
+# Each executable is emitted into its own "samples/<name>/" folder so the
+# relative paths (data files, ../../lib/fonts, etc.) resolve correctly.
 #
 # Usage (from the repo root):
 #     cmake -S build -B build/_cmake
@@ -18,8 +28,8 @@
 #
 # Or in Visual Studio: File > Open > Folder..., select the "build/" folder,
 # and wait for CMake to configure (will take a moment the first time while
-# wxWidgets is cloned). Finally, select "minimal.exe" from the startup combobox
-# and build.
+# wxWidgets is cloned). Finally, select "minimal.exe" or "pdfdc.exe" from
+# the startup combobox and build.
 
 cmake_minimum_required(VERSION 3.16)
 project(wxpdfdoc_minimal LANGUAGES CXX C)
@@ -137,4 +147,26 @@ set_target_properties(minimal PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${WXPDFDOC_ROOT}/samples/minimal"
     RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${WXPDFDOC_ROOT}/samples/minimal"
     VS_DEBUGGER_WORKING_DIRECTORY           "${WXPDFDOC_ROOT}/samples/minimal"
+)
+
+# ---------------------------------------------------------------------------
+# pdfdc sample executable (GUI printing/wxPdfDC demo)
+# ---------------------------------------------------------------------------
+file(GLOB PDFDC_SRCS CONFIGURE_DEPENDS ${WXPDFDOC_ROOT}/samples/pdfdc/*.cpp)
+
+add_executable(pdfdc WIN32 ${PDFDC_SRCS})
+if(WIN32)
+    target_sources(pdfdc PRIVATE ${WXPDFDOC_ROOT}/samples/pdfdc/printing.rc)
+endif()
+target_link_libraries(pdfdc PRIVATE wxpdfdoc wx::richtext wx::html)
+
+# Emit alongside the sample's data files (test.html, smile.jpg, xpms, .ico)
+# so the program's relative paths resolve when it runs.
+set_target_properties(pdfdc PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY                "${WXPDFDOC_ROOT}/samples/pdfdc"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG          "${WXPDFDOC_ROOT}/samples/pdfdc"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE        "${WXPDFDOC_ROOT}/samples/pdfdc"
+    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${WXPDFDOC_ROOT}/samples/pdfdc"
+    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL     "${WXPDFDOC_ROOT}/samples/pdfdc"
+    VS_DEBUGGER_WORKING_DIRECTORY           "${WXPDFDOC_ROOT}/samples/pdfdc"
 )
