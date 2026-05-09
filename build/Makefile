@@ -16,6 +16,7 @@ ifeq ($(config),debug_win32)
   libzint_config = debug_win32
   minimal_config = debug_win32
   dcsample_config = debug_win32
+  gcsample_config = debug_win32
   makefont_config = debug_win32
   showfont_config = debug_win32
 
@@ -25,6 +26,7 @@ else ifeq ($(config),debug_x64)
   libzint_config = debug_x64
   minimal_config = debug_x64
   dcsample_config = debug_x64
+  gcsample_config = debug_x64
   makefont_config = debug_x64
   showfont_config = debug_x64
 
@@ -34,6 +36,7 @@ else ifeq ($(config),release_win32)
   libzint_config = release_win32
   minimal_config = release_win32
   dcsample_config = release_win32
+  gcsample_config = release_win32
   makefont_config = release_win32
   showfont_config = release_win32
 
@@ -43,6 +46,7 @@ else ifeq ($(config),release_x64)
   libzint_config = release_x64
   minimal_config = release_x64
   dcsample_config = release_x64
+  gcsample_config = release_x64
   makefont_config = release_x64
   showfont_config = release_x64
 
@@ -52,6 +56,7 @@ else ifeq ($(config),debug_wxdll_win32)
   libzint_config = debug_wxdll_win32
   minimal_config = debug_wxdll_win32
   dcsample_config = debug_wxdll_win32
+  gcsample_config = debug_wxdll_win32
   makefont_config = debug_wxdll_win32
   showfont_config = debug_wxdll_win32
 
@@ -61,6 +66,7 @@ else ifeq ($(config),debug_wxdll_x64)
   libzint_config = debug_wxdll_x64
   minimal_config = debug_wxdll_x64
   dcsample_config = debug_wxdll_x64
+  gcsample_config = debug_wxdll_x64
   makefont_config = debug_wxdll_x64
   showfont_config = debug_wxdll_x64
 
@@ -70,6 +76,7 @@ else ifeq ($(config),release_wxdll_win32)
   libzint_config = release_wxdll_win32
   minimal_config = release_wxdll_win32
   dcsample_config = release_wxdll_win32
+  gcsample_config = release_wxdll_win32
   makefont_config = release_wxdll_win32
   showfont_config = release_wxdll_win32
 
@@ -79,6 +86,7 @@ else ifeq ($(config),release_wxdll_x64)
   libzint_config = release_wxdll_x64
   minimal_config = release_wxdll_x64
   dcsample_config = release_wxdll_x64
+  gcsample_config = release_wxdll_x64
   makefont_config = release_wxdll_x64
   showfont_config = release_wxdll_x64
 
@@ -88,6 +96,7 @@ else ifeq ($(config),debug_dll_win32)
   libzint_config = debug_dll_win32
   minimal_config = debug_dll_win32
   dcsample_config = debug_dll_win32
+  gcsample_config = debug_dll_win32
   makefont_config = debug_dll_win32
   showfont_config = debug_dll_win32
 
@@ -97,6 +106,7 @@ else ifeq ($(config),debug_dll_x64)
   libzint_config = debug_dll_x64
   minimal_config = debug_dll_x64
   dcsample_config = debug_dll_x64
+  gcsample_config = debug_dll_x64
   makefont_config = debug_dll_x64
   showfont_config = debug_dll_x64
 
@@ -106,6 +116,7 @@ else ifeq ($(config),release_dll_win32)
   libzint_config = release_dll_win32
   minimal_config = release_dll_win32
   dcsample_config = release_dll_win32
+  gcsample_config = release_dll_win32
   makefont_config = release_dll_win32
   showfont_config = release_dll_win32
 
@@ -115,6 +126,7 @@ else ifeq ($(config),release_dll_x64)
   libzint_config = release_dll_x64
   minimal_config = release_dll_x64
   dcsample_config = release_dll_x64
+  gcsample_config = release_dll_x64
   makefont_config = release_dll_x64
   showfont_config = release_dll_x64
 
@@ -122,7 +134,7 @@ else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := wxpdfdoc libwoff2 libzint minimal dcsample makefont showfont
+PROJECTS := wxpdfdoc libwoff2 libzint minimal dcsample gcsample makefont showfont
 
 .PHONY: all clean help $(PROJECTS) 
 
@@ -170,6 +182,16 @@ else
 endif
 endif
 
+gcsample: wxpdfdoc
+ifneq (,$(gcsample_config))
+	@echo "==== Building gcsample ($(gcsample_config)) ===="
+ifeq ($(wxMonolithic),1) 
+	@${MAKE} --no-print-directory -C . -f gcsample_mono.make config=$(gcsample_config) wxFlavour=$(wxFlavour)
+else
+	@${MAKE} --no-print-directory -C . -f gcsample.make config=$(gcsample_config) wxFlavour=$(wxFlavour)
+endif
+endif
+
 makefont: wxpdfdoc
 ifneq (,$(makefont_config))
 	@echo "==== Building makefont ($(makefont_config)) ===="
@@ -197,6 +219,7 @@ ifeq ($(wxMonolithic),1)
 	@${MAKE} --no-print-directory -C . -f libzint.make clean
 	@${MAKE} --no-print-directory -C . -f minimal_mono.make clean
 	@${MAKE} --no-print-directory -C . -f dcsample_mono.make clean
+	@${MAKE} --no-print-directory -C . -f gcsample_mono.make clean
 	@${MAKE} --no-print-directory -C . -f makefont_mono.make clean
 	@${MAKE} --no-print-directory -C . -f showfont_mono.make clean
 else
@@ -205,6 +228,7 @@ else
 	@${MAKE} --no-print-directory -C . -f libzint.make clean
 	@${MAKE} --no-print-directory -C . -f minimal.make clean
 	@${MAKE} --no-print-directory -C . -f dcsample.make clean
+	@${MAKE} --no-print-directory -C . -f gcsample.make clean
 	@${MAKE} --no-print-directory -C . -f makefont.make clean
 	@${MAKE} --no-print-directory -C . -f showfont.make clean
 endif
@@ -234,6 +258,7 @@ help:
 	@echo "   libzint"
 	@echo "   minimal"
 	@echo "   dcsample"
+	@echo "   gcsample"
 	@echo "   makefont"
 	@echo "   showfont"
 	@echo ""

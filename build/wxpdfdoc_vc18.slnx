@@ -11,6 +11,8 @@
   </Configurations>
   <Project Path="wxpdfdoc_vc18_dcsample.vcxproj" Id="CE298A9D-BAF6-E4A8-E30F-D350CF3B1A37">
   </Project>
+  <Project Path="wxpdfdoc_vc18_gcsample.vcxproj" Id="71A84F62-5D75-AA6D-868E-981572BADFFB">
+  </Project>
   <Project Path="libwoff2_vc18.vcxproj" Id="00935DA7-EC5F-B8B2-1579-A65A01A5ED40">
   </Project>
   <Project Path="libzint_vc18.vcxproj" Id="C1FD7079-2DDD-EF14-36F5-7AEBA2535676">

@@ -386,6 +386,10 @@ if BUILD_PDFDC_SAMPLE
 noinst_PROGRAMS += samples/pdfdc/pdfdc
 endif
 
+if BUILD_PDFGC_SAMPLE
+noinst_PROGRAMS += samples/pdfgc/pdfgc
+endif
+
 samples_minimal_minimal_SOURCES = \
     samples/minimal/attachment.cpp \
     samples/minimal/barcodes.cpp \
@@ -441,6 +445,20 @@ samples_pdfdc_pdfdc_LDADD += samples/pdfdc/printing.res_o
 CLEANFILES += samples/pdfdc/printing.res_o
 else
 samples_pdfdc_pdfdc_LDFLAGS = -no-install
+endif
+
+samples_pdfgc_pdfgc_SOURCES = \
+    samples/pdfgc/pdfgc.cpp \
+    samples/pdfgc/pdfgc.h
+
+samples_pdfgc_pdfgc_LDADD = $(WX_LIBS_PDFGC_SAMPLE) $(LDADD)
+
+if USE_MSW
+samples_pdfgc_pdfgc_SOURCES += samples/pdfgc/pdfgc.rc
+samples_pdfgc_pdfgc_LDADD += samples/pdfgc/pdfgc.res_o
+CLEANFILES += samples/pdfgc/pdfgc.res_o
+else
+samples_pdfgc_pdfgc_LDFLAGS = -no-install
 endif
 
 endif

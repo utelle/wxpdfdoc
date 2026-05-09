@@ -153,14 +153,19 @@ WX_CONFIG_CHECK([3.0.0],
 if test -n "$BUILD_SAMPLES"; then
 
 dnl We only need the libraries above for the main library itself, but the
-dnl pdfdc sample has additional requirements, check for them too (notice that
-dnl we can't use "--optional-libs" wx-config option to do it all in one check
-dnl for as long as we support 2.8 in which wx-config doesn't have this option
-dnl yet).
+dnl pdfdc/pdfgc samples have additional requirements, check for them too
+dnl (notice that we can't use "--optional-libs" wx-config option to do it
+dnl all in one check for as long as we support 2.8 in which wx-config
+dnl doesn't have this option yet).
 core_WX_LIBS=$WX_LIBS
 WX_CONFIG_CHECK([3.0.0],
     [WX_LIBS_PDFDC_SAMPLE=$WX_LIBS],
     [AC_MSG_WARN([Some wxWidgets libraries not available, pdfdc sample won't be built])],
+    [adv,base,core,html,richtext,xml]
+)
+WX_CONFIG_CHECK([3.0.0],
+    [WX_LIBS_PDFGC_SAMPLE=$WX_LIBS],
+    [AC_MSG_WARN([Some wxWidgets libraries not available, pdfgc sample won't be built])],
     [adv,base,core,html,richtext,xml]
 )
 WX_LIBS=$core_WX_LIBS
@@ -168,6 +173,7 @@ WX_LIBS=$core_WX_LIBS
 fi
 
 AM_CONDITIONAL([BUILD_PDFDC_SAMPLE], [test -n "$WX_LIBS_PDFDC_SAMPLE"])
+AM_CONDITIONAL([BUILD_PDFGC_SAMPLE], [test -n "$WX_LIBS_PDFGC_SAMPLE"])
 
 dnl Check if the system has support for ELF visibility (this is a waste of time
 dnl when targeting MSW, so don't do it in this case).
@@ -215,6 +221,7 @@ WX_LIKE_LIBNAME([WXPDFDOC_LIBNAME], [wxcode], [pdfdoc])
 
 AC_SUBST(WXPDFDOC_LIBNAME)
 AC_SUBST(WX_LIBS_PDFDC_SAMPLE)
+AC_SUBST(WX_LIBS_PDFGC_SAMPLE)
 
 dnl Ensure that the samples can find the files they need when running from the
 dnl build directory.

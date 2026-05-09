@@ -1,6 +1,6 @@
 -- wxPdfDocument configuration file for premake5
 --
--- Copyright (C) 2017-2025 Ulrich Telle <github@telle-online.de>
+-- Copyright (C) 2017-2026 Ulrich Telle <github@telle-online.de>
 --
 -- This file is covered by the same licence as the entire wxpdfdoc package. 
 
@@ -11,8 +11,8 @@ dofile "premake/wxwidgets.lua"
 BUILDDIR = _OPTIONS["builddir"] or "build"
 
 workspace "wxpdfdoc"
-  configurations { "Debug", "Release", "Debug wxDLL", "Release wxDLL", "Debug DLL", "Release DLL" }
-  platforms { "Win32", "Win64" }
+  configurations { "Debug", "Release", "Debug_wxDLL", "Release_wxDLL", "Debug_DLL", "Release_DLL" }
+  platforms { "Win32", "x64" }
   location(BUILDDIR)
 
   if (is_msvc) then
@@ -46,7 +46,7 @@ project "wxpdfdoc"
 
   make_filters( "PDFDOC", "wxpdfdoc", "core,xml" )
 
-  files { "src/*.cpp", "src/*.inc", "src/*.rc", "include/wx/*.h",
+  files { "src/*.cpp", "src/*.inc", "src/*.rc", "src/*.h", "include/wx/*.h",
           "src/crypto/*.cpp", "src/crypto/*.h",
           "src/woff/*.cpp", "src/woff/*.h"
         }
@@ -110,7 +110,7 @@ project "dcsample"
     prj.filename = "dcsample_mono"
   end
 
-  use_filters( "PDFDOC", "samples/pdfdc", "adv,html,richtext,core,xml" )
+  use_filters( "PDFDOC", "samples/pdfdc", "adv,richtext,html,core,xml" )
 
   files { "samples/pdfdc/*.cpp", "samples/pdfdc/*.h", "samples/pdfdc/*.rc" }
   vpaths {
@@ -118,6 +118,34 @@ project "dcsample"
     ["Source Files"] = { "**.cpp", "**.rc" }
   }
   includedirs { "samples/pdfdc", "include" }
+  characterset "Unicode"
+  entrypoint "WinMainCRTStartup"
+  links { "wxpdfdoc" }
+
+-- wxPdfGC sample
+project "gcsample"
+  location(BUILDDIR)
+  language "C++"
+  cppdialect "C++11"
+  kind "WindowedApp"
+
+  if (is_msvc) then
+    local prj = project()
+    prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_gcsample"
+  end
+  if wxMonolithic then
+    local prj = project()
+    prj.filename = "gcsample_mono"
+  end
+
+  use_filters( "PDFDOC", "samples/pdfgc", "adv,richtext,html,core,xml" )
+
+  files { "samples/pdfgc/*.cpp", "samples/pdfgc/*.rc" }
+  vpaths {
+    ["Header Files"] = { "**.h" },
+    ["Source Files"] = { "**.cpp", "**.rc" }
+  }
+  includedirs { "samples/pdfgc", "include" }
   characterset "Unicode"
   entrypoint "WinMainCRTStartup"
   links { "wxpdfdoc" }
