@@ -23,10 +23,10 @@
 # relative paths (data files, ../../lib/fonts, etc.) resolve correctly.
 #
 # Usage (from the repo root):
-#     cmake -S build -B build/_cmake
-#     cmake --build build/_cmake --config Release
+#     cmake -S samples -B samples/_cmake
+#     cmake --build samples/_cmake --config Release
 #
-# Or in Visual Studio: File > Open > Folder..., select the "build/" folder,
+# Or in Visual Studio: File > Open > Folder..., select the "samples/" folder,
 # and wait for CMake to configure (will take a moment the first time while
 # wxWidgets is cloned). Finally, select "minimal.exe" or "pdfdc.exe" from
 # the startup combobox and build.

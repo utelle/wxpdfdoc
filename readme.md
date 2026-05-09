@@ -132,7 +132,7 @@ linking flags in general.
 
 For a quick, dependency-free way to build and run the samples on
 any platform, a standalone [CMake](https://cmake.org/) script is provided at
-[`build/CMakeLists.txt`](build/CMakeLists.txt). It downloads and
+[`samples/CMakeLists.txt`](samples/CMakeLists.txt). It downloads and
 statically builds wxWidgets via `FetchContent`, builds **wxPdfDocument**,
 and links the sample executables:
 
@@ -150,11 +150,11 @@ release if desired.
 From the repo root:
 
 ```
-cmake -S build -B build/_cmake
-cmake --build build/_cmake --config Release
+cmake -S samples -B samples/_cmake
+cmake --build samples/_cmake --config Release
 ```
 
-Or in Visual Studio: **File > Open > Folder...**, select the `build/`
+Or in Visual Studio: **File > Open > Folder...**, select the `samples/`
 folder, and wait for CMake to configure (the first run clones wxWidgets,
 so it will take a few minutes). Then pick `minimal.exe` or `pdfdc.exe`
 from the startup combobox and build.
