@@ -31,6 +31,7 @@ public:
     MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 
     void OnSavePdf(wxCommandEvent& event);
+    void OnSavePdfStandAlone(wxCommandEvent& event);
     void OnPrint(wxCommandEvent& event);
     void OnPageSetup(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
@@ -67,6 +68,7 @@ public:
 enum
 {
     PdfGc_SavePdf = wxID_HIGHEST + 1,
+    PdfGc_SavePdfStandAlone,
     PdfGc_Print,
     PdfGc_PageSetup
 };
