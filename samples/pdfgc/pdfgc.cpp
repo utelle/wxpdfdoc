@@ -35,6 +35,7 @@
 #include <wx/printdlg.h>
 
 #include "wx/pdfdc.h"
+#include "wx/pdfgc.h"
 
 #include "pdfgc.h"
 #include "pdfgc_bitmap.xpm"
@@ -340,11 +341,12 @@ int MyApp::OnExit()
 // ---------------------------------------------------------------------------
 
 wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
-    EVT_MENU(PdfGc_SavePdf,       MyFrame::OnSavePdf)
-    EVT_MENU(PdfGc_Print,         MyFrame::OnPrint)
-    EVT_MENU(PdfGc_PageSetup,     MyFrame::OnPageSetup)
-    EVT_MENU(wxID_EXIT,           MyFrame::OnExit)
-    EVT_MENU(wxID_ABOUT,          MyFrame::OnAbout)
+    EVT_MENU(PdfGc_SavePdf,           MyFrame::OnSavePdf)
+    EVT_MENU(PdfGc_SavePdfStandAlone, MyFrame::OnSavePdfStandAlone)
+    EVT_MENU(PdfGc_Print,             MyFrame::OnPrint)
+    EVT_MENU(PdfGc_PageSetup,         MyFrame::OnPageSetup)
+    EVT_MENU(wxID_EXIT,               MyFrame::OnExit)
+    EVT_MENU(wxID_ABOUT,              MyFrame::OnAbout)
 wxEND_EVENT_TABLE()
 
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
@@ -353,7 +355,8 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     SetIcon(wxICON(mondrian));
 
     wxMenu* fileMenu = new wxMenu;
-    fileMenu->Append(PdfGc_SavePdf,      "&Save as PDF...\tCtrl+S");
+    fileMenu->Append(PdfGc_SavePdf,           "Save as PDF (via wxPdfDC)...\tCtrl+S");
+    fileMenu->Append(PdfGc_SavePdfStandAlone, "Save as PDF (Stand-alone GC)...\tCtrl+Shift+S");
     fileMenu->AppendSeparator();
     fileMenu->Append(PdfGc_Print,        "&Print...\tCtrl+P");
     fileMenu->Append(PdfGc_PageSetup,    "Page Set&up...");
@@ -418,6 +421,49 @@ void MyFrame::OnSavePdf(wxCommandEvent& WXUNUSED(event))
     }
 
     SetStatusText("Saved: " + outPath);
+
+    wxFileType* ft = wxTheMimeTypesManager->GetFileTypeFromExtension("pdf");
+    if (ft)
+    {
+        const wxString cmd = ft->GetOpenCommand(outPath);
+        if (!cmd.IsEmpty())
+            wxExecute(cmd);
+        delete ft;
+    }
+}
+
+void MyFrame::OnSavePdfStandAlone(wxCommandEvent& WXUNUSED(event))
+{
+    wxFileDialog dlg(this, "Save as PDF (Stand-alone GC)", wxEmptyString, "pdfgc_standalone.pdf",
+                     "PDF files (*.pdf)|*.pdf",
+                     wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    if (dlg.ShowModal() != wxID_OK)
+        return;
+
+    const wxString outPath = dlg.GetPath();
+
+    {
+        wxPdfDocument doc(wxPORTRAIT, "pt", wxPAPER_LETTER);
+        doc.Open();
+        doc.AddPage();
+
+        // Create a stand-alone graphics context for the document.
+        wxGraphicsContext* gc = wxPdfGraphicsRenderer::GetPdfRenderer()->CreateContext(&doc);
+        if (gc)
+        {
+            DrawScene(*gc,
+                      wxSize(PDFGC_SCENE_WIDTH, PDFGC_SCENE_HEIGHT));
+            delete gc;
+        }
+        else
+        {
+            wxLogError("wxPdfGraphicsRenderer::CreateContext(&doc) returned null.");
+        }
+
+        doc.SaveAsFile(outPath);
+    }
+
+    SetStatusText("Saved (Stand-alone): " + outPath);
 
     wxFileType* ft = wxTheMimeTypesManager->GetFileTypeFromExtension("pdf");
     if (ft)
