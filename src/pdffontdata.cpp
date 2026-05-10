@@ -1020,7 +1020,21 @@ wxPdfFontData::WriteToUnicode(wxPdfGlyphList& glyphs, wxMemoryOutputStream& toUn
     size--;
     wxPdfGlyphListEntry* entry = glyphs[k];
     wxString fromTo = wxString::Format(gidFormat, entry->m_gid);
-    wxString uniChr = wxString::Format(wxS("<%04x>"), entry->m_uid);
+    wxString uniChr;
+    // PDF ToUnicode CMaps require UTF-16BE; supplementary characters (> U+FFFF)
+    // must be encoded as surrogate pairs, not as raw code points.
+    if (entry->m_uid > 0xFFFF)
+    {
+      // 0xD800/0xDC00: surrogate base offsets; 10-bit shift splits the 20-bit offset
+      wxUint32 cp   = entry->m_uid - 0x10000;
+      wxUint32 high = 0xD800 + (cp >> 10);
+      wxUint32 low  = 0xDC00 + (cp & 0x3FF);
+      uniChr = wxString::Format(wxS("<%04x%04x>"), high, low);
+    }
+    else
+    {
+      uniChr = wxString::Format(wxS("<%04x>"), entry->m_uid);
+    }
     WriteStreamBuffer(toUnicode, fromTo.ToAscii());
     WriteStreamBuffer(toUnicode, fromTo.ToAscii());
     WriteStreamBuffer(toUnicode, uniChr.ToAscii());
