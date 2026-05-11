@@ -129,7 +129,7 @@ wxPdfParser::ASCII85Decode(wxMemoryOutputStream* osIn)
     if (state == 5)
     {
       state = 0;
-      int r = 0;
+      unsigned int r = 0;
       for (int j = 0; j < 5; ++j)
       {
         r = r * 85 + chn[j];
@@ -140,7 +140,7 @@ wxPdfParser::ASCII85Decode(wxMemoryOutputStream* osIn)
       osOut->PutC((char)( r        & 0xff));
     }
   }
-  int r = 0;
+  unsigned int r = 0;
   if (state == 1)
   {
     wxLogError(wxString(wxS("wxPdfParser::ASCII85Decode: ")) +
