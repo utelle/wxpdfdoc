@@ -213,6 +213,11 @@ wxPdfParser::DecodePredictor(wxMemoryOutputStream* osIn, wxPdfObject* dicPar)
     bpc = ((wxPdfNumber*) obj)->GetInt();
   }
 
+  if (width <= 0 || colours <= 0 || bpc <= 0)
+  {
+    return osIn;
+  }
+
   wxMemoryInputStream dataStream(*osIn);
   wxMemoryOutputStream* osOut = new wxMemoryOutputStream();;
 
@@ -479,6 +484,10 @@ wxPdfLzwDecoder::WriteString(int code)
 void
 wxPdfLzwDecoder::AddStringToTable(int oldCode, char newString)
 {
+  if (m_tableIndex >= WXPDF_LZW_STRINGTABLE_SIZE)
+  {
+    return;
+  }
   size_t j;
   size_t length = m_stringTable[oldCode].GetCount();
   m_stringTable[m_tableIndex].Empty();

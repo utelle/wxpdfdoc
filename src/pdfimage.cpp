@@ -350,6 +350,11 @@ wxPdfImage::ParsePNG(wxInputStream* imageStream)
   do
   {
     n = ReadIntBE(imageStream);
+    if (n < 0)
+    {
+      // Invalid chunk size
+      break;
+    }
     imageStream->Read(buffer,4);
     if (strncmp(buffer,"PLTE",4) == 0)
     {
@@ -603,7 +608,7 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
           // anything else isn't interesting
           off_t pos = (unsigned int) ReadUShortBE(imageStream);
           pos = pos-2;
-          if (pos)
+          if (pos > 0)
           {
             imageStream->SeekI(pos, wxFromCurrent);
           }
