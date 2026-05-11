@@ -373,15 +373,21 @@ wxPdfImage::ParsePNG(wxInputStream* imageStream)
       {
         m_trnsSize = 1;
         m_trns = new char[1];
+        if (n >= 2)
+        {
         m_trns[0] = t[1];
+      }
       }
       else if (ct == 2)
       {
         m_trnsSize = 3;
         m_trns = new char[3];
+        if (n >= 6)
+        {
         m_trns[0] = t[1];
         m_trns[1] = t[3];
         m_trns[2] = t[5];
+      }
       }
       else
       {
