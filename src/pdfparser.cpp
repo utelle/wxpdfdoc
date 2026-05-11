@@ -1195,7 +1195,10 @@ wxPdfParser::ResolveObject(wxPdfObject* obj)
     wxPdfIndirectReference* ref = (wxPdfIndirectReference*)obj;
     int idx = ref->GetNumber();
     obj = ParseSpecificObject(idx);
+    if (obj != NULL)
+    {
     obj->SetCreatedIndirect(true);
+  }
   }
   return obj;
 }
@@ -1276,8 +1279,10 @@ wxPdfParser::ParseDirectObject(int k)
   {
     m_objNum = k;
     m_objGen = 0;
+    if (obj != NULL && obj->GetType() == OBJTYPE_STREAM)
+    {
     wxPdfStream* objStream = (wxPdfStream*) obj;
-    obj = ParseObjectStream((wxPdfStream*) obj, m_xref[k].m_ofs_idx);
+      obj = ParseObjectStream(objStream, m_xref[k].m_ofs_idx);
     if (m_cacheObjects)
     {
       if (!isCached)
@@ -1290,14 +1295,20 @@ wxPdfParser::ParseDirectObject(int k)
       delete objStream;
     }
   }
+    else
+    {
+      // Object not found or not a stream
+      obj = NULL;
+    }
+  }
 
   if (obj != NULL)
   {
     obj->SetObjNum(m_objNum, m_objGen);
-  }
   if (obj->GetType() == OBJTYPE_STREAM)
   {
     GetStreamBytes((wxPdfStream*) obj);
+  }
   }
   return obj;
 }
