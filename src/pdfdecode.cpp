@@ -223,6 +223,13 @@ wxPdfParser::DecodePredictor(wxMemoryOutputStream* osIn, wxPdfObject* dicPar)
 
   int bytesPerPixel = colours * bpc / 8;
   int bytesPerRow = (colours * width * bpc + 7) / 8;
+
+  if (bytesPerRow < bytesPerPixel)
+  {
+    delete osOut;
+    return osIn;
+  }
+
   char* curr = new char[bytesPerRow];
   char* prior = new char[bytesPerRow];
 
