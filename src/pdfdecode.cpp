@@ -218,17 +218,16 @@ wxPdfParser::DecodePredictor(wxMemoryOutputStream* osIn, wxPdfObject* dicPar)
     return osIn;
   }
 
-  wxMemoryInputStream dataStream(*osIn);
-  wxMemoryOutputStream* osOut = new wxMemoryOutputStream();;
-
   int bytesPerPixel = colours * bpc / 8;
   int bytesPerRow = (colours * width * bpc + 7) / 8;
 
   if (bytesPerRow < bytesPerPixel)
   {
-    delete osOut;
     return osIn;
   }
+
+  wxMemoryInputStream dataStream(*osIn);
+  wxMemoryOutputStream* osOut = new wxMemoryOutputStream();;
 
   char* curr = new char[bytesPerRow];
   char* prior = new char[bytesPerRow];

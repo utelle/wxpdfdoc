@@ -1587,7 +1587,7 @@ wxPdfFontParserTrueType::ReadFormat4()
   SkipBytes(2);
   int segCount = ReadUShort() / 2;
   int glyphIdCount = tableLength / 2 - 8 - segCount * 4;
-  if (glyphIdCount < 0)
+  if (segCount <= 0 || glyphIdCount < 0)
   {
     delete h;
     return NULL;
