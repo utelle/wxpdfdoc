@@ -1089,7 +1089,7 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
               }
               else
               {
-                data += wxString::Format(wxS("%d %d m\n"), (int) px, (int) py);
+                data += wxString::Format(wxS("%d %d l\n"), (int) px, (int) py);
               }
             }
 
