@@ -1587,6 +1587,11 @@ wxPdfFontParserTrueType::ReadFormat4()
   SkipBytes(2);
   int segCount = ReadUShort() / 2;
   int glyphIdCount = tableLength / 2 - 8 - segCount * 4;
+  if (segCount <= 0 || glyphIdCount < 0)
+  {
+    delete h;
+    return NULL;
+  }
   SkipBytes(6);
 
   int* endCount   = new int[segCount];
@@ -1639,7 +1644,6 @@ wxPdfFontParserTrueType::ReadFormat4()
       r->m_width = GetGlyphWidth(r->m_glyph);
       int idx = m_fontSpecific ? ((j & 0xff00) == 0xf000 ? j & 0xff : j) : j;
       (*h)[idx] = r;
-//      wxLogMessage(wxS("C %ld G %ld"), idx, glyph);
     }
   }
 

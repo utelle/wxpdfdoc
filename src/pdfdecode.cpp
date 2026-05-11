@@ -129,7 +129,7 @@ wxPdfParser::ASCII85Decode(wxMemoryOutputStream* osIn)
     if (state == 5)
     {
       state = 0;
-      int r = 0;
+      unsigned int r = 0;
       for (int j = 0; j < 5; ++j)
       {
         r = r * 85 + chn[j];
@@ -140,7 +140,7 @@ wxPdfParser::ASCII85Decode(wxMemoryOutputStream* osIn)
       osOut->PutC((char)( r        & 0xff));
     }
   }
-  int r = 0;
+  unsigned int r = 0;
   if (state == 1)
   {
     wxLogError(wxString(wxS("wxPdfParser::ASCII85Decode: ")) +
@@ -213,11 +213,22 @@ wxPdfParser::DecodePredictor(wxMemoryOutputStream* osIn, wxPdfObject* dicPar)
     bpc = ((wxPdfNumber*) obj)->GetInt();
   }
 
-  wxMemoryInputStream dataStream(*osIn);
-  wxMemoryOutputStream* osOut = new wxMemoryOutputStream();;
+  if (width <= 0 || colours <= 0 || bpc <= 0)
+  {
+    return osIn;
+  }
 
   int bytesPerPixel = colours * bpc / 8;
   int bytesPerRow = (colours * width * bpc + 7) / 8;
+
+  if (bytesPerRow < bytesPerPixel)
+  {
+    return osIn;
+  }
+
+  wxMemoryInputStream dataStream(*osIn);
+  wxMemoryOutputStream* osOut = new wxMemoryOutputStream();;
+
   char* curr = new char[bytesPerRow];
   char* prior = new char[bytesPerRow];
 
@@ -479,6 +490,10 @@ wxPdfLzwDecoder::WriteString(int code)
 void
 wxPdfLzwDecoder::AddStringToTable(int oldCode, char newString)
 {
+  if (m_tableIndex >= WXPDF_LZW_STRINGTABLE_SIZE)
+  {
+    return;
+  }
   size_t j;
   size_t length = m_stringTable[oldCode].GetCount();
   m_stringTable[m_tableIndex].Empty();

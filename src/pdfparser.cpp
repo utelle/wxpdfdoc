@@ -960,44 +960,52 @@ wxPdfParser::ParseXRefStream(int ptr, bool setTrailer)
     {
       wxPdfXRefEntry& xrefEntry = m_xref[start];
       int type = 1;
-      if (wc[0] > 0)
+      if (bptr + wc[0] + wc[1] + wc[2] <= (int) inLength)
       {
-        type = 0;
-        for (k = 0; k < wc[0]; ++k)
+        if (wc[0] > 0)
         {
-          type = (type << 8) + (buffer[bptr++] & 0xff);
+          type = 0;
+          for (k = 0; k < wc[0]; ++k)
+          {
+            type = (type << 8) + (buffer[bptr++] & 0xff);
+          }
+        }
+        int field2 = 0;
+        for (k = 0; k < wc[1]; ++k)
+        {
+          field2 = (field2 << 8) + (buffer[bptr++] & 0xff);
+        }
+        int field3 = 0;
+        for (k = 0; k < wc[2]; ++k)
+        {
+          field3 = (field3 << 8) + (buffer[bptr++] & 0xff);
+        }
+        if (xrefEntry.m_ofs_idx == 0 && xrefEntry.m_gen_ref == 0)
+        {
+          switch (type)
+          {
+            case 0:
+              xrefEntry.m_type = 0;
+              xrefEntry.m_ofs_idx = -1;
+              xrefEntry.m_gen_ref = 0;
+              break;
+            case 1:
+              xrefEntry.m_type = 1;
+              xrefEntry.m_ofs_idx = field2;
+              xrefEntry.m_gen_ref = field3;
+              break;
+            case 2:
+              xrefEntry.m_type = 2;
+              xrefEntry.m_ofs_idx = field3;
+              xrefEntry.m_gen_ref = field2;
+              break;
+          }
         }
       }
-      int field2 = 0;
-      for (k = 0; k < wc[1]; ++k)
+      else
       {
-        field2 = (field2 << 8) + (buffer[bptr++] & 0xff);
-      }
-      int field3 = 0;
-      for (k = 0; k < wc[2]; ++k)
-      {
-        field3 = (field3 << 8) + (buffer[bptr++] & 0xff);
-      }
-      if (xrefEntry.m_ofs_idx == 0 && xrefEntry.m_gen_ref == 0)
-      {
-        switch (type)
-        {
-          case 0:
-            xrefEntry.m_type = 0;
-            xrefEntry.m_ofs_idx = -1;
-            xrefEntry.m_gen_ref = 0;
-            break;
-          case 1:
-            xrefEntry.m_type = 1;
-            xrefEntry.m_ofs_idx = field2;
-            xrefEntry.m_gen_ref = field3;
-            break;
-          case 2:
-            xrefEntry.m_type = 2;
-            xrefEntry.m_ofs_idx = field3;
-            xrefEntry.m_gen_ref = field2;
-            break;
-        }
+        // Prevent out-of-bounds read
+        length = 0;
       }
       start++;
     }
@@ -1195,7 +1203,10 @@ wxPdfParser::ResolveObject(wxPdfObject* obj)
     wxPdfIndirectReference* ref = (wxPdfIndirectReference*)obj;
     int idx = ref->GetNumber();
     obj = ParseSpecificObject(idx);
-    obj->SetCreatedIndirect(true);
+    if (obj != NULL)
+    {
+      obj->SetCreatedIndirect(true);
+    }
   }
   return obj;
 }
@@ -1276,28 +1287,36 @@ wxPdfParser::ParseDirectObject(int k)
   {
     m_objNum = k;
     m_objGen = 0;
-    wxPdfStream* objStream = (wxPdfStream*) obj;
-    obj = ParseObjectStream((wxPdfStream*) obj, m_xref[k].m_ofs_idx);
-    if (m_cacheObjects)
+    if (obj != NULL && obj->GetType() == OBJTYPE_STREAM)
     {
-      if (!isCached)
+      wxPdfStream* objStream = (wxPdfStream*) obj;
+      obj = ParseObjectStream(objStream, m_xref[k].m_ofs_idx);
+      if (m_cacheObjects)
       {
-        (*m_objStmCache)[objIndex] = objStream;
+        if (!isCached)
+        {
+          (*m_objStmCache)[objIndex] = objStream;
+        }
+      }
+      else
+      {
+        delete objStream;
       }
     }
     else
     {
-      delete objStream;
+      // Object not found or not a stream
+      obj = NULL;
     }
   }
 
   if (obj != NULL)
   {
     obj->SetObjNum(m_objNum, m_objGen);
-  }
-  if (obj->GetType() == OBJTYPE_STREAM)
-  {
-    GetStreamBytes((wxPdfStream*) obj);
+    if (obj->GetType() == OBJTYPE_STREAM)
+    {
+      GetStreamBytes((wxPdfStream*) obj);
+    }
   }
   return obj;
 }
