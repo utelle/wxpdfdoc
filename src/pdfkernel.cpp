@@ -679,6 +679,11 @@ wxPdfDocument::PutInfo()
     Out("/Creator ",false);
     OutTextstring(m_creator);
   }
+  else
+  {
+    Out("/Creator ", false);
+    OutTextstring(wxTheApp->GetAppDisplayName());
+  }
   Out("/CreationDate ",false);
   if (m_creationDateSet)
   {
