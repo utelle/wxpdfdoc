@@ -402,7 +402,7 @@ void wxPdfBarcodeZint::SetStructApp(const int count, const int index, const wxSt
 
 void wxPdfBarcodeZint::ClearStructApp()
 {
-  memset(&m_structapp, 0, sizeof(m_structapp));
+  memset(m_structapp, 0, sizeof(zint_structapp));
 }
 
 bool wxPdfBarcodeZint::SetFgColourStr(const wxString& fgStr)
