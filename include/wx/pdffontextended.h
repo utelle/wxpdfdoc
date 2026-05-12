@@ -317,6 +317,7 @@ private:
 
   bool                 m_embed;        ///< Flag whether the font should be embedded
   bool                 m_subset;       ///< Flag whether the font should be subsetted
+  int                  m_fontStyle;    ///< Font style flags
   wxPdfFontData*       m_fontData;     ///< Real font data
   const wxPdfEncoding* m_encoding;     ///< Font encoding for Type1 fonts
 

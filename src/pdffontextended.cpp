@@ -30,13 +30,13 @@
 #include "wx/pdffontdatatype1.h"
 
 wxPdfFontExtended::wxPdfFontExtended()
-  : m_embed(false), m_subset(false),
+  : m_embed(false), m_subset(false), m_fontStyle(wxPDF_FONTSTYLE_REGULAR),
     m_fontData(NULL), m_encoding(NULL)
 {
 }
 
 wxPdfFontExtended::wxPdfFontExtended(const wxPdfFont& font)
-  : m_embed(font.m_embed), m_subset(font.m_subset),
+  : m_embed(font.m_embed), m_subset(font.m_subset), m_fontStyle(font.m_fontStyle),
     m_fontData(font.m_fontData)
 {
   if (m_fontData != NULL)
@@ -47,7 +47,7 @@ wxPdfFontExtended::wxPdfFontExtended(const wxPdfFont& font)
 }
 
 wxPdfFontExtended::wxPdfFontExtended(const wxPdfFontExtended& font)
-  : m_embed(font.m_embed), m_subset(font.m_subset),
+  : m_embed(font.m_embed), m_subset(font.m_subset), m_fontStyle(font.m_fontStyle),
     m_fontData(font.m_fontData)
 {
   if (m_fontData != NULL)
@@ -73,7 +73,7 @@ wxPdfFontExtended::operator=(const wxPdfFontExtended& font)
   wxPdfFontData* const prevFontData = m_fontData;
   m_embed = font.m_embed;
   m_subset = font.m_subset;
-//  m_fontStyle = font.m_fontStyle;
+  m_fontStyle = font.m_fontStyle;
   m_fontData = font.m_fontData;
   if (m_fontData != NULL)
   {
@@ -114,7 +114,7 @@ wxPdfFontExtended::GetName() const
 int
 wxPdfFontExtended::GetStyle() const
 {
-  return (m_fontData != NULL) ? m_fontData->GetStyle() : wxPDF_FONTSTYLE_REGULAR;
+  return m_fontStyle;
 }
 
 int
@@ -376,6 +376,7 @@ wxPdfFontExtended::GetUserFont() const
   wxPdfFont userFont;
   userFont.m_embed = m_embed;
   userFont.m_subset = m_subset;
+  userFont.m_fontStyle = m_fontStyle;
   userFont.m_fontData = m_fontData;
   if (m_fontData != NULL)
   {
