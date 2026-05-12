@@ -218,7 +218,9 @@ wxPdfParser::DecodePredictor(wxMemoryOutputStream* osIn, wxPdfObject* dicPar)
     return osIn;
   }
 
-  int bytesPerPixel = colours * bpc / 8;
+  int bytesPerPixel = (colours * bpc) / 8;
+  if (bytesPerPixel < 1)
+    bytesPerPixel = 1;
   int bytesPerRow = (colours * width * bpc + 7) / 8;
 
   if (bytesPerRow < bytesPerPixel)
