@@ -395,8 +395,7 @@ wxPdfFontSubsetCff::ReadFdSelect()
       first = last;
       fd = ReadByte();
       last = ReadShort();
-      const int limit = (last < (int) m_fdSelect.GetCount()) ?
-                         last : (int) m_fdSelect.GetCount();
+      const int limit = std::min(last, (int) m_fdSelect.GetCount());
       for (j = first; j < limit; j++)
       {
         m_fdSelect[j] = fd;
