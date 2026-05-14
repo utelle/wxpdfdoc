@@ -61,6 +61,12 @@ public:
   */
   wxPdfFontDescription(const wxPdfFontDescription& desc);
 
+  /// Copy assignment operator
+  /**
+  * \param desc The font description to copy
+  */
+  wxPdfFontDescription& operator=(const wxPdfFontDescription& desc);
+
   /// Default destructor
   ~wxPdfFontDescription();
 
