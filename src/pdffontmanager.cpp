@@ -1207,10 +1207,10 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
       if (fontData == NULL)
       {
         // If still not found, check if a font was registered directly under this name with the fallback style
-        wxPdfFontNameMap::const_iterator fontIter = m_fontNameMap.find(lcFontName);
-        if (fontIter != m_fontNameMap.end())
+        wxPdfFontNameMap::const_iterator foundFontIter = m_fontNameMap.find(lcFontName);
+        if (foundFontIter != m_fontNameMap.end())
         {
-          wxPdfFontData* candidate = m_fontList[fontIter->second]->GetFontData();
+          wxPdfFontData* candidate = m_fontList[foundFontIter->second]->GetFontData();
           if (candidate->GetStyle() == fallbackStyle)
             fontData = candidate;
         }

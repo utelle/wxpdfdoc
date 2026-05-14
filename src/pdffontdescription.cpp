@@ -75,6 +75,34 @@ wxPdfFontDescription::wxPdfFontDescription(const wxPdfFontDescription& desc)
   m_os2usWinDescent    = desc.m_os2usWinDescent;
 }
 
+wxPdfFontDescription&
+wxPdfFontDescription::operator=(const wxPdfFontDescription& desc)
+{
+  if (this != &desc)
+  {
+    m_ascent             = desc.m_ascent;
+    m_descent            = desc.m_descent;
+    m_capHeight          = desc.m_capHeight;
+    m_flags              = desc.m_flags;
+    m_fontBBox           = desc.m_fontBBox;
+    m_italicAngle        = desc.m_italicAngle;
+    m_stemV              = desc.m_stemV;
+    m_missingWidth       = desc.m_missingWidth;
+    m_xHeight            = desc.m_xHeight;
+    m_underlinePosition  = desc.m_underlinePosition;
+    m_underlineThickness = desc.m_underlineThickness;
+    m_hheaAscender       = desc.m_hheaAscender;
+    m_hheaDescender      = desc.m_hheaDescender;
+    m_hheaLineGap        = desc.m_hheaLineGap;
+    m_os2sTypoAscender   = desc.m_os2sTypoAscender;
+    m_os2sTypoDescender  = desc.m_os2sTypoDescender;
+    m_os2sTypoLineGap    = desc.m_os2sTypoLineGap;
+    m_os2usWinAscent     = desc.m_os2usWinAscent;
+    m_os2usWinDescent    = desc.m_os2usWinDescent;
+  }
+  return *this;
+}
+
 wxPdfFontDescription::~wxPdfFontDescription()
 {
 }
