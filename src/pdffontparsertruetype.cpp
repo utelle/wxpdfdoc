@@ -995,12 +995,15 @@ wxPdfFontParserTrueType::PrepareFontData(wxPdfFontData* fontData)
     wxPdfCMap::iterator cMapIter;
     int cc;
     wxPdfCMapEntry* cMapEntry;
-    for (cMapIter = cMap->begin(); cMapIter != cMap->end(); cMapIter++)
+    if (cMap != NULL)
     {
-      cc = cMapIter->first;
-      cMapEntry = cMapIter->second;
-      (*widths)[cc] = cMapEntry->m_width;
-      (*glyphs)[cc] = cMapEntry->m_glyph;
+      for (cMapIter = cMap->begin(); cMapIter != cMap->end(); cMapIter++)
+      {
+        cc = cMapIter->first;
+        cMapEntry = cMapIter->second;
+        (*widths)[cc] = cMapEntry->m_width;
+        (*glyphs)[cc] = cMapEntry->m_glyph;
+      }
     }
 
     fontData->SetGlyphWidthMap(widths);

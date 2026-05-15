@@ -900,6 +900,8 @@ wxPdfParser::ParseXRefStream(int ptr, bool setTrailer)
     return false;
   }
   wxPdfObject* object = ParseObject();
+  if (object == NULL)
+    return false;
   wxPdfStream* stm = NULL;
   if (object->GetType() == OBJTYPE_STREAM)
   {
@@ -909,6 +911,11 @@ wxPdfParser::ParseXRefStream(int ptr, bool setTrailer)
       delete object;
       return false;
     }
+  }
+  if (stm == NULL || stm->Get(wxS("Size")) == NULL)
+  {
+    delete object;
+    return false;
   }
   int size = ((wxPdfNumber*) stm->Get(wxS("Size")))->GetInt();
   bool indexAllocated = false;
