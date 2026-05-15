@@ -270,9 +270,12 @@ bool wxPdfBarcodeZint::ResetSymbol()
   {
     m_zintSymbol->output_options |= EMBED_VECTOR_FONT;
   }
-  strcpy(m_zintSymbol->fgcolour, m_fgStr.Left(15).c_str());
-  strcpy(m_zintSymbol->bgcolour, m_bgStr.Left(15).c_str());
-  strcpy(m_zintSymbol->primary, m_primaryMessage.Left(127).c_str());
+  memset(m_zintSymbol->fgcolour, 0, 16);
+  strncpy(m_zintSymbol->fgcolour, m_fgStr.c_str(), 15);
+  memset(m_zintSymbol->bgcolour, 0, 16);
+  strncpy(m_zintSymbol->bgcolour, m_bgStr.c_str(), 15);
+  memset(m_zintSymbol->primary, 0, 128);
+  strncpy(m_zintSymbol->primary, m_primaryMessage.c_str(), 127);
   m_zintSymbol->option_1 = m_option1;
   m_zintSymbol->option_2 = m_option2;
   m_zintSymbol->option_3 = m_option3;
