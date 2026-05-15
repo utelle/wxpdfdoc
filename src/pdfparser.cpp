@@ -906,7 +906,8 @@ wxPdfParser::ParseXRefStream(int ptr, bool setTrailer)
   if (object->GetType() == OBJTYPE_STREAM)
   {
     stm = (wxPdfStream*) object;
-    if (((wxPdfName*) stm->Get(wxS("Type")))->GetName() != wxS("XRef"))
+    wxPdfName* type = (wxPdfName*) stm->Get(wxS("Type"));
+    if (type == NULL || type->GetName() != wxS("XRef"))
     {
       delete object;
       return false;
