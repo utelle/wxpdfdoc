@@ -253,6 +253,10 @@ wxPdfFlatPath::wxPdfFlatPath(const wxPdfShape* shape, double flatness, int limit
   m_iterType = 0;
   m_iterPoints = 0;
   m_done = false;
+  m_stackSize = 0;
+  m_srcPosX = 0;
+  m_srcPosY = 0;
+  m_srcSegType = wxPDF_SEG_UNDEFINED;
   m_flatnessSq = flatness * flatness;
   m_recursionLimit = limit;
 

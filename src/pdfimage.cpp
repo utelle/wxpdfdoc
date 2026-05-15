@@ -1171,7 +1171,7 @@ int
 wxPdfImage::ReadIntBE(wxInputStream* imageStream)
 {
   // Read a 4-byte integer from file (big endian)
-  int i32;
+  int i32 = 0;
   imageStream->Read(&i32, 4);
   return wxINT32_SWAP_ON_LE(i32);
 }
@@ -1180,7 +1180,7 @@ int
 wxPdfImage::ReadIntLE(wxInputStream* imageStream)
 {
   // Read a 4-byte integer from file (little endian)
-  int i32;
+  int i32 = 0;
   imageStream->Read(&i32, 4);
   return wxINT32_SWAP_ON_BE(i32);
 }
@@ -1189,7 +1189,7 @@ unsigned int
 wxPdfImage::ReadUIntBE(wxInputStream* imageStream)
 {
   // Read an unsigned 4-byte integer from file (big endian)
-  unsigned int i32;
+  unsigned int i32 = 0;
   imageStream->Read(&i32, 4);
   return wxUINT32_SWAP_ON_LE(i32);
 }
@@ -1198,7 +1198,7 @@ unsigned int
 wxPdfImage::ReadUIntLE(wxInputStream* imageStream)
 {
   // Read an unsigned 4-byte integer from file (little endian)
-  unsigned int i32;
+  unsigned int i32 = 0;
   imageStream->Read(&i32, 4);
   return wxUINT32_SWAP_ON_BE(i32);
 }
@@ -1207,7 +1207,7 @@ short
 wxPdfImage::ReadShortBE(wxInputStream* imageStream)
 {
   // Read a 2-byte integer from file (big endian)
-  short i16;
+  short i16 = 0;
   imageStream->Read(&i16, 2);
   return wxINT16_SWAP_ON_LE(i16);
 }
@@ -1216,7 +1216,7 @@ short
 wxPdfImage::ReadShortLE(wxInputStream* imageStream)
 {
   // Read a 2-byte integer from file (little endian)
-  short i16;
+  short i16 = 0;
   imageStream->Read(&i16, 2);
   return wxINT16_SWAP_ON_BE(i16);
 }
@@ -1225,7 +1225,7 @@ unsigned short
 wxPdfImage::ReadUShortBE(wxInputStream* imageStream)
 {
   // Read a unsigned 2-byte integer from file (big endian)
-  unsigned short i16;
+  unsigned short i16 = 0;
   imageStream->Read(&i16, 2);
   return wxUINT16_SWAP_ON_LE(i16);
 }
@@ -1234,7 +1234,7 @@ unsigned short
 wxPdfImage::ReadUShortLE(wxInputStream* imageStream)
 {
   // Read a unsigned 2-byte integer from file (little endian)
-  unsigned short i16;
+  unsigned short i16 = 0;
   imageStream->Read(&i16, 2);
   return wxUINT16_SWAP_ON_BE(i16);
 }
