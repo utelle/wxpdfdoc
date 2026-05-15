@@ -1084,7 +1084,7 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
 
           for (j = 1; j <= numpolygons; j++)
           {
-            short numpoints = coords[j + 1];
+            short numpoints = coords[j];
 
             for (k = numpoints; k > 0; k--)
             {
