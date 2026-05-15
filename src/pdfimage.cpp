@@ -608,6 +608,7 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
       case M_EOI:
         isValid = false;
         ready = true;
+        break;
 
       default:
         {
