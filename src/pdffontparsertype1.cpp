@@ -2747,7 +2747,10 @@ wxPdfFontParserType1::ConvertMACtoPFB(wxInputStream* macFontStream)
             }
             if (blockType != PFB_BLOCK_END)
             {
-              ReadBinary(*m_inFont, TellI(), blockLen, *currentBlock);
+              if (currentBlock != NULL)
+              {
+                ReadBinary(*m_inFont, TellI(), blockLen, *currentBlock);
+              }
             }
             else
             {
