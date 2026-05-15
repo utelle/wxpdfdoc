@@ -2965,6 +2965,7 @@ wxPdfDocument::OutEscape(const char* s, size_t len)
       case '(':
       case ')':
         Out("\\",false);
+        wxFALLTHROUGH;
       default:
         Out(&s[j],1,false);
         break;
