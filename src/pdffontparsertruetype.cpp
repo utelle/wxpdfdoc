@@ -995,12 +995,15 @@ wxPdfFontParserTrueType::PrepareFontData(wxPdfFontData* fontData)
     wxPdfCMap::iterator cMapIter;
     int cc;
     wxPdfCMapEntry* cMapEntry;
-    for (cMapIter = cMap->begin(); cMapIter != cMap->end(); cMapIter++)
+    if (cMap != NULL)
     {
-      cc = cMapIter->first;
-      cMapEntry = cMapIter->second;
-      (*widths)[cc] = cMapEntry->m_width;
-      (*glyphs)[cc] = cMapEntry->m_glyph;
+      for (cMapIter = cMap->begin(); cMapIter != cMap->end(); cMapIter++)
+      {
+        cc = cMapIter->first;
+        cMapEntry = cMapIter->second;
+        (*widths)[cc] = cMapEntry->m_width;
+        (*glyphs)[cc] = cMapEntry->m_glyph;
+      }
     }
 
     fontData->SetGlyphWidthMap(widths);
@@ -1714,7 +1717,9 @@ wxPdfFontParserTrueType::ReadKerning(int unitsPerEm)
     wxPdfKernWidthMap* kwMap = nullptr;
     wxPdfKernWidthMap::iterator kw;
     wxUint32 u1, u2;
-    wxUint32 u1prev = 0;
+    // Initialize u1prev to an invalid value to ensure the first glyph
+    // (even index 0) triggers initialization of kwMap
+    wxUint32 u1prev = wxUINT32_MAX;
 
     m_inFont->SeekI(tableLocation->m_offset+2);
     int nTables = ReadUShort();

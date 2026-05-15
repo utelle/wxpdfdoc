@@ -900,15 +900,23 @@ wxPdfParser::ParseXRefStream(int ptr, bool setTrailer)
     return false;
   }
   wxPdfObject* object = ParseObject();
+  if (object == NULL)
+    return false;
   wxPdfStream* stm = NULL;
   if (object->GetType() == OBJTYPE_STREAM)
   {
     stm = (wxPdfStream*) object;
-    if (((wxPdfName*) stm->Get(wxS("Type")))->GetName() != wxS("XRef"))
+    wxPdfName* type = (wxPdfName*) stm->Get(wxS("Type"));
+    if (type == NULL || type->GetName() != wxS("XRef"))
     {
       delete object;
       return false;
     }
+  }
+  if (stm == NULL || stm->Get(wxS("Size")) == NULL)
+  {
+    delete object;
+    return false;
   }
   int size = ((wxPdfNumber*) stm->Get(wxS("Size")))->GetInt();
   bool indexAllocated = false;
@@ -1531,6 +1539,10 @@ void
 wxPdfParser::GetStreamBytesRaw(wxPdfStream* stream)
 {
   wxPdfNumber* streamLength = (wxPdfNumber*) ResolveObject(stream->Get(wxS("Length")));
+  if (streamLength == NULL)
+  {
+    return;
+  }
   size_t size = streamLength->GetInt();
   m_tokens->Seek(stream->GetOffset());
   wxMemoryOutputStream* memoryBuffer = NULL;
@@ -1637,6 +1649,13 @@ wxPdfTokenizer::GetStartXRef()
   char buffer[1024];
   int idx, found;
   off_t size = GetLength();
+  // Need at least 9 bytes to search for the "startxref" marker
+  if (size < 9)
+  {
+    wxLogError(wxString(wxS("wxPdfTokenizer::GetStartXRef: ")) +
+               wxString(_("PDF startxref not found.")));
+    return 0;
+  }
   if (size > 1024) size = 1024;
   off_t pos = GetLength() - size;
   do

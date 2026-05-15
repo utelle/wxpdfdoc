@@ -1517,4 +1517,17 @@ If neither a row nor a cell background colour is specified the background is tra
   #define WXDLLIMPEXP_FWD_PDFDOC WXDLLIMPEXP_PDFDOC
 #endif
 
+// Support for intentional fallthrough in switch statements
+#ifndef wxFALLTHROUGH
+  #if (defined(__cplusplus) && __cplusplus >= 201703L) || (defined(_MSVC_LANG) && _MSVC_LANG >= 201703L)
+    #define wxFALLTHROUGH [[fallthrough]]
+  #elif defined(__GNUC__) && (__GNUC__ >= 7)
+    #define wxFALLTHROUGH __attribute__ ((fallthrough))
+  #elif defined(__clang__) && __has_attribute(fallthrough)
+    #define wxFALLTHROUGH __attribute__ ((fallthrough))
+  #else
+    #define wxFALLTHROUGH ((void)0)
+  #endif
+#endif
+
 #endif // _PDFDOC_DEF_H_

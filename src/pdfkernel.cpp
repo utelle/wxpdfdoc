@@ -3109,10 +3109,11 @@ wxPdfDocument::OutAsciiTextstring(const wxString& s, bool newline)
 {
   // Format an ASCII text string
   size_t ofs = CalculateStreamOffset();
-  size_t len = s.Length();;
+  size_t len = s.Length();
   size_t lenbuf = CalculateStreamLength(len);
   char* mbstr = new char[lenbuf+1];
-  strcpy(&mbstr[ofs],s.ToAscii());
+  memset(mbstr, 0, lenbuf + 1);
+  memcpy(&mbstr[ofs], s.ToAscii(), len);
 
   if (m_encrypted)
   {

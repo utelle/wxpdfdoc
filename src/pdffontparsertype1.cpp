@@ -1380,7 +1380,7 @@ wxPdfFontParserType1::GetPrivateDict(wxInputStream* stream, int start)
 {
   bool ok = false;
   wxMemoryOutputStream privateDict;
-  wxMemoryOutputStream* eexecStream = new wxMemoryOutputStream();
+  wxMemoryOutputStream eexecStream;
   stream->SeekI(start);
   if (m_isPFB)
   {
@@ -1391,11 +1391,11 @@ wxPdfFontParserType1::GetPrivateDict(wxInputStream* stream, int start)
     do
     {
       ok = ReadPfbTag(stream, blocktype, length);
-      if (ok && blocktype == PFB_BLOCK_BINARY)
+      if (ok && blocktype == PFB_BLOCK_BINARY && length > 0)
       {
         char* buf = new char[length];
         stream->Read(buf, length);
-        eexecStream->Write(buf, length);
+        eexecStream.Write(buf, length);
         delete [] buf;
       }
     }
@@ -1434,12 +1434,12 @@ wxPdfFontParserType1::GetPrivateDict(wxInputStream* stream, int start)
             IsHexDigit(prefix[2]) && IsHexDigit(prefix[3]))
         {
           stream->SeekI(offset);
-          DecodeHex(stream, eexecStream);
+          DecodeHex(stream, &eexecStream);
         }
         else
         {
           stream->SeekI(offset);
-          eexecStream->Write(*stream);
+          eexecStream.Write(*stream);
         }
         ok = true;
       }
@@ -1449,12 +1449,11 @@ wxPdfFontParserType1::GetPrivateDict(wxInputStream* stream, int start)
       }
     }
   }
-  if (ok && eexecStream->GetSize() > 0)
+  if (ok && eexecStream.GetSize() > 0)
   {
     // decrypt the encoded binary private dictionary
-    DecodeEExec(eexecStream, &privateDict, 55665U, 4);
+    DecodeEExec(&eexecStream, &privateDict, 55665U, 4);
     m_privateDict = new wxMemoryInputStream(privateDict);
-    delete eexecStream;
 #if 0
     wxFileOutputStream pfbPrivateDict(wxS("pfbprivdict.dat"));
     wxMemoryInputStream tmp(privateDict);
@@ -2404,6 +2403,10 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
 void
 wxPdfFontParserType1::ReadBinary(wxInputStream& inStream, int start, int size, wxOutputStream& outStream)
 {
+  if (size <= 0)
+  {
+    return;
+  }
   char* buffer = new char[size];
   inStream.SeekI(start);
   inStream.Read(buffer, size);
@@ -2748,7 +2751,10 @@ wxPdfFontParserType1::ConvertMACtoPFB(wxInputStream* macFontStream)
             }
             if (blockType != PFB_BLOCK_END)
             {
-              ReadBinary(*m_inFont, TellI(), blockLen, *currentBlock);
+              if (currentBlock != NULL)
+              {
+                ReadBinary(*m_inFont, TellI(), blockLen, *currentBlock);
+              }
             }
             else
             {

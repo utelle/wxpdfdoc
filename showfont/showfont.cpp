@@ -528,7 +528,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, "i", "include-range", "Show characters in range(s) (s1[-e1][,s2[-e2]...])",       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_OPTION, "x", "exclude-range", "Don't show characters in range(s) (s1[-e1][,s2[-e2]...])", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL   },
   { wxCMD_LINE_SWITCH, "c", "center",        "Center characters in cells",                               wxCMD_LINE_VAL_NONE,   wxCMD_LINE_PARAM_OPTIONAL   },
-  { wxCMD_LINE_NONE }
+  { wxCMD_LINE_NONE, NULL, NULL, NULL, wxCMD_LINE_VAL_NONE, 0 }
 };
 
 bool

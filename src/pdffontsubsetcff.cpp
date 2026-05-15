@@ -966,15 +966,19 @@ wxPdfFontSubsetCff::WriteInteger(int value, int size, wxMemoryOutputStream* buff
     case 4:
       locBuffer[i] = (char)((value >> 24) & 0xff);
       i++;
+      wxFALLTHROUGH;
     case 3:
       locBuffer[i] = (char)((value >> 16) & 0xff);
       i++;
+      wxFALLTHROUGH;
     case 2:
       locBuffer[i] = (char)((value >>  8) & 0xff);
       i++;
+      wxFALLTHROUGH;
     case 1:
       locBuffer[i] = (char)((value      ) & 0xff);
       i++;
+      wxFALLTHROUGH;
     default:
       break;
   }

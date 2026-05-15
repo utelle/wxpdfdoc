@@ -109,7 +109,7 @@ static const wxCmdLineEntryDesc cmdLineDesc[] =
   { wxCMD_LINE_OPTION, "s", "sampledir", "wxPdfDocument samples directory",  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_OPTION, "f", "fontdir",   "wxPdfDocument font directory",     wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
   { wxCMD_LINE_SWITCH, "h", "help",      "Display help",                     wxCMD_LINE_VAL_NONE,   wxCMD_LINE_OPTION_HELP },
-  { wxCMD_LINE_NONE }
+  { wxCMD_LINE_NONE, NULL, NULL, NULL, wxCMD_LINE_VAL_NONE, 0 }
 };
 
 bool MyApp::OnInit(void)
@@ -321,8 +321,8 @@ EVT_MENU(WXPDFPRINT_HTML_PREVIEW, MyFrame::OnPdfHtmlPreview)
 END_EVENT_TABLE()
 
 // Define my frame constructor
-MyFrame::MyFrame(wxFrame *frame, const wxString& title, const wxPoint& pos, const wxSize& size):
-wxFrame(frame, wxID_ANY, title, pos, size)
+MyFrame::MyFrame(wxFrame *parent, const wxString& title, const wxPoint& pos, const wxSize& size):
+wxFrame(parent, wxID_ANY, title, pos, size)
 {
 #ifdef __WXMAC__
     wxString rscPath = wxStandardPaths::Get().GetResourcesDir() + wxFileName::GetPathSeparator();
@@ -474,10 +474,10 @@ void MyFrame::OnPrintPreview(wxCommandEvent& WXUNUSED(event))
         return;
     }
 
-    wxPreviewFrame *frame = new wxPreviewFrame(preview, this, "Demo Print Preview", wxPoint(100, 100), wxSize(600, 650));
-    frame->Centre(wxBOTH);
-    frame->Initialize();
-    frame->Show();
+    wxPreviewFrame *previewFrame = new wxPreviewFrame(preview, this, "Demo Print Preview", wxPoint(100, 100), wxSize(600, 650));
+    previewFrame->Centre(wxBOTH);
+    previewFrame->Initialize();
+    previewFrame->Show();
 }
 
 void MyFrame::OnPageSetup(wxCommandEvent& WXUNUSED(event))
@@ -873,11 +873,11 @@ void MyFrame::OnPdfRichTextPreview(wxCommandEvent&  WXUNUSED(event) )
       wxPdfPrintPreview *preview = new wxPdfPrintPreview(previewPrintout, printPrintout, &printData);
       if (preview->IsOk())
       {
-        wxPreviewFrame *frame = new wxPreviewFrame(preview, this,
+        wxPreviewFrame *previewFrame = new wxPreviewFrame(preview, this,
                 _("PDF Document RichText Preview"), wxDefaultPosition, wxSize(600,600));
-        frame->Centre(wxBOTH);
-        frame->Initialize();
-        frame->Show(true);
+        previewFrame->Centre(wxBOTH);
+        previewFrame->Initialize();
+        previewFrame->Show(true);
       }
       else
       {
@@ -1160,13 +1160,13 @@ void MyFrame::WriteRichTextBuffer()
       cellAttr.GetTextBoxAttr().GetHeight().SetValue(150, wxTEXT_ATTR_UNITS_PIXELS);
 
       wxRichTextTable* table = r.WriteTable(3, 2, attr, cellAttr);
-      int i, j;
-      for (j = 0; j < table->GetRowCount(); j++)
+      int row, col;
+      for (row = 0; row < table->GetRowCount(); row++)
       {
-          for (i = 0; i < table->GetColumnCount(); i++)
+          for (col = 0; col < table->GetColumnCount(); col++)
           {
-              wxString msg = wxString::Format(wxS("This is cell %d, %d"), (j+1), (i+1));
-              r.SetFocusObject(table->GetCell(j, i));
+              wxString msg = wxString::Format(wxS("This is cell %d, %d"), (row+1), (col+1));
+              r.SetFocusObject(table->GetCell(row, col));
               r.WriteText(msg);
           }
       }
@@ -1265,11 +1265,11 @@ void MyFrame::OnPdfHtmlPreview(wxCommandEvent&  WXUNUSED(event) )
       wxPdfPrintPreview *preview = new wxPdfPrintPreview(previewPrintout, printPrintout, &printData);
       if (preview->IsOk())
       {
-        wxPreviewFrame *frame = new wxPreviewFrame(preview, this,
+        wxPreviewFrame *previewFrame = new wxPreviewFrame(preview, this,
                 _("PDF Document Html Preview"), wxDefaultPosition, wxSize(600,600));
-        frame->Centre(wxBOTH);
-        frame->Initialize();
-        frame->Show(true);
+        previewFrame->Centre(wxBOTH);
+        previewFrame->Initialize();
+        previewFrame->Show(true);
       }
       else
       {
@@ -1289,8 +1289,8 @@ BEGIN_EVENT_TABLE(MyCanvas, wxScrolledWindow)
 EVT_MOUSE_EVENTS(MyCanvas::OnEvent)
 END_EVENT_TABLE()
 
-MyCanvas::MyCanvas(wxFrame *frame, const wxPoint& pos, const wxSize& size, long style):
-    wxScrolledWindow(frame, wxID_ANY, pos, size, style)
+MyCanvas::MyCanvas(wxFrame *parent, const wxPoint& pos, const wxSize& size, long style):
+    wxScrolledWindow(parent, wxID_ANY, pos, size, style)
 {
     SetBackgroundColour(* wxWHITE);
 }
@@ -1477,7 +1477,7 @@ void MyPrintout::DrawPageTwo()
 
     { // GetTextExtent demo:
         wxString words[7] = {"This ", "is ", "GetTextExtent ", "testing ", "string. ", "Enjoy ", "it!"};
-        wxCoord w, h;
+        wxCoord textW, textH;
         wxCoord x = 200, y= 250;
         wxFont fnt(15, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
@@ -1487,11 +1487,11 @@ void MyPrintout::DrawPageTwo()
         {
             wxString word = words[i];
             word.Remove( word.Len()-1, 1 );
-            dc->GetTextExtent(word, &w, &h);
-            dc->DrawRectangle(x, y, w, h);
-            dc->GetTextExtent(words[i], &w, &h);
+            dc->GetTextExtent(word, &textW, &textH);
+            dc->DrawRectangle(x, y, textW, textH);
+            dc->GetTextExtent(words[i], &textW, &textH);
             dc->DrawText(words[i], x, y);
-            x += w;
+            x += textW;
         }
 
     }
