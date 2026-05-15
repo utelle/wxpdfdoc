@@ -1002,6 +1002,10 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
       case 0x0325: // Polyline
       case 0x0324: // Polygon
         {
+          if (size <= 3)
+          {
+            break;
+          }
           short* coords = new short[size-3];
           for (i = 0; i < size-3; i++)
           {
@@ -1065,6 +1069,10 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
 
       case 0x0538: // PolyPolygon
         {
+          if (size <= 3)
+          {
+            break;
+          }
           short* coords = new short[size-3];
           for (i = 0; i < size-3; i++)
           {

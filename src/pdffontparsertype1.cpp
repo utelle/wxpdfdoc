@@ -1391,7 +1391,7 @@ wxPdfFontParserType1::GetPrivateDict(wxInputStream* stream, int start)
     do
     {
       ok = ReadPfbTag(stream, blocktype, length);
-      if (ok && blocktype == PFB_BLOCK_BINARY)
+      if (ok && blocktype == PFB_BLOCK_BINARY && length > 0)
       {
         char* buf = new char[length];
         stream->Read(buf, length);
@@ -2403,6 +2403,10 @@ wxPdfFontParserType1::ParseSubrs(wxInputStream* stream)
 void
 wxPdfFontParserType1::ReadBinary(wxInputStream& inStream, int start, int size, wxOutputStream& outStream)
 {
+  if (size <= 0)
+  {
+    return;
+  }
   char* buffer = new char[size];
   inStream.SeekI(start);
   inStream.Read(buffer, size);
