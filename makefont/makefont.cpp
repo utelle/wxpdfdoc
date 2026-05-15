@@ -1127,6 +1127,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
   if (!ufmFile.Ok())
   {
     wxLogMessage(wxS("Error: Unable to read UFM file '") + ufmFileName + wxS("'."));
+    delete ufmFont;
     return false;
   }
   wxTextInputStream text(ufmFile);
@@ -1342,6 +1343,7 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
     {
       wxLogMessage(wxS("Error: Unable to read font file '") + fontFileName + wxS("'."));
       delete [] cc2gn;
+      delete ufmFont;
       return false;
     }
     size_t len = fontFile.GetLength();
