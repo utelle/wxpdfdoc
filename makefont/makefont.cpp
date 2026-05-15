@@ -1098,6 +1098,13 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
     cff = (type == wxS("OpenType"));
   }
 
+  wxFileInputStream ufmFile(ufmFileName);
+  if (!ufmFile.Ok())
+  {
+    wxLogMessage(wxS("Error: Unable to read UFM file '") + ufmFileName + wxS("'."));
+    return false;
+  }
+
   wxPdfFontData* ufmFont;
   if (cff)
   {
@@ -1123,13 +1130,6 @@ MakeFont::MakeFontUFM(const wxString& fontFileName,
   bool hasMissingWidth = false;
   int flags = 0;
 
-  wxFileInputStream ufmFile(ufmFileName);
-  if (!ufmFile.Ok())
-  {
-    wxLogMessage(wxS("Error: Unable to read UFM file '") + ufmFileName + wxS("'."));
-    delete ufmFont;
-    return false;
-  }
   wxTextInputStream text(ufmFile);
 
   // Prepare empty CIDToGIDMap
