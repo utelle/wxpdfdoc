@@ -987,7 +987,10 @@ static UINT32 rcon[30]=
 
 wxPdfRijndael::wxPdfRijndael()
 {
-   m_state = Invalid;
+  m_state = Invalid;
+  m_mode = ECB;
+  m_direction = Encrypt;
+  m_uRounds = 0;
 }
 
 wxPdfRijndael::~wxPdfRijndael()
@@ -1387,7 +1390,7 @@ void wxPdfRijndael::keySched(UINT8 key[_MAX_KEY_COLUMNS][4])
   // The number of calculations depends on keyBits and blockBits
   int uKeyColumns = m_uRounds - 6;
 
-  UINT8 tempKey[_MAX_KEY_COLUMNS][4];
+  UINT8 tempKey[_MAX_KEY_COLUMNS][4] = { { 0 } };
 
   // Copy the input key to the temporary key matrix
 
