@@ -280,7 +280,7 @@ entropy(void* buf, size_t n)
   if (SecRandomCopyBytes(kSecRandomDefault, n, (uint8_t*) buf) == 0)
     return n;
 #elif defined(__linux__) && defined(SYS_getrandom)
-  if (syscall(SYS_getrandom, buf, n, 0) == n)
+  if (syscall(SYS_getrandom, buf, n, 0) == (long) n)
     return n;
 #elif defined(SYS_getentropy)
   if (syscall(SYS_getentropy, buf, n) == 0)
