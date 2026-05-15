@@ -1717,7 +1717,9 @@ wxPdfFontParserTrueType::ReadKerning(int unitsPerEm)
     wxPdfKernWidthMap* kwMap = nullptr;
     wxPdfKernWidthMap::iterator kw;
     wxUint32 u1, u2;
-    wxUint32 u1prev = 0;
+    // Initialize u1prev to an invalid value to ensure the first glyph
+    // (even index 0) triggers initialization of kwMap
+    wxUint32 u1prev = wxUINT32_MAX;
 
     m_inFont->SeekI(tableLocation->m_offset+2);
     int nTables = ReadUShort();
