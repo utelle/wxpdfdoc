@@ -25,7 +25,9 @@ public:
   /// Destructor
   virtual~wxPdfInfo() {}
 
-  /// Set title
+  /// Set the title of the document.
+  /// The title appears in the document's metadata and is typically displayed
+  /// in the PDF viewer's title bar or document properties.
   /**
   * \param title The document's title
   */
@@ -81,7 +83,9 @@ public:
   */
   void SetModDate(const wxString& modDate) { m_modDate = modDate; }
 
-  /// Get title
+  /// Get the title of the document.
+  /// The title appears in the document's metadata and is typically displayed
+  /// in the PDF viewer's title bar or document properties.
   /**
   * \return The document's title
   */
