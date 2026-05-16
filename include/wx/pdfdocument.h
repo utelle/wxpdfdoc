@@ -414,6 +414,15 @@ public:
   /// Defines the title of the document.
   /**
   * \param title The title.
+  * \par Example
+  * \code
+  * wxPdfDocument pdf;
+  * pdf.SetTitle(wxS("20000 Leagues Under the Seas"));
+  * pdf.SetAuthor(wxS("Jules Verne"));
+  * pdf.AddPage();
+  * // ... add content ...
+  * pdf.SaveAsFile(wxS("book.pdf"));
+  * \endcode
   * \see SetAuthor(), SetCreator(), SetKeywords(), SetSubject()
   */
   virtual void SetTitle(const wxString& title);
@@ -504,6 +513,15 @@ public:
   /**
   * \param orientation Page orientation (@c wxPORTRAIT, @c wxLANDSCAPE).
   * \param format Paper size format.
+  * \par Example
+  * \code
+  * wxPdfDocument pdf;
+  * pdf.AddPage(wxPORTRAIT,  wxPAPER_A4);
+  * pdf.AddPage(wxLANDSCAPE, wxPAPER_A4);
+  * pdf.AddPage(wxPORTRAIT,  wxPAPER_A3);
+  * pdf.AddPage(wxLANDSCAPE, wxPAPER_A3);
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
   */
   virtual void AddPage(int orientation, wxPaperSize format);
 
@@ -512,6 +530,13 @@ public:
   * \param orientation Page orientation (@c wxPORTRAIT, @c wxLANDSCAPE).
   * \param pageWidth Page width in user units.
   * \param pageHeight Page height in user units.
+  * \par Example
+  * \code
+  * // A5 page (148 x 210 mm) in landscape
+  * wxPdfDocument pdf;
+  * pdf.AddPage(wxLANDSCAPE, 210, 148);
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
   */
   virtual void AddPage(int orientation, double pageWidth, double pageHeight);
 
@@ -520,6 +545,36 @@ public:
   * It is automatically called by AddPage() and should not be called directly by the application.
   * The implementation in wxPdfDocument is empty, so you have to subclass it and override the method
   * if you want a specific processing.
+  * \par Example
+  * \code
+  * class MyDocument : public wxPdfDocument
+  * {
+  *     void Header() override
+  *     {
+  *         // Logo at top-left, then a framed title cell
+  *         Image(wxS("logo.png"), 10, 8, 28);
+  *         SetFont(wxS("Helvetica"), wxS("B"), 15);
+  *         Cell(80);
+  *         Cell(30, 10, wxS("My Report"), wxPDF_BORDER_FRAME, 0, wxPDF_ALIGN_CENTER);
+  *         Ln(20);
+  *     }
+  *
+  *     void Footer() override
+  *     {
+  *         // Position 15mm from the bottom of the page
+  *         SetY(-15);
+  *         SetFont(wxS("Helvetica"), wxS("I"), 8);
+  *         Cell(0, 10, wxString::Format(wxS("Page %d/{nb}"), PageNo()),
+  *              wxPDF_BORDER_NONE, 0, wxPDF_ALIGN_CENTER);
+  *     }
+  * };
+  *
+  * MyDocument pdf;
+  * pdf.AliasNbPages();
+  * pdf.AddPage();
+  * // ... add content ...
+  * pdf.SaveAsFile(wxS("report.pdf"));
+  * \endcode
   * \see Footer()
   */
   virtual void Header();
@@ -858,6 +913,22 @@ public:
   * \param s The string whose length is to be computed
   * \param charSpacing Extra amount of spacing between characters (optional)
   * \return int
+  * \par Example
+  * \code
+  * // Measure the title to center it precisely and draw a coloured framed cell
+  * wxPdfDocument pdf;
+  * pdf.AddPage();
+  * pdf.SetFont(wxS("Helvetica"), wxS("B"), 15);
+  * wxString title = wxS("20000 Leagues Under the Seas");
+  * double w = pdf.GetStringWidth(title) + 6;
+  * pdf.SetX((210 - w) / 2);
+  * pdf.SetDrawColour(wxColour(0, 80, 180));
+  * pdf.SetFillColour(wxColour(230, 230, 0));
+  * pdf.SetTextColour(wxColour(220, 50, 50));
+  * pdf.SetLineWidth(1);
+  * pdf.Cell(w, 9, title, wxPDF_BORDER_FRAME, 1, wxPDF_ALIGN_CENTER, 1);
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
   */
   virtual double GetStringWidth(const wxString& s, double charSpacing = 0);
 
@@ -1093,7 +1164,7 @@ public:
   virtual void Polygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y,
                        int style = wxPDF_STYLE_DRAW);
 
-   /// Draws a regular polygon
+  /// Draws a regular polygon
   /**
   * \param x0: Abscissa of Center point
   * \param y0: Ordinate of Center point
@@ -1688,6 +1759,20 @@ public:
   * \param maxline Defines the maximum number of lines which should be printed.
   *        If maxline is 0 then the number of lines is not restricted. Default value: 0.
   * \return position in text string txt where output ended due to reaching the maximum number of lines
+  * \par Example
+  * \code
+  * // Output a long passage of text with automatic line breaks
+  * // (justified by default)
+  * wxPdfDocument pdf;
+  * pdf.AddPage();
+  * pdf.SetFont(wxS("Times"), wxS(""), 12);
+  * pdf.MultiCell(0, 5, longText);
+  * pdf.Ln();
+  * // Switch to italic for a closing note
+  * pdf.SetFont(wxS(""), wxS("I"));
+  * pdf.Cell(0, 5, wxS("(end of excerpt)"));
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
   * \see SetFont(), SetDrawColour(), SetFillColour(), SetTextColour(), SetLineWidth(), Cell(), Write(), SetAutoPageBreak()
   */
   virtual int MultiCell(double w, double h, const wxString& txt,
@@ -1986,6 +2071,13 @@ public:
   * The method first calls Close() if necessary to terminate the document.
   * \param name The name of the file. If not given, the document will be named 'doc.pdf'
   * \return @c true if successful, @c false otherwise
+  * \par Example
+  * \code
+  * wxPdfDocument pdf;
+  * pdf.AddPage();
+  * // ... add content ...
+  * pdf.SaveAsFile(wxS("report.pdf"));
+  * \endcode
   * \see Close()
   */
   virtual bool SaveAsFile(const wxString& name = wxEmptyString);
