@@ -1124,6 +1124,15 @@ public:
   * \li Only the display is altered. The GetX() and GetY() methods are not affected,
   *  nor the automatic page break mechanism.
   * \li Rotation is not kept from page to page. Each page begins with a null rotation.
+  * \par Example
+  * \code
+  * // Rotate a rectangle 20 degrees counter-clockwise around its lower-left corner (50, 60)
+  * pdf.StartTransform();
+  * pdf.Rotate(20, 50, 60);
+  * pdf.Rect(50, 50, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
+  * \see StartTransform(), StopTransform()
   */
   virtual void Rotate(double angle, double x, double y);
 
@@ -1872,7 +1881,7 @@ public:
   /// Closes the document and returns the memory buffer containing the document
   /**
   * The method first calls Close() if necessary to terminate the document.
-  * \return const wxMemoryOutputStream reference to the buffer containing the PDF document.
+  * \return const @c wxMemoryOutputStream reference to the buffer containing the PDF document.
   * \see Close()
   */
   virtual const wxMemoryOutputStream& CloseAndGetBuffer();
@@ -1884,6 +1893,15 @@ public:
   * \param y Ordinate of the origin
   * \param txt String to print
   * \param outline Draw the outline or not.
+  * \par Example
+  * \code
+  * // Fill large text with an image
+  * pdf.SetDrawColour(0);
+  * pdf.SetLineWidth(2);
+  * pdf.ClippingText(40, 55, wxS("CLIPS"), true);
+  * pdf.Image(wxS("background.jpg"), 40, 10, 130);
+  * pdf.UnsetClipping();
+  * \endcode
   * \see ClippingRect(), ClippingEllipse(), ClippingPolygon(), ClippingPath(), UnsetClipping()
   */
   virtual void ClippingText(double x, double y, const wxString& txt, bool outline = false);
@@ -1896,6 +1914,12 @@ public:
   * \param w Width of the rectangle
   * \param h Height of the rectangle
   * \param outline Draw the outline or not.
+  * \par Example
+  * \code
+  * pdf.ClippingRect(45, 65, 116, 20, true);
+  * pdf.Image(wxS("background.jpg"), 40, 10, 130);
+  * pdf.UnsetClipping();
+  * \endcode
   * \see ClippingText(), ClippingEllipse(), ClippingPolygon(), ClippingPath(), UnsetClipping()
   */
   virtual void ClippingRect(double x, double y, double w, double h, bool outline = false);
@@ -1908,6 +1932,12 @@ public:
   * \param rx: Horizontal radius
   * \param ry: Vertical radius (if ry = 0, draws a circle)
   * \param outline Draw the outline or not. (Default false)
+  * \par Example
+  * \code
+  * pdf.ClippingEllipse(102, 104, 16, 10, true);
+  * pdf.Image(wxS("background.jpg"), 40, 10, 130);
+  * pdf.UnsetClipping();
+  * \endcode
   * \see ClippingText(), ClippingRect(), ClippingPolygon(), ClippingPath(), UnsetClipping()
   */
   virtual void ClippingEllipse(double x, double y, double rx, double ry = 0, bool outline = false);
@@ -1918,6 +1948,18 @@ public:
   * \param x Array with abscissa values
   * \param y Array with ordinate values
   * \param outline Draw the outline or not. (Default false)
+  * \par Example
+  * \code
+  * wxPdfArrayDouble x, y;
+  * x.Add(30); y.Add(135);
+  * x.Add(60); y.Add(155);
+  * x.Add(40); y.Add(155);
+  * x.Add(70); y.Add(160);
+  * x.Add(30); y.Add(165);
+  * pdf.ClippingPolygon(x, y, true);
+  * pdf.Image(wxS("background.jpg"), 20, 100, 130);
+  * pdf.UnsetClipping();
+  * \endcode
   * \see ClippingText(), ClippingRect(), ClippingEllipse(), ClippingPath(), UnsetClipping()
   */
   virtual void ClippingPolygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, bool outline = false);
@@ -1926,6 +1968,16 @@ public:
   /**
   * A clipping area restricts the display and prevents any elements from showing outside of it.
   * The clipping path may consist of one or more subpaths.
+  * \par Example
+  * \code
+  * pdf.ClippingPath();
+  * pdf.MoveTo(50, 50);
+  * pdf.LineTo(150, 50);
+  * pdf.LineTo(100, 120);
+  * pdf.ClosePath(wxPDF_STYLE_DRAW);
+  * pdf.Image(wxS("background.jpg"), 40, 30, 130);
+  * pdf.UnsetClipping();
+  * \endcode
   * \see UnsetClipping()
   */
   virtual void ClippingPath();
@@ -1998,13 +2050,24 @@ public:
   *   \li @c wxPDF_STYLE_DRAW: draw the outline of the clipping path
   *   \li @c wxPDF_STYLE_FILL: fill the area enclosed by the clipping path
   *   \li @c wxPDF_STYLE_FILLDRAW: draw and fill
+  * \par Example
+  * \code
+  * wxPdfShape shape;
+  * shape.MoveTo(135, 140);
+  * shape.CurveTo(135, 137, 130, 125, 110, 125);
+  * shape.CurveTo(80, 125, 80, 162.5, 80, 162.5);
+  * shape.CurveTo(80, 180, 100, 202, 135, 220);
+  * pdf.SetFillColour(wxPdfColour(wxString(wxS("red"))));
+  * pdf.ClippingPath(shape, wxPDF_STYLE_FILLDRAW);
+  * pdf.UnsetClipping();
+  * \endcode
   * \see ClippingPath(), UnsetClipping()
   */
   virtual void ClippingPath(const wxPdfShape& shape, int style = wxPDF_STYLE_NOOP);
 
   /// Remove clipping area
   /**
-  * Once you have finished using the clipping, you must remove it with UnsetClipping().
+  * Once you have finished using clipping, you must remove it with UnsetClipping().
   * \see ClippingText(), ClippingRect(), ClippingEllipse(), ClippingPolygon(), ClippingPath()
   */
   virtual void UnsetClipping();
@@ -2042,7 +2105,12 @@ public:
   *
   * \param fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
   * \param link URL or identifier returned by AddLink().
-  * \see SetFont(), SetDrawColour(), SetFillColour(), SetTextColour(), SetLineWidth(), AddLink(), Ln(), MultiCell(), Write(), SetAutoPageBreak()
+  * \par Example
+  * \code
+  * pdf.SetX(72);
+  * pdf.ClippedCell(60, 6, wxS("This text is clipped to the cell width"), wxPDF_BORDER_FRAME);
+  * \endcode
+  * \see SetDrawColour(), SetFillColour(), SetTextColour(), SetLineWidth(), AddLink(), Ln(), MultiCell(), Write(), SetAutoPageBreak()
   */
   virtual void ClippedCell(double w, double h = 0., const wxString& txt = wxEmptyString,
                            int border = wxPDF_BORDER_NONE, int ln = 0,
@@ -2054,6 +2122,15 @@ public:
   * Before applying any transformation this method should be invoked.
   * All transformation method invoke it implicitly if necessary.
   * All open transformation environments are closed implicitly on page end.
+  * \par Example
+  * \code
+  * // Draw a rectangle, then draw it again scaled 150% from its lower-left corner
+  * pdf.Rect(50, 20, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StartTransform();
+  * pdf.ScaleXY(150, 50, 30);
+  * pdf.Rect(50, 20, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
   * \see StopTransform()
   */
   virtual void StartTransform();
@@ -2108,6 +2185,14 @@ public:
   * \param s: scaling factor for width and height as percent. 0 is not allowed.
   * \param x: abscissa of the scaling center.
   * \param y: ordinate of the scaling center.
+  * \par Example
+  * \code
+  * // Scale a rectangle to 150% from its lower-left corner (50, 30)
+  * pdf.StartTransform();
+  * pdf.ScaleXY(150, 50, 30);
+  * pdf.Rect(50, 20, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
   * \see StartTransform(), StopTransform()
   */
   virtual bool ScaleXY(double s, double x, double y);
@@ -2144,6 +2229,14 @@ public:
   /**
   * Alias for scaling -100% in x-direction
   * \param x: abscissa of the axis of reflection
+  * \par Example
+  * \code
+  * // Mirror a rectangle about its left edge (x = 50)
+  * pdf.StartTransform();
+  * pdf.MirrorH(50);
+  * pdf.Rect(50, 80, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
   * \see StartTransform(), StopTransform()
   */
   virtual void MirrorH(double x);
@@ -2160,6 +2253,14 @@ public:
   /**
   * Alias for scaling -100% in y-direction
   * \param y: abscissa of the axis of reflection
+  * \par Example
+  * \code
+  * // Mirror a rectangle about its bottom edge (y = 90)
+  * pdf.StartTransform();
+  * pdf.MirrorV(90);
+  * pdf.Rect(125, 80, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
   * \see StartTransform(), StopTransform()
   */
   virtual void MirrorV(double y);
@@ -2182,6 +2283,14 @@ public:
   /**
   * \param tx: movement to the right
   * \param ty: movement to the bottom
+  * \par Example
+  * \code
+  * // Draw a rectangle shifted 10 right and 5 down
+  * pdf.StartTransform();
+  * pdf.Translate(10, 5);
+  * pdf.Rect(125, 20, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
   * \see StartTransform(), StopTransform()
   */
   virtual void Translate(double tx, double ty);
@@ -2198,6 +2307,14 @@ public:
   * \param xAngle: angle in degrees between -90 (skew to the left) and 90 (skew to the right)
   * \param x: abscissa of the skewing center. default is current x position
   * \param y: ordinate of the skewing center. default is current y position
+  * \par Example
+  * \code
+  * // Skew a rectangle 30 degrees along the X axis from its lower-left corner (125, 60)
+  * pdf.StartTransform();
+  * pdf.SkewX(30, 125, 60);
+  * pdf.Rect(125, 50, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
   * \see StartTransform(), StopTransform()
   */
   virtual bool SkewX(double xAngle, double x, double y);
