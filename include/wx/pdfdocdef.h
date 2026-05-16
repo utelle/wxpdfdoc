@@ -82,7 +82,6 @@ Fixed bugs:<br>
 
 </dd>
 
-<dl>
 <dt><b>1.3.1</b> - <i>April 2025</i></dt>
 <dd>
 Fixed bugs:<br>
