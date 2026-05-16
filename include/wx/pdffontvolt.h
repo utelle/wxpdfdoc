@@ -23,6 +23,7 @@
 #include "wx/pdffontdata.h"
 
 /// Class representing the Adobe core fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfVolt
 {
 public :

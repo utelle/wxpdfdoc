@@ -27,6 +27,7 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontData;
 
 /// Class representing a table directory entry for TrueType fonts (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfTableDirectoryEntry
 {
 public:
@@ -93,7 +94,7 @@ public:
   * Before using a font it's data have be loaded into memory. This method tries
   * to load the required font data for a previously identified font.
   * \param fontData the font data instance to be loaded
-  * \return TRUE if the font data could be loaded successfully, FALSE otherwise
+  * \return @c true if the font data could be loaded successfully, @c false otherwise
   */
   bool LoadFontData(wxPdfFontData* fontData);
 
@@ -178,7 +179,7 @@ protected:
   /// Read font maps
   /**
   * Reads the tables 'head', 'hhea', 'OS/2' and 'post' filling several variables.
-  * \return TRUE if the font maps could be read successfully, FALSE otherwise
+  * \return @c true if the font maps could be read successfully, @c false otherwise
   */
   bool ReadMaps();
 
@@ -188,7 +189,7 @@ protected:
   * The glyphs are normalized to 1000 units.
   * \param numberOfHMetrics
   * \param unitsPerEm
-  * \return TRUE if the glyph widths could be read successfully, FALSE otherwise
+  * \return @c true if the glyph widths could be read successfully, @c false otherwise
   */
   bool ReadGlyphWidths(int numberOfHMetrics, int unitsPerEm);
 

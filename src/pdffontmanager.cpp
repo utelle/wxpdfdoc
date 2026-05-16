@@ -250,7 +250,7 @@ public:
 
   /// Check whether a given Unicode character is included in the encoding
   /**
-  * \return TRUE if the Unicode character is included, FALSE otherwise
+  * \return true if the Unicode character is included, false otherwise
   */
   virtual bool IsIncluded(wxUint32 unicode) const
   {

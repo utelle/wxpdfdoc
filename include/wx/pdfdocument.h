@@ -152,8 +152,8 @@ public:
   /// Constructor
   /**
   * \param orientation Defines the default page orientation. Possible values are:
-  *   \li wxPORTRAIT portrait layout (default)
-  *   \li wxLANDSCAPE landscape layout
+  *   \li @c wxPORTRAIT portrait layout (default)
+  *   \li @c wxLANDSCAPE landscape layout
   *
   * \param unit Defines the user units. Possible values are:
   *   \li "mm" millimeter (1 mm = 0.0394 in = 2.833 pt = 0.1 cm) (default)
@@ -189,17 +189,17 @@ public:
   *                      If an owner password is set, the document can be opened
   *                      in privilege mode with no restriction if that password is entered
   * \param encryptionMethod selects the encryption method. Possible values are:
-  *   \li wxPDF_ENCRYPTION_RC4V1   RC4 method, version 1, with 40 bit encryption key (default)
-  *   \li wxPDF_ENCRYPTION_RC4V2   RC4 method, version 2, with 40..128 bit encryption key
-  *   \li wxPDF_ENCRYPTION_AESV2   AES method, with 128 bit encryption key
-  *   \li wxPDF_ENCRYPTION_AESV3   AES method, with 256 bit encryption key
-  *   \li wxPDF_ENCRYPTION_AESV3R6 AES method, with 256 bit encryption key (PDF 2.0)
-  * \param keyLength Length of the key used for encryption (Default: 0)
+  *   \li @c wxPDF_ENCRYPTION_RC4V1   RC4 method, version 1, with 40 bit encryption key (default)
+  *   \li @c wxPDF_ENCRYPTION_RC4V2   RC4 method, version 2, with 40..128 bit encryption key
+  *   \li @c wxPDF_ENCRYPTION_AESV2   AES method, with 128 bit encryption key
+  *   \li @c wxPDF_ENCRYPTION_AESV3   AES method, with 256 bit encryption key
+  *   \li @c wxPDF_ENCRYPTION_AESV3R6 AES method, with 256 bit encryption key (PDF 2.0)
+  * \param keyLength Length of the key used for encryption (default: 0)
   *                  The default value selects the standard encryption method revision 2 with a key length of 40 bits.
   *                  Specifying a value > 0 selects the standard encryption method revision 3 with the given key length,
   *                  the key length has to be in the range 40..128 and has to be dividable by 8.
   *                  The key length is adjusted accordingly if these conditions are not met.
-  * \return true, if the provided passwords are valid, false otherwise.
+  * \return @c true, if the provided passwords are valid, @c false otherwise.
   */
   virtual bool SetProtection(int permissions,
                              const wxString& userPassword = wxEmptyString,
@@ -354,16 +354,16 @@ public:
   * use the full width mode with continuous display.
   * \param zoom The zoom to use. It can be one of the following string values or a number
   * indicating the zooming factor to use.
-  *   \li wxPDF_ZOOM_FULLPAGE: displays the entire page on screen
-  *   \li wxPDF_ZOOM_FULLWIDTH: uses maximum width of window
-  *   \li wxPDF_ZOOM_REAL: uses real size (equivalent to 100% zoom)
-  *   \li wxPDF_ZOOM_DEFAULT: uses viewer default mode
-  *   \li wxPDF_ZOOM_FACTOR: uses viewer default mode
+  *   \li @c wxPDF_ZOOM_FULLPAGE: displays the entire page on screen
+  *   \li @c wxPDF_ZOOM_FULLWIDTH: uses maximum width of window
+  *   \li @c wxPDF_ZOOM_REAL: uses real size (equivalent to 100% zoom)
+  *   \li @c wxPDF_ZOOM_DEFAULT: uses viewer default mode
+  *   \li @c wxPDF_ZOOM_FACTOR: uses viewer default mode
   * \param layout The page layout. Possible values are:
-  *   \li wxPDF_LAYOUT_SINGLE: displays one page at once
-  *   \li wxPDF_LAYOUT_CONTINUOUS: displays pages continuously (default)
-  *   \li wxPDF_LAYOUT_TWO: displays two pages on two columns
-  *   \li wxPDF_LAYOUT_DEFAULT: uses viewer default mode
+  *   \li @c wxPDF_LAYOUT_SINGLE: displays one page at once
+  *   \li @c wxPDF_LAYOUT_CONTINUOUS: displays pages continuously (default)
+  *   \li @c wxPDF_LAYOUT_TWO: displays two pages on two columns
+  *   \li @c wxPDF_LAYOUT_DEFAULT: uses viewer default mode
   * \param zoomFactor specifies the zoom factor in percent if layout is wxPDF_ZOOM_FACTOR
   */
   virtual void SetDisplayMode(wxPdfZoom zoom,
@@ -374,10 +374,10 @@ public:
   /**
   * The paper handling option that shall be used when printing the file from the print dialog.
   * \param paperHandling Can be one of the following values:
-  *   \li wxPDF_PAPERHANDLING_DEFAULT: use the default of the viewer app
-  *   \li wxPDF_PAPERHANDLING_SIMPLEX: print single-sided
-  *   \li wxPDF_PAPERHANDLING_DUPLEX_FLIP_SHORT_EDGE: duplex and flip at the short edge of the sheet
-  *   \li wxPDF_PAPERHANDLING_DUPLEX_FLIP_LONG_EDGE: duplex and flip at the long edge of the sheet
+  *   \li @c wxPDF_PAPERHANDLING_DEFAULT: use the default of the viewer app
+  *   \li @c wxPDF_PAPERHANDLING_SIMPLEX: print single-sided
+  *   \li @c wxPDF_PAPERHANDLING_DUPLEX_FLIP_SHORT_EDGE: duplex and flip at the short edge of the sheet
+  *   \li @c wxPDF_PAPERHANDLING_DUPLEX_FLIP_LONG_EDGE: duplex and flip at the long edge of the sheet
   */
   virtual void SetPaperHandling(wxPdfPaperHandling paperHandling);
 
@@ -401,19 +401,28 @@ public:
   /// Defines the viewer preferences.
   /**
   * \param preferences A set of viewer preferences options.
-  *   \li wxPDF_VIEWER_HIDETOOLBAR:     Hide tool bar
-  *   \li wxPDF_VIEWER_HIDEMENUBAR:     Hide menu bar
-  *   \li wxPDF_VIEWER_HIDEWINDOWUI:    Hide user interface
-  *   \li wxPDF_VIEWER_FITWINDOW:       Fit window to page size
-  *   \li wxPDF_VIEWER_CENTERWINDOW:    Center window on screen
-  *   \li wxPDF_VIEWER_DISPLAYDOCTITLE: Display document title in title bar
-  *   \li wxPDF_VIEWER_NOPRINTSCALING:  Set page scaling to none when printing
+  *   \li @c wxPDF_VIEWER_HIDETOOLBAR:     Hide tool bar
+  *   \li @c wxPDF_VIEWER_HIDEMENUBAR:     Hide menu bar
+  *   \li @c wxPDF_VIEWER_HIDEWINDOWUI:    Hide user interface
+  *   \li @c wxPDF_VIEWER_FITWINDOW:       Fit window to page size
+  *   \li @c wxPDF_VIEWER_CENTERWINDOW:    Center window on screen
+  *   \li @c wxPDF_VIEWER_DISPLAYDOCTITLE: Display document title in title bar
+  *   \li @c wxPDF_VIEWER_NOPRINTSCALING:  Set page scaling to none when printing
   */
   virtual void SetViewerPreferences(int preferences = 0);
 
   /// Defines the title of the document.
   /**
   * \param title The title.
+  * \par Example
+  * \code
+  * wxPdfDocument pdf;
+  * pdf.SetTitle(wxS("20000 Leagues Under the Seas"));
+  * pdf.SetAuthor(wxS("Jules Verne"));
+  * pdf.AddPage();
+  * // ... add content ...
+  * pdf.SaveAsFile(wxS("book.pdf"));
+  * \endcode
   * \see SetAuthor(), SetCreator(), SetKeywords(), SetSubject()
   */
   virtual void SetTitle(const wxString& title);
@@ -492,8 +501,8 @@ public:
   * again if you want to continue with the same font. The same is true for colours and line width.
   * The origin of the coordinate system is at the top-left corner and increasing ordinates go downwards.
   * \param orientation Page orientation. Possible values are:
-  *   \li wxPORTRAIT
-  *   \li wxLANDSCAPE
+  *   \li @c wxPORTRAIT
+  *   \li @c wxLANDSCAPE
   * The default value is the one passed to the constructor.
   * \param useDefaultPageSize Flag whether to use the default page size or the current page size
   * \see FPDF(), Header(), Footer(), SetMargins()
@@ -504,6 +513,15 @@ public:
   /**
   * \param orientation Page orientation (@c wxPORTRAIT, @c wxLANDSCAPE).
   * \param format Paper size format.
+  * \par Example
+  * \code
+  * wxPdfDocument pdf;
+  * pdf.AddPage(wxPORTRAIT,  wxPAPER_A4);
+  * pdf.AddPage(wxLANDSCAPE, wxPAPER_A4);
+  * pdf.AddPage(wxPORTRAIT,  wxPAPER_A3);
+  * pdf.AddPage(wxLANDSCAPE, wxPAPER_A3);
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
   */
   virtual void AddPage(int orientation, wxPaperSize format);
 
@@ -512,6 +530,13 @@ public:
   * \param orientation Page orientation (@c wxPORTRAIT, @c wxLANDSCAPE).
   * \param pageWidth Page width in user units.
   * \param pageHeight Page height in user units.
+  * \par Example
+  * \code
+  * // A5 page (148 x 210 mm) in landscape
+  * wxPdfDocument pdf;
+  * pdf.AddPage(wxLANDSCAPE, 210, 148);
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
   */
   virtual void AddPage(int orientation, double pageWidth, double pageHeight);
 
@@ -520,6 +545,36 @@ public:
   * It is automatically called by AddPage() and should not be called directly by the application.
   * The implementation in wxPdfDocument is empty, so you have to subclass it and override the method
   * if you want a specific processing.
+  * \par Example
+  * \code
+  * class MyDocument : public wxPdfDocument
+  * {
+  *     void Header() override
+  *     {
+  *         // Logo at top-left, then a framed title cell
+  *         Image(wxS("logo.png"), 10, 8, 28);
+  *         SetFont(wxS("Helvetica"), wxS("B"), 15);
+  *         Cell(80);
+  *         Cell(30, 10, wxS("My Report"), wxPDF_BORDER_FRAME, 0, wxPDF_ALIGN_CENTER);
+  *         Ln(20);
+  *     }
+  *
+  *     void Footer() override
+  *     {
+  *         // Position 15mm from the bottom of the page
+  *         SetY(-15);
+  *         SetFont(wxS("Helvetica"), wxS("I"), 8);
+  *         Cell(0, 10, wxString::Format(wxS("Page %d/{nb}"), PageNo()),
+  *              wxPDF_BORDER_NONE, 0, wxPDF_ALIGN_CENTER);
+  *     }
+  * };
+  *
+  * MyDocument pdf;
+  * pdf.AliasNbPages();
+  * pdf.AddPage();
+  * // ... add content ...
+  * pdf.SaveAsFile(wxS("report.pdf"));
+  * \endcode
   * \see Footer()
   */
   virtual void Header();
@@ -535,8 +590,8 @@ public:
 
   /// Returns whether footer output is in progress
   /**
-  * \return true if footer output is in progress, false otherwise
-  * \see Header()
+  * \return @c true if footer output is in progress, @c false otherwise
+  * \see Header(), Footer()
   */
   virtual bool IsInFooter();
 
@@ -858,6 +913,22 @@ public:
   * \param s The string whose length is to be computed
   * \param charSpacing Extra amount of spacing between characters (optional)
   * \return int
+  * \par Example
+  * \code
+  * // Measure the title to center it precisely and draw a coloured framed cell
+  * wxPdfDocument pdf;
+  * pdf.AddPage();
+  * pdf.SetFont(wxS("Helvetica"), wxS("B"), 15);
+  * wxString title = wxS("20000 Leagues Under the Seas");
+  * double w = pdf.GetStringWidth(title) + 6;
+  * pdf.SetX((210 - w) / 2);
+  * pdf.SetDrawColour(wxColour(0, 80, 180));
+  * pdf.SetFillColour(wxColour(230, 230, 0));
+  * pdf.SetTextColour(wxColour(220, 50, 50));
+  * pdf.SetLineWidth(1);
+  * pdf.Cell(w, 9, title, wxPDF_BORDER_FRAME, 1, wxPDF_ALIGN_CENTER, 1);
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
   */
   virtual double GetStringWidth(const wxString& s, double charSpacing = 0);
 
@@ -879,7 +950,17 @@ public:
 
   /// Sets line style
   /**
-  * \param linestyle: Line style. \see wxPdfLineStale
+  * \param linestyle Line style to apply to subsequent drawing operations.
+  * \par Example
+  * \code
+  * wxPdfArrayDouble dash;
+  * dash.Add(3.5);
+  * dash.Add(7.0);
+  * wxPdfLineStyle style(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash, 0., wxColour(255, 0, 0));
+  * pdf.SetLineStyle(style);
+  * pdf.Line(5, 10, 80, 30);
+  * \endcode
+  * \see wxPdfLineStyle
   */
   virtual void SetLineStyle(const wxPdfLineStyle& linestyle);
 
@@ -909,7 +990,13 @@ public:
   * \param y1 Ordinate of first point
   * \param x2 Abscissa of second point
   * \param y2 Ordinate of second point
-  * \see SetLineWidth(), SetDrawColour()
+  * \par Example
+  * \code
+  * pdf.SetDrawColour(wxColour(255, 0, 0));
+  * pdf.SetLineWidth(0.5);
+  * pdf.Line(5, 10, 80, 30);
+  * \endcode
+  * \see SetLineWidth(), SetDrawColour(), SetLineStyle(), Arrow()
   */
   virtual void Line(double x1, double y1, double x2, double y2);
 
@@ -934,10 +1021,15 @@ public:
   * \param w Width
   * \param h Height
   * \param style Style of rendering. Possible values are:
-  *   \li wxPDF_STYLE_DRAW (default)
-  *   \li wxPDF_STYLE_FILL: fill
-  *   \li wxPDF_STYLE_FILLDRAW: draw and fill
-  * \see SetLineWidth(), SetDrawColour(), SetFillColour()
+  *   \li @c wxPDF_STYLE_DRAW (default)
+  *   \li @c wxPDF_STYLE_FILL: fill
+  *   \li @c wxPDF_STYLE_FILLDRAW: draw and fill
+  * \par Example
+  * \code
+  * pdf.SetFillColour(wxColour(220, 220, 200));
+  * pdf.Rect(100, 10, 40, 20, wxPDF_STYLE_FILLDRAW);
+  * \endcode
+  * \see SetLineWidth(), SetDrawColour(), SetFillColour(), RoundedRect()
   */
   virtual void Rect(double x, double y, double w, double h, int style = wxPDF_STYLE_DRAW);
 
@@ -949,13 +1041,21 @@ public:
   * \param h Height
   * \param r: Radius of the rounded corners
   * \param roundCorner: Draws rounded corner or not.
-  *   \li wxPDF_CORNER_NONE          no rounded corners
-  *   \li wxPDF_CORNER_TOP_LEFT      top left corner
-  *   \li wxPDF_CORNER_TOP_RIGHT     top right corner
-  *   \li wxPDF_CORNER_BOTTOM_LEFT   bottom left corner
-  *   \li wxPDF_CORNER_BOTTOM_RIGHT  bottom right corner
-  *   \li wxPDF_CORNER_ALL           all corners
+  *   \li @c wxPDF_CORNER_NONE          no rounded corners
+  *   \li @c wxPDF_CORNER_TOP_LEFT      top left corner
+  *   \li @c wxPDF_CORNER_TOP_RIGHT     top right corner
+  *   \li @c wxPDF_CORNER_BOTTOM_LEFT   bottom left corner
+  *   \li @c wxPDF_CORNER_BOTTOM_RIGHT  bottom right corner
+  *   \li @c wxPDF_CORNER_ALL           all corners
   * \param style: Style of rectangle (draw and/or fill)
+  * \par Example
+  * \code
+  * // All corners rounded with radius 3.5
+  * pdf.RoundedRect(5, 255, 40, 30, 3.50, wxPDF_CORNER_ALL, wxPDF_STYLE_FILLDRAW);
+  * // Only top-left and top-right corners rounded
+  * pdf.RoundedRect(50, 255, 40, 30, 6.50, wxPDF_CORNER_TOP_LEFT | wxPDF_CORNER_TOP_RIGHT);
+  * \endcode
+  * \see Rect(), SetLineWidth(), SetDrawColour(), SetFillColour()
   */
   virtual void RoundedRect(double x, double y, double w, double h,
                            double r, int roundCorner = wxPDF_CORNER_ALL, int style = wxPDF_STYLE_DRAW);
@@ -972,6 +1072,14 @@ public:
   * \param x3: Abscissa of end point
   * \param y3: Ordinate of end point
   * \param style: Style of rectangle (draw and/or fill)
+  * \par Example
+  * \code
+  * pdf.SetDrawColour(wxColour(0, 255, 0));
+  * pdf.Curve(5, 40, 30, 55, 70, 45, 60, 75, wxPDF_STYLE_DRAW);
+  * pdf.SetFillColour(wxColour(200, 220, 200));
+  * pdf.Curve(140, 40, 150, 55, 180, 45, 200, 75, wxPDF_STYLE_FILLDRAW);
+  * \endcode
+  * \see BezierSpline(), ClosedBezierSpline(), ShapedText()
   */
   virtual void Curve(double x0, double y0, double x1, double y1,
                      double x2, double y2, double x3, double y3,
@@ -989,6 +1097,14 @@ public:
   * \param style: Style of rectangle (draw and/or fill)
   * \param nSeg: Ellipse is made up of nSeg Bézier curves
   * \param doSector: connect end points of elliptic arc with center point
+  * \par Example
+  * \code
+  * // Full ellipse
+  * pdf.Ellipse(100, 105, 40, 20);
+  * // Partial arc of a rotated ellipse, filled
+  * pdf.Ellipse(175, 105, 30, 15, 45, 270, 360, wxPDF_STYLE_FILLDRAW);
+  * \endcode
+  * \see Circle(), Sector()
   */
   virtual void Ellipse(double x0, double y0, double rx, double ry = 0,
                        double angle = 0, double astart = 0, double afinish = 360,
@@ -1003,6 +1119,14 @@ public:
   * \param afinish: Finish angle
   * \param style: Style of rectangle (draw and/or fill)
   * \param nSeg: Circle is made up of nSeg Bézier curves
+  * \par Example
+  * \code
+  * // Full circle
+  * pdf.Circle(25, 105, 20);
+  * // Lower semi-arc, filled
+  * pdf.Circle(25, 105, 10, 270, 360, wxPDF_STYLE_FILL);
+  * \endcode
+  * \see Ellipse(), Sector()
   */
   virtual void Circle(double x0, double y0, double r,
                       double astart = 0, double afinish = 360,
@@ -1027,11 +1151,20 @@ public:
   * \param x Array with abscissa values
   * \param y Array with ordinate values
   * \param style: Style of polygon (draw and/or fill)
+  * \par Example
+  * \code
+  * wxPdfArrayDouble x, y;
+  * x.Add(5);  y.Add(135);
+  * x.Add(45); y.Add(135);
+  * x.Add(15); y.Add(165);
+  * pdf.Polygon(x, y, wxPDF_STYLE_FILLDRAW);
+  * \endcode
+  * \see RegularPolygon(), StarPolygon()
   */
   virtual void Polygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y,
                        int style = wxPDF_STYLE_DRAW);
 
-   /// Draws a regular polygon
+  /// Draws a regular polygon
   /**
   * \param x0: Abscissa of Center point
   * \param y0: Ordinate of Center point
@@ -1043,6 +1176,15 @@ public:
   * \param circleStyle: Style of circumscribed circle (draw and/or fill) (if draw)
   * \param circleLineStyle: Line style for circumscribed circle. (if draw)
   * \param circleFillColour: Fill colour for circumscribed circle. (if draw fill circle)
+  * \par Example
+  * \code
+  * // Filled hexagon
+  * pdf.SetFillColour(wxColour(220, 220, 220));
+  * pdf.RegularPolygon(20, 190, 15, 6, 0, 1, wxPDF_STYLE_FILL);
+  * // Square with circumscribed circle, drawn only
+  * pdf.RegularPolygon(125, 190, 15, 4, 30, 1, wxPDF_STYLE_DRAW, wxPDF_STYLE_DRAW);
+  * \endcode
+  * \see Polygon(), StarPolygon()
   */
   virtual void RegularPolygon(double x0, double y0, double r, int ns, double angle = 0, bool circle = false,
                               int style = wxPDF_STYLE_DRAW,
@@ -1063,6 +1205,15 @@ public:
   * \param circleStyle: Style of circumscribed circle (draw and/or fill) (if draw)
   * \param circleLineStyle: Line style for circumscribed circle. (if draw)
   * \param circleFillColour: Fill colour for circumscribed circle. (if draw fill circle)
+  * \par Example
+  * \code
+  * // 20-pointed star with every 3rd vertex connected, filled
+  * pdf.SetFillColour(wxColour(220, 220, 220));
+  * pdf.StarPolygon(20, 230, 15, 20, 3, 0, 1, wxPDF_STYLE_FILL);
+  * // 5-pointed star with circumscribed circle
+  * pdf.StarPolygon(55, 230, 15, 12, 5);
+  * \endcode
+  * \see Polygon(), RegularPolygon()
   */
   virtual void StarPolygon(double x0, double y0, double r, int nv, int ng, double angle = 0, bool circle = false,
                            int style = wxPDF_STYLE_DRAW,
@@ -1075,6 +1226,16 @@ public:
   * \param x Array with abscissa values
   * \param y Array with ordinate values
   * \param style: Style of the spline (draw and/or fill)
+  * \par Example
+  * \code
+  * wxPdfArrayDouble x, y;
+  * x.Add(20); y.Add(100);
+  * x.Add(60); y.Add(80);
+  * x.Add(100); y.Add(100);
+  * x.Add(140); y.Add(80);
+  * pdf.BezierSpline(x, y, wxPDF_STYLE_DRAW);
+  * \endcode
+  * \see ClosedBezierSpline(), Curve()
   */
   virtual void BezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int style);
 
@@ -1083,6 +1244,16 @@ public:
   * \param x Array with abscissa values
   * \param y Array with ordinate values
   * \param style: Style of the spline (draw and/or fill)
+  * \par Example
+  * \code
+  * wxPdfArrayDouble x, y;
+  * x.Add(20); y.Add(40);
+  * x.Add(50); y.Add(20);
+  * x.Add(80); y.Add(40);
+  * x.Add(50); y.Add(60);
+  * pdf.ClosedBezierSpline(x, y, wxPDF_STYLE_DRAW);
+  * \endcode
+  * \see BezierSpline(), Curve()
   */
   virtual void ClosedBezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int style);
 
@@ -1090,10 +1261,22 @@ public:
   /**
   * \param shape: shape to be drawn
   * \param style Style of rendering. Possible values are:
-  *   \li wxPDF_STYLE_DRAW (default)
-  *   \li wxPDF_STYLE_FILL: fill
-  *   \li wxPDF_STYLE_FILLDRAW: draw and fill
-  *   \li wxPDF_STYLE_DRAWCLOSE: close path and draw (can be combined with wxPDF_STYLE_FILL
+  *   \li @c wxPDF_STYLE_DRAW (default)
+  *   \li @c wxPDF_STYLE_FILL: fill
+  *   \li @c wxPDF_STYLE_FILLDRAW: draw and fill
+  *   \li @c wxPDF_STYLE_DRAWCLOSE: close path and draw (can be combined with wxPDF_STYLE_FILL
+  * \par Example
+  * \code
+  * wxPdfShape shape;
+  * shape.MoveTo(125, 130);
+  * shape.LineTo(150, 130);
+  * shape.LineTo(150, 150);
+  * shape.ClosePath();
+  * shape.MoveTo(125, 175);
+  * shape.CurveTo(150, 145, 190, 155, 180, 140);
+  * pdf.Shape(shape, wxPDF_STYLE_FILL | wxPDF_STYLE_DRAWCLOSE);
+  * \endcode
+  * \see ShapedText(), ClippingPath()
   */
   virtual void Shape(const wxPdfShape& shape, int style = wxPDF_STYLE_DRAW);
 
@@ -1124,6 +1307,15 @@ public:
   * \li Only the display is altered. The GetX() and GetY() methods are not affected,
   *  nor the automatic page break mechanism.
   * \li Rotation is not kept from page to page. Each page begins with a null rotation.
+  * \par Example
+  * \code
+  * // Rotate a rectangle 20 degrees counter-clockwise around its lower-left corner (50, 60)
+  * pdf.StartTransform();
+  * pdf.Rotate(20, 50, 60);
+  * pdf.Rect(50, 50, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
+  * \see StartTransform(), StopTransform()
   */
   virtual void Rotate(double angle, double x, double y);
 
@@ -1143,7 +1335,7 @@ public:
 
   /// Returns the font embedding mode
   /**
-  * \return true if font subsetting is enabled, false otherwise
+  * \return @c true if font subsetting is enabled, @c false otherwise
   */
   virtual bool GetFontSubsetting() const { return m_fontSubsetting; }
 
@@ -1278,20 +1470,20 @@ public:
   *
   * It is also possible to pass an empty string. In that case, the current family is retained.
   * \param style Font style. Possible values are (case insensitive):
-  *   \li wxPDF_FONTSTYLE_REGULAR    : regular (default)
-  *   \li wxPDF_FONTSTYLE_ITALIC     : italic
-  *   \li wxPDF_FONTSTYLE_BOLD       : bold
-  *   \li wxPDF_FONTSTYLE_UNDERLINE  : underline
-  *   \li wxPDF_FONTSTYLE_OVERLINE   : overline
-  *   \li wxPDF_FONTSTYLE_STRIKEOUT  : strike through
-  *   \li wxPDF_FONTSTYLE_THIN       : thin
-  *   \li wxPDF_FONTSTYLE_EXTRALIGHT : extra light
-  *   \li wxPDF_FONTSTYLE_LIGHT      : light
-  *   \li wxPDF_FONTSTYLE_MEDIUM     : medium
-  *   \li wxPDF_FONTSTYLE_SEMIBOLD   : semi-bold
-  *   \li wxPDF_FONTSTYLE_EXTRABOLD  : extra bold
-  *   \li wxPDF_FONTSTYLE_HEAVY      : heavy
-  *   \li wxPDF_FONTSTYLE_EXTRAHEAVY : extra heavy
+  *   \li @c wxPDF_FONTSTYLE_REGULAR    : regular (default)
+  *   \li @c wxPDF_FONTSTYLE_ITALIC     : italic
+  *   \li @c wxPDF_FONTSTYLE_BOLD       : bold
+  *   \li @c wxPDF_FONTSTYLE_UNDERLINE  : underline
+  *   \li @c wxPDF_FONTSTYLE_OVERLINE   : overline
+  *   \li @c wxPDF_FONTSTYLE_STRIKEOUT  : strike through
+  *   \li @c wxPDF_FONTSTYLE_THIN       : thin
+  *   \li @c wxPDF_FONTSTYLE_EXTRALIGHT : extra light
+  *   \li @c wxPDF_FONTSTYLE_LIGHT      : light
+  *   \li @c wxPDF_FONTSTYLE_MEDIUM     : medium
+  *   \li @c wxPDF_FONTSTYLE_SEMIBOLD   : semi-bold
+  *   \li @c wxPDF_FONTSTYLE_EXTRABOLD  : extra bold
+  *   \li @c wxPDF_FONTSTYLE_HEAVY      : heavy
+  *   \li @c wxPDF_FONTSTYLE_EXTRAHEAVY : extra heavy
   * or any combination. Granular weights (Thin to ExtraHeavy) are fully supported when using @c wxFont
   * starting with wxWidgets 3.1.2. In older versions, they fall back to the closest standard weight (Bold or Regular).
   * \param size Font size in points. The default value is the current size. If no size has been
@@ -1306,20 +1498,20 @@ public:
   *
   * \param font The font to be set.
   * \param style Font style. Possible values are:
-  *   \li wxPDF_FONTSTYLE_REGULAR    : regular (default)
-  *   \li wxPDF_FONTSTYLE_ITALIC     : italic
-  *   \li wxPDF_FONTSTYLE_BOLD       : bold
-  *   \li wxPDF_FONTSTYLE_UNDERLINE  : underline
-  *   \li wxPDF_FONTSTYLE_OVERLINE   : overline
-  *   \li wxPDF_FONTSTYLE_STRIKEOUT  : strike through
-  *   \li wxPDF_FONTSTYLE_THIN       : thin
-  *   \li wxPDF_FONTSTYLE_EXTRALIGHT : extra light
-  *   \li wxPDF_FONTSTYLE_LIGHT      : light
-  *   \li wxPDF_FONTSTYLE_MEDIUM     : medium
-  *   \li wxPDF_FONTSTYLE_SEMIBOLD   : semi-bold
-  *   \li wxPDF_FONTSTYLE_EXTRABOLD  : extra bold
-  *   \li wxPDF_FONTSTYLE_HEAVY      : heavy
-  *   \li wxPDF_FONTSTYLE_EXTRAHEAVY : extra heavy
+  *   \li @c wxPDF_FONTSTYLE_REGULAR    : regular (default)
+  *   \li @c wxPDF_FONTSTYLE_ITALIC     : italic
+  *   \li @c wxPDF_FONTSTYLE_BOLD       : bold
+  *   \li @c wxPDF_FONTSTYLE_UNDERLINE  : underline
+  *   \li @c wxPDF_FONTSTYLE_OVERLINE   : overline
+  *   \li @c wxPDF_FONTSTYLE_STRIKEOUT  : strike through
+  *   \li @c wxPDF_FONTSTYLE_THIN       : thin
+  *   \li @c wxPDF_FONTSTYLE_EXTRALIGHT : extra light
+  *   \li @c wxPDF_FONTSTYLE_LIGHT      : light
+  *   \li @c wxPDF_FONTSTYLE_MEDIUM     : medium
+  *   \li @c wxPDF_FONTSTYLE_SEMIBOLD   : semi-bold
+  *   \li @c wxPDF_FONTSTYLE_EXTRABOLD  : extra bold
+  *   \li @c wxPDF_FONTSTYLE_HEAVY      : heavy
+  *   \li @c wxPDF_FONTSTYLE_EXTRAHEAVY : extra heavy
   * or any combination. Granular weights (Thin to ExtraHeavy) are fully supported when using @c wxFont
   * starting with wxWidgets 3.1.2. In older versions, they fall back to the closest standard weight (Bold or Regular).
   * Bold and italic styles do not apply to Symbol and ZapfDingbats
@@ -1443,6 +1635,16 @@ public:
   * \param level: the bookmark level (0 is top level, 1 is just below, and so on).
   * \param y: the y position of the bookmark destination in the current page.
   *   -1 means the current position. Default value: 0.
+  * \par Example
+  * \code
+  * pdf.AddPage();
+  * pdf.Bookmark(wxS("Page 1"));
+  * pdf.Bookmark(wxS("Paragraph 1"), 1, -1);
+  * pdf.Cell(0, 6, wxS("Paragraph 1"));
+  * pdf.Ln(50);
+  * pdf.Bookmark(wxS("Paragraph 2"), 1, -1);
+  * pdf.Cell(0, 6, wxS("Paragraph 2"));
+  * \endcode
   */
   virtual void Bookmark(const wxString& txt, int  level = 0, double y = 0);
 
@@ -1501,12 +1703,12 @@ public:
   * \param h Cell height. Default value: 0.
   * \param txt String to print. Default value: empty string.
   * \param border Indicates if borders must be drawn around the cell. The value can be
-  *   \li wxPDF_BORDER_NONE no border
-  *   \li wxPDF_BORDER_LEFT left border
-  *   \li wxPDF_BORDER_RIGHT right border
-  *   \li wxPDF_BORDER_TOP top border
-  *   \li wxPDF_BORDER_BOTTOM bottom border
-  *   \li wxPDF_BORDER_FRAME border on all sides
+  *   \li @c wxPDF_BORDER_NONE no border
+  *   \li @c wxPDF_BORDER_LEFT left border
+  *   \li @c wxPDF_BORDER_RIGHT right border
+  *   \li @c wxPDF_BORDER_TOP top border
+  *   \li @c wxPDF_BORDER_BOTTOM bottom border
+  *   \li @c wxPDF_BORDER_FRAME border on all sides
   *
   * or a combination of them.
   * \param ln Indicates where the current position should go after the call. Possible values are:
@@ -1516,10 +1718,10 @@ public:
   *
   * Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value: 0.
   * \param align Allows to center or align the text. Possible values are:<ul><li>L or empty string: left align (default value)</li><li>C: center</li><li>R: right align</li></ul>
-  *   \li wxPDF_ALIGN_LEFT align the text at the left margin
-  *   \li wxPDF_ALIGN_CENTER center the text
-  *   \li wxPDF_ALIGN_RIGHT align the text at the right margin
-  *   \li wxPDF_ALIGN_JUSTIFY justify the text
+  *   \li @c wxPDF_ALIGN_LEFT align the text at the left margin
+  *   \li @c wxPDF_ALIGN_CENTER center the text
+  *   \li @c wxPDF_ALIGN_RIGHT align the text at the right margin
+  *   \li @c wxPDF_ALIGN_JUSTIFY justify the text
   *
   * \param fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
   * \param link URL or identifier returned by AddLink().
@@ -1539,24 +1741,38 @@ public:
   * \param h Height of cells.
   * \param txt String to print
   * \param border Indicates if borders must be drawn around the cell. The value can be
-  *   \li wxPDF_BORDER_NONE no border
-  *   \li wxPDF_BORDER_LEFT left border
-  *   \li wxPDF_BORDER_RIGHT right border
-  *   \li wxPDF_BORDER_TOP top border
-  *   \li wxPDF_BORDER_BOTTOM bottom border
-  *   \li wxPDF_BORDER_FRAME border on all sides
+  *   \li @c wxPDF_BORDER_NONE no border
+  *   \li @c wxPDF_BORDER_LEFT left border
+  *   \li @c wxPDF_BORDER_RIGHT right border
+  *   \li @c wxPDF_BORDER_TOP top border
+  *   \li @c wxPDF_BORDER_BOTTOM bottom border
+  *   \li @c wxPDF_BORDER_FRAME border on all sides
   *
   * or a combination of them.
   * \param align Allows to center or align the text. Possible values are:
-  *   \li wxPDF_ALIGN_LEFT align the text at the left margin
-  *   \li wxPDF_ALIGN_CENTER center the text
-  *   \li wxPDF_ALIGN_RIGHT align the text at the right margin
-  *   \li wxPDF_ALIGN_JUSTIFY justify the text (default)
+  *   \li @c wxPDF_ALIGN_LEFT align the text at the left margin
+  *   \li @c wxPDF_ALIGN_CENTER center the text
+  *   \li @c wxPDF_ALIGN_RIGHT align the text at the right margin
+  *   \li @c wxPDF_ALIGN_JUSTIFY justify the text (default)
   *
   * \param fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
   * \param maxline Defines the maximum number of lines which should be printed.
   *        If maxline is 0 then the number of lines is not restricted. Default value: 0.
   * \return position in text string txt where output ended due to reaching the maximum number of lines
+  * \par Example
+  * \code
+  * // Output a long passage of text with automatic line breaks
+  * // (justified by default)
+  * wxPdfDocument pdf;
+  * pdf.AddPage();
+  * pdf.SetFont(wxS("Times"), wxS(""), 12);
+  * pdf.MultiCell(0, 5, longText);
+  * pdf.Ln();
+  * // Switch to italic for a closing note
+  * pdf.SetFont(wxS(""), wxS("I"));
+  * pdf.Cell(0, 5, wxS("(end of excerpt)"));
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
   * \see SetFont(), SetDrawColour(), SetFillColour(), SetTextColour(), SetLineWidth(), Cell(), Write(), SetAutoPageBreak()
   */
   virtual int MultiCell(double w, double h, const wxString& txt,
@@ -1577,23 +1793,23 @@ public:
   * \param h Height of cells.
   * \param txt String to print
   * \param halign Allows to center or align the text. Possible values are:
-  *   \li wxPDF_ALIGN_LEFT align the text at the left margin
-  *   \li wxPDF_ALIGN_CENTER center the text
-  *   \li wxPDF_ALIGN_RIGHT align the text at the right margin
-  *   \li wxPDF_ALIGN_JUSTIFY justify the text (default)
+  *   \li @c wxPDF_ALIGN_LEFT align the text at the left margin
+  *   \li @c wxPDF_ALIGN_CENTER center the text
+  *   \li @c wxPDF_ALIGN_RIGHT align the text at the right margin
+  *   \li @c wxPDF_ALIGN_JUSTIFY justify the text (default)
   *
   * \param valign Allows to vertical align the text. Possible values are:
-  *   \li wxPDF_ALIGN_TOP align the text at the top of the box
-  *   \li wxPDF_ALIGN_MIDDLE center the text vertically in the box
-  *   \li wxPDF_ALIGN_BOTTOM align the text at the bottom of the box
+  *   \li @c wxPDF_ALIGN_TOP align the text at the top of the box
+  *   \li @c wxPDF_ALIGN_MIDDLE center the text vertically in the box
+  *   \li @c wxPDF_ALIGN_BOTTOM align the text at the bottom of the box
   *
   * \param border Indicates if borders must be drawn around the text box. The value can be
-  *   \li wxPDF_BORDER_NONE no border
-  *   \li wxPDF_BORDER_LEFT left border
-  *   \li wxPDF_BORDER_RIGHT right border
-  *   \li wxPDF_BORDER_TOP top border
-  *   \li wxPDF_BORDER_BOTTOM bottom border
-  *   \li wxPDF_BORDER_FRAME border on all sides
+  *   \li @c wxPDF_BORDER_NONE no border
+  *   \li @c wxPDF_BORDER_LEFT left border
+  *   \li @c wxPDF_BORDER_RIGHT right border
+  *   \li @c wxPDF_BORDER_TOP top border
+  *   \li @c wxPDF_BORDER_BOTTOM bottom border
+  *   \li @c wxPDF_BORDER_FRAME border on all sides
   *
   * or a combination of them.
   * \param fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
@@ -1622,12 +1838,12 @@ public:
   * \param h Line height
   * \param txt String to print
   * \param border Indicates if borders must be drawn around the cell. The value can be
-  *   \li wxPDF_BORDER_NONE no border
-  *   \li wxPDF_BORDER_LEFT left border
-  *   \li wxPDF_BORDER_RIGHT right border
-  *   \li wxPDF_BORDER_TOP top border
-  *   \li wxPDF_BORDER_BOTTOM bottom border
-  *   \li wxPDF_BORDER_FRAME border on all sides
+  *   \li @c wxPDF_BORDER_NONE no border
+  *   \li @c wxPDF_BORDER_LEFT left border
+  *   \li @c wxPDF_BORDER_RIGHT right border
+  *   \li @c wxPDF_BORDER_TOP top border
+  *   \li @c wxPDF_BORDER_BOTTOM bottom border
+  *   \li @c wxPDF_BORDER_FRAME border on all sides
   *
   * or a combination of them.
   * \param fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
@@ -1854,7 +2070,14 @@ public:
   /**
   * The method first calls Close() if necessary to terminate the document.
   * \param name The name of the file. If not given, the document will be named 'doc.pdf'
-  * \return true if successful, false otherwise
+  * \return @c true if successful, @c false otherwise
+  * \par Example
+  * \code
+  * wxPdfDocument pdf;
+  * pdf.AddPage();
+  * // ... add content ...
+  * pdf.SaveAsFile(wxS("report.pdf"));
+  * \endcode
   * \see Close()
   */
   virtual bool SaveAsFile(const wxString& name = wxEmptyString);
@@ -1862,7 +2085,7 @@ public:
   /// Closes the document and returns the memory buffer containing the document
   /**
   * The method first calls Close() if necessary to terminate the document.
-  * \return const wxMemoryOutputStream reference to the buffer containing the PDF document.
+  * \return const @c wxMemoryOutputStream reference to the buffer containing the PDF document.
   * \see Close()
   */
   virtual const wxMemoryOutputStream& CloseAndGetBuffer();
@@ -1874,6 +2097,16 @@ public:
   * \param y Ordinate of the origin
   * \param txt String to print
   * \param outline Draw the outline or not.
+  * \par Example
+  * \code
+  * // Fill large text with an image
+  * pdf.SetDrawColour(0);
+  * pdf.SetLineWidth(2);
+  * pdf.ClippingText(40, 55, wxS("CLIPS"), true);
+  * pdf.Image(wxS("background.jpg"), 40, 10, 130);
+  * pdf.UnsetClipping();
+  * \endcode
+  * \see ClippingRect(), ClippingEllipse(), ClippingPolygon(), ClippingPath(), UnsetClipping()
   */
   virtual void ClippingText(double x, double y, const wxString& txt, bool outline = false);
 
@@ -1885,6 +2118,13 @@ public:
   * \param w Width of the rectangle
   * \param h Height of the rectangle
   * \param outline Draw the outline or not.
+  * \par Example
+  * \code
+  * pdf.ClippingRect(45, 65, 116, 20, true);
+  * pdf.Image(wxS("background.jpg"), 40, 10, 130);
+  * pdf.UnsetClipping();
+  * \endcode
+  * \see ClippingText(), ClippingEllipse(), ClippingPolygon(), ClippingPath(), UnsetClipping()
   */
   virtual void ClippingRect(double x, double y, double w, double h, bool outline = false);
 
@@ -1896,6 +2136,13 @@ public:
   * \param rx: Horizontal radius
   * \param ry: Vertical radius (if ry = 0, draws a circle)
   * \param outline Draw the outline or not. (Default false)
+  * \par Example
+  * \code
+  * pdf.ClippingEllipse(102, 104, 16, 10, true);
+  * pdf.Image(wxS("background.jpg"), 40, 10, 130);
+  * pdf.UnsetClipping();
+  * \endcode
+  * \see ClippingText(), ClippingRect(), ClippingPolygon(), ClippingPath(), UnsetClipping()
   */
   virtual void ClippingEllipse(double x, double y, double rx, double ry = 0, bool outline = false);
 
@@ -1905,6 +2152,19 @@ public:
   * \param x Array with abscissa values
   * \param y Array with ordinate values
   * \param outline Draw the outline or not. (Default false)
+  * \par Example
+  * \code
+  * wxPdfArrayDouble x, y;
+  * x.Add(30); y.Add(135);
+  * x.Add(60); y.Add(155);
+  * x.Add(40); y.Add(155);
+  * x.Add(70); y.Add(160);
+  * x.Add(30); y.Add(165);
+  * pdf.ClippingPolygon(x, y, true);
+  * pdf.Image(wxS("background.jpg"), 20, 100, 130);
+  * pdf.UnsetClipping();
+  * \endcode
+  * \see ClippingText(), ClippingRect(), ClippingEllipse(), ClippingPath(), UnsetClipping()
   */
   virtual void ClippingPolygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, bool outline = false);
 
@@ -1912,6 +2172,17 @@ public:
   /**
   * A clipping area restricts the display and prevents any elements from showing outside of it.
   * The clipping path may consist of one or more subpaths.
+  * \par Example
+  * \code
+  * pdf.ClippingPath();
+  * pdf.MoveTo(50, 50);
+  * pdf.LineTo(150, 50);
+  * pdf.LineTo(100, 120);
+  * pdf.ClosePath(wxPDF_STYLE_DRAW);
+  * pdf.Image(wxS("background.jpg"), 40, 30, 130);
+  * pdf.UnsetClipping();
+  * \endcode
+  * \see UnsetClipping()
   */
   virtual void ClippingPath();
 
@@ -1922,6 +2193,7 @@ public:
   * \param x abscissa value
   * \param y ordinate value
   * \remark This must be the first operation after ClippingPath().
+  * \see LineTo(), CurveTo(), EndPath(), ClosePath()
   */
   virtual void MoveTo(double x, double y);
 
@@ -1931,6 +2203,7 @@ public:
   * The new current point is (x, y).
   * \param x abscissa value
   * \param y ordinate value
+  * \see MoveTo(), CurveTo(), EndPath(), ClosePath()
   */
   virtual void LineTo(double x, double y);
 
@@ -1945,16 +2218,18 @@ public:
   * \param y2: Ordinate of control point 2
   * \param x3: Abscissa of end point
   * \param y3: Ordinate of end point
+  * \see MoveTo(), LineTo(), EndPath(), ClosePath()
   */
   virtual void CurveTo(double x1, double y1, double x2, double y2, double x3, double y3);
 
   /// End a graphics path
   /**
   * \param style Style of rendering. Possible values are:
-  *   \li wxPDF_STYLE_NOOP
-  *   \li wxPDF_STYLE_DRAW: draw the outline of the path  (default)
-  *   \li wxPDF_STYLE_FILL: fill the area enclosed by the path
-  *   \li wxPDF_STYLE_FILLDRAW: draw and fill
+  *   \li @c wxPDF_STYLE_NOOP
+  *   \li @c wxPDF_STYLE_DRAW: draw the outline of the path  (default)
+  *   \li @c wxPDF_STYLE_FILL: fill the area enclosed by the path
+  *   \li @c wxPDF_STYLE_FILLDRAW: draw and fill
+  * \see MoveTo(), LineTo(), CurveTo(), ClosePath()
   */
   virtual void EndPath(int style = wxPDF_STYLE_DRAW);
 
@@ -1962,10 +2237,11 @@ public:
   /**
   * A clipping area restricts the display and prevents any elements from showing outside of it.
   * \param style Style of rendering. Possible values are:
-  *   \li wxPDF_STYLE_NOOP (default)
-  *   \li wxPDF_STYLE_DRAW: draw the outline of the clipping path
-  *   \li wxPDF_STYLE_FILL: fill the area enclosed by the clipping path
-  *   \li wxPDF_STYLE_FILLDRAW: draw and fill
+  *   \li @c wxPDF_STYLE_NOOP (default)
+  *   \li @c wxPDF_STYLE_DRAW: draw the outline of the clipping path
+  *   \li @c wxPDF_STYLE_FILL: fill the area enclosed by the clipping path
+  *   \li @c wxPDF_STYLE_FILLDRAW: draw and fill
+  * \see MoveTo(), LineTo(), CurveTo(), EndPath()
   */
   virtual void ClosePath(int style = wxPDF_STYLE_NOOP);
 
@@ -1974,16 +2250,29 @@ public:
   * A clipping area restricts the display and prevents any elements from showing outside of it.
   * \param shape shape defining the clipping path
   * \param style Style of rendering. Possible values are:
-  *   \li wxPDF_STYLE_NOOP (default)
-  *   \li wxPDF_STYLE_DRAW: draw the outline of the clipping path
-  *   \li wxPDF_STYLE_FILL: fill the area enclosed by the clipping path
-  *   \li wxPDF_STYLE_FILLDRAW: draw and fill
+  *   \li @c wxPDF_STYLE_NOOP (default)
+  *   \li @c wxPDF_STYLE_DRAW: draw the outline of the clipping path
+  *   \li @c wxPDF_STYLE_FILL: fill the area enclosed by the clipping path
+  *   \li @c wxPDF_STYLE_FILLDRAW: draw and fill
+  * \par Example
+  * \code
+  * wxPdfShape shape;
+  * shape.MoveTo(135, 140);
+  * shape.CurveTo(135, 137, 130, 125, 110, 125);
+  * shape.CurveTo(80, 125, 80, 162.5, 80, 162.5);
+  * shape.CurveTo(80, 180, 100, 202, 135, 220);
+  * pdf.SetFillColour(wxPdfColour(wxString(wxS("red"))));
+  * pdf.ClippingPath(shape, wxPDF_STYLE_FILLDRAW);
+  * pdf.UnsetClipping();
+  * \endcode
+  * \see ClippingPath(), UnsetClipping()
   */
   virtual void ClippingPath(const wxPdfShape& shape, int style = wxPDF_STYLE_NOOP);
 
   /// Remove clipping area
   /**
-  * Once you have finished using the clipping, you must remove it with UnsetClipping().
+  * Once you have finished using clipping, you must remove it with UnsetClipping().
+  * \see ClippingText(), ClippingRect(), ClippingEllipse(), ClippingPolygon(), ClippingPath()
   */
   virtual void UnsetClipping();
 
@@ -1998,12 +2287,12 @@ public:
   * \param h Cell height.
   * \param txt String to print. Default value: empty string.
   * \param border Indicates if borders must be drawn around the cell. The value can be
-  *   \li wxPDF_BORDER_NONE no border
-  *   \li wxPDF_BORDER_LEFT left border
-  *   \li wxPDF_BORDER_RIGHT right border
-  *   \li wxPDF_BORDER_TOP top border
-  *   \li wxPDF_BORDER_BOTTOM bottom border
-  *   \li wxPDF_BORDER_FRAME border on all sides
+  *   \li @c wxPDF_BORDER_NONE no border
+  *   \li @c wxPDF_BORDER_LEFT left border
+  *   \li @c wxPDF_BORDER_RIGHT right border
+  *   \li @c wxPDF_BORDER_TOP top border
+  *   \li @c wxPDF_BORDER_BOTTOM bottom border
+  *   \li @c wxPDF_BORDER_FRAME border on all sides
   *
   * or a combination of them.
   * \param ln Indicates where the current position should go after the call. Possible values are:
@@ -2013,14 +2302,19 @@ public:
   *
   * Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value: 0.
   * \param align Allows to center or align the text. Possible values are:<ul><li>L or empty string: left align (default value)</li><li>C: center</li><li>R: right align</li></ul>
-  *   \li wxPDF_ALIGN_LEFT align the text at the left margin
-  *   \li wxPDF_ALIGN_CENTER center the text
-  *   \li wxPDF_ALIGN_RIGHT align the text at the right margin
-  *   \li wxPDF_ALIGN_JUSTIFY justify the text
+  *   \li @c wxPDF_ALIGN_LEFT align the text at the left margin
+  *   \li @c wxPDF_ALIGN_CENTER center the text
+  *   \li @c wxPDF_ALIGN_RIGHT align the text at the right margin
+  *   \li @c wxPDF_ALIGN_JUSTIFY justify the text
   *
   * \param fill Indicates if the cell background must be painted (1) or transparent (0). Default value: 0.
   * \param link URL or identifier returned by AddLink().
-  * \see SetFont(), SetDrawColour(), SetFillColour(), SetTextColour(), SetLineWidth(), AddLink(), Ln(), MultiCell(), Write(), SetAutoPageBreak()
+  * \par Example
+  * \code
+  * pdf.SetX(72);
+  * pdf.ClippedCell(60, 6, wxS("This text is clipped to the cell width"), wxPDF_BORDER_FRAME);
+  * \endcode
+  * \see SetDrawColour(), SetFillColour(), SetTextColour(), SetLineWidth(), AddLink(), Ln(), MultiCell(), Write(), SetAutoPageBreak()
   */
   virtual void ClippedCell(double w, double h = 0., const wxString& txt = wxEmptyString,
                            int border = wxPDF_BORDER_NONE, int ln = 0,
@@ -2032,6 +2326,16 @@ public:
   * Before applying any transformation this method should be invoked.
   * All transformation method invoke it implicitly if necessary.
   * All open transformation environments are closed implicitly on page end.
+  * \par Example
+  * \code
+  * // Draw a rectangle, then draw it again scaled 150% from its lower-left corner
+  * pdf.Rect(50, 20, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StartTransform();
+  * pdf.ScaleXY(150, 50, 30);
+  * pdf.Rect(50, 20, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
+  * \see StopTransform()
   */
   virtual void StartTransform();
 
@@ -2039,6 +2343,7 @@ public:
   /**
   * A scaling transformation is applied for the X direction.
   * \param sx: scaling factor for width as percent. 0 is not allowed.
+  * \see StartTransform(), StopTransform()
   */
   virtual bool ScaleX(double sx);
 
@@ -2048,6 +2353,7 @@ public:
   * \param sx: scaling factor for width as percent. 0 is not allowed.
   * \param x: abscissa of the scaling center.
   * \param y: ordinate of the scaling center.
+  * \see StartTransform(), StopTransform()
   */
   virtual bool ScaleX(double sx, double x, double y);
 
@@ -2055,6 +2361,7 @@ public:
   /**
   * A scaling transformation is applied for the Y direction.
   * \param sy: scaling factor for height as percent. 0 is not allowed.
+  * \see StartTransform(), StopTransform()
   */
   virtual bool ScaleY(double sy);
 
@@ -2064,6 +2371,7 @@ public:
   * \param sy: scaling factor for height as percent. 0 is not allowed.
   * \param x: abscissa of the scaling center.
   * \param y: ordinate of the scaling center.
+  * \see StartTransform(), StopTransform()
   */
   virtual bool ScaleY(double sy, double x, double y);
 
@@ -2071,6 +2379,7 @@ public:
   /**
   * A scaling transformation is applied for both - X and Y - directions.
   * \param s: scaling factor for width and height as percent. 0 is not allowed.
+  * \see StartTransform(), StopTransform()
   */
   virtual bool ScaleXY(double s);
 
@@ -2080,6 +2389,15 @@ public:
   * \param s: scaling factor for width and height as percent. 0 is not allowed.
   * \param x: abscissa of the scaling center.
   * \param y: ordinate of the scaling center.
+  * \par Example
+  * \code
+  * // Scale a rectangle to 150% from its lower-left corner (50, 30)
+  * pdf.StartTransform();
+  * pdf.ScaleXY(150, 50, 30);
+  * pdf.Rect(50, 20, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
+  * \see StartTransform(), StopTransform()
   */
   virtual bool ScaleXY(double s, double x, double y);
 
@@ -2088,6 +2406,7 @@ public:
   * A scaling transformation is applied independently for X and Y direction.
   * \param sx: scaling factor for width in percent. 0 is not allowed.
   * \param sy: scaling factor for height in percent. 0 is not allowed.
+  * \see StartTransform(), StopTransform()
   */
   virtual bool Scale(double sx, double sy);
 
@@ -2098,6 +2417,7 @@ public:
   * \param sy: scaling factor for height in percent. 0 is not allowed.
   * \param x: abscissa of the scaling center.
   * \param y: ordinate of the scaling center.
+  * \see StartTransform(), StopTransform()
   */
   virtual bool Scale(double sx, double sy, double x, double y);
 
@@ -2105,6 +2425,7 @@ public:
   /**
   * Alias for scaling -100% in x-direction
   * \note The current position is used as the scaling center.
+  * \see StartTransform(), StopTransform()
   */
   virtual void MirrorH();
 
@@ -2112,6 +2433,15 @@ public:
   /**
   * Alias for scaling -100% in x-direction
   * \param x: abscissa of the axis of reflection
+  * \par Example
+  * \code
+  * // Mirror a rectangle about its left edge (x = 50)
+  * pdf.StartTransform();
+  * pdf.MirrorH(50);
+  * pdf.Rect(50, 80, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
+  * \see StartTransform(), StopTransform()
   */
   virtual void MirrorH(double x);
 
@@ -2119,6 +2449,7 @@ public:
   /**
   * Alias for scaling -100% in y-direction
   * \note The current position is used as the scaling center.
+  * \see StartTransform(), StopTransform()
   */
   virtual void MirrorV();
 
@@ -2126,18 +2457,29 @@ public:
   /**
   * Alias for scaling -100% in y-direction
   * \param y: abscissa of the axis of reflection
+  * \par Example
+  * \code
+  * // Mirror a rectangle about its bottom edge (y = 90)
+  * pdf.StartTransform();
+  * pdf.MirrorV(90);
+  * pdf.Rect(125, 80, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
+  * \see StartTransform(), StopTransform()
   */
   virtual void MirrorV(double y);
 
   /// Moves the X origin
   /**
   * \param tx: movement to the right
+  * \see StartTransform(), StopTransform()
   */
   virtual void TranslateX(double tx);
 
   /// Moves the Y origin
   /**
   * \param ty: movement to the bottom
+  * \see StartTransform(), StopTransform()
   */
   virtual void TranslateY(double ty);
 
@@ -2145,12 +2487,22 @@ public:
   /**
   * \param tx: movement to the right
   * \param ty: movement to the bottom
+  * \par Example
+  * \code
+  * // Draw a rectangle shifted 10 right and 5 down
+  * pdf.StartTransform();
+  * pdf.Translate(10, 5);
+  * pdf.Rect(125, 20, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
+  * \see StartTransform(), StopTransform()
   */
   virtual void Translate(double tx, double ty);
 
   /// Performs a skewing in X direction only with the current position as the skewing center.
   /**
   * \param xAngle: angle in degrees between -90 (skew to the left) and 90 (skew to the right)
+  * \see StartTransform(), StopTransform()
   */
   virtual bool SkewX(double xAngle);
 
@@ -2159,12 +2511,22 @@ public:
   * \param xAngle: angle in degrees between -90 (skew to the left) and 90 (skew to the right)
   * \param x: abscissa of the skewing center. default is current x position
   * \param y: ordinate of the skewing center. default is current y position
+  * \par Example
+  * \code
+  * // Skew a rectangle 30 degrees along the X axis from its lower-left corner (125, 60)
+  * pdf.StartTransform();
+  * pdf.SkewX(30, 125, 60);
+  * pdf.Rect(125, 50, 40, 10, wxPDF_STYLE_DRAW);
+  * pdf.StopTransform();
+  * \endcode
+  * \see StartTransform(), StopTransform()
   */
   virtual bool SkewX(double xAngle, double x, double y);
 
   /// Performs a skewing in Y direction only with the current position as the skewing center.
   /**
   * \param yAngle: angle in degrees between -90 (skew to the bottom) and 90 (skew to the top)
+  * \see StartTransform(), StopTransform()
   */
   virtual bool SkewY(double yAngle);
 
@@ -2173,6 +2535,7 @@ public:
   * \param yAngle: angle in degrees between -90 (skew to the bottom) and 90 (skew to the top)
   * \param x: abscissa of the skewing center. default is current x position
   * \param y: ordinate of the skewing center. default is current y position
+  * \see StartTransform(), StopTransform()
   */
   virtual bool SkewY(double yAngle, double x, double y);
 
@@ -2180,6 +2543,7 @@ public:
   /**
   * \param xAngle: angle in degrees between -90 (skew to the left) and 90 (skew to the right)
   * \param yAngle: angle in degrees between -90 (skew to the bottom) and 90 (skew to the top)
+  * \see StartTransform(), StopTransform()
   */
   virtual bool Skew(double xAngle, double yAngle);
 
@@ -2189,6 +2553,7 @@ public:
   * \param yAngle: angle in degrees between -90 (skew to the bottom) and 90 (skew to the top)
   * \param x: abscissa of the skewing center. default is current x position
   * \param y: ordinate of the skewing center. default is current y position
+  * \see StartTransform(), StopTransform()
   */
   virtual bool Skew(double xAngle, double yAngle, double x, double y);
 
@@ -2201,6 +2566,7 @@ public:
   * \param d element 2,2 of the matrix
   * \param tx horizontal translation
   * \param ty vertical translation
+  * \see StartTransform(), StopTransform()
   */
   virtual void Transform( double a, double b, double c, double d, double tx, double ty );
 
@@ -2209,6 +2575,7 @@ public:
   * This method should be invoked to cancel a transformation environment
   * opened by StartTransform.
   * All open transformation environments are closed implicitly on page end.
+  * \see StartTransform()
   */
   virtual void StopTransform();
 
@@ -2219,12 +2586,43 @@ public:
   * \param blendMode one of the following:
   *   Normal, Multiply, Screen, Overlay, Darken, Lighten, ColorDodge, ColorBurn,
   *   HardLight, SoftLight, Difference, Exclusion, Hue, Saturation, Color, Luminosity
+  * \par Example
+  * \code
+  * // Draw an opaque red square
+  * pdf.SetAlpha();
+  * pdf.SetFillColour(wxPdfColour(255, 0, 0));
+  * pdf.Rect(10, 10, 40, 40, wxPDF_STYLE_FILLDRAW);
+  *
+  * // Draw a semi-transparent green square overlapping it
+  * pdf.SetAlpha(1, 0.5);
+  * pdf.SetFillColour(wxPdfColour(0, 255, 0));
+  * pdf.Rect(20, 20, 40, 40, wxPDF_STYLE_FILLDRAW);
+  *
+  * // Restore full opacity
+  * pdf.SetAlpha();
+  * \endcode
+  * \see SetAlphaState()
   */
   virtual int SetAlpha(double lineAlpha = 1, double fillAlpha = 1, wxPdfBlendMode blendMode = wxPDF_BLENDMODE_NORMAL);
 
   /// Sets a previously defined alpha state
   /**
   * \param alphaState id of alpha state
+  * \par Example
+  * \code
+  * // Define two alpha states and switch between them
+  * int halfAlpha = pdf.SetAlpha(1, 0.5);
+  * int fullAlpha = pdf.SetAlpha(1, 1);
+  *
+  * pdf.SetAlphaState(halfAlpha);
+  * pdf.SetFillColour(wxPdfColour(255, 0, 0));
+  * pdf.Rect(10, 10, 40, 40, wxPDF_STYLE_FILL);
+  *
+  * pdf.SetAlphaState(fullAlpha);
+  * pdf.SetFillColour(wxPdfColour(0, 0, 255));
+  * pdf.Rect(60, 10, 40, 40, wxPDF_STYLE_FILL);
+  * \endcode
+  * \see SetAlpha()
   */
   virtual void SetAlphaState(int alphaState);
 
@@ -2233,6 +2631,19 @@ public:
   * \param col1 first colour (RGB or CMYK).
   * \param col2 second colour (RGB or CMYK).
   * \param gradientType Type of the gradient
+  * \par Example
+  * \code
+  * // Simple horizontal red-to-blue gradient
+  * int grad = pdf.LinearGradient(wxPdfColour(255, 0, 0), wxPdfColour(0, 0, 255));
+  * pdf.SetFillGradient(10, 10, 90, 90, grad);
+  *
+  * // Vertical reflection gradient
+  * wxPdfColour from(wxString(wxS("#440000")));
+  * wxPdfColour to(wxString(wxS("#FF9090")));
+  * int gradR = pdf.LinearGradient(from, to, wxPDF_LINEAR_GRADIENT_REFLECTION_TOP);
+  * pdf.SetFillGradient(10, 110, 90, 20, gradR);
+  * \endcode
+  * \see AxialGradient(), MidAxialGradient(), RadialGradient(), CoonsPatchGradient(), SetFillGradient()
   */
   virtual int LinearGradient(const wxPdfColour& col1, const wxPdfColour& col2,
                              wxPdfLinearGradientType gradientType = wxPDF_LINEAR_GRADIENT_HORIZONTAL);
@@ -2246,13 +2657,21 @@ public:
   * \param x2 end point of gradient vector, default: 1 (range 0 .. 1)
   * \param y2 end point of gradient vector, default: 0 (range 0 .. 1)
   * \param intexp interpolation exponent, default: 1
+  * \par Example
+  * \code
+  * // Diagonal gradient from top-left (red) to bottom-right (blue)
+  * int grad = pdf.AxialGradient(wxPdfColour(255, 0, 0), wxPdfColour(0, 0, 255),
+  *                              0, 0, 1, 1);
+  * pdf.SetFillGradient(10, 10, 90, 90, grad);
+  * \endcode
+  * \see LinearGradient(), MidAxialGradient(), RadialGradient(), CoonsPatchGradient(), SetFillGradient()
   */
   virtual int AxialGradient(const wxPdfColour& col1, const wxPdfColour& col2,
                             double x1 = 0, double y1 = 0,
                             double x2 = 1, double y2 = 0,
                             double intexp = 1);
 
-  /// Defines an axial gradient shading
+  /// Defines an axial gradient shading with a configurable midpoint
   /**
   * \param col1 first colour (RGB or CMYK).
   * \param col2 second colour (RGB or CMYK).
@@ -2262,6 +2681,15 @@ public:
   * \param y2 end point of gradient vector, default: 0 (range 0 .. 1)
   * \param midpoint position of the mirror point, default: 0.5 (range 0 .. 1)
   * \param intexp interpolation exponent, default: 1
+  * \par Example
+  * \code
+  * wxPdfColour navy(wxString(wxS("navy")));
+  * wxPdfColour lightsteelblue(wxString(wxS("lightsteelblue")));
+  * // Horizontal gradient with midpoint shifted to 75%
+  * int grad = pdf.MidAxialGradient(navy, lightsteelblue, 0, 0, 1, 0, 0.5, 0.75);
+  * pdf.SetFillGradient(90, 200, 10, 20, grad);
+  * \endcode
+  * \see LinearGradient(), AxialGradient(), RadialGradient(), CoonsPatchGradient(), SetFillGradient()
   */
   virtual int MidAxialGradient(const wxPdfColour& col1, const wxPdfColour& col2,
                                double x1 = 0, double y1 = 0,
@@ -2279,6 +2707,14 @@ public:
   * \param y2 center point of circle 2, default: 0.5 (range 0 .. 1)
   * \param r2 radius of circle 2, default: 1
   * \param intexp interpolation exponent, default: 1
+  * \par Example
+  * \code
+  * // White center fading to black, inner radius 0, outer radius 1.2
+  * int grad = pdf.RadialGradient(wxPdfColour(255, 255, 255), wxPdfColour(0, 0, 0),
+  *                               0.5, 0.5, 0, 1, 1, 1.2);
+  * pdf.SetFillGradient(110, 10, 90, 90, grad);
+  * \endcode
+  * \see LinearGradient(), AxialGradient(), MidAxialGradient(), CoonsPatchGradient(), SetFillGradient()
   */
   virtual int RadialGradient(const wxPdfColour& col1, const wxPdfColour& col2,
                               double x1 = 0.5, double y1 = 0.5, double r1 = 0,
@@ -2290,6 +2726,18 @@ public:
   * \param mesh coons patch mesh to be used for the gradient
   * \param minCoord minimal coordinate of the mesh
   * \param maxCoord maximal coordinate of the mesh
+  * \par Example
+  * \code
+  * wxPdfCoonsPatchMesh mesh;
+  * wxPdfColour colors[] = { wxPdfColour(255,255,0), wxPdfColour(0,0,255),
+  *                          wxPdfColour(0,255,0),   wxPdfColour(255,0,0) };
+  * double cx[] = { 0.00, 0.33, 0.67, 1.00, 1.00, 1.00, 1.00, 0.67, 0.33, 0.00, 0.00, 0.00 };
+  * double cy[] = { 0.00, 0.00, 0.00, 0.00, 0.33, 0.67, 1.00, 1.00, 1.00, 1.00, 0.67, 0.33 };
+  * mesh.AddPatch(0, colors, cx, cy);
+  * int grad = pdf.CoonsPatchGradient(mesh);
+  * pdf.SetFillGradient(20, 115, 80, 80, grad);
+  * \endcode
+  * \see LinearGradient(), AxialGradient(), MidAxialGradient(), RadialGradient(), SetFillGradient()
   */
   virtual int CoonsPatchGradient(const wxPdfCoonsPatchMesh& mesh, double minCoord = 0, double maxCoord = 1);
 
@@ -2299,7 +2747,15 @@ public:
   * \param y ordinate of the top left corner of the rectangle.
   * \param w width of the rectangle.
   * \param h height of the rectangle.
-  * \param gradient id of the gradient.
+  * \param gradient id of the gradient returned by a gradient definition function.
+  * \par Example
+  * \code
+  * // Define once, paint multiple times at different positions
+  * int grad = pdf.LinearGradient(wxPdfColour(255, 0, 0), wxPdfColour(0, 0, 255));
+  * pdf.SetFillGradient(10, 10, 90, 90, grad);
+  * pdf.SetFillGradient(10, 110, 90, 20, grad);
+  * \endcode
+  * \see LinearGradient(), AxialGradient(), MidAxialGradient(), RadialGradient(), CoonsPatchGradient()
   */
   virtual void SetFillGradient(double x, double y, double w, double h, int gradient);
 
@@ -2309,6 +2765,17 @@ public:
   * \param y ordinate of the marker's center
   * \param markerType type of the marker
   * \param size size of the marker
+  * \par Example
+  * \code
+  * // Mark data points along a spline
+  * wxPdfArrayDouble x, y;
+  * x.Add(20); y.Add(40);
+  * x.Add(50); y.Add(20);
+  * x.Add(80); y.Add(40);
+  * for (size_t i = 0; i < x.GetCount(); ++i)
+  *   pdf.Marker(x[i], y[i], wxPDF_MARKER_CIRCLE, 2.0);
+  * pdf.BezierSpline(x, y, wxPDF_STYLE_DRAW);
+  * \endcode
   */
   virtual void Marker(double x, double y, wxPdfMarker markerType, double size);
 
@@ -2317,6 +2784,16 @@ public:
   * \param x abscissa of the annotation symbol
   * \param y ordinate of the annotation symbol
   * \param text annotation text
+  * \par Example
+  * \code
+  * pdf.AddPage();
+  * pdf.SetFont(wxS("Helvetica"), wxS(""), 12);
+  * pdf.Cell(0, 6, wxS("Paragraph 1"));
+  * pdf.Annotate(60, 30, wxS("Note about paragraph 1"));
+  * pdf.Ln(20);
+  * pdf.Cell(0, 6, wxS("Paragraph 2"));
+  * pdf.Annotate(60, 60, wxS("Note about paragraph 2"));
+  * \endcode
   */
   virtual void Annotate(double x, double y, const wxString& text);
 
@@ -2324,6 +2801,13 @@ public:
   /**
   * Allows to append Javascript code to a Javascript object at the document level.
   * \param javascript Javascript code to be appended
+  * \par Example
+  * \code
+  * // Show the print dialog when the document is opened
+  * pdf.AddPage();
+  * pdf.Text(90, 50, wxS("Print me!"));
+  * pdf.AppendJavascript(wxS("print(true);"));
+  * \endcode
   */
   virtual void AppendJavascript(const wxString& javascript);
 
@@ -2331,6 +2815,26 @@ public:
   /**
   * Output starts at the current position.
   * \param str string containing text with simple XML markup
+  * \par Example
+  * \code
+  * // Named anchor at the top of the page
+  * pdf.WriteXml(wxS("<a name=\"top\">Top of page</a><br/>"));
+  *
+  * // Hyperlink that jumps to the anchor
+  * pdf.WriteXml(wxS("<a href=\"#top\">Back to top</a><br/>"));
+  *
+  * // Styled paragraph: bold, italic, superscript, underline, strikethrough
+  * pdf.WriteXml(wxS("<p align=\"justify\">H<sub>2</sub>O is <b>water</b>. "
+  *                  "<u><s>Striked</s> and underlined</u>.</p>"));
+  *
+  * // Ordered list with Roman numerals starting at 100
+  * pdf.WriteXml(wxS("<ol type=\"i\" start=\"100\"><li>Alpha</li><li>Beta</li></ol>"));
+  *
+  * // Simple bordered table
+  * pdf.WriteXml(wxS("<table border=\"1\"><tbody><tr>"
+  *                  "<td>Cell 1</td><td>Cell 2</td>"
+  *                  "</tr></tbody></table>"));
+  * \endcode
   * \see \ref writexml
   */
   virtual void WriteXml(const wxString& str);
@@ -2472,11 +2976,11 @@ public:
   * for all subsequent form field additions until this method is called again
   * with different values.
   * \param borderStyle style of the form field's border
-  *   \li wxPDF_BORDER_SOLID - solid border
-  *   \li wxPDF_BORDER_DASHED - dashed border
-  *   \li wxPDF_BORDER_BEVELED - beveled border
-  *   \li wxPDF_BORDER_INSET - inset border
-  *   \li wxPDF_BORDER_UNDERLINE - border on the bottom side only
+  *   \li @c wxPDF_BORDER_SOLID - solid border
+  *   \li @c wxPDF_BORDER_DASHED - dashed border
+  *   \li @c wxPDF_BORDER_BEVELED - beveled border
+  *   \li @c wxPDF_BORDER_INSET - inset border
+  *   \li @c wxPDF_BORDER_UNDERLINE - border on the bottom side only
   * \param borderWidth width of the form field's border
   */
   virtual void SetFormBorderStyle(wxPdfBorderStyle borderStyle = wxPDF_BORDER_SOLID,
@@ -2502,8 +3006,7 @@ public:
   * \param height The height given in user units
   * \return int The ID of the created template
   * \see EndTemplate(), UseTemplate()
-  *
-  * Attention: Calls to BeginTemplate cannot be nested!
+  * \attention Calls to BeginTemplate() cannot be nested!
   */
   virtual int BeginTemplate(double x = 0, double y = 0, double width = 0, double height = 0);
 
@@ -2524,8 +3027,7 @@ public:
   * \param width The width of the template
   * \param height The height of the template
   * \see BeginTemplate(), EndTemplate(), UseTemplate(), ImportPage()
-  *
-  * Attention: The width and/or height parameters have to be set to a value <= 0
+  * \attention The width and/or height parameters have to be set to a value <= 0
   * prior to calling this method, otherwise they will not be calculated.
   * If one dimension, i.e. width, is passed with a value > 0,
   * the other one, i.e. height, is calculated accordingly.
@@ -2559,8 +3061,7 @@ public:
   * \param width The new width of the template
   * \param height The new height of the template
   * \see BeginTemplate(), EndTemplate(), ImportPage()
-  *
-  * Attention: The template may be displayed distorted, if both width and height
+  * \attention The template may be displayed distorted, if both width and height
   * are given with values > 0 and do not correspond to the dimensions of the template.
   */
   virtual void UseTemplate(int templateId, double x, double y, double width = 0, double height = 0);
@@ -2577,9 +3078,8 @@ public:
   * \param filename a valid filename
   * \param password a valid user or owner password if the PDF document is encrypted
   * \return the number of available pages, or 0 if the document could not be opened
-  * \see ImportPage(), UseTemplate()
-  *
-  * Attention: Access permissions for printing, copying and extracting text or graphics
+  * \see GetSourceInfo(), ImportPage(), UseTemplate()
+  * \attention Access permissions for printing, copying and extracting text or graphics
   * are required. If a PDF document does not have these access permissions, it cannot
   * be used as a source for the external template feature.
   */
@@ -2590,7 +3090,7 @@ public:
   * Gets the values of the Info dictionary of the current external document, if available.
   *
   * \param info the info dictionary object receiving the document information
-  * \return true if the info dictionary was available, false otherwise
+  * \return @c true if the info dictionary was available, @c false otherwise
   * \see SetSourceFile()
   */
   virtual bool GetSourceInfo(wxPdfInfo& info);
@@ -2647,9 +3147,25 @@ public:
   * \param shape shape defining a path along which the text is printed
   * \param text text string to be printed
   * \param mode flag how to handle the text string
-  *   \li wxPDF_SHAPEDTEXTMODE_ONETIME: the text should be printed at most one time depending on the path length
-  *   \li wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT: the text should be stretched to fit exactly along the given path (default)
-  *   \li wxPDF_SHAPEDTEXTMODE_REPEAT: the text should be repeated if the text length is shorter than the path length
+  *   \li @c wxPDF_SHAPEDTEXTMODE_ONETIME: the text should be printed at most one time depending on the path length
+  *   \li @c wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT: the text should be stretched to fit exactly along the given path (default)
+  *   \li @c wxPDF_SHAPEDTEXTMODE_REPEAT: the text should be repeated if the text length is shorter than the path length
+  * \par Example
+  * \code
+  * // Text stretched along a Bézier curve
+  * wxPdfShape shape;
+  * shape.MoveTo(25, 40);
+  * shape.CurveTo(50, 55, 90, 45, 80, 75);
+  * pdf.Curve(25, 40, 50, 55, 90, 45, 80, 75, wxPDF_STYLE_DRAW);
+  * pdf.ShapedText(shape, wxS("Text along a curved path"));
+  *
+  * // Repeated text along a longer path
+  * wxPdfShape shape2;
+  * shape2.MoveTo(125, 40);
+  * shape2.CurveTo(150, 55, 190, 45, 180, 75);
+  * pdf.ShapedText(shape2, wxS("Repeat! "), wxPDF_SHAPEDTEXTMODE_REPEAT);
+  * \endcode
+  * \see Shape(), Curve()
   */
   virtual void ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfShapedTextMode mode = wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT);
 
@@ -2660,6 +3176,15 @@ public:
   * In wxPdfDocument they are referenced as layers.
   * \param layerName the name of the layer
   * \return a reference to the new layer
+  * \par Example
+  * \code
+  * wxPdfLayer* layer = pdf.AddLayer(wxS("Watermark"));
+  * pdf.EnterLayer(layer);
+  * pdf.SetTextColour(wxPdfColour(wxString(wxS("red"))));
+  * pdf.Cell(0, 6, wxS("DRAFT"));
+  * pdf.LeaveLayer();
+  * \endcode
+  * \see AddLayerTitle(), AddLayerMembership(), LockLayer(), AddLayerRadioGroup(), EnterLayer(), LeaveLayer()
   */
   virtual wxPdfLayer* AddLayer(const wxString& layerName);
 
@@ -2669,6 +3194,15 @@ public:
   * under the same title heading.
   * \param layerTitle the title text
   * \return a reference to the title layer
+  * \par Example
+  * \code
+  * wxPdfLayer* title = pdf.AddLayerTitle(wxS("Background elements"));
+  * wxPdfLayer* l1 = pdf.AddLayer(wxS("Logo"));
+  * wxPdfLayer* l2 = pdf.AddLayer(wxS("Watermark"));
+  * title->AddChild(l1);
+  * title->AddChild(l2);
+  * \endcode
+  * \see AddLayer(), EnterLayer(), LeaveLayer()
   */
   virtual wxPdfLayer* AddLayerTitle(const wxString& layerTitle);
 
@@ -2680,6 +3214,18 @@ public:
   * to belong to an optional content group directly, but rather to an optional
   * content membership container.
   * \return a reference to the new layer membership container
+  * \par Example
+  * \code
+  * wxPdfLayer* l1 = pdf.AddLayer(wxS("Layer 1"));
+  * wxPdfLayer* l2 = pdf.AddLayer(wxS("Layer 2"));
+  * wxPdfLayerMembership* m = pdf.AddLayerMembership();
+  * m->AddMember(l1);
+  * m->AddMember(l2);
+  * pdf.EnterLayer(m);
+  * pdf.Cell(0, 6, wxS("Visible when Layer 1 or Layer 2 is on"));
+  * pdf.LeaveLayer();
+  * \endcode
+  * \see AddLayer(), EnterLayer(), LeaveLayer()
   */
   virtual wxPdfLayerMembership* AddLayerMembership();
 
@@ -2690,6 +3236,12 @@ public:
   * of a viewer application. Producers can use this entry to prevent the visibility
   * of content that depends on these groups from being changed by users.
   * \param layer the layer that needs to be added to the array of locked OCGs
+  * \par Example
+  * \code
+  * wxPdfLayer* layer = pdf.AddLayer(wxS("Fixed Content"));
+  * pdf.LockLayer(layer);
+  * \endcode
+  * \see AddLayer()
   */
   virtual void LockLayer(wxPdfLayer* layer);
 
@@ -2701,6 +3253,18 @@ public:
   * in the array should be ON at a time: if one group is turned
   * ON, all others must be turned OFF.
   * \param radioGroup the radio group
+  * \par Example
+  * \code
+  * wxPdfLayer* l1 = pdf.AddLayer(wxS("Layer 1"));
+  * wxPdfLayer* l2 = pdf.AddLayer(wxS("Layer 2"));
+  * wxPdfLayer* l3 = pdf.AddLayer(wxS("Layer 3"));
+  * wxPdfLayerGroup radio;
+  * radio.Add(l1);
+  * radio.Add(l2);
+  * radio.Add(l3);
+  * pdf.AddLayerRadioGroup(radio);
+  * \endcode
+  * \see AddLayer()
   */
   virtual void AddLayerRadioGroup(const wxPdfLayerGroup& radioGroup);
 
@@ -2712,6 +3276,18 @@ public:
   * call to this method and a single call to LeaveLayer(); all the nesting control
   * is built in.
   * \param layer the layer
+  * \par Example
+  * \code
+  * wxPdfLayer* l1 = pdf.AddLayer(wxS("Layer 1"));
+  * wxPdfLayer* l2 = pdf.AddLayer(wxS("Layer 2"));
+  * pdf.EnterLayer(l1);
+  * pdf.Cell(0, 6, wxS("Text in layer 1"));
+  * pdf.LeaveLayer();
+  * pdf.EnterLayer(l2);
+  * pdf.Cell(0, 6, wxS("Text in layer 2"));
+  * pdf.LeaveLayer();
+  * \endcode
+  * \see LeaveLayer(), AddLayer(), AddLayerMembership()
   */
   virtual void EnterLayer(wxPdfLayer* layer);
   virtual void EnterLayer(wxPdfLayerMembership* layer);
@@ -2719,6 +3295,7 @@ public:
   /// Leave a layer
   /**
   * Ends a layer controlled graphic block. It will end the most recent open block.
+  * \see EnterLayer()
   */
   virtual void LeaveLayer();
 
@@ -2739,7 +3316,7 @@ public:
   * \param enable flag whether PDF/A-1b conformance should be enabled
   * 
   * \note It is the user's responsibility to use only PDF features that in fact do conform with PDF/A-1b,
-  * i.e., all fonts embedded, no transparency/alpha channel, no document protection
+  * (i.e., all fonts embedded, no transparency/alpha channel, no document protection)
   */
   void SetPdfA1Conformance(bool enable);
 
@@ -2760,7 +3337,7 @@ public:
   /// Get message translation mode
   /**
   * Gets the message translation mode which controls the handling of msg tags in XML output
-  * \return TRUE if messages are translated, FALSE otherwise
+  * \return @c true if messages are translated, @c false otherwise
   */
   bool GetMessageTranslateMode() { return m_translate; }
 
@@ -2771,13 +3348,43 @@ protected:
   */
   virtual void Initialize(int orientation);
 
-  /// Save graphic state
+  /// Pushes the current graphic state onto an internal stack
+  /**
+  * Saves the current values of:
+  * - font (family, style, and size)
+  * - draw, fill, and text colours
+  * - line width, line style, and extended graphics state (alpha)
+  *
+  * Called automatically by StartTransform(). Subclasses that apply
+  * temporary rendering changes can call this directly and pair it with
+  * RestoreGraphicState() to leave the document state unchanged after
+  * the changes are done.
+  *
+  * \note The saved state stack is separate from the PDF content-stream
+  *       operator stack (q/Q). If you need both the content-stream state
+  *       and the wxPdfDocument member state saved, use StartTransform()
+  *       and StopTransform() instead.
+  * \see RestoreGraphicState(), StartTransform()
+  */
   virtual void SaveGraphicState();
 
-  /// Restore graphic state
+  /// Pops and restores the most recently saved graphic state
+  /**
+  * Restores the font, colour, line, and extended graphics state values
+  * that were saved by the most recent call to SaveGraphicState().
+  * If the stack is empty the call is a no-op.
+  *
+  * Called automatically by StopTransform().
+  * \see SaveGraphicState(), StopTransform()
+  */
   virtual void RestoreGraphicState();
 
-  /// Clear graphic state
+  /// Discards all saved graphic states
+  /**
+  * Empties the entire SaveGraphicState() stack without restoring any
+  * values. Called internally when a new page begins.
+  * \see SaveGraphicState()
+  */
   virtual void ClearGraphicState();
 
   /// Select font
@@ -2786,7 +3393,7 @@ protected:
   * \param style Font style string
   * \param size Font size
   * \param setFont Flag whether to set the font in PDF output
-  * \return TRUE if font was selected, FALSE otherwise
+  * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxString& family,
                           const wxString& style = wxEmptyString,
@@ -2798,7 +3405,7 @@ protected:
   * \param style Font style flags
   * \param size Font size
   * \param setFont Flag whether to set the font in PDF output
-  * \return TRUE if font was selected, FALSE otherwise
+  * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxString& family, int style,
                           double size = 0, bool setFont = true);
@@ -2807,7 +3414,7 @@ protected:
   /**
   * \param font wxFont object
   * \param setFont Flag whether to set the font in PDF output
-  * \return TRUE if font was selected, FALSE otherwise
+  * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxFont& font, bool setFont = true);
 
@@ -2817,7 +3424,7 @@ protected:
   * \param style Font style flags
   * \param size Font size
   * \param setFont Flag whether to set the font in PDF output
-  * \return TRUE if font was selected, FALSE otherwise
+  * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxPdfFont& font, int style, double size = 0, bool setFont = true);
 
@@ -2829,7 +3436,24 @@ protected:
   */
   virtual void SetFontSize(double size, bool setSize);
 
-  /// Apply visual ordering
+  /// Apply visual ordering to a text string
+  /**
+  * Converts a string from Unicode logical order to visual display order by
+  * applying VOLT (Visual OpenType Layout Tool) glyph-substitution rules
+  * embedded in the current font. This is required for complex scripts such as
+  * Indic languages where the rendered glyph sequence differs from the
+  * Unicode code-point sequence.
+  *
+  * Called automatically by all text output methods (Text(), Cell(),
+  * MultiCell(), WriteCell(), GetStringWidth()) before the string is rendered.
+  * If the current font carries no VOLT data the string is returned unchanged.
+  *
+  * Override this method in a subclass to provide a custom shaping or
+  * reordering strategy for fonts that do not use the built-in VOLT mechanism.
+  *
+  * \param txt the input string in Unicode logical order
+  * \return the string transformed into visual display order
+  */
   virtual wxString ApplyVisualOrdering(const wxString& txt);
 
   /// Returns the length of a string in user unit.
@@ -2862,9 +3486,11 @@ protected:
   virtual wxSize GetImageSize(const wxString& file, const wxString& mimeType = wxEmptyString);
 
   /// Start document
+  /// \see EndPage()
   virtual void BeginPage(int orientation, wxSize pageSize);
 
   /// End of page contents
+  /// \see BeginPage()
   virtual void EndPage();
 
   /// End document
@@ -3097,7 +3723,6 @@ protected:
   void LoadZapfDingBats();
 
   /**
-   * \brief 
    * \return Get the height of the header at the top of the page
    */
    double GetHeaderHeight() const; 

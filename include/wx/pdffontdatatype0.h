@@ -26,6 +26,7 @@
 #include "wx/pdffontdata.h"
 
 /// Class representing Type 0 fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontDataType0 : public wxPdfFontData
 {
 public:
@@ -74,7 +75,7 @@ public:
   /**
   * \param s the string to be checked
   * \param encoding the character to glyph mapping
-  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  * \return @c true if the font can show all characters of the string, @c false otherwise
   */
   virtual bool CanShow(const wxString& s, const wxPdfEncoding* encoding = NULL) const;
 
@@ -93,7 +94,7 @@ public:
   /// Load the font metrics XML file
   /**
   * \param root the root node of the XML font metric file
-  * \return TRUE if the metric file could be processed successfully, FALSE otherwise
+  * \return @c true if the metric file could be processed successfully, @c false otherwise
   */
   virtual bool LoadFontMetrics(wxXmlNode* root);
 

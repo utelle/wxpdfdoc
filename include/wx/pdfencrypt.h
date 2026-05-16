@@ -25,6 +25,7 @@ class WXDLLIMPEXP_FWD_PDFDOC wxPdfRijndael;
 class wxPdfRandomBytesGenerator;
 
 /// Class representing PDF encryption methods. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfEncrypt
 {
 public:
@@ -63,7 +64,7 @@ public:
   * \param lengthValue the length value  from the document's encryption dictionary
   * \param rValue the R value from the document's encryption dictionary
   * \param vValue the V value from the document's encryption dictionary
-  * \return TRUE if the document could be authenticated successfully, FALSE otherwise
+  * \return @c true if the document could be authenticated successfully, @c false otherwise
   */
   bool Authenticate(const wxString& documentID, const wxString& password,
                     const wxString& uValue, const wxString& oValue,
@@ -73,7 +74,7 @@ public:
   /// Check whether the given password is valid
   /**
   * \param password The password to check
-  * \return TRUE if the password is valid, FALSE otherwise
+  * \return @c true if the password is valid, @c false otherwise
   */
   bool PasswordIsValid(const wxString& password) const;
 
@@ -293,6 +294,7 @@ private:
 };
 
 /// Class representing SHA2 hashing methods. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfSHA2
 {
 public:

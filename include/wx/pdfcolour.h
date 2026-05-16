@@ -149,6 +149,7 @@ public:
   void SetColour(const wxString& name);
 
   /// Set a spot colour (internal use only)
+  /// \internal
   /**
   * \param spotColour is the spot colour to be used
   * \param tint indicates the tint level. Value between 0 and 100. Default: 100.
@@ -156,12 +157,14 @@ public:
   void SetColour(const wxPdfSpotColour& spotColour, double tint);
 
   /// Set a pattern based colour (internal use only)
+  /// \internal
   /**
   * \param pattern is the pattern based colour to be used
   */
   void SetColour(const wxPdfPattern& pattern);
 
   /// Get internal colour string representation (for internal use only)
+  /// \internal
   /**
   * \param drawing flag specifying whether the colour is used for drawing operations
   * \return the string representation of the colour
@@ -175,6 +178,7 @@ public:
   wxPdfColourType GetColourType() const { return m_type; }
 
   /// Get internal colour value string representation (for internal use only)
+  /// \internal
   /**
   * \return the string representation of the colour value
   * This method works only for grayscale, rgb and cmyk colours. Don't use it for spot or pattern colours.
@@ -184,7 +188,7 @@ public:
   /// Compare colour
   /**
   * \param colour colour to which the current colour is compared
-  * \return TRUE if the colours match, FALSE otherwise
+  * \return @c true if the colours match, false otherwise
   */
   bool Equals(const wxPdfColour& colour) const;
 
@@ -214,7 +218,7 @@ private:
 /**
 * \param a First colour object
 * \param b Second colour object
-* \return TRUE if the colours match, FALSE otherwise
+* \return @c true if the colours match, @c false otherwise
 */
 bool operator==(const wxPdfColour& a, const wxPdfColour& b);
 
@@ -222,7 +226,7 @@ bool operator==(const wxPdfColour& a, const wxPdfColour& b);
 /**
 * \param a First colour object
 * \param b Second colour object
-* \return TRUE if the colours do not match, FALSE otherwise
+* \return @c true if the colours do not match, @c false otherwise
 */
 bool operator!=(const wxPdfColour& a, const wxPdfColour& b);
 

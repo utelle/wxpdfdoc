@@ -122,7 +122,7 @@ public:
 
   /// Check whether the font has differences to WinAnsi encoding
   /**
-  * \return TRUE if the font has encoding differences, FALSE otherwise
+  * \return @c true if the font has encoding differences, @c false otherwise
   */
   bool HasDiffs() const;
 

@@ -49,7 +49,7 @@ public :
 
   /// Check whether font is valid
   /**
-  * \return TRUE if the font is valid, FALSE otherwise
+  * \return @c true if the font is valid, @c false otherwise
   */
   bool IsValid() const;
 
@@ -92,19 +92,19 @@ public :
 
   /// Check whether the font embedding is required
   /**
-  * \return TRUE if embedding of this font is required, FALSE otherwise
+  * \return @c true if embedding of this font is required, @c false otherwise
   */
   bool EmbedRequired() const;
 
   /// Check whether the font embedding is supported
   /**
-  * \return TRUE if embedding of this font is supported/allowed, FALSE otherwise
+  * \return @c true if embedding of this font is supported/allowed, @c false otherwise
   */
   bool EmbedSupported() const;
 
   /// Check whether the font subsetting is supported
   /**
-  * \return TRUE if subsetting of this font is supported/allowed, FALSE otherwise
+  * \return @c true if subsetting of this font is supported/allowed, @c false otherwise
   */
   bool SubsetSupported() const;
 
@@ -126,7 +126,7 @@ public :
 
   /// Get embed flag
   /**
-  * \return TRUE if the font will be embedded, FALSE otherwise
+  * \return @c true if the font will be embedded, @c false otherwise
   * \see EmbedRequired(), EmbedSupported()
   */
   bool GetEmbed() const { return m_embed; }
@@ -142,7 +142,7 @@ public :
 
   /// Get subset flag
   /**
-  * \return TRUE if the font will be subsetted, FALSE otherwise
+  * \return @c true if the font will be subsetted, @c false otherwise
   * \see SubsetSupported()
   */
   bool GetSubset() const { return m_subset; }
@@ -153,7 +153,7 @@ public :
   * of the font. It's the user's responsibility to ensure the font supports all characters
   * assigned by the encoding.
   * \param encodingName the name of the encoding to use with this font
-  * \return TRUE if the encoding could be assigned, FALSE otherwise
+  * \return @c true if the encoding could be assigned, @c false otherwise
   * \note The encoding has to be registered to the font manager in advance
   */
   bool SetEncoding(const wxString& encodingName);
@@ -164,21 +164,21 @@ public :
   * of the font. It's the user's responsibility to ensure the font supports all characters
   * assigned by the encoding.
   * \param[out] encoding the encoding used with this font
-  * \return TRUE if an encoding is associated with the font, FALSE otherwise
+  * \return @c true if an encoding is associated with the font, @c false otherwise
   */
   bool GetEncoding(wxPdfEncoding& encoding);
 
   /// Check whether the font can show all characters of a given string
   /**
   * \param s the string to be checked
-  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  * \return @c true if the font can show all characters of the string, @c false otherwise
   */
   bool CanShow(const wxString& s);
 
   /// Get list of supported unicode characters
   /**
   * \param unicodeCharacters list of supported unicode characters on return
-  * \return TRUE if the list could be determined, FALSE otherwise
+  * \return @c true if the list could be determined, @c false otherwise
   * \note Any previous content of the Unicode character list will be deleted
   */
   bool GetSupportedUnicodeCharacters(wxPdfArrayUint32& unicodeCharacters) const;
@@ -197,7 +197,7 @@ public :
   /**
   * For dynamically loaded Type1 fonts the list of supported glyph names is provided.
   * For all other font types this information is not available.
-  * \return TRUE if the list of glyph names is available, otherwise FALSE
+  * \return @c true if the list of glyph names is available, otherwise @c false
   */
   bool GetGlyphNames(wxArrayString& glyphNames) const;
 

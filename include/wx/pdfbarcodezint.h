@@ -411,13 +411,13 @@ public:
 
   /// Get dotty mode
   /**
-  * \return TRUE if dotty mode is enabled, FALSE otherwise
+  * \return @c true if dotty mode is enabled, @c false otherwise
   */
   bool GetDotty() const { return m_dotty; }
 
   /// Set dotty mode
   /**
-  * \param dotty TRUE enables dotty mode, FALSE disables it
+  * \param dotty @c true enables dotty mode, @c false disables it
   */
   void SetDotty(bool dotty) { m_dotty = dotty; }
 
@@ -502,13 +502,13 @@ public:
 
   /// Get flag whether CMYK colour space is used (Encapsulated PostScript and TIF)
   /**
-  * \return TRUE if CMYK colour space is used, FALSE otherwise
+  * \return @c true if CMYK colour space is used, @c false otherwise
   */
   bool GetCMYK() const { return m_cmyk; }
 
   /// Enable or disable the use of CMYK colour space (Encapsulated PostScript and TIF)
   /**
-  * \param cmyk TRUE to enable CMYK colour space, FALSE to disable it
+  * \param cmyk @c true to enable CMYK colour space, @c false to disable it
   */
   void SetCMYK(bool cmyk) { m_cmyk = cmyk; }
 
@@ -587,65 +587,65 @@ public:
 
   /// Show (true) or hide (false) Human Readable Text
   /**
-  * \return TRUE if human readable text is enabled, FALSE otherwise
+  * \return @c true if human readable text is enabled, @c false otherwise
   */
   bool ShowText() const { return m_showHRT; }
 
   /// Enable (true) or disable (false) Human Readable Text
   /**
-  * \param showText TRUE enables human readable text, FALSE disables it
+  * \param showText @c true enables human readable text, @c false disables it
   */
   void SetShowText(bool showText) { m_showHRT = showText; }
 
   /// Check whether GS (Group Separator) is used instead of FNC1 as GS1 separator (Data Matrix)
   /**
-  * \return TRUE if group separator is used, FALSE otherwise
+  * \return @c true if group separator is used, @c false otherwise
   */
   bool HasSeparatorGS() const { return m_gssep; }
 
   /// Use GS (Group Separator) instead of FNC1 as GS1 separator (Data Matrix)
   /**
-  * \param gsSep TRUE enables the group separator, FALSE disables it
+  * \param gsSep @c true enables the group separator, @c false disables it
   */
   void SetSeparatorGS(bool gsSep) { m_gssep = gsSep; }
 
   /// Add compliant quiet zones (additional to any specified whitespace)
   /**
-  * \return TRUE if compliant quiet zones are enabled, FALSE otherwise
+  * \return @c true if compliant quiet zones are enabled, @c false otherwise
   * \note CODE16K, CODE49, CODABLOCKF, ITF14, EAN/UPC have default quiet zones
   */
   bool HasQuietZones() const { return m_quietZones; }
 
   /// Enable or disable compliant quiet zones (additional to any specified whitespace)
   /**
-  * \param quietZones TRUE enables compliant quiet zones, FALSE disables them
+  * \param quietZones @c true enables compliant quiet zones, @c false disables them
   * \note CODE16K, CODE49, CODABLOCKF, ITF14, EAN/UPC have default quiet zones
   */
   void SetQuietZones(bool quietZones) { m_quietZones = quietZones; }
 
   /// Disable quiet zones, notably those with defaults
   /**
-  * \return TRUE if quiet zones are disabled, FALSE otherwise
+  * \return @c true if quiet zones are disabled, @c false otherwise
   * \note CODE16K, CODE49, CODABLOCKF, ITF14, EAN/UPC have default quiet zones
   */
   bool HasNoQuietZones() const { return m_noQuietZones; }
 
   /// Enable or disable quiet zones, notably those with defaults
   /**
-  * \param noQuietZones TRUE disables quiet zones, FALSE enables them
+  * \param noQuietZones @c true disables quiet zones, @c false enables them
   * \note CODE16K, CODE49, CODABLOCKF, ITF14, EAN/UPC have default quiet zones
   */
   void SetNoQuietZones(bool noQuietZones) { m_noQuietZones = noQuietZones; }
 
   /// Get compliant height flag
   /**
-  * \return TRUE if compliant height is used and checked, FALSE otherwise
+  * \return @c true if compliant height is used and checked, @c false otherwise
   */
   bool GetCompliantHeight() const { return m_compliantHeight; }
 
   /// Set compliant height
   /**
-  * \param compliantHeight TRUE enables compliant height, FALSE disables it
+  * \param compliantHeight @c true enables compliant height, @c false disables it
   * \note warning  if height not compliant and use standard height (if any) as default
   */
   void SetCompliantHeight(bool compliantHeight) { m_compliantHeight = compliantHeight; }
@@ -684,61 +684,61 @@ public:
 
   /// Get flag whether parentheses are processed as GS1 AI delimiters (instead of square brackets)
   /**
-  * \return TRUE if parentheses are processed as GS1 AI delimiters, FALSE otherwise
+  * \return @c true if parentheses are processed as GS1 AI delimiters, @c false otherwise
   */
   bool HasGS1ParensMode() const { return m_gs1parens; }
 
   /// Set flag whether parentheses are processed as GS1 AI delimiters (instead of square brackets)
   /**
-  * \param gs1Parens TRUE if parentheses are processed as GS1 AI delimiters, FALSE otherwise
+  * \param gs1Parens @c true if parentheses are processed as GS1 AI delimiters, @c false otherwise
   */
   void SetGS1ParensMode(bool gs1Parens) { m_gs1parens = gs1Parens; }
 
   /// Get flag whether validity of GS1 data is not checked (except that printable ASCII only)
   /**
-  * \return TRUE if validity of GS1 data is not checked, FALSE otherwise
+  * \return @c true if validity of GS1 data is not checked, @c false otherwise
   */
   bool GetGS1NoCheckMode() const { return m_gs1nocheck; }
 
   /// Set flag whether validity of GS1 data is not checked (except that printable ASCII only)
   /**
-  * \param gs1NoCheck TRUE if validity of GS1 data is not checked, FALSE otherwise
+  * \param gs1NoCheck @c true if validity of GS1 data is not checked, @c false otherwise
   */
   void SetGS1NoCheckMode(bool gs1NoCheck) { m_gs1nocheck = gs1NoCheck; }
 
   /// Check whether Reader Initialisation (Programming) is used
   /**
-  * \return TRUE if Reader Initialisation is used, FALSE otherwise
+  * \return @c true if Reader Initialisation is used, @c false otherwise
   */
   bool HasReaderInit() const { return m_readerInit; }
 
   /// Set Reader Initialisation (Programming)
   /**
-  * \param readerInit TRUE if Reader Initialisation is enabled, FALSE otherwise
+  * \param readerInit @c true if Reader Initialisation is enabled, @c false otherwise
   */
   void SetReaderInit(bool readerInit) { m_readerInit = readerInit; }
 
   /// Check whether quiet zone indicators will be added
   /**
-  * \return TRUE if quiet zone indicators will be added, FALSE otherwise
+  * \return @c true if quiet zone indicators will be added, @c false otherwise
   */
   bool HasGuardWhitespace() const { return m_guardWhitespace; }
 
   /// Set flag whether to add quiet zone indicators ("<", ">") to HRT (EAN/UPC)
   /**
-  * \param guardWhitespace TRUE if quiet zone indicators will be added, FALSE otherwise
+  * \param guardWhitespace @c true if quiet zone indicators will be added, @c false otherwise
   */
   void SetGuardWhitespace(bool guardWhitespace) { m_guardWhitespace = guardWhitespace; }
 
   /// Check whether the font will be embedded in vector output - currently only for SVG output of EAN/UPC
   /**
-  * \return TRUE if the font will be embedded, FALSE otherwise
+  * \return @c true if the font will be embedded, @c false otherwise
   */
   bool HasEmbedVectorFont() const { return m_embedVectorFont; }
 
   /// Set flag whether to embed the font in vector output - currently only for SVG output of EAN/UPC
   /**
-  * \param embedVectorFont TRUE if the font will be embedded, FALSE otherwise
+  * \param embedVectorFont @c true if the font will be embedded, @c false otherwise
   */
   void SetEmbedVectorFont(bool embedVectorFont) { m_embedVectorFont = embedVectorFont; }
 
@@ -756,13 +756,13 @@ public:
 
   /// Check the debugging flag
   /**
-  * \return TRUE if debugging is enabled, FALSE otherwise
+  * \return @c true if debugging is enabled, @c false otherwise
   */
   bool HasDebugFlag() const { return m_debug; }
 
   /// Debugging flags
   /**
-  * \param debug TRUE if debugging should be enabled, FALSE otherwise
+  * \param debug @c true if debugging should be enabled, @c false otherwise
   */
   void SetDebugFlag(bool debug) { m_debug = debug; }
 
@@ -827,91 +827,91 @@ public:
 
   /// Check whether the symbology has human readable text
   /**
-  * \return TRUE if symbology has human readable text, FALSE otherwise
+  * \return @c true if symbology has human readable text, @c false otherwise
   */
   static bool HasHRT(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology is stackable
   /**
-  * \return TRUE if symbology is stackable, FALSE otherwise
+  * \return @c true if symbology is stackable, @c false otherwise
   */
   static bool IsStackable(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology is extendable
   /**
-  * \return TRUE if symbology is extendable, FALSE otherwise
+  * \return @c true if symbology is extendable, @c false otherwise
   */
   static bool IsExtendable(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology is composite
   /**
-  * \return TRUE if symbology is composite, FALSE otherwise
+  * \return @c true if symbology is composite, @c false otherwise
   */
   static bool IsComposite(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology supports ECI
   /**
-  * \return TRUE if symbology supports ECI, FALSE otherwise
+  * \return @c true if symbology supports ECI, @c false otherwise
   */
   static bool SupportsECI(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology supports GS1
   /**
-  * \return TRUE if symbology supports GS1, FALSE otherwise
+  * \return @c true if symbology supports GS1, @c false otherwise
   */
   static bool SupportsGS1(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology is dotty
   /**
-  * \return TRUE if symbology is dotty, FALSE otherwise
+  * \return @c true if symbology is dotty, @c false otherwise
   */
   static bool IsDotty(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology has default quiet zones
   /**
-  * \return TRUE if symbology has default quiet zones, FALSE otherwise
+  * \return @c true if symbology has default quiet zones, @c false otherwise
   */
   static bool HasDefaultQuietZones(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology has a fixed ratio
   /**
-  * \return TRUE if symbology has a fixed ratio, FALSE otherwise
+  * \return @c true if symbology has a fixed ratio, @c false otherwise
   */
   static bool HasFixedRatio(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology supports reader init
   /**
-  * \return TRUE if symbology supports reader init, FALSE otherwise
+  * \return @c true if symbology supports reader init, @c false otherwise
   */
   static bool SupportsReaderInit(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology supports full multibyte
   /**
-  * \return TRUE if symbology supports full multibyte, FALSE otherwise
+  * \return @c true if symbology supports full multibyte, @c false otherwise
   */
   static bool SupportsFullMultibyte(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology has a mask
   /**
-  * \return TRUE if symbology has a mask, FALSE otherwise
+  * \return @c true if symbology has a mask, @c false otherwise
   */
   static bool HasMask(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology supports structured apps
   /**
-  * \return TRUE if symbology supports structured apps, FALSE otherwise
+  * \return @c true if symbology supports structured apps, @c false otherwise
   */
   static bool SupportsStructApp(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology has a compliant height
   /**
-  * \return TRUE if symbology has a compliant height, FALSE otherwise
+  * \return @c true if symbology has a compliant height, @c false otherwise
   */
   static bool HasCompliantHeight(wxPdfBarcode::Symbology symbology);
 
   /// Check whether symbology takes GS1 AI-delimited data
   /**
-  * \return TRUE if symbology takes GS1 AI-delimited data, FALSE otherwise
+  * \return @c true if symbology takes GS1 AI-delimited data, @c false otherwise
   */
   static bool TakesGS1AIData(wxPdfBarcode::Symbology symbology);
 
@@ -931,14 +931,14 @@ public:
 
   /// Check whether errors occurred
   /**
-  * \return TRUE if errors occurred, FALSE otherwise
+  * \return @c true if errors occurred, @c false otherwise
   */
   bool HasErrors() const; // `symbol->errtxt`
 
   /// Encode and print barcode to file
   /**
   * \param filename name of file to which the barcode should be saved
-  * \return TRUE if saving to file was successful, FALSE otherwise
+  * \return @c true if saving to file was successful, @c false otherwise
   */
   bool SaveToFile(const wxString& filename); // `ZBarcode_Print()`
 
@@ -974,13 +974,13 @@ public:
 
   /// Check whether PNG support is available
   /**
-  * \return TRUE if PNG support is not available, FALSE otherwise
+  * \return @c true if PNG support is not available, @c false otherwise
   */
   static bool NoPNG(); // `ZBarcode_NoPng()`
 
   /// Check validity of symbology
   /**
-  * \return TRUE if symbology is valid, FALSE otherwise
+  * \return @c true if symbology is valid, @c false otherwise
   */
   static bool IsValidSymbology(int symbolId);
 

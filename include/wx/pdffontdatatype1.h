@@ -26,6 +26,7 @@
 WX_DECLARE_STRING_HASH_MAP_WITH_DECL(wxUint16, wxPdfFontType1GlyphWidthMap, class WXDLLIMPEXP_PDFDOC);
 
 /// Class representing Type 1 fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontDataType1 : public wxPdfFontData
 {
 public:
@@ -49,7 +50,7 @@ public:
   /**
   * \param s the string to be checked
   * \param encoding the character to glyph mapping
-  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  * \return @c true if the font can show all characters of the string, @c false otherwise
   */
   virtual bool CanShow(const wxString& s, const wxPdfEncoding* encoding = NULL) const;
 
@@ -68,13 +69,13 @@ public:
   /// Load the font metrics XML file
   /**
   * \param root the root node of the XML font metric file
-  * \return TRUE if the metric file could be processed successfully, FALSE otherwise
+  * \return @c true if the metric file could be processed successfully, @c false otherwise
   */
   virtual bool LoadFontMetrics(wxXmlNode* root);
 
   /// Initialize font data
   /**
-  * \return TRUE if the font data has been initialized successfully, FALSE otherwise
+  * \return @c true if the font data has been initialized successfully, @c false otherwise
   */
   virtual bool Initialize();
 
@@ -102,7 +103,7 @@ public:
   /// Get a list of glyph names available in the font
   /**
   * \param[out] glyphNames the list of glyph names
-  * \return TRUE if the glyph names are available, FALSE otherwise
+  * \return @c true if the glyph names are available, @c false otherwise
   */
   virtual bool GetGlyphNames(wxArrayString& glyphNames) const;
 #endif

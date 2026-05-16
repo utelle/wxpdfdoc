@@ -23,6 +23,7 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfTable;
 
 /// Class representing cell context objects. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfCellContext
 {
 public:
@@ -100,7 +101,7 @@ public:
 
   /// Check whether current line is marked as last line
   /**
-  * \return TRUE if current line is the last line, FALSE otherwise
+  * \return @c true if current line is the last line, @c false otherwise
   */
   bool IsCurrentLineMarked();
 
@@ -145,7 +146,7 @@ public:
 
   /// Check whether alignment has been taken care of
   /**
-  * \return TRUE if aligned, FALSE otherwise
+  * \return @c true if aligned, @c false otherwise
   */
   bool GetAligned() { return m_aligned; }
 
@@ -267,6 +268,7 @@ private:
 };
 
 /// Class representing table cells. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfTableCell
 {
 public:
@@ -381,7 +383,7 @@ public:
 
   /// Check whether cell has a coloured or transparent background
   /**
-  * \return TRUE if cell has background colour, FALSE otherwise
+  * \return @c true if cell has background colour, @c false otherwise
   */
   bool HasCellColour() const { return m_hasCellColour; };
 
@@ -425,6 +427,7 @@ private:
 WX_DECLARE_HASH_MAP_WITH_DECL(long, wxPdfTableCell*, wxIntegerHash, wxIntegerEqual, wxPdfCellHashMap, class WXDLLIMPEXP_PDFDOC);
 
 /// Class representing tables within a cell. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfTable
 {
 public:
@@ -561,7 +564,7 @@ public:
 
   /// Check whether border should be drawn
   /**
-  * \return TRUE if border should be drawn, FALSE otherwise
+  * \return @c true if border should be drawn, @c false otherwise
   */
   bool HasBorder() { return m_border; }
 

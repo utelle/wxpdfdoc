@@ -124,7 +124,7 @@ public:
 
   /// Get the next token
   /**
-  * \return TRUE if a token was found, FALSE otherwise
+  * \return @c true if a token was found, @c false otherwise
   */
   bool NextToken();
 
@@ -154,7 +154,7 @@ public:
 
   /// Check whether the token is a hexadecimal string
   /**
-  * \return TRUE if it is a hex string, FALSE otherwise
+  * \return @c true if it is a hex string, @c false otherwise
   */
   bool IsHexString() const { return m_hexString; }
 
@@ -173,21 +173,21 @@ public:
   /// Check byte whether it represents a white space character
   /**
   * \param ch The character to check
-  * \return TRUE if it is whitespace, FALSE otherwise
+  * \return @c true if it is whitespace, @c false otherwise
   */
   static bool IsWhitespace(int ch);
 
   /// Check byte whether it is a delimiter
   /**
   * \param ch The character to check
-  * \return TRUE if it is a delimiter, FALSE otherwise
+  * \return @c true if it is a delimiter, @c false otherwise
   */
   static bool IsDelimiter(int ch);
 
   /// Check byte whether it is a delimiter or a whitespace character
   /**
   * \param ch The character to check
-  * \return TRUE if it is a delimiter or whitespace, FALSE otherwise
+  * \return @c true if it is a delimiter or whitespace, @c false otherwise
   */
   static bool IsDelimiterOrWhitespace(int ch);
 
@@ -251,7 +251,7 @@ public:
 
   /// Check whether the PDF document to be parsed is valid
   /**
-  * \return TRUE if the document was parsed successfully, FALSE otherwise
+  * \return @c true if the document was parsed successfully, @c false otherwise
   */
   bool IsOk() const;
 
@@ -270,7 +270,7 @@ public:
   /// Get the document information dictionary
   /**
   * \param[out] info The info object to populate
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   bool GetSourceInfo(wxPdfInfo& info);
 
@@ -360,13 +360,13 @@ public:
 
   /// Set flag whether a stream should be decoded or not
   /**
-  * \param useRawStream TRUE to skip decoding, FALSE to decode
+  * \param useRawStream @c true to skip decoding, @c false to decode
   */
   void SetUseRawStream(bool useRawStream) { m_useRawStream = useRawStream; }
 
   /// Get flag whether a stream should be decoded or not
   /**
-  * \return TRUE if skip decoding, FALSE if decode
+  * \return @c true if skip decoding, @c false if decode
   */
   bool GetUseRawStream() const { return m_useRawStream; }
 
@@ -520,7 +520,7 @@ public:
   /**
   * \param dataIn The encoded input stream
   * \param dataOut The decoded output stream
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   bool Decode(wxMemoryInputStream* dataIn, wxMemoryOutputStream* dataOut);
 

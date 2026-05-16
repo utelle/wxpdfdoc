@@ -31,6 +31,7 @@ class wxPdfCffIndexArray;
 WX_DECLARE_HASH_MAP(long, wxPdfCffDictElement*, wxIntegerHash, wxIntegerEqual, wxPdfCffDictionary);
 
 /// Class representing OpenType Font Subsets. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontSubsetCff
 {
 public:

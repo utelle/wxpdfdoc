@@ -12,7 +12,8 @@
 #ifndef _PDF_CJK_FONT_DATA_H_
 #define _PDF_CJK_FONT_DATA_H_
 
-/// Structure describing core fonts (For internal use only)
+/// Structure describing core fonts (for internal use only)
+/// \internal
 typedef struct _wxPdfCjkFontDesc
 {
   const wxStringCharType* family;             ///< font family

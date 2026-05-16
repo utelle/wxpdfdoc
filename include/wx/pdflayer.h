@@ -87,7 +87,7 @@ public:
 
   /// Check whether OCG is initialized
   /**
-  * \return TRUE if initialized, FALSE otherwise
+  * \return @c true if initialized, @c false otherwise
   */
   bool IsOk() const;
 
@@ -195,7 +195,7 @@ public:
 
   /// Check whether the layer has child layers
   /**
-  * \return TRUE if the layer has children, FALSE otherwise
+  * \return @c true if the layer has children, @c false otherwise
   */
   bool HasChildren() const { return !m_children.IsEmpty(); }
 

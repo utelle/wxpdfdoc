@@ -22,6 +22,7 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfShape;
 
 /// Class representing ExtGState. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfExtGState
 {
 public:
@@ -109,7 +110,7 @@ public:
 
   /// Check whether path iterator is done
   /**
-  * \return TRUE if the iterator is done, FALSE otherwise
+  * \return @c true if the iterator is done, @c false otherwise
   */
   bool IsDone() { return m_done; }
 

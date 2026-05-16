@@ -80,7 +80,7 @@ public:
 
   /// Check whether the style is initialized.
   /**
-  * \return TRUE if the style is set, FALSE otherwise
+  * \return @c true if the style is set, @c false otherwise
   */
   bool IsSet() const { return m_isSet; }
 

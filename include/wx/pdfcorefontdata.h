@@ -12,7 +12,8 @@
 #ifndef _PDF_CORE_FONT_DATA_H_
 #define _PDF_CORE_FONT_DATA_H_
 
-/// Class representing a kerning pair (For internal use only)
+/// Class representing a kerning pair (for internal use only)
+/// \internal
 class wxPdfKernPairDesc
 {
 public:
@@ -21,7 +22,8 @@ public:
   int      kerning;  ///< kerning measure
 };
 
-/// Structure describing core fonts (For internal use only)
+/// Structure describing core fonts (for internal use only)
+/// \internal
 typedef struct _wxPdfCoreFontDesc
 {
   const wxStringCharType*  family;             ///< font family

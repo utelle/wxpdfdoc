@@ -25,99 +25,125 @@ public:
   /// Destructor
   virtual~wxPdfInfo() {}
 
-  /// Set title
+  /// Set the title of the document.
+  /// The title appears in the document's metadata and is typically displayed
+  /// in the PDF viewer's title bar or document properties.
   /**
   * \param title The document's title
   */
   void SetTitle(const wxString& title) { m_title = title; }
 
-  /// Set author
+  /// Set the author of the document.
+  /// The author is the person or organization that created the document's content.
   /**
   * \param author The name of the author
   */
   void SetAuthor(const wxString& author) { m_author = author; }
 
-  /// Set subject
+  /// Set the subject of the document.
+  /// The subject is a brief description of the document's topic or purpose.
   /**
   * \param subject The subject of the document
   */
   void SetSubject(const wxString& subject) { m_subject = subject; }
 
-  /// Set keywords
+  /// Set the keywords for the document.
+  /// Keywords are words or phrases associated with the document,
+  /// used for searching and categorization.
   /**
   * \param keywords Keywords associated with the document
   */
   void SetKeywords(const wxString& keywords) { m_keywords = keywords; }
 
-  /// Set the creator of the document
+  /// Set the creator of the document.
+  /// The creator is the application that initiated document creation, typically
+  /// your application's name.
   /**
-  * \param creator The name of the creating application
+  * \param creator The name of the application that created the document
   */
   void SetCreator(const wxString& creator) { m_creator = creator; }
 
-  /// Set the producer of the document
+  /// Set the producer of the document.
+  /// The producer is the PDF-writing library, analogous to a PDF distiller.
+  /// wxPdfDocument sets this field automatically; override it only if you want
+  /// a different value to appear in the document's metadata.
   /**
-  * \param producer The name of the producing application
+  * \param producer The name of the PDF-writing library that produced the document
   */
   void SetProducer(const wxString& producer) { m_producer = producer; }
 
-  /// Set the creation date
+  /// Set the creation date of the document.
+  /// The creation date records when the document was originally created.
+  /// The value should be formatted as a PDF date string (e.g., @c "D:20240101120000").
   /**
   * \param creationDate The date and time the document was created
   */
   void SetCreationDate(const wxString& creationDate) { m_creationDate = creationDate; }
 
-  /// Set the date of last modification
+  /// Set the modification date of the document.
+  /// The modification date records when the document was last changed.
+  /// The value should be formatted as a PDF date string (e.g., @c "D:20240101120000").
   /**
-  * \param modDate The date and time the document was modified
+  * \param modDate The date and time the document was last modified
   */
   void SetModDate(const wxString& modDate) { m_modDate = modDate; }
 
-  /// Get title
+  /// Get the title of the document.
+  /// The title appears in the document's metadata and is typically displayed
+  /// in the PDF viewer's title bar or document properties.
   /**
   * \return The document's title
   */
   const wxString GetTitle() const { return m_title; }
 
-  /// Get author
+  /// Get the author of the document.
+  /// The author is the person or organization that created the document's content.
   /**
   * \return The name of the author
   */
   const wxString GetAuthor() const { return m_author; }
 
-  /// Get subject
+  /// Get the subject of the document.
+  /// The subject is a brief description of the document's topic or purpose.
   /**
   * \return The subject of the document
   */
   const wxString GetSubject() const { return m_subject; }
 
-  /// Get keywords
+  /// Get the keywords for the document.
+  /// Keywords are words or phrases associated with the document,
+  /// used for searching and categorization.
   /**
   * \return Keywords associated with the document
   */
   const wxString GetKeywords() const { return m_keywords; }
 
-  /// Get the creator of the document
+  /// Get the creator of the document.
+  /// The creator is the application that initiated document creation, typically
+  /// your application's name.
   /**
-  * \return The name of the creating application
+  * \return The name of the application that created the document
   */
   const wxString GetCreator() const { return m_creator; }
 
-  /// Get the producer of the document
+  /// Get the producer of the document.
+  /// The producer is the PDF-writing library, analogous to a PDF distiller.
   /**
-  * \return The name of the producing application
+  * \return The name of the PDF-writing library that produced the document
   */
   const wxString GetProducer() const { return m_producer; }
 
-  /// Get the creation date
+  /// Get the creation date of the document.
+  /// The creation date records when the document was originally created.
   /**
   * \return The date and time the document was created
   */
   const wxString GetCreationDate() const { return m_creationDate; }
 
-  /// Get the date of last modification
+  /// Get the modification date of the document.
+  /// The modification date records when the document was last changed.
   /**
-  * \return The date and time the document was modified
+  * \return The date and time the document was last modified
   */
   const wxString GetModDate() const { return m_modDate; }
 

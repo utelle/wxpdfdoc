@@ -45,7 +45,7 @@ public:
 
   /// Checks whether the coons patch mesh is valid
   /**
-  * \return TRUE if the coons patch mesh is valid, FALSE otherwise
+  * \return @c true if the coons patch mesh is valid, @c false otherwise
   */
   bool Ok() const { return m_ok; }
 

@@ -53,7 +53,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 16
   * \param w width of a bar. Default value: 0.35.
-  * \return TRUE if barcode could be drawn, FALSE if the check digit is invalid
+  * \return @c true if barcode could be drawn, @c false if the check digit is invalid
   */
   bool EAN13(double x, double y, const wxString& barcode, double h = 16, double w = .35);
 
@@ -66,7 +66,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 16
   * \param w width of a bar. Default value: 0.35.
-  * \return TRUE if barcode could be drawn, FALSE if the check digit is invalid
+  * \return @c true if barcode could be drawn, @c false if the check digit is invalid
   */
   bool UPC_A(double x, double y, const wxString& barcode, double h = 16, double w = .35);
 
@@ -78,12 +78,12 @@ public:
   * \param x abscissa
   * \param y ordinate
   * \param code barcode value
-  * \param ext indicates if extended mode must be used (true by default)
-  * \param cks indicates if a checksum must be appended (false by default)
+  * \param ext indicates if extended mode must be used (@c true by default)
+  * \param cks indicates if a checksum must be appended (@c false by default)
   * \param w width of a narrow bar (0.4 by default)
   * \param h height of bars (20 by default)
   * \param wide indicates if ratio between wide and narrow bars is high; if yes, ratio is 3, if no, it's 2 (true by default)
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   bool Code39(double x, double y, const wxString& code, bool ext = true, bool cks = false, double w = 0.4, double h = 20, bool wide = true);
 
@@ -97,7 +97,7 @@ public:
   * \param code value of barcode (Note: if the length of the code is not even, a 0 is prepended.)
   * \param basewidth corresponds to the width of a wide bar (defaults to 1)
   * \param height bar height (defaults to 10)
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   bool I25(double xpos, double ypos, const wxString& code, double basewidth = 1, double height = 10);
 
@@ -108,7 +108,7 @@ public:
   * \param x abscissa of barcode
   * \param y ordinate of barcode
   * \param zipcode zip code to draw
-  * \return TRUE if barcode could be drawn, FALSE if the zipcode is invalid
+  * \return @c true if barcode could be drawn, @c false if the zipcode is invalid
   */
   bool PostNet(double x, double y, const wxString& zipcode);
 
@@ -121,7 +121,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 13
   * \param w width of a bar. Default value: 0.21.
-  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  * \return @c true if barcode could be drawn, @c false if the barcode value contains invalid characters
   */
   bool Code128(double x, double y, const wxString& barcode, double h, double w = 0.21);
 
@@ -134,7 +134,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 13
   * \param w width of a bar. Default value: 0.21.
-  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  * \return @c true if barcode could be drawn, @c false if the barcode value contains invalid characters
   */
   bool Code128A(double x, double y, const wxString& barcode, double h = 13, double w = 0.21);
 
@@ -147,7 +147,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 13
   * \param w width of a bar. Default value: 0.21.
-  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  * \return @c true if barcode could be drawn, @c false if the barcode value contains invalid characters
   */
   bool Code128B(double x, double y, const wxString& barcode, double h = 13, double w = 0.21);
 
@@ -159,7 +159,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 13
   * \param w width of a bar. Default value: 0.21.
-  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  * \return @c true if barcode could be drawn, @c false if the barcode value contains invalid characters
   */
   bool Code128C(double x, double y, const wxString& barcode, double h = 13, double w = 0.21);
 
@@ -171,7 +171,7 @@ public:
   * \param barcode value of barcode
   * \param h height of barcode. Default value: 13
   * \param w width of a bar. Default value: 0.21.
-  * \return TRUE if barcode could be drawn, FALSE if the barcode value contains invalid characters
+  * \return @c true if barcode could be drawn, @c false if the barcode value contains invalid characters
   */
   bool EAN128(double x, double y, const wxString& barcode, double h, double w = 0.21);
 
@@ -182,7 +182,7 @@ public:
   * \param barcode value of barcode
   * \param scale scaling factor (default 1, if value <= 0)
   * \param version version, allowing to specify the symbol size (automatic, if value <= 0)
-  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  * \return @c true if barcode could be drawn, @c false if the barcode could not be created
   */
   bool QRCode(double x, double y, const wxString& barcode, double scale = -1, int version = -1);
 
@@ -193,7 +193,7 @@ public:
   * \param barcode value of barcode
   * \param scale scaling factor (default 1, if value <= 0)
   * \param version version, allowing to specify the symbol size (automatic, if value <= 0)
-  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  * \return @c true if barcode could be drawn, @c false if the barcode could not be created
   */
   bool QRCodeDotty(double x, double y, const wxString& barcode, double scale = -1, int version = -1);
 
@@ -205,7 +205,7 @@ public:
   * \param scale scaling factor (default 1, if value <= 0)
   * \param version version, allowing to specify the symbol size (automatic, if value <= 0)
   * \param option option to request square symbols, if version is selected automatically (none, if value <= 0)
-  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  * \return @c true if barcode could be drawn, @c false if the barcode could not be created
   */
   bool DataMatrix(double x, double y, const wxString& barcode, double scale = -1, int version = -1, int option = -1);
 
@@ -216,7 +216,7 @@ public:
   * \param primary primary data value of barcode
   * \param secondary secondary data value of barcode
   * \param scale scaling factor (default 1, if value <= 0)
-  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  * \return @c true if barcode could be drawn, @c false if the barcode could not be created
   */
   bool MaxiCode(double x, double y, const wxString& primary, const wxString& secondary, double scale = -1);
 
@@ -225,7 +225,7 @@ public:
   * \param x abscissa of barcode
   * \param y ordinate of barcode
   * \param barcode generic Zint barcode object
-  * \return TRUE if barcode could be drawn, FALSE if the barcode could not be created
+  * \return @c true if barcode could be drawn, @c false if the barcode could not be created
   */
   bool GenericBarcode(double x, double y, wxPdfBarcodeZint& barcode);
 

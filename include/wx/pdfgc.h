@@ -99,27 +99,44 @@ public:
   /// Starts a new document.
   /// @param message The message to associate with the document (often unused in PDF context).
   /// @return true if successful, false otherwise.
+  /// \see EndDoc()
   virtual bool StartDoc(const wxString& message) wxOVERRIDE;
 
   /// Ends the current document, saving it to the file specified in print data.
+  /// \see StartDoc()
   virtual void EndDoc() wxOVERRIDE;
 
   /// Starts a new page in the document.
   /// @param width The width of the page.
   /// @param height The height of the page.
+  /// \see EndPage()
   virtual void StartPage(wxDouble width = 0, wxDouble height = 0) wxOVERRIDE;
 
   /// Ends the current page.
+  /// \see StartPage()
   virtual void EndPage() wxOVERRIDE {};
 
   /// Saves the current transformation matrix and clipping region.
+  /// \par Example
+  /// \code
+  /// gc.PushState();
+  /// gc.Clip(20, 500, 90, 50);
+  /// gc.SetPen(*wxBLACK_PEN);
+  /// gc.SetBrush(wxBrush(wxColour("GOLDENROD")));
+  /// gc.DrawEllipse(10, 490, 130, 90);
+  /// gc.ResetClip();
+  /// gc.PopState();
+  /// \endcode
+  /// \see PopState()
   virtual void PushState() wxOVERRIDE;
 
   /// Restores the previously saved transformation matrix and clipping region.
+  /// \see PushState()
   virtual void PopState() wxOVERRIDE;
 
   /// Clips the current graphics context to the given region.
   /// @param region The clipping region.
+  /// \see ResetClip()
   virtual void Clip(const wxRegion& region) wxOVERRIDE;
 
   /// Clips the current graphics context to the given rectangle.
@@ -127,17 +144,21 @@ public:
   /// @param y The top-left Y coordinate of the clipping rectangle.
   /// @param w The width of the clipping rectangle.
   /// @param h The height of the clipping rectangle.
+  /// \see ResetClip()
   virtual void Clip(wxDouble x, wxDouble y, wxDouble w, wxDouble h) wxOVERRIDE;
 
   /// Clips the current graphics context to the given path.
   /// @param path The clipping path.
+  /// \see ResetClip()
   virtual void Clip(const wxGraphicsPath& path);
 
   /// PDF-specific clip that takes a native shape.
   /// @param shape The shape to clip the drawing context to.
+  /// \see ResetClip()
   void Clip(const wxPdfShape& shape);
 
   /// Resets the clipping region, restoring the entire context.
+  /// \see Clip()
   virtual void ResetClip() wxOVERRIDE;
 
   /// Retrieves the bounding box of the current clipping region.
@@ -175,9 +196,11 @@ public:
 
   /// Begins a new transparency layer.
   /// @param opacity The opacity factor (0.0 to 1.0).
+  /// \see EndLayer()
   virtual void BeginLayer(wxDouble opacity) wxOVERRIDE;
 
   /// Ends the current transparency layer.
+  /// \see BeginLayer()
   virtual void EndLayer() wxOVERRIDE;
 
   /// Applies a translation to the transformation matrix.
@@ -220,17 +243,31 @@ public:
 
   /// Strokes the given path with the current pen.
   /// @param p The path to stroke.
+  /// \par Example
+  /// \code
+  /// wxGraphicsPath path = gc.CreatePath();
+  /// path.MoveToPoint(260, 230);
+  /// path.AddCurveToPoint(290, 150, 340, 270, 380, 175);
+  /// path.AddQuadCurveToPoint(410, 145, 440, 230);
+  /// path.AddArc(430, 200, 18, 0, wxDegToRad(360), true);
+  /// gc.SetPen(wxPenInfo(wxColour("MAGENTA")).Width(3));
+  /// gc.SetBrush(*wxTRANSPARENT_BRUSH);
+  /// gc.StrokePath(path);
+  /// \endcode
+  /// \see FillPath(), DrawPath()
   virtual void StrokePath(const wxGraphicsPath& p) wxOVERRIDE;
 
   /// Fills the given path with the current brush.
   /// @param p The path to fill.
   /// @param fillStyle The polygon fill rule (@c wxWINDING_RULE or @c wxODDEVEN_RULE).
+  /// \see StrokePath(), DrawPath()
   virtual void FillPath(const wxGraphicsPath& p,
                         wxPolygonFillMode fillStyle = wxWINDING_RULE) wxOVERRIDE;
 
   /// Draws the given path (strokes and fills) with current pen and brush.
   /// @param path The path to draw.
   /// @param fillStyle The polygon fill rule.
+  /// \see StrokePath(), FillPath()
   virtual void DrawPath(const wxGraphicsPath& path,
                         wxPolygonFillMode fillStyle = wxODDEVEN_RULE) wxOVERRIDE;
 
@@ -360,18 +397,22 @@ public:
   
   /// Sets the line alpha transparency.
   /// @param a The alpha value (0.0 for fully transparent to 1.0 for fully opaque).
+  /// \see GetLineAlpha(), SetFillAlpha()
   void SetLineAlpha(double a);
   
   /// Sets the fill alpha transparency.
   /// @param a The alpha value (0.0 for fully transparent to 1.0 for fully opaque).
+  /// \see GetFillAlpha(), SetLineAlpha()
   void SetFillAlpha(double a);
   
   /// Gets the current line alpha transparency.
   /// @return The current line alpha value.
+  /// \see SetLineAlpha()
   double GetLineAlpha() const { return m_lineAlpha; }
   
   /// Gets the current fill alpha transparency.
   /// @return The current fill alpha value.
+  /// \see SetFillAlpha()
   double GetFillAlpha() const { return m_fillAlpha; }
 
 protected:
@@ -440,6 +481,20 @@ public:
 
   /// Returns the process-wide PDF graphics renderer.
   /// @return A pointer to the singleton @c wxPdfGraphicsRenderer.
+  /// \par Example
+  /// \code
+  /// wxPdfDocument doc(wxPORTRAIT, "pt", wxPAPER_LETTER);
+  /// doc.Open();
+  /// doc.AddPage();
+  /// wxGraphicsContext* gc = wxPdfGraphicsRenderer::GetPdfRenderer()->CreateContext(&doc);
+  /// if (gc)
+  /// {
+  ///     gc->SetFont(wxFontInfo(14).FaceName("Arial").Bold(), *wxBLACK);
+  ///     gc->DrawText(wxS("wxPdfDocument — wxGraphicsContext"), 10, 10);
+  ///     delete gc;
+  /// }
+  /// doc.SaveAsFile(wxS("output.pdf"));
+  /// \endcode
   static wxPdfGraphicsRenderer* GetPdfRenderer();
 
   // PDF-specific factories --------------------------------------------------
@@ -448,6 +503,7 @@ public:
   /// from \a printData. Caller takes ownership of the returned context.
   /// @param printData The print data to configure the document.
   /// @return A pointer to the created @c wxGraphicsContext.
+  /// \see CreateContext(), CreateContextFromDocument()
   wxGraphicsContext* CreateContextFromPrintData(const wxPrintData& printData);
 
   /// Creates a context that draws into the document already owned by
@@ -455,12 +511,14 @@ public:
   /// when destroyed; the wxPdfDC retains ownership.
   /// @param dc The wxPdfDC to draw into.
   /// @return A pointer to the created @c wxGraphicsContext.
+  /// \see CreateContextFromPrintData(), CreateContextFromDocument()
   wxGraphicsContext* CreateContext(wxPdfDC* dc);
 
   /// Creates a context that draws into the given existing PDF document.
   /// The context does not take ownership of the document.
   /// @param pdfDocument The PDF document to draw into.
   /// @return A pointer to the created @c wxGraphicsContext.
+  /// \see CreateContextFromPrintData(), CreateContextFromDocument()
   wxGraphicsContext* CreateContext(wxPdfDocument* pdfDocument);
 
   /// Creates a context that draws into the given existing PDF document as
@@ -470,6 +528,7 @@ public:
   /// @param templateWidth The width of the template region.
   /// @param templateHeight The height of the template region.
   /// @return A pointer to the created @c wxGraphicsContext.
+  /// \see CreateContextFromPrintData(), CreateContext()
   wxGraphicsContext* CreateContextFromDocument(wxPdfDocument* pdfDocument,
                                                double templateWidth,
                                                double templateHeight);
@@ -597,6 +656,7 @@ public:
   /// @param font The font.
   /// @param col The colour.
   /// @return A new @c wxGraphicsFont.
+  /// \see CreateFontAtDPI()
   virtual wxGraphicsFont CreateFont(const wxFont& font,
                                     const wxColour& col = *wxBLACK) wxOVERRIDE;
 
@@ -606,6 +666,7 @@ public:
   /// @param flags The font flags.
   /// @param col The colour.
   /// @return A new @c wxGraphicsFont.
+  /// \see CreateFontAtDPI()
   virtual wxGraphicsFont CreateFont(double sizeInPixels,
                                     const wxString& facename,
                                     int flags = wxFONTFLAG_DEFAULT,
@@ -617,6 +678,7 @@ public:
   /// @param dpi The DPI.
   /// @param col The colour.
   /// @return A new @c wxGraphicsFont.
+  /// \see CreateFont()
   virtual wxGraphicsFont CreateFontAtDPI(const wxFont& font,
                                          const wxRealPoint& dpi,
                                          const wxColour& col = *wxBLACK) wxOVERRIDE;
@@ -624,17 +686,20 @@ public:
   /// Creates a graphics bitmap.
   /// @param bitmap The bitmap.
   /// @return A new @c wxGraphicsBitmap.
+  /// \see CreateBitmapFromImage()
   virtual wxGraphicsBitmap CreateBitmap(const wxBitmap& bitmap) wxOVERRIDE;
 
 #if wxUSE_IMAGE
   /// Creates a graphics bitmap from an image.
   /// @param image The image.
   /// @return A new @c wxGraphicsBitmap.
+  /// \see CreateBitmap(), CreateImageFromBitmap()
   virtual wxGraphicsBitmap CreateBitmapFromImage(const wxImage& image) wxOVERRIDE;
 
   /// Creates an image from a graphics bitmap.
   /// @param bmp The graphics bitmap.
   /// @return A new @c wxImage.
+  /// \see CreateBitmapFromImage()
   virtual wxImage CreateImageFromBitmap(const wxGraphicsBitmap& bmp) wxOVERRIDE;
 #endif
 

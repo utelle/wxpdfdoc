@@ -88,67 +88,67 @@ public:
 
   /// Check whether this object was created through an indirect reference
   /**
-  * \return TRUE if the object was created through an indirect reference, FALSE otherwise
+  * \return @c true if the object was created through an indirect reference, @c false otherwise
   */
   bool IsCreatedIndirect() { return m_indirect; }
 
   /// Check whether this object can be in an object stream
   /**
-  * \return TRUE if the object can be in an object stream, FALSE otherwise
+  * \return @c true if the object can be in an object stream, @c false otherwise
   */
   bool CanBeInObjStm();
 
   /// Checks whether this is a wxPdfNull object.
   /**
-  * \return TRUE if this is a null object, FALSE otherwise
+  * \return @c true if this is a null object, @c false otherwise
   */
   bool IsNull() { return (m_type == OBJTYPE_NULL); }
 
   /// Checks whether this is a wxPdfBoolean object.
   /**
-  * \return TRUE if this is a boolean object, FALSE otherwise
+  * \return @c true if this is a boolean object, @c false otherwise
   */
   bool IsBoolean() { return (m_type == OBJTYPE_BOOLEAN); }
 
   /// Checks whether this is a wxPdfNumber object.
   /**
-  * \return TRUE if this is a number object, FALSE otherwise
+  * \return @c true if this is a number object, @c false otherwise
   */
   bool IsNumber() { return (m_type == OBJTYPE_NUMBER); }
 
   /// Checks whether this is a wxPdfString object.
   /**
-  * \return TRUE if this is a string object, FALSE otherwise
+  * \return @c true if this is a string object, @c false otherwise
   */
   bool IsString() { return (m_type == OBJTYPE_STRING); }
 
   /// Checks whether this is a wxPdfName object.
   /**
-  * \return TRUE if this is a name object, FALSE otherwise
+  * \return @c true if this is a name object, @c false otherwise
   */
   bool IsName() { return (m_type == OBJTYPE_NAME); }
 
   /// Checks whether this is a wxPdfArray object.
   /**
-  * \return TRUE if this is an array object, FALSE otherwise
+  * \return @c true if this is an array object, @c false otherwise
   */
   bool IsArray() { return (m_type == OBJTYPE_ARRAY); }
 
   /// Checks whether this is a wxPdfDictionary object.
   /**
-  * \return TRUE if this is a dictionary object, FALSE otherwise
+  * \return @c true if this is a dictionary object, @c false otherwise
   */
   bool IsDictionary() { return (m_type == OBJTYPE_DICTIONARY); }
 
   /// Checks whether this PdfObject is of the type PdfStream.
   /**
-  * \return TRUE if this is a stream object, FALSE otherwise
+  * \return @c true if this is a stream object, @c false otherwise
   */
   bool IsStream() { return (m_type == OBJTYPE_STREAM); }
 
   /// Checks if this is an indirect object.
   /**
-  * \return TRUE if this is an indirect object, FALSE otherwise
+  * \return @c true if this is an indirect object, @c false otherwise
   */
   bool IsIndirect() { return (m_type == OBJTYPE_INDIRECT); }
 
@@ -266,7 +266,7 @@ public:
 
   /// Check whether string is hexadecimal
   /**
-  * \return TRUE if the string is hexadecimal, FALSE otherwise
+  * \return @c true if the string is hexadecimal, @c false otherwise
   */
   bool IsHexString() const { return m_isHexString; }
 
@@ -320,7 +320,7 @@ public:
 
   /// Check whether value is integer
   /**
-  * \return TRUE if the value is an integer, FALSE otherwise
+  * \return @c true if the value is an integer, @c false otherwise
   */
   bool IsInt() { return m_isInt; }
 
@@ -512,7 +512,7 @@ public:
 
   /// Get flag whether the offsets of objects in an object stream are available
   /**
-  * \return TRUE if the offsets are available, FALSE otherwise
+  * \return @c true if the offsets are available, @c false otherwise
   */
   bool HasObjOffsets() { return m_hasObjOffsets; }
 

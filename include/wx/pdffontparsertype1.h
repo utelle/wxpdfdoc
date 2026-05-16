@@ -50,7 +50,7 @@ public:
   * \param fontFile the stream containing the font data
   * \param metricFile the stream containing the font metric data
   * \param onlyNames flag whether only the font names should be parsed or the full font data
-  * \return TRUE if the parsing was successful, FALSE otherwise
+  * \return @c true if the parsing was successful, @c false otherwise
   */
   bool ParseFont(const wxString& fileName, wxInputStream* fontFile, wxInputStream* metricFile, bool onlyNames);
 
@@ -59,21 +59,21 @@ public:
   * Before using a font it's data have be loaded into memory. This method tries
   * to load the required font data for a previously identified font.
   * \param fontData the font data instance to be loaded
-  * \return TRUE if the font data could be loaded successfully, FALSE otherwise
+  * \return @c true if the font data could be loaded successfully, @c false otherwise
   */
   bool LoadFontData(wxPdfFontData* fontData);
 
   /// Read font metrics from Adobe Font Metric file
   /**
   * \param afmFile stream containing the font metric data
-  * \return TRUE if the font metrics are valid, FALSE otherwise
+  * \return @c true if the font metrics are valid, @c false otherwise
   */
   bool ReadAFM(wxInputStream& afmFile);
 
   /// Read font metrics from Printer Font Metric file
   /**
   * \param pfmFile stream containing the font metric data
-  * \return TRUE if the font metrics are valid, FALSE otherwise
+  * \return @c true if the font metrics are valid, @c false otherwise
   */
   bool ReadPFM(wxInputStream& pfmFile);
 
@@ -81,7 +81,7 @@ public:
   /**
   * \param pfxFile stream containing the font data
   * \param onlyNames flag whether only the font names should be parsed or the full font data
-  * \return TRUE if the font metrics are valid, FALSE otherwise
+  * \return @c true if the font metrics are valid, @c false otherwise
   * \note Type1 fonts exist in either PFA (PostScript Font ASCII) or PFB (PostScript Font Binary) format.
   * Although this method is capable of reading either format, currently only fonts in PFB format
   * can be used in creating PDF documents.

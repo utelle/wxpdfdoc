@@ -19,6 +19,7 @@
 #include "wx/pdfdocdef.h"
 
 /// Class representing bookmarks for defining the document's outline. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfBookmark
 {
 public:
