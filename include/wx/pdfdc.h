@@ -43,6 +43,24 @@ public:
   /// Constructor initializing the DC with print data
   /**
   * \param printData Printer configuration data
+  * \par Example
+  * \code
+  * wxPrintData printData;
+  * printData.SetOrientation(wxPORTRAIT);
+  * printData.SetPaperId(wxPAPER_A4);
+  * printData.SetFilename(wxS("output.pdf"));
+  *
+  * wxPdfDC dc(printData);
+  * dc.SetMapModeStyle(wxPDF_MAPMODESTYLE_PDF);
+  * dc.SetMapMode(wxMM_POINTS);
+  * if (dc.StartDoc(_("Printing...")))
+  * {
+  *     dc.StartPage();
+  *     dc.DrawText(wxS("Hello, PDF!"), 10, 10);
+  *     dc.EndPage();
+  *     dc.EndDoc();
+  * }
+  * \endcode
   */
   wxPdfDC(const wxPrintData& printData);
 
@@ -51,6 +69,27 @@ public:
   * \param pdfDocument Associated PDF document
   * \param templateWidth Width of the template in user units
   * \param templateHeight Height of the template in user units
+  * \par Example
+  * \code
+  * wxPdfDocument pdf;
+  * pdf.AddPage();
+  * double w = 125, h = 125;
+  * int tpl = pdf.BeginTemplate(0, 0, w, h);
+  * {
+  *     wxPdfDC dc(&pdf, w, h);
+  *     if (dc.StartDoc(_("Printing...")))
+  *     {
+  *         dc.StartPage();
+  *         dc.DrawRectangle(10, 10, 100, 50);
+  *         dc.EndPage();
+  *         dc.EndDoc();
+  *     }
+  * }
+  * pdf.EndTemplate();
+  * pdf.UseTemplate(tpl, 40, 30, 75);
+  * pdf.SaveAsFile(wxS("output.pdf"));
+  * \endcode
+  * \see wxPdfDocument::BeginTemplate(), wxPdfDocument::EndTemplate(), wxPdfDocument::UseTemplate()
   */
   wxPdfDC(wxPdfDocument* pdfDocument, double templateWidth, double templateHeight);
 

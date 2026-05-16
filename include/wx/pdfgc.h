@@ -117,6 +117,16 @@ public:
   virtual void EndPage() wxOVERRIDE {};
 
   /// Saves the current transformation matrix and clipping region.
+  /// \par Example
+  /// \code
+  /// gc.PushState();
+  /// gc.Clip(20, 500, 90, 50);
+  /// gc.SetPen(*wxBLACK_PEN);
+  /// gc.SetBrush(wxBrush(wxColour("GOLDENROD")));
+  /// gc.DrawEllipse(10, 490, 130, 90);
+  /// gc.ResetClip();
+  /// gc.PopState();
+  /// \endcode
   /// \see PopState()
   virtual void PushState() wxOVERRIDE;
 
@@ -233,6 +243,17 @@ public:
 
   /// Strokes the given path with the current pen.
   /// @param p The path to stroke.
+  /// \par Example
+  /// \code
+  /// wxGraphicsPath path = gc.CreatePath();
+  /// path.MoveToPoint(260, 230);
+  /// path.AddCurveToPoint(290, 150, 340, 270, 380, 175);
+  /// path.AddQuadCurveToPoint(410, 145, 440, 230);
+  /// path.AddArc(430, 200, 18, 0, wxDegToRad(360), true);
+  /// gc.SetPen(wxPenInfo(wxColour("MAGENTA")).Width(3));
+  /// gc.SetBrush(*wxTRANSPARENT_BRUSH);
+  /// gc.StrokePath(path);
+  /// \endcode
   /// \see FillPath(), DrawPath()
   virtual void StrokePath(const wxGraphicsPath& p) wxOVERRIDE;
 
@@ -460,6 +481,20 @@ public:
 
   /// Returns the process-wide PDF graphics renderer.
   /// @return A pointer to the singleton @c wxPdfGraphicsRenderer.
+  /// \par Example
+  /// \code
+  /// wxPdfDocument doc(wxPORTRAIT, "pt", wxPAPER_LETTER);
+  /// doc.Open();
+  /// doc.AddPage();
+  /// wxGraphicsContext* gc = wxPdfGraphicsRenderer::GetPdfRenderer()->CreateContext(&doc);
+  /// if (gc)
+  /// {
+  ///     gc->SetFont(wxFontInfo(14).FaceName("Arial").Bold(), *wxBLACK);
+  ///     gc->DrawText(wxS("wxPdfDocument — wxGraphicsContext"), 10, 10);
+  ///     delete gc;
+  /// }
+  /// doc.SaveAsFile(wxS("output.pdf"));
+  /// \endcode
   static wxPdfGraphicsRenderer* GetPdfRenderer();
 
   // PDF-specific factories --------------------------------------------------
