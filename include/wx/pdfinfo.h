@@ -37,27 +37,35 @@ public:
   */
   void SetAuthor(const wxString& author) { m_author = author; }
 
-  /// Set subject
+  /// Set the subject of the document.
+  /// The subject is a brief description of the document's topic or purpose.
   /**
   * \param subject The subject of the document
   */
   void SetSubject(const wxString& subject) { m_subject = subject; }
 
-  /// Set keywords
+  /// Set the keywords for the document.
+  /// Keywords are words or phrases associated with the document,
+  /// used for searching and categorization.
   /**
   * \param keywords Keywords associated with the document
   */
   void SetKeywords(const wxString& keywords) { m_keywords = keywords; }
 
-  /// Set the creator of the document
+  /// Set the creator of the document.
+  /// The creator is the application that initiated document creation, typically
+  /// your application's name.
   /**
-  * \param creator The name of the creating application
+  * \param creator The name of the application that created the document
   */
   void SetCreator(const wxString& creator) { m_creator = creator; }
 
-  /// Set the producer of the document
+  /// Set the producer of the document.
+  /// The producer is the PDF-writing library, analogous to a PDF distiller.
+  /// wxPdfDocument sets this field automatically; override it only if you want
+  /// a different value to appear in the document's metadata.
   /**
-  * \param producer The name of the producing application
+  * \param producer The name of the PDF-writing library that produced the document
   */
   void SetProducer(const wxString& producer) { m_producer = producer; }
 
@@ -85,27 +93,33 @@ public:
   */
   const wxString GetAuthor() const { return m_author; }
 
-  /// Get subject
+  /// Get the subject of the document.
+  /// The subject is a brief description of the document's topic or purpose.
   /**
   * \return The subject of the document
   */
   const wxString GetSubject() const { return m_subject; }
 
-  /// Get keywords
+  /// Get the keywords for the document.
+  /// Keywords are words or phrases associated with the document,
+  /// used for searching and categorization.
   /**
   * \return Keywords associated with the document
   */
   const wxString GetKeywords() const { return m_keywords; }
 
-  /// Get the creator of the document
+  /// Get the creator of the document.
+  /// The creator is the application that initiated document creation, typically
+  /// your application's name.
   /**
-  * \return The name of the creating application
+  * \return The name of the application that created the document
   */
   const wxString GetCreator() const { return m_creator; }
 
-  /// Get the producer of the document
+  /// Get the producer of the document.
+  /// The producer is the PDF-writing library, analogous to a PDF distiller.
   /**
-  * \return The name of the producing application
+  * \return The name of the PDF-writing library that produced the document
   */
   const wxString GetProducer() const { return m_producer; }
 
