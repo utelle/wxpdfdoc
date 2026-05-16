@@ -3256,15 +3256,43 @@ protected:
   */
   virtual void Initialize(int orientation);
 
-  /// Save graphic state
-  /// \see RestoreGraphicState()
+  /// Pushes the current graphic state onto an internal stack
+  /**
+  * Saves the current values of:
+  * - font (family, style, and size)
+  * - draw, fill, and text colours
+  * - line width, line style, and extended graphics state (alpha)
+  *
+  * Called automatically by StartTransform(). Subclasses that apply
+  * temporary rendering changes can call this directly and pair it with
+  * RestoreGraphicState() to leave the document state unchanged after
+  * the changes are done.
+  *
+  * \note The saved state stack is separate from the PDF content-stream
+  *       operator stack (q/Q). If you need both the content-stream state
+  *       and the wxPdfDocument member state saved, use StartTransform()
+  *       and StopTransform() instead.
+  * \see RestoreGraphicState(), StartTransform()
+  */
   virtual void SaveGraphicState();
 
-  /// Restore graphic state
-  /// \see SaveGraphicState()
+  /// Pops and restores the most recently saved graphic state
+  /**
+  * Restores the font, colour, line, and extended graphics state values
+  * that were saved by the most recent call to SaveGraphicState().
+  * If the stack is empty the call is a no-op.
+  *
+  * Called automatically by StopTransform().
+  * \see SaveGraphicState(), StopTransform()
+  */
   virtual void RestoreGraphicState();
 
-  /// Clear graphic state
+  /// Discards all saved graphic states
+  /**
+  * Empties the entire SaveGraphicState() stack without restoring any
+  * values. Called internally when a new page begins.
+  * \see SaveGraphicState()
+  */
   virtual void ClearGraphicState();
 
   /// Select font
