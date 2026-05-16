@@ -2723,6 +2723,26 @@ public:
   /**
   * Output starts at the current position.
   * \param str string containing text with simple XML markup
+  * \par Example
+  * \code
+  * // Named anchor at the top of the page
+  * pdf.WriteXml(wxS("<a name=\"top\">Top of page</a><br/>"));
+  *
+  * // Hyperlink that jumps to the anchor
+  * pdf.WriteXml(wxS("<a href=\"#top\">Back to top</a><br/>"));
+  *
+  * // Styled paragraph: bold, italic, superscript, underline, strikethrough
+  * pdf.WriteXml(wxS("<p align=\"justify\">H<sub>2</sub>O is <b>water</b>. "
+  *                  "<u><s>Striked</s> and underlined</u>.</p>"));
+  *
+  * // Ordered list with Roman numerals starting at 100
+  * pdf.WriteXml(wxS("<ol type=\"i\" start=\"100\"><li>Alpha</li><li>Beta</li></ol>"));
+  *
+  * // Simple bordered table
+  * pdf.WriteXml(wxS("<table border=\"1\"><tbody><tr>"
+  *                  "<td>Cell 1</td><td>Cell 2</td>"
+  *                  "</tr></tbody></table>"));
+  * \endcode
   * \see \ref writexml
   */
   virtual void WriteXml(const wxString& str);
