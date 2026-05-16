@@ -63,12 +63,14 @@ public:
   /// Sets the resolution for the DC
   /**
   * \param ppi Resolution in pixels per inch
+  * \see GetResolution()
   */
   void SetResolution(int ppi);
 
   /// Returns the current resolution
   /**
   * \return Resolution in pixels per inch
+  * \see SetResolution()
   */
   int GetResolution() const;
 
@@ -84,12 +86,14 @@ public:
   * Map mode style determines how logical coordinates and font sizes are scaled to the PDF page,
   * allowing emulation of platform-specific behaviors or native PDF API scaling.
   * \param style The map mode style to apply
+  * \see GetMapModeStyle()
   */
   void SetMapModeStyle(wxPdfMapModeStyle style);
 
   /// Returns the current map mode style
   /**
   * \return The current map mode style
+  * \see SetMapModeStyle()
   */
   wxPdfMapModeStyle GetMapModeStyle() const;
 
@@ -152,6 +156,7 @@ public:
   /// Sets the print data
   /**
   * \param data Printer configuration data
+  * \see GetPrintData()
   */
   void SetPrintData(const wxPrintData& data);
 
@@ -164,12 +169,14 @@ public:
   /// Sets the resolution
   /**
   * \param ppi Resolution in pixels per inch
+  * \see GetResolution()
   */
   void SetResolution(int ppi);
 
   /// Returns the resolution
   /**
   * \return Resolution in pixels per inch
+  * \see SetResolution()
   */
   virtual int GetResolution() const wxOVERRIDE;
 
@@ -183,9 +190,31 @@ public:
   // implement base class pure virtuals
 
   virtual void Clear() wxOVERRIDE;
+
+  /// Begins PDF document generation
+  /**
+  * \param message Not used
+  * \return true on success
+  * \see EndDoc()
+  */
   virtual bool StartDoc(const wxString& message) wxOVERRIDE;
+
+  /// Ends PDF document generation and finalises the file
+  /**
+  * \see StartDoc()
+  */
   virtual void EndDoc() wxOVERRIDE;
+
+  /// Begins a new page
+  /**
+  * \see EndPage()
+  */
   virtual void StartPage() wxOVERRIDE;
+
+  /// Ends the current page
+  /**
+  * \see StartPage()
+  */
   virtual void EndPage() wxOVERRIDE;
   virtual void SetFont(const wxFont& font) wxOVERRIDE;
   virtual void SetPen(const wxPen& pen) wxOVERRIDE;
@@ -216,8 +245,26 @@ public:
 
 #if wxUSE_DC_TRANSFORM_MATRIX
   virtual bool CanUseTransformMatrix() const wxOVERRIDE;
+
+  /// Sets the affine transformation matrix applied to all drawing operations
+  /**
+  * \param matrix The affine transformation matrix to apply
+  * \return true on success
+  * \see GetTransformMatrix(), ResetTransformMatrix()
+  */
   virtual bool SetTransformMatrix(const wxAffineMatrix2D& matrix) wxOVERRIDE;
+
+  /// Returns the current affine transformation matrix
+  /**
+  * \return The current transformation matrix
+  * \see SetTransformMatrix()
+  */
   virtual wxAffineMatrix2D GetTransformMatrix() const wxOVERRIDE;
+
+  /// Resets the transformation matrix to the identity
+  /**
+  * \see SetTransformMatrix()
+  */
   virtual void ResetTransformMatrix() wxOVERRIDE;
 #endif // wxUSE_DC_TRANSFORM_MATRIX
 
@@ -230,7 +277,17 @@ public:
   /// Returns a wxGraphicsContext that draws into the same PDF document
   /// as this DC. Lazily created on first call; the DC retains ownership
   /// of both the context and the underlying wxPdfDocument.
+  /**
+  * \return Pointer to the associated graphics context
+  * \see SetGraphicsContext()
+  */
   virtual wxGraphicsContext* GetGraphicsContext() const wxOVERRIDE;
+
+  /// Sets the graphics context used by this DC
+  /**
+  * \param ctx A wxPdfGraphicsContext to associate with this DC; the DC takes ownership
+  * \see GetGraphicsContext()
+  */
   virtual void SetGraphicsContext(wxGraphicsContext* ctx) wxOVERRIDE;
 #endif // wxUSE_GRAPHICS_CONTEXT
 
