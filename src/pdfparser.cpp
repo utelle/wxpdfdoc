@@ -1314,6 +1314,7 @@ wxPdfParser::ParseDirectObject(int k)
     else
     {
       // Object not found or not a stream
+      delete obj;
       obj = NULL;
     }
   }
