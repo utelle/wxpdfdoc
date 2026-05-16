@@ -2685,6 +2685,179 @@ wxPdfDocument::AddPattern(const wxString& patternName, wxPdfPatternStyle pattern
   return isValid;
 }
 
+bool
+wxPdfDocument::AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxColour& c1, const wxColour& c2)
+{
+  return AddLinearGradientPattern(patternName, x1, y1, x2, y2, wxGraphicsGradientStops(c1, c2), wxAffineMatrix2D());
+}
+
+bool
+wxPdfDocument::AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxColour& c1, const wxColour& c2,
+                                        const wxGraphicsMatrix& matrix)
+{
+  // Create affine matrix from the graphics matrix
+  wxAffineMatrix2D matrixAffine;
+  if (!matrix.IsNull() || !matrix.IsIdentity())
+  {
+    wxMatrix2D mat2D;
+    wxPoint2DDouble tr;
+    matrix.Get(&mat2D.m_11, &mat2D.m_12, &mat2D.m_21, &mat2D.m_22, &tr.m_x, &tr.m_y);
+    matrixAffine.Set(mat2D, tr);
+  }
+  return AddLinearGradientPattern(patternName, x1, y1, x2, y2, wxGraphicsGradientStops(c1, c2), matrixAffine);
+}
+
+bool
+wxPdfDocument::AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxColour& c1, const wxColour& c2,
+                                        const wxAffineMatrix2D& matrix)
+{
+  return AddLinearGradientPattern(patternName, x1, y1, x2, y2, wxGraphicsGradientStops(c1, c2), matrix);
+}
+
+bool
+wxPdfDocument::AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxGraphicsGradientStops& stops)
+{
+  return AddLinearGradientPattern(patternName, x1, y1, x2, y2, stops, wxAffineMatrix2D());
+}
+
+bool
+wxPdfDocument::AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxGraphicsGradientStops& stops,
+                                        const wxGraphicsMatrix& matrix)
+{
+  // Create affine matrix from the graphics matrix
+  wxAffineMatrix2D matrixAffine;
+  if (!matrix.IsNull() || !matrix.IsIdentity())
+  {
+    wxMatrix2D mat2D;
+    wxPoint2DDouble tr;
+    matrix.Get(&mat2D.m_11, &mat2D.m_12, &mat2D.m_21, &mat2D.m_22, &tr.m_x, &tr.m_y);
+    matrixAffine.Set(mat2D, tr);
+  }
+  return AddLinearGradientPattern(patternName, x1, y1, x2, y2, stops, matrixAffine);
+}
+
+
+bool
+wxPdfDocument::AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxGraphicsGradientStops& stops,
+                                        const wxAffineMatrix2D& matrix)
+{
+  bool isValid = true;
+  wxPdfPatternMap::iterator patternIter = m_patterns->find(patternName);
+  if (patternIter == m_patterns->end())
+  {
+    // Register new linear gradient pattern
+    int i = (int)m_patterns->size() + 1;
+    wxPdfPattern* pattern = new wxPdfPattern(i, x1, y1, x2, y2, stops, matrix);
+    (*m_patterns)[patternName] = pattern;
+  }
+
+#if 0
+      {
+        wxLogError(wxString(wxS("wxPdfDocument::AddPattern: ")) +
+                   wxString::Format(_("Invalid width (%.1f) and/or height (%.1f)."), width, height));
+      }
+#endif
+
+  return isValid;
+}
+
+bool
+wxPdfDocument::AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxColour& oColor, const wxColour& cColor)
+{
+  return AddRadialGradientPattern(patternName, startX, startY, startRadius, endX, endY, endRadius, wxGraphicsGradientStops(oColor, cColor), wxAffineMatrix2D());
+}
+
+bool
+wxPdfDocument::AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxColour& oColor, const wxColour& cColor,
+                                        const wxGraphicsMatrix& matrix)
+{
+  // Create affine matrix from the graphics matrix
+  wxAffineMatrix2D matrixAffine;
+  if (!matrix.IsNull() || !matrix.IsIdentity())
+  {
+    wxMatrix2D mat2D;
+    wxPoint2DDouble tr;
+    matrix.Get(&mat2D.m_11, &mat2D.m_12, &mat2D.m_21, &mat2D.m_22, &tr.m_x, &tr.m_y);
+    matrixAffine.Set(mat2D, tr);
+  }
+  return AddRadialGradientPattern(patternName, startX, startY, startRadius, endX, endY, endRadius, wxGraphicsGradientStops(oColor, cColor), matrixAffine);
+}
+
+bool
+wxPdfDocument::AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxColour& oColor, const wxColour& cColor,
+                                        const wxAffineMatrix2D& matrix)
+{
+  return AddRadialGradientPattern(patternName, startX, startY, startRadius, endX, endY, endRadius, wxGraphicsGradientStops(oColor, cColor), matrix);
+}
+
+bool
+wxPdfDocument::AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxGraphicsGradientStops& stops)
+{
+  return AddRadialGradientPattern(patternName, startX, startY, startRadius, endX, endY, endRadius, stops, wxAffineMatrix2D());
+}
+
+bool
+wxPdfDocument::AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxGraphicsGradientStops& stops,
+                                        const wxGraphicsMatrix& matrix)
+{
+  // Create affine matrix from the graphics matrix
+  wxAffineMatrix2D matrixAffine;
+  if (!matrix.IsNull() || !matrix.IsIdentity())
+  {
+    wxMatrix2D mat2D;
+    wxPoint2DDouble tr;
+    matrix.Get(&mat2D.m_11, &mat2D.m_12, &mat2D.m_21, &mat2D.m_22, &tr.m_x, &tr.m_y);
+    matrixAffine.Set(mat2D, tr);
+  }
+  return AddRadialGradientPattern(patternName, startX, startY, startRadius, endX, endY, endRadius, stops, matrixAffine);
+}
+
+bool
+wxPdfDocument::AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxGraphicsGradientStops& stops,
+                                        const wxAffineMatrix2D& matrix)
+{
+  bool isValid = true;
+  wxPdfPatternMap::iterator patternIter = m_patterns->find(patternName);
+  if (patternIter == m_patterns->end())
+  {
+    // Register new radial gradient pattern
+    int i = (int)m_patterns->size() + 1;
+    wxPdfPattern* pattern = new wxPdfPattern(i, startX, startY, startRadius, endX, endY, endRadius, stops, matrix);
+    (*m_patterns)[patternName] = pattern;
+  }
+  return isValid;
+}
+
 void
 wxPdfDocument::SetDrawColour(const wxColour& colour)
 {

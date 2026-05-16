@@ -10,15 +10,19 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 ### Changed
 
 - Updated 3rd party libraries _zint_ and _woff2_
+- Improved documentation
 
 ### Added
 
 - Added `wxPdfGraphicsContext` implementation
 - Added support for granular font weights (Thin to ExtraHeavy)
+- Added linear and radial shading patterns for drawing and filling
 
 ### Fixed
 
 - Fixed issue where bold fonts were not correctly selected when using `wxFont` with `wxFONTWEIGHT_BOLD`
+- Fixed various compile time warnings
+- Fixed several long-standing bugs
 
 ## [1.3.1] - 2025-04-28
 

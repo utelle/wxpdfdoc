@@ -439,6 +439,46 @@ drawing(bool testMode)
     }
     pdf.BezierSpline(xpArc, ypArc, wxPDF_STYLE_DRAW);
 
+    // Examples for linear and radial gradient shading patterns
+    pdf.AddPage();
+
+    pdf.Text(5, 7, wxS("Gradient examples"));
+
+    wxGraphicsGradientStops linStops1(wxColour(0, 80, 200), wxColour(255, 240, 80));
+    linStops1.Add(wxColour(220, 60, 60), 0.5f);
+    pdf.AddLinearGradientPattern("lingrad1", 10, 25, 80, 25, linStops1);
+
+    wxAffineMatrix2D rot;
+    rot.Rotate(25);
+    pdf.AddLinearGradientPattern("lingrad1a", 10, 35, 80, 35, linStops1, rot);
+
+    wxGraphicsGradientStops linStops2(wxColour(80, 0, 200), wxColour(240, 255, 80));
+    linStops2.Add(wxColour(60, 220, 60), 0.5f);
+    pdf.AddLinearGradientPattern("lingrad2", 120, 50, 150, 80, linStops2);
+
+    wxGraphicsGradientStops radStops(wxColour(255, 255, 255), wxColour(20, 60, 130));
+    pdf.AddRadialGradientPattern("radgrad2", 50, 150, 0, 50, 150, 30, radStops);
+    pdf.AddRadialGradientPattern("radgrad1", 150, 130, 0, 150, 130, 30, radStops);
+
+    pdf.SetLineWidth(1);
+
+    pdf.StartTransform();
+    pdf.Rotate(10., 10, 25);
+    pdf.SetFillPattern("lingrad1a");
+    pdf.Rect(10, 35, 80, 60, wxPDF_STYLE_FILLDRAW);
+    pdf.StopTransform();
+
+    pdf.SetFillPattern("radgrad1");
+    pdf.Ellipse(150, 140, 30, 20, 0, 0, 360, wxPDF_STYLE_FILL);
+
+    pdf.SetLineWidth(6);
+    pdf.SetDrawPattern("lingrad2");
+    pdf.Line(120, 50, 150, 80);
+
+    pdf.SetDrawPattern("lingrad2");
+    pdf.SetLineWidth(4);
+    pdf.Circle(50, 150, 28);
+
     pdf.SaveAsFile(wxS("drawing.pdf"));
   }
   else

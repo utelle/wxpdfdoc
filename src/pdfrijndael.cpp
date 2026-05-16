@@ -1557,7 +1557,7 @@ void wxPdfRijndael::encrypt(const UINT8 a[16], UINT8 b[16])
 void wxPdfRijndael::decrypt(const UINT8 a[16], UINT8 b[16])
 {
   int r = 0;
-  UINT8 temp[4][4] = { { 0 } };
+  UINT8 temp[4][4];
 
     *((UINT32*)temp[0]) = *((UINT32*)(a   )) ^ *((UINT32*)m_expandedKey[m_uRounds][0]);
     *((UINT32*)temp[1]) = *((UINT32*)(a+ 4)) ^ *((UINT32*)m_expandedKey[m_uRounds][1]);

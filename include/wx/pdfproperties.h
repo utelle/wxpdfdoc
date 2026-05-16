@@ -3,7 +3,7 @@
 ** Purpose:     Defines and enumerations for various PDF properties
 ** Author:      Ulrich Telle
 ** Created:     2006-07-13
-** Copyright:   (c) 2006-2024 Ulrich Telle
+** Copyright:   (c) 2006-2026 Ulrich Telle
 ** Licence:     wxWindows licence
 ** SPDX-License-Identifier: LGPL-3.0+ WITH WxWindows-exception-3.1
 */
@@ -222,6 +222,9 @@ enum wxPdfPatternStyle
   wxPDF_PATTERNSTYLE_NONE,     ///< No pattern
   wxPDF_PATTERNSTYLE_IMAGE,    ///< Image pattern
   wxPDF_PATTERNSTYLE_TEMPLATE, ///< Template pattern
+  wxPDF_PATTERNSTYLE_LINEAR_GRADIENT, ///< Linear gradient pattern
+  wxPDF_PATTERNSTYLE_RADIAL_GRADIENT, ///< Radial gradient pattern
+
   // Hatch styles
   wxPDF_PATTERNSTYLE_FIRST_HATCH,                                     ///< First available hatch style
   wxPDF_PATTERNSTYLE_BDIAGONAL_HATCH = wxPDF_PATTERNSTYLE_FIRST_HATCH, ///< Backward diagonal hatch

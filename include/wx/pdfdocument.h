@@ -3,7 +3,7 @@
 ** Purpose:     Class for representation of a PDF document
 ** Author:      Ulrich Telle
 ** Created:     2005-08-04
-** Copyright:   (c) 2005-2024 Ulrich Telle
+** Copyright:   (c) 2005-2026 Ulrich Telle
 ** Licence:     wxWindows licence
 ** SPDX-License-Identifier: LGPL-3.0+ WITH WxWindows-exception-3.1
 */
@@ -15,6 +15,7 @@
 
 // wxWidgets headers
 #include <wx/dynarray.h>
+#include <wx/graphics.h>
 #include <wx/hashmap.h>
 #include <wx/mstream.h>
 #include <wx/string.h>
@@ -645,6 +646,126 @@ public:
   * \param fillColour the background colour to fill the pattern background (optional)
   */
   virtual bool AddPattern(const wxString& patternName, wxPdfPatternStyle patternStyle, double width, double height, const wxColour& drawColour, const wxColour& fillColour = wxColour());
+
+  /// Add a linear gradient pattern
+  /**
+  * Add a linear gradient pattern which can be referenced in draw or fill pattern methods
+  * 
+  * The pattern starts at (x1, y1) and ends at (x2, y2). The colours c1 and c2 are used
+  * as the start and end gradient colours.
+  * 
+  * \param patternName the name of the pattern (case sensitive)
+  * \param x1 the x coordinate of the start value
+  * \param y1 the y coordinate of the start value
+  * \param x2 the x coordinate of the end value
+  * \param y2 the y coordinate of the end value
+  * \param c1 the start colour
+  * \param c2 the end colour
+  * \param matrix an optional transformation matrix
+  */
+  virtual bool AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxColour& c1, const wxColour& c2);
+  virtual bool AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxColour& c1, const wxColour& c2,
+                                        const wxGraphicsMatrix& matrix);
+  virtual bool AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxColour& c1, const wxColour& c2,
+                                        const wxAffineMatrix2D& matrix);
+
+  /// Add a linear gradient pattern
+  /**
+  * Add a linear gradient pattern which can be referenced in draw or fill pattern methods
+  * 
+  * The pattern starts at (x1, y1) and ends at (x2, y2). A full set of gradient stops
+  * can be specified. At least 2 stops are required.
+  *
+  * \param patternName the name of the pattern (case sensitive)
+  * \param x1 the x coordinate of the start value
+  * \param y1 the y coordinate of the start value
+  * \param x2 the x coordinate of the end value
+  * \param y2 the y coordinate of the end value
+  * \param stops a full set of gradient stops (at least 2)
+  * \param matrix an optional transformation matrix
+  */
+  virtual bool AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxGraphicsGradientStops& stops);
+  virtual bool AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxGraphicsGradientStops& stops,
+                                        const wxGraphicsMatrix& matrix);
+  virtual bool AddLinearGradientPattern(const wxString& patternName,
+                                        double x1, double y1, double x2, double y2,
+                                        const wxGraphicsGradientStops& stops,
+                                        const wxAffineMatrix2D& matrix);
+
+  /// Add a radial gradient pattern
+  /**
+  * Add a radial gradient pattern which can be referenced in draw or fill pattern methods
+  * 
+  * The pattern originates at (startX, startY) and ends on a circle around (endX, endY) with the given radius.
+  * The gradient is specified by its start and end colours, oColor and cColor.
+  * 
+  * \param patternName the name of the pattern (case sensitive)
+  * \param startX the x coordinate of the start value
+  * \param startY the y coordinate of the start value
+  * \param startRadius the radius at the start point
+  * \param endX the x coordinate of the end value
+  * \param endY the y coordinate of the end value
+  * \param endRadius the radius at the end point
+  * \param oColor the start colour
+  * \param cColor the end colour
+  * \param matrix an optional transformation matrix
+  */
+  virtual bool AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxColour& oColor, const wxColour& cColor);
+  virtual bool AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxColour& oColor, const wxColour& cColor,
+                                        const wxGraphicsMatrix& matrix);
+  virtual bool AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxColour& oColor, const wxColour& cColor,
+                                        const wxAffineMatrix2D& matrix);
+
+  /// Add a radial gradient pattern
+  /**
+  * Add a radial gradient pattern which can be referenced in draw or fill pattern methods
+  *
+  * The pattern originates at (startX, startY) and ends on a circle around (endX, endY) with the given radius.
+  * The gradient is specified by a full set of gradient stops.
+  *
+  * \param patternName the name of the pattern (case sensitive)
+  * \param startX the x coordinate of the start value
+  * \param startY the y coordinate of the start value
+  * \param startRadius the radius at the start point
+  * \param endX the x coordinate of the end value
+  * \param endY the y coordinate of the end value
+  * \param endRadius the radius at the end point
+  * \param stops a full set of gradient stops (at least 2)
+  * \param matrix an optional transformation matrix
+  */
+  virtual bool AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxGraphicsGradientStops& stops);
+  virtual bool AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxGraphicsGradientStops& stops,
+                                        const wxGraphicsMatrix& matrix);
+  virtual bool AddRadialGradientPattern(const wxString& patternName,
+                                        double startX, double startY, double startRadius,
+                                        double endX, double endY, double endRadius,
+                                        const wxGraphicsGradientStops& stops,
+                                        const wxAffineMatrix2D& matrix);
 
   /// Defines the colour used for all drawing operations.
   /**

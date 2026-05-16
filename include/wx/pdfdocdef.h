@@ -3,7 +3,7 @@
 ** Purpose:     Compile time definitions and documentation
 ** Author:      Ulrich Telle
 ** Created:     2005-08-04
-** Copyright:   (c) 2005-2025 Ulrich Telle
+** Copyright:   (c) 2005-2026 Ulrich Telle
 ** Licence:     wxWindows licence
 ** SPDX-License-Identifier: LGPL-3.0+ WITH wxWindows-exception-3.1
 */

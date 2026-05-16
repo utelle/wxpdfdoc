@@ -13,6 +13,7 @@
 #define _PDF_PATTERN_H_
 
 // wxWidgets headers
+#include <wx/graphics.h>
 #include <wx/string.h>
 
 // wxPdfDocument headers
@@ -52,6 +53,33 @@ public:
   * \param fillColour The background colour to be used to fill the pattern background (optional)
   */
   wxPdfPattern(int index, double width, double height, wxPdfPatternStyle patternStyle, const wxColour& drawColour, const wxColour& fillColour = wxColour());
+
+  /// Constructor for linear gradient pattern
+  /**
+  * \param index The pattern index
+  * \param x1 x-coordinate of start point
+  * \param y1 y-coordinate of start point
+  * \param x2 x-coordinate of end point
+  * \param y2 y-coordinate of end point
+  * \param stops List of gradient stops
+  * \param matrix Transformation matrix (optional)
+  */
+  wxPdfPattern(int index, double x1, double y1, double x2, double y2, const wxGraphicsGradientStops& stops, const wxAffineMatrix2D& matrix);
+
+  /// Constructor for radial gradient pattern
+  /**
+  * \param index The pattern index
+  * \param startX x-coordinate of start circle
+  * \param startY y-coordinate of start circle
+  * \param startRadius radius of start circle
+  * \param endX x-coordinate of end circle
+  * \param endY y-coordinate of end circle
+  * \param endRadius radius of end circle
+  * \param stops List of gradient stops
+  * \param matrix Transformation matrix (optional)
+  */
+  wxPdfPattern(int index, double startX, double startY, double startRadius, double endX, double endY, double endRadius,
+               const wxGraphicsGradientStops& stops, const wxAffineMatrix2D& matrix);
 
   /// Copy constructor
   /**
@@ -137,6 +165,78 @@ public:
   */
   bool HasFillColour() const { return m_hasFillColour; }
 
+  /// Get x-coordinate of start point (linear gradient)
+  /**
+  * \return x1
+  */
+  double GetX1() const { return m_x1; }
+
+  /// Get y-coordinate of start point (linear gradient)
+  /**
+  * \return y1
+  */
+  double GetY1() const { return m_y1; }
+
+  /// Get x-coordinate of end point (linear gradient)
+  /**
+  * \return x2
+  */
+  double GetX2() const { return m_x2; }
+
+  /// Get y-coordinate of end point (linear gradient)
+  /**
+  * \return y2
+  */
+  double GetY2() const { return m_y2; }
+
+  /// Get x-coordinate of center of start circle (radial gradient)
+  /**
+  * \return start x-coordinate
+  */
+  double GetStartX() const { return m_x1; }
+
+  /// Get y-coordinate of center of start circle (radial gradient)
+  /**
+  * \return start y-coordinate
+  */
+  double GetStartY() const { return m_y1; }
+
+  /// Get x-coordinate of center of end circle (radial gradient)
+  /**
+  * \return end x-coordinate
+  */
+  double GetEndX() const { return m_x2; }
+
+  /// Get y-coordinate of center of end circle (radial gradient)
+  /**
+  * \return end y-coordinate
+  */
+  double GetEndY() const { return m_y2; }
+
+  /// Get radius of start circle (radial gradient)
+  /**
+  * \return start radius
+  */
+  double GetStartRadius() const { return m_radius1; }
+
+  /// Get radius of end circle (radial gradient)
+  /**
+  * \return end Radius
+  */
+  double GetEndRadius() const { return m_radius2; }
+
+  /// Get list of gradient stops
+  /**
+  * \return list of gradient stops
+  */
+  wxGraphicsGradientStops GetStops() const { return m_stops; }
+
+  /// Get transformation matrix
+  /**
+  * \return affine transformation matrix
+  */
+  const wxAffineMatrix2D GetMatrix() const { return m_matrix; }
+
 private:
   int    m_objIndex;   ///< object index
   int    m_index;      ///< pattern index
@@ -150,6 +250,16 @@ private:
 
   double m_width;      ///< pattern width
   double m_height;     ///< pattern height
+
+  // Gradients
+  double m_x1;                     ///< x1 or startX, (Linear / Radial)
+  double m_y1;                     ///< y1 or startY, (Linear / Radial)
+  double m_x2;                     ///< x2 or endX, (Linear / Radial)
+  double m_y2;                     ///< y2 or endY, (Linear / Radial)
+  double m_radius1;                ///< Start radius (Radial)
+  double m_radius2;                ///< End radius (Radial)
+  wxGraphicsGradientStops m_stops; ///< gradient stops
+  wxAffineMatrix2D m_matrix;       ///< transformation matrix
 };
 
 #endif
