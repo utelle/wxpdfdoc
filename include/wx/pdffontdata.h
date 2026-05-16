@@ -142,10 +142,10 @@ public:
   /// Set font style
   /**
   * \param style the style of the font. Valid values are
-  *   \li wxPDF_FONTSTYLE_REGULAR
-  *   \li wxPDF_FONTSTYLE_BOLD
-  *   \li wxPDF_FONTSTYLE_ITALIC
-  *   \li wxPDF_FONTSTYLE_BOLDITALIC
+  *   \li @c wxPDF_FONTSTYLE_REGULAR
+  *   \li @c wxPDF_FONTSTYLE_BOLD
+  *   \li @c wxPDF_FONTSTYLE_ITALIC
+  *   \li @c wxPDF_FONTSTYLE_BOLDITALIC
   */
   void SetStyle(int style);
 
