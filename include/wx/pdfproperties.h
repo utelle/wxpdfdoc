@@ -289,10 +289,10 @@ enum wxPdfXConformanceType
 /// Run direction of text
 enum wxPdfRunDirection
 {
-  wxPDF_RUN_DIRECTION_DEFAULT, // default run direction
-  wxPDF_RUN_DIRECTION_NO_BIDI, // do not use bidirectional reordering
-  wxPDF_RUN_DIRECTION_LTR,     // bidirectional reordering with left-to-right preferential run direction
-  wxPDF_RUN_DIRECTION_RTL      // bidirectional reordering with right-to-left preferential run direction
+  wxPDF_RUN_DIRECTION_DEFAULT, ///< Default run direction
+  wxPDF_RUN_DIRECTION_NO_BIDI, ///< Do not use bidirectional reordering
+  wxPDF_RUN_DIRECTION_LTR,     ///< Bidirectional reordering with left-to-right preferential run direction
+  wxPDF_RUN_DIRECTION_RTL      ///< Bidirectional reordering with right-to-left preferential run direction
 };
 
 #endif
