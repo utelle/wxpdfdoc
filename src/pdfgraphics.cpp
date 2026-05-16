@@ -590,7 +590,7 @@ wxPdfFlatPath::MeasurePathLength()
       case wxPDF_SEG_CLOSE:
         points[0] = moveX;
         points[1] = moveY;
-        // Fall into....
+        wxFALLTHROUGH;
 
       case wxPDF_SEG_LINETO:
         thisX = points[0];
@@ -660,7 +660,7 @@ wxPdfDocument::ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfSh
       {
         points[0] = moveX;
         points[1] = moveY;
-        // Fall into...
+        wxFALLTHROUGH;
       }
 
       case wxPDF_SEG_LINETO:

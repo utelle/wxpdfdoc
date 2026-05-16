@@ -608,6 +608,7 @@ wxPdfImage::ParseJPG(wxInputStream* imageStream)
       case M_EOI:
         isValid = false;
         ready = true;
+        break;
 
       default:
         {
@@ -803,7 +804,7 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
   short dashArray[8];
   size_t lenDashArray;
   size_t i;
-  short j, k, px, py;
+  short j = 0, k = 0, px = 0, py = 0;
   GdiObject* obj = NULL;
   while (!imageStream->Eof() && !endRecord)
   {

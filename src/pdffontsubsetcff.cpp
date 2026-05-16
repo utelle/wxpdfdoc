@@ -453,7 +453,7 @@ wxPdfFontSubsetCff::ReadCidFontDict()
     if (ok)
     {
       wxPdfCffDictElement* privateOp = FindDictElement((wxPdfCffDictionary*) m_fdDict[j], PRIVATE_OP);
-      ok = (privateOp == NULL);
+      ok = (privateOp != NULL);
       if (ok)
       {
         SeekI((privateOp->GetArgument())->GetOffset());
