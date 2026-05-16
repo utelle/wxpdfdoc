@@ -199,7 +199,7 @@ public:
   *                  Specifying a value > 0 selects the standard encryption method revision 3 with the given key length,
   *                  the key length has to be in the range 40..128 and has to be dividable by 8.
   *                  The key length is adjusted accordingly if these conditions are not met.
-  * \return true, if the provided passwords are valid, false otherwise.
+  * \return @c true, if the provided passwords are valid, @c false otherwise.
   */
   virtual bool SetProtection(int permissions,
                              const wxString& userPassword = wxEmptyString,
@@ -535,7 +535,7 @@ public:
 
   /// Returns whether footer output is in progress
   /**
-  * \return true if footer output is in progress, false otherwise
+  * \return @c true if footer output is in progress, @c false otherwise
   * \see Header(), Footer()
   */
   virtual bool IsInFooter();
@@ -1264,7 +1264,7 @@ public:
 
   /// Returns the font embedding mode
   /**
-  * \return true if font subsetting is enabled, false otherwise
+  * \return @c true if font subsetting is enabled, @c false otherwise
   */
   virtual bool GetFontSubsetting() const { return m_fontSubsetting; }
 
@@ -1985,7 +1985,7 @@ public:
   /**
   * The method first calls Close() if necessary to terminate the document.
   * \param name The name of the file. If not given, the document will be named 'doc.pdf'
-  * \return true if successful, false otherwise
+  * \return @c true if successful, @c false otherwise
   * \see Close()
   */
   virtual bool SaveAsFile(const wxString& name = wxEmptyString);
@@ -2998,7 +2998,7 @@ public:
   * Gets the values of the Info dictionary of the current external document, if available.
   *
   * \param info the info dictionary object receiving the document information
-  * \return true if the info dictionary was available, false otherwise
+  * \return @c true if the info dictionary was available, @c false otherwise
   * \see SetSourceFile()
   */
   virtual bool GetSourceInfo(wxPdfInfo& info);
@@ -3245,7 +3245,7 @@ public:
   /// Get message translation mode
   /**
   * Gets the message translation mode which controls the handling of msg tags in XML output
-  * \return TRUE if messages are translated, FALSE otherwise
+  * \return @c true if messages are translated, @c false otherwise
   */
   bool GetMessageTranslateMode() { return m_translate; }
 
@@ -3273,7 +3273,7 @@ protected:
   * \param style Font style string
   * \param size Font size
   * \param setFont Flag whether to set the font in PDF output
-  * \return TRUE if font was selected, FALSE otherwise
+  * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxString& family,
                           const wxString& style = wxEmptyString,
@@ -3285,7 +3285,7 @@ protected:
   * \param style Font style flags
   * \param size Font size
   * \param setFont Flag whether to set the font in PDF output
-  * \return TRUE if font was selected, FALSE otherwise
+  * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxString& family, int style,
                           double size = 0, bool setFont = true);
@@ -3294,7 +3294,7 @@ protected:
   /**
   * \param font wxFont object
   * \param setFont Flag whether to set the font in PDF output
-  * \return TRUE if font was selected, FALSE otherwise
+  * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxFont& font, bool setFont = true);
 
@@ -3304,7 +3304,7 @@ protected:
   * \param style Font style flags
   * \param size Font size
   * \param setFont Flag whether to set the font in PDF output
-  * \return TRUE if font was selected, FALSE otherwise
+  * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxPdfFont& font, int style, double size = 0, bool setFont = true);
 

@@ -73,7 +73,7 @@ public :
   /**
   * \param s the string to be checked
   * \param encoding the character to glyph mapping
-  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  * \return @c true if the font can show all characters of the string, @c false otherwise
   */
   virtual bool CanShow(const wxString& s, const wxPdfEncoding* encoding = NULL) const;
 

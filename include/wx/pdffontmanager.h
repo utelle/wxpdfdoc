@@ -142,7 +142,7 @@ public:
   * \li MINCHO, PMINCHO - Japanese (Microsoft-Font MS-Mincho/MS-PMincho)
   *
   * \param family the name of the CJK font family
-  * \return TRUE if the CJK family could be registered successfully, FALSE otherwise
+  * \return @c true if the CJK family could be registered successfully, @c false otherwise
   */
   bool RegisterFontCJK(const wxString& family);
 
@@ -214,7 +214,7 @@ public:
   * to save time and memory resources, but as soon as the font is actually used it must
   * be fully initialized. Usually this method is called automatically.
   * \param font the font to be initialized
-  * \return TRUE if the font could be initialized successfully, FALSE otherwise
+  * \return @c true if the font could be initialized successfully, @c false otherwise
   */
   bool InitializeFontData(const wxPdfFont& font);
 
@@ -222,7 +222,7 @@ public:
   /**
   *
   * \param encoding the encoding to be registered
-  * \return TRUE if the encoding could be registered successfully
+  * \return @c true if the encoding could be registered successfully
   */
   bool RegisterEncoding(const wxPdfEncoding& encoding);
 

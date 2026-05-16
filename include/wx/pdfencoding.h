@@ -45,7 +45,7 @@ public:
 
   /// Check whether the encoding is valid
   /**
-  * \return TRUE if the encoding is valid, FALSE otherwise
+  * \return @c true if the encoding is valid, @c false otherwise
   */
   bool IsOk() const;
 
@@ -101,7 +101,7 @@ public:
   /**
   * \param[in] glyphName name of the glyph
   * \param[out] unicode unicode character of the glyph
-  * \return TRUE if the conversion was successful, FALSE otherwise
+  * \return @c true if the conversion was successful, @c false otherwise
   */
   static bool GlyphName2Unicode(const wxString& glyphName, wxUint32& unicode);
 
@@ -109,7 +109,7 @@ public:
   /**
   * \param[in] unicode unicode character of the glyph
   * \param[out] glyphName name of the glyph
-  * \return TRUE if the conversion was successful, FALSE otherwise
+  * \return @c true if the conversion was successful, @c false otherwise
   */
   static bool Unicode2GlyphName(wxUint32 unicode, wxString& glyphName);
 
@@ -154,7 +154,7 @@ public:
   /// Check whether a given Unicode character is included in the encoding
   /**
   * \param unicode The Unicode character to check
-  * \return TRUE if the Unicode character is included, FALSE otherwise
+  * \return @c true if the Unicode character is included, @c false otherwise
   */
   virtual bool IsIncluded(wxUint32 unicode) const = 0;
 

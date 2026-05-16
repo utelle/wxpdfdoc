@@ -74,13 +74,13 @@ public:
 
   /// Check whether the print data is valid
   /**
-  * \return TRUE if valid, FALSE otherwise
+  * \return @c true if valid, @c false otherwise
   */
   bool Ok() const { return IsOk(); }
 
   /// Check whether the print data is valid
   /**
-  * \return TRUE if valid, FALSE otherwise
+  * \return @c true if valid, @c false otherwise
   */
   bool IsOk() const { return true; }
 
@@ -228,7 +228,7 @@ public:
 
   /// Get template mode
   /**
-  * \return TRUE if in template mode, FALSE otherwise
+  * \return @c true if in template mode, @c false otherwise
   */
   bool GetTemplateMode() const { return m_templateMode; }
 
@@ -246,13 +246,13 @@ public:
 
   /// Get document viewer launch flag
   /**
-  * \return TRUE if document viewer should be launched, FALSE otherwise
+  * \return @c true if document viewer should be launched, @c false otherwise
   */
   bool GetLaunchDocumentViewer() const { return m_launchViewer; }
 
   /// Set document viewer launch flag
   /**
-  * \param enable TRUE if document viewer should be launched, FALSE otherwise
+  * \param enable @c true if document viewer should be launched, @c false otherwise
   */
   void SetLaunchDocumentViewer( bool enable ) { m_launchViewer = enable; }
 
@@ -318,7 +318,7 @@ public:
 
   /// Check whether document protection is enabled
   /**
-  * \return TRUE if protection is enabled, FALSE otherwise
+  * \return @c true if protection is enabled, @c false otherwise
   */
   bool IsProtectionEnabled() const { return  m_protectionEnabled; }
 
@@ -451,8 +451,8 @@ public:
   /**
   * \param parent The parent window
   * \param printout The printout to print
-  * \param prompt TRUE to show the print dialog, FALSE otherwise
-  * \return TRUE if successful, FALSE otherwise
+  * \param prompt @c true to show the print dialog, @c false otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool Print(wxWindow* parent, wxPrintout* printout, bool prompt = true);
 
@@ -466,13 +466,13 @@ public:
   /// Show the setup dialog
   /**
   * \param parent The parent window
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool Setup(wxWindow* parent);
 
   /// Show or hide the progress dialog
   /**
-  * \param show TRUE to show the progress dialog, FALSE otherwise
+  * \param show @c true to show the progress dialog, @c false otherwise
   */
   void ShowProgressDialog(bool show) { m_showProgressDialog = show; }
 
@@ -539,7 +539,7 @@ public:
   /// Set the current page
   /**
   * \param pageNum The page number
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool SetCurrentPage(int pageNum);
 
@@ -595,13 +595,13 @@ public:
   /**
   * \param canvas The canvas
   * \param dc The device context
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool PaintPage(wxPreviewCanvas* canvas, wxDC& dc);
 
   /// Update page rendering
   /**
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool UpdatePageRendering();
 
@@ -609,7 +609,7 @@ public:
   /**
   * \param canvas The canvas
   * \param dc The device context
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool DrawBlankPage(wxPreviewCanvas* canvas, wxDC& dc);
 
@@ -622,7 +622,7 @@ public:
   /// Render the page
   /**
   * \param pageNum The page number
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool RenderPage(int pageNum);
 
@@ -640,8 +640,8 @@ public:
 
   /// Print the document
   /**
-  * \param interactive TRUE to show the print dialog, FALSE otherwise
-  * \return TRUE if successful, FALSE otherwise
+  * \param interactive @c true to show the print dialog, @c false otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool Print(bool interactive);
 
@@ -668,19 +668,19 @@ public:
 
   /// Check whether the preview is valid
   /**
-  * \return TRUE if valid, FALSE otherwise
+  * \return @c true if valid, @c false otherwise
   */
   virtual bool Ok() const { return IsOk(); }
 
   /// Check whether the preview is valid
   /**
-  * \return TRUE if valid, FALSE otherwise
+  * \return @c true if valid, @c false otherwise
   */
   virtual bool IsOk() const;
 
   /// Set the preview valid flag
   /**
-  * \param ok TRUE if valid, FALSE otherwise
+  * \param ok @c true if valid, @c false otherwise
   */
   virtual void SetOk(bool ok);
 
@@ -764,13 +764,13 @@ public:
 
   /// Transfer data from window controls
   /**
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool TransferDataFromWindow();
 
   /// Transfer data to window controls
   /**
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool TransferDataToWindow();
 
@@ -954,13 +954,13 @@ public:
 
   /// Transfer data from window controls
   /**
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool TransferDataFromWindow();
 
   /// Transfer data to window controls
   /**
-  * \return TRUE if successful, FALSE otherwise
+  * \return @c true if successful, @c false otherwise
   */
   virtual bool TransferDataToWindow();
 

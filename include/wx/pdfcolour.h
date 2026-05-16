@@ -184,7 +184,7 @@ public:
   /// Compare colour
   /**
   * \param colour colour to which the current colour is compared
-  * \return TRUE if the colours match, FALSE otherwise
+  * \return @c true if the colours match, false otherwise
   */
   bool Equals(const wxPdfColour& colour) const;
 
@@ -214,7 +214,7 @@ private:
 /**
 * \param a First colour object
 * \param b Second colour object
-* \return TRUE if the colours match, FALSE otherwise
+* \return @c true if the colours match, @c false otherwise
 */
 bool operator==(const wxPdfColour& a, const wxPdfColour& b);
 
@@ -222,7 +222,7 @@ bool operator==(const wxPdfColour& a, const wxPdfColour& b);
 /**
 * \param a First colour object
 * \param b Second colour object
-* \return TRUE if the colours do not match, FALSE otherwise
+* \return @c true if the colours do not match, @c false otherwise
 */
 bool operator!=(const wxPdfColour& a, const wxPdfColour& b);
 

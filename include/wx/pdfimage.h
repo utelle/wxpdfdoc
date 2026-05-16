@@ -91,7 +91,7 @@ public:
 
   /// Check whether image has to be handled as a form object
   /**
-  * \return TRUE if image is a form object, FALSE otherwise
+  * \return @c true if image is a form object, @c false otherwise
   */
   bool IsFormObject() { return m_isFormObj; }
 

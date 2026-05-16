@@ -133,7 +133,7 @@ public:
 
   /// Check whether fill color is set
   /**
-  * \return TRUE if the pattern has a fill colour, FALSE otherwise
+  * \return @c true if the pattern has a fill colour, @c false otherwise
   */
   bool HasFillColour() const { return m_hasFillColour; }
 

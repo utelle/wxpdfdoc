@@ -100,7 +100,7 @@ public:
 
   /// Check whether current line is marked as last line
   /**
-  * \return TRUE if current line is the last line, FALSE otherwise
+  * \return @c true if current line is the last line, @c false otherwise
   */
   bool IsCurrentLineMarked();
 
@@ -145,7 +145,7 @@ public:
 
   /// Check whether alignment has been taken care of
   /**
-  * \return TRUE if aligned, FALSE otherwise
+  * \return @c true if aligned, @c false otherwise
   */
   bool GetAligned() { return m_aligned; }
 
@@ -381,7 +381,7 @@ public:
 
   /// Check whether cell has a coloured or transparent background
   /**
-  * \return TRUE if cell has background colour, FALSE otherwise
+  * \return @c true if cell has background colour, @c false otherwise
   */
   bool HasCellColour() const { return m_hasCellColour; };
 
@@ -561,7 +561,7 @@ public:
 
   /// Check whether border should be drawn
   /**
-  * \return TRUE if border should be drawn, FALSE otherwise
+  * \return @c true if border should be drawn, @c false otherwise
   */
   bool HasBorder() { return m_border; }
 

@@ -61,7 +61,7 @@ public:
 
   /// Check initialization state
   /**
-  * \return TRUE if the font data are initialized, FALSE otherwise
+  * \return @c true if the font data are initialized, @c false otherwise
   */
   bool IsInitialized() const { return m_initialized; }
 
@@ -176,19 +176,19 @@ public:
 
   /// Set embed support flag
   /**
-  * \return TRUE if embedding of this font is required, FALSE otherwise
+  * \return @c true if embedding of this font is required, @c false otherwise
   */
   bool EmbedRequired() { return m_embedRequired; }
 
   /// Check whether the font embedding is required
   /**
-  * \return TRUE if embedding of this font is supported/allowed, FALSE otherwise
+  * \return @c true if embedding of this font is supported/allowed, @c false otherwise
   */
   bool EmbedSupported() const { return m_embedSupported; }
 
   /// Check whether the font subsetting is supported
   /**
-  * \return TRUE if subsetting of this font is supported/allowed, FALSE otherwise
+  * \return @c true if subsetting of this font is supported/allowed, @c false otherwise
   */
   bool SubsetSupported() const { return m_subsetSupported; }
 
@@ -268,7 +268,7 @@ public:
 
   /// Check whether the font is in compact font format
   /**
-  * \return TRUE if the font is in CFF format, FALSE otherwise
+  * \return @c true if the font is in CFF format, @c false otherwise
   */
   bool HasCff() const { return m_cff; }
 
@@ -334,7 +334,7 @@ public:
 
   /// Check whether the font has differences to WinAnsi encoding
   /**
-  * \return TRUE if the font has differences to the WinAnsi encoding, FALSE otherwise
+  * \return @c true if the font has differences to the WinAnsi encoding, @c false otherwise
   */
   bool HasDiffs() const;
 
@@ -364,7 +364,7 @@ public:
 
   /// Check whether the font has an associated font file
   /**
-  * \return TRUE if the font has an associated font file, FALSE otherwise
+  * \return @c true if the font has an associated font file, @c false otherwise
   */
   bool HasFile() const;
 
@@ -407,7 +407,7 @@ public:
 
   /// Check whether the file has a size 2
   /**
-  * \return TRUE if the font has a second size associated, FALSE otherwise
+  * \return @c true if the font has a second size associated, @c false otherwise
   * \note Usually only Type1 fonts have a second size entry.
   */
   bool HasSize2() const;
@@ -525,13 +525,13 @@ public:
 
   /// Initialize font data
   /**
-  * \return TRUE if the font data has been initialized successfully, FALSE otherwise
+  * \return @c true if the font data has been initialized successfully, @c false otherwise
   */
   virtual bool Initialize();
 
   /// Check whether VOLT data are available
   /**
-  * \return TRUE if the font data contain VOLT data, FALSE otherwise
+  * \return @c true if the font data contain VOLT data, @c false otherwise
   */
   virtual bool HasVoltData() const { return false; }
 
@@ -556,7 +556,7 @@ public:
   /**
   * \param s the string to be checked
   * \param encoding the character to glyph mapping
-  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  * \return @c true if the font can show all characters of the string, @c false otherwise
   */
   virtual bool CanShow(const wxString& s, const wxPdfEncoding* encoding = NULL) const;
 
@@ -608,7 +608,7 @@ public:
   /// Get list of glyph names supported by this font
   /**
   * \param[out] glyphNames a list of glyph names
-  * \return TRUE if the list of glyph names is available, FALSE otherwise
+  * \return @c true if the list of glyph names is available, @c false otherwise
   */
   virtual bool GetGlyphNames(wxArrayString& glyphNames) const;
 
@@ -677,7 +677,7 @@ public:
   /// Load the font metrics XML file
   /**
   * \param root the root node of the XML font metric file
-  * \return TRUE if the metric file could be processed successfully, FALSE otherwise
+  * \return @c true if the metric file could be processed successfully, @c false otherwise
   */
   virtual bool LoadFontMetrics(wxXmlNode* root);
 
@@ -702,7 +702,7 @@ public:
   /**
   * \param node root node of the XML font description
   * \param[out] fontDescription the resulting font description
-  * \return TRUE if the font description could be processed successfully, FALSE otherwise
+  * \return @c true if the font description could be processed successfully, @c false otherwise
   */
   bool GetFontDescription(const wxXmlNode *node, wxPdfFontDescription& fontDescription);
 

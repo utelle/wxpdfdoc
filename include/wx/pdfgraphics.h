@@ -109,7 +109,7 @@ public:
 
   /// Check whether path iterator is done
   /**
-  * \return TRUE if the iterator is done, FALSE otherwise
+  * \return @c true if the iterator is done, @c false otherwise
   */
   bool IsDone() { return m_done; }
 

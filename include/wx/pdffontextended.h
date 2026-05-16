@@ -49,7 +49,7 @@ public:
 
   /// Check whether font is valid
   /**
-  * \return TRUE if the font is valid, FALSE otherwise
+  * \return @c true if the font is valid, @c false otherwise
   */
   bool IsValid() const;
 
@@ -79,13 +79,13 @@ public:
 
   /// Check whether font embedding is requested for this font
   /**
-  * \return TRUE if embedding of this font is requested, FALSE otherwise
+  * \return @c true if embedding of this font is requested, @c false otherwise
   */
   bool EmbedRequested() const { return m_embed; }
 
   /// Check whether font subsetting is requested for this font
   /**
-  * \return TRUE if subsetting of this font is requested, FALSE otherwise
+  * \return @c true if subsetting of this font is requested, @c false otherwise
   */
   bool SubsetRequested() const { return m_subset; }
 
@@ -121,7 +121,7 @@ public:
 
   /// Check whether the font has differences to WinAnsi encoding
   /**
-  * \return TRUE if the font has encoding differences, FALSE otherwise
+  * \return @c true if the font has encoding differences, @c false otherwise
   */
   bool HasDiffs() const;
 
@@ -139,7 +139,7 @@ public:
 
   /// Check whether the file has a size 2
   /**
-  * \return TRUE if the font has a second size associated, FALSE otherwise
+  * \return @c true if the font has a second size associated, @c false otherwise
   * \note Usually only Type1 fonts have a second size entry.
   */
   bool HasSize2() const;
@@ -200,7 +200,7 @@ public:
   /// Check whether the font can show all characters of a given string
   /**
   * \param s the string to be checked
-  * \return TRUE if the font can show all characters of the string, FALSE otherwise
+  * \return @c true if the font can show all characters of the string, @c false otherwise
   */
   bool CanShow(const wxString& s) const;
 
@@ -224,13 +224,13 @@ public:
 
   /// Check whether the font will be embedded
   /**
-  * \return TRUE if the font will be embedded, FALSE otherwise
+  * \return @c true if the font will be embedded, @c false otherwise
   */
   bool IsEmbedded() const;
 
   /// Check whether the font supports subsetting
   /**
-  * \return TRUE if the font supports subsetting, FALSE otherwise
+  * \return @c true if the font supports subsetting, @c false otherwise
   */
   bool SupportsSubset() const;
 
@@ -281,7 +281,7 @@ public:
 
   /// Check whether the font has an encoding map
   /**
-  * \return TRUE if the font has an encoding map, FALSE otherwise
+  * \return @c true if the font has an encoding map, @c false otherwise
   */
   bool HasEncodingMap() const;
 
@@ -295,7 +295,7 @@ public:
 
   /**
   * Check whether the font has associated VOLT (Visual OpenType Layout Tool) data.
-  * \return TRUE if the font has VOLT data, FALSE otherwise
+  * \return @c true if the font has VOLT data, @c false otherwise
   */
   bool HasVoltData() const;
 
