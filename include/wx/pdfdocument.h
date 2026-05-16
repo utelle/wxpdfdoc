@@ -3344,7 +3344,24 @@ protected:
   */
   virtual void SetFontSize(double size, bool setSize);
 
-  /// Apply visual ordering
+  /// Apply visual ordering to a text string
+  /**
+  * Converts a string from Unicode logical order to visual display order by
+  * applying VOLT (Visual OpenType Layout Tool) glyph-substitution rules
+  * embedded in the current font. This is required for complex scripts such as
+  * Indic languages where the rendered glyph sequence differs from the
+  * Unicode code-point sequence.
+  *
+  * Called automatically by all text output methods (Text(), Cell(),
+  * MultiCell(), WriteCell(), GetStringWidth()) before the string is rendered.
+  * If the current font carries no VOLT data the string is returned unchanged.
+  *
+  * Override this method in a subclass to provide a custom shaping or
+  * reordering strategy for fonts that do not use the built-in VOLT mechanism.
+  *
+  * \param txt the input string in Unicode logical order
+  * \return the string transformed into visual display order
+  */
   virtual wxString ApplyVisualOrdering(const wxString& txt);
 
   /// Returns the length of a string in user unit.
