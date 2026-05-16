@@ -879,7 +879,17 @@ public:
 
   /// Sets line style
   /**
-  * \param linestyle: Line style. \see wxPdfLineStale
+  * \param linestyle Line style to apply to subsequent drawing operations.
+  * \par Example
+  * \code
+  * wxPdfArrayDouble dash;
+  * dash.Add(3.5);
+  * dash.Add(7.0);
+  * wxPdfLineStyle style(0.5, wxPDF_LINECAP_BUTT, wxPDF_LINEJOIN_MITER, dash, 0., wxColour(255, 0, 0));
+  * pdf.SetLineStyle(style);
+  * pdf.Line(5, 10, 80, 30);
+  * \endcode
+  * \see wxPdfLineStyle
   */
   virtual void SetLineStyle(const wxPdfLineStyle& linestyle);
 
@@ -909,7 +919,13 @@ public:
   * \param y1 Ordinate of first point
   * \param x2 Abscissa of second point
   * \param y2 Ordinate of second point
-  * \see SetLineWidth(), SetDrawColour()
+  * \par Example
+  * \code
+  * pdf.SetDrawColour(wxColour(255, 0, 0));
+  * pdf.SetLineWidth(0.5);
+  * pdf.Line(5, 10, 80, 30);
+  * \endcode
+  * \see SetLineWidth(), SetDrawColour(), SetLineStyle(), Arrow()
   */
   virtual void Line(double x1, double y1, double x2, double y2);
 
@@ -937,7 +953,12 @@ public:
   *   \li @c wxPDF_STYLE_DRAW (default)
   *   \li @c wxPDF_STYLE_FILL: fill
   *   \li @c wxPDF_STYLE_FILLDRAW: draw and fill
-  * \see SetLineWidth(), SetDrawColour(), SetFillColour()
+  * \par Example
+  * \code
+  * pdf.SetFillColour(wxColour(220, 220, 200));
+  * pdf.Rect(100, 10, 40, 20, wxPDF_STYLE_FILLDRAW);
+  * \endcode
+  * \see SetLineWidth(), SetDrawColour(), SetFillColour(), RoundedRect()
   */
   virtual void Rect(double x, double y, double w, double h, int style = wxPDF_STYLE_DRAW);
 
@@ -956,6 +977,14 @@ public:
   *   \li @c wxPDF_CORNER_BOTTOM_RIGHT  bottom right corner
   *   \li @c wxPDF_CORNER_ALL           all corners
   * \param style: Style of rectangle (draw and/or fill)
+  * \par Example
+  * \code
+  * // All corners rounded with radius 3.5
+  * pdf.RoundedRect(5, 255, 40, 30, 3.50, wxPDF_CORNER_ALL, wxPDF_STYLE_FILLDRAW);
+  * // Only top-left and top-right corners rounded
+  * pdf.RoundedRect(50, 255, 40, 30, 6.50, wxPDF_CORNER_TOP_LEFT | wxPDF_CORNER_TOP_RIGHT);
+  * \endcode
+  * \see Rect(), SetLineWidth(), SetDrawColour(), SetFillColour()
   */
   virtual void RoundedRect(double x, double y, double w, double h,
                            double r, int roundCorner = wxPDF_CORNER_ALL, int style = wxPDF_STYLE_DRAW);
@@ -972,6 +1001,14 @@ public:
   * \param x3: Abscissa of end point
   * \param y3: Ordinate of end point
   * \param style: Style of rectangle (draw and/or fill)
+  * \par Example
+  * \code
+  * pdf.SetDrawColour(wxColour(0, 255, 0));
+  * pdf.Curve(5, 40, 30, 55, 70, 45, 60, 75, wxPDF_STYLE_DRAW);
+  * pdf.SetFillColour(wxColour(200, 220, 200));
+  * pdf.Curve(140, 40, 150, 55, 180, 45, 200, 75, wxPDF_STYLE_FILLDRAW);
+  * \endcode
+  * \see BezierSpline(), ClosedBezierSpline(), ShapedText()
   */
   virtual void Curve(double x0, double y0, double x1, double y1,
                      double x2, double y2, double x3, double y3,
@@ -989,6 +1026,14 @@ public:
   * \param style: Style of rectangle (draw and/or fill)
   * \param nSeg: Ellipse is made up of nSeg Bézier curves
   * \param doSector: connect end points of elliptic arc with center point
+  * \par Example
+  * \code
+  * // Full ellipse
+  * pdf.Ellipse(100, 105, 40, 20);
+  * // Partial arc of a rotated ellipse, filled
+  * pdf.Ellipse(175, 105, 30, 15, 45, 270, 360, wxPDF_STYLE_FILLDRAW);
+  * \endcode
+  * \see Circle(), Sector()
   */
   virtual void Ellipse(double x0, double y0, double rx, double ry = 0,
                        double angle = 0, double astart = 0, double afinish = 360,
@@ -1003,6 +1048,14 @@ public:
   * \param afinish: Finish angle
   * \param style: Style of rectangle (draw and/or fill)
   * \param nSeg: Circle is made up of nSeg Bézier curves
+  * \par Example
+  * \code
+  * // Full circle
+  * pdf.Circle(25, 105, 20);
+  * // Lower semi-arc, filled
+  * pdf.Circle(25, 105, 10, 270, 360, wxPDF_STYLE_FILL);
+  * \endcode
+  * \see Ellipse(), Sector()
   */
   virtual void Circle(double x0, double y0, double r,
                       double astart = 0, double afinish = 360,
@@ -1027,6 +1080,15 @@ public:
   * \param x Array with abscissa values
   * \param y Array with ordinate values
   * \param style: Style of polygon (draw and/or fill)
+  * \par Example
+  * \code
+  * wxPdfArrayDouble x, y;
+  * x.Add(5);  y.Add(135);
+  * x.Add(45); y.Add(135);
+  * x.Add(15); y.Add(165);
+  * pdf.Polygon(x, y, wxPDF_STYLE_FILLDRAW);
+  * \endcode
+  * \see RegularPolygon(), StarPolygon()
   */
   virtual void Polygon(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y,
                        int style = wxPDF_STYLE_DRAW);
@@ -1043,6 +1105,15 @@ public:
   * \param circleStyle: Style of circumscribed circle (draw and/or fill) (if draw)
   * \param circleLineStyle: Line style for circumscribed circle. (if draw)
   * \param circleFillColour: Fill colour for circumscribed circle. (if draw fill circle)
+  * \par Example
+  * \code
+  * // Filled hexagon
+  * pdf.SetFillColour(wxColour(220, 220, 220));
+  * pdf.RegularPolygon(20, 190, 15, 6, 0, 1, wxPDF_STYLE_FILL);
+  * // Square with circumscribed circle, drawn only
+  * pdf.RegularPolygon(125, 190, 15, 4, 30, 1, wxPDF_STYLE_DRAW, wxPDF_STYLE_DRAW);
+  * \endcode
+  * \see Polygon(), StarPolygon()
   */
   virtual void RegularPolygon(double x0, double y0, double r, int ns, double angle = 0, bool circle = false,
                               int style = wxPDF_STYLE_DRAW,
@@ -1063,6 +1134,15 @@ public:
   * \param circleStyle: Style of circumscribed circle (draw and/or fill) (if draw)
   * \param circleLineStyle: Line style for circumscribed circle. (if draw)
   * \param circleFillColour: Fill colour for circumscribed circle. (if draw fill circle)
+  * \par Example
+  * \code
+  * // 20-pointed star with every 3rd vertex connected, filled
+  * pdf.SetFillColour(wxColour(220, 220, 220));
+  * pdf.StarPolygon(20, 230, 15, 20, 3, 0, 1, wxPDF_STYLE_FILL);
+  * // 5-pointed star with circumscribed circle
+  * pdf.StarPolygon(55, 230, 15, 12, 5);
+  * \endcode
+  * \see Polygon(), RegularPolygon()
   */
   virtual void StarPolygon(double x0, double y0, double r, int nv, int ng, double angle = 0, bool circle = false,
                            int style = wxPDF_STYLE_DRAW,
@@ -1075,6 +1155,16 @@ public:
   * \param x Array with abscissa values
   * \param y Array with ordinate values
   * \param style: Style of the spline (draw and/or fill)
+  * \par Example
+  * \code
+  * wxPdfArrayDouble x, y;
+  * x.Add(20); y.Add(100);
+  * x.Add(60); y.Add(80);
+  * x.Add(100); y.Add(100);
+  * x.Add(140); y.Add(80);
+  * pdf.BezierSpline(x, y, wxPDF_STYLE_DRAW);
+  * \endcode
+  * \see ClosedBezierSpline(), Curve()
   */
   virtual void BezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int style);
 
@@ -1083,6 +1173,16 @@ public:
   * \param x Array with abscissa values
   * \param y Array with ordinate values
   * \param style: Style of the spline (draw and/or fill)
+  * \par Example
+  * \code
+  * wxPdfArrayDouble x, y;
+  * x.Add(20); y.Add(40);
+  * x.Add(50); y.Add(20);
+  * x.Add(80); y.Add(40);
+  * x.Add(50); y.Add(60);
+  * pdf.ClosedBezierSpline(x, y, wxPDF_STYLE_DRAW);
+  * \endcode
+  * \see BezierSpline(), Curve()
   */
   virtual void ClosedBezierSpline(const wxPdfArrayDouble& x, const wxPdfArrayDouble& y, int style);
 
@@ -1094,6 +1194,18 @@ public:
   *   \li @c wxPDF_STYLE_FILL: fill
   *   \li @c wxPDF_STYLE_FILLDRAW: draw and fill
   *   \li @c wxPDF_STYLE_DRAWCLOSE: close path and draw (can be combined with wxPDF_STYLE_FILL
+  * \par Example
+  * \code
+  * wxPdfShape shape;
+  * shape.MoveTo(125, 130);
+  * shape.LineTo(150, 130);
+  * shape.LineTo(150, 150);
+  * shape.ClosePath();
+  * shape.MoveTo(125, 175);
+  * shape.CurveTo(150, 145, 190, 155, 180, 140);
+  * pdf.Shape(shape, wxPDF_STYLE_FILL | wxPDF_STYLE_DRAWCLOSE);
+  * \endcode
+  * \see ShapedText(), ClippingPath()
   */
   virtual void Shape(const wxPdfShape& shape, int style = wxPDF_STYLE_DRAW);
 
@@ -2382,6 +2494,21 @@ public:
   * \param blendMode one of the following:
   *   Normal, Multiply, Screen, Overlay, Darken, Lighten, ColorDodge, ColorBurn,
   *   HardLight, SoftLight, Difference, Exclusion, Hue, Saturation, Color, Luminosity
+  * \par Example
+  * \code
+  * // Draw an opaque red square
+  * pdf.SetAlpha();
+  * pdf.SetFillColour(wxPdfColour(255, 0, 0));
+  * pdf.Rect(10, 10, 40, 40, wxPDF_STYLE_FILLDRAW);
+  *
+  * // Draw a semi-transparent green square overlapping it
+  * pdf.SetAlpha(1, 0.5);
+  * pdf.SetFillColour(wxPdfColour(0, 255, 0));
+  * pdf.Rect(20, 20, 40, 40, wxPDF_STYLE_FILLDRAW);
+  *
+  * // Restore full opacity
+  * pdf.SetAlpha();
+  * \endcode
   * \see SetAlphaState()
   */
   virtual int SetAlpha(double lineAlpha = 1, double fillAlpha = 1, wxPdfBlendMode blendMode = wxPDF_BLENDMODE_NORMAL);
@@ -2389,6 +2516,20 @@ public:
   /// Sets a previously defined alpha state
   /**
   * \param alphaState id of alpha state
+  * \par Example
+  * \code
+  * // Define two alpha states and switch between them
+  * int halfAlpha = pdf.SetAlpha(1, 0.5);
+  * int fullAlpha = pdf.SetAlpha(1, 1);
+  *
+  * pdf.SetAlphaState(halfAlpha);
+  * pdf.SetFillColour(wxPdfColour(255, 0, 0));
+  * pdf.Rect(10, 10, 40, 40, wxPDF_STYLE_FILL);
+  *
+  * pdf.SetAlphaState(fullAlpha);
+  * pdf.SetFillColour(wxPdfColour(0, 0, 255));
+  * pdf.Rect(60, 10, 40, 40, wxPDF_STYLE_FILL);
+  * \endcode
   * \see SetAlpha()
   */
   virtual void SetAlphaState(int alphaState);
@@ -2398,6 +2539,18 @@ public:
   * \param col1 first colour (RGB or CMYK).
   * \param col2 second colour (RGB or CMYK).
   * \param gradientType Type of the gradient
+  * \par Example
+  * \code
+  * // Simple horizontal red-to-blue gradient
+  * int grad = pdf.LinearGradient(wxPdfColour(255, 0, 0), wxPdfColour(0, 0, 255));
+  * pdf.SetFillGradient(10, 10, 90, 90, grad);
+  *
+  * // Vertical reflection gradient
+  * wxPdfColour from(wxString(wxS("#440000")));
+  * wxPdfColour to(wxString(wxS("#FF9090")));
+  * int gradR = pdf.LinearGradient(from, to, wxPDF_LINEAR_GRADIENT_REFLECTION_TOP);
+  * pdf.SetFillGradient(10, 110, 90, 20, gradR);
+  * \endcode
   * \see AxialGradient(), MidAxialGradient(), RadialGradient(), CoonsPatchGradient(), SetFillGradient()
   */
   virtual int LinearGradient(const wxPdfColour& col1, const wxPdfColour& col2,
@@ -2412,6 +2565,13 @@ public:
   * \param x2 end point of gradient vector, default: 1 (range 0 .. 1)
   * \param y2 end point of gradient vector, default: 0 (range 0 .. 1)
   * \param intexp interpolation exponent, default: 1
+  * \par Example
+  * \code
+  * // Diagonal gradient from top-left (red) to bottom-right (blue)
+  * int grad = pdf.AxialGradient(wxPdfColour(255, 0, 0), wxPdfColour(0, 0, 255),
+  *                              0, 0, 1, 1);
+  * pdf.SetFillGradient(10, 10, 90, 90, grad);
+  * \endcode
   * \see LinearGradient(), MidAxialGradient(), RadialGradient(), CoonsPatchGradient(), SetFillGradient()
   */
   virtual int AxialGradient(const wxPdfColour& col1, const wxPdfColour& col2,
@@ -2419,7 +2579,7 @@ public:
                             double x2 = 1, double y2 = 0,
                             double intexp = 1);
 
-  /// Defines an axial gradient shading
+  /// Defines an axial gradient shading with a configurable midpoint
   /**
   * \param col1 first colour (RGB or CMYK).
   * \param col2 second colour (RGB or CMYK).
@@ -2429,6 +2589,14 @@ public:
   * \param y2 end point of gradient vector, default: 0 (range 0 .. 1)
   * \param midpoint position of the mirror point, default: 0.5 (range 0 .. 1)
   * \param intexp interpolation exponent, default: 1
+  * \par Example
+  * \code
+  * wxPdfColour navy(wxString(wxS("navy")));
+  * wxPdfColour lightsteelblue(wxString(wxS("lightsteelblue")));
+  * // Horizontal gradient with midpoint shifted to 75%
+  * int grad = pdf.MidAxialGradient(navy, lightsteelblue, 0, 0, 1, 0, 0.5, 0.75);
+  * pdf.SetFillGradient(90, 200, 10, 20, grad);
+  * \endcode
   * \see LinearGradient(), AxialGradient(), RadialGradient(), CoonsPatchGradient(), SetFillGradient()
   */
   virtual int MidAxialGradient(const wxPdfColour& col1, const wxPdfColour& col2,
@@ -2447,6 +2615,13 @@ public:
   * \param y2 center point of circle 2, default: 0.5 (range 0 .. 1)
   * \param r2 radius of circle 2, default: 1
   * \param intexp interpolation exponent, default: 1
+  * \par Example
+  * \code
+  * // White center fading to black, inner radius 0, outer radius 1.2
+  * int grad = pdf.RadialGradient(wxPdfColour(255, 255, 255), wxPdfColour(0, 0, 0),
+  *                               0.5, 0.5, 0, 1, 1, 1.2);
+  * pdf.SetFillGradient(110, 10, 90, 90, grad);
+  * \endcode
   * \see LinearGradient(), AxialGradient(), MidAxialGradient(), CoonsPatchGradient(), SetFillGradient()
   */
   virtual int RadialGradient(const wxPdfColour& col1, const wxPdfColour& col2,
@@ -2459,6 +2634,17 @@ public:
   * \param mesh coons patch mesh to be used for the gradient
   * \param minCoord minimal coordinate of the mesh
   * \param maxCoord maximal coordinate of the mesh
+  * \par Example
+  * \code
+  * wxPdfCoonsPatchMesh mesh;
+  * wxPdfColour colors[] = { wxPdfColour(255,255,0), wxPdfColour(0,0,255),
+  *                          wxPdfColour(0,255,0),   wxPdfColour(255,0,0) };
+  * double cx[] = { 0.00, 0.33, 0.67, 1.00, 1.00, 1.00, 1.00, 0.67, 0.33, 0.00, 0.00, 0.00 };
+  * double cy[] = { 0.00, 0.00, 0.00, 0.00, 0.33, 0.67, 1.00, 1.00, 1.00, 1.00, 0.67, 0.33 };
+  * mesh.AddPatch(0, colors, cx, cy);
+  * int grad = pdf.CoonsPatchGradient(mesh);
+  * pdf.SetFillGradient(20, 115, 80, 80, grad);
+  * \endcode
   * \see LinearGradient(), AxialGradient(), MidAxialGradient(), RadialGradient(), SetFillGradient()
   */
   virtual int CoonsPatchGradient(const wxPdfCoonsPatchMesh& mesh, double minCoord = 0, double maxCoord = 1);
@@ -2469,7 +2655,14 @@ public:
   * \param y ordinate of the top left corner of the rectangle.
   * \param w width of the rectangle.
   * \param h height of the rectangle.
-  * \param gradient id of the gradient.
+  * \param gradient id of the gradient returned by a gradient definition function.
+  * \par Example
+  * \code
+  * // Define once, paint multiple times at different positions
+  * int grad = pdf.LinearGradient(wxPdfColour(255, 0, 0), wxPdfColour(0, 0, 255));
+  * pdf.SetFillGradient(10, 10, 90, 90, grad);
+  * pdf.SetFillGradient(10, 110, 90, 20, grad);
+  * \endcode
   * \see LinearGradient(), AxialGradient(), MidAxialGradient(), RadialGradient(), CoonsPatchGradient()
   */
   virtual void SetFillGradient(double x, double y, double w, double h, int gradient);
@@ -2480,6 +2673,17 @@ public:
   * \param y ordinate of the marker's center
   * \param markerType type of the marker
   * \param size size of the marker
+  * \par Example
+  * \code
+  * // Mark data points along a spline
+  * wxPdfArrayDouble x, y;
+  * x.Add(20); y.Add(40);
+  * x.Add(50); y.Add(20);
+  * x.Add(80); y.Add(40);
+  * for (size_t i = 0; i < x.GetCount(); ++i)
+  *   pdf.Marker(x[i], y[i], wxPDF_MARKER_CIRCLE, 2.0);
+  * pdf.BezierSpline(x, y, wxPDF_STYLE_DRAW);
+  * \endcode
   */
   virtual void Marker(double x, double y, wxPdfMarker markerType, double size);
 
@@ -2834,6 +3038,22 @@ public:
   *   \li @c wxPDF_SHAPEDTEXTMODE_ONETIME: the text should be printed at most one time depending on the path length
   *   \li @c wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT: the text should be stretched to fit exactly along the given path (default)
   *   \li @c wxPDF_SHAPEDTEXTMODE_REPEAT: the text should be repeated if the text length is shorter than the path length
+  * \par Example
+  * \code
+  * // Text stretched along a Bézier curve
+  * wxPdfShape shape;
+  * shape.MoveTo(25, 40);
+  * shape.CurveTo(50, 55, 90, 45, 80, 75);
+  * pdf.Curve(25, 40, 50, 55, 90, 45, 80, 75, wxPDF_STYLE_DRAW);
+  * pdf.ShapedText(shape, wxS("Text along a curved path"));
+  *
+  * // Repeated text along a longer path
+  * wxPdfShape shape2;
+  * shape2.MoveTo(125, 40);
+  * shape2.CurveTo(150, 55, 190, 45, 180, 75);
+  * pdf.ShapedText(shape2, wxS("Repeat! "), wxPDF_SHAPEDTEXTMODE_REPEAT);
+  * \endcode
+  * \see Shape(), Curve()
   */
   virtual void ShapedText(const wxPdfShape& shape, const wxString& text, wxPdfShapedTextMode mode = wxPDF_SHAPEDTEXTMODE_STRETCHTOFIT);
 
@@ -2984,7 +3204,7 @@ public:
   * \param enable flag whether PDF/A-1b conformance should be enabled
   * 
   * \note It is the user's responsibility to use only PDF features that in fact do conform with PDF/A-1b,
-  * i.e., all fonts embedded, no transparency/alpha channel, no document protection
+  * (i.e., all fonts embedded, no transparency/alpha channel, no document protection)
   */
   void SetPdfA1Conformance(bool enable);
 
@@ -3346,7 +3566,6 @@ protected:
   void LoadZapfDingBats();
 
   /**
-   * \brief 
    * \return Get the height of the header at the top of the page
    */
    double GetHeaderHeight() const; 
