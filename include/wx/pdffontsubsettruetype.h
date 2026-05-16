@@ -23,6 +23,7 @@
 #include "wx/pdffontparsertruetype.h"
 
 /// Class representing TrueType Font Subsets. (For internal use only)
+/// \internal
 class wxPdfFontSubsetTrueType : public wxPdfFontParserTrueType
 {
 public:

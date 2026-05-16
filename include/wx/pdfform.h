@@ -36,7 +36,8 @@ enum wxPdfObjectType
   wxPDF_OBJECT_WIDGET_TEXTFIELD
 };
 
-/// Base class for indirect PDF objects (For internal use only)
+/// Base class for indirect PDF objects (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfIndirectObject
 {
 public:
@@ -80,7 +81,8 @@ private:
   int             m_generationId;  ///< generation identifier
 };
 
-/// Base class for annotation objects (For internal use only)
+/// Base class for annotation objects (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfAnnotationObject : public wxPdfIndirectObject
 {
 public:
@@ -134,7 +136,8 @@ private:
   double m_h;   ///< Height of associated area
 };
 
-/// Base class for PDF form fields (For internal use only)
+/// Base class for PDF form fields (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfAnnotationWidget : public wxPdfAnnotationObject
 {
 public:
@@ -229,7 +232,8 @@ private:
   wxString m_borderStyle;       ///< border style
 };
 
-/// Class representing check box form fields (For internal use only)
+/// Class representing check box form fields (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfCheckBox : public wxPdfAnnotationWidget
 {
 public:
@@ -259,7 +263,8 @@ private:
   bool m_checked;  ///< status of check box
 };
 
-/// Class representing combo box form field (For internal use only)
+/// Class representing combo box form field (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfComboBox : public wxPdfAnnotationWidget
 {
 public:
@@ -307,7 +312,8 @@ private:
   wxArrayString m_values;     ///< array of combo box values
 };
 
-/// Class representing push button form field (For internal use only)
+/// Class representing push button form field (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfPushButton : public wxPdfAnnotationWidget
 {
 public:
@@ -371,7 +377,8 @@ private:
 // Forward declaration of radio button group
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfRadioGroup;
 
-/// Class representing radio button form field (For internal use only)
+/// Class representing radio button form field (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfRadioButton : public wxPdfAnnotationWidget
 {
 public:
@@ -409,7 +416,8 @@ private:
   int              m_index;   ///< index within button group
 };
 
-/// Class representing radio button groups (For internal use only)
+/// Class representing radio button groups (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfRadioGroup : public wxPdfIndirectObject
 {
 public:
@@ -453,7 +461,8 @@ private:
   wxArrayPtrVoid m_radios;     //< array of all radio buttons in this group
 };
 
-/// Class representing text form fields (For internal use only)
+/// Class representing text form fields (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfTextField : public wxPdfAnnotationWidget
 {
 public:

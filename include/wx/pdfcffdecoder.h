@@ -30,6 +30,7 @@ const char SUBR_RETURN_OP = 11;
 class wxPdfCffFontObject;
 
 /// Class representing CFF decoder for charstrings of type 1 and 2. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfCffDecoder
 {
 public:

@@ -26,6 +26,7 @@
 #include "wx/pdffontdata.h"
 
 /// Class representing Type 0 fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontDataType0 : public wxPdfFontData
 {
 public:

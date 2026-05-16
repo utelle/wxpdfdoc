@@ -25,6 +25,7 @@ class WXDLLIMPEXP_FWD_PDFDOC wxPdfRijndael;
 class wxPdfRandomBytesGenerator;
 
 /// Class representing PDF encryption methods. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfEncrypt
 {
 public:
@@ -293,6 +294,7 @@ private:
 };
 
 /// Class representing SHA2 hashing methods. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfSHA2
 {
 public:

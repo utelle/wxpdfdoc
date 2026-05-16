@@ -26,6 +26,7 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfVolt;
 
 /// Class representing TrueType fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontDataTrueType : public wxPdfFontData
 {
 public:
@@ -108,6 +109,7 @@ protected:
 #if wxUSE_UNICODE
 
 /// Class representing Unicode TrueType fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontDataTrueTypeUnicode : public wxPdfFontData
 {
 public:

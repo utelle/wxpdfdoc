@@ -27,6 +27,7 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontData;
 
 /// Class representing a table directory entry for TrueType fonts (for internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfTableDirectoryEntry
 {
 public:

@@ -26,6 +26,7 @@
 WX_DECLARE_STRING_HASH_MAP_WITH_DECL(wxUint16, wxPdfFontType1GlyphWidthMap, class WXDLLIMPEXP_PDFDOC);
 
 /// Class representing Type 1 fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontDataType1 : public wxPdfFontData
 {
 public:

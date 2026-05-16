@@ -27,6 +27,7 @@
 #include "wx/pdffontdata.h"
 
 /// Class representing Unicode OpenType fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontDataOpenTypeUnicode : public wxPdfFontData
 {
 public:

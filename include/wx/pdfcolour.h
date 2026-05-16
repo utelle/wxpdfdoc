@@ -149,6 +149,7 @@ public:
   void SetColour(const wxString& name);
 
   /// Set a spot colour (internal use only)
+  /// \internal
   /**
   * \param spotColour is the spot colour to be used
   * \param tint indicates the tint level. Value between 0 and 100. Default: 100.
@@ -156,12 +157,14 @@ public:
   void SetColour(const wxPdfSpotColour& spotColour, double tint);
 
   /// Set a pattern based colour (internal use only)
+  /// \internal
   /**
   * \param pattern is the pattern based colour to be used
   */
   void SetColour(const wxPdfPattern& pattern);
 
   /// Get internal colour string representation (for internal use only)
+  /// \internal
   /**
   * \param drawing flag specifying whether the colour is used for drawing operations
   * \return the string representation of the colour
@@ -175,6 +178,7 @@ public:
   wxPdfColourType GetColourType() const { return m_type; }
 
   /// Get internal colour value string representation (for internal use only)
+  /// \internal
   /**
   * \return the string representation of the colour value
   * This method works only for grayscale, rgb and cmyk colours. Don't use it for spot or pattern colours.

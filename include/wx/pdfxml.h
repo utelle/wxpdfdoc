@@ -23,6 +23,7 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfTable;
 
 /// Class representing cell context objects. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfCellContext
 {
 public:
@@ -267,6 +268,7 @@ private:
 };
 
 /// Class representing table cells. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfTableCell
 {
 public:
@@ -425,6 +427,7 @@ private:
 WX_DECLARE_HASH_MAP_WITH_DECL(long, wxPdfTableCell*, wxIntegerHash, wxIntegerEqual, wxPdfCellHashMap, class WXDLLIMPEXP_PDFDOC);
 
 /// Class representing tables within a cell. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfTable
 {
 public:

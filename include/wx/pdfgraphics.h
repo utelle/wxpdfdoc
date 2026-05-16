@@ -22,6 +22,7 @@
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfShape;
 
 /// Class representing ExtGState. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfExtGState
 {
 public:

@@ -28,6 +28,7 @@ class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontDescription;
 class wxPdfKernPairDesc;
 
 /// Class representing the Adobe core fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontDataCore : public wxPdfFontData
 {
 public :

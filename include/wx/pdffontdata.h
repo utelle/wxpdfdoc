@@ -50,6 +50,7 @@ public:
 WX_DEFINE_SORTED_USER_EXPORTED_ARRAY(wxPdfGlyphListEntry*, wxPdfGlyphList, WXDLLIMPEXP_PDFDOC);
 
 /// Base class for all fonts. (For internal use only)
+/// \internal
 class WXDLLIMPEXP_PDFDOC wxPdfFontData
 {
 public:
