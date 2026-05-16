@@ -33,7 +33,8 @@ public:
   */
   void SetTitle(const wxString& title) { m_title = title; }
 
-  /// Set author
+  /// Set the author of the document.
+  /// The author is the person or organization that created the document's content.
   /**
   * \param author The name of the author
   */
@@ -71,15 +72,19 @@ public:
   */
   void SetProducer(const wxString& producer) { m_producer = producer; }
 
-  /// Set the creation date
+  /// Set the creation date of the document.
+  /// The creation date records when the document was originally created.
+  /// The value should be formatted as a PDF date string (e.g., @c "D:20240101120000").
   /**
   * \param creationDate The date and time the document was created
   */
   void SetCreationDate(const wxString& creationDate) { m_creationDate = creationDate; }
 
-  /// Set the date of last modification
+  /// Set the modification date of the document.
+  /// The modification date records when the document was last changed.
+  /// The value should be formatted as a PDF date string (e.g., @c "D:20240101120000").
   /**
-  * \param modDate The date and time the document was modified
+  * \param modDate The date and time the document was last modified
   */
   void SetModDate(const wxString& modDate) { m_modDate = modDate; }
 
@@ -91,7 +96,8 @@ public:
   */
   const wxString GetTitle() const { return m_title; }
 
-  /// Get author
+  /// Get the author of the document.
+  /// The author is the person or organization that created the document's content.
   /**
   * \return The name of the author
   */
@@ -127,15 +133,17 @@ public:
   */
   const wxString GetProducer() const { return m_producer; }
 
-  /// Get the creation date
+  /// Get the creation date of the document.
+  /// The creation date records when the document was originally created.
   /**
   * \return The date and time the document was created
   */
   const wxString GetCreationDate() const { return m_creationDate; }
 
-  /// Get the date of last modification
+  /// Get the modification date of the document.
+  /// The modification date records when the document was last changed.
   /**
-  * \return The date and time the document was modified
+  * \return The date and time the document was last modified
   */
   const wxString GetModDate() const { return m_modDate; }
 
