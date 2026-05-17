@@ -2701,7 +2701,8 @@ wxPdfDocument::AddLinearGradientPattern(const wxString& patternName,
 {
   // Create affine matrix from the graphics matrix
   wxAffineMatrix2D matrixAffine;
-  if (!matrix.IsNull() || !matrix.IsIdentity())
+  // Valid matrix with actual transforms in it
+  if (!matrix.IsNull() && !matrix.IsIdentity())
   {
     wxMatrix2D mat2D;
     wxPoint2DDouble tr;
@@ -2736,7 +2737,7 @@ wxPdfDocument::AddLinearGradientPattern(const wxString& patternName,
 {
   // Create affine matrix from the graphics matrix
   wxAffineMatrix2D matrixAffine;
-  if (!matrix.IsNull() || !matrix.IsIdentity())
+  if (!matrix.IsNull() && !matrix.IsIdentity())
   {
     wxMatrix2D mat2D;
     wxPoint2DDouble tr;
@@ -2791,7 +2792,7 @@ wxPdfDocument::AddRadialGradientPattern(const wxString& patternName,
 {
   // Create affine matrix from the graphics matrix
   wxAffineMatrix2D matrixAffine;
-  if (!matrix.IsNull() || !matrix.IsIdentity())
+  if (!matrix.IsNull() && !matrix.IsIdentity())
   {
     wxMatrix2D mat2D;
     wxPoint2DDouble tr;
@@ -2829,7 +2830,7 @@ wxPdfDocument::AddRadialGradientPattern(const wxString& patternName,
 {
   // Create affine matrix from the graphics matrix
   wxAffineMatrix2D matrixAffine;
-  if (!matrix.IsNull() || !matrix.IsIdentity())
+  if (!matrix.IsNull() && !matrix.IsIdentity())
   {
     wxMatrix2D mat2D;
     wxPoint2DDouble tr;
