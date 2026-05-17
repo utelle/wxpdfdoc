@@ -185,7 +185,7 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
         wxGraphicsPath ring = gc.CreatePath();
         ring.AddCircle(500, 300, 28);
         gc.SetPen(gc.CreatePen(wxGraphicsPenInfo(*wxBLACK).Width(6)
-                      .RadialGradient(500, 300, 500, 300, 28, radStops)));
+                      .RadialGradient(475, 278, 475, 278, 60, radStops)));
         gc.SetBrush(*wxTRANSPARENT_BRUSH);
         gc.StrokePath(ring);
     }
