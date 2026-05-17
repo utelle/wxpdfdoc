@@ -666,10 +666,12 @@ public:
   virtual bool AddLinearGradientPattern(const wxString& patternName,
                                         double x1, double y1, double x2, double y2,
                                         const wxColour& c1, const wxColour& c2);
+  /// \overload
   virtual bool AddLinearGradientPattern(const wxString& patternName,
                                         double x1, double y1, double x2, double y2,
                                         const wxColour& c1, const wxColour& c2,
                                         const wxGraphicsMatrix& matrix);
+  /// \overload
   virtual bool AddLinearGradientPattern(const wxString& patternName,
                                         double x1, double y1, double x2, double y2,
                                         const wxColour& c1, const wxColour& c2,
@@ -693,10 +695,12 @@ public:
   virtual bool AddLinearGradientPattern(const wxString& patternName,
                                         double x1, double y1, double x2, double y2,
                                         const wxGraphicsGradientStops& stops);
+  /// \overload
   virtual bool AddLinearGradientPattern(const wxString& patternName,
                                         double x1, double y1, double x2, double y2,
                                         const wxGraphicsGradientStops& stops,
                                         const wxGraphicsMatrix& matrix);
+  /// \overload
   virtual bool AddLinearGradientPattern(const wxString& patternName,
                                         double x1, double y1, double x2, double y2,
                                         const wxGraphicsGradientStops& stops,
@@ -724,11 +728,13 @@ public:
                                         double startX, double startY, double startRadius,
                                         double endX, double endY, double endRadius,
                                         const wxColour& oColor, const wxColour& cColor);
+  /// \overload
   virtual bool AddRadialGradientPattern(const wxString& patternName,
                                         double startX, double startY, double startRadius,
                                         double endX, double endY, double endRadius,
                                         const wxColour& oColor, const wxColour& cColor,
                                         const wxGraphicsMatrix& matrix);
+  /// \overload
   virtual bool AddRadialGradientPattern(const wxString& patternName,
                                         double startX, double startY, double startRadius,
                                         double endX, double endY, double endRadius,
@@ -756,11 +762,13 @@ public:
                                         double startX, double startY, double startRadius,
                                         double endX, double endY, double endRadius,
                                         const wxGraphicsGradientStops& stops);
+  /// \overload
   virtual bool AddRadialGradientPattern(const wxString& patternName,
                                         double startX, double startY, double startRadius,
                                         double endX, double endY, double endRadius,
                                         const wxGraphicsGradientStops& stops,
                                         const wxGraphicsMatrix& matrix);
+  /// \overload
   virtual bool AddRadialGradientPattern(const wxString& patternName,
                                         double startX, double startY, double startRadius,
                                         double endX, double endY, double endRadius,
