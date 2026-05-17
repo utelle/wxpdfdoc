@@ -190,10 +190,10 @@ public:
   *                      If an owner password is set, the document can be opened
   *                      in privilege mode with no restriction if that password is entered
   * \param encryptionMethod selects the encryption method. Possible values are:
-  *   \li @c wxPDF_ENCRYPTION_RC4V1   RC4 method, version 1, with 40 bit encryption key (default)
+  *   \li @c wxPDF_ENCRYPTION_RC4V1   RC4 method, version 1, with 40 bit encryption key
   *   \li @c wxPDF_ENCRYPTION_RC4V2   RC4 method, version 2, with 40..128 bit encryption key
   *   \li @c wxPDF_ENCRYPTION_AESV2   AES method, with 128 bit encryption key
-  *   \li @c wxPDF_ENCRYPTION_AESV3   AES method, with 256 bit encryption key
+  *   \li @c wxPDF_ENCRYPTION_AESV3   AES method, with 256 bit encryption key (default)
   *   \li @c wxPDF_ENCRYPTION_AESV3R6 AES method, with 256 bit encryption key (PDF 2.0)
   * \param keyLength Length of the key used for encryption (default: 0)
   *                  The default value selects the standard encryption method revision 2 with a key length of 40 bits.
@@ -205,7 +205,7 @@ public:
   virtual bool SetProtection(int permissions,
                              const wxString& userPassword = wxEmptyString,
                              const wxString& ownerPassword = wxEmptyString,
-                             wxPdfEncryptionMethod encryptionMethod = wxPDF_ENCRYPTION_RC4V1,
+                             wxPdfEncryptionMethod encryptionMethod = wxPDF_ENCRYPTION_AESV3,
                              int keyLength = 0);
 
   /// Set the image scale.

@@ -166,7 +166,7 @@ wxPdfPrintData::Init()
   m_userPassword      = wxEmptyString;
   m_ownerPassword     = wxEmptyString;
   m_permissions       = wxPDF_PERMISSION_NONE;
-  m_encryptionMethod  = wxPDF_ENCRYPTION_RC4V1;
+  m_encryptionMethod  = wxPDF_ENCRYPTION_AESV3;
   m_keyLength         = 40;
 
   m_printOrientation  = wxPORTRAIT;
