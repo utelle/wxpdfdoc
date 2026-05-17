@@ -185,6 +185,13 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
     gc.DrawPath(BuildStarPath(gc));
     gc.PopState();
 
+    gc.PushState();
+    gc.Translate(290, 365);
+    gc.Rotate(wxDegToRad(30.0));
+    gc.SetBrush(gc.CreateLinearGradientBrush(-30, -32, 30, 26, linStops));
+    gc.DrawPath(BuildStarPath(gc));
+    gc.PopState();
+
     {
         wxGraphicsPath p = gc.CreatePath();
         p.MoveToPoint(290, 330);
@@ -202,6 +209,39 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
         gc.SetBrush(*wxTRANSPARENT_BRUSH);
         gc.StrokePath(ring);
     }
+
+    gc.PushState();
+    gc.Translate(390, 365);
+    gc.Rotate(wxDegToRad(-15.0));
+    {
+        wxGraphicsPath p = gc.CreatePath();
+        p.MoveToPoint(-40, 0);
+        p.AddLineToPoint(40, 0);
+        gc.SetPen(gc.CreatePen(wxGraphicsPenInfo(*wxBLACK).Width(6)
+                      .LinearGradient(-40, 0, 40, 0, linStops)));
+        gc.StrokePath(p);
+    }
+    gc.PopState();
+
+    gc.PushState();
+    gc.Translate(490, 365);
+    {
+        wxGraphicsPath ring = gc.CreatePath();
+        ring.AddCircle(0, 0, 20);
+        gc.SetPen(gc.CreatePen(wxGraphicsPenInfo(*wxBLACK).Width(5)
+                      .RadialGradient(-8, -8, -8, -8, 32, radStops)));
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        gc.StrokePath(ring);
+    }
+    gc.PopState();
+
+    gc.PushState();
+    gc.Translate(545, 365);
+    gc.Scale(0.8, 0.8);
+    gc.SetPen(*wxTRANSPARENT_PEN);
+    gc.SetBrush(gc.CreateRadialGradientBrush(0, 0, 0, 0, 35, radStops));
+    gc.DrawPath(BuildStarPath(gc));
+    gc.PopState();
 
     // Transforms
     //----------------
