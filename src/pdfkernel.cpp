@@ -2431,6 +2431,12 @@ wxPdfDocument::PutPatterns()
       case wxPDF_PATTERNSTYLE_RADIAL_GRADIENT:
         {
           wxGraphicsGradientStops stops = pattern->GetStops();
+          // Ensure at least two stops
+          if (stops.GetCount() < 2)
+          {
+            wxColour c = (stops.GetCount() == 1) ? stops.Item(0).GetColour() : *wxBLACK;
+            stops = wxGraphicsGradientStops(c, c);
+          }
           wxColour startColour = stops.GetStartColour();
           wxColour stopColour;
           size_t nStops = stops.GetCount() - 2;
