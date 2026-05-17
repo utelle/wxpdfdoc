@@ -242,6 +242,10 @@ wxPdfFontSubsetTrueType::CreateNewTables()
   for (k = 0; k < usedGlyphCount; k++)
   {
     int glyph = (*m_usedGlyphs)[k];
+    if (glyph + 1 >= (int)m_locaTableSize)
+    {
+      continue;
+    }
     m_newGlyfTableSize += m_locaTable[glyph + 1] - m_locaTable[glyph];
   }
   m_newGlyfTableRealSize = m_newGlyfTableSize;
@@ -265,6 +269,10 @@ wxPdfFontSubsetTrueType::CreateNewTables()
     {
       glyphIndex++;
       m_newLocaTable[k] = newGlyphOffset;
+      if (k + 1 >= m_locaTableSize)
+      {
+        continue;
+      }
       int glyphOffset = m_locaTable[k];
       int glyphLength = m_locaTable[k + 1] - glyphOffset;
       if (glyphLength > 0)
