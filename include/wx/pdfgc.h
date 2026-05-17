@@ -440,7 +440,6 @@ private:
   double         m_ppiPdfFont;
   wxPdfDocument* m_pdfDocument;
   int            m_imageCount;
-  int            m_patternCount;
   wxPrintData    m_printData;
   int            m_mappingModeStyle;
 
