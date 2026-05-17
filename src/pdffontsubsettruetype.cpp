@@ -200,7 +200,8 @@ wxPdfFontSubsetTrueType::FindGlyphComponents(int glyph)
   {
     int flags = ReadUShort();
     int glyphComponent = (int) ReadUShort();
-    if (m_usedGlyphs->Index(glyphComponent) == wxNOT_FOUND)
+    if (glyphComponent + 1 < (int)m_locaTableSize &&
+        m_usedGlyphs->Index(glyphComponent) == wxNOT_FOUND)
     {
       m_usedGlyphs->Add(glyphComponent);
     }
