@@ -710,9 +710,8 @@ wxPdfGraphicsBrushData::Apply(wxPdfGraphicsContext* context)
   }
   else
   {
-    // Gradient is configured but the registration logic lives elsewhere.
-    // For now fall back to the first stop colour so brushes still produce
-    // visible output instead of nothing.
+    // Gradient fills are handled by DoFillPathGradient via SetFillPattern;
+    // this solid-colour fallback is overridden immediately after Apply returns.
     if (m_gradStops.GetCount() > 0)
     {
       const wxColour c = m_gradStops.GetStartColour();
@@ -1699,6 +1698,7 @@ wxPdfGraphicsContext::Init()
   m_ppi = 72;
   m_pdfDocument = NULL;
   m_imageCount = 0;
+  m_patternCount = 0;
   m_lineAlpha = 1.0;
   m_fillAlpha = 1.0;
   m_clipCount = 0;
@@ -2129,49 +2129,11 @@ wxPdfGraphicsContext::SetFont(const wxGraphicsFont& font)
   }
 }
 
-// Interpolate the stop list at parameter t in [0,1].
-static wxColour
-InterpolateGradientStops(const wxGraphicsGradientStops& stops, double t)
-{
-  const size_t n = stops.GetCount();
-  if (n == 0)
-    return *wxBLACK;
-  if (t <= stops.Item(0).GetPosition())
-    return stops.GetStartColour();
-  if (t >= stops.Item(n - 1).GetPosition())
-    return stops.GetEndColour();
-  for (size_t i = 0; i + 1 < n; ++i)
-  {
-    const wxGraphicsGradientStop a = stops.Item(i);
-    const wxGraphicsGradientStop b = stops.Item(i + 1);
-    if (t >= a.GetPosition() && t <= b.GetPosition())
-    {
-      const double span = b.GetPosition() - a.GetPosition();
-      const double f = span > 0 ? (t - a.GetPosition()) / span : 0.0;
-      const wxColour ca = a.GetColour();
-      const wxColour cb = b.GetColour();
-      return wxColour(
-        (unsigned char)(ca.Red()   + (cb.Red()   - ca.Red())   * f),
-        (unsigned char)(ca.Green() + (cb.Green() - ca.Green()) * f),
-        (unsigned char)(ca.Blue()  + (cb.Blue()  - ca.Blue())  * f),
-        (unsigned char)(ca.Alpha() + (cb.Alpha() - ca.Alpha()) * f));
-    }
-  }
-  return stops.GetEndColour();
-}
-
-// Stroke a path with a gradient pen.
-//
-// PDF has no native gradient stroke. We simulate one by stroking the same
-// path repeatedly through a sequence of clips that confine each pass to a
-// thin band along the gradient axis (axial) or to a thin annulus around
-// the centre (radial). Each pass uses a per-slice solid colour interpolated
-// from the stop list. Strokes are rendered in user coordinates so the
-// pen width is preserved across slices; the clip simply masks each pass.
 static void
 DoStrokePathGradient(wxPdfGraphicsContext* context,
                      wxPdfGraphicsPenData* pen,
-                     const wxPdfShape& shape)
+                     const wxPdfShape& shape,
+                     int& patternCount)
 {
   wxPdfDocument* doc = context->GetPdfDocument();
   if (!doc)
@@ -2184,113 +2146,25 @@ DoStrokePathGradient(wxPdfGraphicsContext* context,
     return;
   }
 
-  const int numSlices = 32;
+  const wxString patName = wxString::Format(wxS("pdfgcgrad%d"), ++patternCount);
 
   if (pen->GetGradientKind() == wxPdfGraphicsPenBrushData::GRAD_LINEAR)
   {
-    const double gx1 = pen->GetGradX1();
-    const double gy1 = pen->GetGradY1();
-    const double gx2 = pen->GetGradX2();
-    const double gy2 = pen->GetGradY2();
-    const double dx = gx2 - gx1;
-    const double dy = gy2 - gy1;
-    const double len = sqrt(dx * dx + dy * dy);
-    if (len <= 0.0)
-    {
-      doc->Shape(shape, wxPDF_STYLE_DRAW);
-      return;
-    }
-
-    // Unit perpendicular to the gradient axis
-    const double px = -dy / len;
-    const double py =  dx / len;
-
-    // Effectively-infinite extents. bigP covers anything perpendicular to
-    // the gradient axis; overshoot extends the first - last slice tangentially
-    // so geometry beyond the [0,1] gradient range still picks up the end-stop
-    // colour.
-    const double bigP = 10000.0;
-    const double overshoot = 10000.0;
-
-    for (int i = 0; i < numSlices; ++i)
-    {
-      const double t0 = (double)i / numSlices;
-      const double t1 = (double)(i + 1) / numSlices;
-      const double tMid = 0.5 * (t0 + t1);
-
-      const double s0 = (i == 0)             ? -overshoot / len  : t0;
-      const double s1 = (i == numSlices - 1) ? 1.0 + overshoot / len : t1;
-
-      // Slice quad in user coords: { gx1 + s*(dx,dy) ± bigP*(px,py) }
-      wxPdfShape clip;
-      clip.MoveTo(gx1 + s0 * dx - bigP * px, gy1 + s0 * dy - bigP * py);
-      clip.LineTo(gx1 + s1 * dx - bigP * px, gy1 + s1 * dy - bigP * py);
-      clip.LineTo(gx1 + s1 * dx + bigP * px, gy1 + s1 * dy + bigP * py);
-      clip.LineTo(gx1 + s0 * dx + bigP * px, gy1 + s0 * dy + bigP * py);
-      clip.ClosePath();
-
-      const wxColour c = InterpolateGradientStops(stops, tMid);
-
-      context->PushState();
-      context->Clip(clip);
-      doc->SetDrawColour(c.Red(), c.Green(), c.Blue());
-      context->SetLineAlpha(c.Alpha() / 255.0);
-      doc->Shape(shape, wxPDF_STYLE_DRAW);
-      context->PopState();
-    }
-    return;
+    doc->AddLinearGradientPattern(patName,
+                                  pen->GetGradX1(), pen->GetGradY1(),
+                                  pen->GetGradX2(), pen->GetGradY2(),
+                                  stops);
+  }
+  else
+  {
+    doc->AddRadialGradientPattern(patName,
+                                  pen->GetGradX1(), pen->GetGradY1(), 0.0,
+                                  pen->GetGradX2(), pen->GetGradY2(), pen->GetGradRadius(),
+                                  stops);
   }
 
-  // Radial gradient stroke. Subdivide [0, rMax] into annular bands centred
-  // on (xc, yc) and stroke through each. The last band extends to a
-  // very large radius so the end-stop colour covers any path geometry
-  // outside the gradient circle.
-  const double xc   = pen->GetGradX2();
-  const double yc   = pen->GetGradY2();
-  const double rMax = pen->GetGradRadius();
-  if (rMax <= 0.0)
-  {
-    doc->Shape(shape, wxPDF_STYLE_DRAW);
-    return;
-  }
-
-  auto AddCircleSubpath = [](wxPdfShape& s, double cx, double cy, double r)
-  {
-    const double k = 0.55228474983079339840 * r;
-    s.MoveTo(cx + r, cy);
-    s.CurveTo(cx + r, cy + k, cx + k, cy + r, cx, cy + r);
-    s.CurveTo(cx - k, cy + r, cx - r, cy + k, cx - r, cy);
-    s.CurveTo(cx - r, cy - k, cx - k, cy - r, cx, cy - r);
-    s.CurveTo(cx + k, cy - r, cx + r, cy - k, cx + r, cy);
-    s.ClosePath();
-  };
-
-  for (int i = 0; i < numSlices; ++i)
-  {
-    const double t0 = (double)i / numSlices;
-    const double t1 = (double)(i + 1) / numSlices;
-    const double tMid = 0.5 * (t0 + t1);
-    const double r0 = t0 * rMax;
-    const double r1 = (i == numSlices - 1) ? 1.0e6 : t1 * rMax;
-
-    wxPdfShape annulus;
-    AddCircleSubpath(annulus, xc, yc, r1);
-    if (r0 > 0.0)
-      AddCircleSubpath(annulus, xc, yc, r0);
-
-    const wxColour c = InterpolateGradientStops(stops, tMid);
-
-    context->PushState();
-    int saveRule = doc->GetFillingRule();
-    doc->SetFillingRule(wxODDEVEN_RULE);
-    context->Clip(annulus);
-    doc->SetFillingRule(saveRule);
-
-    doc->SetDrawColour(c.Red(), c.Green(), c.Blue());
-    context->SetLineAlpha(c.Alpha() / 255.0);
-    doc->Shape(shape, wxPDF_STYLE_DRAW);
-    context->PopState();
-  }
+  doc->SetDrawPattern(patName);
+  doc->Shape(shape, wxPDF_STYLE_DRAW);
 }
 
 void
@@ -2306,7 +2180,7 @@ wxPdfGraphicsContext::StrokePath(const wxGraphicsPath& path)
     const wxPdfShape& shape = ((wxPdfGraphicsPathData*) path.GetRefData())->GetPdfShape();
     if (pen->HasGradient())
     {
-      DoStrokePathGradient(this, pen, shape);
+      DoStrokePathGradient(this, pen, shape, m_patternCount);
     }
     else
     {
@@ -2315,259 +2189,48 @@ wxPdfGraphicsContext::StrokePath(const wxGraphicsPath& path)
   }
 }
 
-// Helper: fill a path with a multi-stop gradient brush.
-//
-// PDF's wxPdfDocument::AxialGradient/RadialGradient only accept two
-// colours, and the engine doesn't yet expose a Type 3 stitching function.
-// For axial gradients with N >= 2 stops we paint N-1 separately-clipped
-// AxialGradients in series. The trick: rotate user space so the gradient
-// axis runs along x in [0,1], clip to the actual path, then for each
-// stop interval [t_i, t_{i+1}] call SetFillGradient with rect
-// (t_i, -big, t_{i+1}-t_i, 2*big). SetFillGradient internally clips to
-// that rect, so each slice paints only its own band; the seams line up
-// because adjacent gradients share an endpoint colour.
-//
-// For radial gradients with > 2 stops we currently fall back to the
-// first/last stop pair (PDF radial slicing requires annular clipping
-// which the engine doesn't expose).
 static void
 DoFillPathGradient(wxPdfGraphicsContext* context,
                    wxPdfGraphicsBrushData* brush,
                    const wxPdfShape& shape,
-                   wxPolygonFillMode fillStyle)
+                   wxPolygonFillMode fillStyle,
+                   int& patternCount)
 {
   wxPdfDocument* doc = context->GetPdfDocument();
   if (!doc) return;
 
   const wxGraphicsGradientStops& stops = brush->GetStops();
-  const size_t numStops = stops.GetCount();
-  if (numStops < 2)
+  if (stops.GetCount() < 2)
   {
-    // Degenerate: treat as solid fill of the start colour.
     int saveRule = doc->GetFillingRule();
     doc->SetFillingRule(fillStyle);
     doc->Shape(shape, wxPDF_STYLE_FILL);
     doc->SetFillingRule(saveRule);
     return;
   }
+
+  const wxString patName = wxString::Format(wxS("pdfgcgrad%d"), ++patternCount);
 
   if (brush->GetGradientKind() == wxPdfGraphicsBrushData::GRAD_LINEAR)
   {
-    const double gx1 = brush->GetGradX1();
-    const double gy1 = brush->GetGradY1();
-    const double gx2 = brush->GetGradX2();
-    const double gy2 = brush->GetGradY2();
-    const double dx = gx2 - gx1;
-    const double dy = gy2 - gy1;
-    const double len = sqrt(dx * dx + dy * dy);
-    if (len <= 0.0)
-    {
-      // Degenerate axis: solid fill of the first stop.
-      const wxColour c = stops.GetStartColour();
-      doc->SetFillColour(c.Red(), c.Green(), c.Blue());
-      int saveRule = doc->GetFillingRule();
-      doc->SetFillingRule(fillStyle);
-      doc->Shape(shape, wxPDF_STYLE_FILL);
-      doc->SetFillingRule(saveRule);
-      return;
-    }
-
-    context->PushState();
-
-    // Clip to the actual path so the gradient slices are bounded by it.
-    context->Clip(shape);
-
-    // Rotate / scale user space so the gradient axis runs from (0,0) to
-    // (1,0). We need: translate by (gx1,gy1), then rotate by theta,
-    // then scale by len. Composed CTM in column-major:
-    //   M = T(gx1,gy1) * R(theta) * S(len)
-    // where theta = atan2(dy, dx). PDF's Transform takes a, b, c, d, tx, ty
-    // such that the matrix is [[a c tx][b d ty]].
-    // This is equivalent to mapping (1,0) to (dx,dy) and (0,1) to (-dy,dx).
-    doc->Transform(dx, dy, -dy, dx, gx1, gy1);
-
-    // Big perpendicular extent. 10000 user units is chosen as a safe, 
-    // effectively infinite value compared to any realistic page dimensions.
-    // Since we have already clipped the entire context to the actual path shape,
-    // this large rectangle merely ensures the gradient slice covers the 
-    // full height of the geometry without needing to calculate the specific
-    // bounding box of the slice.
-    const double bigY = 10000.0;
-
-    for (size_t i = 0; i + 1 < numStops; ++i)
-    {
-      const wxGraphicsGradientStop s0 = stops.Item(i);
-      const wxGraphicsGradientStop s1 = stops.Item(i + 1);
-      const double t0 = s0.GetPosition();
-      const double t1 = s1.GetPosition();
-      if (t1 <= t0) continue;
-      const wxColour c0 = s0.GetColour();
-      const wxColour c1 = s1.GetColour();
-
-      // Slice rect in transformed coords: x = [t0, t1], y = [-bigY, bigY].
-      // SetFillGradient sets a clip rect and maps the gradient (defined in
-      // 0..1 normalised coords) onto it. We register a left-to-right axial
-      // gradient and target the slice rect.
-      int gradId = doc->AxialGradient(
-        wxPdfColour(c0.Red(), c0.Green(), c0.Blue()),
-        wxPdfColour(c1.Red(), c1.Green(), c1.Blue()),
-        0.0, 0.5, 1.0, 0.5, 1.0);
-      if (gradId > 0)
-      {
-        // Set alpha for this slice. This provides a stepped approximation 
-        // for axial alpha gradients.
-        doc->SetAlpha(1.0, c0.Alpha() / 255.0);
-        doc->SetFillGradient(t0, -bigY, t1 - t0, 2 * bigY, gradId);
-      }
-    }
-
-    context->PopState();
-    return;
-  }
-
-  // Radial. PDF supports two-stop radial natively. For >2 stops we'd need
-  // annular clipping, which wxPdfDocument doesn't currently expose; fall
-  // back to the first / last stop pair so we at least produce a smooth
-  // radial gradient.
-  const wxColour c0 = stops.GetStartColour();
-  const wxColour c1 = stops.GetEndColour();
-  const double xo = brush->GetGradX1();
-  const double yo = brush->GetGradY1();
-  const double xc = brush->GetGradX2();
-  const double yc = brush->GetGradY2();
-  const double r  = brush->GetGradRadius();
-
-  // Use the path's bbox as the SetFillGradient rect. The radial gradient
-  // is registered in 0..1 normalised coords mapped onto that rect.
-  double bx, by, bw, bh;
-  // We use the global bbox of the shape via a temporary path-data trick:
-  // pull it from the source GraphicsPath via the brush's caller. Easier:
-  // recompute from the shape's segments here.
-  bx = by = 0.0; bw = bh = 1.0;
-  {
-    const unsigned int n = shape.GetSegmentCount();
-    int iter = 0;
-    double pts[8];
-    bool first = true;
-    double minX = 0, minY = 0, maxX = 0, maxY = 0;
-    for (unsigned int i = 0; i < n; ++i)
-    {
-      wxPdfSegmentType seg = shape.GetSegment(i, iter, pts);
-      int npts = 0;
-      switch (seg)
-      {
-        case wxPDF_SEG_MOVETO:
-        case wxPDF_SEG_LINETO:
-        case wxPDF_SEG_CLOSE:
-          npts = 1; break;
-        case wxPDF_SEG_CURVETO:
-          npts = 3; break;
-        default: break;
-      }
-      for (int k = 0; k < npts; ++k)
-      {
-        const double x = pts[2 * k];
-        const double y = pts[2 * k + 1];
-        if (first) { minX = maxX = x; minY = maxY = y; first = false; }
-        else
-        {
-          if (x < minX) minX = x;
-          if (x > maxX) maxX = x;
-          if (y < minY) minY = y;
-          if (y > maxY) maxY = y;
-        }
-      }
-      iter += npts;
-    }
-    if (!first)
-    {
-      bx = minX; by = minY; bw = maxX - minX; bh = maxY - minY;
-    }
-  }
-
-  if (bw <= 0.0 || bh <= 0.0) return;
-
-  // Normalise centres / radius into the bbox 0..1 range.
-  const double nxo = (xo - bx) / bw;
-  const double nyo = (yo - by) / bh;
-  const double nxc = (xc - bx) / bw;
-  const double nyc = (yc - by) / bh;
-  const double nr  = r / wxMax(bw, bh);
-
-  context->PushState();
-  context->Clip(shape);
-  int gradId = doc->RadialGradient(
-    wxPdfColour(c0.Red(), c0.Green(), c0.Blue()),
-    wxPdfColour(c1.Red(), c1.Green(), c1.Blue()),
-    nxo, nyo, 0.0, nxc, nyc, nr, 1.0);
-  if (gradId > 0)
-  {
-    if (c0.Alpha() != c1.Alpha())
-    {
-      const int steps = 16;
-      for (int i = 0; i < steps; ++i)
-      {
-        double t0 = (double)i / steps;
-        double t1 = (double)(i + 1) / steps;
-
-        double alpha = (c0.Alpha() + (c1.Alpha() - c0.Alpha()) * t0) / 255.0;
-
-        context->PushState();
-
-        wxPdfShape annulus;
-        auto AddEllipseToShape = [](wxPdfShape& s, double ex, double ey, double erx, double ery) {
-          const double kappa = 0.55228474983079339840;
-          double eox = erx * kappa;
-          double eoy = ery * kappa;
-          s.MoveTo(ex + erx, ey);
-          s.CurveTo(ex + erx, ey + eoy, ex + eox, ey + ery, ex, ey + ery);
-          s.CurveTo(ex - eox, ey + ery, ex - erx, ey + eoy, ex - erx, ey);
-          s.CurveTo(ex - erx, ey - eoy, ex - eox, ey - ery, ex, ey - ery);
-          s.CurveTo(ex + eox, ey - ery, ex + erx, ey - eoy, ex + erx, ey);
-          s.ClosePath();
-        };
-
-        // Radii at t0 and t1. nr is normalized radius (0..0.5 typical) 
-        // relative to max(bw,bh). SetFillGradient maps 0..1 to bw, bh.
-        double rx1 = t1 * nr * bw;
-        double ry1 = t1 * nr * bh;
-        double rx0 = t0 * nr * bw;
-        double ry0 = t0 * nr * bh;
-
-        AddEllipseToShape(annulus, xo, yo, rx1, ry1);
-        if (t0 > 0)
-          AddEllipseToShape(annulus, xo, yo, rx0, ry0);
-
-        // Use context->Clip(shape) which uses W* when we set doc filling rule.
-        // The context tracks the clip's 'q' so PopState() balances it correctly.
-        int saveRule = doc->GetFillingRule();
-        doc->SetFillingRule(wxODDEVEN_RULE);
-        context->Clip(annulus);
-        doc->SetFillingRule(saveRule);
-
-        doc->SetAlpha(1.0, alpha);
-        doc->SetFillGradient(bx, by, bw, bh, gradId);
-        
-        context->PopState();
-      }
-    }
-    else
-    {
-      // For radial gradients with uniform alpha, we use the start color's 
-      // alpha as a constant alpha for the entire gradient.
-      doc->SetAlpha(1.0, c0.Alpha() / 255.0);
-      doc->SetFillGradient(bx, by, bw, bh, gradId);
-    }
+    doc->AddLinearGradientPattern(patName,
+                                  brush->GetGradX1(), brush->GetGradY1(),
+                                  brush->GetGradX2(), brush->GetGradY2(),
+                                  stops);
   }
   else
   {
-    // Fallback: solid fill if gradient registration failed.
-    int saveRule = doc->GetFillingRule();
-    doc->SetFillingRule(fillStyle);
-    doc->Shape(shape, wxPDF_STYLE_FILL);
-    doc->SetFillingRule(saveRule);
+    doc->AddRadialGradientPattern(patName,
+                                  brush->GetGradX1(), brush->GetGradY1(), 0.0,
+                                  brush->GetGradX2(), brush->GetGradY2(), brush->GetGradRadius(),
+                                  stops);
   }
-  context->PopState();
+
+  doc->SetFillPattern(patName);
+  int saveRule = doc->GetFillingRule();
+  doc->SetFillingRule(fillStyle);
+  doc->Shape(shape, wxPDF_STYLE_FILL);
+  doc->SetFillingRule(saveRule);
 }
 
 void wxPdfGraphicsContext::FillPath(const wxGraphicsPath& path, wxPolygonFillMode fillStyle)
@@ -2585,7 +2248,7 @@ void wxPdfGraphicsContext::FillPath(const wxGraphicsPath& path, wxPolygonFillMod
 
   if (brush->HasGradient())
   {
-    DoFillPathGradient(this, brush, shape, fillStyle);
+    DoFillPathGradient(this, brush, shape, fillStyle, m_patternCount);
     return;
   }
 
