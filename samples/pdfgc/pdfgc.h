@@ -75,7 +75,7 @@ enum
 
 // Logical drawing surface size (in points: 1 pt = 1/72 inch).
 constexpr int PDFGC_SCENE_WIDTH  = 580;
-constexpr int PDFGC_SCENE_HEIGHT = 760;
+constexpr int PDFGC_SCENE_HEIGHT = 820;
 
 // Renders the demo scene.
 void DrawScene(wxGraphicsContext& gc, const wxSize& size);

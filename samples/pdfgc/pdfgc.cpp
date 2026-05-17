@@ -157,7 +157,7 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
 
     // Gradients
     //----------
-    DrawSectionLabel(gc, wxS("Gradients (linear/radial brush, linear/radial pen)"),
+    DrawSectionLabel(gc, wxS("Gradients (linear/radial brush, gradient path fill, linear/radial pen)"),
                      10, 250);
 
     wxGraphicsGradientStops linStops(wxColour(0, 80, 200),
@@ -169,8 +169,28 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
 
     wxGraphicsGradientStops radStops(wxColour(255, 255, 255),
                                      wxColour(20, 60, 130));
+    radStops.Add(wxColour(100, 180, 255), 0.5f);
     gc.SetBrush(gc.CreateRadialGradientBrush(220, 300, 220, 300, 45, radStops));
     gc.DrawEllipse(180, 270, 90, 60);
+
+    gc.PushState();
+    gc.Translate(65, 365);
+    gc.SetBrush(gc.CreateLinearGradientBrush(-30, -32, 30, 26, linStops));
+    gc.DrawPath(BuildStarPath(gc));
+    gc.PopState();
+
+    gc.PushState();
+    gc.Translate(175, 365);
+    gc.SetBrush(gc.CreateRadialGradientBrush(0, 0, 0, 0, 35, radStops));
+    gc.DrawPath(BuildStarPath(gc));
+    gc.PopState();
+
+    gc.PushState();
+    gc.Translate(290, 365);
+    gc.Rotate(wxDegToRad(30.0));
+    gc.SetBrush(gc.CreateLinearGradientBrush(-30, -32, 30, 26, linStops));
+    gc.DrawPath(BuildStarPath(gc));
+    gc.PopState();
 
     {
         wxGraphicsPath p = gc.CreatePath();
@@ -185,15 +205,48 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
         wxGraphicsPath ring = gc.CreatePath();
         ring.AddCircle(500, 300, 28);
         gc.SetPen(gc.CreatePen(wxGraphicsPenInfo(*wxBLACK).Width(6)
-                      .RadialGradient(500, 300, 500, 300, 28, radStops)));
+                      .RadialGradient(475, 278, 475, 278, 60, radStops)));
         gc.SetBrush(*wxTRANSPARENT_BRUSH);
         gc.StrokePath(ring);
     }
 
+    gc.PushState();
+    gc.Translate(390, 365);
+    gc.Rotate(wxDegToRad(-15.0));
+    {
+        wxGraphicsPath p = gc.CreatePath();
+        p.MoveToPoint(-40, 0);
+        p.AddLineToPoint(40, 0);
+        gc.SetPen(gc.CreatePen(wxGraphicsPenInfo(*wxBLACK).Width(6)
+                      .LinearGradient(-40, 0, 40, 0, linStops)));
+        gc.StrokePath(p);
+    }
+    gc.PopState();
+
+    gc.PushState();
+    gc.Translate(490, 365);
+    {
+        wxGraphicsPath ring = gc.CreatePath();
+        ring.AddCircle(0, 0, 20);
+        gc.SetPen(gc.CreatePen(wxGraphicsPenInfo(*wxBLACK).Width(5)
+                      .RadialGradient(-8, -8, -8, -8, 32, radStops)));
+        gc.SetBrush(*wxTRANSPARENT_BRUSH);
+        gc.StrokePath(ring);
+    }
+    gc.PopState();
+
+    gc.PushState();
+    gc.Translate(545, 365);
+    gc.Scale(0.8, 0.8);
+    gc.SetPen(*wxTRANSPARENT_PEN);
+    gc.SetBrush(gc.CreateRadialGradientBrush(0, 0, 0, 0, 35, radStops));
+    gc.DrawPath(BuildStarPath(gc));
+    gc.PopState();
+
     // Transforms
     //----------------
     DrawSectionLabel(gc, wxS("Transforms (Push/Pop, Translate, Rotate, Scale, "
-                         "matrix-applied path)"), 10, 350);
+                         "matrix-applied path)"), 10, 410);
 
     gc.SetPen(wxPenInfo(*wxBLACK).Width(1));
     gc.SetBrush(wxBrush(wxColour(255, 200, 80)));
@@ -209,17 +262,17 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
         gc.PopState();
     };
 
-    drawStarAt( 60, 420,   0.0, 1.0, 1.0); // identity
-    drawStarAt(160, 420,  30.0, 1.0, 1.0); // rotated
-    drawStarAt(260, 420,   0.0, 0.5, 0.5); // uniform scale
-    drawStarAt(340, 420,   0.0, 1.5, 0.5); // anisotropic scale
+    drawStarAt( 60, 480,   0.0, 1.0, 1.0); // identity
+    drawStarAt(160, 480,  30.0, 1.0, 1.0); // rotated
+    drawStarAt(260, 480,   0.0, 0.5, 0.5); // uniform scale
+    drawStarAt(340, 480,   0.0, 1.5, 0.5); // anisotropic scale
 
     {
         // Same star transformed via a wxGraphicsMatrix applied directly to
         // the path (instead of mutating the GC's CTM).
         wxGraphicsPath p = BuildStarPath(gc);
         wxGraphicsMatrix m = gc.CreateMatrix();
-        m.Translate(460, 420);
+        m.Translate(460, 480);
         m.Scale(0.7, 0.7);
         m.Rotate(wxDegToRad(-20.0));
         p.Transform(m);
@@ -230,26 +283,26 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
     // Clipping, layers, composition modes
     //------------------------------------
     DrawSectionLabel(gc, wxS("Clipping, layer alpha, composition modes"),
-                     10, 480);
+                     10, 540);
 
     gc.PushState();
-    gc.Clip(20, 500, 90, 50);
+    gc.Clip(20, 560, 90, 50);
     gc.SetPen(*wxBLACK_PEN);
     gc.SetBrush(wxBrush(wxColour("GOLDENROD")));
-    gc.DrawEllipse(10, 490, 130, 90);
+    gc.DrawEllipse(10, 550, 130, 90);
     gc.ResetClip();
     gc.PopState();
 
     gc.SetPen(*wxBLACK_PEN);
     gc.SetBrush(*wxTRANSPARENT_BRUSH);
-    gc.DrawRectangle(20, 500, 90, 50);
+    gc.DrawRectangle(20, 560, 90, 50);
 
     gc.BeginLayer(0.5);
     gc.SetPen(*wxTRANSPARENT_PEN);
     gc.SetBrush(*wxRED_BRUSH);
-    gc.DrawRectangle(160, 500, 50, 50);
+    gc.DrawRectangle(160, 560, 50, 50);
     gc.SetBrush(*wxBLUE_BRUSH);
-    gc.DrawRectangle(180, 520, 50, 50);
+    gc.DrawRectangle(180, 580, 50, 50);
     gc.EndLayer();
 
     {
@@ -265,45 +318,45 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
             gc.SetCompositionMode(wxCOMPOSITION_OVER);
             gc.SetBrush(wxBrush(wxColour(0, 120, 220, 200)));
             gc.SetPen(*wxTRANSPARENT_PEN);
-            gc.DrawRectangle(cx, 500, 50, 50);
+            gc.DrawRectangle(cx, 560, 50, 50);
 
             gc.SetCompositionMode(entry.mode);
             gc.SetBrush(wxBrush(wxColour(220, 60, 60, 200)));
-            gc.DrawRectangle(cx + 18, 518, 50, 50);
+            gc.DrawRectangle(cx + 18, 578, 50, 50);
 
             gc.SetCompositionMode(wxCOMPOSITION_OVER);
             gc.SetFont(wxFontInfo(8).FaceName("Arial"), *wxBLACK);
-            gc.DrawText(entry.label, cx + 4, 575);
+            gc.DrawText(entry.label, cx + 4, 635);
             cx += 90;
         }
     }
 
     // ---- Bitmaps + rotated text ------------------------------------------
     DrawSectionLabel(gc, wxS("Bitmaps (32, 48, 64 px) and rotated text"),
-                     10, 610);
+                     10, 670);
 
     {
         wxBitmap bmp(pdfgc_bitmap_xpm);
         wxGraphicsBitmap gbmp = gc.CreateBitmap(bmp);
-        gc.DrawBitmap(gbmp,  10, 630, 32, 32);
-        gc.DrawBitmap(gbmp,  60, 630, 48, 48);
-        gc.DrawBitmap(gbmp, 125, 630, 64, 64);
+        gc.DrawBitmap(gbmp,  10, 690, 32, 32);
+        gc.DrawBitmap(gbmp,  60, 690, 48, 48);
+        gc.DrawBitmap(gbmp, 125, 690, 64, 64);
 
         // Same bitmap inside a clipped region, to combine the two features.
         gc.PushState();
-        gc.Clip(210, 640, 60, 50);
-        gc.DrawBitmap(gbmp, 200, 630, 80, 80);
+        gc.Clip(210, 700, 60, 50);
+        gc.DrawBitmap(gbmp, 200, 690, 80, 80);
         gc.ResetClip();
         gc.PopState();
         gc.SetPen(wxPenInfo(*wxBLACK).Width(1));
         gc.SetBrush(*wxTRANSPARENT_BRUSH);
-        gc.DrawRectangle(210, 640, 60, 50);
+        gc.DrawRectangle(210, 700, 60, 50);
     }
 
     gc.SetFont(wxFontInfo(11).FaceName("Arial").Italic(),
                wxColour(40, 40, 80));
-    gc.DrawText("Rotated text", 320, 660, wxDegToRad(-12.0));
-    gc.DrawText("Rotated text", 460, 660, wxDegToRad(-12.0 + 180.0));
+    gc.DrawText("Rotated text", 320, 720, wxDegToRad(-12.0));
+    gc.DrawText("Rotated text", 460, 720, wxDegToRad(-12.0 + 180.0));
 }
 
 // ---------------------------------------------------------------------------
