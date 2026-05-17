@@ -2148,18 +2148,25 @@ DoStrokePathGradient(wxPdfGraphicsContext* context,
 
   const wxString patName = wxString::Format(wxS("pdfgcgrad%d"), ++patternCount);
 
+  // Gradient coords are in GC local space; transform them to document space
+  // so the pattern's shading aligns with the shape regardless of the current CTM.
+  const wxGraphicsMatrix ctm = context->GetTransform();
+  wxDouble gx1 = pen->GetGradX1(), gy1 = pen->GetGradY1();
+  wxDouble gx2 = pen->GetGradX2(), gy2 = pen->GetGradY2();
+  ctm.TransformPoint(&gx1, &gy1);
+  ctm.TransformPoint(&gx2, &gy2);
+
   if (pen->GetGradientKind() == wxPdfGraphicsPenBrushData::GRAD_LINEAR)
   {
-    doc->AddLinearGradientPattern(patName,
-                                  pen->GetGradX1(), pen->GetGradY1(),
-                                  pen->GetGradX2(), pen->GetGradY2(),
-                                  stops);
+    doc->AddLinearGradientPattern(patName, gx1, gy1, gx2, gy2, stops);
   }
   else
   {
+    wxDouble rdx = pen->GetGradRadius(), rdy = 0.0;
+    ctm.TransformDistance(&rdx, &rdy);
     doc->AddRadialGradientPattern(patName,
-                                  pen->GetGradX1(), pen->GetGradY1(), 0.0,
-                                  pen->GetGradX2(), pen->GetGradY2(), pen->GetGradRadius(),
+                                  gx1, gy1, 0.0,
+                                  gx2, gy2, sqrt(rdx * rdx + rdy * rdy),
                                   stops);
   }
 
@@ -2211,18 +2218,25 @@ DoFillPathGradient(wxPdfGraphicsContext* context,
 
   const wxString patName = wxString::Format(wxS("pdfgcgrad%d"), ++patternCount);
 
+  // Gradient coords are in GC local space; transform them to document space
+  // so the pattern's shading aligns with the shape regardless of the current CTM.
+  const wxGraphicsMatrix ctm = context->GetTransform();
+  wxDouble gx1 = brush->GetGradX1(), gy1 = brush->GetGradY1();
+  wxDouble gx2 = brush->GetGradX2(), gy2 = brush->GetGradY2();
+  ctm.TransformPoint(&gx1, &gy1);
+  ctm.TransformPoint(&gx2, &gy2);
+
   if (brush->GetGradientKind() == wxPdfGraphicsBrushData::GRAD_LINEAR)
   {
-    doc->AddLinearGradientPattern(patName,
-                                  brush->GetGradX1(), brush->GetGradY1(),
-                                  brush->GetGradX2(), brush->GetGradY2(),
-                                  stops);
+    doc->AddLinearGradientPattern(patName, gx1, gy1, gx2, gy2, stops);
   }
   else
   {
+    wxDouble rdx = brush->GetGradRadius(), rdy = 0.0;
+    ctm.TransformDistance(&rdx, &rdy);
     doc->AddRadialGradientPattern(patName,
-                                  brush->GetGradX1(), brush->GetGradY1(), 0.0,
-                                  brush->GetGradX2(), brush->GetGradY2(), brush->GetGradRadius(),
+                                  gx1, gy1, 0.0,
+                                  gx2, gy2, sqrt(rdx * rdx + rdy * rdy),
                                   stops);
   }
 
