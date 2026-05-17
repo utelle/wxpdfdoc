@@ -181,7 +181,10 @@ static const int FLAG_HAS_TWO_BY_TWO      = 128;
 void
 wxPdfFontSubsetTrueType::FindGlyphComponents(int glyph)
 {
-
+  if (glyph + 1 >= (int)m_locaTableSize)
+  {
+    return;
+  }
   int glyphOffset = m_locaTable[glyph];
   if (glyphOffset == m_locaTable[glyph + 1])
   {
