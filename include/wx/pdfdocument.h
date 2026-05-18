@@ -190,22 +190,24 @@ public:
   *                      If an owner password is set, the document can be opened
   *                      in privilege mode with no restriction if that password is entered
   * \param encryptionMethod selects the encryption method. Possible values are:
-  *   \li @c wxPDF_ENCRYPTION_RC4V1   RC4 method, version 1, with 40 bit encryption key (default)
+  *   \li @c wxPDF_ENCRYPTION_RC4V1   RC4 method, version 1, with 40 bit encryption key
   *   \li @c wxPDF_ENCRYPTION_RC4V2   RC4 method, version 2, with 40..128 bit encryption key
   *   \li @c wxPDF_ENCRYPTION_AESV2   AES method, with 128 bit encryption key
   *   \li @c wxPDF_ENCRYPTION_AESV3   AES method, with 256 bit encryption key
-  *   \li @c wxPDF_ENCRYPTION_AESV3R6 AES method, with 256 bit encryption key (PDF 2.0)
+  *   \li @c wxPDF_ENCRYPTION_AESV3R6 AES method, with 256 bit encryption key (PDF 2.0, default)
   * \param keyLength Length of the key used for encryption (default: 0)
-  *                  The default value selects the standard encryption method revision 2 with a key length of 40 bits.
-  *                  Specifying a value > 0 selects the standard encryption method revision 3 with the given key length,
-  *                  the key length has to be in the range 40..128 and has to be dividable by 8.
-  *                  The key length is adjusted accordingly if these conditions are not met.
+  *                  For encryption method @c wxPDF_ENCRYPTION_RC4V1 the key length is always 40 bits.
+  *                  For encryption method @c wxPDF_ENCRYPTION_RC4V2 the key length has to be in the range 40..128
+  *                  and has to be dividable by 8; values outside this range are clamped automatically.
+  *                  For encryption methods @c wxPDF_ENCRYPTION_AESV2 the key length is always 128 bits.
+  *                  For encryption methods @c wxPDF_ENCRYPTION_AESV3 and @c wxPDF_ENCRYPTION_AESV3R6
+  *                  the key length is always 256 bits.
   * \return @c true, if the provided passwords are valid, @c false otherwise.
   */
   virtual bool SetProtection(int permissions,
                              const wxString& userPassword = wxEmptyString,
                              const wxString& ownerPassword = wxEmptyString,
-                             wxPdfEncryptionMethod encryptionMethod = wxPDF_ENCRYPTION_RC4V1,
+                             wxPdfEncryptionMethod encryptionMethod = wxPDF_ENCRYPTION_AESV3R6,
                              int keyLength = 0);
 
   /// Set the image scale.

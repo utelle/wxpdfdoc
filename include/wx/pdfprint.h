@@ -333,7 +333,7 @@ public:
   void SetDocumentProtection(int permissions,
                              const wxString& userPassword = wxEmptyString,
                              const wxString& ownerPassword = wxEmptyString,
-                             wxPdfEncryptionMethod encryptionMethod = wxPDF_ENCRYPTION_RC4V1,
+                             wxPdfEncryptionMethod encryptionMethod = wxPDF_ENCRYPTION_AESV3R6,
                              int keyLength = 0);
 
   /// Get user password
