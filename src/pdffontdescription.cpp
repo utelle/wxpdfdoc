@@ -21,7 +21,7 @@
 #endif
 
 // includes
-
+#include "wx/pdfproperties.h"
 #include "wx/pdffontdescription.h"
 
 wxPdfFontDescription::wxPdfFontDescription()
@@ -31,7 +31,9 @@ wxPdfFontDescription::wxPdfFontDescription()
     m_underlinePosition(-100), m_underlineThickness(50),
     m_hheaAscender(0), m_hheaDescender(0), m_hheaLineGap(0),
     m_os2sTypoAscender(0), m_os2sTypoDescender(0), m_os2sTypoLineGap(0),
-    m_os2usWinAscent(0), m_os2usWinDescent(0)
+    m_os2usWinAscent(0), m_os2usWinDescent(0),
+    m_fontStyle(wxPDF_FONTSTYLE_REGULAR),
+    m_fontWeight(wxPDF_FONTWEIGHT_INVALID)
 {
 }
 
@@ -48,7 +50,9 @@ wxPdfFontDescription::wxPdfFontDescription (int ascent, int descent, int capHeig
     m_underlinePosition(underlinePosition), m_underlineThickness(underlineThickness),
     m_hheaAscender(hheaAscender), m_hheaDescender(hheaDescender), m_hheaLineGap(hheaLineGap),
     m_os2sTypoAscender(os2sTypoAscender), m_os2sTypoDescender(os2sTypoDescender), m_os2sTypoLineGap(os2sTypoLineGap),
-    m_os2usWinAscent(os2usWinAscent), m_os2usWinDescent(os2usWinDescent)
+    m_os2usWinAscent(os2usWinAscent), m_os2usWinDescent(os2usWinDescent),
+    m_fontStyle(wxPDF_FONTSTYLE_REGULAR),
+    m_fontWeight(wxPDF_FONTWEIGHT_INVALID)
 {
 }
 
@@ -73,6 +77,8 @@ wxPdfFontDescription::wxPdfFontDescription(const wxPdfFontDescription& desc)
   m_os2sTypoLineGap    = desc.m_os2sTypoLineGap;
   m_os2usWinAscent     = desc.m_os2usWinAscent;
   m_os2usWinDescent    = desc.m_os2usWinDescent;
+  m_fontStyle          = desc.m_fontStyle;
+  m_fontWeight         = desc.m_fontWeight;
 }
 
 wxPdfFontDescription&
@@ -99,6 +105,8 @@ wxPdfFontDescription::operator=(const wxPdfFontDescription& desc)
     m_os2sTypoLineGap    = desc.m_os2sTypoLineGap;
     m_os2usWinAscent     = desc.m_os2usWinAscent;
     m_os2usWinDescent    = desc.m_os2usWinDescent;
+    m_fontStyle          = desc.m_fontStyle;
+    m_fontWeight         = desc.m_fontWeight;
   }
   return *this;
 }

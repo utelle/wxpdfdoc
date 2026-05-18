@@ -17,6 +17,7 @@
 
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
+#include "wx/pdfproperties.h"
 
 /// Class representing a font description.
 class WXDLLIMPEXP_PDFDOC wxPdfFontDescription
@@ -234,6 +235,30 @@ public:
                           int* os2sTypoAscender, int* os2sTypoDescender, int* os2sTypoLineGap,
                           int* os2usWinAscent, int* os2usWinDescent);
 
+  /// Set font style
+  /**
+  * \param fontStyle the style of the font
+  */
+  void SetFontStyle(int fontStyle) { m_fontStyle = fontStyle; };
+
+  /// Get font style
+  /**
+  * \return the style of the font
+  */
+  int GetFontStyle() const { return m_fontStyle; };
+
+  /// Set font weight
+  /**
+  * \param fontWeight the weight of the font
+  */
+  void SetFontWeight(wxPdfFontWeight fontWeight) { m_fontWeight = fontWeight; };
+
+  /// Get font weight
+  /**
+  * \return the weight of the font
+  */
+  wxPdfFontWeight GetFontWeight() const { return m_fontWeight; };
+
 private:
   int      m_ascent;                  ///< Ascender
   int      m_descent;                 ///< Descender
@@ -255,6 +280,9 @@ private:
   int      m_os2sTypoLineGap;         ///< OS/2 table sTypoLineGap
   int      m_os2usWinAscent;          ///< OS/2 table usWinAscent
   int      m_os2usWinDescent;         ///< OS/2 table usWinDescent
+
+  int      m_fontStyle;               ///< Font style
+  wxPdfFontWeight m_fontWeight;       ///< Font weight
 };
 
 #endif

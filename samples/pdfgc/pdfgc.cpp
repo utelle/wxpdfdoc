@@ -100,7 +100,7 @@ void DrawScene(wxGraphicsContext& gc, const wxSize& size)
 
     // Title
     gc.SetFont(wxFontInfo(14).FaceName("Arial").Bold(), *wxBLACK);
-    gc.DrawText(wxS("wxPdfDocument — wxGraphicsContext stress test"), 10, 10);
+    gc.DrawText(wxString::FromUTF8("wxPdfDocument — wxGraphicsContext stress test"), 10, 10);
 
     // Shapes
     DrawSectionLabel(gc, wxS("Shapes (rect, rounded-rect, ellipse, stroked rect)"),

@@ -11,12 +11,15 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 - Updated 3rd party libraries _zint_ and _woff2_
 - Improved documentation
+- Changed default encryption to AES-256 instead of RC4
+- Applied various code improvements
 
 ### Added
 
-- Added `wxPdfGraphicsContext` implementation
+- Added `wxPdfGraphicsContext` implementation (and sample application)
 - Added support for granular font weights (Thin to ExtraHeavy)
 - Added linear and radial shading patterns for drawing and filling
+- Added font style and weight attributes to font description
 
 ### Fixed
 

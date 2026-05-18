@@ -29,6 +29,7 @@
 #include "wx/txtstrm.h"
 #include <wx/zstream.h>
 
+#include "wx/pdfproperties.h"
 #include "wx/pdfcffindex.h"
 #include "wx/pdfcffdecoder.h"
 #include "wx/pdffontdata.h"
@@ -367,6 +368,8 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
   if (afmFile.IsOk())
   {
     // Initialize font description
+    int fontStyle = wxPDF_FONTSTYLE_REGULAR;
+    wxPdfFontWeight fontWeight = wxPDF_FONTWEIGHT_REGULAR;
     wxPdfFontDescription fd;
     fd.SetAscent(1000);
     fd.SetDescent(-200);
@@ -427,10 +430,16 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
         else if (code.IsSameAs(wxS("Weight")))
         {
           wxString weight = param.Lower();
-          if (!hasStemV && (weight.IsSameAs(wxS("black")) || weight.IsSameAs(wxS("bold"))))
+          bool isBold = weight.IsSameAs(wxS("black")) || weight.IsSameAs(wxS("bold"));
+          if (!hasStemV && isBold)
           {
             fd.SetStemV(120);
           }
+          if (isBold)
+          {
+            fontStyle |= wxPDF_FONTSTYLE_BOLD;
+          }
+          fontWeight = (isBold) ? wxPDF_FONTWEIGHT_BOLD : wxPDF_FONTWEIGHT_REGULAR;
         }
         else if (code.IsSameAs(wxS("ItalicAngle")))
         {
@@ -441,6 +450,7 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
           if (italicAngle > 0)
           {
             flags += 1 << 6;
+            fontStyle |= wxPDF_FONTSTYLE_ITALIC;
           }
         }
         else if (code.IsSameAs(wxS("Ascender")))
@@ -653,6 +663,8 @@ wxPdfFontParserType1::ReadAFM(wxInputStream& afmFile)
       wxString fbb = wxString::Format(wxS("[0 %d 1000 %d]"), fd.GetDescent()-100, fd.GetAscent()+100);
       fd.SetFontBBox(fbb);
     }
+    fd.SetFontStyle(fontStyle);
+    fd.SetFontWeight(fontWeight);
     m_fontData->SetDescription(fd);
     ok = true;
   }
@@ -1192,6 +1204,8 @@ wxPdfFontParserType1::ReadPFM(wxInputStream& pfmFile)
   ext.underlinewidth  = ReadUShortLE(&pfmFile);
 
   // Initialize font description
+  int fontStyle = wxPDF_FONTSTYLE_REGULAR;
+  wxPdfFontWeight fontWeight = wxPDF_FONTWEIGHT_REGULAR;
   wxPdfFontDescription fd;
 
   // Font name
@@ -1210,9 +1224,12 @@ wxPdfFontParserType1::ReadPFM(wxInputStream& pfmFile)
     ReadString(pfmFile);
   }
 
-  int stemV = (hdr.weight > 475 ||
-               fontNameLower.Find(wxS("bold")) != wxNOT_FOUND ||
-               fontNameLower.Find(wxS("black")) != wxNOT_FOUND)  ? 120 : 80;
+  bool isBold = (hdr.weight > 475 ||
+                 fontNameLower.Find(wxS("bold")) != wxNOT_FOUND ||
+                 fontNameLower.Find(wxS("black")) != wxNOT_FOUND);
+  fontWeight = (isBold) ? wxPDF_FONTWEIGHT_BOLD : wxPDF_FONTWEIGHT_REGULAR;
+  fontStyle |= (isBold) ? wxPDF_FONTSTYLE_BOLD : wxPDF_FONTSTYLE_REGULAR;
+  int stemV = (isBold) ? 120 : 80;
   fd.SetStemV(stemV);
 
   int italicAngle = 0;
@@ -1220,6 +1237,7 @@ wxPdfFontParserType1::ReadPFM(wxInputStream& pfmFile)
   {
     italicAngle = int(ext.slant / 10);
     // -12.00 - this is a typical value
+    fontStyle |= wxPDF_FONTSTYLE_ITALIC;
   }
   fd.SetItalicAngle(italicAngle);
 
@@ -1266,6 +1284,8 @@ wxPdfFontParserType1::ReadPFM(wxInputStream& pfmFile)
   int count = hdr.lastchar - hdr.firstchar + 1;
 #endif
 
+  fd.SetFontStyle(fontStyle);
+  fd.SetFontWeight(fontWeight);
   m_fontData->SetDescription(fd);
 
   if (hdr.kernpairs != 0)

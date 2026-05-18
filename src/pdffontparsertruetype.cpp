@@ -26,6 +26,7 @@
 #include <wx/fontutil.h>
 #include <wx/zstream.h>
 
+#include "wx/pdfproperties.h"
 #include "wx/pdffontdataopentype.h"
 #include "wx/pdffontdatatruetype.h"
 #include "wx/pdffontparsertruetype.h"
@@ -33,6 +34,8 @@
 
 #include "woff/woffconverter.h"
 #include "woff/woff2converter.h"
+
+#include <vector>
 
 // --- Windows specific loading of TrueType font data
 
@@ -1215,6 +1218,29 @@ wxPdfFontParserTrueType::GetBaseFont()
   return fontName;
 }
 
+static wxPdfFontWeight
+MapWeightClassToFontWeight(int weightClass)
+{
+  // List of font styles to which the font weight is mapped
+  static std::vector<wxPdfFontWeight> fontStyles =
+  {
+    wxPDF_FONTWEIGHT_THIN,     wxPDF_FONTWEIGHT_THIN,      wxPDF_FONTWEIGHT_EXTRALIGHT,
+    wxPDF_FONTWEIGHT_LIGHT,    wxPDF_FONTWEIGHT_REGULAR,   wxPDF_FONTWEIGHT_MEDIUM,
+    wxPDF_FONTWEIGHT_SEMIBOLD, wxPDF_FONTWEIGHT_BOLD,      wxPDF_FONTWEIGHT_EXTRABOLD,
+    wxPDF_FONTWEIGHT_HEAVY,    wxPDF_FONTWEIGHT_EXTRAHEAVY
+  };
+  if (weightClass > 0)
+  {
+    weightClass += 50;
+    int weightIndex = std::min((weightClass - weightClass % 100) / 100, (int) fontStyles.size()-1);
+    return fontStyles[weightIndex];
+  }
+  else
+  {
+    return wxPDF_FONTWEIGHT_REGULAR;
+  }
+}
+
 bool
 wxPdfFontParserTrueType::ReadMaps()
 {
@@ -1266,6 +1292,13 @@ wxPdfFontParserTrueType::ReadMaps()
   SkipBytes(12);
   hhea.m_numberOfHMetrics = ReadUShort();
   ReleaseTable();
+
+  // Set font style based on mac style
+  int fontStyle = wxPDF_FONTSTYLE_REGULAR;
+  if (head.m_macStyle & 1)
+    fontStyle |= wxPDF_FONTSTYLE_BOLD;
+  if (head.m_macStyle & 2)
+    fontStyle = wxPDF_FONTSTYLE_ITALIC;
 
   entry = m_tableDirectory->find(wxS("OS/2"));
   if (entry != m_tableDirectory->end())
@@ -1333,6 +1366,7 @@ wxPdfFontParserTrueType::ReadMaps()
       (int) (os_2.m_usWinAscent   * 1000 / head.m_unitsPerEm),
       (int) (os_2.m_usWinDescent  * 1000 / head.m_unitsPerEm)
     );
+    m_fd.SetFontWeight(MapWeightClassToFontWeight(os_2.m_usWeightClass));
   }
   else
   {
@@ -1348,6 +1382,14 @@ wxPdfFontParserTrueType::ReadMaps()
     if (os_2.m_sCapHeight > os_2.m_sTypoAscender)
     {
       os_2.m_sCapHeight = os_2.m_sTypoAscender;
+    }
+    if (fontStyle & wxPDF_FONTSTYLE_BOLD)
+    {
+      m_fd.SetFontWeight(wxPDF_FONTWEIGHT_BOLD);
+    }
+    else
+    {
+      m_fd.SetFontWeight(wxPDF_FONTWEIGHT_REGULAR);
     }
   }
 

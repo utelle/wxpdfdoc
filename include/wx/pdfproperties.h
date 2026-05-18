@@ -100,6 +100,23 @@ enum
                          wxPDF_FONTSTYLE_EXTRAHEAVY ///< Full font style mask
 };
 
+/// Font weights
+enum wxPdfFontWeight
+{
+  wxPDF_FONTWEIGHT_INVALID    =    0,
+  wxPDF_FONTWEIGHT_THIN       =  100, ///< Thin font weight
+  wxPDF_FONTWEIGHT_EXTRALIGHT =  200, ///< Extra light font weight
+  wxPDF_FONTWEIGHT_LIGHT      =  300, ///< Light font weight
+  wxPDF_FONTWEIGHT_REGULAR    =  400, ///< Regular font weight
+  wxPDF_FONTWEIGHT_MEDIUM     =  500, ///< Medium font weight
+  wxPDF_FONTWEIGHT_SEMIBOLD   =  600, ///< Semi-bold font weight
+  wxPDF_FONTWEIGHT_BOLD       =  700, ///< Extra bold font weight
+  wxPDF_FONTWEIGHT_EXTRABOLD  =  800, ///< Heavy font weight
+  wxPDF_FONTWEIGHT_HEAVY      =  900, ///< Heavy font weight
+  wxPDF_FONTWEIGHT_EXTRAHEAVY = 1000, ///< Extra heavy font weight
+  wxPDF_FONTWEIGHT_MAX        = wxPDF_FONTWEIGHT_EXTRAHEAVY
+};
+
 /// Permission options
 #define wxPDF_PERMISSION_NONE     0x0000  ///< Allow nothing
 #define wxPDF_PERMISSION_PRINT    0x0004  ///< Allow printing
