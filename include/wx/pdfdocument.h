@@ -193,8 +193,8 @@ public:
   *   \li @c wxPDF_ENCRYPTION_RC4V1   RC4 method, version 1, with 40 bit encryption key
   *   \li @c wxPDF_ENCRYPTION_RC4V2   RC4 method, version 2, with 40..128 bit encryption key
   *   \li @c wxPDF_ENCRYPTION_AESV2   AES method, with 128 bit encryption key
-  *   \li @c wxPDF_ENCRYPTION_AESV3   AES method, with 256 bit encryption key (default)
-  *   \li @c wxPDF_ENCRYPTION_AESV3R6 AES method, with 256 bit encryption key (PDF 2.0)
+  *   \li @c wxPDF_ENCRYPTION_AESV3   AES method, with 256 bit encryption key
+  *   \li @c wxPDF_ENCRYPTION_AESV3R6 AES method, with 256 bit encryption key (PDF 2.0, default)
   * \param keyLength Length of the key used for encryption (default: 0)
   *                  For encryption method @c wxPDF_ENCRYPTION_RC4V1 the key length is always 40 bits.
   *                  For encryption method @c wxPDF_ENCRYPTION_RC4V2 the key length has to be in the range 40..128
@@ -207,7 +207,7 @@ public:
   virtual bool SetProtection(int permissions,
                              const wxString& userPassword = wxEmptyString,
                              const wxString& ownerPassword = wxEmptyString,
-                             wxPdfEncryptionMethod encryptionMethod = wxPDF_ENCRYPTION_AESV3,
+                             wxPdfEncryptionMethod encryptionMethod = wxPDF_ENCRYPTION_AESV3R6,
                              int keyLength = 0);
 
   /// Set the image scale.
