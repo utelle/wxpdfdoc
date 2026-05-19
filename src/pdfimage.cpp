@@ -1014,18 +1014,21 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
           }
           short numpoints = coords[0];
 
-          for (k = numpoints; k > 0; k--)
+          if (2*numpoints < (int) (size - 3))
           {
-            px = coords[2*k-1];
-            py = coords[2*k];
+            for (k = numpoints; k > 0; k--)
+            {
+              px = coords[2*k-1];
+              py = coords[2*k];
 
-            if (k < numpoints)
-            {
-              data += wxString::Format(wxS("%d %d l\n"), (int) px, (int) py);
-            }
-            else
-            {
-              data += wxString::Format(wxS("%d %d m\n"), (int) px, (int) py);
+              if (k < numpoints)
+              {
+                data += wxString::Format(wxS("%d %d l\n"), (int) px, (int) py);
+              }
+              else
+              {
+                data += wxString::Format(wxS("%d %d m\n"), (int) px, (int) py);
+              }
             }
           }
 
@@ -1083,26 +1086,34 @@ wxPdfImage::ParseWMF(wxInputStream* imageStream)
 
           short adjustment = numpolygons;
 
-          for (j = 1; j <= numpolygons; j++)
+          if (numpolygons < (int) (size - 3))
           {
-            short numpoints = coords[j];
-
-            for (k = numpoints; k > 0; k--)
+            for (j = 1; j <= numpolygons; j++)
             {
-              px = coords[2*k-1 + adjustment];
-              py = coords[2*k   + adjustment];
+              short numpoints = coords[j];
 
-              if (k == numpoints)
+              if (2*numpoints + adjustment >= (int) (size - 3))
               {
-                data += wxString::Format(wxS("%d %d m\n"), (int) px, (int) py);
+                break;
               }
-              else
+
+              for (k = numpoints; k > 0; k--)
               {
-                data += wxString::Format(wxS("%d %d l\n"), (int) px, (int) py);
+                px = coords[2*k-1 + adjustment];
+                py = coords[2*k   + adjustment];
+
+                if (k == numpoints)
+                {
+                  data += wxString::Format(wxS("%d %d m\n"), (int) px, (int) py);
+                }
+                else
+                {
+                  data += wxString::Format(wxS("%d %d l\n"), (int) px, (int) py);
+                }
               }
+
+              adjustment += numpoints * 2;
             }
-
-            adjustment += numpoints * 2;
           }
 
           if (nullPen)
