@@ -48,6 +48,7 @@
 #include "wx/pdffontmanager.h"
 #include "wx/pdflinestyle.h"
 #include "wx/pdfshape.h"
+#include "wx/pdfutility.h"
 
 #include "wx/pdfdc.h"
 
@@ -735,80 +736,14 @@ wxPdfGraphicsBrushData::Init()
 //-----------------------------------------------------------------------------
 
 wxPdfGraphicsFontData::wxPdfGraphicsFontData(wxGraphicsRenderer* renderer, const wxFont& font,
-                                             const wxColour& col )
+                                             const wxColour& col)
   : wxGraphicsObjectRefData(renderer)
 {
   m_colour = col;
-
   m_size = font.GetPointSize();
-
   m_font = font;
-  m_styles = wxPDF_FONTSTYLE_REGULAR;
-  wxFontWeight weight = font.GetWeight();
-#if wxCHECK_VERSION(3,1,2)
-  if (weight >= wxFONTWEIGHT_EXTRAHEAVY)
-  {
-    m_styles |= wxPDF_FONTSTYLE_EXTRAHEAVY;
-  }
-  else if (weight >= wxFONTWEIGHT_HEAVY)
-  {
-    m_styles |= wxPDF_FONTSTYLE_HEAVY;
-  }
-  else if (weight >= wxFONTWEIGHT_EXTRABOLD)
-  {
-    m_styles |= wxPDF_FONTSTYLE_EXTRABOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_BOLD)
-  {
-    m_styles |= wxPDF_FONTSTYLE_BOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_SEMIBOLD)
-  {
-    m_styles |= wxPDF_FONTSTYLE_SEMIBOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_MEDIUM)
-  {
-    m_styles |= wxPDF_FONTSTYLE_MEDIUM;
-  }
-  else if (weight >= wxFONTWEIGHT_NORMAL)
-  {
-    // Regular
-  }
-  else if (weight >= wxFONTWEIGHT_LIGHT)
-  {
-    m_styles |= wxPDF_FONTSTYLE_LIGHT;
-  }
-  else if (weight >= wxFONTWEIGHT_EXTRALIGHT)
-  {
-    m_styles |= wxPDF_FONTSTYLE_EXTRALIGHT;
-  }
-  else if (weight >= wxFONTWEIGHT_THIN)
-  {
-    m_styles |= wxPDF_FONTSTYLE_THIN;
-  }
-#else
-  if (weight >= wxFONTWEIGHT_BOLD)
-  {
-    m_styles |= wxPDF_FONTSTYLE_BOLD;
-  }
-  else if (weight == wxFONTWEIGHT_LIGHT)
-  {
-    m_styles |= wxPDF_FONTSTYLE_LIGHT;
-  }
-#endif
-  if (font.GetStyle() == wxFONTSTYLE_ITALIC)
-  {
-    m_styles |= wxPDF_FONTSTYLE_ITALIC;
-  }
-  if (font.GetUnderlined())
-  {
-    m_styles |= wxPDF_FONTSTYLE_UNDERLINE;
-  }
-  if (font.GetStrikethrough())
-  {
-    m_styles |= wxPDF_FONTSTYLE_STRIKEOUT;
-  }
-
+  m_styles = wxPdfUtility::MapFontWeight2FontStyle(font.GetWeight());
+  m_styles |= wxPdfUtility::MapFont2FontStyle(font);
   m_regFont = wxPdfFontManager::GetFontManager()->GetFont(font.GetFaceName(), m_styles);
   if (!m_regFont.IsValid())
   {
@@ -836,75 +771,10 @@ wxPdfGraphicsFontData::wxPdfGraphicsFontData(wxGraphicsRenderer* renderer,
  	            flags & wxFONTFLAG_BOLD   ? wxFONTWEIGHT_BOLD  : wxFONTWEIGHT_NORMAL, 
  	            (flags & wxFONTFLAG_UNDERLINED) != 0, 
  	            facename); 
-
   m_font = font;
-  int styles = wxPDF_FONTSTYLE_REGULAR;
-  wxFontWeight weight = font.GetWeight();
-#if wxCHECK_VERSION(3,1,2)
-  if (weight >= wxFONTWEIGHT_EXTRAHEAVY)
-  {
-    styles |= wxPDF_FONTSTYLE_EXTRAHEAVY;
-  }
-  else if (weight >= wxFONTWEIGHT_HEAVY)
-  {
-    styles |= wxPDF_FONTSTYLE_HEAVY;
-  }
-  else if (weight >= wxFONTWEIGHT_EXTRABOLD)
-  {
-    styles |= wxPDF_FONTSTYLE_EXTRABOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_BOLD)
-  {
-    styles |= wxPDF_FONTSTYLE_BOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_SEMIBOLD)
-  {
-    styles |= wxPDF_FONTSTYLE_SEMIBOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_MEDIUM)
-  {
-    styles |= wxPDF_FONTSTYLE_MEDIUM;
-  }
-  else if (weight >= wxFONTWEIGHT_NORMAL)
-  {
-    // Regular
-  }
-  else if (weight >= wxFONTWEIGHT_LIGHT)
-  {
-    styles |= wxPDF_FONTSTYLE_LIGHT;
-  }
-  else if (weight >= wxFONTWEIGHT_EXTRALIGHT)
-  {
-    styles |= wxPDF_FONTSTYLE_EXTRALIGHT;
-  }
-  else if (weight >= wxFONTWEIGHT_THIN)
-  {
-    styles |= wxPDF_FONTSTYLE_THIN;
-  }
-#else
-  if (weight >= wxFONTWEIGHT_BOLD)
-  {
-    styles |= wxPDF_FONTSTYLE_BOLD;
-  }
-  else if (weight == wxFONTWEIGHT_LIGHT)
-  {
-    styles |= wxPDF_FONTSTYLE_LIGHT;
-  }
-#endif
-  if (font.GetStyle() == wxFONTSTYLE_ITALIC)
-  {
-    styles |= wxPDF_FONTSTYLE_ITALIC;
-  }
-  if (font.GetUnderlined())
-  {
-    styles |= wxPDF_FONTSTYLE_UNDERLINE;
-  }
-  if (font.GetStrikethrough())
-  {
-    styles |= wxPDF_FONTSTYLE_STRIKEOUT;
-  }
-
-  m_regFont = wxPdfFontManager::GetFontManager()->GetFont(font.GetFaceName(), styles);
+  m_styles = wxPdfUtility::MapFontWeight2FontStyle(font.GetWeight());
+  m_styles |= wxPdfUtility::MapFont2FontStyle(font);
+  m_regFont = wxPdfFontManager::GetFontManager()->GetFont(font.GetFaceName(), m_styles);
   if (!m_regFont.IsValid())
   {
     m_regFont = wxPdfFontManager::GetFontManager()->RegisterFont(font, font.GetFaceName());

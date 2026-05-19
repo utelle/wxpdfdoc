@@ -356,68 +356,8 @@ wxPdfDCImpl::SetFont(const wxFont& font)
   {
     return;
   }
-  int styles = wxPDF_FONTSTYLE_REGULAR;
-  wxFontWeight weight = font.GetWeight();
-
-#if wxCHECK_VERSION(3,1,2)
-  if (weight >= wxFONTWEIGHT_EXTRAHEAVY)
-  {
-    styles |= wxPDF_FONTSTYLE_EXTRAHEAVY;
-  }
-  else if (weight >= wxFONTWEIGHT_HEAVY)
-  {
-    styles |= wxPDF_FONTSTYLE_HEAVY;
-  }
-  else if (weight >= wxFONTWEIGHT_EXTRABOLD)
-  {
-    styles |= wxPDF_FONTSTYLE_EXTRABOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_BOLD)
-  {
-    styles |= wxPDF_FONTSTYLE_BOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_SEMIBOLD)
-  {
-    styles |= wxPDF_FONTSTYLE_SEMIBOLD;
-  }
-  else if (weight >= wxFONTWEIGHT_MEDIUM)
-  {
-    styles |= wxPDF_FONTSTYLE_MEDIUM;
-  }
-  else if (weight >= wxFONTWEIGHT_NORMAL)
-  {
-    // Regular
-  }
-  else if (weight >= wxFONTWEIGHT_LIGHT)
-  {
-    styles |= wxPDF_FONTSTYLE_LIGHT;
-  }
-  else if (weight >= wxFONTWEIGHT_EXTRALIGHT)
-  {
-    styles |= wxPDF_FONTSTYLE_EXTRALIGHT;
-  }
-  else if (weight >= wxFONTWEIGHT_THIN)
-  {
-    styles |= wxPDF_FONTSTYLE_THIN;
-  }
-#else
-  if (weight >= wxFONTWEIGHT_BOLD)
-  {
-    styles |= wxPDF_FONTSTYLE_BOLD;
-  }
-  else if (weight == wxFONTWEIGHT_LIGHT)
-  {
-    styles |= wxPDF_FONTSTYLE_LIGHT;
-  }
-#endif
-  if (font.GetStyle() == wxFONTSTYLE_ITALIC)
-  {
-    styles |= wxPDF_FONTSTYLE_ITALIC;
-  }
-  if (font.GetUnderlined())
-  {
-    styles |= wxPDF_FONTSTYLE_UNDERLINE;
-  }
+  int styles = wxPdfUtility::MapFontWeight2FontStyle(font.GetWeight());
+  styles |= wxPdfUtility::MapFont2FontStyle(font);
 
   wxPdfFont regFont = wxPdfFontManager::GetFontManager()->GetFont(font.GetFaceName(), styles);
   bool ok = regFont.IsValid();

@@ -26,6 +26,7 @@
 #include "wx/pdfencoding.h"
 #include "wx/pdffontdata.h"
 #include "wx/pdffont.h"
+#include "wx/pdfutility.h"
 
 wxString
 wxPdfFontData::GetNodeContent(const wxXmlNode *node)
@@ -331,58 +332,7 @@ wxPdfFontData::GetFullNames() const
 void
 wxPdfFontData::SetStyle(const wxString& style)
 {
-  wxString lcStyle = style.Lower();
-  bool italic = (lcStyle.Find(wxS("italic"))  != wxNOT_FOUND) ||
-                (lcStyle.Find(wxS("oblique")) != wxNOT_FOUND) ||
-                lcStyle.IsSameAs(wxS("i")) || lcStyle.IsSameAs(wxS("bi")) || lcStyle.IsSameAs(wxS("ib"));
-  m_style = wxPDF_FONTSTYLE_REGULAR;
-  if (italic)
-  {
-    m_style |= wxPDF_FONTSTYLE_ITALIC;
-  }
-
-  if (lcStyle.Find(wxS("extraheavy")) != wxNOT_FOUND || lcStyle.Find(wxS("extra-heavy")) != wxNOT_FOUND)
-  {
-    m_style |= wxPDF_FONTSTYLE_EXTRAHEAVY;
-  }
-  else if (lcStyle.Find(wxS("heavy")) != wxNOT_FOUND || (lcStyle.Find(wxS("black")) != wxNOT_FOUND && lcStyle.Find(wxS("extra")) == wxNOT_FOUND))
-  {
-    m_style |= wxPDF_FONTSTYLE_HEAVY;
-  }
-  else if (lcStyle.Find(wxS("extrabold")) != wxNOT_FOUND || lcStyle.Find(wxS("extra-bold")) != wxNOT_FOUND ||
-           lcStyle.Find(wxS("ultrabold")) != wxNOT_FOUND || lcStyle.Find(wxS("ultra-bold")) != wxNOT_FOUND ||
-           lcStyle.IsSameAs(wxS("x")))
-  {
-    m_style |= wxPDF_FONTSTYLE_EXTRABOLD;
-  }
-  else if (lcStyle.Find(wxS("semibold")) != wxNOT_FOUND || lcStyle.Find(wxS("semi-bold")) != wxNOT_FOUND ||
-           lcStyle.Find(wxS("demi")) != wxNOT_FOUND || lcStyle.IsSameAs(wxS("d")))
-  {
-    m_style |= wxPDF_FONTSTYLE_SEMIBOLD;
-  }
-  else if (lcStyle.Find(wxS("bold")) != wxNOT_FOUND || lcStyle.IsSameAs(wxS("b")) ||
-           lcStyle.IsSameAs(wxS("bi")) || lcStyle.IsSameAs(wxS("ib")))
-  {
-    m_style |= wxPDF_FONTSTYLE_BOLD;
-  }
-  else if (lcStyle.Find(wxS("medium")) != wxNOT_FOUND || lcStyle.IsSameAs(wxS("m")))
-  {
-    m_style |= wxPDF_FONTSTYLE_MEDIUM;
-  }
-  else if (lcStyle.Find(wxS("extralight")) != wxNOT_FOUND || lcStyle.Find(wxS("extra-light")) != wxNOT_FOUND ||
-           lcStyle.Find(wxS("ultralight")) != wxNOT_FOUND || lcStyle.Find(wxS("ultra-light")) != wxNOT_FOUND ||
-           lcStyle.IsSameAs(wxS("e")))
-  {
-    m_style |= wxPDF_FONTSTYLE_EXTRALIGHT;
-  }
-  else if (lcStyle.Find(wxS("thin")) != wxNOT_FOUND || lcStyle.IsSameAs(wxS("t")))
-  {
-    m_style |= wxPDF_FONTSTYLE_THIN;
-  }
-  else if (lcStyle.Find(wxS("light")) != wxNOT_FOUND || lcStyle.IsSameAs(wxS("l")))
-  {
-    m_style |= wxPDF_FONTSTYLE_LIGHT;
-  }
+  SetStyle(wxPdfUtility::MapFontName2FontStyle(style));
 }
 
 void
@@ -915,53 +865,7 @@ wxPdfFontData::SetGlyphWidths(const wxPdfArrayUint16& glyphWidths)
 int
 wxPdfFontData::FindStyleFromName(const wxString& name)
 {
-  int style = wxPDF_FONTSTYLE_REGULAR;
-  wxString lcName = name.Lower();
-  if (lcName.Find(wxS("italic")) != wxNOT_FOUND || lcName.Find(wxS("oblique")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_ITALIC;
-  }
-
-  if (lcName.Find(wxS("extraheavy")) != wxNOT_FOUND || lcName.Find(wxS("extra-heavy")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_EXTRAHEAVY;
-  }
-  else if (lcName.Find(wxS("heavy")) != wxNOT_FOUND || (lcName.Find(wxS("black")) != wxNOT_FOUND && lcName.Find(wxS("extra")) == wxNOT_FOUND))
-  {
-    style |= wxPDF_FONTSTYLE_HEAVY;
-  }
-  else if (lcName.Find(wxS("extrabold")) != wxNOT_FOUND || lcName.Find(wxS("extra-bold")) != wxNOT_FOUND ||
-           lcName.Find(wxS("ultrabold")) != wxNOT_FOUND || lcName.Find(wxS("ultra-bold")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_EXTRABOLD;
-  }
-  else if (lcName.Find(wxS("semibold")) != wxNOT_FOUND || lcName.Find(wxS("semi-bold")) != wxNOT_FOUND ||
-           lcName.Find(wxS("demi")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_SEMIBOLD;
-  }
-  else if (lcName.Find(wxS("bold")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_BOLD;
-  }
-  else if (lcName.Find(wxS("medium")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_MEDIUM;
-  }
-  else if (lcName.Find(wxS("extralight")) != wxNOT_FOUND || lcName.Find(wxS("extra-light")) != wxNOT_FOUND ||
-           lcName.Find(wxS("ultralight")) != wxNOT_FOUND || lcName.Find(wxS("ultra-light")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_EXTRALIGHT;
-  }
-  else if (lcName.Find(wxS("thin")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_THIN;
-  }
-  else if (lcName.Find(wxS("light")) != wxNOT_FOUND)
-  {
-    style |= wxPDF_FONTSTYLE_LIGHT;
-  }
-  return style;
+  return wxPdfUtility::MapFontName2FontStyle(name);
 }
 
 int
