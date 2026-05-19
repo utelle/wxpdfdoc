@@ -2469,14 +2469,14 @@ wxPdfDocument::PutPatterns()
             Out("/FunctionType 3");
             Out("/Domain [0 1]");
             Out("/Functions [ ", false);
-            for (int id = 0; id <= nStops ; ++id)
+            for (int id = 0; id <= (int) nStops ; ++id)
             {
               OutAscii(wxString::Format(wxS("%d 0 R "), idFuncShading+id), false);
             }
             Out("]");
 
             Out("/Bounds [ ", false);
-            for (int id = 1; id <= nStops; ++id)
+            for (int id = 1; id <= (int) nStops; ++id)
             {
               OutAscii(wxPdfUtility::Double2String(stops.Item(id).GetPosition(), 3), false);
               Out(" ", false);
@@ -2484,7 +2484,7 @@ wxPdfDocument::PutPatterns()
             Out("]");
 
             Out("/Encode [ ", false);
-            for (int id = 0; id <= nStops; ++id)
+            for (int id = 0; id <= (int) nStops; ++id)
             {
               Out("0 1 ", false);
             }
