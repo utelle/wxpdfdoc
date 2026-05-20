@@ -39,6 +39,9 @@ public:
   /// Copy constructor
   wxPdfLink(const wxPdfLink& pdfLink);
 
+  /// Assignment operator
+  wxPdfLink& operator=(const wxPdfLink& pdfLink);
+
   /// Destructor
   virtual ~wxPdfLink();
 
