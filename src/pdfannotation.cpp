@@ -53,6 +53,21 @@ wxPdfLink::wxPdfLink(const wxPdfLink& pdfLink)
   m_ypos    = pdfLink.m_ypos;
 }
 
+wxPdfLink&
+wxPdfLink::operator=(const wxPdfLink& pdfLink)
+{
+  if (this != &pdfLink)
+  {
+    m_isValid = pdfLink.m_isValid;
+    m_isRef   = pdfLink.m_isRef;
+    m_linkRef = pdfLink.m_linkRef;
+    m_linkURL = pdfLink.m_linkURL;
+    m_page    = pdfLink.m_page;
+    m_ypos    = pdfLink.m_ypos;
+  }
+  return *this;
+}
+
 wxPdfLink::~wxPdfLink()
 {
 }
