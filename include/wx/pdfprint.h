@@ -689,7 +689,7 @@ private:
 
 private:
   DECLARE_CLASS(wxPdfPrintPreview)
-  DECLARE_NO_COPY_CLASS(wxPdfPrintPreview);
+  DECLARE_NO_COPY_CLASS(wxPdfPrintPreview)
 };
 
 
