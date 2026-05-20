@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['backoneposition_0',['BackOnePosition',['../classwx_pdf_tokenizer.html#a33ceb575b921ef93d053d08e14621c98',1,'wxPdfTokenizer']]],
+  ['barcode_1',['Barcode',['../classwx_pdf_bar_code_creator.html#a9f1c5593452d5b74beea4634fbdf36e3',1,'wxPdfBarCodeCreator']]],
+  ['bbox_2',['bbox',['../struct__wx_pdf_cjk_font_desc.html#a880088c1be13431c0a816bd60da8fdc9',1,'_wxPdfCjkFontDesc::bbox'],['../struct__wx_pdf_core_font_desc.html#a1e76f5fbe7c608fc2b571ac1b1957fa8',1,'_wxPdfCoreFontDesc::bbox']]],
+  ['bc_5ferror_3',['BC_ERROR',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ad1275776797976cd9ca82f5a11483956',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fencoding_5fproblem_4',['BC_ERROR_ENCODING_PROBLEM',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5aebbfa8b2f6ab6d3cb56217bedd18c1da',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5ffile_5faccess_5',['BC_ERROR_FILE_ACCESS',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a408a22013387ff906d29f132c3b77a44',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5ffile_5fwrite_6',['BC_ERROR_FILE_WRITE',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a0257a9b97ad8317ebee286a228aeeed1',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fhrt_5ftruncated_7',['BC_ERROR_HRT_TRUNCATED',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a0b8e6cc0387b283e751ecf10b34598e9',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5finvalid_5fcheck_8',['BC_ERROR_INVALID_CHECK',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a49052a2ebddcbd1f3393808f191e56fa',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5finvalid_5fdata_9',['BC_ERROR_INVALID_DATA',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a9d35943cb70b1fd7cf3fcc88b30af687',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5finvalid_5foption_10',['BC_ERROR_INVALID_OPTION',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5adcd4a1401a0ed5570c3549cc43ef3593',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fmemory_11',['BC_ERROR_MEMORY',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a34396c90e33c5f3a20ed9c9744531ad9',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fnoncompliant_12',['BC_ERROR_NONCOMPLIANT',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5aeda217cc3c6ef3869d8908da86106c6d',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5ftoo_5flong_13',['BC_ERROR_TOO_LONG',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a9f3e6be9383a3e250de4b57fd86603f9',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fuses_5feci_14',['BC_ERROR_USES_ECI',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5aaed75d8cb7566bfb0805758a60fe1559',1,'wxPdfBarcode']]],
+  ['bc_5fwarn_5fhrt_5ftruncated_15',['BC_WARN_HRT_TRUNCATED',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a6e0058398c43859d866ba5ce19d8f92f',1,'wxPdfBarcode']]],
+  ['bc_5fwarn_5finvalid_5foption_16',['BC_WARN_INVALID_OPTION',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ad478d2412c32422556f1396dbf70a439',1,'wxPdfBarcode']]],
+  ['bc_5fwarn_5fnoncompliant_17',['BC_WARN_NONCOMPLIANT',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ac2475ce6a3d6e5f88e6e064fe3d9db01',1,'wxPdfBarcode']]],
+  ['bc_5fwarn_5fuses_5feci_18',['BC_WARN_USES_ECI',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ac997f6b1b569879d87edab4b8fd8d3e9',1,'wxPdfBarcode']]],
+  ['beginpage_19',['BeginPage',['../classwx_pdf_document.html#a9b43f0be5ff3f68fb0a516a868526193',1,'wxPdfDocument']]],
+  ['begintemplate_20',['BeginTemplate',['../classwx_pdf_document.html#a15a63147a654ef697c5d4b8dbb681725',1,'wxPdfDocument']]],
+  ['bezierspline_21',['BezierSpline',['../classwx_pdf_document.html#a2cde48d7ba7c73ed6d0ddcc6f8feadc7',1,'wxPdfDocument']]],
+  ['blockdecrypt_22',['blockDecrypt',['../classwx_pdf_rijndael.html#ab38e942b3b4de4d9ac9eb2dbab0e8624',1,'wxPdfRijndael']]],
+  ['blockencrypt_23',['blockEncrypt',['../classwx_pdf_rijndael.html#a57a4e37e2b980404b985b4dcbb0319f3',1,'wxPdfRijndael']]],
+  ['bookmark_24',['Bookmark',['../classwx_pdf_document.html#a9393227818ad2687b9c38f570fc8a6b8',1,'wxPdfDocument']]]
+];

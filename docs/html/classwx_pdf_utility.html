@@ -1,62 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
 <title>wxPdfDocument: wxPdfUtility Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('classwx_pdf_utility.html','','classwx_pdf_utility-members'); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="classwx_pdf_utility-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">wxPdfUtility Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -66,33 +165,46 @@ $(function(){ initResizable(false); });
 
 <p><code>#include &lt;pdfutility.h&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a7964e2011f83dc90a004ee10fca67236" id="r_a7964e2011f83dc90a004ee10fca67236"><td class="memItemLeft" align="right" valign="top">static wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7964e2011f83dc90a004ee10fca67236">GetUniqueId</a> (const wxString &amp;prefix=wxEmptyString)</td></tr>
+<tr class="memitem:a7964e2011f83dc90a004ee10fca67236" id="r_a7964e2011f83dc90a004ee10fca67236"><td class="memItemLeft">static wxString&#160;</td><td class="memItemRight"><a class="el" href="#a7964e2011f83dc90a004ee10fca67236">GetUniqueId</a> (const wxString &amp;prefix=wxEmptyString)</td></tr>
 <tr class="memdesc:a7964e2011f83dc90a004ee10fca67236"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a unique ID.  <br /></td></tr>
-<tr class="separator:a7964e2011f83dc90a004ee10fca67236"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf326d375b589032d6cd6a7a89bc1fbb" id="r_aaf326d375b589032d6cd6a7a89bc1fbb"><td class="memItemLeft" align="right" valign="top">static wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf326d375b589032d6cd6a7a89bc1fbb">Double2String</a> (double value, int precision=0)</td></tr>
+<tr class="memitem:aaf326d375b589032d6cd6a7a89bc1fbb" id="r_aaf326d375b589032d6cd6a7a89bc1fbb"><td class="memItemLeft">static wxString&#160;</td><td class="memItemRight"><a class="el" href="#aaf326d375b589032d6cd6a7a89bc1fbb">Double2String</a> (double value, int precision=0)</td></tr>
 <tr class="memdesc:aaf326d375b589032d6cd6a7a89bc1fbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a floating point number with a fixed precision.  <br /></td></tr>
-<tr class="separator:aaf326d375b589032d6cd6a7a89bc1fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71580503fdffd35f7d2f282f058d88d0" id="r_a71580503fdffd35f7d2f282f058d88d0"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a71580503fdffd35f7d2f282f058d88d0">String2Double</a> (const wxString &amp;str)</td></tr>
+<tr class="memitem:a71580503fdffd35f7d2f282f058d88d0" id="r_a71580503fdffd35f7d2f282f058d88d0"><td class="memItemLeft">static double&#160;</td><td class="memItemRight"><a class="el" href="#a71580503fdffd35f7d2f282f058d88d0">String2Double</a> (const wxString &amp;str)</td></tr>
 <tr class="memdesc:a71580503fdffd35f7d2f282f058d88d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a floating point number.  <br /></td></tr>
-<tr class="separator:a71580503fdffd35f7d2f282f058d88d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a1ec3683450cb921ce11137ebfd4de1" id="r_a1a1ec3683450cb921ce11137ebfd4de1"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1a1ec3683450cb921ce11137ebfd4de1">String2Double</a> (const wxString &amp;str, const wxString &amp;defaultUnit, double scaleFactor=1.0)</td></tr>
+<tr class="memitem:a1a1ec3683450cb921ce11137ebfd4de1" id="r_a1a1ec3683450cb921ce11137ebfd4de1"><td class="memItemLeft">static double&#160;</td><td class="memItemRight"><a class="el" href="#a1a1ec3683450cb921ce11137ebfd4de1">String2Double</a> (const wxString &amp;str, const wxString &amp;defaultUnit, double scaleFactor=1.0)</td></tr>
 <tr class="memdesc:a1a1ec3683450cb921ce11137ebfd4de1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a floating point number taking units into account.  <br /></td></tr>
-<tr class="separator:a1a1ec3683450cb921ce11137ebfd4de1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad99f69dfc5ee66ff9319f8d77b1a1bf8" id="r_ad99f69dfc5ee66ff9319f8d77b1a1bf8"><td class="memItemLeft" align="right" valign="top">static wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad99f69dfc5ee66ff9319f8d77b1a1bf8">Convert2Roman</a> (int value)</td></tr>
+<tr class="memitem:ad99f69dfc5ee66ff9319f8d77b1a1bf8" id="r_ad99f69dfc5ee66ff9319f8d77b1a1bf8"><td class="memItemLeft">static wxString&#160;</td><td class="memItemRight"><a class="el" href="#ad99f69dfc5ee66ff9319f8d77b1a1bf8">Convert2Roman</a> (int value)</td></tr>
 <tr class="memdesc:ad99f69dfc5ee66ff9319f8d77b1a1bf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an integer number to a roman number.  <br /></td></tr>
-<tr class="separator:ad99f69dfc5ee66ff9319f8d77b1a1bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b5ed1b277b6ebe23cf9d482282e87cf" id="r_a1b5ed1b277b6ebe23cf9d482282e87cf"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b5ed1b277b6ebe23cf9d482282e87cf">ForceRange</a> (double value, double minValue, double maxValue)</td></tr>
+<tr class="memitem:a1b5ed1b277b6ebe23cf9d482282e87cf" id="r_a1b5ed1b277b6ebe23cf9d482282e87cf"><td class="memItemLeft">static double&#160;</td><td class="memItemRight"><a class="el" href="#a1b5ed1b277b6ebe23cf9d482282e87cf">ForceRange</a> (double value, double minValue, double maxValue)</td></tr>
 <tr class="memdesc:a1b5ed1b277b6ebe23cf9d482282e87cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forces a floating point number into a fixed range.  <br /></td></tr>
-<tr class="separator:a1b5ed1b277b6ebe23cf9d482282e87cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab124f444dbb3c61980f5be62967f0292" id="r_ab124f444dbb3c61980f5be62967f0292"><td class="memItemLeft" align="right" valign="top">static wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab124f444dbb3c61980f5be62967f0292">RGB2String</a> (const wxColour &amp;colour)</td></tr>
+<tr class="memitem:ab124f444dbb3c61980f5be62967f0292" id="r_ab124f444dbb3c61980f5be62967f0292"><td class="memItemLeft">static wxString&#160;</td><td class="memItemRight"><a class="el" href="#ab124f444dbb3c61980f5be62967f0292">RGB2String</a> (const wxColour &amp;colour)</td></tr>
 <tr class="memdesc:ab124f444dbb3c61980f5be62967f0292"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a wxColour to the corresponding PDF specification.  <br /></td></tr>
-<tr class="separator:ab124f444dbb3c61980f5be62967f0292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c808cffefb4b169b1c8c0dc2537f949" id="r_a3c808cffefb4b169b1c8c0dc2537f949"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#a3c808cffefb4b169b1c8c0dc2537f949">MapFontWeight2FontStyle</a> (<a class="el" href="pdfproperties_8h.html#a56301b8decdc1a5c355a525bb00fee0f">wxPdfFontWeight</a> fontWeight)</td></tr>
+<tr class="memdesc:a3c808cffefb4b169b1c8c0dc2537f949"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map font weight to font style.  <br /></td></tr>
+<tr class="memitem:a96c3dd4ec57f7e6208affe95e78fb4cd" id="r_a96c3dd4ec57f7e6208affe95e78fb4cd"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#a96c3dd4ec57f7e6208affe95e78fb4cd">MapFontWeight2FontStyle</a> (wxFontWeight fontWeight)</td></tr>
+<tr class="memdesc:a96c3dd4ec57f7e6208affe95e78fb4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.  <br /></td></tr>
+<tr class="memitem:a790a9b087954febed0980012d206f658" id="r_a790a9b087954febed0980012d206f658"><td class="memItemLeft">static wxString&#160;</td><td class="memItemRight"><a class="el" href="#a790a9b087954febed0980012d206f658">MapFontWeight2FontStyleString</a> (<a class="el" href="pdfproperties_8h.html#a56301b8decdc1a5c355a525bb00fee0f">wxPdfFontWeight</a> fontWeight)</td></tr>
+<tr class="memdesc:a790a9b087954febed0980012d206f658"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map font weight to font style in string representation.  <br /></td></tr>
+<tr class="memitem:aeb04a511ea653c6a79428d045ea82b4f" id="r_aeb04a511ea653c6a79428d045ea82b4f"><td class="memItemLeft">static wxString&#160;</td><td class="memItemRight"><a class="el" href="#aeb04a511ea653c6a79428d045ea82b4f">MapFontWeight2FontStyleString</a> (wxFontWeight fontWeight)</td></tr>
+<tr class="memdesc:aeb04a511ea653c6a79428d045ea82b4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.  <br /></td></tr>
+<tr class="memitem:a4762708051ad71a29a969c232707a7e6" id="r_a4762708051ad71a29a969c232707a7e6"><td class="memItemLeft">static <a class="el" href="pdfproperties_8h.html#a56301b8decdc1a5c355a525bb00fee0f">wxPdfFontWeight</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4762708051ad71a29a969c232707a7e6">MapFontStyle2FontWeight</a> (int fontStyle)</td></tr>
+<tr class="memdesc:a4762708051ad71a29a969c232707a7e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map font style to font weight.  <br /></td></tr>
+<tr class="memitem:aa1874c69d8a76834f95f4f85f5082870" id="r_aa1874c69d8a76834f95f4f85f5082870"><td class="memItemLeft">static <a class="el" href="pdfproperties_8h.html#a56301b8decdc1a5c355a525bb00fee0f">wxPdfFontWeight</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa1874c69d8a76834f95f4f85f5082870">MapFontStyle2FontWeight</a> (const wxString &amp;fontStyle)</td></tr>
+<tr class="memdesc:aa1874c69d8a76834f95f4f85f5082870"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts.  <br /></td></tr>
+<tr class="memitem:a3797f35134dbf23f5588ed915a191e40" id="r_a3797f35134dbf23f5588ed915a191e40"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#a3797f35134dbf23f5588ed915a191e40">MapFontStyle2StyleFlags</a> (const wxString &amp;fontStyle)</td></tr>
+<tr class="memdesc:a3797f35134dbf23f5588ed915a191e40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map font style to font weight.  <br /></td></tr>
+<tr class="memitem:adb6aa6fe8bd00380053c6142e8b6a26a" id="r_adb6aa6fe8bd00380053c6142e8b6a26a"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#adb6aa6fe8bd00380053c6142e8b6a26a">MapFont2FontStyle</a> (const wxFont &amp;font)</td></tr>
+<tr class="memdesc:adb6aa6fe8bd00380053c6142e8b6a26a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map wxFont to font style.  <br /></td></tr>
+<tr class="memitem:a917352eb2af53b7473945d411d6043de" id="r_a917352eb2af53b7473945d411d6043de"><td class="memItemLeft">static int&#160;</td><td class="memItemRight"><a class="el" href="#a917352eb2af53b7473945d411d6043de">MapFontName2FontStyle</a> (const wxString &amp;fontName)</td></tr>
+<tr class="memdesc:a917352eb2af53b7473945d411d6043de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map font name to font style.  <br /></td></tr>
+<tr class="memitem:a9b868c805713dc27f7691e1ef13aaa27" id="r_a9b868c805713dc27f7691e1ef13aaa27"><td class="memItemLeft">static wxString&#160;</td><td class="memItemRight"><a class="el" href="#a9b868c805713dc27f7691e1ef13aaa27">MapFontStyle2String</a> (int fontStyle)</td></tr>
+<tr class="memdesc:a9b868c805713dc27f7691e1ef13aaa27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map font styles to string representation.  <br /></td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class implementing several static utility methods. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="ad99f69dfc5ee66ff9319f8d77b1a1bf8" name="ad99f69dfc5ee66ff9319f8d77b1a1bf8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad99f69dfc5ee66ff9319f8d77b1a1bf8">&#9670;&#160;</a></span>Convert2Roman()</h2>
 
@@ -103,7 +215,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static wxString wxPdfUtility::Convert2Roman </td>
+          <td class="memname">wxString wxPdfUtility::Convert2Roman </td>
           <td>(</td>
           <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>value</em></span></td><td>)</td>
           <td></td>
@@ -137,7 +249,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static wxString wxPdfUtility::Double2String </td>
+          <td class="memname">wxString wxPdfUtility::Double2String </td>
           <td>(</td>
           <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
         </tr>
@@ -176,7 +288,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static double wxPdfUtility::ForceRange </td>
+          <td class="memname">double wxPdfUtility::ForceRange </td>
           <td>(</td>
           <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
         </tr>
@@ -226,7 +338,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static wxString wxPdfUtility::GetUniqueId </td>
+          <td class="memname">wxString wxPdfUtility::GetUniqueId </td>
           <td>(</td>
           <td class="paramtype">const wxString &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span><span class="paramdefsep"> = </span><span class="paramdefval">wxEmptyString</span></td><td>)</td>
           <td></td>
@@ -250,6 +362,328 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="adb6aa6fe8bd00380053c6142e8b6a26a" name="adb6aa6fe8bd00380053c6142e8b6a26a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6aa6fe8bd00380053c6142e8b6a26a">&#9670;&#160;</a></span>MapFont2FontStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int wxPdfUtility::MapFont2FontStyle </td>
+          <td>(</td>
+          <td class="paramtype">const wxFont &amp;</td>          <td class="paramname"><span class="paramname"><em>font</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map wxFont to font style. </p>
+<dl class="section note"><dt>Note</dt><dd>This method only takes font properties into account that are not related to the font weight.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">font</td><td>the wxFont </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the font style </dd></dl>
+
+</div>
+</div>
+<a id="a917352eb2af53b7473945d411d6043de" name="a917352eb2af53b7473945d411d6043de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a917352eb2af53b7473945d411d6043de">&#9670;&#160;</a></span>MapFontName2FontStyle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int wxPdfUtility::MapFontName2FontStyle </td>
+          <td>(</td>
+          <td class="paramtype">const wxString &amp;</td>          <td class="paramname"><span class="paramname"><em>fontName</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map font name to font style. </p>
+<p>This method tries to deduce the font style from the font name.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fontName</td><td>the name of the font </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the font style </dd></dl>
+
+</div>
+</div>
+<a id="aa1874c69d8a76834f95f4f85f5082870" name="aa1874c69d8a76834f95f4f85f5082870"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1874c69d8a76834f95f4f85f5082870">&#9670;&#160;</a></span>MapFontStyle2FontWeight() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="pdfproperties_8h.html#a56301b8decdc1a5c355a525bb00fee0f">wxPdfFontWeight</a> wxPdfUtility::MapFontStyle2FontWeight </td>
+          <td>(</td>
+          <td class="paramtype">const wxString &amp;</td>          <td class="paramname"><span class="paramname"><em>fontStyle</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
+
+</div>
+</div>
+<a id="a4762708051ad71a29a969c232707a7e6" name="a4762708051ad71a29a969c232707a7e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4762708051ad71a29a969c232707a7e6">&#9670;&#160;</a></span>MapFontStyle2FontWeight() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="pdfproperties_8h.html#a56301b8decdc1a5c355a525bb00fee0f">wxPdfFontWeight</a> wxPdfUtility::MapFontStyle2FontWeight </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>fontStyle</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map font style to font weight. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fontStyle</td><td>style of the font </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the font weight </dd></dl>
+
+</div>
+</div>
+<a id="a9b868c805713dc27f7691e1ef13aaa27" name="a9b868c805713dc27f7691e1ef13aaa27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b868c805713dc27f7691e1ef13aaa27">&#9670;&#160;</a></span>MapFontStyle2String()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">wxString wxPdfUtility::MapFontStyle2String </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>fontStyle</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map font styles to string representation. </p>
+<p>This method converts the font style flags to a human-readable string representation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fontName</td><td>the name of the font </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the font styles in string representation </dd></dl>
+
+</div>
+</div>
+<a id="a3797f35134dbf23f5588ed915a191e40" name="a3797f35134dbf23f5588ed915a191e40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3797f35134dbf23f5588ed915a191e40">&#9670;&#160;</a></span>MapFontStyle2StyleFlags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int wxPdfUtility::MapFontStyle2StyleFlags </td>
+          <td>(</td>
+          <td class="paramtype">const wxString &amp;</td>          <td class="paramname"><span class="paramname"><em>fontStyle</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map font style to font weight. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fontStyle</td><td>style of the font consisting of a sequence of one-letter codes </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the font styles </dd></dl>
+
+</div>
+</div>
+<a id="a96c3dd4ec57f7e6208affe95e78fb4cd" name="a96c3dd4ec57f7e6208affe95e78fb4cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96c3dd4ec57f7e6208affe95e78fb4cd">&#9670;&#160;</a></span>MapFontWeight2FontStyle() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int wxPdfUtility::MapFontWeight2FontStyle </td>
+          <td>(</td>
+          <td class="paramtype">wxFontWeight</td>          <td class="paramname"><span class="paramname"><em>fontWeight</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
+
+</div>
+</div>
+<a id="a3c808cffefb4b169b1c8c0dc2537f949" name="a3c808cffefb4b169b1c8c0dc2537f949"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c808cffefb4b169b1c8c0dc2537f949">&#9670;&#160;</a></span>MapFontWeight2FontStyle() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int wxPdfUtility::MapFontWeight2FontStyle </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="pdfproperties_8h.html#a56301b8decdc1a5c355a525bb00fee0f">wxPdfFontWeight</a></td>          <td class="paramname"><span class="paramname"><em>fontWeight</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map font weight to font style. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fontWeight</td><td>weight of the font </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the font style as style flags </dd></dl>
+
+</div>
+</div>
+<a id="aeb04a511ea653c6a79428d045ea82b4f" name="aeb04a511ea653c6a79428d045ea82b4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb04a511ea653c6a79428d045ea82b4f">&#9670;&#160;</a></span>MapFontWeight2FontStyleString() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">wxString wxPdfUtility::MapFontWeight2FontStyleString </td>
+          <td>(</td>
+          <td class="paramtype">wxFontWeight</td>          <td class="paramname"><span class="paramname"><em>fontWeight</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This is an overloaded member function, provided for convenience. It differs from the above function only in what argument(s) it accepts. </p>
+
+</div>
+</div>
+<a id="a790a9b087954febed0980012d206f658" name="a790a9b087954febed0980012d206f658"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a790a9b087954febed0980012d206f658">&#9670;&#160;</a></span>MapFontWeight2FontStyleString() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">wxString wxPdfUtility::MapFontWeight2FontStyleString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="pdfproperties_8h.html#a56301b8decdc1a5c355a525bb00fee0f">wxPdfFontWeight</a></td>          <td class="paramname"><span class="paramname"><em>fontWeight</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Map font weight to font style in string representation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fontWeight</td><td>weight of the font </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the font style in string representation </dd></dl>
+
+</div>
+</div>
 <a id="ab124f444dbb3c61980f5be62967f0292" name="ab124f444dbb3c61980f5be62967f0292"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab124f444dbb3c61980f5be62967f0292">&#9670;&#160;</a></span>RGB2String()</h2>
 
@@ -260,7 +694,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static wxString wxPdfUtility::RGB2String </td>
+          <td class="memname">wxString wxPdfUtility::RGB2String </td>
           <td>(</td>
           <td class="paramtype">const wxColour &amp;</td>          <td class="paramname"><span class="paramname"><em>colour</em></span></td><td>)</td>
           <td></td>
@@ -294,7 +728,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static double wxPdfUtility::String2Double </td>
+          <td class="memname">double wxPdfUtility::String2Double </td>
           <td>(</td>
           <td class="paramtype">const wxString &amp;</td>          <td class="paramname"><span class="paramname"><em>str</em></span></td><td>)</td>
           <td></td>
@@ -328,7 +762,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static double wxPdfUtility::String2Double </td>
+          <td class="memname">double wxPdfUtility::String2Double </td>
           <td>(</td>
           <td class="paramtype">const wxString &amp;</td>          <td class="paramname"><span class="paramname"><em>str</em></span>, </td>
         </tr>
@@ -364,13 +798,24 @@ Static Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="pdfutility_8h.html">pdfutility.h</a></li>
+<li>E:/github/wxpdfdoc-current/include/wx/<a class="el" href="pdfutility_8h.html">pdfutility.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="classwx_pdf_utility.html">wxPdfUtility</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

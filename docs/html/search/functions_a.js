@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['leavelayer_0',['LeaveLayer',['../classwx_pdf_document.html#aa0f640ccb923fecbdc47ed18d044d14d',1,'wxPdfDocument']]],
+  ['line_1',['Line',['../classwx_pdf_document.html#afae4c015e422d6b2ed2dff86cf81672f',1,'wxPdfDocument']]],
+  ['lineargradient_2',['LinearGradient',['../classwx_pdf_document.html#aa35605a31e0658a20fc22fac80f314ae',1,'wxPdfDocument']]],
+  ['linecount_3',['LineCount',['../classwx_pdf_document.html#ab088245b7bd878346ed857eaac448c0d',1,'wxPdfDocument']]],
+  ['lineto_4',['LineTo',['../classwx_pdf_document.html#aec5565c762feb853c4db6509734d2e46',1,'wxPdfDocument::LineTo()'],['../classwx_pdf_shape.html#a4595e269c593474488532702920f639e',1,'wxPdfShape::LineTo()']]],
+  ['link_5',['Link',['../classwx_pdf_document.html#af93b697b9f0658bfdebab1b47ed86607',1,'wxPdfDocument']]],
+  ['ln_6',['Ln',['../classwx_pdf_document.html#a590b6517f46719ac3f7ac9670d9329f9',1,'wxPdfDocument']]],
+  ['loadfontdata_7',['LoadFontData',['../classwx_pdf_font_parser_true_type.html#a04f90a14b35810cae5a66d950fd01ec1',1,'wxPdfFontParserTrueType::LoadFontData()'],['../classwx_pdf_font_parser_type1.html#ac2071dc84505417035f89c07a0e42270',1,'wxPdfFontParserType1::LoadFontData()']]],
+  ['loadfontmetrics_8',['LoadFontMetrics',['../classwx_pdf_font_data.html#acff480993c24dde0e3139f6d69f0e716',1,'wxPdfFontData::LoadFontMetrics()'],['../classwx_pdf_font_data_open_type_unicode.html#a4f8767254fe37ec2474822b7c4eac3af',1,'wxPdfFontDataOpenTypeUnicode::LoadFontMetrics()'],['../classwx_pdf_font_data_true_type.html#aea7901be4605808aadd4bdfbb7543cb1',1,'wxPdfFontDataTrueType::LoadFontMetrics()'],['../classwx_pdf_font_data_true_type_unicode.html#abf2a9d0eec8cd9cfafacc7ff83040230',1,'wxPdfFontDataTrueTypeUnicode::LoadFontMetrics()'],['../classwx_pdf_font_data_type0.html#a29516e1781a4a0f8b0df0890d1a07e5d',1,'wxPdfFontDataType0::LoadFontMetrics()'],['../classwx_pdf_font_data_type1.html#a3fda7ff91b1e24397bc29b21f0e7d70b',1,'wxPdfFontDataType1::LoadFontMetrics()']]],
+  ['loadvoltdata_9',['LoadVoltData',['../classwx_pdf_volt.html#ac41cf74f47cd412834b4ad4de765e014',1,'wxPdfVolt']]],
+  ['loadzapfdingbats_10',['LoadZapfDingBats',['../classwx_pdf_document.html#a7908ff2e5f7a401a9a780ddc07fc47d9',1,'wxPdfDocument']]],
+  ['locklayer_11',['LockLayer',['../classwx_pdf_document.html#ae195ca749f4a8150eab695dce6683b10',1,'wxPdfDocument']]],
+  ['locktable_12',['LockTable',['../classwx_pdf_font_parser_true_type.html#accb30bcd11b8f25e9cd5453a02b436aa',1,'wxPdfFontParserTrueType']]],
+  ['logicaltodevicex_13',['LogicalToDeviceX',['../classwx_pdf_preview_d_c_impl.html#acc9918cd832591f92aae9cfe4338b672',1,'wxPdfPreviewDCImpl']]],
+  ['logicaltodevicexrel_14',['LogicalToDeviceXRel',['../classwx_pdf_preview_d_c_impl.html#a5730bc23ecb09be0a0c25e585c683531',1,'wxPdfPreviewDCImpl']]],
+  ['logicaltodevicey_15',['LogicalToDeviceY',['../classwx_pdf_preview_d_c_impl.html#ae69508fa3e4e6d25bff7e54dbb23f54b',1,'wxPdfPreviewDCImpl']]],
+  ['logicaltodeviceyrel_16',['LogicalToDeviceYRel',['../classwx_pdf_preview_d_c_impl.html#ad22763186dc3da2bd37977ad5157a218',1,'wxPdfPreviewDCImpl']]],
+  ['lzwdecode_17',['LZWDecode',['../classwx_pdf_parser.html#a1591e10314a58887252d9c4d18c2f139',1,'wxPdfParser']]]
+];

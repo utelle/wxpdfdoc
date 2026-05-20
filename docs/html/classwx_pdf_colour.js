@@ -1,0 +1,26 @@
+var classwx_pdf_colour =
+[
+    [ "wxPdfColour", "classwx_pdf_colour.html#a52aef144154a42307d2e4615e3a2db4f", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#a682d864e64685f0e37609e7012e1dfba", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#a779ab4041a5b6f95011f78f257f47a27", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#aafb191dac37a2fc1fa1212f9ee30d2a9", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#a8efae24f73bd422637b58dce7f516862", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#a2930379157f023a3451468d2f98868da", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#a1f90ac1184f3c6f93e45815facd4e025", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#a7b34ae93726fa06551685a32ff98a302", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#abf70f2e4f7c6972ee532c3b5e4438c17", null ],
+    [ "wxPdfColour", "classwx_pdf_colour.html#a9bd615164a3c88425c354d899fd3af85", null ],
+    [ "Equals", "classwx_pdf_colour.html#aef6479c26c2bd216de8f79c986152723", null ],
+    [ "GetColour", "classwx_pdf_colour.html#a3d25c1e5ed5a788be42ca62ae96891e4", null ],
+    [ "GetColourDatabase", "classwx_pdf_colour.html#adfca0d7ee56866e9eb087aeef440703e", null ],
+    [ "GetColourType", "classwx_pdf_colour.html#afb70d62fd415ff23427629b6b919c7b0", null ],
+    [ "GetColourValue", "classwx_pdf_colour.html#acc3e35501277044e0842da7de81e5233", null ],
+    [ "operator=", "classwx_pdf_colour.html#a0b923af76117cb8b09dd9262ec9f7a51", null ],
+    [ "SetColour", "classwx_pdf_colour.html#ad8b844e6be422f86971e668c43d315ab", null ],
+    [ "SetColour", "classwx_pdf_colour.html#aae5e227715fe5f5e3058e61acc81eff2", null ],
+    [ "SetColour", "classwx_pdf_colour.html#a26f3c0b1dd61b61f9a0b09b1ef2cd26f", null ],
+    [ "SetColour", "classwx_pdf_colour.html#a32d8f6dc20ff3f661ba37c93ad974f26", null ],
+    [ "SetColour", "classwx_pdf_colour.html#ae2fa12b55592c23b3f93051f0e0347e8", null ],
+    [ "SetColour", "classwx_pdf_colour.html#a5e057b7ded548bad4d2a5c5afb2375b9", null ],
+    [ "SetColour", "classwx_pdf_colour.html#ae493287a62ebcdecde0ed8a5078a0599", null ]
+];

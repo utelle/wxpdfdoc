@@ -1,63 +1,165 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
 <title>wxPdfDocument: MakeFont Utility</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('makefont.html','',''); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div><div class="header">
-  <div class="headertitle"><div class="title">MakeFont Utility</div></div>
+  <div class="headertitle"><div class="title">MakeFont Utility </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="mkfontadd"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="mkfontadd"></a>
 Adding new fonts and encoding support</h1>
 <p>This section explains how to use <b>TrueType</b> or <b>Type1</b> fonts so that you are not limited to the standard fonts any more. The other interest is that you can choose the font encoding, which allows you to use other languages than the Western ones (the standard fonts having too few available characters).</p>
 <p>There are two ways to use a new font: embedding it in the PDF or not. When a font is not embedded, it is sought in the system. The advantage is that the PDF file is lighter; on the other hand, if it is not available, a substitution font is used. So it is preferable to ensure that the needed font is installed on the client systems. If the file is to be viewed by a large audience, it is better to embed the fonts.</p>
@@ -68,31 +170,31 @@ Adding new fonts and encoding support</h1>
 <li>Declaration of the font in the program</li>
 </ul>
 <p>For <b>Type1</b>, the first one is theoretically not necessary because the AFM file is usually shipped with the font. In case you have only a metric file in PFM format, it must be converted to AFM first.</p>
-<h1><a class="anchor" id="mkfontgen1"></a>
+<h1 class="doxsection"><a class="anchor" id="mkfontgen1"></a>
 Generation of the metric file</h1>
-<p>The first step for a <b>TrueType</b> font consists in generating the AFM file (or UFM file in case of a <b>Unicode TrueType</b> font). A utility exists to do this task: <code>ttf2ufm</code> - a special version of <code>ttf2pt1</code> - allowing to create AFM and/or UFM files. <code>ttf2ufm</code> has been modified to generate AFM and UFM files containing all the information which is required by the utility program <b>makefont</b>. The command line to use is the following:</p>
-<p><code>ttf2ufm -a font.ttf font </code></p>
+<p>The first step for a <b>TrueType</b> font consists in generating the AFM file (or UFM file in case of a <b>Unicode TrueType</b> font). A utility exists to do this task: <span class="tt">ttf2ufm</span> - a special version of <span class="tt">ttf2pt1</span> - allowing to create AFM and/or UFM files. <span class="tt">ttf2ufm</span> has been modified to generate AFM and UFM files containing all the information which is required by the utility program <b>makefont</b>. The command line to use is the following:</p>
+<p><span class="tt">ttf2ufm -a font.ttf font </span></p>
 <p>For example, for Comic Sans MS Regular:</p>
-<p><code>ttf2ufm -a c:/windows/fonts/comic.ttf comic </code></p>
+<p><span class="tt">ttf2ufm -a c:/windows/fonts/comic.ttf comic </span></p>
 <p>Two files are created; the one we are interested in is comic.afm.</p>
 <dl class="section remark"><dt>Remarks</dt><dd>Starting with <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> version 0.8.5 this step may be omitted for TrueType and OpenType fonts.</dd></dl>
-<h1><a class="anchor" id="mkfontgen2"></a>
+<h1 class="doxsection"><a class="anchor" id="mkfontgen2"></a>
 Generation of the font definition file</h1>
 <p>The second step consists in generating a <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> font metrics XML file containing all the information needed by <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a>; in addition, the font file is compressed. To do this, a utility program, <b>makefont</b>, is provided.</p>
-<p><code>makefont {-a font.afm | -u font.ufm | -i } [-f font.{ttf|pfb}] [-e encoding] [-p patch] [-t {ttf|otf|t1}] [-o outdir]</code></p>
+<p><span class="tt">makefont {-a font.afm | -u font.ufm | -i } [-f font.{ttf|pfb}] [-e encoding] [-p patch] [-t {ttf|otf|t1}] [-o outdir]</span></p>
 <table border="0">
 <tr>
-<td><code>-a font.afm</code></td><td>AFM font metric file for <b>TrueType</b> or <b>Type1</b> fonts </td></tr>
+<td style="color:#000000"><span class="tt">-a font.afm</span></td><td style="color:#000000">AFM font metric file for <b>TrueType</b> or <b>Type1</b> fonts</td></tr>
 <tr>
-<td><code>-u font.ufm</code></td><td>UFM font metric file for <b>TrueType Unicode</b> or <b>OpenType Unicode</b> fonts </td></tr>
+<td style="color:#000000"><span class="tt">-u font.ufm</span></td><td style="color:#000000">UFM font metric file for <b>TrueType Unicode</b> or <b>OpenType Unicode</b> fonts</td></tr>
 <tr>
-<td><code>-i</code></td><td>Extract font metrics directly from <b>TrueType Unicode</b> or <b>OpenType Unicode</b> fonts </td></tr>
+<td style="color:#000000"><span class="tt">-i</span></td><td style="color:#000000">Extract font metrics directly from <b>TrueType Unicode</b> or <b>OpenType Unicode</b> fonts</td></tr>
 <tr>
-<td valign="top"><code>-f font.{ttf|otf|pfb}</code></td><td>font file (<code>.ttf</code> = TrueType, <code>.otf</code> = OpenType, <code>.pfb</code> = Type1). <br  />
-If you own a Type1 font in ASCII format (<code>.pfa</code>), you can convert it to binary format with <a href="https://www.lcdf.org/~eddietwo/type/#t1utils">t1utils</a>. <br  />
-If you don't want to embed the font, omit this parameter. In this case, type is given by the type parameter.  </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">-f font.{ttf|otf|pfb}</span></td><td style="color:#000000">font file (<span class="tt">.ttf</span> = TrueType, <span class="tt">.otf</span> = OpenType, <span class="tt">.pfb</span> = Type1). <br  />
+If you own a Type1 font in ASCII format (<span class="tt">.pfa</span>), you can convert it to binary format with <a href="https://www.lcdf.org/~eddietwo/type/#t1utils">t1utils</a>. <br  />
+If you don't want to embed the font, omit this parameter. In this case, type is given by the type parameter. </td></tr>
 <tr>
-<td valign="top"><code>-e encoding</code></td><td><p class="starttd">font encoding, i.e. cp1252. Omit this parameter for a symbolic font.like <em>Symbol</em> or <em>ZapfDingBats</em>.</p>
+<td style="color:#000000" valign="top"><span class="tt">-e encoding</span></td><td style="color:#000000"><p class="starttd">font encoding, i.e. cp1252. Omit this parameter for a symbolic font.like <em>Symbol</em> or <em>ZapfDingBats</em>.</p>
 <p class="intertd">The encoding defines the association between a code (from 0 to 255) and a character. The first 128 are fixed and correspond to ASCII; the following are variable. The encodings are stored in .map files. Those available are:</p>
 <ul>
 <li>cp1250 (Central Europe) </li>
@@ -117,43 +219,53 @@ If you don't want to embed the font, omit this parameter. In this case, type is 
 <li>koi8-u (Ukrainian)</li>
 </ul>
 <p>Of course, the font must contain the characters corresponding to the chosen encoding. The encodings which begin with cp are those used by Windows; Linux systems usually use ISO. Remark: the standard fonts use cp1252.</p>
-<p class="endtd"><b>Note:</b> For TrueType Unicode and OpenType Unicode fonts this parameter is ignored.  </p>
+<p class="endtd"><b>Note:</b> For TrueType Unicode and OpenType Unicode fonts this parameter is ignored. </p>
 </td></tr>
 <tr>
-<td valign="top"><code>-p patch</code></td><td><p class="starttd">patch file for individual encoding changes. Use the same format as the <code>.map</code> files for encodings. A patch file gives the possibility to alter the encoding. Sometimes you may want to add some characters. For instance, ISO-8859-1 does not contain the euro symbol. To add it at position 164, create a file containing the line </p>
-<p class="intertd"><code>!A0 U+20AC Euro</code> </p>
+<td style="color:#000000" valign="top"><span class="tt">-p patch</span></td><td style="color:#000000"><p class="starttd">patch file for individual encoding changes. Use the same format as the <span class="tt">.map</span> files for encodings. A patch file gives the possibility to alter the encoding. Sometimes you may want to add some characters. For instance, ISO-8859-1 does not contain the euro symbol. To add it at position 164, create a file containing the line </p>
+<p class="intertd"><span class="tt">!A0 U+20AC Euro</span> </p>
 <p class="intertd"><b>Note:</b> The Unicode character id will not be interpreted.</p>
-<p class="endtd">For TrueType Unicode and OpenType Unicode fonts this parameter is ignored.  </p>
+<p class="endtd">For TrueType Unicode and OpenType Unicode fonts this parameter is ignored. </p>
 </td></tr>
 <tr>
-<td><code>-t {ttf|otf|t1}</code></td><td>font type (ttf = TrueType, otf = OpenType, t1 = Type1). Only needed if omitting the font file. </td></tr>
+<td style="color:#000000"><span class="tt">-t {ttf|otf|t1}</span></td><td style="color:#000000">font type (ttf = TrueType, otf = OpenType, t1 = Type1). Only needed if omitting the font file.</td></tr>
 <tr>
-<td><code>-o outdir</code></td><td>the output directory for all generated files (default: current working directory) </td></tr>
+<td style="color:#000000"><span class="tt">-o outdir</span></td><td style="color:#000000">the output directory for all generated files (default: current working directory)</td></tr>
 </table>
 <p><b>Note:</b> in the case of a font with the same name as a standard one, for instance arial.ttf, it is mandatory to embed. If you don't, Acrobat will use its own font.</p>
-<p>Executing <code>makefont</code> generates an .xml file, with the same name as the <code>.afm</code> file resp. <code>.ufm</code> file. You may rename it if you wish. In case of embedding the font file is compressed and gives a file with <code>.z</code> as extension. For <b>Unicode TrueType</b> fonts a file with extension <code>.ctg.z</code> is created containing the character to glyph mapping.You may rename these files, too, but in this case you have to alter the file name(s) in the file tag in the <code>.xml</code> file accordingly.</p>
+<p>Executing <span class="tt">makefont</span> generates an .xml file, with the same name as the <span class="tt">.afm</span> file resp. <span class="tt">.ufm</span> file. You may rename it if you wish. In case of embedding the font file is compressed and gives a file with <span class="tt">.z</span> as extension. For <b>Unicode TrueType</b> fonts a file with extension <span class="tt">.ctg.z</span> is created containing the character to glyph mapping.You may rename these files, too, but in this case you have to alter the file name(s) in the file tag in the <span class="tt">.xml</span> file accordingly.</p>
 <p>You have to copy the generated file(s) to the font directory.</p>
-<h1><a class="anchor" id="mkfontdecl"></a>
+<h1 class="doxsection"><a class="anchor" id="mkfontdecl"></a>
 Declaration of the font in the script</h1>
 <p>The last step is the most simple. You just need to call the AddFont() method. For instance:</p>
-<p><code>pdf.AddFont(wxS("Comic"),wxS(""),wxS("comic.xml"));</code></p>
+<p><span class="tt">pdf.AddFont(wxS("Comic"),wxS(""),wxS("comic.xml"));</span></p>
 <p>or simply:</p>
-<p><code>pdf.AddFont(wxS("Comic"));</code></p>
+<p><span class="tt">pdf.AddFont(wxS("Comic"));</span></p>
 <p>And the font is now available (in regular and underlined styles), usable like the others. If we had worked with Comic Sans MS Bold (comicbd.ttf), we would have put:</p>
-<p><code>pdf.AddFont(wxS("Comic"),wxS("B"),wxS("comicbd.xml"));</code></p>
-<h1><a class="anchor" id="mkfontreduce"></a>
+<p><span class="tt">pdf.AddFont(wxS("Comic"),wxS("B"),wxS("comicbd.xml"));</span></p>
+<h1 class="doxsection"><a class="anchor" id="mkfontreduce"></a>
 Reducing the size of TrueType fonts</h1>
-<p>Font files are often quite voluminous; this is due to the fact that they contain the characters corresponding to many encodings. zlib compression reduces them but they remain fairly big. A technique exists to reduce them further. It consists in converting the font to the <b>Type1</b> format with <code>ttf2pt1</code> by specifying the encoding you are interested in; all other characters will be discarded. For instance, the arial.ttf font shipped with Windows 98 is 267KB (it contains 1296 characters). After compression it gives 147. Let's convert it to <b>Type1</b> by keeping only cp1250 characters:</p>
-<p><code>ttf2ufm -b -L cp1250.map c:/windows/fonts/arial.ttf arial </code></p>
-<p>The <code>.map</code> files are located in the <code>makefont</code> directory. The command produces arial.pfb and arial.afm. The arial.pfb file is only 35KB, and 30KB after compression.</p>
+<p>Font files are often quite voluminous; this is due to the fact that they contain the characters corresponding to many encodings. zlib compression reduces them but they remain fairly big. A technique exists to reduce them further. It consists in converting the font to the <b>Type1</b> format with <span class="tt">ttf2pt1</span> by specifying the encoding you are interested in; all other characters will be discarded. For instance, the arial.ttf font shipped with Windows 98 is 267KB (it contains 1296 characters). After compression it gives 147. Let's convert it to <b>Type1</b> by keeping only cp1250 characters:</p>
+<p><span class="tt">ttf2ufm -b -L cp1250.map c:/windows/fonts/arial.ttf arial </span></p>
+<p>The <span class="tt">.map</span> files are located in the <span class="tt">makefont</span> directory. The command produces arial.pfb and arial.afm. The arial.pfb file is only 35KB, and 30KB after compression.</p>
 <p>It is possible to go even further. If you are interested only in a subset of the encoding (you probably don't need all 217 characters), you can open the .map file and remove the lines you are not interested in. This will reduce the file size accordingly.</p>
 <p>Since <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> version 0.8.0 automatic font subsetting is supported for TrueType und TrueType Unicode fonts. Since version 0.8.5 subsetting of OpenType Unicode fonts is supported as well. <b>Note</b>: The font license must allow embedding and subsetting. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -1,62 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
 <title>wxPdfDocument: wxPdfDC Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('classwx_pdf_d_c.html','','classwx_pdf_d_c-members'); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classwx_pdf_d_c-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">wxPdfDC Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -72,39 +171,30 @@ Inheritance diagram for wxPdfDC:</div>
   <img src="classwx_pdf_d_c.png" alt=""/>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1eb5aef7fa1a0b408b99ed815d67bac4" id="r_a1eb5aef7fa1a0b408b99ed815d67bac4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1eb5aef7fa1a0b408b99ed815d67bac4">wxPdfDC</a> ()</td></tr>
+<tr class="memitem:a1eb5aef7fa1a0b408b99ed815d67bac4" id="r_a1eb5aef7fa1a0b408b99ed815d67bac4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1eb5aef7fa1a0b408b99ed815d67bac4">wxPdfDC</a> ()</td></tr>
 <tr class="memdesc:a1eb5aef7fa1a0b408b99ed815d67bac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <br /></td></tr>
-<tr class="separator:a1eb5aef7fa1a0b408b99ed815d67bac4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d64f076e25dc3fb33413a8ace390513" id="r_a4d64f076e25dc3fb33413a8ace390513"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d64f076e25dc3fb33413a8ace390513">wxPdfDC</a> (const wxPrintData &amp;printData)</td></tr>
+<tr class="memitem:a4d64f076e25dc3fb33413a8ace390513" id="r_a4d64f076e25dc3fb33413a8ace390513"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4d64f076e25dc3fb33413a8ace390513">wxPdfDC</a> (const wxPrintData &amp;printData)</td></tr>
 <tr class="memdesc:a4d64f076e25dc3fb33413a8ace390513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor initializing the DC with print data.  <br /></td></tr>
-<tr class="separator:a4d64f076e25dc3fb33413a8ace390513"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af24cde360abf45fcbb33bf19cfbb4be6" id="r_af24cde360abf45fcbb33bf19cfbb4be6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af24cde360abf45fcbb33bf19cfbb4be6">wxPdfDC</a> (<a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *pdfDocument, double templateWidth, double templateHeight)</td></tr>
+<tr class="memitem:af24cde360abf45fcbb33bf19cfbb4be6" id="r_af24cde360abf45fcbb33bf19cfbb4be6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af24cde360abf45fcbb33bf19cfbb4be6">wxPdfDC</a> (<a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *pdfDocument, double templateWidth, double templateHeight)</td></tr>
 <tr class="memdesc:af24cde360abf45fcbb33bf19cfbb4be6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for creating a template in an existing PDF document.  <br /></td></tr>
-<tr class="separator:af24cde360abf45fcbb33bf19cfbb4be6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad87f6b635ffe62b6fcfd3af4402013da" id="r_ad87f6b635ffe62b6fcfd3af4402013da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad87f6b635ffe62b6fcfd3af4402013da">GetPdfDocument</a> ()</td></tr>
+<tr class="memitem:ad87f6b635ffe62b6fcfd3af4402013da" id="r_ad87f6b635ffe62b6fcfd3af4402013da"><td class="memItemLeft"><a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ad87f6b635ffe62b6fcfd3af4402013da">GetPdfDocument</a> ()</td></tr>
 <tr class="memdesc:ad87f6b635ffe62b6fcfd3af4402013da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the associated PDF document.  <br /></td></tr>
-<tr class="separator:ad87f6b635ffe62b6fcfd3af4402013da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a199825b4d5d50e0a6ee475e3e53e1bc0" id="r_a199825b4d5d50e0a6ee475e3e53e1bc0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a199825b4d5d50e0a6ee475e3e53e1bc0">SetResolution</a> (int ppi)</td></tr>
+<tr class="memitem:a199825b4d5d50e0a6ee475e3e53e1bc0" id="r_a199825b4d5d50e0a6ee475e3e53e1bc0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a199825b4d5d50e0a6ee475e3e53e1bc0">SetResolution</a> (int ppi)</td></tr>
 <tr class="memdesc:a199825b4d5d50e0a6ee475e3e53e1bc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the resolution for the DC.  <br /></td></tr>
-<tr class="separator:a199825b4d5d50e0a6ee475e3e53e1bc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4003a61306fff2aa8f4904828a314e93" id="r_a4003a61306fff2aa8f4904828a314e93"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4003a61306fff2aa8f4904828a314e93">GetResolution</a> () const</td></tr>
+<tr class="memitem:a4003a61306fff2aa8f4904828a314e93" id="r_a4003a61306fff2aa8f4904828a314e93"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a4003a61306fff2aa8f4904828a314e93">GetResolution</a> () const</td></tr>
 <tr class="memdesc:a4003a61306fff2aa8f4904828a314e93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current resolution.  <br /></td></tr>
-<tr class="separator:a4003a61306fff2aa8f4904828a314e93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a837204e70872c351c6047db80263bfc1" id="r_a837204e70872c351c6047db80263bfc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a837204e70872c351c6047db80263bfc1">SetImageType</a> (wxBitmapType bitmapType, int quality=75)</td></tr>
+<tr class="memitem:a837204e70872c351c6047db80263bfc1" id="r_a837204e70872c351c6047db80263bfc1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a837204e70872c351c6047db80263bfc1">SetImageType</a> (wxBitmapType bitmapType, int quality=75)</td></tr>
 <tr class="memdesc:a837204e70872c351c6047db80263bfc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the image type and quality for bitmap output.  <br /></td></tr>
-<tr class="separator:a837204e70872c351c6047db80263bfc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebaf359ed0470380fa058029c9eb88aa" id="r_aebaf359ed0470380fa058029c9eb88aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebaf359ed0470380fa058029c9eb88aa">SetMapModeStyle</a> (<a class="el" href="pdfdc_8h.html#a9347bca4ec7a7bf08ae41eae5b4cc524">wxPdfMapModeStyle</a> style)</td></tr>
+<tr class="memitem:aebaf359ed0470380fa058029c9eb88aa" id="r_aebaf359ed0470380fa058029c9eb88aa"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aebaf359ed0470380fa058029c9eb88aa">SetMapModeStyle</a> (<a class="el" href="pdfdc_8h.html#a9347bca4ec7a7bf08ae41eae5b4cc524">wxPdfMapModeStyle</a> style)</td></tr>
 <tr class="memdesc:aebaf359ed0470380fa058029c9eb88aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the map mode style.  <br /></td></tr>
-<tr class="separator:aebaf359ed0470380fa058029c9eb88aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96eb33a3e7396e0e01c6fb9c1b41a9d1" id="r_a96eb33a3e7396e0e01c6fb9c1b41a9d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="pdfdc_8h.html#a9347bca4ec7a7bf08ae41eae5b4cc524">wxPdfMapModeStyle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96eb33a3e7396e0e01c6fb9c1b41a9d1">GetMapModeStyle</a> () const</td></tr>
+<tr class="memitem:a96eb33a3e7396e0e01c6fb9c1b41a9d1" id="r_a96eb33a3e7396e0e01c6fb9c1b41a9d1"><td class="memItemLeft"><a class="el" href="pdfdc_8h.html#a9347bca4ec7a7bf08ae41eae5b4cc524">wxPdfMapModeStyle</a>&#160;</td><td class="memItemRight"><a class="el" href="#a96eb33a3e7396e0e01c6fb9c1b41a9d1">GetMapModeStyle</a> () const</td></tr>
 <tr class="memdesc:a96eb33a3e7396e0e01c6fb9c1b41a9d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current map mode style.  <br /></td></tr>
-<tr class="separator:a96eb33a3e7396e0e01c6fb9c1b41a9d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing a PDF drawing context. </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1eb5aef7fa1a0b408b99ed815d67bac4" name="a1eb5aef7fa1a0b408b99ed815d67bac4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1eb5aef7fa1a0b408b99ed815d67bac4">&#9670;&#160;</a></span>wxPdfDC() <span class="overload">[1/3]</span></h2>
 
@@ -146,6 +236,24 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line">wxPrintData printData;</div>
+<div class="line">printData.SetOrientation(wxPORTRAIT);</div>
+<div class="line">printData.SetPaperId(wxPAPER_A4);</div>
+<div class="line">printData.SetFilename(wxS(<span class="stringliteral">&quot;output.pdf&quot;</span>));</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_function" href="#a1eb5aef7fa1a0b408b99ed815d67bac4">wxPdfDC</a> dc(printData);</div>
+<div class="line">dc.SetMapModeStyle(<a class="code hl_enumvalue" href="pdfdc_8h.html#a9347bca4ec7a7bf08ae41eae5b4cc524a3898b8e3a8b4d345500856c8bf395ee2">wxPDF_MAPMODESTYLE_PDF</a>);</div>
+<div class="line">dc.SetMapMode(wxMM_POINTS);</div>
+<div class="line"><span class="keywordflow">if</span> (dc.StartDoc(_(<span class="stringliteral">&quot;Printing...&quot;</span>)))</div>
+<div class="line">{</div>
+<div class="line">    dc.StartPage();</div>
+<div class="line">    dc.DrawText(wxS(<span class="stringliteral">&quot;Hello, PDF!&quot;</span>), 10, 10);</div>
+<div class="line">    dc.EndPage();</div>
+<div class="line">    dc.EndDoc();</div>
+<div class="line">}</div>
+<div class="ttc" id="aclasswx_pdf_d_c_html_a1eb5aef7fa1a0b408b99ed815d67bac4"><div class="ttname"><a href="#a1eb5aef7fa1a0b408b99ed815d67bac4">wxPdfDC::wxPdfDC</a></div><div class="ttdeci">wxPdfDC()</div><div class="ttdoc">Default constructor.</div></div>
+<div class="ttc" id="apdfdc_8h_html_a9347bca4ec7a7bf08ae41eae5b4cc524a3898b8e3a8b4d345500856c8bf395ee2"><div class="ttname"><a href="pdfdc_8h.html#a9347bca4ec7a7bf08ae41eae5b4cc524a3898b8e3a8b4d345500856c8bf395ee2">wxPDF_MAPMODESTYLE_PDF</a></div><div class="ttdeci">@ wxPDF_MAPMODESTYLE_PDF</div><div class="ttdoc">same font sizes and text position as with the wxPdfDocument API</div><div class="ttdef"><b>Definition</b> pdfdc.h:31</div></div>
+</div><!-- fragment --> </dd></dl>
 
 </div>
 </div>
@@ -182,10 +290,35 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section user"><dt>Example</dt><dd><div class="fragment"><div class="line"><a class="code hl_class" href="classwx_pdf_document.html">wxPdfDocument</a> pdf;</div>
+<div class="line">pdf.<a class="code hl_function" href="classwx_pdf_document.html#a063ed979eb6061b5c8548c4fc6a6dff5">AddPage</a>();</div>
+<div class="line"><span class="keywordtype">double</span> w = 125, h = 125;</div>
+<div class="line"><span class="keywordtype">int</span> tpl = pdf.<a class="code hl_function" href="classwx_pdf_document.html#a15a63147a654ef697c5d4b8dbb681725">BeginTemplate</a>(0, 0, w, h);</div>
+<div class="line">{</div>
+<div class="line">    <a class="code hl_function" href="#a1eb5aef7fa1a0b408b99ed815d67bac4">wxPdfDC</a> dc(&amp;pdf, w, h);</div>
+<div class="line">    <span class="keywordflow">if</span> (dc.StartDoc(_(<span class="stringliteral">&quot;Printing...&quot;</span>)))</div>
+<div class="line">    {</div>
+<div class="line">        dc.StartPage();</div>
+<div class="line">        dc.DrawRectangle(10, 10, 100, 50);</div>
+<div class="line">        dc.EndPage();</div>
+<div class="line">        dc.EndDoc();</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+<div class="line">pdf.<a class="code hl_function" href="classwx_pdf_document.html#a60785d5775079e6a7e3c14ba064b41d3">EndTemplate</a>();</div>
+<div class="line">pdf.<a class="code hl_function" href="classwx_pdf_document.html#a3fca0a581d8c68814ef2b318f887e895">UseTemplate</a>(tpl, 40, 30, 75);</div>
+<div class="line">pdf.<a class="code hl_function" href="classwx_pdf_document.html#ab9713ea899904485abbe7e6c4b6e4a93">SaveAsFile</a>(wxS(<span class="stringliteral">&quot;output.pdf&quot;</span>));</div>
+<div class="ttc" id="aclasswx_pdf_document_html"><div class="ttname"><a href="classwx_pdf_document.html">wxPdfDocument</a></div><div class="ttdoc">Class representing a PDF document.</div><div class="ttdef"><b>Definition</b> pdfdocument.h:151</div></div>
+<div class="ttc" id="aclasswx_pdf_document_html_a063ed979eb6061b5c8548c4fc6a6dff5"><div class="ttname"><a href="classwx_pdf_document.html#a063ed979eb6061b5c8548c4fc6a6dff5">wxPdfDocument::AddPage</a></div><div class="ttdeci">virtual void AddPage(int orientation=-1, bool useDefaultPageSize=true)</div><div class="ttdoc">Adds a new page to the document.</div></div>
+<div class="ttc" id="aclasswx_pdf_document_html_a15a63147a654ef697c5d4b8dbb681725"><div class="ttname"><a href="classwx_pdf_document.html#a15a63147a654ef697c5d4b8dbb681725">wxPdfDocument::BeginTemplate</a></div><div class="ttdeci">virtual int BeginTemplate(double x=0, double y=0, double width=0, double height=0)</div><div class="ttdoc">Starts a new Template.</div></div>
+<div class="ttc" id="aclasswx_pdf_document_html_a3fca0a581d8c68814ef2b318f887e895"><div class="ttname"><a href="classwx_pdf_document.html#a3fca0a581d8c68814ef2b318f887e895">wxPdfDocument::UseTemplate</a></div><div class="ttdeci">virtual void UseTemplate(int templateId)</div><div class="ttdoc">Uses a template in current page or in another template.</div></div>
+<div class="ttc" id="aclasswx_pdf_document_html_a60785d5775079e6a7e3c14ba064b41d3"><div class="ttname"><a href="classwx_pdf_document.html#a60785d5775079e6a7e3c14ba064b41d3">wxPdfDocument::EndTemplate</a></div><div class="ttdeci">virtual int EndTemplate()</div><div class="ttdoc">Terminates a template.</div></div>
+<div class="ttc" id="aclasswx_pdf_document_html_ab9713ea899904485abbe7e6c4b6e4a93"><div class="ttname"><a href="classwx_pdf_document.html#ab9713ea899904485abbe7e6c4b6e4a93">wxPdfDocument::SaveAsFile</a></div><div class="ttdeci">virtual bool SaveAsFile(const wxString &amp;name=wxEmptyString)</div><div class="ttdoc">Saves the document to a file on disk.</div></div>
+</div><!-- fragment --> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classwx_pdf_document.html#a15a63147a654ef697c5d4b8dbb681725" title="Starts a new Template.">wxPdfDocument::BeginTemplate()</a>, <a class="el" href="classwx_pdf_document.html#a60785d5775079e6a7e3c14ba064b41d3" title="Terminates a template.">wxPdfDocument::EndTemplate()</a>, <a class="el" href="classwx_pdf_document.html#a3fca0a581d8c68814ef2b318f887e895" title="Uses a template in current page or in another template.">wxPdfDocument::UseTemplate()</a> </dd></dl>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a96eb33a3e7396e0e01c6fb9c1b41a9d1" name="a96eb33a3e7396e0e01c6fb9c1b41a9d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a96eb33a3e7396e0e01c6fb9c1b41a9d1">&#9670;&#160;</a></span>GetMapModeStyle()</h2>
 
@@ -203,6 +336,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Returns the current map mode style. </p>
 <dl class="section return"><dt>Returns</dt><dd>The current map mode style </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#aebaf359ed0470380fa058029c9eb88aa" title="Sets the map mode style.">SetMapModeStyle()</a> </dd></dl>
 
 </div>
 </div>
@@ -243,6 +377,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Returns the current resolution. </p>
 <dl class="section return"><dt>Returns</dt><dd>Resolution in pixels per inch </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a199825b4d5d50e0a6ee475e3e53e1bc0" title="Sets the resolution for the DC.">SetResolution()</a> </dd></dl>
 
 </div>
 </div>
@@ -298,6 +433,7 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a96eb33a3e7396e0e01c6fb9c1b41a9d1" title="Returns the current map mode style.">GetMapModeStyle()</a> </dd></dl>
 
 </div>
 </div>
@@ -323,17 +459,29 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a4003a61306fff2aa8f4904828a314e93" title="Returns the current resolution.">GetResolution()</a> </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="pdfdc_8h.html">pdfdc.h</a></li>
+<li>E:/github/wxpdfdoc-current/include/wx/<a class="el" href="pdfdc_8h.html">pdfdc.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="classwx_pdf_d_c.html">wxPdfDC</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

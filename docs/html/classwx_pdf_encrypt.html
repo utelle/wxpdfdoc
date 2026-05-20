@@ -1,185 +1,246 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
 <title>wxPdfDocument: wxPdfEncrypt Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('classwx_pdf_encrypt.html','','classwx_pdf_encrypt-members'); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
-<a href="classwx_pdf_encrypt-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">wxPdfEncrypt Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Class representing PDF encryption methods. (For internal use only)  
- <a href="#details">More...</a></p>
-
 <p><code>#include &lt;pdfencrypt.h&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa101b9cf1c682935196e459fc7e342b6" id="r_aa101b9cf1c682935196e459fc7e342b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa101b9cf1c682935196e459fc7e342b6">wxPdfEncrypt</a> (int revision=2, int keyLength=40)</td></tr>
+<tr class="memitem:aa101b9cf1c682935196e459fc7e342b6" id="r_aa101b9cf1c682935196e459fc7e342b6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa101b9cf1c682935196e459fc7e342b6">wxPdfEncrypt</a> (int revision=2, int keyLength=40)</td></tr>
 <tr class="memdesc:aa101b9cf1c682935196e459fc7e342b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
-<tr class="separator:aa101b9cf1c682935196e459fc7e342b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adab58a295e091806d90f909a39e8c9ae" id="r_adab58a295e091806d90f909a39e8c9ae"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adab58a295e091806d90f909a39e8c9ae">~wxPdfEncrypt</a> ()</td></tr>
+<tr class="memitem:adab58a295e091806d90f909a39e8c9ae" id="r_adab58a295e091806d90f909a39e8c9ae"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="#adab58a295e091806d90f909a39e8c9ae">~wxPdfEncrypt</a> ()</td></tr>
 <tr class="memdesc:adab58a295e091806d90f909a39e8c9ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <br /></td></tr>
-<tr class="separator:adab58a295e091806d90f909a39e8c9ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67010bce5bcddf1c6d7a880849828d3a" id="r_a67010bce5bcddf1c6d7a880849828d3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67010bce5bcddf1c6d7a880849828d3a">GenerateEncryptionKey</a> (const wxString &amp;userPassword, const wxString &amp;ownerPassword, int protection, const wxString &amp;documentId=wxEmptyString)</td></tr>
+<tr class="memitem:a67010bce5bcddf1c6d7a880849828d3a" id="r_a67010bce5bcddf1c6d7a880849828d3a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a67010bce5bcddf1c6d7a880849828d3a">GenerateEncryptionKey</a> (const wxString &amp;userPassword, const wxString &amp;ownerPassword, int protection, const wxString &amp;documentId=wxEmptyString)</td></tr>
 <tr class="memdesc:a67010bce5bcddf1c6d7a880849828d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate encryption key from user and owner passwords and protection key.  <br /></td></tr>
-<tr class="separator:a67010bce5bcddf1c6d7a880849828d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a7f0d6e33c38b48c62b57bf888d282b" id="r_a3a7f0d6e33c38b48c62b57bf888d282b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a7f0d6e33c38b48c62b57bf888d282b">Authenticate</a> (const wxString &amp;documentID, const wxString &amp;password, const wxString &amp;uValue, const wxString &amp;oValue, const wxString &amp;ueValue, const wxString &amp;oeValue, const wxString &amp;permsValue, int pValue, int lengthValue, int rValue, int vValue)</td></tr>
+<tr class="memitem:a3a7f0d6e33c38b48c62b57bf888d282b" id="r_a3a7f0d6e33c38b48c62b57bf888d282b"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3a7f0d6e33c38b48c62b57bf888d282b">Authenticate</a> (const wxString &amp;documentID, const wxString &amp;password, const wxString &amp;uValue, const wxString &amp;oValue, const wxString &amp;ueValue, const wxString &amp;oeValue, const wxString &amp;permsValue, int pValue, int lengthValue, int rValue, int vValue)</td></tr>
 <tr class="memdesc:a3a7f0d6e33c38b48c62b57bf888d282b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Authenticate a document.  <br /></td></tr>
-<tr class="separator:a3a7f0d6e33c38b48c62b57bf888d282b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44718cc660711aa5460c595293f3d7bc" id="r_a44718cc660711aa5460c595293f3d7bc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44718cc660711aa5460c595293f3d7bc">PasswordIsValid</a> (const wxString &amp;password) const</td></tr>
+<tr class="memitem:a44718cc660711aa5460c595293f3d7bc" id="r_a44718cc660711aa5460c595293f3d7bc"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a44718cc660711aa5460c595293f3d7bc">PasswordIsValid</a> (const wxString &amp;password) const</td></tr>
 <tr class="memdesc:a44718cc660711aa5460c595293f3d7bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the given password is valid.  <br /></td></tr>
-<tr class="separator:a44718cc660711aa5460c595293f3d7bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a611a82d8e12342cc52e1aa0833c6e400" id="r_a611a82d8e12342cc52e1aa0833c6e400"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a611a82d8e12342cc52e1aa0833c6e400">GetUValue</a> () const</td></tr>
-<tr class="memdesc:a611a82d8e12342cc52e1aa0833c6e400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the U object value (user)  <br /></td></tr>
-<tr class="separator:a611a82d8e12342cc52e1aa0833c6e400"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b179eeca60dffe695845690092de13f" id="r_a9b179eeca60dffe695845690092de13f"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b179eeca60dffe695845690092de13f">GetUEValue</a> () const</td></tr>
-<tr class="memdesc:a9b179eeca60dffe695845690092de13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the UE object value (user)  <br /></td></tr>
-<tr class="separator:a9b179eeca60dffe695845690092de13f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf7b233281199495c351e5533ed83942" id="r_acf7b233281199495c351e5533ed83942"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf7b233281199495c351e5533ed83942">GetOValue</a> () const</td></tr>
-<tr class="memdesc:acf7b233281199495c351e5533ed83942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the O object value (owner)  <br /></td></tr>
-<tr class="separator:acf7b233281199495c351e5533ed83942"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba461477246cb8fdd09224a2ed8c8f71" id="r_aba461477246cb8fdd09224a2ed8c8f71"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba461477246cb8fdd09224a2ed8c8f71">GetOEValue</a> () const</td></tr>
-<tr class="memdesc:aba461477246cb8fdd09224a2ed8c8f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the OE object value (owner)  <br /></td></tr>
-<tr class="separator:aba461477246cb8fdd09224a2ed8c8f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b537f1efe660dcc69111320ed661a2d" id="r_a6b537f1efe660dcc69111320ed661a2d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6b537f1efe660dcc69111320ed661a2d">GetPValue</a> () const</td></tr>
-<tr class="memdesc:a6b537f1efe660dcc69111320ed661a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the P object value (protection)  <br /></td></tr>
-<tr class="separator:a6b537f1efe660dcc69111320ed661a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1eacfa0577f99ee9f685698e4194c297" id="r_a1eacfa0577f99ee9f685698e4194c297"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1eacfa0577f99ee9f685698e4194c297">GetPermsValue</a> () const</td></tr>
-<tr class="memdesc:a1eacfa0577f99ee9f685698e4194c297"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Perms object value (protection)  <br /></td></tr>
-<tr class="separator:a1eacfa0577f99ee9f685698e4194c297"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b9de8dc46148619e39e343c558da3eb" id="r_a1b9de8dc46148619e39e343c558da3eb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b9de8dc46148619e39e343c558da3eb">GetRevision</a> () const</td></tr>
+<tr class="memitem:a611a82d8e12342cc52e1aa0833c6e400" id="r_a611a82d8e12342cc52e1aa0833c6e400"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a611a82d8e12342cc52e1aa0833c6e400">GetUValue</a> () const</td></tr>
+<tr class="memdesc:a611a82d8e12342cc52e1aa0833c6e400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the U object value (user).  <br /></td></tr>
+<tr class="memitem:a9b179eeca60dffe695845690092de13f" id="r_a9b179eeca60dffe695845690092de13f"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a9b179eeca60dffe695845690092de13f">GetUEValue</a> () const</td></tr>
+<tr class="memdesc:a9b179eeca60dffe695845690092de13f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the UE object value (user).  <br /></td></tr>
+<tr class="memitem:acf7b233281199495c351e5533ed83942" id="r_acf7b233281199495c351e5533ed83942"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#acf7b233281199495c351e5533ed83942">GetOValue</a> () const</td></tr>
+<tr class="memdesc:acf7b233281199495c351e5533ed83942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the O object value (owner).  <br /></td></tr>
+<tr class="memitem:aba461477246cb8fdd09224a2ed8c8f71" id="r_aba461477246cb8fdd09224a2ed8c8f71"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aba461477246cb8fdd09224a2ed8c8f71">GetOEValue</a> () const</td></tr>
+<tr class="memdesc:aba461477246cb8fdd09224a2ed8c8f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the OE object value (owner).  <br /></td></tr>
+<tr class="memitem:a6b537f1efe660dcc69111320ed661a2d" id="r_a6b537f1efe660dcc69111320ed661a2d"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a6b537f1efe660dcc69111320ed661a2d">GetPValue</a> () const</td></tr>
+<tr class="memdesc:a6b537f1efe660dcc69111320ed661a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the P object value (protection).  <br /></td></tr>
+<tr class="memitem:a1eacfa0577f99ee9f685698e4194c297" id="r_a1eacfa0577f99ee9f685698e4194c297"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a1eacfa0577f99ee9f685698e4194c297">GetPermsValue</a> () const</td></tr>
+<tr class="memdesc:a1eacfa0577f99ee9f685698e4194c297"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Perms object value (protection).  <br /></td></tr>
+<tr class="memitem:a1b9de8dc46148619e39e343c558da3eb" id="r_a1b9de8dc46148619e39e343c558da3eb"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a1b9de8dc46148619e39e343c558da3eb">GetRevision</a> () const</td></tr>
 <tr class="memdesc:a1b9de8dc46148619e39e343c558da3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the revision number of the encryption method.  <br /></td></tr>
-<tr class="separator:a1b9de8dc46148619e39e343c558da3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18bd53213f35187fd3b41f72824b1aa1" id="r_a18bd53213f35187fd3b41f72824b1aa1"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18bd53213f35187fd3b41f72824b1aa1">GetKeyLength</a> () const</td></tr>
+<tr class="memitem:a18bd53213f35187fd3b41f72824b1aa1" id="r_a18bd53213f35187fd3b41f72824b1aa1"><td class="memItemLeft">unsigned int&#160;</td><td class="memItemRight"><a class="el" href="#a18bd53213f35187fd3b41f72824b1aa1">GetKeyLength</a> () const</td></tr>
 <tr class="memdesc:a18bd53213f35187fd3b41f72824b1aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the key length of the encryption key in bits.  <br /></td></tr>
-<tr class="separator:a18bd53213f35187fd3b41f72824b1aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee963b88c0e82eb739c2d4e357e28f27" id="r_aee963b88c0e82eb739c2d4e357e28f27"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aee963b88c0e82eb739c2d4e357e28f27">Encrypt</a> (int n, int g, wxString &amp;str)</td></tr>
+<tr class="memitem:aee963b88c0e82eb739c2d4e357e28f27" id="r_aee963b88c0e82eb739c2d4e357e28f27"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aee963b88c0e82eb739c2d4e357e28f27">Encrypt</a> (int n, int g, wxString &amp;str)</td></tr>
 <tr class="memdesc:aee963b88c0e82eb739c2d4e357e28f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encrypt a wxString.  <br /></td></tr>
-<tr class="separator:aee963b88c0e82eb739c2d4e357e28f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc87a584a433ec6fcf27e757f5a584e7" id="r_abc87a584a433ec6fcf27e757f5a584e7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc87a584a433ec6fcf27e757f5a584e7">Decrypt</a> (int n, int g, wxString &amp;str)</td></tr>
+<tr class="memitem:abc87a584a433ec6fcf27e757f5a584e7" id="r_abc87a584a433ec6fcf27e757f5a584e7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abc87a584a433ec6fcf27e757f5a584e7">Decrypt</a> (int n, int g, wxString &amp;str)</td></tr>
 <tr class="memdesc:abc87a584a433ec6fcf27e757f5a584e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrypt a wxString.  <br /></td></tr>
-<tr class="separator:abc87a584a433ec6fcf27e757f5a584e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae51f68f2a0068408b664099f99ab4e92" id="r_ae51f68f2a0068408b664099f99ab4e92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae51f68f2a0068408b664099f99ab4e92">Encrypt</a> (int n, int g, unsigned char *str, unsigned int len)</td></tr>
+<tr class="memitem:ae51f68f2a0068408b664099f99ab4e92" id="r_ae51f68f2a0068408b664099f99ab4e92"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae51f68f2a0068408b664099f99ab4e92">Encrypt</a> (int n, int g, unsigned char *str, unsigned int len)</td></tr>
 <tr class="memdesc:ae51f68f2a0068408b664099f99ab4e92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encrypt a character string.  <br /></td></tr>
-<tr class="separator:ae51f68f2a0068408b664099f99ab4e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93b0bd7139c66a2b2e3d79589d72ac15" id="r_a93b0bd7139c66a2b2e3d79589d72ac15"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93b0bd7139c66a2b2e3d79589d72ac15">Decrypt</a> (int n, int g, unsigned char *str, unsigned int len)</td></tr>
+<tr class="memitem:a93b0bd7139c66a2b2e3d79589d72ac15" id="r_a93b0bd7139c66a2b2e3d79589d72ac15"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a93b0bd7139c66a2b2e3d79589d72ac15">Decrypt</a> (int n, int g, unsigned char *str, unsigned int len)</td></tr>
 <tr class="memdesc:a93b0bd7139c66a2b2e3d79589d72ac15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decrypt a character string.  <br /></td></tr>
-<tr class="separator:a93b0bd7139c66a2b2e3d79589d72ac15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9669785ee723c6e9c6332148caae2dd0" id="r_a9669785ee723c6e9c6332148caae2dd0"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9669785ee723c6e9c6332148caae2dd0">CalculateStreamLength</a> (size_t length)</td></tr>
+<tr class="memitem:a9669785ee723c6e9c6332148caae2dd0" id="r_a9669785ee723c6e9c6332148caae2dd0"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#a9669785ee723c6e9c6332148caae2dd0">CalculateStreamLength</a> (size_t length)</td></tr>
 <tr class="memdesc:a9669785ee723c6e9c6332148caae2dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate stream size.  <br /></td></tr>
-<tr class="separator:a9669785ee723c6e9c6332148caae2dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3a58bdf9d7e3b35d075d734ee482282" id="r_af3a58bdf9d7e3b35d075d734ee482282"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3a58bdf9d7e3b35d075d734ee482282">CalculateStreamOffset</a> ()</td></tr>
+<tr class="memitem:af3a58bdf9d7e3b35d075d734ee482282" id="r_af3a58bdf9d7e3b35d075d734ee482282"><td class="memItemLeft">size_t&#160;</td><td class="memItemRight"><a class="el" href="#af3a58bdf9d7e3b35d075d734ee482282">CalculateStreamOffset</a> ()</td></tr>
 <tr class="memdesc:af3a58bdf9d7e3b35d075d734ee482282"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate stream offset.  <br /></td></tr>
-<tr class="separator:af3a58bdf9d7e3b35d075d734ee482282"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2938a5d492bdbf168ca96edf4d21b7f" id="r_ad2938a5d492bdbf168ca96edf4d21b7f"><td class="memItemLeft" align="right" valign="top">wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad2938a5d492bdbf168ca96edf4d21b7f">GetDocumentId</a> () const</td></tr>
+<tr class="memitem:ad2938a5d492bdbf168ca96edf4d21b7f" id="r_ad2938a5d492bdbf168ca96edf4d21b7f"><td class="memItemLeft">wxString&#160;</td><td class="memItemRight"><a class="el" href="#ad2938a5d492bdbf168ca96edf4d21b7f">GetDocumentId</a> () const</td></tr>
 <tr class="memdesc:ad2938a5d492bdbf168ca96edf4d21b7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get document id.  <br /></td></tr>
-<tr class="separator:ad2938a5d492bdbf168ca96edf4d21b7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad6f24bfc4d0d61526dceb846d482f5a3" id="r_ad6f24bfc4d0d61526dceb846d482f5a3"><td class="memItemLeft" align="right" valign="top">static wxString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6f24bfc4d0d61526dceb846d482f5a3">CreateDocumentId</a> ()</td></tr>
+<tr class="memitem:ad6f24bfc4d0d61526dceb846d482f5a3" id="r_ad6f24bfc4d0d61526dceb846d482f5a3"><td class="memItemLeft">static wxString&#160;</td><td class="memItemRight"><a class="el" href="#ad6f24bfc4d0d61526dceb846d482f5a3">CreateDocumentId</a> ()</td></tr>
 <tr class="memdesc:ad6f24bfc4d0d61526dceb846d482f5a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create document id.  <br /></td></tr>
-<tr class="separator:ad6f24bfc4d0d61526dceb846d482f5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a80fcdb2671b39d8af8991af425be6cdb" id="r_a80fcdb2671b39d8af8991af425be6cdb"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80fcdb2671b39d8af8991af425be6cdb">PadPassword</a> (const wxString &amp;password)</td></tr>
+<tr class="memitem:a80fcdb2671b39d8af8991af425be6cdb" id="r_a80fcdb2671b39d8af8991af425be6cdb"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a80fcdb2671b39d8af8991af425be6cdb">PadPassword</a> (const wxString &amp;password)</td></tr>
 <tr class="memdesc:a80fcdb2671b39d8af8991af425be6cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pad a password to 32 characters.  <br /></td></tr>
-<tr class="separator:a80fcdb2671b39d8af8991af425be6cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ac7859dd63391bd49a4224f92acd441" id="r_a3ac7859dd63391bd49a4224f92acd441"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ac7859dd63391bd49a4224f92acd441">ComputeOwnerKey</a> (const std::string &amp;userPad, const std::string &amp;ownerPad, unsigned int keylength, int revision, bool authenticate)</td></tr>
+<tr class="memitem:a3ac7859dd63391bd49a4224f92acd441" id="r_a3ac7859dd63391bd49a4224f92acd441"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a3ac7859dd63391bd49a4224f92acd441">ComputeOwnerKey</a> (const std::string &amp;userPad, const std::string &amp;ownerPad, unsigned int keylength, int revision, bool authenticate)</td></tr>
 <tr class="memdesc:a3ac7859dd63391bd49a4224f92acd441"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute owner key.  <br /></td></tr>
-<tr class="separator:a3ac7859dd63391bd49a4224f92acd441"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78b0963b754b6a14b4c7c5e091709b24" id="r_a78b0963b754b6a14b4c7c5e091709b24"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a78b0963b754b6a14b4c7c5e091709b24">ComputeEncryptionKey</a> (const wxString &amp;documentID, const std::string &amp;userPad, const std::string &amp;ownerKey, int pValue, unsigned int keyLength, int revision)</td></tr>
+<tr class="memitem:a78b0963b754b6a14b4c7c5e091709b24" id="r_a78b0963b754b6a14b4c7c5e091709b24"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a78b0963b754b6a14b4c7c5e091709b24">ComputeEncryptionKey</a> (const wxString &amp;documentID, const std::string &amp;userPad, const std::string &amp;ownerKey, int pValue, unsigned int keyLength, int revision)</td></tr>
 <tr class="memdesc:a78b0963b754b6a14b4c7c5e091709b24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute encryption key and user key.  <br /></td></tr>
-<tr class="separator:a78b0963b754b6a14b4c7c5e091709b24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae89a421c253911dae16e7178955018c" id="r_aae89a421c253911dae16e7178955018c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae89a421c253911dae16e7178955018c">CheckKey</a> (const std::string &amp;key1, const std::string &amp;key2)</td></tr>
+<tr class="memitem:aae89a421c253911dae16e7178955018c" id="r_aae89a421c253911dae16e7178955018c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aae89a421c253911dae16e7178955018c">CheckKey</a> (const std::string &amp;key1, const std::string &amp;key2)</td></tr>
 <tr class="memdesc:aae89a421c253911dae16e7178955018c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check two keys for equality.  <br /></td></tr>
-<tr class="separator:aae89a421c253911dae16e7178955018c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d97790079752ebb54ac8c613169bc62" id="r_a3d97790079752ebb54ac8c613169bc62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d97790079752ebb54ac8c613169bc62">RC4</a> (unsigned char *key, unsigned int keylen, const unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
+<tr class="memitem:a3d97790079752ebb54ac8c613169bc62" id="r_a3d97790079752ebb54ac8c613169bc62"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3d97790079752ebb54ac8c613169bc62">RC4</a> (unsigned char *key, unsigned int keylen, const unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
 <tr class="memdesc:a3d97790079752ebb54ac8c613169bc62"><td class="mdescLeft">&#160;</td><td class="mdescRight">RC4 encryption.  <br /></td></tr>
-<tr class="separator:a3d97790079752ebb54ac8c613169bc62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae24b8e48d4cabe20110e2b620567c5bc" id="r_ae24b8e48d4cabe20110e2b620567c5bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae24b8e48d4cabe20110e2b620567c5bc">AESEncrypt</a> (unsigned char *key, unsigned int keylen, unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
+<tr class="memitem:ae24b8e48d4cabe20110e2b620567c5bc" id="r_ae24b8e48d4cabe20110e2b620567c5bc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae24b8e48d4cabe20110e2b620567c5bc">AESEncrypt</a> (unsigned char *key, unsigned int keylen, unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
 <tr class="memdesc:ae24b8e48d4cabe20110e2b620567c5bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">AES-128 encryption.  <br /></td></tr>
-<tr class="separator:ae24b8e48d4cabe20110e2b620567c5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10f3b7eaeafa013447a346978d841211" id="r_a10f3b7eaeafa013447a346978d841211"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10f3b7eaeafa013447a346978d841211">AESDecrypt</a> (unsigned char *key, unsigned int keylen, unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
+<tr class="memitem:a10f3b7eaeafa013447a346978d841211" id="r_a10f3b7eaeafa013447a346978d841211"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a10f3b7eaeafa013447a346978d841211">AESDecrypt</a> (unsigned char *key, unsigned int keylen, unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
 <tr class="memdesc:a10f3b7eaeafa013447a346978d841211"><td class="mdescLeft">&#160;</td><td class="mdescRight">AES-128 decryption.  <br /></td></tr>
-<tr class="separator:a10f3b7eaeafa013447a346978d841211"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6e8a8a0ab9950574971763d8ac7e72f" id="r_ae6e8a8a0ab9950574971763d8ac7e72f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6e8a8a0ab9950574971763d8ac7e72f">AESV3Encrypt</a> (const unsigned char *key, unsigned int keylen, const unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
+<tr class="memitem:ae6e8a8a0ab9950574971763d8ac7e72f" id="r_ae6e8a8a0ab9950574971763d8ac7e72f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae6e8a8a0ab9950574971763d8ac7e72f">AESV3Encrypt</a> (const unsigned char *key, unsigned int keylen, const unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
 <tr class="memdesc:ae6e8a8a0ab9950574971763d8ac7e72f"><td class="mdescLeft">&#160;</td><td class="mdescRight">AES-256 encryption.  <br /></td></tr>
-<tr class="separator:ae6e8a8a0ab9950574971763d8ac7e72f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac70c9089f37a26f956c5994a0536b36e" id="r_ac70c9089f37a26f956c5994a0536b36e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac70c9089f37a26f956c5994a0536b36e">AESV3Decrypt</a> (const unsigned char *key, unsigned int keylen, unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
+<tr class="memitem:ac70c9089f37a26f956c5994a0536b36e" id="r_ac70c9089f37a26f956c5994a0536b36e"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ac70c9089f37a26f956c5994a0536b36e">AESV3Decrypt</a> (const unsigned char *key, unsigned int keylen, unsigned char *textin, unsigned int textlen, unsigned char *textout)</td></tr>
 <tr class="memdesc:ac70c9089f37a26f956c5994a0536b36e"><td class="mdescLeft">&#160;</td><td class="mdescRight">AES-256 decryption.  <br /></td></tr>
-<tr class="separator:ac70c9089f37a26f956c5994a0536b36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-pro-static-methods" class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
-<tr class="memitem:a9b99925f99f718ed82357477b77cef54" id="r_a9b99925f99f718ed82357477b77cef54"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b99925f99f718ed82357477b77cef54">GetMD5Binary</a> (const unsigned char *data, unsigned int length, unsigned char *digest)</td></tr>
+<tr class="memitem:a9b99925f99f718ed82357477b77cef54" id="r_a9b99925f99f718ed82357477b77cef54"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#a9b99925f99f718ed82357477b77cef54">GetMD5Binary</a> (const unsigned char *data, unsigned int length, unsigned char *digest)</td></tr>
 <tr class="memdesc:a9b99925f99f718ed82357477b77cef54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the binary MD5 message digest of the given data.  <br /></td></tr>
-<tr class="separator:a9b99925f99f718ed82357477b77cef54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4357e076b8f1337e243d7b3dd922d17" id="r_af4357e076b8f1337e243d7b3dd922d17"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4357e076b8f1337e243d7b3dd922d17">GenerateInitialVector</a> (unsigned char iv[16])</td></tr>
+<tr class="memitem:af4357e076b8f1337e243d7b3dd922d17" id="r_af4357e076b8f1337e243d7b3dd922d17"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#af4357e076b8f1337e243d7b3dd922d17">GenerateInitialVector</a> (unsigned char iv[16])</td></tr>
 <tr class="memdesc:af4357e076b8f1337e243d7b3dd922d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate initial vector.  <br /></td></tr>
-<tr class="separator:af4357e076b8f1337e243d7b3dd922d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing PDF encryption methods. (For internal use only) </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa101b9cf1c682935196e459fc7e342b6" name="aa101b9cf1c682935196e459fc7e342b6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa101b9cf1c682935196e459fc7e342b6">&#9670;&#160;</a></span>wxPdfEncrypt()</h2>
 
@@ -237,7 +298,7 @@ Static Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a10f3b7eaeafa013447a346978d841211" name="a10f3b7eaeafa013447a346978d841211"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a10f3b7eaeafa013447a346978d841211">&#9670;&#160;</a></span>AESDecrypt()</h2>
 
@@ -503,7 +564,7 @@ Static Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>TRUE if the document could be authenticated successfully, FALSE otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the document could be authenticated successfully, <code>false</code> otherwise </dd></dl>
 
 </div>
 </div>
@@ -691,7 +752,7 @@ Static Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static wxString wxPdfEncrypt::CreateDocumentId </td>
+          <td class="memname">wxString wxPdfEncrypt::CreateDocumentId </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -917,7 +978,7 @@ Static Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void wxPdfEncrypt::GenerateInitialVector </td>
+          <td class="memname">void wxPdfEncrypt::GenerateInitialVector </td>
           <td>(</td>
           <td class="paramtype">unsigned char</td>          <td class="paramname"><span class="paramname"><em>iv</em></span>[16]</td><td>)</td>
           <td></td>
@@ -1000,7 +1061,7 @@ Static Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void wxPdfEncrypt::GetMD5Binary </td>
+          <td class="memname">void wxPdfEncrypt::GetMD5Binary </td>
           <td>(</td>
           <td class="paramtype">const unsigned char *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
         </tr>
@@ -1049,7 +1110,7 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the OE object value (owner) </p>
+<p>Get the OE object value (owner). </p>
 <dl class="section return"><dt>Returns</dt><dd>The owner encryption key verification value </dd></dl>
 
 </div>
@@ -1077,7 +1138,7 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the O object value (owner) </p>
+<p>Get the O object value (owner). </p>
 <dl class="section return"><dt>Returns</dt><dd>The owner verification value </dd></dl>
 
 </div>
@@ -1105,7 +1166,7 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the Perms object value (protection) </p>
+<p>Get the Perms object value (protection). </p>
 <dl class="section return"><dt>Returns</dt><dd>The permissions verification value </dd></dl>
 
 </div>
@@ -1133,7 +1194,7 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the P object value (protection) </p>
+<p>Get the P object value (protection). </p>
 <dl class="section return"><dt>Returns</dt><dd>The protection flags </dd></dl>
 
 </div>
@@ -1189,7 +1250,7 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the UE object value (user) </p>
+<p>Get the UE object value (user). </p>
 <dl class="section return"><dt>Returns</dt><dd>The user encryption key verification value </dd></dl>
 
 </div>
@@ -1217,7 +1278,7 @@ Static Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the U object value (user) </p>
+<p>Get the U object value (user). </p>
 <dl class="section return"><dt>Returns</dt><dd>The user verification value </dd></dl>
 
 </div>
@@ -1271,7 +1332,7 @@ Static Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>TRUE if the password is valid, FALSE otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if the password is valid, <code>false</code> otherwise </dd></dl>
 
 </div>
 </div>
@@ -1322,13 +1383,24 @@ Static Protected Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="pdfencrypt_8h.html">pdfencrypt.h</a></li>
+<li>E:/github/wxpdfdoc-current/include/wx/<a class="el" href="pdfencrypt_8h.html">pdfencrypt.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="classwx_pdf_encrypt.html">wxPdfEncrypt</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

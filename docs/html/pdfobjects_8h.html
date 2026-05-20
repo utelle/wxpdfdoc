@@ -1,153 +1,223 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>wxPdfDocument: pdfobjects.h File Reference</title>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>wxPdfDocument: E:/github/wxpdfdoc-current/include/wx/pdfobjects.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_dc6a119311012aa343ae6129826ee2ed.html">wx</a></li>  </ul>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
 </div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('pdfobjects_8h.html','',''); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pdfobjects.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Interfaces of the <a class="el" href="classwx_pdf_object.html" title="Class representing a base PDF object. (For internal use only)">wxPdfObject</a> classes.  
+<p>Interfaces of the <a class="el" href="classwx_pdf_object.html" title="Class representing a base PDF object. (For internal use only).">wxPdfObject</a> classes.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;wx/dynarray.h&gt;</code><br />
 <code>#include &lt;wx/mstream.h&gt;</code><br />
 <code>#include &lt;wx/string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="pdfdocdef_8h.html">wx/pdfdocdef.h</a>&quot;</code><br />
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_object.html">wxPdfObject</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a base PDF object. (For internal use only)  <a href="classwx_pdf_object.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_null.html">wxPdfNull</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a null object. (For internal use only)  <a href="classwx_pdf_null.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_indirect_reference.html">wxPdfIndirectReference</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing an indirect reference object. (For internal use only)  <a href="classwx_pdf_indirect_reference.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_literal.html">wxPdfLiteral</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a literal object. (For internal use only)  <a href="classwx_pdf_literal.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_boolean.html">wxPdfBoolean</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a boolean object. (For internal use only)  <a href="classwx_pdf_boolean.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_string.html">wxPdfString</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a normal string object. (For internal use only)  <a href="classwx_pdf_string.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_number.html">wxPdfNumber</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a numeric object. (For internal use only)  <a href="classwx_pdf_number.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_name.html">wxPdfName</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a name object. (For internal use only)  <a href="classwx_pdf_name.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_array.html">wxPdfArray</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing an array object. (For internal use only)  <a href="classwx_pdf_array.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_dictionary.html">wxPdfDictionary</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a dictionary object. (For internal use only)  <a href="classwx_pdf_dictionary.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_stream.html">wxPdfStream</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a stream object. (For internal use only)  <a href="classwx_pdf_stream.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_object_queue.html">wxPdfObjectQueue</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a queue of objects. (For internal use only)  <a href="classwx_pdf_object_queue.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:wxPdfObject" id="r_wxPdfObject"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_object.html">wxPdfObject</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a base PDF object. (For internal use only).  <a href="classwx_pdf_object.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfNull" id="r_wxPdfNull"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_null.html">wxPdfNull</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a null object. (For internal use only).  <a href="classwx_pdf_null.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfIndirectReference" id="r_wxPdfIndirectReference"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_indirect_reference.html">wxPdfIndirectReference</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing an indirect reference object. (For internal use only).  <a href="classwx_pdf_indirect_reference.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfLiteral" id="r_wxPdfLiteral"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_literal.html">wxPdfLiteral</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a literal object. (For internal use only).  <a href="classwx_pdf_literal.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfBoolean" id="r_wxPdfBoolean"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_boolean.html">wxPdfBoolean</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a boolean object. (For internal use only).  <a href="classwx_pdf_boolean.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfString" id="r_wxPdfString"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_string.html">wxPdfString</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a normal string object. (For internal use only).  <a href="classwx_pdf_string.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfNumber" id="r_wxPdfNumber"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_number.html">wxPdfNumber</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a numeric object. (For internal use only).  <a href="classwx_pdf_number.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfName" id="r_wxPdfName"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_name.html">wxPdfName</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a name object. (For internal use only).  <a href="classwx_pdf_name.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfArray" id="r_wxPdfArray"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_array.html">wxPdfArray</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing an array object. (For internal use only).  <a href="classwx_pdf_array.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfDictionary" id="r_wxPdfDictionary"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_dictionary.html">wxPdfDictionary</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a dictionary object. (For internal use only).  <a href="classwx_pdf_dictionary.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfStream" id="r_wxPdfStream"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_stream.html">wxPdfStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a stream object. (For internal use only).  <a href="classwx_pdf_stream.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfObjectQueue" id="r_wxPdfObjectQueue"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_object_queue.html">wxPdfObjectQueue</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing a queue of objects. (For internal use only).  <a href="classwx_pdf_object_queue.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a00b29dd227155e3edc73dbdfebf60102" id="r_a00b29dd227155e3edc73dbdfebf60102"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00b29dd227155e3edc73dbdfebf60102">OBJTYPE_NULL</a>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a00b29dd227155e3edc73dbdfebf60102"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e077cf7877719c9fb9022a82590273c" id="r_a6e077cf7877719c9fb9022a82590273c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e077cf7877719c9fb9022a82590273c">OBJTYPE_BOOLEAN</a>&#160;&#160;&#160;2</td></tr>
-<tr class="separator:a6e077cf7877719c9fb9022a82590273c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6982086077d3ca4edfa6df7f50d6394" id="r_ad6982086077d3ca4edfa6df7f50d6394"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6982086077d3ca4edfa6df7f50d6394">OBJTYPE_NUMBER</a>&#160;&#160;&#160;3</td></tr>
-<tr class="separator:ad6982086077d3ca4edfa6df7f50d6394"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a244d12086335ff425944d84d937ba0f2" id="r_a244d12086335ff425944d84d937ba0f2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a244d12086335ff425944d84d937ba0f2">OBJTYPE_STRING</a>&#160;&#160;&#160;4</td></tr>
-<tr class="separator:a244d12086335ff425944d84d937ba0f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5d04bc6b40d630037f5b3d29d03011f" id="r_ae5d04bc6b40d630037f5b3d29d03011f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5d04bc6b40d630037f5b3d29d03011f">OBJTYPE_NAME</a>&#160;&#160;&#160;5</td></tr>
-<tr class="separator:ae5d04bc6b40d630037f5b3d29d03011f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92f1ca05722c3e4a981429c7195d911c" id="r_a92f1ca05722c3e4a981429c7195d911c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92f1ca05722c3e4a981429c7195d911c">OBJTYPE_ARRAY</a>&#160;&#160;&#160;6</td></tr>
-<tr class="separator:a92f1ca05722c3e4a981429c7195d911c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64d4ed9bbab3adcb5086d6777ba53c49" id="r_a64d4ed9bbab3adcb5086d6777ba53c49"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64d4ed9bbab3adcb5086d6777ba53c49">OBJTYPE_DICTIONARY</a>&#160;&#160;&#160;7</td></tr>
-<tr class="separator:a64d4ed9bbab3adcb5086d6777ba53c49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22bda9ce83d33d4536429f1072bd34ea" id="r_a22bda9ce83d33d4536429f1072bd34ea"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22bda9ce83d33d4536429f1072bd34ea">OBJTYPE_STREAM</a>&#160;&#160;&#160;8</td></tr>
-<tr class="separator:a22bda9ce83d33d4536429f1072bd34ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae71f422dd902649a85f2df57c78bbe0b" id="r_ae71f422dd902649a85f2df57c78bbe0b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae71f422dd902649a85f2df57c78bbe0b">OBJTYPE_INDIRECT</a>&#160;&#160;&#160;9</td></tr>
-<tr class="separator:ae71f422dd902649a85f2df57c78bbe0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00b29dd227155e3edc73dbdfebf60102" id="r_a00b29dd227155e3edc73dbdfebf60102"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a00b29dd227155e3edc73dbdfebf60102">OBJTYPE_NULL</a>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:a6e077cf7877719c9fb9022a82590273c" id="r_a6e077cf7877719c9fb9022a82590273c"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a6e077cf7877719c9fb9022a82590273c">OBJTYPE_BOOLEAN</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memitem:ad6982086077d3ca4edfa6df7f50d6394" id="r_ad6982086077d3ca4edfa6df7f50d6394"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ad6982086077d3ca4edfa6df7f50d6394">OBJTYPE_NUMBER</a>&#160;&#160;&#160;3</td></tr>
+<tr class="memitem:a244d12086335ff425944d84d937ba0f2" id="r_a244d12086335ff425944d84d937ba0f2"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a244d12086335ff425944d84d937ba0f2">OBJTYPE_STRING</a>&#160;&#160;&#160;4</td></tr>
+<tr class="memitem:ae5d04bc6b40d630037f5b3d29d03011f" id="r_ae5d04bc6b40d630037f5b3d29d03011f"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ae5d04bc6b40d630037f5b3d29d03011f">OBJTYPE_NAME</a>&#160;&#160;&#160;5</td></tr>
+<tr class="memitem:a92f1ca05722c3e4a981429c7195d911c" id="r_a92f1ca05722c3e4a981429c7195d911c"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a92f1ca05722c3e4a981429c7195d911c">OBJTYPE_ARRAY</a>&#160;&#160;&#160;6</td></tr>
+<tr class="memitem:a64d4ed9bbab3adcb5086d6777ba53c49" id="r_a64d4ed9bbab3adcb5086d6777ba53c49"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a64d4ed9bbab3adcb5086d6777ba53c49">OBJTYPE_DICTIONARY</a>&#160;&#160;&#160;7</td></tr>
+<tr class="memitem:a22bda9ce83d33d4536429f1072bd34ea" id="r_a22bda9ce83d33d4536429f1072bd34ea"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#a22bda9ce83d33d4536429f1072bd34ea">OBJTYPE_STREAM</a>&#160;&#160;&#160;8</td></tr>
+<tr class="memitem:ae71f422dd902649a85f2df57c78bbe0b" id="r_ae71f422dd902649a85f2df57c78bbe0b"><td class="memItemLeft">#define&#160;</td><td class="memItemRight"><a class="el" href="#ae71f422dd902649a85f2df57c78bbe0b">OBJTYPE_INDIRECT</a>&#160;&#160;&#160;9</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ac681d61afa446ddcc8f0852e40ffe3d1" id="r_ac681d61afa446ddcc8f0852e40ffe3d1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac681d61afa446ddcc8f0852e40ffe3d1">WX_DECLARE_STRING_HASH_MAP_WITH_DECL</a> (<a class="el" href="classwx_pdf_object.html">wxPdfObject</a> *, wxPdfDictionaryMap, class <a class="el" href="pdfdocdef_8h.html#add0a8f8cd7f3ec1e47c4a1425a4d9f5d">WXDLLIMPEXP_PDFDOC</a>)</td></tr>
-<tr class="memdesc:ac681d61afa446ddcc8f0852e40ffe3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash map class for dictionaries. (For internal use only)  <br /></td></tr>
-<tr class="separator:ac681d61afa446ddcc8f0852e40ffe3d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0159a63ea5de2ad893bc5406c4bb0e91" id="r_a0159a63ea5de2ad893bc5406c4bb0e91"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0159a63ea5de2ad893bc5406c4bb0e91">WX_DECLARE_HASH_MAP_WITH_DECL</a> (long, <a class="el" href="classwx_pdf_object_queue.html">wxPdfObjectQueue</a> *, wxIntegerHash, wxIntegerEqual, wxPdfObjectMap, class <a class="el" href="pdfdocdef_8h.html#add0a8f8cd7f3ec1e47c4a1425a4d9f5d">WXDLLIMPEXP_PDFDOC</a>)</td></tr>
-<tr class="memdesc:a0159a63ea5de2ad893bc5406c4bb0e91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashmap class for object queue entries (For internal use only)  <br /></td></tr>
-<tr class="separator:a0159a63ea5de2ad893bc5406c4bb0e91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa08b0f046ea0781462a8399f6f610ca" id="r_afa08b0f046ea0781462a8399f6f610ca"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa08b0f046ea0781462a8399f6f610ca">WX_DECLARE_HASH_MAP_WITH_DECL</a> (long, <a class="el" href="classwx_pdf_object.html">wxPdfObject</a> *, wxIntegerHash, wxIntegerEqual, wxPdfObjStmMap, class <a class="el" href="pdfdocdef_8h.html#add0a8f8cd7f3ec1e47c4a1425a4d9f5d">WXDLLIMPEXP_PDFDOC</a>)</td></tr>
-<tr class="memdesc:afa08b0f046ea0781462a8399f6f610ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashmap class for object queue entries (For internal use only)  <br /></td></tr>
-<tr class="separator:afa08b0f046ea0781462a8399f6f610ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac681d61afa446ddcc8f0852e40ffe3d1" id="r_ac681d61afa446ddcc8f0852e40ffe3d1"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac681d61afa446ddcc8f0852e40ffe3d1">WX_DECLARE_STRING_HASH_MAP_WITH_DECL</a> (<a class="el" href="classwx_pdf_object.html">wxPdfObject</a> *, wxPdfDictionaryMap, class <a class="el" href="pdfdocdef_8h.html#add0a8f8cd7f3ec1e47c4a1425a4d9f5d">WXDLLIMPEXP_PDFDOC</a>)</td></tr>
+<tr class="memdesc:ac681d61afa446ddcc8f0852e40ffe3d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash map class for dictionaries. (For internal use only).  <br /></td></tr>
+<tr class="memitem:a0159a63ea5de2ad893bc5406c4bb0e91" id="r_a0159a63ea5de2ad893bc5406c4bb0e91"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0159a63ea5de2ad893bc5406c4bb0e91">WX_DECLARE_HASH_MAP_WITH_DECL</a> (long, <a class="el" href="classwx_pdf_object_queue.html">wxPdfObjectQueue</a> *, wxIntegerHash, wxIntegerEqual, wxPdfObjectMap, class <a class="el" href="pdfdocdef_8h.html#add0a8f8cd7f3ec1e47c4a1425a4d9f5d">WXDLLIMPEXP_PDFDOC</a>)</td></tr>
+<tr class="memdesc:a0159a63ea5de2ad893bc5406c4bb0e91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashmap class for object queue entries (For internal use only).  <br /></td></tr>
+<tr class="memitem:afa08b0f046ea0781462a8399f6f610ca" id="r_afa08b0f046ea0781462a8399f6f610ca"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#afa08b0f046ea0781462a8399f6f610ca">WX_DECLARE_HASH_MAP_WITH_DECL</a> (long, <a class="el" href="classwx_pdf_object.html">wxPdfObject</a> *, wxIntegerHash, wxIntegerEqual, wxPdfObjStmMap, class <a class="el" href="pdfdocdef_8h.html#add0a8f8cd7f3ec1e47c4a1425a4d9f5d">WXDLLIMPEXP_PDFDOC</a>)</td></tr>
+<tr class="memdesc:afa08b0f046ea0781462a8399f6f610ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hashmap class for object queue entries (For internal use only).  <br /></td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Interfaces of the <a class="el" href="classwx_pdf_object.html" title="Class representing a base PDF object. (For internal use only)">wxPdfObject</a> classes. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Interfaces of the <a class="el" href="classwx_pdf_object.html" title="Class representing a base PDF object. (For internal use only).">wxPdfObject</a> classes. </p>
+</div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
 <a id="a92f1ca05722c3e4a981429c7195d911c" name="a92f1ca05722c3e4a981429c7195d911c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a92f1ca05722c3e4a981429c7195d911c">&#9670;&#160;</a></span>OBJTYPE_ARRAY</h2>
 
@@ -274,7 +344,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="afa08b0f046ea0781462a8399f6f610ca" name="afa08b0f046ea0781462a8399f6f610ca"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afa08b0f046ea0781462a8399f6f610ca">&#9670;&#160;</a></span>WX_DECLARE_HASH_MAP_WITH_DECL() <span class="overload">[1/2]</span></h2>
 
@@ -314,7 +384,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Hashmap class for object queue entries (For internal use only) </p>
+<p>Hashmap class for object queue entries (For internal use only). </p>
 
 </div>
 </div>
@@ -357,7 +427,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Hashmap class for object queue entries (For internal use only) </p>
+<p>Hashmap class for object queue entries (For internal use only). </p>
 
 </div>
 </div>
@@ -385,15 +455,26 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Hash map class for dictionaries. (For internal use only) </p>
+<p>Hash map class for dictionaries. (For internal use only). </p>
 
 </div>
 </div>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_dc6a119311012aa343ae6129826ee2ed.html">wx</a></li><li class="navelem"><a href="pdfobjects_8h.html">pdfobjects.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

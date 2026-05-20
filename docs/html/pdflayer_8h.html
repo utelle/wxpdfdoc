@@ -1,68 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>wxPdfDocument: pdflayer.h File Reference</title>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>wxPdfDocument: E:/github/wxpdfdoc-current/include/wx/pdflayer.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_dc6a119311012aa343ae6129826ee2ed.html">wx</a></li>  </ul>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
 </div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('pdflayer_8h.html','',''); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">pdflayer.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -73,60 +166,48 @@ $(function(){ initResizable(false); });
 <code>#include &lt;wx/string.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="pdfdocdef_8h.html">wx/pdfdocdef.h</a>&quot;</code><br />
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_ocg.html">wxPdfOcg</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for Optional Content Groups (OCG). (For internal use only)  <a href="classwx_pdf_ocg.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_layer.html">wxPdfLayer</a></td></tr>
+<tr class="memitem:wxPdfOcg" id="r_wxPdfOcg"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_ocg.html">wxPdfOcg</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for Optional Content Groups (OCG). (For internal use only).  <a href="classwx_pdf_ocg.html#details">More...</a><br /></td></tr>
+<tr class="memitem:wxPdfLayer" id="r_wxPdfLayer"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_layer.html">wxPdfLayer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for a layer with optional content.  <a href="classwx_pdf_layer.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_layer_membership.html">wxPdfLayerMembership</a></td></tr>
+<tr class="memitem:wxPdfLayerMembership" id="r_wxPdfLayerMembership"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_layer_membership.html">wxPdfLayerMembership</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for a layer with optional content.  <a href="classwx_pdf_layer_membership.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_layer_group.html">wxPdfLayerGroup</a></td></tr>
+<tr class="memitem:wxPdfLayerGroup" id="r_wxPdfLayerGroup"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_layer_group.html">wxPdfLayerGroup</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for a group of layers with optional content.  <a href="classwx_pdf_layer_group.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ac83a347c64d9fea0bfdeff9664de369d" id="r_ac83a347c64d9fea0bfdeff9664de369d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac83a347c64d9fea0bfdeff9664de369d">wxPdfOcgType</a> { <a class="el" href="#ac83a347c64d9fea0bfdeff9664de369dab154403d173b3082255651bfc513b8cf">wxPDF_OCG_TYPE_UNKNOWN</a>
+<tr class="memitem:ac83a347c64d9fea0bfdeff9664de369d" id="r_ac83a347c64d9fea0bfdeff9664de369d"><td class="memItemLeft">enum &#160;</td><td class="memItemRight"><a class="el" href="#ac83a347c64d9fea0bfdeff9664de369d">wxPdfOcgType</a> { <a class="el" href="#ac83a347c64d9fea0bfdeff9664de369dab154403d173b3082255651bfc513b8cf">wxPDF_OCG_TYPE_UNKNOWN</a>
 , <a class="el" href="#ac83a347c64d9fea0bfdeff9664de369da1d4df518b21a560a418e7823fc824f47">wxPDF_OCG_TYPE_LAYER</a>
 , <a class="el" href="#ac83a347c64d9fea0bfdeff9664de369da40015b207bc8cd92ff58bfeb8b65469d">wxPDF_OCG_TYPE_TITLE</a>
 , <a class="el" href="#ac83a347c64d9fea0bfdeff9664de369da852150a4842b26f5c99c17b63150899e">wxPDF_OCG_TYPE_MEMBERSHIP</a>
  }</td></tr>
 <tr class="memdesc:ac83a347c64d9fea0bfdeff9664de369d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional content group types.  <a href="#ac83a347c64d9fea0bfdeff9664de369d">More...</a><br /></td></tr>
-<tr class="separator:ac83a347c64d9fea0bfdeff9664de369d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a956698e222dbe334130df57faa0ad747" id="r_a956698e222dbe334130df57faa0ad747"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a956698e222dbe334130df57faa0ad747">wxPdfOcgPolicy</a> { <a class="el" href="#a956698e222dbe334130df57faa0ad747a5077e501faeefae6bd95fb030f3d3cf0">wxPDF_OCG_POLICY_ALLON</a>
+<tr class="memitem:a956698e222dbe334130df57faa0ad747" id="r_a956698e222dbe334130df57faa0ad747"><td class="memItemLeft">enum &#160;</td><td class="memItemRight"><a class="el" href="#a956698e222dbe334130df57faa0ad747">wxPdfOcgPolicy</a> { <a class="el" href="#a956698e222dbe334130df57faa0ad747a5077e501faeefae6bd95fb030f3d3cf0">wxPDF_OCG_POLICY_ALLON</a>
 , <a class="el" href="#a956698e222dbe334130df57faa0ad747a73bed0449592afde0b7342c78efe994e">wxPDF_OCG_POLICY_ANYON</a>
 , <a class="el" href="#a956698e222dbe334130df57faa0ad747a1b712f2400f3eca83916d1c5c341e795">wxPDF_OCG_POLICY_ANYOFF</a>
 , <a class="el" href="#a956698e222dbe334130df57faa0ad747ab12379ced96d390f2cf55da211c81bbc">wxPDF_OCG_POLICY_ALLOFF</a>
  }</td></tr>
 <tr class="memdesc:a956698e222dbe334130df57faa0ad747"><td class="mdescLeft">&#160;</td><td class="mdescRight">OCG visibility policy.  <a href="#a956698e222dbe334130df57faa0ad747">More...</a><br /></td></tr>
-<tr class="separator:a956698e222dbe334130df57faa0ad747"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a483cdd72cf0bf1fe0e00327b915f3421" id="r_a483cdd72cf0bf1fe0e00327b915f3421"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a483cdd72cf0bf1fe0e00327b915f3421">WX_DEFINE_USER_EXPORTED_ARRAY_PTR</a> (<a class="el" href="classwx_pdf_layer.html">wxPdfLayer</a> *, <a class="el" href="pdfdocument_8h.html#a5e59cb6dd5c4452c719c4abcffc6edc5">wxPdfArrayLayer</a>, class <a class="el" href="pdfdocdef_8h.html#add0a8f8cd7f3ec1e47c4a1425a4d9f5d">WXDLLIMPEXP_PDFDOC</a>)</td></tr>
-<tr class="separator:a483cdd72cf0bf1fe0e00327b915f3421"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a483cdd72cf0bf1fe0e00327b915f3421" id="r_a483cdd72cf0bf1fe0e00327b915f3421"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a483cdd72cf0bf1fe0e00327b915f3421">WX_DEFINE_USER_EXPORTED_ARRAY_PTR</a> (<a class="el" href="classwx_pdf_layer.html">wxPdfLayer</a> *, <a class="el" href="pdfdocument_8h.html#a5e59cb6dd5c4452c719c4abcffc6edc5">wxPdfArrayLayer</a>, class <a class="el" href="pdfdocdef_8h.html#add0a8f8cd7f3ec1e47c4a1425a4d9f5d">WXDLLIMPEXP_PDFDOC</a>)</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:abf51d1518ea9b27dae8fd1a45cfa6086" id="r_abf51d1518ea9b27dae8fd1a45cfa6086"><td class="memItemLeft" align="right" valign="top">class <a class="el" href="pdfdocdef_8h.html#aaec25ba37afc59e723fef588ef616eba">WXDLLIMPEXP_FWD_PDFDOC</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf51d1518ea9b27dae8fd1a45cfa6086">wxPdfDictionary</a></td></tr>
-<tr class="separator:abf51d1518ea9b27dae8fd1a45cfa6086"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af385cb8ce4f6823cc42c605111b0824e" id="r_af385cb8ce4f6823cc42c605111b0824e"><td class="memItemLeft" align="right" valign="top">class <a class="el" href="pdfdocdef_8h.html#aaec25ba37afc59e723fef588ef616eba">WXDLLIMPEXP_FWD_PDFDOC</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af385cb8ce4f6823cc42c605111b0824e">wxPdfLayer</a></td></tr>
-<tr class="separator:af385cb8ce4f6823cc42c605111b0824e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7f99aec7fe51f581b53dfbd84548782" id="r_ac7f99aec7fe51f581b53dfbd84548782"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7f99aec7fe51f581b53dfbd84548782">wxPDF_OCG_INTENT_DEFAULT</a> = 0</td></tr>
+<tr class="memitem:abf51d1518ea9b27dae8fd1a45cfa6086" id="r_abf51d1518ea9b27dae8fd1a45cfa6086"><td class="memItemLeft">class <a class="el" href="pdfdocdef_8h.html#aaec25ba37afc59e723fef588ef616eba">WXDLLIMPEXP_FWD_PDFDOC</a>&#160;</td><td class="memItemRight"><a class="el" href="#abf51d1518ea9b27dae8fd1a45cfa6086">wxPdfDictionary</a></td></tr>
+<tr class="memitem:af385cb8ce4f6823cc42c605111b0824e" id="r_af385cb8ce4f6823cc42c605111b0824e"><td class="memItemLeft">class <a class="el" href="pdfdocdef_8h.html#aaec25ba37afc59e723fef588ef616eba">WXDLLIMPEXP_FWD_PDFDOC</a>&#160;</td><td class="memItemRight"><a class="el" href="#af385cb8ce4f6823cc42c605111b0824e">wxPdfLayer</a></td></tr>
+<tr class="memitem:ac7f99aec7fe51f581b53dfbd84548782" id="r_ac7f99aec7fe51f581b53dfbd84548782"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#ac7f99aec7fe51f581b53dfbd84548782">wxPDF_OCG_INTENT_DEFAULT</a> = 0</td></tr>
 <tr class="memdesc:ac7f99aec7fe51f581b53dfbd84548782"><td class="mdescLeft">&#160;</td><td class="mdescRight">OCG Intent options.  <br /></td></tr>
-<tr class="separator:ac7f99aec7fe51f581b53dfbd84548782"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a049c6dd62d4ff9810f4c63588d2a9142" id="r_a049c6dd62d4ff9810f4c63588d2a9142"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a049c6dd62d4ff9810f4c63588d2a9142">wxPDF_OCG_INTENT_VIEW</a> = 1</td></tr>
-<tr class="separator:a049c6dd62d4ff9810f4c63588d2a9142"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a38aeb10830894f33704a68e6db171533" id="r_a38aeb10830894f33704a68e6db171533"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38aeb10830894f33704a68e6db171533">wxPDF_OCG_INTENT_DESIGN</a> = 2</td></tr>
-<tr class="separator:a38aeb10830894f33704a68e6db171533"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a049c6dd62d4ff9810f4c63588d2a9142" id="r_a049c6dd62d4ff9810f4c63588d2a9142"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a049c6dd62d4ff9810f4c63588d2a9142">wxPDF_OCG_INTENT_VIEW</a> = 1</td></tr>
+<tr class="memitem:a38aeb10830894f33704a68e6db171533" id="r_a38aeb10830894f33704a68e6db171533"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a38aeb10830894f33704a68e6db171533">wxPDF_OCG_INTENT_DESIGN</a> = 2</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Definition of layer classes. </p>
-</div><h2 class="groupheader">Enumeration Type Documentation</h2>
+</div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
 <a id="a956698e222dbe334130df57faa0ad747" name="a956698e222dbe334130df57faa0ad747"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a956698e222dbe334130df57faa0ad747">&#9670;&#160;</a></span>wxPdfOcgPolicy</h2>
 
@@ -171,7 +252,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a483cdd72cf0bf1fe0e00327b915f3421" name="a483cdd72cf0bf1fe0e00327b915f3421"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a483cdd72cf0bf1fe0e00327b915f3421">&#9670;&#160;</a></span>WX_DEFINE_USER_EXPORTED_ARRAY_PTR()</h2>
 
@@ -198,7 +279,7 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="ac7f99aec7fe51f581b53dfbd84548782" name="ac7f99aec7fe51f581b53dfbd84548782"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac7f99aec7fe51f581b53dfbd84548782">&#9670;&#160;</a></span>wxPDF_OCG_INTENT_DEFAULT</h2>
 
@@ -272,10 +353,21 @@ Variables</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_dc6a119311012aa343ae6129826ee2ed.html">wx</a></li><li class="navelem"><a href="pdflayer_8h.html">pdflayer.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

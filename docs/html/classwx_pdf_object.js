@@ -1,0 +1,28 @@
+var classwx_pdf_object =
+[
+    [ "wxPdfObject", "classwx_pdf_object.html#a19cbdd867587fa6689cf5f18cee53325", null ],
+    [ "~wxPdfObject", "classwx_pdf_object.html#ac1d6bbfce5335a214b2037f2071711a1", null ],
+    [ "CanBeInObjStm", "classwx_pdf_object.html#a2c26850f6e4b17aa3ab8a0e639f767fa", null ],
+    [ "GetActualId", "classwx_pdf_object.html#a68c664c759f44b7794a67694a438dc8e", null ],
+    [ "GetGeneration", "classwx_pdf_object.html#aa347f04c9a5e1d2fd2080cf9af77612a", null ],
+    [ "GetNumber", "classwx_pdf_object.html#aea28794e2fcb61b3969cc9eed113e65d", null ],
+    [ "GetType", "classwx_pdf_object.html#a42be35460b8c33bd1997e367b8785947", null ],
+    [ "IsArray", "classwx_pdf_object.html#adf94f16220f28a4546448bd703d3fd2d", null ],
+    [ "IsBoolean", "classwx_pdf_object.html#ace0c6f1fe7f4d8839bba748d65ff0f4a", null ],
+    [ "IsCreatedIndirect", "classwx_pdf_object.html#a5b0bda4210814e85cf1d3c29e71fdedf", null ],
+    [ "IsDictionary", "classwx_pdf_object.html#a3b006f129c43ca17f96727423ca45dd4", null ],
+    [ "IsIndirect", "classwx_pdf_object.html#ab06c00bec50a69455da70ae54bdca117", null ],
+    [ "IsName", "classwx_pdf_object.html#ac91ae674a9a95a445850e847e882a359", null ],
+    [ "IsNull", "classwx_pdf_object.html#adf21f456c8ff5383da1cf2415bcc2bb9", null ],
+    [ "IsNumber", "classwx_pdf_object.html#aeaaa8f49589c87d42d5e2d2646faa49f", null ],
+    [ "IsStream", "classwx_pdf_object.html#a2b14fb6e9e9843a145e2b0b46405e98c", null ],
+    [ "IsString", "classwx_pdf_object.html#aa3bd0d57f2766a71a5a7231cb63d5064", null ],
+    [ "SetActualId", "classwx_pdf_object.html#a0e7943792f896e86546f6de0f3474268", null ],
+    [ "SetCreatedIndirect", "classwx_pdf_object.html#a48b990301ed88c9c3c13ad9ccb4975f1", null ],
+    [ "SetObjNum", "classwx_pdf_object.html#ae0408a69079ba337d7043e847aeceab5", null ],
+    [ "m_actualId", "classwx_pdf_object.html#ae39245b3a3821983efc7bf5fa7425205", null ],
+    [ "m_indirect", "classwx_pdf_object.html#a975454248b3c92a1fdb58f077205ef5e", null ],
+    [ "m_objGen", "classwx_pdf_object.html#ae009a7cb240a4553a9af44fa7f8d83e8", null ],
+    [ "m_objNum", "classwx_pdf_object.html#a1150ddd080c3798fd7d69f7f12676867", null ],
+    [ "m_type", "classwx_pdf_object.html#accdeac683e31f346f5865cc129b02c5b", null ]
+];

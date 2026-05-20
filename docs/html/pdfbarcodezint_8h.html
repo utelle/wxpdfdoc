@@ -1,68 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>wxPdfDocument: pdfbarcodezint.h File Reference</title>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
+<title>wxPdfDocument: E:/github/wxpdfdoc-current/include/wx/pdfbarcodezint.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_dc6a119311012aa343ae6129826ee2ed.html">wx</a></li>  </ul>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
 </div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('pdfbarcodezint_8h.html','',''); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">pdfbarcodezint.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -70,23 +163,20 @@ $(function(){ initResizable(false); });
 <code>#include &lt;wx/colour.h&gt;</code><br />
 <code>#include &lt;wx/dc.h&gt;</code><br />
 </div><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_zint_seg.html">wxPdfZintSeg</a></td></tr>
+<tr class="memitem:wxPdfZintSeg" id="r_wxPdfZintSeg"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_zint_seg.html">wxPdfZintSeg</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing Zint segments.  <a href="classwx_pdf_zint_seg.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwx_pdf_barcode_zint.html">wxPdfBarcodeZint</a></td></tr>
+<tr class="memitem:wxPdfBarcodeZint" id="r_wxPdfBarcodeZint"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classwx_pdf_barcode_zint.html">wxPdfBarcodeZint</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing Zint barcode objects.  <a href="classwx_pdf_barcode_zint.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html">wxPdfBarcode</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:wxPdfBarcode" id="r_wxPdfBarcode"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html">wxPdfBarcode</a></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a26a79b85a497fac0a5c79b3f5a08cf2d" id="r_a26a79b85a497fac0a5c79b3f5a08cf2d"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a26a79b85a497fac0a5c79b3f5a08cf2d">wxPdfBarcode::Symbology</a> : int { <br />
+<tr class="memitem:a26a79b85a497fac0a5c79b3f5a08cf2d" id="r_a26a79b85a497fac0a5c79b3f5a08cf2d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a26a79b85a497fac0a5c79b3f5a08cf2d">wxPdfBarcode::Symbology</a> : int { <br />
 &#160;&#160;<a class="el" href="namespacewx_pdf_barcode.html#a26a79b85a497fac0a5c79b3f5a08cf2da6bc3e9c755e6f61bd01199face2569c6">wxPdfBarcode::SYM_UNDEFINED</a> = 0
 , <a class="el" href="namespacewx_pdf_barcode.html#a26a79b85a497fac0a5c79b3f5a08cf2daa2c20478400593ff4b9cb5252b4cd617">wxPdfBarcode::SYM_CODE11</a> = 1
 , <a class="el" href="namespacewx_pdf_barcode.html#a26a79b85a497fac0a5c79b3f5a08cf2dabb2c47f8621b08dd6f8c694a97e71b4e">wxPdfBarcode::SYM_C25STANDARD</a> = 2
@@ -241,8 +331,7 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:a26a79b85a497fac0a5c79b3f5a08cf2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Symbologies as defined in the Zint library.  <a href="namespacewx_pdf_barcode.html#a26a79b85a497fac0a5c79b3f5a08cf2d">More...</a><br /></td></tr>
-<tr class="separator:a26a79b85a497fac0a5c79b3f5a08cf2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afff100d44cbab54155b8e89156444ed5" id="r_afff100d44cbab54155b8e89156444ed5"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5">wxPdfBarcode::ReturnCode</a> : int { <br />
+<tr class="memitem:afff100d44cbab54155b8e89156444ed5" id="r_afff100d44cbab54155b8e89156444ed5"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5">wxPdfBarcode::ReturnCode</a> : int { <br />
 &#160;&#160;<a class="el" href="namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a6e0058398c43859d866ba5ce19d8f92f">wxPdfBarcode::BC_WARN_HRT_TRUNCATED</a> = 1
 , <a class="el" href="namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ad478d2412c32422556f1396dbf70a439">wxPdfBarcode::BC_WARN_INVALID_OPTION</a> = 2
 , <a class="el" href="namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ac997f6b1b569879d87edab4b8fd8d3e9">wxPdfBarcode::BC_WARN_USES_ECI</a> = 3
@@ -264,159 +353,109 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a0b8e6cc0387b283e751ecf10b34598e9">wxPdfBarcode::BC_ERROR_HRT_TRUNCATED</a> = 15
 <br />
  }</td></tr>
-<tr class="memdesc:afff100d44cbab54155b8e89156444ed5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warning and error conditions (API return values)  <a href="namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5">More...</a><br /></td></tr>
-<tr class="separator:afff100d44cbab54155b8e89156444ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:afff100d44cbab54155b8e89156444ed5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warning and error conditions (API return values).  <a href="namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5">More...</a><br /></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a96df1e429d58ffbf277d92e021c5355a" id="r_a96df1e429d58ffbf277d92e021c5355a"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a96df1e429d58ffbf277d92e021c5355a">wxPdfBarcode::OUT_BIND_TOP</a> = 0x00001</td></tr>
-<tr class="memdesc:a96df1e429d58ffbf277d92e021c5355a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zint Output options (<code>symbol-&gt;output_options</code>)  <br /></td></tr>
-<tr class="separator:a96df1e429d58ffbf277d92e021c5355a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac58ca5d3d4f18909c0cf74958c99691e" id="r_ac58ca5d3d4f18909c0cf74958c99691e"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#ac58ca5d3d4f18909c0cf74958c99691e">wxPdfBarcode::OUT_BIND</a> = 0x00002</td></tr>
+<tr class="memitem:a96df1e429d58ffbf277d92e021c5355a" id="r_a96df1e429d58ffbf277d92e021c5355a"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a96df1e429d58ffbf277d92e021c5355a">wxPdfBarcode::OUT_BIND_TOP</a> = 0x00001</td></tr>
+<tr class="memdesc:a96df1e429d58ffbf277d92e021c5355a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zint Output options (<span class="tt">symbol-&gt;output_options</span>).  <br /></td></tr>
+<tr class="memitem:ac58ca5d3d4f18909c0cf74958c99691e" id="r_ac58ca5d3d4f18909c0cf74958c99691e"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#ac58ca5d3d4f18909c0cf74958c99691e">wxPdfBarcode::OUT_BIND</a> = 0x00002</td></tr>
 <tr class="memdesc:ac58ca5d3d4f18909c0cf74958c99691e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boundary bars above &amp; below the symbol and between stacked symbols.  <br /></td></tr>
-<tr class="separator:ac58ca5d3d4f18909c0cf74958c99691e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01ff9735fae7463e5df0540b39e10257" id="r_a01ff9735fae7463e5df0540b39e10257"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a01ff9735fae7463e5df0540b39e10257">wxPdfBarcode::OUT_BOX</a> = 0x00004</td></tr>
+<tr class="memitem:a01ff9735fae7463e5df0540b39e10257" id="r_a01ff9735fae7463e5df0540b39e10257"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a01ff9735fae7463e5df0540b39e10257">wxPdfBarcode::OUT_BOX</a> = 0x00004</td></tr>
 <tr class="memdesc:a01ff9735fae7463e5df0540b39e10257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Box around symbol.  <br /></td></tr>
-<tr class="separator:a01ff9735fae7463e5df0540b39e10257"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a460cd6a6e3dfb2c62c6bee86f2f12d06" id="r_a460cd6a6e3dfb2c62c6bee86f2f12d06"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a460cd6a6e3dfb2c62c6bee86f2f12d06">wxPdfBarcode::OUT_STDOUT</a> = 0x00008</td></tr>
+<tr class="memitem:a460cd6a6e3dfb2c62c6bee86f2f12d06" id="r_a460cd6a6e3dfb2c62c6bee86f2f12d06"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a460cd6a6e3dfb2c62c6bee86f2f12d06">wxPdfBarcode::OUT_STDOUT</a> = 0x00008</td></tr>
 <tr class="memdesc:a460cd6a6e3dfb2c62c6bee86f2f12d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output to stdout.  <br /></td></tr>
-<tr class="separator:a460cd6a6e3dfb2c62c6bee86f2f12d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46247d5922d111019489ddcae0e3c1b4" id="r_a46247d5922d111019489ddcae0e3c1b4"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a46247d5922d111019489ddcae0e3c1b4">wxPdfBarcode::OUT_READER_INIT</a> = 0x00010</td></tr>
-<tr class="memdesc:a46247d5922d111019489ddcae0e3c1b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reader Initialisation (Programming)  <br /></td></tr>
-<tr class="separator:a46247d5922d111019489ddcae0e3c1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6655ee26b78f1f5dbd07dc35f076b267" id="r_a6655ee26b78f1f5dbd07dc35f076b267"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a6655ee26b78f1f5dbd07dc35f076b267">wxPdfBarcode::OUT_SMALL_TEXT</a> = 0x00020</td></tr>
+<tr class="memitem:a46247d5922d111019489ddcae0e3c1b4" id="r_a46247d5922d111019489ddcae0e3c1b4"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a46247d5922d111019489ddcae0e3c1b4">wxPdfBarcode::OUT_READER_INIT</a> = 0x00010</td></tr>
+<tr class="memdesc:a46247d5922d111019489ddcae0e3c1b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reader Initialisation (Programming).  <br /></td></tr>
+<tr class="memitem:a6655ee26b78f1f5dbd07dc35f076b267" id="r_a6655ee26b78f1f5dbd07dc35f076b267"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a6655ee26b78f1f5dbd07dc35f076b267">wxPdfBarcode::OUT_SMALL_TEXT</a> = 0x00020</td></tr>
 <tr class="memdesc:a6655ee26b78f1f5dbd07dc35f076b267"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use smaller font.  <br /></td></tr>
-<tr class="separator:a6655ee26b78f1f5dbd07dc35f076b267"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a523a7cf109dbb75134f15e19ba4c6947" id="r_a523a7cf109dbb75134f15e19ba4c6947"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a523a7cf109dbb75134f15e19ba4c6947">wxPdfBarcode::OUT_BOLD_TEXT</a> = 0x00040</td></tr>
+<tr class="memitem:a523a7cf109dbb75134f15e19ba4c6947" id="r_a523a7cf109dbb75134f15e19ba4c6947"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a523a7cf109dbb75134f15e19ba4c6947">wxPdfBarcode::OUT_BOLD_TEXT</a> = 0x00040</td></tr>
 <tr class="memdesc:a523a7cf109dbb75134f15e19ba4c6947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use bold font.  <br /></td></tr>
-<tr class="separator:a523a7cf109dbb75134f15e19ba4c6947"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a121f32068e101ac6b02d50dce5c34eff" id="r_a121f32068e101ac6b02d50dce5c34eff"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a121f32068e101ac6b02d50dce5c34eff">wxPdfBarcode::OUT_CMYK_COLOUR</a> = 0x00080</td></tr>
-<tr class="memdesc:a121f32068e101ac6b02d50dce5c34eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">CMYK colour space (Encapsulated PostScript and TIF)  <br /></td></tr>
-<tr class="separator:a121f32068e101ac6b02d50dce5c34eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc3f8f886f63f4d83786a62eb5e3ca47" id="r_acc3f8f886f63f4d83786a62eb5e3ca47"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#acc3f8f886f63f4d83786a62eb5e3ca47">wxPdfBarcode::OUT_DOTTY_MODE</a> = 0x00100</td></tr>
+<tr class="memitem:a121f32068e101ac6b02d50dce5c34eff" id="r_a121f32068e101ac6b02d50dce5c34eff"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a121f32068e101ac6b02d50dce5c34eff">wxPdfBarcode::OUT_CMYK_COLOUR</a> = 0x00080</td></tr>
+<tr class="memdesc:a121f32068e101ac6b02d50dce5c34eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">CMYK colour space (Encapsulated PostScript and TIF).  <br /></td></tr>
+<tr class="memitem:acc3f8f886f63f4d83786a62eb5e3ca47" id="r_acc3f8f886f63f4d83786a62eb5e3ca47"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#acc3f8f886f63f4d83786a62eb5e3ca47">wxPdfBarcode::OUT_DOTTY_MODE</a> = 0x00100</td></tr>
 <tr class="memdesc:acc3f8f886f63f4d83786a62eb5e3ca47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plot a matrix symbol using dots rather than squares.  <br /></td></tr>
-<tr class="separator:acc3f8f886f63f4d83786a62eb5e3ca47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14d4a253d633c516e91209c231687f3c" id="r_a14d4a253d633c516e91209c231687f3c"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a14d4a253d633c516e91209c231687f3c">wxPdfBarcode::OUT_GS1_GS_SEPARATOR</a> = 0x00200</td></tr>
-<tr class="memdesc:a14d4a253d633c516e91209c231687f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use GS instead of FNC1 as GS1 separator (Data Matrix)  <br /></td></tr>
-<tr class="separator:a14d4a253d633c516e91209c231687f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f192353b7b9b31ebd43e3aa8682d6ad" id="r_a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a7f192353b7b9b31ebd43e3aa8682d6ad">wxPdfBarcode::OUT_BUFFER_INTERMEDIATE</a> = 0x00400</td></tr>
-<tr class="memdesc:a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return ASCII values in bitmap buffer (OUT_BUFFER only)  <br /></td></tr>
-<tr class="separator:a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8540f3f973dd5b0be0e651740e575cb7" id="r_a8540f3f973dd5b0be0e651740e575cb7"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a8540f3f973dd5b0be0e651740e575cb7">wxPdfBarcode::OUT_QUIET_ZONES</a> = 0x00800</td></tr>
+<tr class="memitem:a14d4a253d633c516e91209c231687f3c" id="r_a14d4a253d633c516e91209c231687f3c"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a14d4a253d633c516e91209c231687f3c">wxPdfBarcode::OUT_GS1_GS_SEPARATOR</a> = 0x00200</td></tr>
+<tr class="memdesc:a14d4a253d633c516e91209c231687f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use GS instead of FNC1 as GS1 separator (Data Matrix).  <br /></td></tr>
+<tr class="memitem:a7f192353b7b9b31ebd43e3aa8682d6ad" id="r_a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a7f192353b7b9b31ebd43e3aa8682d6ad">wxPdfBarcode::OUT_BUFFER_INTERMEDIATE</a> = 0x00400</td></tr>
+<tr class="memdesc:a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return ASCII values in bitmap buffer (OUT_BUFFER only).  <br /></td></tr>
+<tr class="memitem:a8540f3f973dd5b0be0e651740e575cb7" id="r_a8540f3f973dd5b0be0e651740e575cb7"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a8540f3f973dd5b0be0e651740e575cb7">wxPdfBarcode::OUT_QUIET_ZONES</a> = 0x00800</td></tr>
 <tr class="memdesc:a8540f3f973dd5b0be0e651740e575cb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add compliant quiet zones (additional to any specified whitespace) (.  <br /></td></tr>
-<tr class="separator:a8540f3f973dd5b0be0e651740e575cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d4f9ec6c99fb38be63d9dd4a1aae323" id="r_a8d4f9ec6c99fb38be63d9dd4a1aae323"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a8d4f9ec6c99fb38be63d9dd4a1aae323">wxPdfBarcode::OUT_NO_QUIET_ZONES</a> = 0x01000</td></tr>
+<tr class="memitem:a8d4f9ec6c99fb38be63d9dd4a1aae323" id="r_a8d4f9ec6c99fb38be63d9dd4a1aae323"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a8d4f9ec6c99fb38be63d9dd4a1aae323">wxPdfBarcode::OUT_NO_QUIET_ZONES</a> = 0x01000</td></tr>
 <tr class="memdesc:a8d4f9ec6c99fb38be63d9dd4a1aae323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable quiet zones, notably those with defaults as listed above.  <br /></td></tr>
-<tr class="separator:a8d4f9ec6c99fb38be63d9dd4a1aae323"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a593ccd45c63ec09aa72ab667d002a38b" id="r_a593ccd45c63ec09aa72ab667d002a38b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a593ccd45c63ec09aa72ab667d002a38b">wxPdfBarcode::OUT_COMPLIANT_HEIGHT</a> = 0x02000</td></tr>
+<tr class="memitem:a593ccd45c63ec09aa72ab667d002a38b" id="r_a593ccd45c63ec09aa72ab667d002a38b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a593ccd45c63ec09aa72ab667d002a38b">wxPdfBarcode::OUT_COMPLIANT_HEIGHT</a> = 0x02000</td></tr>
 <tr class="memdesc:a593ccd45c63ec09aa72ab667d002a38b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warn if height not compliant, or use standard height (if any) as default.  <br /></td></tr>
-<tr class="separator:a593ccd45c63ec09aa72ab667d002a38b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9818b6214a30d27dfca370676d8a07c6" id="r_a9818b6214a30d27dfca370676d8a07c6"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a9818b6214a30d27dfca370676d8a07c6">wxPdfBarcode::OUT_EANUPC_GUARD_WHITESPACE</a> = 0x04000</td></tr>
-<tr class="memdesc:a9818b6214a30d27dfca370676d8a07c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add quiet zone indicators ("&lt;"/"&gt;") to HRT whitespace (EAN/UPC)  <br /></td></tr>
-<tr class="separator:a9818b6214a30d27dfca370676d8a07c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2e94c8b10798eec03668cee79cd5fce" id="r_ae2e94c8b10798eec03668cee79cd5fce"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#ae2e94c8b10798eec03668cee79cd5fce">wxPdfBarcode::OUT_EMBED_VECTOR_FONT</a> = 0x08000</td></tr>
+<tr class="memitem:a9818b6214a30d27dfca370676d8a07c6" id="r_a9818b6214a30d27dfca370676d8a07c6"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a9818b6214a30d27dfca370676d8a07c6">wxPdfBarcode::OUT_EANUPC_GUARD_WHITESPACE</a> = 0x04000</td></tr>
+<tr class="memdesc:a9818b6214a30d27dfca370676d8a07c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add quiet zone indicators ("&lt;"/"&gt;") to HRT whitespace (EAN/UPC).  <br /></td></tr>
+<tr class="memitem:ae2e94c8b10798eec03668cee79cd5fce" id="r_ae2e94c8b10798eec03668cee79cd5fce"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#ae2e94c8b10798eec03668cee79cd5fce">wxPdfBarcode::OUT_EMBED_VECTOR_FONT</a> = 0x08000</td></tr>
 <tr class="memdesc:ae2e94c8b10798eec03668cee79cd5fce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Embed font in vector output - currently only for SVG output.  <br /></td></tr>
-<tr class="separator:ae2e94c8b10798eec03668cee79cd5fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab55ccb46911bccb1d2e2c3cab190c5b" id="r_aab55ccb46911bccb1d2e2c3cab190c5b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#aab55ccb46911bccb1d2e2c3cab190c5b">wxPdfBarcode::OUT_MEMORY_FILE</a> = 0x10000</td></tr>
-<tr class="memdesc:aab55ccb46911bccb1d2e2c3cab190c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write output to in-memory buffer <code>memfile</code> instead of to <code>outfile</code>  <br /></td></tr>
-<tr class="separator:aab55ccb46911bccb1d2e2c3cab190c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b2b30323453b986369a501707df2a1b" id="r_a4b2b30323453b986369a501707df2a1b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a4b2b30323453b986369a501707df2a1b">wxPdfBarcode::INP_DATA_MODE</a> = 0</td></tr>
+<tr class="memitem:aab55ccb46911bccb1d2e2c3cab190c5b" id="r_aab55ccb46911bccb1d2e2c3cab190c5b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#aab55ccb46911bccb1d2e2c3cab190c5b">wxPdfBarcode::OUT_MEMORY_FILE</a> = 0x10000</td></tr>
+<tr class="memdesc:aab55ccb46911bccb1d2e2c3cab190c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write output to in-memory buffer <span class="tt">memfile</span> instead of to <span class="tt">outfile</span>.  <br /></td></tr>
+<tr class="memitem:a4b2b30323453b986369a501707df2a1b" id="r_a4b2b30323453b986369a501707df2a1b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a4b2b30323453b986369a501707df2a1b">wxPdfBarcode::INP_DATA_MODE</a> = 0</td></tr>
 <tr class="memdesc:a4b2b30323453b986369a501707df2a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary.  <br /></td></tr>
-<tr class="separator:a4b2b30323453b986369a501707df2a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e76ca34a6b94a9256732ee0006ee9da" id="r_a6e76ca34a6b94a9256732ee0006ee9da"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a6e76ca34a6b94a9256732ee0006ee9da">wxPdfBarcode::INP_UNICODE_MODE</a> = 1</td></tr>
+<tr class="memitem:a6e76ca34a6b94a9256732ee0006ee9da" id="r_a6e76ca34a6b94a9256732ee0006ee9da"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a6e76ca34a6b94a9256732ee0006ee9da">wxPdfBarcode::INP_UNICODE_MODE</a> = 1</td></tr>
 <tr class="memdesc:a6e76ca34a6b94a9256732ee0006ee9da"><td class="mdescLeft">&#160;</td><td class="mdescRight">UTF-8.  <br /></td></tr>
-<tr class="separator:a6e76ca34a6b94a9256732ee0006ee9da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed9c41048999f178f73c23832d63a7a5" id="r_aed9c41048999f178f73c23832d63a7a5"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#aed9c41048999f178f73c23832d63a7a5">wxPdfBarcode::INP_GS1_MODE</a> = 2</td></tr>
+<tr class="memitem:aed9c41048999f178f73c23832d63a7a5" id="r_aed9c41048999f178f73c23832d63a7a5"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#aed9c41048999f178f73c23832d63a7a5">wxPdfBarcode::INP_GS1_MODE</a> = 2</td></tr>
 <tr class="memdesc:aed9c41048999f178f73c23832d63a7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">GS1.  <br /></td></tr>
-<tr class="separator:aed9c41048999f178f73c23832d63a7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f0d0ca5be1338cb7155a30780df1817" id="r_a3f0d0ca5be1338cb7155a30780df1817"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a3f0d0ca5be1338cb7155a30780df1817">wxPdfBarcode::INP_ESCAPE_MODE</a> = 0x0008</td></tr>
+<tr class="memitem:a3f0d0ca5be1338cb7155a30780df1817" id="r_a3f0d0ca5be1338cb7155a30780df1817"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a3f0d0ca5be1338cb7155a30780df1817">wxPdfBarcode::INP_ESCAPE_MODE</a> = 0x0008</td></tr>
 <tr class="memdesc:a3f0d0ca5be1338cb7155a30780df1817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process escape sequences.  <br /></td></tr>
-<tr class="separator:a3f0d0ca5be1338cb7155a30780df1817"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8febe5c037ee3f3a5b87ec795903ce47" id="r_a8febe5c037ee3f3a5b87ec795903ce47"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a8febe5c037ee3f3a5b87ec795903ce47">wxPdfBarcode::INP_GS1PARENS_MODE</a> = 0x0010</td></tr>
-<tr class="memdesc:a8febe5c037ee3f3a5b87ec795903ce47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process parentheses as GS1 AI delimiters (instead of square brackets)  <br /></td></tr>
-<tr class="separator:a8febe5c037ee3f3a5b87ec795903ce47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade2ede20b8f0156b5f1b6e29a3acc223" id="r_ade2ede20b8f0156b5f1b6e29a3acc223"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#ade2ede20b8f0156b5f1b6e29a3acc223">wxPdfBarcode::INP_GS1NOCHECK_MODE</a> = 0x0020</td></tr>
-<tr class="memdesc:ade2ede20b8f0156b5f1b6e29a3acc223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do not check validity of GS1 data (except that printable ASCII only)  <br /></td></tr>
-<tr class="separator:ade2ede20b8f0156b5f1b6e29a3acc223"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7a3a9a75cf7d7408837e323c2bef501" id="r_ab7a3a9a75cf7d7408837e323c2bef501"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#ab7a3a9a75cf7d7408837e323c2bef501">wxPdfBarcode::INP_HEIGHTPERROW_MODE</a> = 0x0040</td></tr>
-<tr class="memdesc:ab7a3a9a75cf7d7408837e323c2bef501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpret <code>height</code> as per-row rather than as overall height.  <br /></td></tr>
-<tr class="separator:ab7a3a9a75cf7d7408837e323c2bef501"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c7a31bc25ec951c94a2ac5df3663874" id="r_a7c7a31bc25ec951c94a2ac5df3663874"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a7c7a31bc25ec951c94a2ac5df3663874">wxPdfBarcode::INP_FAST_MODE</a> = 0x0080</td></tr>
-<tr class="memdesc:a7c7a31bc25ec951c94a2ac5df3663874"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use faster if less optimal encodation or other shortcuts if available (affects DATAMATRIX, MICROPDF417, PDF417, QRCODE &amp; UPNQR only)  <br /></td></tr>
-<tr class="separator:a7c7a31bc25ec951c94a2ac5df3663874"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbfd7972570ad691eb3bd4b533b5159f" id="r_afbfd7972570ad691eb3bd4b533b5159f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#afbfd7972570ad691eb3bd4b533b5159f">wxPdfBarcode::INP_EXTRA_ESCAPE_MODE</a> = 0x0100</td></tr>
+<tr class="memitem:a8febe5c037ee3f3a5b87ec795903ce47" id="r_a8febe5c037ee3f3a5b87ec795903ce47"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a8febe5c037ee3f3a5b87ec795903ce47">wxPdfBarcode::INP_GS1PARENS_MODE</a> = 0x0010</td></tr>
+<tr class="memdesc:a8febe5c037ee3f3a5b87ec795903ce47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process parentheses as GS1 AI delimiters (instead of square brackets).  <br /></td></tr>
+<tr class="memitem:ade2ede20b8f0156b5f1b6e29a3acc223" id="r_ade2ede20b8f0156b5f1b6e29a3acc223"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#ade2ede20b8f0156b5f1b6e29a3acc223">wxPdfBarcode::INP_GS1NOCHECK_MODE</a> = 0x0020</td></tr>
+<tr class="memdesc:ade2ede20b8f0156b5f1b6e29a3acc223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do not check validity of GS1 data (except that printable ASCII only).  <br /></td></tr>
+<tr class="memitem:ab7a3a9a75cf7d7408837e323c2bef501" id="r_ab7a3a9a75cf7d7408837e323c2bef501"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#ab7a3a9a75cf7d7408837e323c2bef501">wxPdfBarcode::INP_HEIGHTPERROW_MODE</a> = 0x0040</td></tr>
+<tr class="memdesc:ab7a3a9a75cf7d7408837e323c2bef501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpret <span class="tt">height</span> as per-row rather than as overall height.  <br /></td></tr>
+<tr class="memitem:a7c7a31bc25ec951c94a2ac5df3663874" id="r_a7c7a31bc25ec951c94a2ac5df3663874"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a7c7a31bc25ec951c94a2ac5df3663874">wxPdfBarcode::INP_FAST_MODE</a> = 0x0080</td></tr>
+<tr class="memdesc:a7c7a31bc25ec951c94a2ac5df3663874"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use faster if less optimal encodation or other shortcuts if available (affects DATAMATRIX, MICROPDF417, PDF417, QRCODE &amp; UPNQR only).  <br /></td></tr>
+<tr class="memitem:afbfd7972570ad691eb3bd4b533b5159f" id="r_afbfd7972570ad691eb3bd4b533b5159f"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#afbfd7972570ad691eb3bd4b533b5159f">wxPdfBarcode::INP_EXTRA_ESCAPE_MODE</a> = 0x0100</td></tr>
 <tr class="memdesc:afbfd7972570ad691eb3bd4b533b5159f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process special symbology-specific escape sequences as well as others (.  <br /></td></tr>
-<tr class="separator:afbfd7972570ad691eb3bd4b533b5159f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b7f2c6ce2a9516dd31b05a308b26426" id="r_a9b7f2c6ce2a9516dd31b05a308b26426"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a9b7f2c6ce2a9516dd31b05a308b26426">wxPdfBarcode::OPT_DM_SQUARE</a> = 100</td></tr>
-<tr class="memdesc:a9b7f2c6ce2a9516dd31b05a308b26426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data Matrix specific options (<code>symbol-&gt;option_3</code>)  <br /></td></tr>
-<tr class="separator:a9b7f2c6ce2a9516dd31b05a308b26426"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72fc1ebf3c0f1aa13167caf48aab031f" id="r_a72fc1ebf3c0f1aa13167caf48aab031f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a72fc1ebf3c0f1aa13167caf48aab031f">wxPdfBarcode::OPT_DM_DMRE</a> = 101</td></tr>
+<tr class="memitem:a9b7f2c6ce2a9516dd31b05a308b26426" id="r_a9b7f2c6ce2a9516dd31b05a308b26426"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a9b7f2c6ce2a9516dd31b05a308b26426">wxPdfBarcode::OPT_DM_SQUARE</a> = 100</td></tr>
+<tr class="memdesc:a9b7f2c6ce2a9516dd31b05a308b26426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data Matrix specific options (<span class="tt">symbol-&gt;option_3</span>).  <br /></td></tr>
+<tr class="memitem:a72fc1ebf3c0f1aa13167caf48aab031f" id="r_a72fc1ebf3c0f1aa13167caf48aab031f"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a72fc1ebf3c0f1aa13167caf48aab031f">wxPdfBarcode::OPT_DM_DMRE</a> = 101</td></tr>
 <tr class="memdesc:a72fc1ebf3c0f1aa13167caf48aab031f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consider DMRE versions on automatic symbol size selection.  <br /></td></tr>
-<tr class="separator:a72fc1ebf3c0f1aa13167caf48aab031f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cd2eb797fc5bf48abbc3864491a18e2" id="r_a1cd2eb797fc5bf48abbc3864491a18e2"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a1cd2eb797fc5bf48abbc3864491a18e2">wxPdfBarcode::OPT_DM_ISO_144</a> = 128</td></tr>
-<tr class="memdesc:a1cd2eb797fc5bf48abbc3864491a18e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use ISO instead of "de facto" format for 144x144 (i.e. don't skew ECC)  <br /></td></tr>
-<tr class="separator:a1cd2eb797fc5bf48abbc3864491a18e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa07ac8698c72acc3c1432f09c819cb21" id="r_aa07ac8698c72acc3c1432f09c819cb21"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#aa07ac8698c72acc3c1432f09c819cb21">wxPdfBarcode::OPT_FULL_MULTIBYTE</a> = 200</td></tr>
-<tr class="memdesc:aa07ac8698c72acc3c1432f09c819cb21"><td class="mdescLeft">&#160;</td><td class="mdescRight">QR, Han Xin, Grid Matrix specific options (<code>symbol-&gt;option_3</code>)  <br /></td></tr>
-<tr class="separator:aa07ac8698c72acc3c1432f09c819cb21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7996f7a35e489f134020dceb034a4ca5" id="r_a7996f7a35e489f134020dceb034a4ca5"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a7996f7a35e489f134020dceb034a4ca5">wxPdfBarcode::OPT_ULTRA_COMPRESSION</a> = 128</td></tr>
-<tr class="memdesc:a7996f7a35e489f134020dceb034a4ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ultracode specific option (<code>symbol-&gt;option_3</code>)  <br /></td></tr>
-<tr class="separator:a7996f7a35e489f134020dceb034a4ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab646fb68562479a6328c58bc0d798f5f" id="r_ab646fb68562479a6328c58bc0d798f5f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#ab646fb68562479a6328c58bc0d798f5f">wxPdfBarcode::WARN_DEFAULT</a> = 0</td></tr>
-<tr class="memdesc:ab646fb68562479a6328c58bc0d798f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warning level (<code>symbol-&gt;warn_level</code>)  <br /></td></tr>
-<tr class="separator:ab646fb68562479a6328c58bc0d798f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a438618c787435bf04ceb89765b15b62b" id="r_a438618c787435bf04ceb89765b15b62b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a438618c787435bf04ceb89765b15b62b">wxPdfBarcode::WARN_FAIL_ALL</a> = 2</td></tr>
+<tr class="memitem:a1cd2eb797fc5bf48abbc3864491a18e2" id="r_a1cd2eb797fc5bf48abbc3864491a18e2"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a1cd2eb797fc5bf48abbc3864491a18e2">wxPdfBarcode::OPT_DM_ISO_144</a> = 128</td></tr>
+<tr class="memdesc:a1cd2eb797fc5bf48abbc3864491a18e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use ISO instead of "de facto" format for 144x144 (i.e. don't skew ECC).  <br /></td></tr>
+<tr class="memitem:aa07ac8698c72acc3c1432f09c819cb21" id="r_aa07ac8698c72acc3c1432f09c819cb21"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#aa07ac8698c72acc3c1432f09c819cb21">wxPdfBarcode::OPT_FULL_MULTIBYTE</a> = 200</td></tr>
+<tr class="memdesc:aa07ac8698c72acc3c1432f09c819cb21"><td class="mdescLeft">&#160;</td><td class="mdescRight">QR, Han Xin, Grid Matrix specific options (<span class="tt">symbol-&gt;option_3</span>).  <br /></td></tr>
+<tr class="memitem:a7996f7a35e489f134020dceb034a4ca5" id="r_a7996f7a35e489f134020dceb034a4ca5"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a7996f7a35e489f134020dceb034a4ca5">wxPdfBarcode::OPT_ULTRA_COMPRESSION</a> = 128</td></tr>
+<tr class="memdesc:a7996f7a35e489f134020dceb034a4ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ultracode specific option (<span class="tt">symbol-&gt;option_3</span>).  <br /></td></tr>
+<tr class="memitem:ab646fb68562479a6328c58bc0d798f5f" id="r_ab646fb68562479a6328c58bc0d798f5f"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#ab646fb68562479a6328c58bc0d798f5f">wxPdfBarcode::WARN_DEFAULT</a> = 0</td></tr>
+<tr class="memdesc:ab646fb68562479a6328c58bc0d798f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warning level (<span class="tt">symbol-&gt;warn_level</span>).  <br /></td></tr>
+<tr class="memitem:a438618c787435bf04ceb89765b15b62b" id="r_a438618c787435bf04ceb89765b15b62b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a438618c787435bf04ceb89765b15b62b">wxPdfBarcode::WARN_FAIL_ALL</a> = 2</td></tr>
 <tr class="memdesc:a438618c787435bf04ceb89765b15b62b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Treat warning as error.  <br /></td></tr>
-<tr class="separator:a438618c787435bf04ceb89765b15b62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a139f03debc0cd9c9226b9bc54e3cf8f0" id="r_a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a139f03debc0cd9c9226b9bc54e3cf8f0">wxPdfBarcode::CAP_HRT</a> = 0x0001</td></tr>
-<tr class="memdesc:a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zint Capability flags (ZBarcode_Cap() <code>cap_flag</code>)  <br /></td></tr>
-<tr class="separator:a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6624c15b238a7cdf0297a25d2bf00cfb" id="r_a6624c15b238a7cdf0297a25d2bf00cfb"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a6624c15b238a7cdf0297a25d2bf00cfb">wxPdfBarcode::CAP_STACKABLE</a> = 0x0002</td></tr>
+<tr class="memitem:a139f03debc0cd9c9226b9bc54e3cf8f0" id="r_a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a139f03debc0cd9c9226b9bc54e3cf8f0">wxPdfBarcode::CAP_HRT</a> = 0x0001</td></tr>
+<tr class="memdesc:a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zint Capability flags (ZBarcode_Cap() <span class="tt">cap_flag</span>).  <br /></td></tr>
+<tr class="memitem:a6624c15b238a7cdf0297a25d2bf00cfb" id="r_a6624c15b238a7cdf0297a25d2bf00cfb"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a6624c15b238a7cdf0297a25d2bf00cfb">wxPdfBarcode::CAP_STACKABLE</a> = 0x0002</td></tr>
 <tr class="memdesc:a6624c15b238a7cdf0297a25d2bf00cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is stackable?  <br /></td></tr>
-<tr class="separator:a6624c15b238a7cdf0297a25d2bf00cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44bf1b4ed6e44c2e5e11b119443d00d1" id="r_a44bf1b4ed6e44c2e5e11b119443d00d1"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a44bf1b4ed6e44c2e5e11b119443d00d1">wxPdfBarcode::CAP_EANUPC</a> = 0x0004</td></tr>
+<tr class="memitem:a44bf1b4ed6e44c2e5e11b119443d00d1" id="r_a44bf1b4ed6e44c2e5e11b119443d00d1"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a44bf1b4ed6e44c2e5e11b119443d00d1">wxPdfBarcode::CAP_EANUPC</a> = 0x0004</td></tr>
 <tr class="memdesc:a44bf1b4ed6e44c2e5e11b119443d00d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is EAN/UPC?  <br /></td></tr>
-<tr class="separator:a44bf1b4ed6e44c2e5e11b119443d00d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c9cd28701f1a240978059dd01c3e57b" id="r_a2c9cd28701f1a240978059dd01c3e57b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a2c9cd28701f1a240978059dd01c3e57b">wxPdfBarcode::CAP_EXTENDABLE</a> = 0x0004</td></tr>
+<tr class="memitem:a2c9cd28701f1a240978059dd01c3e57b" id="r_a2c9cd28701f1a240978059dd01c3e57b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a2c9cd28701f1a240978059dd01c3e57b">wxPdfBarcode::CAP_EXTENDABLE</a> = 0x0004</td></tr>
 <tr class="memdesc:a2c9cd28701f1a240978059dd01c3e57b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legacy.  <br /></td></tr>
-<tr class="separator:a2c9cd28701f1a240978059dd01c3e57b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4633570b0a71bd6acb3eb78140dbc647" id="r_a4633570b0a71bd6acb3eb78140dbc647"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a4633570b0a71bd6acb3eb78140dbc647">wxPdfBarcode::CAP_COMPOSITE</a> = 0x0008</td></tr>
+<tr class="memitem:a4633570b0a71bd6acb3eb78140dbc647" id="r_a4633570b0a71bd6acb3eb78140dbc647"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a4633570b0a71bd6acb3eb78140dbc647">wxPdfBarcode::CAP_COMPOSITE</a> = 0x0008</td></tr>
 <tr class="memdesc:a4633570b0a71bd6acb3eb78140dbc647"><td class="mdescLeft">&#160;</td><td class="mdescRight">Can have composite data?  <br /></td></tr>
-<tr class="separator:a4633570b0a71bd6acb3eb78140dbc647"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0be973ed3be4752a32beafeb4d9f089c" id="r_a0be973ed3be4752a32beafeb4d9f089c"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a0be973ed3be4752a32beafeb4d9f089c">wxPdfBarcode::CAP_ECI</a> = 0x0010</td></tr>
+<tr class="memitem:a0be973ed3be4752a32beafeb4d9f089c" id="r_a0be973ed3be4752a32beafeb4d9f089c"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a0be973ed3be4752a32beafeb4d9f089c">wxPdfBarcode::CAP_ECI</a> = 0x0010</td></tr>
 <tr class="memdesc:a0be973ed3be4752a32beafeb4d9f089c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports Extended Channel Interpretations?  <br /></td></tr>
-<tr class="separator:a0be973ed3be4752a32beafeb4d9f089c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa7f8df4947e7889fd894eb9b098199e" id="r_aaa7f8df4947e7889fd894eb9b098199e"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#aaa7f8df4947e7889fd894eb9b098199e">wxPdfBarcode::CAP_GS1</a> = 0x0020</td></tr>
+<tr class="memitem:aaa7f8df4947e7889fd894eb9b098199e" id="r_aaa7f8df4947e7889fd894eb9b098199e"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#aaa7f8df4947e7889fd894eb9b098199e">wxPdfBarcode::CAP_GS1</a> = 0x0020</td></tr>
 <tr class="memdesc:aaa7f8df4947e7889fd894eb9b098199e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports GS1 data?  <br /></td></tr>
-<tr class="separator:aaa7f8df4947e7889fd894eb9b098199e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4afa864c147073b88eb93c0da9856d6" id="r_af4afa864c147073b88eb93c0da9856d6"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#af4afa864c147073b88eb93c0da9856d6">wxPdfBarcode::CAP_DOTTY</a> = 0x0040</td></tr>
+<tr class="memitem:af4afa864c147073b88eb93c0da9856d6" id="r_af4afa864c147073b88eb93c0da9856d6"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#af4afa864c147073b88eb93c0da9856d6">wxPdfBarcode::CAP_DOTTY</a> = 0x0040</td></tr>
 <tr class="memdesc:af4afa864c147073b88eb93c0da9856d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Can be output as dots?  <br /></td></tr>
-<tr class="separator:af4afa864c147073b88eb93c0da9856d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb6dce697cd575c692a1ff8ae97091e4" id="r_acb6dce697cd575c692a1ff8ae97091e4"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#acb6dce697cd575c692a1ff8ae97091e4">wxPdfBarcode::CAP_QUIET_ZONES</a> = 0x0080</td></tr>
+<tr class="memitem:acb6dce697cd575c692a1ff8ae97091e4" id="r_acb6dce697cd575c692a1ff8ae97091e4"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#acb6dce697cd575c692a1ff8ae97091e4">wxPdfBarcode::CAP_QUIET_ZONES</a> = 0x0080</td></tr>
 <tr class="memdesc:acb6dce697cd575c692a1ff8ae97091e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has default quiet zones?  <br /></td></tr>
-<tr class="separator:acb6dce697cd575c692a1ff8ae97091e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2abf2c5d1721606e1c32d9e24af5fc77" id="r_a2abf2c5d1721606e1c32d9e24af5fc77"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a2abf2c5d1721606e1c32d9e24af5fc77">wxPdfBarcode::CAP_FIXED_RATIO</a> = 0x0100</td></tr>
+<tr class="memitem:a2abf2c5d1721606e1c32d9e24af5fc77" id="r_a2abf2c5d1721606e1c32d9e24af5fc77"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a2abf2c5d1721606e1c32d9e24af5fc77">wxPdfBarcode::CAP_FIXED_RATIO</a> = 0x0100</td></tr>
 <tr class="memdesc:a2abf2c5d1721606e1c32d9e24af5fc77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has fixed width-to-height (aspect) ratio?  <br /></td></tr>
-<tr class="separator:a2abf2c5d1721606e1c32d9e24af5fc77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a045e9f6adf10904e5042568a4d997c" id="r_a6a045e9f6adf10904e5042568a4d997c"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a6a045e9f6adf10904e5042568a4d997c">wxPdfBarcode::CAP_READER_INIT</a> = 0x0200</td></tr>
+<tr class="memitem:a6a045e9f6adf10904e5042568a4d997c" id="r_a6a045e9f6adf10904e5042568a4d997c"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a6a045e9f6adf10904e5042568a4d997c">wxPdfBarcode::CAP_READER_INIT</a> = 0x0200</td></tr>
 <tr class="memdesc:a6a045e9f6adf10904e5042568a4d997c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports Reader Initialisation?  <br /></td></tr>
-<tr class="separator:a6a045e9f6adf10904e5042568a4d997c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89e83a2cbcc3f84d3c8ed3c790a2339f" id="r_a89e83a2cbcc3f84d3c8ed3c790a2339f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a89e83a2cbcc3f84d3c8ed3c790a2339f">wxPdfBarcode::CAP_FULL_MULTIBYTE</a> = 0x0400</td></tr>
+<tr class="memitem:a89e83a2cbcc3f84d3c8ed3c790a2339f" id="r_a89e83a2cbcc3f84d3c8ed3c790a2339f"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a89e83a2cbcc3f84d3c8ed3c790a2339f">wxPdfBarcode::CAP_FULL_MULTIBYTE</a> = 0x0400</td></tr>
 <tr class="memdesc:a89e83a2cbcc3f84d3c8ed3c790a2339f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports full-multibyte option?  <br /></td></tr>
-<tr class="separator:a89e83a2cbcc3f84d3c8ed3c790a2339f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a949eeb8e8f591d66f888ededcecc79be" id="r_a949eeb8e8f591d66f888ededcecc79be"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#a949eeb8e8f591d66f888ededcecc79be">wxPdfBarcode::CAP_MASK</a> = 0x0800</td></tr>
+<tr class="memitem:a949eeb8e8f591d66f888ededcecc79be" id="r_a949eeb8e8f591d66f888ededcecc79be"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#a949eeb8e8f591d66f888ededcecc79be">wxPdfBarcode::CAP_MASK</a> = 0x0800</td></tr>
 <tr class="memdesc:a949eeb8e8f591d66f888ededcecc79be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is mask selectable?  <br /></td></tr>
-<tr class="separator:a949eeb8e8f591d66f888ededcecc79be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5015c7a281913a25d5eca3b17a3be75" id="r_af5015c7a281913a25d5eca3b17a3be75"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#af5015c7a281913a25d5eca3b17a3be75">wxPdfBarcode::CAP_STRUCTAPP</a> = 0x1000</td></tr>
+<tr class="memitem:af5015c7a281913a25d5eca3b17a3be75" id="r_af5015c7a281913a25d5eca3b17a3be75"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#af5015c7a281913a25d5eca3b17a3be75">wxPdfBarcode::CAP_STRUCTAPP</a> = 0x1000</td></tr>
 <tr class="memdesc:af5015c7a281913a25d5eca3b17a3be75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports Structured Append?  <br /></td></tr>
-<tr class="separator:af5015c7a281913a25d5eca3b17a3be75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2641336e88dfff252143cd8afc6c4d8" id="r_ae2641336e88dfff252143cd8afc6c4d8"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacewx_pdf_barcode.html#ae2641336e88dfff252143cd8afc6c4d8">wxPdfBarcode::CAP_COMPLIANT_HEIGHT</a> = 0x2000</td></tr>
+<tr class="memitem:ae2641336e88dfff252143cd8afc6c4d8" id="r_ae2641336e88dfff252143cd8afc6c4d8"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="namespacewx_pdf_barcode.html#ae2641336e88dfff252143cd8afc6c4d8">wxPdfBarcode::CAP_COMPLIANT_HEIGHT</a> = 0x2000</td></tr>
 <tr class="memdesc:ae2641336e88dfff252143cd8afc6c4d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has compliant height?  <br /></td></tr>
-<tr class="separator:ae2641336e88dfff252143cd8afc6c4d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98e40e1b778640f22b0c7baabfde5e11" id="r_a98e40e1b778640f22b0c7baabfde5e11"><td class="memItemLeft" align="right" valign="top">class <a class="el" href="pdfdocdef_8h.html#aaec25ba37afc59e723fef588ef616eba">WXDLLIMPEXP_FWD_PDFDOC</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98e40e1b778640f22b0c7baabfde5e11">wxPdfDocument</a></td></tr>
-<tr class="separator:a98e40e1b778640f22b0c7baabfde5e11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e40e1b778640f22b0c7baabfde5e11" id="r_a98e40e1b778640f22b0c7baabfde5e11"><td class="memItemLeft">class <a class="el" href="pdfdocdef_8h.html#aaec25ba37afc59e723fef588ef616eba">WXDLLIMPEXP_FWD_PDFDOC</a>&#160;</td><td class="memItemRight"><a class="el" href="#a98e40e1b778640f22b0c7baabfde5e11">wxPdfDocument</a></td></tr>
 </table>
-<h2 class="groupheader">Variable Documentation</h2>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="a98e40e1b778640f22b0c7baabfde5e11" name="a98e40e1b778640f22b0c7baabfde5e11"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98e40e1b778640f22b0c7baabfde5e11">&#9670;&#160;</a></span>wxPdfDocument</h2>
 
@@ -432,10 +471,21 @@ Variables</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a href="dir_dc6a119311012aa343ae6129826ee2ed.html">wx</a></li><li class="navelem"><a href="pdfbarcodezint_8h.html">pdfbarcodezint.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

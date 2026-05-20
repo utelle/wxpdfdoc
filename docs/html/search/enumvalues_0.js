@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['bc_5ferror_0',['BC_ERROR',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ad1275776797976cd9ca82f5a11483956',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fencoding_5fproblem_1',['BC_ERROR_ENCODING_PROBLEM',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5aebbfa8b2f6ab6d3cb56217bedd18c1da',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5ffile_5faccess_2',['BC_ERROR_FILE_ACCESS',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a408a22013387ff906d29f132c3b77a44',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5ffile_5fwrite_3',['BC_ERROR_FILE_WRITE',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a0257a9b97ad8317ebee286a228aeeed1',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fhrt_5ftruncated_4',['BC_ERROR_HRT_TRUNCATED',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a0b8e6cc0387b283e751ecf10b34598e9',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5finvalid_5fcheck_5',['BC_ERROR_INVALID_CHECK',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a49052a2ebddcbd1f3393808f191e56fa',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5finvalid_5fdata_6',['BC_ERROR_INVALID_DATA',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a9d35943cb70b1fd7cf3fcc88b30af687',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5finvalid_5foption_7',['BC_ERROR_INVALID_OPTION',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5adcd4a1401a0ed5570c3549cc43ef3593',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fmemory_8',['BC_ERROR_MEMORY',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a34396c90e33c5f3a20ed9c9744531ad9',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fnoncompliant_9',['BC_ERROR_NONCOMPLIANT',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5aeda217cc3c6ef3869d8908da86106c6d',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5ftoo_5flong_10',['BC_ERROR_TOO_LONG',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a9f3e6be9383a3e250de4b57fd86603f9',1,'wxPdfBarcode']]],
+  ['bc_5ferror_5fuses_5feci_11',['BC_ERROR_USES_ECI',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5aaed75d8cb7566bfb0805758a60fe1559',1,'wxPdfBarcode']]],
+  ['bc_5fwarn_5fhrt_5ftruncated_12',['BC_WARN_HRT_TRUNCATED',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5a6e0058398c43859d866ba5ce19d8f92f',1,'wxPdfBarcode']]],
+  ['bc_5fwarn_5finvalid_5foption_13',['BC_WARN_INVALID_OPTION',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ad478d2412c32422556f1396dbf70a439',1,'wxPdfBarcode']]],
+  ['bc_5fwarn_5fnoncompliant_14',['BC_WARN_NONCOMPLIANT',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ac2475ce6a3d6e5f88e6e064fe3d9db01',1,'wxPdfBarcode']]],
+  ['bc_5fwarn_5fuses_5feci_15',['BC_WARN_USES_ECI',['../namespacewx_pdf_barcode.html#afff100d44cbab54155b8e89156444ed5ac997f6b1b569879d87edab4b8fd8d3e9',1,'wxPdfBarcode']]]
+];

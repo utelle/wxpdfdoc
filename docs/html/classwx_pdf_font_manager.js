@@ -1,0 +1,25 @@
+var classwx_pdf_font_manager =
+[
+    [ "AddSearchPath", "classwx_pdf_font_manager.html#a0dbe5b6a84ad6c2df5388042c5424114", null ],
+    [ "AddSearchPath", "classwx_pdf_font_manager.html#a7eac0fd6f2105e59b9da285b09c0cdc8", null ],
+    [ "GetDefaultEmbed", "classwx_pdf_font_manager.html#a072e285b6bc804f876cb5902a1b2a35b", null ],
+    [ "GetDefaultSubset", "classwx_pdf_font_manager.html#ae8fb06ac2b817a5560337f897c22b6b0", null ],
+    [ "GetEncoding", "classwx_pdf_font_manager.html#a2725564a3e7b17f80302be7031db6f35", null ],
+    [ "GetFont", "classwx_pdf_font_manager.html#a36a4a8f55c869400c02b40a8348cb9bd", null ],
+    [ "GetFont", "classwx_pdf_font_manager.html#af6d74455c32e3a9ed789e3158b14dd3e", null ],
+    [ "GetFont", "classwx_pdf_font_manager.html#a0e5a242bbe65044f886f604c0fe66b2d", null ],
+    [ "GetFontCount", "classwx_pdf_font_manager.html#a80acbc950f3d939d3ae000b0589ea214", null ],
+    [ "GetFontManager", "classwx_pdf_font_manager.html#a9beb708d46ee35b12c265314ca3c3473", null ],
+    [ "InitializeFontData", "classwx_pdf_font_manager.html#a205f21701010c6029ef25ff83e1cacc4", null ],
+    [ "RegisterEncoding", "classwx_pdf_font_manager.html#aba123dba1c9f5ec39c2928f13688f512", null ],
+    [ "RegisterFont", "classwx_pdf_font_manager.html#a4fca2e4c2e84a99e081c711a5aa33598", null ],
+    [ "RegisterFont", "classwx_pdf_font_manager.html#a4e31ef2620841368d091d08c8c1d1833", null ],
+    [ "RegisterFont", "classwx_pdf_font_manager.html#ad66421605717f4a8c65b2b161d399d8c", null ],
+    [ "RegisterFontCJK", "classwx_pdf_font_manager.html#a9a2773081fadb66a897dfbf713b07558", null ],
+    [ "RegisterFontCollection", "classwx_pdf_font_manager.html#ab9bec2b52204e5d0349d97fc94b20102", null ],
+    [ "RegisterFontDirectory", "classwx_pdf_font_manager.html#a3c4297e4c901bbb209f9dfd8424c81dd", null ],
+    [ "RegisterSystemFonts", "classwx_pdf_font_manager.html#a09912e24ce09669d88775ef197bf2847", null ],
+    [ "SetDefaultEmbed", "classwx_pdf_font_manager.html#a9bf33a17b6b4ff3ded3a7bb6878375bc", null ],
+    [ "SetDefaultSubset", "classwx_pdf_font_manager.html#a053bce64c20b52efae048655f2c65b55", null ],
+    [ "wxPdfDocumentModule", "classwx_pdf_font_manager.html#abf1b9bd04c235148a439e4d8e0858264", null ]
+];

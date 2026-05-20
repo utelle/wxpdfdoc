@@ -1,69 +1,168 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
 <title>wxPdfDocument: wxPdfBarcode Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('namespacewx_pdf_barcode.html','',''); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">wxPdfBarcode Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a26a79b85a497fac0a5c79b3f5a08cf2d" id="r_a26a79b85a497fac0a5c79b3f5a08cf2d"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26a79b85a497fac0a5c79b3f5a08cf2d">Symbology</a> : int { <br />
+<tr class="memitem:a26a79b85a497fac0a5c79b3f5a08cf2d" id="r_a26a79b85a497fac0a5c79b3f5a08cf2d"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a26a79b85a497fac0a5c79b3f5a08cf2d">Symbology</a> : int { <br />
 &#160;&#160;<a class="el" href="#a26a79b85a497fac0a5c79b3f5a08cf2da6bc3e9c755e6f61bd01199face2569c6">SYM_UNDEFINED</a> = 0
 , <a class="el" href="#a26a79b85a497fac0a5c79b3f5a08cf2daa2c20478400593ff4b9cb5252b4cd617">SYM_CODE11</a> = 1
 , <a class="el" href="#a26a79b85a497fac0a5c79b3f5a08cf2dabb2c47f8621b08dd6f8c694a97e71b4e">SYM_C25STANDARD</a> = 2
@@ -218,8 +317,7 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:a26a79b85a497fac0a5c79b3f5a08cf2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Symbologies as defined in the Zint library.  <a href="#a26a79b85a497fac0a5c79b3f5a08cf2d">More...</a><br /></td></tr>
-<tr class="separator:a26a79b85a497fac0a5c79b3f5a08cf2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afff100d44cbab54155b8e89156444ed5" id="r_afff100d44cbab54155b8e89156444ed5"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afff100d44cbab54155b8e89156444ed5">ReturnCode</a> : int { <br />
+<tr class="memitem:afff100d44cbab54155b8e89156444ed5" id="r_afff100d44cbab54155b8e89156444ed5"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#afff100d44cbab54155b8e89156444ed5">ReturnCode</a> : int { <br />
 &#160;&#160;<a class="el" href="#afff100d44cbab54155b8e89156444ed5a6e0058398c43859d866ba5ce19d8f92f">BC_WARN_HRT_TRUNCATED</a> = 1
 , <a class="el" href="#afff100d44cbab54155b8e89156444ed5ad478d2412c32422556f1396dbf70a439">BC_WARN_INVALID_OPTION</a> = 2
 , <a class="el" href="#afff100d44cbab54155b8e89156444ed5ac997f6b1b569879d87edab4b8fd8d3e9">BC_WARN_USES_ECI</a> = 3
@@ -241,157 +339,108 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#afff100d44cbab54155b8e89156444ed5a0b8e6cc0387b283e751ecf10b34598e9">BC_ERROR_HRT_TRUNCATED</a> = 15
 <br />
  }</td></tr>
-<tr class="memdesc:afff100d44cbab54155b8e89156444ed5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warning and error conditions (API return values)  <a href="#afff100d44cbab54155b8e89156444ed5">More...</a><br /></td></tr>
-<tr class="separator:afff100d44cbab54155b8e89156444ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:afff100d44cbab54155b8e89156444ed5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warning and error conditions (API return values).  <a href="#afff100d44cbab54155b8e89156444ed5">More...</a><br /></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a96df1e429d58ffbf277d92e021c5355a" id="r_a96df1e429d58ffbf277d92e021c5355a"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96df1e429d58ffbf277d92e021c5355a">OUT_BIND_TOP</a> = 0x00001</td></tr>
-<tr class="memdesc:a96df1e429d58ffbf277d92e021c5355a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zint Output options (<code>symbol-&gt;output_options</code>)  <br /></td></tr>
-<tr class="separator:a96df1e429d58ffbf277d92e021c5355a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac58ca5d3d4f18909c0cf74958c99691e" id="r_ac58ca5d3d4f18909c0cf74958c99691e"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac58ca5d3d4f18909c0cf74958c99691e">OUT_BIND</a> = 0x00002</td></tr>
+<tr class="memitem:a96df1e429d58ffbf277d92e021c5355a" id="r_a96df1e429d58ffbf277d92e021c5355a"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a96df1e429d58ffbf277d92e021c5355a">OUT_BIND_TOP</a> = 0x00001</td></tr>
+<tr class="memdesc:a96df1e429d58ffbf277d92e021c5355a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zint Output options (<span class="tt">symbol-&gt;output_options</span>).  <br /></td></tr>
+<tr class="memitem:ac58ca5d3d4f18909c0cf74958c99691e" id="r_ac58ca5d3d4f18909c0cf74958c99691e"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#ac58ca5d3d4f18909c0cf74958c99691e">OUT_BIND</a> = 0x00002</td></tr>
 <tr class="memdesc:ac58ca5d3d4f18909c0cf74958c99691e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boundary bars above &amp; below the symbol and between stacked symbols.  <br /></td></tr>
-<tr class="separator:ac58ca5d3d4f18909c0cf74958c99691e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01ff9735fae7463e5df0540b39e10257" id="r_a01ff9735fae7463e5df0540b39e10257"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01ff9735fae7463e5df0540b39e10257">OUT_BOX</a> = 0x00004</td></tr>
+<tr class="memitem:a01ff9735fae7463e5df0540b39e10257" id="r_a01ff9735fae7463e5df0540b39e10257"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a01ff9735fae7463e5df0540b39e10257">OUT_BOX</a> = 0x00004</td></tr>
 <tr class="memdesc:a01ff9735fae7463e5df0540b39e10257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Box around symbol.  <br /></td></tr>
-<tr class="separator:a01ff9735fae7463e5df0540b39e10257"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a460cd6a6e3dfb2c62c6bee86f2f12d06" id="r_a460cd6a6e3dfb2c62c6bee86f2f12d06"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a460cd6a6e3dfb2c62c6bee86f2f12d06">OUT_STDOUT</a> = 0x00008</td></tr>
+<tr class="memitem:a460cd6a6e3dfb2c62c6bee86f2f12d06" id="r_a460cd6a6e3dfb2c62c6bee86f2f12d06"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a460cd6a6e3dfb2c62c6bee86f2f12d06">OUT_STDOUT</a> = 0x00008</td></tr>
 <tr class="memdesc:a460cd6a6e3dfb2c62c6bee86f2f12d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output to stdout.  <br /></td></tr>
-<tr class="separator:a460cd6a6e3dfb2c62c6bee86f2f12d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46247d5922d111019489ddcae0e3c1b4" id="r_a46247d5922d111019489ddcae0e3c1b4"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46247d5922d111019489ddcae0e3c1b4">OUT_READER_INIT</a> = 0x00010</td></tr>
-<tr class="memdesc:a46247d5922d111019489ddcae0e3c1b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reader Initialisation (Programming)  <br /></td></tr>
-<tr class="separator:a46247d5922d111019489ddcae0e3c1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6655ee26b78f1f5dbd07dc35f076b267" id="r_a6655ee26b78f1f5dbd07dc35f076b267"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6655ee26b78f1f5dbd07dc35f076b267">OUT_SMALL_TEXT</a> = 0x00020</td></tr>
+<tr class="memitem:a46247d5922d111019489ddcae0e3c1b4" id="r_a46247d5922d111019489ddcae0e3c1b4"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a46247d5922d111019489ddcae0e3c1b4">OUT_READER_INIT</a> = 0x00010</td></tr>
+<tr class="memdesc:a46247d5922d111019489ddcae0e3c1b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reader Initialisation (Programming).  <br /></td></tr>
+<tr class="memitem:a6655ee26b78f1f5dbd07dc35f076b267" id="r_a6655ee26b78f1f5dbd07dc35f076b267"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a6655ee26b78f1f5dbd07dc35f076b267">OUT_SMALL_TEXT</a> = 0x00020</td></tr>
 <tr class="memdesc:a6655ee26b78f1f5dbd07dc35f076b267"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use smaller font.  <br /></td></tr>
-<tr class="separator:a6655ee26b78f1f5dbd07dc35f076b267"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a523a7cf109dbb75134f15e19ba4c6947" id="r_a523a7cf109dbb75134f15e19ba4c6947"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a523a7cf109dbb75134f15e19ba4c6947">OUT_BOLD_TEXT</a> = 0x00040</td></tr>
+<tr class="memitem:a523a7cf109dbb75134f15e19ba4c6947" id="r_a523a7cf109dbb75134f15e19ba4c6947"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a523a7cf109dbb75134f15e19ba4c6947">OUT_BOLD_TEXT</a> = 0x00040</td></tr>
 <tr class="memdesc:a523a7cf109dbb75134f15e19ba4c6947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use bold font.  <br /></td></tr>
-<tr class="separator:a523a7cf109dbb75134f15e19ba4c6947"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a121f32068e101ac6b02d50dce5c34eff" id="r_a121f32068e101ac6b02d50dce5c34eff"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a121f32068e101ac6b02d50dce5c34eff">OUT_CMYK_COLOUR</a> = 0x00080</td></tr>
-<tr class="memdesc:a121f32068e101ac6b02d50dce5c34eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">CMYK colour space (Encapsulated PostScript and TIF)  <br /></td></tr>
-<tr class="separator:a121f32068e101ac6b02d50dce5c34eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc3f8f886f63f4d83786a62eb5e3ca47" id="r_acc3f8f886f63f4d83786a62eb5e3ca47"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc3f8f886f63f4d83786a62eb5e3ca47">OUT_DOTTY_MODE</a> = 0x00100</td></tr>
+<tr class="memitem:a121f32068e101ac6b02d50dce5c34eff" id="r_a121f32068e101ac6b02d50dce5c34eff"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a121f32068e101ac6b02d50dce5c34eff">OUT_CMYK_COLOUR</a> = 0x00080</td></tr>
+<tr class="memdesc:a121f32068e101ac6b02d50dce5c34eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">CMYK colour space (Encapsulated PostScript and TIF).  <br /></td></tr>
+<tr class="memitem:acc3f8f886f63f4d83786a62eb5e3ca47" id="r_acc3f8f886f63f4d83786a62eb5e3ca47"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#acc3f8f886f63f4d83786a62eb5e3ca47">OUT_DOTTY_MODE</a> = 0x00100</td></tr>
 <tr class="memdesc:acc3f8f886f63f4d83786a62eb5e3ca47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Plot a matrix symbol using dots rather than squares.  <br /></td></tr>
-<tr class="separator:acc3f8f886f63f4d83786a62eb5e3ca47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14d4a253d633c516e91209c231687f3c" id="r_a14d4a253d633c516e91209c231687f3c"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a14d4a253d633c516e91209c231687f3c">OUT_GS1_GS_SEPARATOR</a> = 0x00200</td></tr>
-<tr class="memdesc:a14d4a253d633c516e91209c231687f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use GS instead of FNC1 as GS1 separator (Data Matrix)  <br /></td></tr>
-<tr class="separator:a14d4a253d633c516e91209c231687f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f192353b7b9b31ebd43e3aa8682d6ad" id="r_a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f192353b7b9b31ebd43e3aa8682d6ad">OUT_BUFFER_INTERMEDIATE</a> = 0x00400</td></tr>
-<tr class="memdesc:a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return ASCII values in bitmap buffer (OUT_BUFFER only)  <br /></td></tr>
-<tr class="separator:a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8540f3f973dd5b0be0e651740e575cb7" id="r_a8540f3f973dd5b0be0e651740e575cb7"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8540f3f973dd5b0be0e651740e575cb7">OUT_QUIET_ZONES</a> = 0x00800</td></tr>
+<tr class="memitem:a14d4a253d633c516e91209c231687f3c" id="r_a14d4a253d633c516e91209c231687f3c"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a14d4a253d633c516e91209c231687f3c">OUT_GS1_GS_SEPARATOR</a> = 0x00200</td></tr>
+<tr class="memdesc:a14d4a253d633c516e91209c231687f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use GS instead of FNC1 as GS1 separator (Data Matrix).  <br /></td></tr>
+<tr class="memitem:a7f192353b7b9b31ebd43e3aa8682d6ad" id="r_a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a7f192353b7b9b31ebd43e3aa8682d6ad">OUT_BUFFER_INTERMEDIATE</a> = 0x00400</td></tr>
+<tr class="memdesc:a7f192353b7b9b31ebd43e3aa8682d6ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return ASCII values in bitmap buffer (OUT_BUFFER only).  <br /></td></tr>
+<tr class="memitem:a8540f3f973dd5b0be0e651740e575cb7" id="r_a8540f3f973dd5b0be0e651740e575cb7"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a8540f3f973dd5b0be0e651740e575cb7">OUT_QUIET_ZONES</a> = 0x00800</td></tr>
 <tr class="memdesc:a8540f3f973dd5b0be0e651740e575cb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add compliant quiet zones (additional to any specified whitespace) (.  <br /></td></tr>
-<tr class="separator:a8540f3f973dd5b0be0e651740e575cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d4f9ec6c99fb38be63d9dd4a1aae323" id="r_a8d4f9ec6c99fb38be63d9dd4a1aae323"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d4f9ec6c99fb38be63d9dd4a1aae323">OUT_NO_QUIET_ZONES</a> = 0x01000</td></tr>
+<tr class="memitem:a8d4f9ec6c99fb38be63d9dd4a1aae323" id="r_a8d4f9ec6c99fb38be63d9dd4a1aae323"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a8d4f9ec6c99fb38be63d9dd4a1aae323">OUT_NO_QUIET_ZONES</a> = 0x01000</td></tr>
 <tr class="memdesc:a8d4f9ec6c99fb38be63d9dd4a1aae323"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable quiet zones, notably those with defaults as listed above.  <br /></td></tr>
-<tr class="separator:a8d4f9ec6c99fb38be63d9dd4a1aae323"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a593ccd45c63ec09aa72ab667d002a38b" id="r_a593ccd45c63ec09aa72ab667d002a38b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a593ccd45c63ec09aa72ab667d002a38b">OUT_COMPLIANT_HEIGHT</a> = 0x02000</td></tr>
+<tr class="memitem:a593ccd45c63ec09aa72ab667d002a38b" id="r_a593ccd45c63ec09aa72ab667d002a38b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a593ccd45c63ec09aa72ab667d002a38b">OUT_COMPLIANT_HEIGHT</a> = 0x02000</td></tr>
 <tr class="memdesc:a593ccd45c63ec09aa72ab667d002a38b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warn if height not compliant, or use standard height (if any) as default.  <br /></td></tr>
-<tr class="separator:a593ccd45c63ec09aa72ab667d002a38b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9818b6214a30d27dfca370676d8a07c6" id="r_a9818b6214a30d27dfca370676d8a07c6"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9818b6214a30d27dfca370676d8a07c6">OUT_EANUPC_GUARD_WHITESPACE</a> = 0x04000</td></tr>
-<tr class="memdesc:a9818b6214a30d27dfca370676d8a07c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add quiet zone indicators ("&lt;"/"&gt;") to HRT whitespace (EAN/UPC)  <br /></td></tr>
-<tr class="separator:a9818b6214a30d27dfca370676d8a07c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2e94c8b10798eec03668cee79cd5fce" id="r_ae2e94c8b10798eec03668cee79cd5fce"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2e94c8b10798eec03668cee79cd5fce">OUT_EMBED_VECTOR_FONT</a> = 0x08000</td></tr>
+<tr class="memitem:a9818b6214a30d27dfca370676d8a07c6" id="r_a9818b6214a30d27dfca370676d8a07c6"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a9818b6214a30d27dfca370676d8a07c6">OUT_EANUPC_GUARD_WHITESPACE</a> = 0x04000</td></tr>
+<tr class="memdesc:a9818b6214a30d27dfca370676d8a07c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add quiet zone indicators ("&lt;"/"&gt;") to HRT whitespace (EAN/UPC).  <br /></td></tr>
+<tr class="memitem:ae2e94c8b10798eec03668cee79cd5fce" id="r_ae2e94c8b10798eec03668cee79cd5fce"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#ae2e94c8b10798eec03668cee79cd5fce">OUT_EMBED_VECTOR_FONT</a> = 0x08000</td></tr>
 <tr class="memdesc:ae2e94c8b10798eec03668cee79cd5fce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Embed font in vector output - currently only for SVG output.  <br /></td></tr>
-<tr class="separator:ae2e94c8b10798eec03668cee79cd5fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab55ccb46911bccb1d2e2c3cab190c5b" id="r_aab55ccb46911bccb1d2e2c3cab190c5b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab55ccb46911bccb1d2e2c3cab190c5b">OUT_MEMORY_FILE</a> = 0x10000</td></tr>
-<tr class="memdesc:aab55ccb46911bccb1d2e2c3cab190c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write output to in-memory buffer <code>memfile</code> instead of to <code>outfile</code>  <br /></td></tr>
-<tr class="separator:aab55ccb46911bccb1d2e2c3cab190c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b2b30323453b986369a501707df2a1b" id="r_a4b2b30323453b986369a501707df2a1b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4b2b30323453b986369a501707df2a1b">INP_DATA_MODE</a> = 0</td></tr>
+<tr class="memitem:aab55ccb46911bccb1d2e2c3cab190c5b" id="r_aab55ccb46911bccb1d2e2c3cab190c5b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#aab55ccb46911bccb1d2e2c3cab190c5b">OUT_MEMORY_FILE</a> = 0x10000</td></tr>
+<tr class="memdesc:aab55ccb46911bccb1d2e2c3cab190c5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write output to in-memory buffer <span class="tt">memfile</span> instead of to <span class="tt">outfile</span>.  <br /></td></tr>
+<tr class="memitem:a4b2b30323453b986369a501707df2a1b" id="r_a4b2b30323453b986369a501707df2a1b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a4b2b30323453b986369a501707df2a1b">INP_DATA_MODE</a> = 0</td></tr>
 <tr class="memdesc:a4b2b30323453b986369a501707df2a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary.  <br /></td></tr>
-<tr class="separator:a4b2b30323453b986369a501707df2a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e76ca34a6b94a9256732ee0006ee9da" id="r_a6e76ca34a6b94a9256732ee0006ee9da"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e76ca34a6b94a9256732ee0006ee9da">INP_UNICODE_MODE</a> = 1</td></tr>
+<tr class="memitem:a6e76ca34a6b94a9256732ee0006ee9da" id="r_a6e76ca34a6b94a9256732ee0006ee9da"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a6e76ca34a6b94a9256732ee0006ee9da">INP_UNICODE_MODE</a> = 1</td></tr>
 <tr class="memdesc:a6e76ca34a6b94a9256732ee0006ee9da"><td class="mdescLeft">&#160;</td><td class="mdescRight">UTF-8.  <br /></td></tr>
-<tr class="separator:a6e76ca34a6b94a9256732ee0006ee9da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed9c41048999f178f73c23832d63a7a5" id="r_aed9c41048999f178f73c23832d63a7a5"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed9c41048999f178f73c23832d63a7a5">INP_GS1_MODE</a> = 2</td></tr>
+<tr class="memitem:aed9c41048999f178f73c23832d63a7a5" id="r_aed9c41048999f178f73c23832d63a7a5"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#aed9c41048999f178f73c23832d63a7a5">INP_GS1_MODE</a> = 2</td></tr>
 <tr class="memdesc:aed9c41048999f178f73c23832d63a7a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">GS1.  <br /></td></tr>
-<tr class="separator:aed9c41048999f178f73c23832d63a7a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f0d0ca5be1338cb7155a30780df1817" id="r_a3f0d0ca5be1338cb7155a30780df1817"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f0d0ca5be1338cb7155a30780df1817">INP_ESCAPE_MODE</a> = 0x0008</td></tr>
+<tr class="memitem:a3f0d0ca5be1338cb7155a30780df1817" id="r_a3f0d0ca5be1338cb7155a30780df1817"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a3f0d0ca5be1338cb7155a30780df1817">INP_ESCAPE_MODE</a> = 0x0008</td></tr>
 <tr class="memdesc:a3f0d0ca5be1338cb7155a30780df1817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process escape sequences.  <br /></td></tr>
-<tr class="separator:a3f0d0ca5be1338cb7155a30780df1817"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8febe5c037ee3f3a5b87ec795903ce47" id="r_a8febe5c037ee3f3a5b87ec795903ce47"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8febe5c037ee3f3a5b87ec795903ce47">INP_GS1PARENS_MODE</a> = 0x0010</td></tr>
-<tr class="memdesc:a8febe5c037ee3f3a5b87ec795903ce47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process parentheses as GS1 AI delimiters (instead of square brackets)  <br /></td></tr>
-<tr class="separator:a8febe5c037ee3f3a5b87ec795903ce47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade2ede20b8f0156b5f1b6e29a3acc223" id="r_ade2ede20b8f0156b5f1b6e29a3acc223"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade2ede20b8f0156b5f1b6e29a3acc223">INP_GS1NOCHECK_MODE</a> = 0x0020</td></tr>
-<tr class="memdesc:ade2ede20b8f0156b5f1b6e29a3acc223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do not check validity of GS1 data (except that printable ASCII only)  <br /></td></tr>
-<tr class="separator:ade2ede20b8f0156b5f1b6e29a3acc223"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7a3a9a75cf7d7408837e323c2bef501" id="r_ab7a3a9a75cf7d7408837e323c2bef501"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab7a3a9a75cf7d7408837e323c2bef501">INP_HEIGHTPERROW_MODE</a> = 0x0040</td></tr>
-<tr class="memdesc:ab7a3a9a75cf7d7408837e323c2bef501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpret <code>height</code> as per-row rather than as overall height.  <br /></td></tr>
-<tr class="separator:ab7a3a9a75cf7d7408837e323c2bef501"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c7a31bc25ec951c94a2ac5df3663874" id="r_a7c7a31bc25ec951c94a2ac5df3663874"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7c7a31bc25ec951c94a2ac5df3663874">INP_FAST_MODE</a> = 0x0080</td></tr>
-<tr class="memdesc:a7c7a31bc25ec951c94a2ac5df3663874"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use faster if less optimal encodation or other shortcuts if available (affects DATAMATRIX, MICROPDF417, PDF417, QRCODE &amp; UPNQR only)  <br /></td></tr>
-<tr class="separator:a7c7a31bc25ec951c94a2ac5df3663874"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbfd7972570ad691eb3bd4b533b5159f" id="r_afbfd7972570ad691eb3bd4b533b5159f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afbfd7972570ad691eb3bd4b533b5159f">INP_EXTRA_ESCAPE_MODE</a> = 0x0100</td></tr>
+<tr class="memitem:a8febe5c037ee3f3a5b87ec795903ce47" id="r_a8febe5c037ee3f3a5b87ec795903ce47"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a8febe5c037ee3f3a5b87ec795903ce47">INP_GS1PARENS_MODE</a> = 0x0010</td></tr>
+<tr class="memdesc:a8febe5c037ee3f3a5b87ec795903ce47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process parentheses as GS1 AI delimiters (instead of square brackets).  <br /></td></tr>
+<tr class="memitem:ade2ede20b8f0156b5f1b6e29a3acc223" id="r_ade2ede20b8f0156b5f1b6e29a3acc223"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#ade2ede20b8f0156b5f1b6e29a3acc223">INP_GS1NOCHECK_MODE</a> = 0x0020</td></tr>
+<tr class="memdesc:ade2ede20b8f0156b5f1b6e29a3acc223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do not check validity of GS1 data (except that printable ASCII only).  <br /></td></tr>
+<tr class="memitem:ab7a3a9a75cf7d7408837e323c2bef501" id="r_ab7a3a9a75cf7d7408837e323c2bef501"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#ab7a3a9a75cf7d7408837e323c2bef501">INP_HEIGHTPERROW_MODE</a> = 0x0040</td></tr>
+<tr class="memdesc:ab7a3a9a75cf7d7408837e323c2bef501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpret <span class="tt">height</span> as per-row rather than as overall height.  <br /></td></tr>
+<tr class="memitem:a7c7a31bc25ec951c94a2ac5df3663874" id="r_a7c7a31bc25ec951c94a2ac5df3663874"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a7c7a31bc25ec951c94a2ac5df3663874">INP_FAST_MODE</a> = 0x0080</td></tr>
+<tr class="memdesc:a7c7a31bc25ec951c94a2ac5df3663874"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use faster if less optimal encodation or other shortcuts if available (affects DATAMATRIX, MICROPDF417, PDF417, QRCODE &amp; UPNQR only).  <br /></td></tr>
+<tr class="memitem:afbfd7972570ad691eb3bd4b533b5159f" id="r_afbfd7972570ad691eb3bd4b533b5159f"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#afbfd7972570ad691eb3bd4b533b5159f">INP_EXTRA_ESCAPE_MODE</a> = 0x0100</td></tr>
 <tr class="memdesc:afbfd7972570ad691eb3bd4b533b5159f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process special symbology-specific escape sequences as well as others (.  <br /></td></tr>
-<tr class="separator:afbfd7972570ad691eb3bd4b533b5159f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b7f2c6ce2a9516dd31b05a308b26426" id="r_a9b7f2c6ce2a9516dd31b05a308b26426"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b7f2c6ce2a9516dd31b05a308b26426">OPT_DM_SQUARE</a> = 100</td></tr>
-<tr class="memdesc:a9b7f2c6ce2a9516dd31b05a308b26426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data Matrix specific options (<code>symbol-&gt;option_3</code>)  <br /></td></tr>
-<tr class="separator:a9b7f2c6ce2a9516dd31b05a308b26426"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72fc1ebf3c0f1aa13167caf48aab031f" id="r_a72fc1ebf3c0f1aa13167caf48aab031f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72fc1ebf3c0f1aa13167caf48aab031f">OPT_DM_DMRE</a> = 101</td></tr>
+<tr class="memitem:a9b7f2c6ce2a9516dd31b05a308b26426" id="r_a9b7f2c6ce2a9516dd31b05a308b26426"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a9b7f2c6ce2a9516dd31b05a308b26426">OPT_DM_SQUARE</a> = 100</td></tr>
+<tr class="memdesc:a9b7f2c6ce2a9516dd31b05a308b26426"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data Matrix specific options (<span class="tt">symbol-&gt;option_3</span>).  <br /></td></tr>
+<tr class="memitem:a72fc1ebf3c0f1aa13167caf48aab031f" id="r_a72fc1ebf3c0f1aa13167caf48aab031f"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a72fc1ebf3c0f1aa13167caf48aab031f">OPT_DM_DMRE</a> = 101</td></tr>
 <tr class="memdesc:a72fc1ebf3c0f1aa13167caf48aab031f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consider DMRE versions on automatic symbol size selection.  <br /></td></tr>
-<tr class="separator:a72fc1ebf3c0f1aa13167caf48aab031f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cd2eb797fc5bf48abbc3864491a18e2" id="r_a1cd2eb797fc5bf48abbc3864491a18e2"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cd2eb797fc5bf48abbc3864491a18e2">OPT_DM_ISO_144</a> = 128</td></tr>
-<tr class="memdesc:a1cd2eb797fc5bf48abbc3864491a18e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use ISO instead of "de facto" format for 144x144 (i.e. don't skew ECC)  <br /></td></tr>
-<tr class="separator:a1cd2eb797fc5bf48abbc3864491a18e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa07ac8698c72acc3c1432f09c819cb21" id="r_aa07ac8698c72acc3c1432f09c819cb21"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa07ac8698c72acc3c1432f09c819cb21">OPT_FULL_MULTIBYTE</a> = 200</td></tr>
-<tr class="memdesc:aa07ac8698c72acc3c1432f09c819cb21"><td class="mdescLeft">&#160;</td><td class="mdescRight">QR, Han Xin, Grid Matrix specific options (<code>symbol-&gt;option_3</code>)  <br /></td></tr>
-<tr class="separator:aa07ac8698c72acc3c1432f09c819cb21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7996f7a35e489f134020dceb034a4ca5" id="r_a7996f7a35e489f134020dceb034a4ca5"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7996f7a35e489f134020dceb034a4ca5">OPT_ULTRA_COMPRESSION</a> = 128</td></tr>
-<tr class="memdesc:a7996f7a35e489f134020dceb034a4ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ultracode specific option (<code>symbol-&gt;option_3</code>)  <br /></td></tr>
-<tr class="separator:a7996f7a35e489f134020dceb034a4ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab646fb68562479a6328c58bc0d798f5f" id="r_ab646fb68562479a6328c58bc0d798f5f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab646fb68562479a6328c58bc0d798f5f">WARN_DEFAULT</a> = 0</td></tr>
-<tr class="memdesc:ab646fb68562479a6328c58bc0d798f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warning level (<code>symbol-&gt;warn_level</code>)  <br /></td></tr>
-<tr class="separator:ab646fb68562479a6328c58bc0d798f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a438618c787435bf04ceb89765b15b62b" id="r_a438618c787435bf04ceb89765b15b62b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a438618c787435bf04ceb89765b15b62b">WARN_FAIL_ALL</a> = 2</td></tr>
+<tr class="memitem:a1cd2eb797fc5bf48abbc3864491a18e2" id="r_a1cd2eb797fc5bf48abbc3864491a18e2"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a1cd2eb797fc5bf48abbc3864491a18e2">OPT_DM_ISO_144</a> = 128</td></tr>
+<tr class="memdesc:a1cd2eb797fc5bf48abbc3864491a18e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use ISO instead of "de facto" format for 144x144 (i.e. don't skew ECC).  <br /></td></tr>
+<tr class="memitem:aa07ac8698c72acc3c1432f09c819cb21" id="r_aa07ac8698c72acc3c1432f09c819cb21"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#aa07ac8698c72acc3c1432f09c819cb21">OPT_FULL_MULTIBYTE</a> = 200</td></tr>
+<tr class="memdesc:aa07ac8698c72acc3c1432f09c819cb21"><td class="mdescLeft">&#160;</td><td class="mdescRight">QR, Han Xin, Grid Matrix specific options (<span class="tt">symbol-&gt;option_3</span>).  <br /></td></tr>
+<tr class="memitem:a7996f7a35e489f134020dceb034a4ca5" id="r_a7996f7a35e489f134020dceb034a4ca5"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a7996f7a35e489f134020dceb034a4ca5">OPT_ULTRA_COMPRESSION</a> = 128</td></tr>
+<tr class="memdesc:a7996f7a35e489f134020dceb034a4ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ultracode specific option (<span class="tt">symbol-&gt;option_3</span>).  <br /></td></tr>
+<tr class="memitem:ab646fb68562479a6328c58bc0d798f5f" id="r_ab646fb68562479a6328c58bc0d798f5f"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#ab646fb68562479a6328c58bc0d798f5f">WARN_DEFAULT</a> = 0</td></tr>
+<tr class="memdesc:ab646fb68562479a6328c58bc0d798f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Warning level (<span class="tt">symbol-&gt;warn_level</span>).  <br /></td></tr>
+<tr class="memitem:a438618c787435bf04ceb89765b15b62b" id="r_a438618c787435bf04ceb89765b15b62b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a438618c787435bf04ceb89765b15b62b">WARN_FAIL_ALL</a> = 2</td></tr>
 <tr class="memdesc:a438618c787435bf04ceb89765b15b62b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Treat warning as error.  <br /></td></tr>
-<tr class="separator:a438618c787435bf04ceb89765b15b62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a139f03debc0cd9c9226b9bc54e3cf8f0" id="r_a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a139f03debc0cd9c9226b9bc54e3cf8f0">CAP_HRT</a> = 0x0001</td></tr>
-<tr class="memdesc:a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zint Capability flags (ZBarcode_Cap() <code>cap_flag</code>)  <br /></td></tr>
-<tr class="separator:a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6624c15b238a7cdf0297a25d2bf00cfb" id="r_a6624c15b238a7cdf0297a25d2bf00cfb"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6624c15b238a7cdf0297a25d2bf00cfb">CAP_STACKABLE</a> = 0x0002</td></tr>
+<tr class="memitem:a139f03debc0cd9c9226b9bc54e3cf8f0" id="r_a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a139f03debc0cd9c9226b9bc54e3cf8f0">CAP_HRT</a> = 0x0001</td></tr>
+<tr class="memdesc:a139f03debc0cd9c9226b9bc54e3cf8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zint Capability flags (ZBarcode_Cap() <span class="tt">cap_flag</span>).  <br /></td></tr>
+<tr class="memitem:a6624c15b238a7cdf0297a25d2bf00cfb" id="r_a6624c15b238a7cdf0297a25d2bf00cfb"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a6624c15b238a7cdf0297a25d2bf00cfb">CAP_STACKABLE</a> = 0x0002</td></tr>
 <tr class="memdesc:a6624c15b238a7cdf0297a25d2bf00cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is stackable?  <br /></td></tr>
-<tr class="separator:a6624c15b238a7cdf0297a25d2bf00cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a44bf1b4ed6e44c2e5e11b119443d00d1" id="r_a44bf1b4ed6e44c2e5e11b119443d00d1"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44bf1b4ed6e44c2e5e11b119443d00d1">CAP_EANUPC</a> = 0x0004</td></tr>
+<tr class="memitem:a44bf1b4ed6e44c2e5e11b119443d00d1" id="r_a44bf1b4ed6e44c2e5e11b119443d00d1"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a44bf1b4ed6e44c2e5e11b119443d00d1">CAP_EANUPC</a> = 0x0004</td></tr>
 <tr class="memdesc:a44bf1b4ed6e44c2e5e11b119443d00d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is EAN/UPC?  <br /></td></tr>
-<tr class="separator:a44bf1b4ed6e44c2e5e11b119443d00d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c9cd28701f1a240978059dd01c3e57b" id="r_a2c9cd28701f1a240978059dd01c3e57b"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2c9cd28701f1a240978059dd01c3e57b">CAP_EXTENDABLE</a> = 0x0004</td></tr>
+<tr class="memitem:a2c9cd28701f1a240978059dd01c3e57b" id="r_a2c9cd28701f1a240978059dd01c3e57b"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a2c9cd28701f1a240978059dd01c3e57b">CAP_EXTENDABLE</a> = 0x0004</td></tr>
 <tr class="memdesc:a2c9cd28701f1a240978059dd01c3e57b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Legacy.  <br /></td></tr>
-<tr class="separator:a2c9cd28701f1a240978059dd01c3e57b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4633570b0a71bd6acb3eb78140dbc647" id="r_a4633570b0a71bd6acb3eb78140dbc647"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4633570b0a71bd6acb3eb78140dbc647">CAP_COMPOSITE</a> = 0x0008</td></tr>
+<tr class="memitem:a4633570b0a71bd6acb3eb78140dbc647" id="r_a4633570b0a71bd6acb3eb78140dbc647"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a4633570b0a71bd6acb3eb78140dbc647">CAP_COMPOSITE</a> = 0x0008</td></tr>
 <tr class="memdesc:a4633570b0a71bd6acb3eb78140dbc647"><td class="mdescLeft">&#160;</td><td class="mdescRight">Can have composite data?  <br /></td></tr>
-<tr class="separator:a4633570b0a71bd6acb3eb78140dbc647"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0be973ed3be4752a32beafeb4d9f089c" id="r_a0be973ed3be4752a32beafeb4d9f089c"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0be973ed3be4752a32beafeb4d9f089c">CAP_ECI</a> = 0x0010</td></tr>
+<tr class="memitem:a0be973ed3be4752a32beafeb4d9f089c" id="r_a0be973ed3be4752a32beafeb4d9f089c"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a0be973ed3be4752a32beafeb4d9f089c">CAP_ECI</a> = 0x0010</td></tr>
 <tr class="memdesc:a0be973ed3be4752a32beafeb4d9f089c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports Extended Channel Interpretations?  <br /></td></tr>
-<tr class="separator:a0be973ed3be4752a32beafeb4d9f089c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa7f8df4947e7889fd894eb9b098199e" id="r_aaa7f8df4947e7889fd894eb9b098199e"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaa7f8df4947e7889fd894eb9b098199e">CAP_GS1</a> = 0x0020</td></tr>
+<tr class="memitem:aaa7f8df4947e7889fd894eb9b098199e" id="r_aaa7f8df4947e7889fd894eb9b098199e"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#aaa7f8df4947e7889fd894eb9b098199e">CAP_GS1</a> = 0x0020</td></tr>
 <tr class="memdesc:aaa7f8df4947e7889fd894eb9b098199e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports GS1 data?  <br /></td></tr>
-<tr class="separator:aaa7f8df4947e7889fd894eb9b098199e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4afa864c147073b88eb93c0da9856d6" id="r_af4afa864c147073b88eb93c0da9856d6"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4afa864c147073b88eb93c0da9856d6">CAP_DOTTY</a> = 0x0040</td></tr>
+<tr class="memitem:af4afa864c147073b88eb93c0da9856d6" id="r_af4afa864c147073b88eb93c0da9856d6"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#af4afa864c147073b88eb93c0da9856d6">CAP_DOTTY</a> = 0x0040</td></tr>
 <tr class="memdesc:af4afa864c147073b88eb93c0da9856d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Can be output as dots?  <br /></td></tr>
-<tr class="separator:af4afa864c147073b88eb93c0da9856d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb6dce697cd575c692a1ff8ae97091e4" id="r_acb6dce697cd575c692a1ff8ae97091e4"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb6dce697cd575c692a1ff8ae97091e4">CAP_QUIET_ZONES</a> = 0x0080</td></tr>
+<tr class="memitem:acb6dce697cd575c692a1ff8ae97091e4" id="r_acb6dce697cd575c692a1ff8ae97091e4"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#acb6dce697cd575c692a1ff8ae97091e4">CAP_QUIET_ZONES</a> = 0x0080</td></tr>
 <tr class="memdesc:acb6dce697cd575c692a1ff8ae97091e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has default quiet zones?  <br /></td></tr>
-<tr class="separator:acb6dce697cd575c692a1ff8ae97091e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2abf2c5d1721606e1c32d9e24af5fc77" id="r_a2abf2c5d1721606e1c32d9e24af5fc77"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2abf2c5d1721606e1c32d9e24af5fc77">CAP_FIXED_RATIO</a> = 0x0100</td></tr>
+<tr class="memitem:a2abf2c5d1721606e1c32d9e24af5fc77" id="r_a2abf2c5d1721606e1c32d9e24af5fc77"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a2abf2c5d1721606e1c32d9e24af5fc77">CAP_FIXED_RATIO</a> = 0x0100</td></tr>
 <tr class="memdesc:a2abf2c5d1721606e1c32d9e24af5fc77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has fixed width-to-height (aspect) ratio?  <br /></td></tr>
-<tr class="separator:a2abf2c5d1721606e1c32d9e24af5fc77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a045e9f6adf10904e5042568a4d997c" id="r_a6a045e9f6adf10904e5042568a4d997c"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6a045e9f6adf10904e5042568a4d997c">CAP_READER_INIT</a> = 0x0200</td></tr>
+<tr class="memitem:a6a045e9f6adf10904e5042568a4d997c" id="r_a6a045e9f6adf10904e5042568a4d997c"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a6a045e9f6adf10904e5042568a4d997c">CAP_READER_INIT</a> = 0x0200</td></tr>
 <tr class="memdesc:a6a045e9f6adf10904e5042568a4d997c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports Reader Initialisation?  <br /></td></tr>
-<tr class="separator:a6a045e9f6adf10904e5042568a4d997c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89e83a2cbcc3f84d3c8ed3c790a2339f" id="r_a89e83a2cbcc3f84d3c8ed3c790a2339f"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a89e83a2cbcc3f84d3c8ed3c790a2339f">CAP_FULL_MULTIBYTE</a> = 0x0400</td></tr>
+<tr class="memitem:a89e83a2cbcc3f84d3c8ed3c790a2339f" id="r_a89e83a2cbcc3f84d3c8ed3c790a2339f"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a89e83a2cbcc3f84d3c8ed3c790a2339f">CAP_FULL_MULTIBYTE</a> = 0x0400</td></tr>
 <tr class="memdesc:a89e83a2cbcc3f84d3c8ed3c790a2339f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports full-multibyte option?  <br /></td></tr>
-<tr class="separator:a89e83a2cbcc3f84d3c8ed3c790a2339f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a949eeb8e8f591d66f888ededcecc79be" id="r_a949eeb8e8f591d66f888ededcecc79be"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a949eeb8e8f591d66f888ededcecc79be">CAP_MASK</a> = 0x0800</td></tr>
+<tr class="memitem:a949eeb8e8f591d66f888ededcecc79be" id="r_a949eeb8e8f591d66f888ededcecc79be"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#a949eeb8e8f591d66f888ededcecc79be">CAP_MASK</a> = 0x0800</td></tr>
 <tr class="memdesc:a949eeb8e8f591d66f888ededcecc79be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is mask selectable?  <br /></td></tr>
-<tr class="separator:a949eeb8e8f591d66f888ededcecc79be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5015c7a281913a25d5eca3b17a3be75" id="r_af5015c7a281913a25d5eca3b17a3be75"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af5015c7a281913a25d5eca3b17a3be75">CAP_STRUCTAPP</a> = 0x1000</td></tr>
+<tr class="memitem:af5015c7a281913a25d5eca3b17a3be75" id="r_af5015c7a281913a25d5eca3b17a3be75"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#af5015c7a281913a25d5eca3b17a3be75">CAP_STRUCTAPP</a> = 0x1000</td></tr>
 <tr class="memdesc:af5015c7a281913a25d5eca3b17a3be75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supports Structured Append?  <br /></td></tr>
-<tr class="separator:af5015c7a281913a25d5eca3b17a3be75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2641336e88dfff252143cd8afc6c4d8" id="r_ae2641336e88dfff252143cd8afc6c4d8"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae2641336e88dfff252143cd8afc6c4d8">CAP_COMPLIANT_HEIGHT</a> = 0x2000</td></tr>
+<tr class="memitem:ae2641336e88dfff252143cd8afc6c4d8" id="r_ae2641336e88dfff252143cd8afc6c4d8"><td class="memItemLeft">const int&#160;</td><td class="memItemRight"><a class="el" href="#ae2641336e88dfff252143cd8afc6c4d8">CAP_COMPLIANT_HEIGHT</a> = 0x2000</td></tr>
 <tr class="memdesc:ae2641336e88dfff252143cd8afc6c4d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Has compliant height?  <br /></td></tr>
-<tr class="separator:ae2641336e88dfff252143cd8afc6c4d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
 <a id="afff100d44cbab54155b8e89156444ed5" name="afff100d44cbab54155b8e89156444ed5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afff100d44cbab54155b8e89156444ed5">&#9670;&#160;</a></span>ReturnCode</h2>
 
@@ -412,39 +461,39 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Warning and error conditions (API return values) </p>
+<p>Warning and error conditions (API return values). </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a6e0058398c43859d866ba5ce19d8f92f" name="afff100d44cbab54155b8e89156444ed5a6e0058398c43859d866ba5ce19d8f92f"></a>BC_WARN_HRT_TRUNCATED&#160;</td><td class="fielddoc"><p>Human Readable Text was truncated (max 199 bytes) </p>
+<tr><th colspan="3">Enumerator</th></tr><tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a6e0058398c43859d866ba5ce19d8f92f" name="afff100d44cbab54155b8e89156444ed5a6e0058398c43859d866ba5ce19d8f92f"></a>BC_WARN_HRT_TRUNCATED&#160;</td><td class="fieldinit">1&#160;</td><td class="fielddoc"><p>Human Readable Text was truncated (max 199 bytes). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5ad478d2412c32422556f1396dbf70a439" name="afff100d44cbab54155b8e89156444ed5ad478d2412c32422556f1396dbf70a439"></a>BC_WARN_INVALID_OPTION&#160;</td><td class="fielddoc"><p>Invalid option given but overridden by Zint. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5ad478d2412c32422556f1396dbf70a439" name="afff100d44cbab54155b8e89156444ed5ad478d2412c32422556f1396dbf70a439"></a>BC_WARN_INVALID_OPTION&#160;</td><td class="fieldinit">2&#160;</td><td class="fielddoc"><p>Invalid option given but overridden by Zint. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5ac997f6b1b569879d87edab4b8fd8d3e9" name="afff100d44cbab54155b8e89156444ed5ac997f6b1b569879d87edab4b8fd8d3e9"></a>BC_WARN_USES_ECI&#160;</td><td class="fielddoc"><p>Automatic ECI inserted by Zint. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5ac997f6b1b569879d87edab4b8fd8d3e9" name="afff100d44cbab54155b8e89156444ed5ac997f6b1b569879d87edab4b8fd8d3e9"></a>BC_WARN_USES_ECI&#160;</td><td class="fieldinit">3&#160;</td><td class="fielddoc"><p>Automatic ECI inserted by Zint. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5ac2475ce6a3d6e5f88e6e064fe3d9db01" name="afff100d44cbab54155b8e89156444ed5ac2475ce6a3d6e5f88e6e064fe3d9db01"></a>BC_WARN_NONCOMPLIANT&#160;</td><td class="fielddoc"><p>Symbol created not compliant with standards. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5ac2475ce6a3d6e5f88e6e064fe3d9db01" name="afff100d44cbab54155b8e89156444ed5ac2475ce6a3d6e5f88e6e064fe3d9db01"></a>BC_WARN_NONCOMPLIANT&#160;</td><td class="fieldinit">4&#160;</td><td class="fielddoc"><p>Symbol created not compliant with standards. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5ad1275776797976cd9ca82f5a11483956" name="afff100d44cbab54155b8e89156444ed5ad1275776797976cd9ca82f5a11483956"></a>BC_ERROR&#160;</td><td class="fielddoc"><p>Warn/error marker, not returned. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5ad1275776797976cd9ca82f5a11483956" name="afff100d44cbab54155b8e89156444ed5ad1275776797976cd9ca82f5a11483956"></a>BC_ERROR&#160;</td><td class="fieldinit">5&#160;</td><td class="fielddoc"><p>Warn/error marker, not returned. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a9f3e6be9383a3e250de4b57fd86603f9" name="afff100d44cbab54155b8e89156444ed5a9f3e6be9383a3e250de4b57fd86603f9"></a>BC_ERROR_TOO_LONG&#160;</td><td class="fielddoc"><p>Input data wrong length. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a9f3e6be9383a3e250de4b57fd86603f9" name="afff100d44cbab54155b8e89156444ed5a9f3e6be9383a3e250de4b57fd86603f9"></a>BC_ERROR_TOO_LONG&#160;</td><td class="fieldinit">5&#160;</td><td class="fielddoc"><p>Input data wrong length. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a9d35943cb70b1fd7cf3fcc88b30af687" name="afff100d44cbab54155b8e89156444ed5a9d35943cb70b1fd7cf3fcc88b30af687"></a>BC_ERROR_INVALID_DATA&#160;</td><td class="fielddoc"><p>Input data incorrect. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a9d35943cb70b1fd7cf3fcc88b30af687" name="afff100d44cbab54155b8e89156444ed5a9d35943cb70b1fd7cf3fcc88b30af687"></a>BC_ERROR_INVALID_DATA&#160;</td><td class="fieldinit">6&#160;</td><td class="fielddoc"><p>Input data incorrect. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a49052a2ebddcbd1f3393808f191e56fa" name="afff100d44cbab54155b8e89156444ed5a49052a2ebddcbd1f3393808f191e56fa"></a>BC_ERROR_INVALID_CHECK&#160;</td><td class="fielddoc"><p>Input check digit incorrect. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a49052a2ebddcbd1f3393808f191e56fa" name="afff100d44cbab54155b8e89156444ed5a49052a2ebddcbd1f3393808f191e56fa"></a>BC_ERROR_INVALID_CHECK&#160;</td><td class="fieldinit">7&#160;</td><td class="fielddoc"><p>Input check digit incorrect. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5adcd4a1401a0ed5570c3549cc43ef3593" name="afff100d44cbab54155b8e89156444ed5adcd4a1401a0ed5570c3549cc43ef3593"></a>BC_ERROR_INVALID_OPTION&#160;</td><td class="fielddoc"><p>Incorrect option given. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5adcd4a1401a0ed5570c3549cc43ef3593" name="afff100d44cbab54155b8e89156444ed5adcd4a1401a0ed5570c3549cc43ef3593"></a>BC_ERROR_INVALID_OPTION&#160;</td><td class="fieldinit">8&#160;</td><td class="fielddoc"><p>Incorrect option given. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5aebbfa8b2f6ab6d3cb56217bedd18c1da" name="afff100d44cbab54155b8e89156444ed5aebbfa8b2f6ab6d3cb56217bedd18c1da"></a>BC_ERROR_ENCODING_PROBLEM&#160;</td><td class="fielddoc"><p>Internal error (should not happen) </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5aebbfa8b2f6ab6d3cb56217bedd18c1da" name="afff100d44cbab54155b8e89156444ed5aebbfa8b2f6ab6d3cb56217bedd18c1da"></a>BC_ERROR_ENCODING_PROBLEM&#160;</td><td class="fieldinit">9&#160;</td><td class="fielddoc"><p>Internal error (should not happen). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a408a22013387ff906d29f132c3b77a44" name="afff100d44cbab54155b8e89156444ed5a408a22013387ff906d29f132c3b77a44"></a>BC_ERROR_FILE_ACCESS&#160;</td><td class="fielddoc"><p>Error opening output file. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a408a22013387ff906d29f132c3b77a44" name="afff100d44cbab54155b8e89156444ed5a408a22013387ff906d29f132c3b77a44"></a>BC_ERROR_FILE_ACCESS&#160;</td><td class="fieldinit">10&#160;</td><td class="fielddoc"><p>Error opening output file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a34396c90e33c5f3a20ed9c9744531ad9" name="afff100d44cbab54155b8e89156444ed5a34396c90e33c5f3a20ed9c9744531ad9"></a>BC_ERROR_MEMORY&#160;</td><td class="fielddoc"><p>Memory allocation (malloc) failure. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a34396c90e33c5f3a20ed9c9744531ad9" name="afff100d44cbab54155b8e89156444ed5a34396c90e33c5f3a20ed9c9744531ad9"></a>BC_ERROR_MEMORY&#160;</td><td class="fieldinit">11&#160;</td><td class="fielddoc"><p>Memory allocation (malloc) failure. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a0257a9b97ad8317ebee286a228aeeed1" name="afff100d44cbab54155b8e89156444ed5a0257a9b97ad8317ebee286a228aeeed1"></a>BC_ERROR_FILE_WRITE&#160;</td><td class="fielddoc"><p>Error writing to output file. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a0257a9b97ad8317ebee286a228aeeed1" name="afff100d44cbab54155b8e89156444ed5a0257a9b97ad8317ebee286a228aeeed1"></a>BC_ERROR_FILE_WRITE&#160;</td><td class="fieldinit">12&#160;</td><td class="fielddoc"><p>Error writing to output file. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5aaed75d8cb7566bfb0805758a60fe1559" name="afff100d44cbab54155b8e89156444ed5aaed75d8cb7566bfb0805758a60fe1559"></a>BC_ERROR_USES_ECI&#160;</td><td class="fielddoc"><p>Error counterpart of warning if WARN_FAIL_ALL set (see below) </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5aaed75d8cb7566bfb0805758a60fe1559" name="afff100d44cbab54155b8e89156444ed5aaed75d8cb7566bfb0805758a60fe1559"></a>BC_ERROR_USES_ECI&#160;</td><td class="fieldinit">13&#160;</td><td class="fielddoc"><p>Error counterpart of warning if WARN_FAIL_ALL set (see below). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5aeda217cc3c6ef3869d8908da86106c6d" name="afff100d44cbab54155b8e89156444ed5aeda217cc3c6ef3869d8908da86106c6d"></a>BC_ERROR_NONCOMPLIANT&#160;</td><td class="fielddoc"><p>Error counterpart of warning if WARN_FAIL_ALL set. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5aeda217cc3c6ef3869d8908da86106c6d" name="afff100d44cbab54155b8e89156444ed5aeda217cc3c6ef3869d8908da86106c6d"></a>BC_ERROR_NONCOMPLIANT&#160;</td><td class="fieldinit">14&#160;</td><td class="fielddoc"><p>Error counterpart of warning if WARN_FAIL_ALL set. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a0b8e6cc0387b283e751ecf10b34598e9" name="afff100d44cbab54155b8e89156444ed5a0b8e6cc0387b283e751ecf10b34598e9"></a>BC_ERROR_HRT_TRUNCATED&#160;</td><td class="fielddoc"><p>Error counterpart of warning if WARN_FAIL_ALL set. </p>
+<tr><td class="fieldname"><a id="afff100d44cbab54155b8e89156444ed5a0b8e6cc0387b283e751ecf10b34598e9" name="afff100d44cbab54155b8e89156444ed5a0b8e6cc0387b283e751ecf10b34598e9"></a>BC_ERROR_HRT_TRUNCATED&#160;</td><td class="fieldinit">15&#160;</td><td class="fielddoc"><p>Error counterpart of warning if WARN_FAIL_ALL set. </p>
 </td></tr>
 </table>
 
@@ -472,253 +521,253 @@ Variables</h2></td></tr>
 
 <p>Symbologies as defined in the Zint library. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da6bc3e9c755e6f61bd01199face2569c6" name="a26a79b85a497fac0a5c79b3f5a08cf2da6bc3e9c755e6f61bd01199face2569c6"></a>SYM_UNDEFINED&#160;</td><td class="fielddoc"><p>Undefined symbology. </p>
+<tr><th colspan="3">Enumerator</th></tr><tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da6bc3e9c755e6f61bd01199face2569c6" name="a26a79b85a497fac0a5c79b3f5a08cf2da6bc3e9c755e6f61bd01199face2569c6"></a>SYM_UNDEFINED&#160;</td><td class="fieldinit">0&#160;</td><td class="fielddoc"><p>Undefined symbology. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa2c20478400593ff4b9cb5252b4cd617" name="a26a79b85a497fac0a5c79b3f5a08cf2daa2c20478400593ff4b9cb5252b4cd617"></a>SYM_CODE11&#160;</td><td class="fielddoc"><p>Code 11. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa2c20478400593ff4b9cb5252b4cd617" name="a26a79b85a497fac0a5c79b3f5a08cf2daa2c20478400593ff4b9cb5252b4cd617"></a>SYM_CODE11&#160;</td><td class="fieldinit">1&#160;</td><td class="fielddoc"><p>Code 11. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dabb2c47f8621b08dd6f8c694a97e71b4e" name="a26a79b85a497fac0a5c79b3f5a08cf2dabb2c47f8621b08dd6f8c694a97e71b4e"></a>SYM_C25STANDARD&#160;</td><td class="fielddoc"><p>2 of 5 Standard (Matrix) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dabb2c47f8621b08dd6f8c694a97e71b4e" name="a26a79b85a497fac0a5c79b3f5a08cf2dabb2c47f8621b08dd6f8c694a97e71b4e"></a>SYM_C25STANDARD&#160;</td><td class="fieldinit">2&#160;</td><td class="fielddoc"><p>2 of 5 Standard (Matrix) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daaa7dc838db00e7cf15b3d675f1b4a8ac" name="a26a79b85a497fac0a5c79b3f5a08cf2daaa7dc838db00e7cf15b3d675f1b4a8ac"></a>SYM_C25MATRIX&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_C25STANDARD. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daaa7dc838db00e7cf15b3d675f1b4a8ac" name="a26a79b85a497fac0a5c79b3f5a08cf2daaa7dc838db00e7cf15b3d675f1b4a8ac"></a>SYM_C25MATRIX&#160;</td><td class="fieldinit">2&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_C25STANDARD. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da63f85ca30a2038d90765b1c005a21484" name="a26a79b85a497fac0a5c79b3f5a08cf2da63f85ca30a2038d90765b1c005a21484"></a>SYM_C25INTER&#160;</td><td class="fielddoc"><p>2 of 5 Interleaved </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da63f85ca30a2038d90765b1c005a21484" name="a26a79b85a497fac0a5c79b3f5a08cf2da63f85ca30a2038d90765b1c005a21484"></a>SYM_C25INTER&#160;</td><td class="fieldinit">3&#160;</td><td class="fielddoc"><p>2 of 5 Interleaved </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da12c6772533e0d334fb960ea53172d129" name="a26a79b85a497fac0a5c79b3f5a08cf2da12c6772533e0d334fb960ea53172d129"></a>SYM_C25IATA&#160;</td><td class="fielddoc"><p>2 of 5 IATA </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da12c6772533e0d334fb960ea53172d129" name="a26a79b85a497fac0a5c79b3f5a08cf2da12c6772533e0d334fb960ea53172d129"></a>SYM_C25IATA&#160;</td><td class="fieldinit">4&#160;</td><td class="fielddoc"><p>2 of 5 IATA </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da82e93d75bb4e99e599bb6f647aeddf42" name="a26a79b85a497fac0a5c79b3f5a08cf2da82e93d75bb4e99e599bb6f647aeddf42"></a>SYM_C25LOGIC&#160;</td><td class="fielddoc"><p>2 of 5 Data Logic </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da82e93d75bb4e99e599bb6f647aeddf42" name="a26a79b85a497fac0a5c79b3f5a08cf2da82e93d75bb4e99e599bb6f647aeddf42"></a>SYM_C25LOGIC&#160;</td><td class="fieldinit">6&#160;</td><td class="fielddoc"><p>2 of 5 Data Logic </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dacdecc593842b0c68b5560fb7dba042bd" name="a26a79b85a497fac0a5c79b3f5a08cf2dacdecc593842b0c68b5560fb7dba042bd"></a>SYM_C25IND&#160;</td><td class="fielddoc"><p>2 of 5 Industrial </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dacdecc593842b0c68b5560fb7dba042bd" name="a26a79b85a497fac0a5c79b3f5a08cf2dacdecc593842b0c68b5560fb7dba042bd"></a>SYM_C25IND&#160;</td><td class="fieldinit">7&#160;</td><td class="fielddoc"><p>2 of 5 Industrial </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da0ce8831562fd8513d5dfa0ddc9697295" name="a26a79b85a497fac0a5c79b3f5a08cf2da0ce8831562fd8513d5dfa0ddc9697295"></a>SYM_CODE39&#160;</td><td class="fielddoc"><p>Code 39. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da0ce8831562fd8513d5dfa0ddc9697295" name="a26a79b85a497fac0a5c79b3f5a08cf2da0ce8831562fd8513d5dfa0ddc9697295"></a>SYM_CODE39&#160;</td><td class="fieldinit">8&#160;</td><td class="fielddoc"><p>Code 39. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa8e53b5fb9120964b9ad621f1ce40827" name="a26a79b85a497fac0a5c79b3f5a08cf2daa8e53b5fb9120964b9ad621f1ce40827"></a>SYM_EXCODE39&#160;</td><td class="fielddoc"><p>Extended Code 39. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa8e53b5fb9120964b9ad621f1ce40827" name="a26a79b85a497fac0a5c79b3f5a08cf2daa8e53b5fb9120964b9ad621f1ce40827"></a>SYM_EXCODE39&#160;</td><td class="fieldinit">9&#160;</td><td class="fielddoc"><p>Extended Code 39. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dafc5752a3ea70e8fb799a977bdf9ce6f4" name="a26a79b85a497fac0a5c79b3f5a08cf2dafc5752a3ea70e8fb799a977bdf9ce6f4"></a>SYM_EANX&#160;</td><td class="fielddoc"><p>EAN (European Article Number) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dafc5752a3ea70e8fb799a977bdf9ce6f4" name="a26a79b85a497fac0a5c79b3f5a08cf2dafc5752a3ea70e8fb799a977bdf9ce6f4"></a>SYM_EANX&#160;</td><td class="fieldinit">13&#160;</td><td class="fielddoc"><p>EAN (European Article Number). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5dec3e3a66c1d5866fbe125a1087b839" name="a26a79b85a497fac0a5c79b3f5a08cf2da5dec3e3a66c1d5866fbe125a1087b839"></a>SYM_EANX_CHK&#160;</td><td class="fielddoc"><p>EAN + Check Digit. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5dec3e3a66c1d5866fbe125a1087b839" name="a26a79b85a497fac0a5c79b3f5a08cf2da5dec3e3a66c1d5866fbe125a1087b839"></a>SYM_EANX_CHK&#160;</td><td class="fieldinit">14&#160;</td><td class="fielddoc"><p>EAN + Check Digit. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab47a24b590a8b810664c8dc0919b4604" name="a26a79b85a497fac0a5c79b3f5a08cf2dab47a24b590a8b810664c8dc0919b4604"></a>SYM_GS1_128&#160;</td><td class="fielddoc"><p>GS1-128. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab47a24b590a8b810664c8dc0919b4604" name="a26a79b85a497fac0a5c79b3f5a08cf2dab47a24b590a8b810664c8dc0919b4604"></a>SYM_GS1_128&#160;</td><td class="fieldinit">16&#160;</td><td class="fielddoc"><p>GS1-128. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da41a63ae55c8728acca4b802fe20a0bcd" name="a26a79b85a497fac0a5c79b3f5a08cf2da41a63ae55c8728acca4b802fe20a0bcd"></a>SYM_EAN128&#160;</td><td class="fielddoc"><p>Legacy. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da41a63ae55c8728acca4b802fe20a0bcd" name="a26a79b85a497fac0a5c79b3f5a08cf2da41a63ae55c8728acca4b802fe20a0bcd"></a>SYM_EAN128&#160;</td><td class="fieldinit">16&#160;</td><td class="fielddoc"><p>Legacy. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da26ec26b3c169563a0e00285598842328" name="a26a79b85a497fac0a5c79b3f5a08cf2da26ec26b3c169563a0e00285598842328"></a>SYM_CODABAR&#160;</td><td class="fielddoc"><p>Codabar. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da26ec26b3c169563a0e00285598842328" name="a26a79b85a497fac0a5c79b3f5a08cf2da26ec26b3c169563a0e00285598842328"></a>SYM_CODABAR&#160;</td><td class="fieldinit">18&#160;</td><td class="fielddoc"><p>Codabar. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da1fbd208b9671833c8ce2582e7b83b93e" name="a26a79b85a497fac0a5c79b3f5a08cf2da1fbd208b9671833c8ce2582e7b83b93e"></a>SYM_CODE128&#160;</td><td class="fielddoc"><p>Code 128. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da1fbd208b9671833c8ce2582e7b83b93e" name="a26a79b85a497fac0a5c79b3f5a08cf2da1fbd208b9671833c8ce2582e7b83b93e"></a>SYM_CODE128&#160;</td><td class="fieldinit">20&#160;</td><td class="fielddoc"><p>Code 128. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da17d4fa401019b1e7791b80ac0326a458" name="a26a79b85a497fac0a5c79b3f5a08cf2da17d4fa401019b1e7791b80ac0326a458"></a>SYM_DPLEIT&#160;</td><td class="fielddoc"><p>Deutsche Post Leitcode. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da17d4fa401019b1e7791b80ac0326a458" name="a26a79b85a497fac0a5c79b3f5a08cf2da17d4fa401019b1e7791b80ac0326a458"></a>SYM_DPLEIT&#160;</td><td class="fieldinit">21&#160;</td><td class="fielddoc"><p>Deutsche Post Leitcode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da7314088c509d755bf66ec15b2353fd0d" name="a26a79b85a497fac0a5c79b3f5a08cf2da7314088c509d755bf66ec15b2353fd0d"></a>SYM_DPIDENT&#160;</td><td class="fielddoc"><p>Deutsche Post Identcode. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da7314088c509d755bf66ec15b2353fd0d" name="a26a79b85a497fac0a5c79b3f5a08cf2da7314088c509d755bf66ec15b2353fd0d"></a>SYM_DPIDENT&#160;</td><td class="fieldinit">22&#160;</td><td class="fielddoc"><p>Deutsche Post Identcode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa7e96b1df48311956b1ca07862a1e420" name="a26a79b85a497fac0a5c79b3f5a08cf2daa7e96b1df48311956b1ca07862a1e420"></a>SYM_CODE16K&#160;</td><td class="fielddoc"><p>Code 16k. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa7e96b1df48311956b1ca07862a1e420" name="a26a79b85a497fac0a5c79b3f5a08cf2daa7e96b1df48311956b1ca07862a1e420"></a>SYM_CODE16K&#160;</td><td class="fieldinit">23&#160;</td><td class="fielddoc"><p>Code 16k. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da90f3e3e06bbe2dabca50a165d64a64ea" name="a26a79b85a497fac0a5c79b3f5a08cf2da90f3e3e06bbe2dabca50a165d64a64ea"></a>SYM_CODE49&#160;</td><td class="fielddoc"><p>Code 49. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da90f3e3e06bbe2dabca50a165d64a64ea" name="a26a79b85a497fac0a5c79b3f5a08cf2da90f3e3e06bbe2dabca50a165d64a64ea"></a>SYM_CODE49&#160;</td><td class="fieldinit">24&#160;</td><td class="fielddoc"><p>Code 49. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da8dfd81c39c0144392ac045e1f98c94ae" name="a26a79b85a497fac0a5c79b3f5a08cf2da8dfd81c39c0144392ac045e1f98c94ae"></a>SYM_CODE93&#160;</td><td class="fielddoc"><p>Code 93. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da8dfd81c39c0144392ac045e1f98c94ae" name="a26a79b85a497fac0a5c79b3f5a08cf2da8dfd81c39c0144392ac045e1f98c94ae"></a>SYM_CODE93&#160;</td><td class="fieldinit">25&#160;</td><td class="fielddoc"><p>Code 93. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da80352d38f69c230c31a8b1d68b5b7b94" name="a26a79b85a497fac0a5c79b3f5a08cf2da80352d38f69c230c31a8b1d68b5b7b94"></a>SYM_FLAT&#160;</td><td class="fielddoc"><p>Flattermarken. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da80352d38f69c230c31a8b1d68b5b7b94" name="a26a79b85a497fac0a5c79b3f5a08cf2da80352d38f69c230c31a8b1d68b5b7b94"></a>SYM_FLAT&#160;</td><td class="fieldinit">28&#160;</td><td class="fielddoc"><p>Flattermarken. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2a54935fc3f988ae6098c12427807b79" name="a26a79b85a497fac0a5c79b3f5a08cf2da2a54935fc3f988ae6098c12427807b79"></a>SYM_DBAR_OMN&#160;</td><td class="fielddoc"><p>GS1 DataBar Omnidirectional. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2a54935fc3f988ae6098c12427807b79" name="a26a79b85a497fac0a5c79b3f5a08cf2da2a54935fc3f988ae6098c12427807b79"></a>SYM_DBAR_OMN&#160;</td><td class="fieldinit">29&#160;</td><td class="fielddoc"><p>GS1 DataBar Omnidirectional. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da559d27a104ec2b3dbb433ee95a0a6be1" name="a26a79b85a497fac0a5c79b3f5a08cf2da559d27a104ec2b3dbb433ee95a0a6be1"></a>SYM_RSS14&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_OMN. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da559d27a104ec2b3dbb433ee95a0a6be1" name="a26a79b85a497fac0a5c79b3f5a08cf2da559d27a104ec2b3dbb433ee95a0a6be1"></a>SYM_RSS14&#160;</td><td class="fieldinit">29&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_OMN. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dac52be3dbe2d127641db86d98da59c4cb" name="a26a79b85a497fac0a5c79b3f5a08cf2dac52be3dbe2d127641db86d98da59c4cb"></a>SYM_DBAR_LTD&#160;</td><td class="fielddoc"><p>GS1 DataBar Limited. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dac52be3dbe2d127641db86d98da59c4cb" name="a26a79b85a497fac0a5c79b3f5a08cf2dac52be3dbe2d127641db86d98da59c4cb"></a>SYM_DBAR_LTD&#160;</td><td class="fieldinit">30&#160;</td><td class="fielddoc"><p>GS1 DataBar Limited. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dace61b7b833d481b607cc63c4c98446fa" name="a26a79b85a497fac0a5c79b3f5a08cf2dace61b7b833d481b607cc63c4c98446fa"></a>SYM_RSS_LTD&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_LTD. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dace61b7b833d481b607cc63c4c98446fa" name="a26a79b85a497fac0a5c79b3f5a08cf2dace61b7b833d481b607cc63c4c98446fa"></a>SYM_RSS_LTD&#160;</td><td class="fieldinit">30&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_LTD. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da566967691c3323f870a7407667b37526" name="a26a79b85a497fac0a5c79b3f5a08cf2da566967691c3323f870a7407667b37526"></a>SYM_DBAR_EXP&#160;</td><td class="fielddoc"><p>GS1 DataBar Expanded. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da566967691c3323f870a7407667b37526" name="a26a79b85a497fac0a5c79b3f5a08cf2da566967691c3323f870a7407667b37526"></a>SYM_DBAR_EXP&#160;</td><td class="fieldinit">31&#160;</td><td class="fielddoc"><p>GS1 DataBar Expanded. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadd8cd916829a94aa8d5decc8c42ecd04" name="a26a79b85a497fac0a5c79b3f5a08cf2dadd8cd916829a94aa8d5decc8c42ecd04"></a>SYM_RSS_EXP&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_EXP. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadd8cd916829a94aa8d5decc8c42ecd04" name="a26a79b85a497fac0a5c79b3f5a08cf2dadd8cd916829a94aa8d5decc8c42ecd04"></a>SYM_RSS_EXP&#160;</td><td class="fieldinit">31&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_EXP. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2c8a7e48e3391c95de6a99849a9af22b" name="a26a79b85a497fac0a5c79b3f5a08cf2da2c8a7e48e3391c95de6a99849a9af22b"></a>SYM_TELEPEN&#160;</td><td class="fielddoc"><p>Telepen Alpha. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2c8a7e48e3391c95de6a99849a9af22b" name="a26a79b85a497fac0a5c79b3f5a08cf2da2c8a7e48e3391c95de6a99849a9af22b"></a>SYM_TELEPEN&#160;</td><td class="fieldinit">32&#160;</td><td class="fielddoc"><p>Telepen Alpha. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da81cd82332c1de5cda5d855f3c4bbf5a2" name="a26a79b85a497fac0a5c79b3f5a08cf2da81cd82332c1de5cda5d855f3c4bbf5a2"></a>SYM_UPCA&#160;</td><td class="fielddoc"><p>UPC-A. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da81cd82332c1de5cda5d855f3c4bbf5a2" name="a26a79b85a497fac0a5c79b3f5a08cf2da81cd82332c1de5cda5d855f3c4bbf5a2"></a>SYM_UPCA&#160;</td><td class="fieldinit">34&#160;</td><td class="fielddoc"><p>UPC-A. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da40cc5635a4f9c3eec75c6b81d65a2c43" name="a26a79b85a497fac0a5c79b3f5a08cf2da40cc5635a4f9c3eec75c6b81d65a2c43"></a>SYM_UPCA_CHK&#160;</td><td class="fielddoc"><p>UPC-A + Check Digit. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da40cc5635a4f9c3eec75c6b81d65a2c43" name="a26a79b85a497fac0a5c79b3f5a08cf2da40cc5635a4f9c3eec75c6b81d65a2c43"></a>SYM_UPCA_CHK&#160;</td><td class="fieldinit">35&#160;</td><td class="fielddoc"><p>UPC-A + Check Digit. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da71cfa796f7ca0de7a06b7558415aa593" name="a26a79b85a497fac0a5c79b3f5a08cf2da71cfa796f7ca0de7a06b7558415aa593"></a>SYM_UPCE&#160;</td><td class="fielddoc"><p>UPC-E. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da71cfa796f7ca0de7a06b7558415aa593" name="a26a79b85a497fac0a5c79b3f5a08cf2da71cfa796f7ca0de7a06b7558415aa593"></a>SYM_UPCE&#160;</td><td class="fieldinit">37&#160;</td><td class="fielddoc"><p>UPC-E. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadd0fe954df38d5721b195e80165a27af" name="a26a79b85a497fac0a5c79b3f5a08cf2dadd0fe954df38d5721b195e80165a27af"></a>SYM_UPCE_CHK&#160;</td><td class="fielddoc"><p>UPC-E + Check Digit. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadd0fe954df38d5721b195e80165a27af" name="a26a79b85a497fac0a5c79b3f5a08cf2dadd0fe954df38d5721b195e80165a27af"></a>SYM_UPCE_CHK&#160;</td><td class="fieldinit">38&#160;</td><td class="fielddoc"><p>UPC-E + Check Digit. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5853507408e4b8e302bd4a166c754ead" name="a26a79b85a497fac0a5c79b3f5a08cf2da5853507408e4b8e302bd4a166c754ead"></a>SYM_POSTNET&#160;</td><td class="fielddoc"><p>USPS (U.S. Postal Service) POSTNET. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5853507408e4b8e302bd4a166c754ead" name="a26a79b85a497fac0a5c79b3f5a08cf2da5853507408e4b8e302bd4a166c754ead"></a>SYM_POSTNET&#160;</td><td class="fieldinit">40&#160;</td><td class="fielddoc"><p>USPS (U.S. Postal Service) POSTNET. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da0c5aa1b647f2b1ef40d0313c87d80bab" name="a26a79b85a497fac0a5c79b3f5a08cf2da0c5aa1b647f2b1ef40d0313c87d80bab"></a>SYM_MSI_PLESSEY&#160;</td><td class="fielddoc"><p>MSI Plessey. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da0c5aa1b647f2b1ef40d0313c87d80bab" name="a26a79b85a497fac0a5c79b3f5a08cf2da0c5aa1b647f2b1ef40d0313c87d80bab"></a>SYM_MSI_PLESSEY&#160;</td><td class="fieldinit">47&#160;</td><td class="fielddoc"><p>MSI Plessey. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da61edb8c46126adabc05c262352c543fb" name="a26a79b85a497fac0a5c79b3f5a08cf2da61edb8c46126adabc05c262352c543fb"></a>SYM_FIM&#160;</td><td class="fielddoc"><p>Facing Identification Mark. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da61edb8c46126adabc05c262352c543fb" name="a26a79b85a497fac0a5c79b3f5a08cf2da61edb8c46126adabc05c262352c543fb"></a>SYM_FIM&#160;</td><td class="fieldinit">49&#160;</td><td class="fielddoc"><p>Facing Identification Mark. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab1e23b75faff32735d25a4370fa6ca5c" name="a26a79b85a497fac0a5c79b3f5a08cf2dab1e23b75faff32735d25a4370fa6ca5c"></a>SYM_LOGMARS&#160;</td><td class="fielddoc"><p>LOGMARS. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab1e23b75faff32735d25a4370fa6ca5c" name="a26a79b85a497fac0a5c79b3f5a08cf2dab1e23b75faff32735d25a4370fa6ca5c"></a>SYM_LOGMARS&#160;</td><td class="fieldinit">50&#160;</td><td class="fielddoc"><p>LOGMARS. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da446cd362af0191c4f41e6b5b85d330f8" name="a26a79b85a497fac0a5c79b3f5a08cf2da446cd362af0191c4f41e6b5b85d330f8"></a>SYM_PHARMA&#160;</td><td class="fielddoc"><p>Pharmacode One-Track. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da446cd362af0191c4f41e6b5b85d330f8" name="a26a79b85a497fac0a5c79b3f5a08cf2da446cd362af0191c4f41e6b5b85d330f8"></a>SYM_PHARMA&#160;</td><td class="fieldinit">51&#160;</td><td class="fielddoc"><p>Pharmacode One-Track. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa84c91bd9a0d87f3efd8a4f56464104f" name="a26a79b85a497fac0a5c79b3f5a08cf2daa84c91bd9a0d87f3efd8a4f56464104f"></a>SYM_PZN&#160;</td><td class="fielddoc"><p>Pharmazentralnummer. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa84c91bd9a0d87f3efd8a4f56464104f" name="a26a79b85a497fac0a5c79b3f5a08cf2daa84c91bd9a0d87f3efd8a4f56464104f"></a>SYM_PZN&#160;</td><td class="fieldinit">52&#160;</td><td class="fielddoc"><p>Pharmazentralnummer. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da78ed5d71ca6cf70f16414c6eb60f00fc" name="a26a79b85a497fac0a5c79b3f5a08cf2da78ed5d71ca6cf70f16414c6eb60f00fc"></a>SYM_PHARMA_TWO&#160;</td><td class="fielddoc"><p>Pharmacode Two-Track. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da78ed5d71ca6cf70f16414c6eb60f00fc" name="a26a79b85a497fac0a5c79b3f5a08cf2da78ed5d71ca6cf70f16414c6eb60f00fc"></a>SYM_PHARMA_TWO&#160;</td><td class="fieldinit">53&#160;</td><td class="fielddoc"><p>Pharmacode Two-Track. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab1f850f3c6e14cf07ab851668019cd07" name="a26a79b85a497fac0a5c79b3f5a08cf2dab1f850f3c6e14cf07ab851668019cd07"></a>SYM_CEPNET&#160;</td><td class="fielddoc"><p>Brazilian CEPNet Postal Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab1f850f3c6e14cf07ab851668019cd07" name="a26a79b85a497fac0a5c79b3f5a08cf2dab1f850f3c6e14cf07ab851668019cd07"></a>SYM_CEPNET&#160;</td><td class="fieldinit">54&#160;</td><td class="fielddoc"><p>Brazilian CEPNet Postal Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da7f61b9846366978c6d5147bf39f436cb" name="a26a79b85a497fac0a5c79b3f5a08cf2da7f61b9846366978c6d5147bf39f436cb"></a>SYM_PDF417&#160;</td><td class="fielddoc"><p>PDF417. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da7f61b9846366978c6d5147bf39f436cb" name="a26a79b85a497fac0a5c79b3f5a08cf2da7f61b9846366978c6d5147bf39f436cb"></a>SYM_PDF417&#160;</td><td class="fieldinit">55&#160;</td><td class="fielddoc"><p>PDF417. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5e025fa2c1030778ed88caa00f057bce" name="a26a79b85a497fac0a5c79b3f5a08cf2da5e025fa2c1030778ed88caa00f057bce"></a>SYM_PDF417COMP&#160;</td><td class="fielddoc"><p>Compact PDF417 (Truncated PDF417) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5e025fa2c1030778ed88caa00f057bce" name="a26a79b85a497fac0a5c79b3f5a08cf2da5e025fa2c1030778ed88caa00f057bce"></a>SYM_PDF417COMP&#160;</td><td class="fieldinit">56&#160;</td><td class="fielddoc"><p>Compact PDF417 (Truncated PDF417). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadcda93eef04d602f47daad0d588f18a3" name="a26a79b85a497fac0a5c79b3f5a08cf2dadcda93eef04d602f47daad0d588f18a3"></a>SYM_PDF417TRUNC&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_PDF417COMP. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadcda93eef04d602f47daad0d588f18a3" name="a26a79b85a497fac0a5c79b3f5a08cf2dadcda93eef04d602f47daad0d588f18a3"></a>SYM_PDF417TRUNC&#160;</td><td class="fieldinit">56&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_PDF417COMP. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da6857c8677e09e5c517e9c46eacb3f484" name="a26a79b85a497fac0a5c79b3f5a08cf2da6857c8677e09e5c517e9c46eacb3f484"></a>SYM_MAXICODE&#160;</td><td class="fielddoc"><p>MaxiCode. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da6857c8677e09e5c517e9c46eacb3f484" name="a26a79b85a497fac0a5c79b3f5a08cf2da6857c8677e09e5c517e9c46eacb3f484"></a>SYM_MAXICODE&#160;</td><td class="fieldinit">57&#160;</td><td class="fielddoc"><p>MaxiCode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dac927408f76c9a32db0d53453db85e83a" name="a26a79b85a497fac0a5c79b3f5a08cf2dac927408f76c9a32db0d53453db85e83a"></a>SYM_QRCODE&#160;</td><td class="fielddoc"><p>QR Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dac927408f76c9a32db0d53453db85e83a" name="a26a79b85a497fac0a5c79b3f5a08cf2dac927408f76c9a32db0d53453db85e83a"></a>SYM_QRCODE&#160;</td><td class="fieldinit">58&#160;</td><td class="fielddoc"><p>QR Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dac3ef9a29673a7602ae84b9e148d1fd02" name="a26a79b85a497fac0a5c79b3f5a08cf2dac3ef9a29673a7602ae84b9e148d1fd02"></a>SYM_CODE128AB&#160;</td><td class="fielddoc"><p>Code 128 (Suppress Code Set C) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dac3ef9a29673a7602ae84b9e148d1fd02" name="a26a79b85a497fac0a5c79b3f5a08cf2dac3ef9a29673a7602ae84b9e148d1fd02"></a>SYM_CODE128AB&#160;</td><td class="fieldinit">60&#160;</td><td class="fielddoc"><p>Code 128 (Suppress Code Set C). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dabdf4e5181604e52276e6657f32ae3623" name="a26a79b85a497fac0a5c79b3f5a08cf2dabdf4e5181604e52276e6657f32ae3623"></a>SYM_CODE128B&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_CODE128AB. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dabdf4e5181604e52276e6657f32ae3623" name="a26a79b85a497fac0a5c79b3f5a08cf2dabdf4e5181604e52276e6657f32ae3623"></a>SYM_CODE128B&#160;</td><td class="fieldinit">60&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_CODE128AB. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da10a8da37d1ce3e7ef5f025d898c67bcf" name="a26a79b85a497fac0a5c79b3f5a08cf2da10a8da37d1ce3e7ef5f025d898c67bcf"></a>SYM_AUSPOST&#160;</td><td class="fielddoc"><p>Australia Post Standard Customer. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da10a8da37d1ce3e7ef5f025d898c67bcf" name="a26a79b85a497fac0a5c79b3f5a08cf2da10a8da37d1ce3e7ef5f025d898c67bcf"></a>SYM_AUSPOST&#160;</td><td class="fieldinit">63&#160;</td><td class="fielddoc"><p>Australia Post Standard Customer. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5f546fd6e3d2f5785851b24985e20077" name="a26a79b85a497fac0a5c79b3f5a08cf2da5f546fd6e3d2f5785851b24985e20077"></a>SYM_AUSREPLY&#160;</td><td class="fielddoc"><p>Australia Post Reply Paid. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5f546fd6e3d2f5785851b24985e20077" name="a26a79b85a497fac0a5c79b3f5a08cf2da5f546fd6e3d2f5785851b24985e20077"></a>SYM_AUSREPLY&#160;</td><td class="fieldinit">66&#160;</td><td class="fielddoc"><p>Australia Post Reply Paid. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da95619806fee527c8cf5d13a0d65b4aca" name="a26a79b85a497fac0a5c79b3f5a08cf2da95619806fee527c8cf5d13a0d65b4aca"></a>SYM_AUSROUTE&#160;</td><td class="fielddoc"><p>Australia Post Routing. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da95619806fee527c8cf5d13a0d65b4aca" name="a26a79b85a497fac0a5c79b3f5a08cf2da95619806fee527c8cf5d13a0d65b4aca"></a>SYM_AUSROUTE&#160;</td><td class="fieldinit">67&#160;</td><td class="fielddoc"><p>Australia Post Routing. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da82c48b4c6639ae9324cfcc868640b6f2" name="a26a79b85a497fac0a5c79b3f5a08cf2da82c48b4c6639ae9324cfcc868640b6f2"></a>SYM_AUSREDIRECT&#160;</td><td class="fielddoc"><p>Australia Post Redirection. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da82c48b4c6639ae9324cfcc868640b6f2" name="a26a79b85a497fac0a5c79b3f5a08cf2da82c48b4c6639ae9324cfcc868640b6f2"></a>SYM_AUSREDIRECT&#160;</td><td class="fieldinit">68&#160;</td><td class="fielddoc"><p>Australia Post Redirection. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2200540781ae5c7fd5d0af4615f5527c" name="a26a79b85a497fac0a5c79b3f5a08cf2da2200540781ae5c7fd5d0af4615f5527c"></a>SYM_ISBNX&#160;</td><td class="fielddoc"><p>ISBN. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2200540781ae5c7fd5d0af4615f5527c" name="a26a79b85a497fac0a5c79b3f5a08cf2da2200540781ae5c7fd5d0af4615f5527c"></a>SYM_ISBNX&#160;</td><td class="fieldinit">69&#160;</td><td class="fielddoc"><p>ISBN. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da88f33fa28a12df01fbe5b8003f6b2574" name="a26a79b85a497fac0a5c79b3f5a08cf2da88f33fa28a12df01fbe5b8003f6b2574"></a>SYM_RM4SCC&#160;</td><td class="fielddoc"><p>Royal Mail 4-State Customer Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da88f33fa28a12df01fbe5b8003f6b2574" name="a26a79b85a497fac0a5c79b3f5a08cf2da88f33fa28a12df01fbe5b8003f6b2574"></a>SYM_RM4SCC&#160;</td><td class="fieldinit">70&#160;</td><td class="fielddoc"><p>Royal Mail 4-State Customer Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf13738a44f539fbb16f41fb987e9178b" name="a26a79b85a497fac0a5c79b3f5a08cf2daf13738a44f539fbb16f41fb987e9178b"></a>SYM_DATAMATRIX&#160;</td><td class="fielddoc"><p>Data Matrix (ECC200) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf13738a44f539fbb16f41fb987e9178b" name="a26a79b85a497fac0a5c79b3f5a08cf2daf13738a44f539fbb16f41fb987e9178b"></a>SYM_DATAMATRIX&#160;</td><td class="fieldinit">71&#160;</td><td class="fielddoc"><p>Data Matrix (ECC200). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2e0bf9fa000492ed9066001827abe0ae" name="a26a79b85a497fac0a5c79b3f5a08cf2da2e0bf9fa000492ed9066001827abe0ae"></a>SYM_EAN14&#160;</td><td class="fielddoc"><p>EAN-14. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2e0bf9fa000492ed9066001827abe0ae" name="a26a79b85a497fac0a5c79b3f5a08cf2da2e0bf9fa000492ed9066001827abe0ae"></a>SYM_EAN14&#160;</td><td class="fieldinit">72&#160;</td><td class="fielddoc"><p>EAN-14. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf4e0776420b9a61d79b296ad95e3f505" name="a26a79b85a497fac0a5c79b3f5a08cf2daf4e0776420b9a61d79b296ad95e3f505"></a>SYM_VIN&#160;</td><td class="fielddoc"><p>Vehicle Identification Number. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf4e0776420b9a61d79b296ad95e3f505" name="a26a79b85a497fac0a5c79b3f5a08cf2daf4e0776420b9a61d79b296ad95e3f505"></a>SYM_VIN&#160;</td><td class="fieldinit">73&#160;</td><td class="fielddoc"><p>Vehicle Identification Number. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da06fb96c8d4e7e019f4bee7a3c3bf1db4" name="a26a79b85a497fac0a5c79b3f5a08cf2da06fb96c8d4e7e019f4bee7a3c3bf1db4"></a>SYM_CODABLOCKF&#160;</td><td class="fielddoc"><p>Codablock-F. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da06fb96c8d4e7e019f4bee7a3c3bf1db4" name="a26a79b85a497fac0a5c79b3f5a08cf2da06fb96c8d4e7e019f4bee7a3c3bf1db4"></a>SYM_CODABLOCKF&#160;</td><td class="fieldinit">74&#160;</td><td class="fielddoc"><p>Codablock-F. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf49c9e436dc5b57ceac46c8a15ad1eaa" name="a26a79b85a497fac0a5c79b3f5a08cf2daf49c9e436dc5b57ceac46c8a15ad1eaa"></a>SYM_NVE18&#160;</td><td class="fielddoc"><p>NVE-18 (SSCC-18) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf49c9e436dc5b57ceac46c8a15ad1eaa" name="a26a79b85a497fac0a5c79b3f5a08cf2daf49c9e436dc5b57ceac46c8a15ad1eaa"></a>SYM_NVE18&#160;</td><td class="fieldinit">75&#160;</td><td class="fielddoc"><p>NVE-18 (SSCC-18). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadb83e5f7916a9587225491018480f143" name="a26a79b85a497fac0a5c79b3f5a08cf2dadb83e5f7916a9587225491018480f143"></a>SYM_JAPANPOST&#160;</td><td class="fielddoc"><p>Japanese Postal Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadb83e5f7916a9587225491018480f143" name="a26a79b85a497fac0a5c79b3f5a08cf2dadb83e5f7916a9587225491018480f143"></a>SYM_JAPANPOST&#160;</td><td class="fieldinit">76&#160;</td><td class="fielddoc"><p>Japanese Postal Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da3dddee1d7f56371823ef8a4f92650731" name="a26a79b85a497fac0a5c79b3f5a08cf2da3dddee1d7f56371823ef8a4f92650731"></a>SYM_KOREAPOST&#160;</td><td class="fielddoc"><p>Korea Post. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da3dddee1d7f56371823ef8a4f92650731" name="a26a79b85a497fac0a5c79b3f5a08cf2da3dddee1d7f56371823ef8a4f92650731"></a>SYM_KOREAPOST&#160;</td><td class="fieldinit">77&#160;</td><td class="fielddoc"><p>Korea Post. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da30da2601324f4a4877f196fe26e2423a" name="a26a79b85a497fac0a5c79b3f5a08cf2da30da2601324f4a4877f196fe26e2423a"></a>SYM_DBAR_STK&#160;</td><td class="fielddoc"><p>GS1 DataBar Stacked. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da30da2601324f4a4877f196fe26e2423a" name="a26a79b85a497fac0a5c79b3f5a08cf2da30da2601324f4a4877f196fe26e2423a"></a>SYM_DBAR_STK&#160;</td><td class="fieldinit">79&#160;</td><td class="fielddoc"><p>GS1 DataBar Stacked. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da878c604ddf58c3dc5675109c6da6558f" name="a26a79b85a497fac0a5c79b3f5a08cf2da878c604ddf58c3dc5675109c6da6558f"></a>SYM_RSS14STACK&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_STK. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da878c604ddf58c3dc5675109c6da6558f" name="a26a79b85a497fac0a5c79b3f5a08cf2da878c604ddf58c3dc5675109c6da6558f"></a>SYM_RSS14STACK&#160;</td><td class="fieldinit">79&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_STK. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dad2a60f10c1edb9561594d99157cc3820" name="a26a79b85a497fac0a5c79b3f5a08cf2dad2a60f10c1edb9561594d99157cc3820"></a>SYM_DBAR_OMNSTK&#160;</td><td class="fielddoc"><p>GS1 DataBar Stacked Omnidirectional. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dad2a60f10c1edb9561594d99157cc3820" name="a26a79b85a497fac0a5c79b3f5a08cf2dad2a60f10c1edb9561594d99157cc3820"></a>SYM_DBAR_OMNSTK&#160;</td><td class="fieldinit">80&#160;</td><td class="fielddoc"><p>GS1 DataBar Stacked Omnidirectional. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da0558adbd0ff711868f074b27cd431c22" name="a26a79b85a497fac0a5c79b3f5a08cf2da0558adbd0ff711868f074b27cd431c22"></a>SYM_RSS14STACK_OMNI&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_OMNSTK. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da0558adbd0ff711868f074b27cd431c22" name="a26a79b85a497fac0a5c79b3f5a08cf2da0558adbd0ff711868f074b27cd431c22"></a>SYM_RSS14STACK_OMNI&#160;</td><td class="fieldinit">80&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_OMNSTK. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf65266059dd0def58e06e06424e7fdd9" name="a26a79b85a497fac0a5c79b3f5a08cf2daf65266059dd0def58e06e06424e7fdd9"></a>SYM_DBAR_EXPSTK&#160;</td><td class="fielddoc"><p>GS1 DataBar Expanded Stacked. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf65266059dd0def58e06e06424e7fdd9" name="a26a79b85a497fac0a5c79b3f5a08cf2daf65266059dd0def58e06e06424e7fdd9"></a>SYM_DBAR_EXPSTK&#160;</td><td class="fieldinit">81&#160;</td><td class="fielddoc"><p>GS1 DataBar Expanded Stacked. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dafafb1e3fc8218ad3c9fc971920c124c2" name="a26a79b85a497fac0a5c79b3f5a08cf2dafafb1e3fc8218ad3c9fc971920c124c2"></a>SYM_RSS_EXPSTACK&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_EXPSTK. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dafafb1e3fc8218ad3c9fc971920c124c2" name="a26a79b85a497fac0a5c79b3f5a08cf2dafafb1e3fc8218ad3c9fc971920c124c2"></a>SYM_RSS_EXPSTACK&#160;</td><td class="fieldinit">81&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_EXPSTK. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da8386d74ed9da5135d015bdb3e2a4802a" name="a26a79b85a497fac0a5c79b3f5a08cf2da8386d74ed9da5135d015bdb3e2a4802a"></a>SYM_PLANET&#160;</td><td class="fielddoc"><p>USPS PLANET. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da8386d74ed9da5135d015bdb3e2a4802a" name="a26a79b85a497fac0a5c79b3f5a08cf2da8386d74ed9da5135d015bdb3e2a4802a"></a>SYM_PLANET&#160;</td><td class="fieldinit">82&#160;</td><td class="fielddoc"><p>USPS PLANET. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da10fd4edc39ae72d73f30c11bcd19a23f" name="a26a79b85a497fac0a5c79b3f5a08cf2da10fd4edc39ae72d73f30c11bcd19a23f"></a>SYM_MICROPDF417&#160;</td><td class="fielddoc"><p>MicroPDF417. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da10fd4edc39ae72d73f30c11bcd19a23f" name="a26a79b85a497fac0a5c79b3f5a08cf2da10fd4edc39ae72d73f30c11bcd19a23f"></a>SYM_MICROPDF417&#160;</td><td class="fieldinit">84&#160;</td><td class="fielddoc"><p>MicroPDF417. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da200ced259d7f9dcd9e79faa6f361ab0f" name="a26a79b85a497fac0a5c79b3f5a08cf2da200ced259d7f9dcd9e79faa6f361ab0f"></a>SYM_USPS_IMAIL&#160;</td><td class="fielddoc"><p>USPS Intelligent Mail (OneCode) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da200ced259d7f9dcd9e79faa6f361ab0f" name="a26a79b85a497fac0a5c79b3f5a08cf2da200ced259d7f9dcd9e79faa6f361ab0f"></a>SYM_USPS_IMAIL&#160;</td><td class="fieldinit">85&#160;</td><td class="fielddoc"><p>USPS Intelligent Mail (OneCode). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dafa134258558fbd935d1714c04d6d9bd7" name="a26a79b85a497fac0a5c79b3f5a08cf2dafa134258558fbd935d1714c04d6d9bd7"></a>SYM_ONECODE&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_USPS_IMAIL. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dafa134258558fbd935d1714c04d6d9bd7" name="a26a79b85a497fac0a5c79b3f5a08cf2dafa134258558fbd935d1714c04d6d9bd7"></a>SYM_ONECODE&#160;</td><td class="fieldinit">85&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_USPS_IMAIL. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5375bc55aed3da231115875c39f24d2c" name="a26a79b85a497fac0a5c79b3f5a08cf2da5375bc55aed3da231115875c39f24d2c"></a>SYM_PLESSEY&#160;</td><td class="fielddoc"><p>UK Plessey. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da5375bc55aed3da231115875c39f24d2c" name="a26a79b85a497fac0a5c79b3f5a08cf2da5375bc55aed3da231115875c39f24d2c"></a>SYM_PLESSEY&#160;</td><td class="fieldinit">86&#160;</td><td class="fielddoc"><p>UK Plessey. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da35c2d41dddec269f7343151d99168873" name="a26a79b85a497fac0a5c79b3f5a08cf2da35c2d41dddec269f7343151d99168873"></a>SYM_TELEPEN_NUM&#160;</td><td class="fielddoc"><p>Telepen Numeric. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da35c2d41dddec269f7343151d99168873" name="a26a79b85a497fac0a5c79b3f5a08cf2da35c2d41dddec269f7343151d99168873"></a>SYM_TELEPEN_NUM&#160;</td><td class="fieldinit">87&#160;</td><td class="fielddoc"><p>Telepen Numeric. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da49096c0a510aa17f0856980967fee0a9" name="a26a79b85a497fac0a5c79b3f5a08cf2da49096c0a510aa17f0856980967fee0a9"></a>SYM_ITF14&#160;</td><td class="fielddoc"><p>ITF-14. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da49096c0a510aa17f0856980967fee0a9" name="a26a79b85a497fac0a5c79b3f5a08cf2da49096c0a510aa17f0856980967fee0a9"></a>SYM_ITF14&#160;</td><td class="fieldinit">89&#160;</td><td class="fielddoc"><p>ITF-14. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadcd466fb817b4778937396cabaf952f8" name="a26a79b85a497fac0a5c79b3f5a08cf2dadcd466fb817b4778937396cabaf952f8"></a>SYM_KIX&#160;</td><td class="fielddoc"><p>Dutch Post KIX Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadcd466fb817b4778937396cabaf952f8" name="a26a79b85a497fac0a5c79b3f5a08cf2dadcd466fb817b4778937396cabaf952f8"></a>SYM_KIX&#160;</td><td class="fieldinit">90&#160;</td><td class="fielddoc"><p>Dutch Post KIX Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf4f62419c5013fbb1c1942402f128fe0" name="a26a79b85a497fac0a5c79b3f5a08cf2daf4f62419c5013fbb1c1942402f128fe0"></a>SYM_AZTEC&#160;</td><td class="fielddoc"><p>Aztec Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf4f62419c5013fbb1c1942402f128fe0" name="a26a79b85a497fac0a5c79b3f5a08cf2daf4f62419c5013fbb1c1942402f128fe0"></a>SYM_AZTEC&#160;</td><td class="fieldinit">92&#160;</td><td class="fielddoc"><p>Aztec Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2ec5b4c02e63012534dfc78d2994c31d" name="a26a79b85a497fac0a5c79b3f5a08cf2da2ec5b4c02e63012534dfc78d2994c31d"></a>SYM_DAFT&#160;</td><td class="fielddoc"><p>DAFT Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2ec5b4c02e63012534dfc78d2994c31d" name="a26a79b85a497fac0a5c79b3f5a08cf2da2ec5b4c02e63012534dfc78d2994c31d"></a>SYM_DAFT&#160;</td><td class="fieldinit">93&#160;</td><td class="fielddoc"><p>DAFT Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da15f6a4befd7ea3b4d99be030ab85f498" name="a26a79b85a497fac0a5c79b3f5a08cf2da15f6a4befd7ea3b4d99be030ab85f498"></a>SYM_DPD&#160;</td><td class="fielddoc"><p>DPD Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da15f6a4befd7ea3b4d99be030ab85f498" name="a26a79b85a497fac0a5c79b3f5a08cf2da15f6a4befd7ea3b4d99be030ab85f498"></a>SYM_DPD&#160;</td><td class="fieldinit">96&#160;</td><td class="fielddoc"><p>DPD Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da9c652c20788b74c0ec33653c9711c8ee" name="a26a79b85a497fac0a5c79b3f5a08cf2da9c652c20788b74c0ec33653c9711c8ee"></a>SYM_MICROQR&#160;</td><td class="fielddoc"><p>Micro QR Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da9c652c20788b74c0ec33653c9711c8ee" name="a26a79b85a497fac0a5c79b3f5a08cf2da9c652c20788b74c0ec33653c9711c8ee"></a>SYM_MICROQR&#160;</td><td class="fieldinit">97&#160;</td><td class="fielddoc"><p>Micro QR Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da876fcdf707cef5a3cb03bc2a65801621" name="a26a79b85a497fac0a5c79b3f5a08cf2da876fcdf707cef5a3cb03bc2a65801621"></a>SYM_HIBC_128&#160;</td><td class="fielddoc"><p>HIBC (Health Industry Barcode) Code 128. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da876fcdf707cef5a3cb03bc2a65801621" name="a26a79b85a497fac0a5c79b3f5a08cf2da876fcdf707cef5a3cb03bc2a65801621"></a>SYM_HIBC_128&#160;</td><td class="fieldinit">98&#160;</td><td class="fielddoc"><p>HIBC (Health Industry Barcode) Code 128. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa3d244b53462c68be15283348f9e44e1" name="a26a79b85a497fac0a5c79b3f5a08cf2daa3d244b53462c68be15283348f9e44e1"></a>SYM_HIBC_39&#160;</td><td class="fielddoc"><p>HIBC Code 39. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa3d244b53462c68be15283348f9e44e1" name="a26a79b85a497fac0a5c79b3f5a08cf2daa3d244b53462c68be15283348f9e44e1"></a>SYM_HIBC_39&#160;</td><td class="fieldinit">99&#160;</td><td class="fielddoc"><p>HIBC Code 39. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da71239c081773ed677d63e613531999d2" name="a26a79b85a497fac0a5c79b3f5a08cf2da71239c081773ed677d63e613531999d2"></a>SYM_HIBC_DM&#160;</td><td class="fielddoc"><p>HIBC Data Matrix. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da71239c081773ed677d63e613531999d2" name="a26a79b85a497fac0a5c79b3f5a08cf2da71239c081773ed677d63e613531999d2"></a>SYM_HIBC_DM&#160;</td><td class="fieldinit">102&#160;</td><td class="fielddoc"><p>HIBC Data Matrix. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da3eca6d3ca2c71cbe7073e510b1ac0568" name="a26a79b85a497fac0a5c79b3f5a08cf2da3eca6d3ca2c71cbe7073e510b1ac0568"></a>SYM_HIBC_QR&#160;</td><td class="fielddoc"><p>HIBC QR Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da3eca6d3ca2c71cbe7073e510b1ac0568" name="a26a79b85a497fac0a5c79b3f5a08cf2da3eca6d3ca2c71cbe7073e510b1ac0568"></a>SYM_HIBC_QR&#160;</td><td class="fieldinit">104&#160;</td><td class="fielddoc"><p>HIBC QR Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da4c81edb61c2c198edc1dbc8dd0b19c18" name="a26a79b85a497fac0a5c79b3f5a08cf2da4c81edb61c2c198edc1dbc8dd0b19c18"></a>SYM_HIBC_PDF&#160;</td><td class="fielddoc"><p>HIBC PDF417. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da4c81edb61c2c198edc1dbc8dd0b19c18" name="a26a79b85a497fac0a5c79b3f5a08cf2da4c81edb61c2c198edc1dbc8dd0b19c18"></a>SYM_HIBC_PDF&#160;</td><td class="fieldinit">106&#160;</td><td class="fielddoc"><p>HIBC PDF417. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da23b0ac0664d3674fdc246ec31d68a11d" name="a26a79b85a497fac0a5c79b3f5a08cf2da23b0ac0664d3674fdc246ec31d68a11d"></a>SYM_HIBC_MICPDF&#160;</td><td class="fielddoc"><p>HIBC MicroPDF417. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da23b0ac0664d3674fdc246ec31d68a11d" name="a26a79b85a497fac0a5c79b3f5a08cf2da23b0ac0664d3674fdc246ec31d68a11d"></a>SYM_HIBC_MICPDF&#160;</td><td class="fieldinit">108&#160;</td><td class="fielddoc"><p>HIBC MicroPDF417. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da0cf9193f16dab33e7af6b99b947e188e" name="a26a79b85a497fac0a5c79b3f5a08cf2da0cf9193f16dab33e7af6b99b947e188e"></a>SYM_HIBC_BLOCKF&#160;</td><td class="fielddoc"><p>HIBC Codablock-F. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da0cf9193f16dab33e7af6b99b947e188e" name="a26a79b85a497fac0a5c79b3f5a08cf2da0cf9193f16dab33e7af6b99b947e188e"></a>SYM_HIBC_BLOCKF&#160;</td><td class="fieldinit">110&#160;</td><td class="fielddoc"><p>HIBC Codablock-F. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da3eb12a9c83e4ff5eb63cd892521abcca" name="a26a79b85a497fac0a5c79b3f5a08cf2da3eb12a9c83e4ff5eb63cd892521abcca"></a>SYM_HIBC_AZTEC&#160;</td><td class="fielddoc"><p>HIBC Aztec Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da3eb12a9c83e4ff5eb63cd892521abcca" name="a26a79b85a497fac0a5c79b3f5a08cf2da3eb12a9c83e4ff5eb63cd892521abcca"></a>SYM_HIBC_AZTEC&#160;</td><td class="fieldinit">112&#160;</td><td class="fielddoc"><p>HIBC Aztec Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa73e71a2238bf94622ddc4ee4c28b2f9" name="a26a79b85a497fac0a5c79b3f5a08cf2daa73e71a2238bf94622ddc4ee4c28b2f9"></a>SYM_DOTCODE&#160;</td><td class="fielddoc"><p>DotCode. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa73e71a2238bf94622ddc4ee4c28b2f9" name="a26a79b85a497fac0a5c79b3f5a08cf2daa73e71a2238bf94622ddc4ee4c28b2f9"></a>SYM_DOTCODE&#160;</td><td class="fieldinit">115&#160;</td><td class="fielddoc"><p>DotCode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dae52952bbc7201d286a35203473fb77ee" name="a26a79b85a497fac0a5c79b3f5a08cf2dae52952bbc7201d286a35203473fb77ee"></a>SYM_HANXIN&#160;</td><td class="fielddoc"><p>Han Xin (Chinese Sensible) Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dae52952bbc7201d286a35203473fb77ee" name="a26a79b85a497fac0a5c79b3f5a08cf2dae52952bbc7201d286a35203473fb77ee"></a>SYM_HANXIN&#160;</td><td class="fieldinit">116&#160;</td><td class="fielddoc"><p>Han Xin (Chinese Sensible) Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2c81112a1bf1b438a58edc560fd376d7" name="a26a79b85a497fac0a5c79b3f5a08cf2da2c81112a1bf1b438a58edc560fd376d7"></a>SYM_MAILMARK_2D&#160;</td><td class="fielddoc"><p>Royal Mail 2D Mailmark (CMDM) (Data Matrix) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2c81112a1bf1b438a58edc560fd376d7" name="a26a79b85a497fac0a5c79b3f5a08cf2da2c81112a1bf1b438a58edc560fd376d7"></a>SYM_MAILMARK_2D&#160;</td><td class="fieldinit">119&#160;</td><td class="fielddoc"><p>Royal Mail 2D Mailmark (CMDM) (Data Matrix). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab2f1ea345e57075ed48c1ec4b62094cb" name="a26a79b85a497fac0a5c79b3f5a08cf2dab2f1ea345e57075ed48c1ec4b62094cb"></a>SYM_UPU_S10&#160;</td><td class="fielddoc"><p>Universal Postal Union S10. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab2f1ea345e57075ed48c1ec4b62094cb" name="a26a79b85a497fac0a5c79b3f5a08cf2dab2f1ea345e57075ed48c1ec4b62094cb"></a>SYM_UPU_S10&#160;</td><td class="fieldinit">120&#160;</td><td class="fielddoc"><p>Universal Postal Union S10. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da7226f730a4bbec7d7825b4e82675c691" name="a26a79b85a497fac0a5c79b3f5a08cf2da7226f730a4bbec7d7825b4e82675c691"></a>SYM_MAILMARK_4S&#160;</td><td class="fielddoc"><p>Royal Mail 4-State Mailmark. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da7226f730a4bbec7d7825b4e82675c691" name="a26a79b85a497fac0a5c79b3f5a08cf2da7226f730a4bbec7d7825b4e82675c691"></a>SYM_MAILMARK_4S&#160;</td><td class="fieldinit">121&#160;</td><td class="fielddoc"><p>Royal Mail 4-State Mailmark. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da7cb95a5efb549183537d8896ecb38e0a" name="a26a79b85a497fac0a5c79b3f5a08cf2da7cb95a5efb549183537d8896ecb38e0a"></a>SYM_MAILMARK&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_MAILMARK_4S. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da7cb95a5efb549183537d8896ecb38e0a" name="a26a79b85a497fac0a5c79b3f5a08cf2da7cb95a5efb549183537d8896ecb38e0a"></a>SYM_MAILMARK&#160;</td><td class="fieldinit">121&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_MAILMARK_4S. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa06d3409c036a819dc1d2d2e89506f39" name="a26a79b85a497fac0a5c79b3f5a08cf2daa06d3409c036a819dc1d2d2e89506f39"></a>SYM_AZRUNE&#160;</td><td class="fielddoc"><p>Aztec Runes. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa06d3409c036a819dc1d2d2e89506f39" name="a26a79b85a497fac0a5c79b3f5a08cf2daa06d3409c036a819dc1d2d2e89506f39"></a>SYM_AZRUNE&#160;</td><td class="fieldinit">128&#160;</td><td class="fielddoc"><p>Aztec Runes. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da4f2aca7cffaea7742061db1ee0364efb" name="a26a79b85a497fac0a5c79b3f5a08cf2da4f2aca7cffaea7742061db1ee0364efb"></a>SYM_CODE32&#160;</td><td class="fielddoc"><p>Code 32. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da4f2aca7cffaea7742061db1ee0364efb" name="a26a79b85a497fac0a5c79b3f5a08cf2da4f2aca7cffaea7742061db1ee0364efb"></a>SYM_CODE32&#160;</td><td class="fieldinit">129&#160;</td><td class="fielddoc"><p>Code 32. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2471acb51d35864c4ed4519f57ae18f7" name="a26a79b85a497fac0a5c79b3f5a08cf2da2471acb51d35864c4ed4519f57ae18f7"></a>SYM_EANX_CC&#160;</td><td class="fielddoc"><p>EAN Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2471acb51d35864c4ed4519f57ae18f7" name="a26a79b85a497fac0a5c79b3f5a08cf2da2471acb51d35864c4ed4519f57ae18f7"></a>SYM_EANX_CC&#160;</td><td class="fieldinit">130&#160;</td><td class="fielddoc"><p>EAN Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da4633353b194f2b6722e98da6c598e84c" name="a26a79b85a497fac0a5c79b3f5a08cf2da4633353b194f2b6722e98da6c598e84c"></a>SYM_GS1_128_CC&#160;</td><td class="fielddoc"><p>GS1-128 Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da4633353b194f2b6722e98da6c598e84c" name="a26a79b85a497fac0a5c79b3f5a08cf2da4633353b194f2b6722e98da6c598e84c"></a>SYM_GS1_128_CC&#160;</td><td class="fieldinit">131&#160;</td><td class="fielddoc"><p>GS1-128 Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dad3635a5039727999dff635d017e6e947" name="a26a79b85a497fac0a5c79b3f5a08cf2dad3635a5039727999dff635d017e6e947"></a>SYM_EAN128_CC&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_GS1_128_CC. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dad3635a5039727999dff635d017e6e947" name="a26a79b85a497fac0a5c79b3f5a08cf2dad3635a5039727999dff635d017e6e947"></a>SYM_EAN128_CC&#160;</td><td class="fieldinit">131&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_GS1_128_CC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da52f54ac5aed54b6fcca065f8e6010509" name="a26a79b85a497fac0a5c79b3f5a08cf2da52f54ac5aed54b6fcca065f8e6010509"></a>SYM_DBAR_OMN_CC&#160;</td><td class="fielddoc"><p>GS1 DataBar Omnidirectional Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da52f54ac5aed54b6fcca065f8e6010509" name="a26a79b85a497fac0a5c79b3f5a08cf2da52f54ac5aed54b6fcca065f8e6010509"></a>SYM_DBAR_OMN_CC&#160;</td><td class="fieldinit">132&#160;</td><td class="fielddoc"><p>GS1 DataBar Omnidirectional Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da3abbd70e32fc4361e105011d9e209fb6" name="a26a79b85a497fac0a5c79b3f5a08cf2da3abbd70e32fc4361e105011d9e209fb6"></a>SYM_RSS14_CC&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_OMN_CC. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da3abbd70e32fc4361e105011d9e209fb6" name="a26a79b85a497fac0a5c79b3f5a08cf2da3abbd70e32fc4361e105011d9e209fb6"></a>SYM_RSS14_CC&#160;</td><td class="fieldinit">132&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_OMN_CC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dacdc3e6cb6e61cfd0b9b3264a89e020c6" name="a26a79b85a497fac0a5c79b3f5a08cf2dacdc3e6cb6e61cfd0b9b3264a89e020c6"></a>SYM_DBAR_LTD_CC&#160;</td><td class="fielddoc"><p>GS1 DataBar Limited Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dacdc3e6cb6e61cfd0b9b3264a89e020c6" name="a26a79b85a497fac0a5c79b3f5a08cf2dacdc3e6cb6e61cfd0b9b3264a89e020c6"></a>SYM_DBAR_LTD_CC&#160;</td><td class="fieldinit">133&#160;</td><td class="fielddoc"><p>GS1 DataBar Limited Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da594377bead1e0455968e22de52653e7c" name="a26a79b85a497fac0a5c79b3f5a08cf2da594377bead1e0455968e22de52653e7c"></a>SYM_RSS_LTD_CC&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_LTD_CC. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da594377bead1e0455968e22de52653e7c" name="a26a79b85a497fac0a5c79b3f5a08cf2da594377bead1e0455968e22de52653e7c"></a>SYM_RSS_LTD_CC&#160;</td><td class="fieldinit">133&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_LTD_CC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da087d4a7390ad2deb173893ef00946336" name="a26a79b85a497fac0a5c79b3f5a08cf2da087d4a7390ad2deb173893ef00946336"></a>SYM_DBAR_EXP_CC&#160;</td><td class="fielddoc"><p>GS1 DataBar Expanded Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da087d4a7390ad2deb173893ef00946336" name="a26a79b85a497fac0a5c79b3f5a08cf2da087d4a7390ad2deb173893ef00946336"></a>SYM_DBAR_EXP_CC&#160;</td><td class="fieldinit">134&#160;</td><td class="fielddoc"><p>GS1 DataBar Expanded Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2d83e3b654235cdbc757195e22062b57" name="a26a79b85a497fac0a5c79b3f5a08cf2da2d83e3b654235cdbc757195e22062b57"></a>SYM_RSS_EXP_CC&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_EXP_CC. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2d83e3b654235cdbc757195e22062b57" name="a26a79b85a497fac0a5c79b3f5a08cf2da2d83e3b654235cdbc757195e22062b57"></a>SYM_RSS_EXP_CC&#160;</td><td class="fieldinit">134&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_EXP_CC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf9cb9ec2d28d640e24ae1fb66c1c3e05" name="a26a79b85a497fac0a5c79b3f5a08cf2daf9cb9ec2d28d640e24ae1fb66c1c3e05"></a>SYM_UPCA_CC&#160;</td><td class="fielddoc"><p>UPC-A Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daf9cb9ec2d28d640e24ae1fb66c1c3e05" name="a26a79b85a497fac0a5c79b3f5a08cf2daf9cb9ec2d28d640e24ae1fb66c1c3e05"></a>SYM_UPCA_CC&#160;</td><td class="fieldinit">135&#160;</td><td class="fielddoc"><p>UPC-A Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2642a92f7aed2271226d7c9a945515bb" name="a26a79b85a497fac0a5c79b3f5a08cf2da2642a92f7aed2271226d7c9a945515bb"></a>SYM_UPCE_CC&#160;</td><td class="fielddoc"><p>UPC-E Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da2642a92f7aed2271226d7c9a945515bb" name="a26a79b85a497fac0a5c79b3f5a08cf2da2642a92f7aed2271226d7c9a945515bb"></a>SYM_UPCE_CC&#160;</td><td class="fieldinit">136&#160;</td><td class="fielddoc"><p>UPC-E Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da6f84a150f4d57a4f14ca9d988d6af6ed" name="a26a79b85a497fac0a5c79b3f5a08cf2da6f84a150f4d57a4f14ca9d988d6af6ed"></a>SYM_DBAR_STK_CC&#160;</td><td class="fielddoc"><p>GS1 DataBar Stacked Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da6f84a150f4d57a4f14ca9d988d6af6ed" name="a26a79b85a497fac0a5c79b3f5a08cf2da6f84a150f4d57a4f14ca9d988d6af6ed"></a>SYM_DBAR_STK_CC&#160;</td><td class="fieldinit">137&#160;</td><td class="fielddoc"><p>GS1 DataBar Stacked Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da6ed20cf72162d2a4687461d4778ddab1" name="a26a79b85a497fac0a5c79b3f5a08cf2da6ed20cf72162d2a4687461d4778ddab1"></a>SYM_RSS14STACK_CC&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_STK_CC. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da6ed20cf72162d2a4687461d4778ddab1" name="a26a79b85a497fac0a5c79b3f5a08cf2da6ed20cf72162d2a4687461d4778ddab1"></a>SYM_RSS14STACK_CC&#160;</td><td class="fieldinit">137&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_STK_CC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da66257f5ca0bebbcfb794c771f092255c" name="a26a79b85a497fac0a5c79b3f5a08cf2da66257f5ca0bebbcfb794c771f092255c"></a>SYM_DBAR_OMNSTK_CC&#160;</td><td class="fielddoc"><p>GS1 DataBar Stacked Omnidirectional Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da66257f5ca0bebbcfb794c771f092255c" name="a26a79b85a497fac0a5c79b3f5a08cf2da66257f5ca0bebbcfb794c771f092255c"></a>SYM_DBAR_OMNSTK_CC&#160;</td><td class="fieldinit">138&#160;</td><td class="fielddoc"><p>GS1 DataBar Stacked Omnidirectional Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da81db442704c79062eca780ee9fbe5064" name="a26a79b85a497fac0a5c79b3f5a08cf2da81db442704c79062eca780ee9fbe5064"></a>SYM_RSS14_OMNI_CC&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_OMNSTK_CC. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da81db442704c79062eca780ee9fbe5064" name="a26a79b85a497fac0a5c79b3f5a08cf2da81db442704c79062eca780ee9fbe5064"></a>SYM_RSS14_OMNI_CC&#160;</td><td class="fieldinit">138&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_OMNSTK_CC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dae2211f3c4c7a2da61d55676d4d797aad" name="a26a79b85a497fac0a5c79b3f5a08cf2dae2211f3c4c7a2da61d55676d4d797aad"></a>SYM_DBAR_EXPSTK_CC&#160;</td><td class="fielddoc"><p>GS1 DataBar Expanded Stacked Composite. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dae2211f3c4c7a2da61d55676d4d797aad" name="a26a79b85a497fac0a5c79b3f5a08cf2dae2211f3c4c7a2da61d55676d4d797aad"></a>SYM_DBAR_EXPSTK_CC&#160;</td><td class="fieldinit">139&#160;</td><td class="fielddoc"><p>GS1 DataBar Expanded Stacked Composite. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa2d8868b6fad6f98539dfc7773b17d9d" name="a26a79b85a497fac0a5c79b3f5a08cf2daa2d8868b6fad6f98539dfc7773b17d9d"></a>SYM_RSS_EXPSTACK_CC&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_EXPSTK_CC. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daa2d8868b6fad6f98539dfc7773b17d9d" name="a26a79b85a497fac0a5c79b3f5a08cf2daa2d8868b6fad6f98539dfc7773b17d9d"></a>SYM_RSS_EXPSTACK_CC&#160;</td><td class="fieldinit">139&#160;</td><td class="fielddoc"><p>Legacy, same as SYM_DBAR_EXPSTK_CC. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dad65f225dff18a9710d29fd92c9773f04" name="a26a79b85a497fac0a5c79b3f5a08cf2dad65f225dff18a9710d29fd92c9773f04"></a>SYM_CHANNEL&#160;</td><td class="fielddoc"><p>Channel Code. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dad65f225dff18a9710d29fd92c9773f04" name="a26a79b85a497fac0a5c79b3f5a08cf2dad65f225dff18a9710d29fd92c9773f04"></a>SYM_CHANNEL&#160;</td><td class="fieldinit">140&#160;</td><td class="fielddoc"><p>Channel Code. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadbc82b2e36e3cbc6dbf9d619f58fb4fd" name="a26a79b85a497fac0a5c79b3f5a08cf2dadbc82b2e36e3cbc6dbf9d619f58fb4fd"></a>SYM_CODEONE&#160;</td><td class="fielddoc"><p>Code One. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dadbc82b2e36e3cbc6dbf9d619f58fb4fd" name="a26a79b85a497fac0a5c79b3f5a08cf2dadbc82b2e36e3cbc6dbf9d619f58fb4fd"></a>SYM_CODEONE&#160;</td><td class="fieldinit">141&#160;</td><td class="fielddoc"><p>Code One. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da39bf5e025dd1ba8e51c71120f1a4765a" name="a26a79b85a497fac0a5c79b3f5a08cf2da39bf5e025dd1ba8e51c71120f1a4765a"></a>SYM_GRIDMATRIX&#160;</td><td class="fielddoc"><p>Grid Matrix. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da39bf5e025dd1ba8e51c71120f1a4765a" name="a26a79b85a497fac0a5c79b3f5a08cf2da39bf5e025dd1ba8e51c71120f1a4765a"></a>SYM_GRIDMATRIX&#160;</td><td class="fieldinit">142&#160;</td><td class="fielddoc"><p>Grid Matrix. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da64ac4a067f61f57c5ace540ba7e65eea" name="a26a79b85a497fac0a5c79b3f5a08cf2da64ac4a067f61f57c5ace540ba7e65eea"></a>SYM_UPNQR&#160;</td><td class="fielddoc"><p>UPNQR (Univerzalnega Plačilnega Naloga QR) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da64ac4a067f61f57c5ace540ba7e65eea" name="a26a79b85a497fac0a5c79b3f5a08cf2da64ac4a067f61f57c5ace540ba7e65eea"></a>SYM_UPNQR&#160;</td><td class="fieldinit">143&#160;</td><td class="fielddoc"><p>UPNQR (Univerzalnega Plačilnega Naloga QR). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da41bdc2f4d2aad190b87acc4f98890346" name="a26a79b85a497fac0a5c79b3f5a08cf2da41bdc2f4d2aad190b87acc4f98890346"></a>SYM_ULTRA&#160;</td><td class="fielddoc"><p>Ultracode. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da41bdc2f4d2aad190b87acc4f98890346" name="a26a79b85a497fac0a5c79b3f5a08cf2da41bdc2f4d2aad190b87acc4f98890346"></a>SYM_ULTRA&#160;</td><td class="fieldinit">144&#160;</td><td class="fielddoc"><p>Ultracode. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da00f9a02cc8064df00d74430b017d83fb" name="a26a79b85a497fac0a5c79b3f5a08cf2da00f9a02cc8064df00d74430b017d83fb"></a>SYM_RMQR&#160;</td><td class="fielddoc"><p>Rectangular Micro QR Code (rMQR) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da00f9a02cc8064df00d74430b017d83fb" name="a26a79b85a497fac0a5c79b3f5a08cf2da00f9a02cc8064df00d74430b017d83fb"></a>SYM_RMQR&#160;</td><td class="fieldinit">145&#160;</td><td class="fielddoc"><p>Rectangular Micro QR Code (rMQR). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daaebd41be7a723adba7fdda5f326e9b93" name="a26a79b85a497fac0a5c79b3f5a08cf2daaebd41be7a723adba7fdda5f326e9b93"></a>SYM_BC412&#160;</td><td class="fielddoc"><p>IBM BC412 (SEMI T1-95) </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2daaebd41be7a723adba7fdda5f326e9b93" name="a26a79b85a497fac0a5c79b3f5a08cf2daaebd41be7a723adba7fdda5f326e9b93"></a>SYM_BC412&#160;</td><td class="fieldinit">146&#160;</td><td class="fielddoc"><p>IBM BC412 (SEMI T1-95). </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da18e131985a5f4ea27d1d91d66632ef6b" name="a26a79b85a497fac0a5c79b3f5a08cf2da18e131985a5f4ea27d1d91d66632ef6b"></a>SYM_DXFILMEDGE&#160;</td><td class="fielddoc"><p>DX Film Edge Barcode on 35mm and APS films. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2da18e131985a5f4ea27d1d91d66632ef6b" name="a26a79b85a497fac0a5c79b3f5a08cf2da18e131985a5f4ea27d1d91d66632ef6b"></a>SYM_DXFILMEDGE&#160;</td><td class="fieldinit">147&#160;</td><td class="fielddoc"><p>DX Film Edge Barcode on 35mm and APS films. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab9916fc17ab11b159773acfbe92964f0" name="a26a79b85a497fac0a5c79b3f5a08cf2dab9916fc17ab11b159773acfbe92964f0"></a>SYM_LAST&#160;</td><td class="fielddoc"><p>Max barcode number marker, not barcode. </p>
+<tr><td class="fieldname"><a id="a26a79b85a497fac0a5c79b3f5a08cf2dab9916fc17ab11b159773acfbe92964f0" name="a26a79b85a497fac0a5c79b3f5a08cf2dab9916fc17ab11b159773acfbe92964f0"></a>SYM_LAST&#160;</td><td class="fieldinit">147&#160;</td><td class="fielddoc"><p>Max barcode number marker, not barcode. </p>
 </td></tr>
 </table>
 
 </div>
 </div>
-<h2 class="groupheader">Variable Documentation</h2>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="ae2641336e88dfff252143cd8afc6c4d8" name="ae2641336e88dfff252143cd8afc6c4d8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae2641336e88dfff252143cd8afc6c4d8">&#9670;&#160;</a></span>CAP_COMPLIANT_HEIGHT</h2>
 
@@ -875,7 +924,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Zint Capability flags (ZBarcode_Cap() <code>cap_flag</code>) </p>
+<p>Zint Capability flags (ZBarcode_Cap() <span class="tt">cap_flag</span>). </p>
 <p>Prints Human Readable Text? </p>
 
 </div>
@@ -1021,7 +1070,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Use faster if less optimal encodation or other shortcuts if available (affects DATAMATRIX, MICROPDF417, PDF417, QRCODE &amp; UPNQR only) </p>
+<p>Use faster if less optimal encodation or other shortcuts if available (affects DATAMATRIX, MICROPDF417, PDF417, QRCODE &amp; UPNQR only). </p>
 
 </div>
 </div>
@@ -1053,7 +1102,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Do not check validity of GS1 data (except that printable ASCII only) </p>
+<p>Do not check validity of GS1 data (except that printable ASCII only). </p>
 
 </div>
 </div>
@@ -1069,7 +1118,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Process parentheses as GS1 AI delimiters (instead of square brackets) </p>
+<p>Process parentheses as GS1 AI delimiters (instead of square brackets). </p>
 
 </div>
 </div>
@@ -1085,7 +1134,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Interpret <code>height</code> as per-row rather than as overall height. </p>
+<p>Interpret <span class="tt">height</span> as per-row rather than as overall height. </p>
 
 </div>
 </div>
@@ -1133,7 +1182,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Use ISO instead of "de facto" format for 144x144 (i.e. don't skew ECC) </p>
+<p>Use ISO instead of "de facto" format for 144x144 (i.e. don't skew ECC). </p>
 
 </div>
 </div>
@@ -1149,7 +1198,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Data Matrix specific options (<code>symbol-&gt;option_3</code>) </p>
+<p>Data Matrix specific options (<span class="tt">symbol-&gt;option_3</span>). </p>
 <p>Only consider square versions on automatic symbol size selection </p>
 
 </div>
@@ -1166,7 +1215,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>QR, Han Xin, Grid Matrix specific options (<code>symbol-&gt;option_3</code>) </p>
+<p>QR, Han Xin, Grid Matrix specific options (<span class="tt">symbol-&gt;option_3</span>). </p>
 <p>Enable Kanji/Hanzi compression for Latin-1 &amp; binary data *&zwj;/ </p>
 
 </div>
@@ -1183,7 +1232,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Ultracode specific option (<code>symbol-&gt;option_3</code>) </p>
+<p>Ultracode specific option (<span class="tt">symbol-&gt;option_3</span>). </p>
 <p>Enable Ultracode compression (experimental) </p>
 
 </div>
@@ -1216,7 +1265,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Zint Output options (<code>symbol-&gt;output_options</code>) </p>
+<p>Zint Output options (<span class="tt">symbol-&gt;output_options</span>). </p>
 <p>Boundary bar above the symbol only (not below), does not affect stacking (</p><dl class="section note"><dt>Note</dt><dd>value was once used by the legacy (never-used) BARCODE_NO_ASCII) </dd></dl>
 
 </div>
@@ -1265,7 +1314,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Return ASCII values in bitmap buffer (OUT_BUFFER only) </p>
+<p>Return ASCII values in bitmap buffer (OUT_BUFFER only). </p>
 
 </div>
 </div>
@@ -1281,7 +1330,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>CMYK colour space (Encapsulated PostScript and TIF) </p>
+<p>CMYK colour space (Encapsulated PostScript and TIF). </p>
 
 </div>
 </div>
@@ -1329,7 +1378,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Add quiet zone indicators ("&lt;"/"&gt;") to HRT whitespace (EAN/UPC) </p>
+<p>Add quiet zone indicators ("&lt;"/"&gt;") to HRT whitespace (EAN/UPC). </p>
 
 </div>
 </div>
@@ -1361,7 +1410,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Use GS instead of FNC1 as GS1 separator (Data Matrix) </p>
+<p>Use GS instead of FNC1 as GS1 separator (Data Matrix). </p>
 
 </div>
 </div>
@@ -1377,7 +1426,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Write output to in-memory buffer <code>memfile</code> instead of to <code>outfile</code> </p>
+<p>Write output to in-memory buffer <span class="tt">memfile</span> instead of to <span class="tt">outfile</span>. </p>
 
 </div>
 </div>
@@ -1426,7 +1475,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Reader Initialisation (Programming) </p>
+<p>Reader Initialisation (Programming). </p>
 
 </div>
 </div>
@@ -1474,7 +1523,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Warning level (<code>symbol-&gt;warn_level</code>) </p>
+<p>Warning level (<span class="tt">symbol-&gt;warn_level</span>). </p>
 <p>Default behaviour </p>
 
 </div>
@@ -1496,10 +1545,21 @@ Variables</h2></td></tr>
 </div>
 </div>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="namespacewx_pdf_barcode.html">wxPdfBarcode</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

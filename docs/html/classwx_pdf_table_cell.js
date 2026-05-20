@@ -1,0 +1,25 @@
+var classwx_pdf_table_cell =
+[
+    [ "wxPdfTableCell", "classwx_pdf_table_cell.html#a737cac9d4ad12eb77d70af3dd9db9597", null ],
+    [ "~wxPdfTableCell", "classwx_pdf_table_cell.html#a8e3e951f727ab91ba02ce31193443025", null ],
+    [ "GetBorder", "classwx_pdf_table_cell.html#a5078c6ae6de9403810045959ffc603bc", null ],
+    [ "GetCellColour", "classwx_pdf_table_cell.html#a85005e69cd36ca69eb5d7865e324fa0b", null ],
+    [ "GetCol", "classwx_pdf_table_cell.html#aaec5d00ce3ca376b6fe86c430b3b5d2f", null ],
+    [ "GetColSpan", "classwx_pdf_table_cell.html#a8e5e2937c6c03c4a30844f72fcce5684", null ],
+    [ "GetContext", "classwx_pdf_table_cell.html#a7c43a3703aa8cc07a64a572a2c8464b5", null ],
+    [ "GetHAlign", "classwx_pdf_table_cell.html#adf655483e301e72cd94e6de004613f68", null ],
+    [ "GetHeight", "classwx_pdf_table_cell.html#a883dc78a50d86e599063910e692fa143", null ],
+    [ "GetRow", "classwx_pdf_table_cell.html#aa2a10cde76c6b6c5e19b2b9ef844ff51", null ],
+    [ "GetRowSpan", "classwx_pdf_table_cell.html#a59dae74a1abfb70ac27facf59e42d617", null ],
+    [ "GetVAlign", "classwx_pdf_table_cell.html#aebbc846b89b59ed39cf9405cfe9466e1", null ],
+    [ "GetWidth", "classwx_pdf_table_cell.html#aa232d9e6998026f25b3cb7f7bf0fa0e7", null ],
+    [ "GetXmlNode", "classwx_pdf_table_cell.html#a62bbe6ae9e4f7409081203352c5554b2", null ],
+    [ "HasCellColour", "classwx_pdf_table_cell.html#a667dc06d782ca41c89174bc5db41a8d6", null ],
+    [ "SetBorder", "classwx_pdf_table_cell.html#a9844742728d8aba7fbbdb10621730b2c", null ],
+    [ "SetCellColour", "classwx_pdf_table_cell.html#a39320fbbc5b90dddf372c786b7507e2f", null ],
+    [ "SetContext", "classwx_pdf_table_cell.html#a596d9efe6df50e01807d7aa8a3f63344", null ],
+    [ "SetHAlign", "classwx_pdf_table_cell.html#a35a0e3f5cfb82e2af05f0ab83a5fd717", null ],
+    [ "SetHeight", "classwx_pdf_table_cell.html#aff3ecf808cf4ea488c252bfb03276c4e", null ],
+    [ "SetVAlign", "classwx_pdf_table_cell.html#abeaa31514c275a58e22195b5f2403786", null ],
+    [ "SetWidth", "classwx_pdf_table_cell.html#ad244341ba1416e29ec3c45c3a89f5b01", null ]
+];

@@ -1,62 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
 <title>wxPdfDocument: wxPdfPreviewDCImpl Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('classwx_pdf_preview_d_c_impl.html','','classwx_pdf_preview_d_c_impl-members'); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classwx_pdf_preview_d_c_impl-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">wxPdfPreviewDCImpl Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -69,176 +168,93 @@ Inheritance diagram for wxPdfPreviewDCImpl:</div>
   <img src="classwx_pdf_preview_d_c_impl.png" alt=""/>
  </div></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0464ea138ea5e546d10eeb772e99459c" id="r_a0464ea138ea5e546d10eeb772e99459c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0464ea138ea5e546d10eeb772e99459c">wxPdfPreviewDCImpl</a> (wxDC *owner, wxDCImpl &amp;dc, <a class="el" href="classwx_pdf_d_c.html">wxPdfDC</a> *pdfdc)</td></tr>
-<tr class="separator:a0464ea138ea5e546d10eeb772e99459c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9824639a40f5c5dc4adba05bac6da6c" id="r_ac9824639a40f5c5dc4adba05bac6da6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac9824639a40f5c5dc4adba05bac6da6c">GetPdfDocument</a> () const</td></tr>
-<tr class="separator:ac9824639a40f5c5dc4adba05bac6da6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a208f5e97031d3056fa14ef5bdd8a4475" id="r_a208f5e97031d3056fa14ef5bdd8a4475"><td class="memItemLeft" align="right" valign="top">virtual wxRect&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a208f5e97031d3056fa14ef5bdd8a4475">GetPaperRect</a> () const</td></tr>
-<tr class="separator:a208f5e97031d3056fa14ef5bdd8a4475"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bd5a4766c950b14fd6aba259e584e0e" id="r_a7bd5a4766c950b14fd6aba259e584e0e"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bd5a4766c950b14fd6aba259e584e0e">GetResolution</a> () const</td></tr>
-<tr class="separator:a7bd5a4766c950b14fd6aba259e584e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a847402f87f2b1e0128a4d6811457a16c" id="r_a847402f87f2b1e0128a4d6811457a16c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a847402f87f2b1e0128a4d6811457a16c">CanGetTextExtent</a> () const</td></tr>
-<tr class="separator:a847402f87f2b1e0128a4d6811457a16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8399d15990429fb86c94c8307a17ba8b" id="r_a8399d15990429fb86c94c8307a17ba8b"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8399d15990429fb86c94c8307a17ba8b">GetCharHeight</a> () const</td></tr>
-<tr class="separator:a8399d15990429fb86c94c8307a17ba8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae257896a71143c50c71b1be0e6b6d73b" id="r_ae257896a71143c50c71b1be0e6b6d73b"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae257896a71143c50c71b1be0e6b6d73b">GetCharWidth</a> () const</td></tr>
-<tr class="separator:ae257896a71143c50c71b1be0e6b6d73b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebd25e3aa91894acdc5a28c60673f2fe" id="r_aebd25e3aa91894acdc5a28c60673f2fe"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aebd25e3aa91894acdc5a28c60673f2fe">DoGetFontMetrics</a> (int *height, int *ascent, int *descent, int *internalLeading, int *externalLeading, int *averageWidth) const</td></tr>
-<tr class="separator:aebd25e3aa91894acdc5a28c60673f2fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19b29e6f7ef14b28dcee1691bf9a7b3c" id="r_a19b29e6f7ef14b28dcee1691bf9a7b3c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19b29e6f7ef14b28dcee1691bf9a7b3c">DoGetTextExtent</a> (const wxString &amp;string, wxCoord *x, wxCoord *y, wxCoord *descent=NULL, wxCoord *externalLeading=NULL, const wxFont *theFont=NULL) const</td></tr>
-<tr class="separator:a19b29e6f7ef14b28dcee1691bf9a7b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0eff79036e98617b9884e2ddc8227f52" id="r_a0eff79036e98617b9884e2ddc8227f52"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0eff79036e98617b9884e2ddc8227f52">DoGetPartialTextExtents</a> (const wxString &amp;text, wxArrayInt &amp;widths) const</td></tr>
-<tr class="separator:a0eff79036e98617b9884e2ddc8227f52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeed863d7633a057e86e89f657ce2ee89" id="r_aeed863d7633a057e86e89f657ce2ee89"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeed863d7633a057e86e89f657ce2ee89">GetMultiLineTextExtent</a> (const wxString &amp;string, wxCoord *width, wxCoord *height, wxCoord *heightLine=NULL, const wxFont *font=NULL) const</td></tr>
-<tr class="separator:aeed863d7633a057e86e89f657ce2ee89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18f619530cebd6894fb637e8742401c9" id="r_a18f619530cebd6894fb637e8742401c9"><td class="memItemLeft" align="right" valign="top">virtual wxSize&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18f619530cebd6894fb637e8742401c9">GetPPI</a> () const</td></tr>
-<tr class="separator:a18f619530cebd6894fb637e8742401c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a734ca895100ea342e80ce816ee395a42" id="r_a734ca895100ea342e80ce816ee395a42"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a734ca895100ea342e80ce816ee395a42">DoGetSize</a> (int *w, int *h) const</td></tr>
-<tr class="separator:a734ca895100ea342e80ce816ee395a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8fd73b8a2f6445ac03ee1e9e6ff94b84" id="r_a8fd73b8a2f6445ac03ee1e9e6ff94b84"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fd73b8a2f6445ac03ee1e9e6ff94b84">DoGetSizeMM</a> (int *w, int *h) const</td></tr>
-<tr class="separator:a8fd73b8a2f6445ac03ee1e9e6ff94b84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0a83bc8de043a7613bc40070df0cb63" id="r_aa0a83bc8de043a7613bc40070df0cb63"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0a83bc8de043a7613bc40070df0cb63">IsOk</a> () const</td></tr>
-<tr class="separator:aa0a83bc8de043a7613bc40070df0cb63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab01c7cae199511cf6cdaaeb4267b5b79" id="r_ab01c7cae199511cf6cdaaeb4267b5b79"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab01c7cae199511cf6cdaaeb4267b5b79">CanDrawBitmap</a> () const</td></tr>
-<tr class="separator:ab01c7cae199511cf6cdaaeb4267b5b79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a370faf6ff501467080d4a6f00ef0ccd9" id="r_a370faf6ff501467080d4a6f00ef0ccd9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a370faf6ff501467080d4a6f00ef0ccd9">Clear</a> ()</td></tr>
-<tr class="separator:a370faf6ff501467080d4a6f00ef0ccd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa1a09bcc3d207eec6a1590bb08ff1701" id="r_aa1a09bcc3d207eec6a1590bb08ff1701"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa1a09bcc3d207eec6a1590bb08ff1701">GetDepth</a> () const</td></tr>
-<tr class="separator:aa1a09bcc3d207eec6a1590bb08ff1701"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6babb5269b2839ce099b263825467843" id="r_a6babb5269b2839ce099b263825467843"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6babb5269b2839ce099b263825467843">CalcBoundingBox</a> (wxCoord x, wxCoord y)</td></tr>
-<tr class="separator:a6babb5269b2839ce099b263825467843"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ee67ae83a0dec5bade64fd30650a684" id="r_a7ee67ae83a0dec5bade64fd30650a684"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7ee67ae83a0dec5bade64fd30650a684">SetFont</a> (const wxFont &amp;font)</td></tr>
-<tr class="separator:a7ee67ae83a0dec5bade64fd30650a684"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a378081e096dc82fa4213c50c1a308b2f" id="r_a378081e096dc82fa4213c50c1a308b2f"><td class="memItemLeft" align="right" valign="top">virtual const wxFont &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a378081e096dc82fa4213c50c1a308b2f">GetFont</a> () const</td></tr>
-<tr class="separator:a378081e096dc82fa4213c50c1a308b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00a097dd38f563ef5c3d335f3fce560a" id="r_a00a097dd38f563ef5c3d335f3fce560a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00a097dd38f563ef5c3d335f3fce560a">SetPen</a> (const wxPen &amp;pen)</td></tr>
-<tr class="separator:a00a097dd38f563ef5c3d335f3fce560a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d35e23677cd1376dfb698983c521388" id="r_a9d35e23677cd1376dfb698983c521388"><td class="memItemLeft" align="right" valign="top">virtual const wxPen &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d35e23677cd1376dfb698983c521388">GetPen</a> () const</td></tr>
-<tr class="separator:a9d35e23677cd1376dfb698983c521388"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbb66f51163957e633bd7ed0831b20c8" id="r_acbb66f51163957e633bd7ed0831b20c8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbb66f51163957e633bd7ed0831b20c8">SetBrush</a> (const wxBrush &amp;brush)</td></tr>
-<tr class="separator:acbb66f51163957e633bd7ed0831b20c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf33ed72be4a4902310d8412b277560b" id="r_adf33ed72be4a4902310d8412b277560b"><td class="memItemLeft" align="right" valign="top">virtual const wxBrush &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adf33ed72be4a4902310d8412b277560b">GetBrush</a> () const</td></tr>
-<tr class="separator:adf33ed72be4a4902310d8412b277560b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a798ebfa967edce52ec1a9069feb3c25c" id="r_a798ebfa967edce52ec1a9069feb3c25c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a798ebfa967edce52ec1a9069feb3c25c">SetBackground</a> (const wxBrush &amp;brush)</td></tr>
-<tr class="separator:a798ebfa967edce52ec1a9069feb3c25c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3ce171bea9a5ea12e7167a1d14f31ca" id="r_af3ce171bea9a5ea12e7167a1d14f31ca"><td class="memItemLeft" align="right" valign="top">virtual const wxBrush &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3ce171bea9a5ea12e7167a1d14f31ca">GetBackground</a> () const</td></tr>
-<tr class="separator:af3ce171bea9a5ea12e7167a1d14f31ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3324f324216cbee0ed2f64ab628a1b75" id="r_a3324f324216cbee0ed2f64ab628a1b75"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3324f324216cbee0ed2f64ab628a1b75">SetBackgroundMode</a> (int mode)</td></tr>
-<tr class="separator:a3324f324216cbee0ed2f64ab628a1b75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add2741f0330052724166b21fc8848f1d" id="r_add2741f0330052724166b21fc8848f1d"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#add2741f0330052724166b21fc8848f1d">GetBackgroundMode</a> () const</td></tr>
-<tr class="separator:add2741f0330052724166b21fc8848f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3ef6756181084fe80be56b0b3bf25f04" id="r_a3ef6756181084fe80be56b0b3bf25f04"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ef6756181084fe80be56b0b3bf25f04">SetTextForeground</a> (const wxColour &amp;colour)</td></tr>
-<tr class="separator:a3ef6756181084fe80be56b0b3bf25f04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd7dcba413450d132b500794765088aa" id="r_acd7dcba413450d132b500794765088aa"><td class="memItemLeft" align="right" valign="top">virtual const wxColour &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd7dcba413450d132b500794765088aa">GetTextForeground</a> () const</td></tr>
-<tr class="separator:acd7dcba413450d132b500794765088aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a159566968046a344a0c3eee100916ca7" id="r_a159566968046a344a0c3eee100916ca7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a159566968046a344a0c3eee100916ca7">SetTextBackground</a> (const wxColour &amp;colour)</td></tr>
-<tr class="separator:a159566968046a344a0c3eee100916ca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a404e1f4ace33e5cba8d1ce4cb4553b74" id="r_a404e1f4ace33e5cba8d1ce4cb4553b74"><td class="memItemLeft" align="right" valign="top">virtual const wxColour &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a404e1f4ace33e5cba8d1ce4cb4553b74">GetTextBackground</a> () const</td></tr>
-<tr class="separator:a404e1f4ace33e5cba8d1ce4cb4553b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b776ab6f49083f975a39bc45806e611" id="r_a0b776ab6f49083f975a39bc45806e611"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b776ab6f49083f975a39bc45806e611">InheritAttributes</a> (wxWindow *win)</td></tr>
-<tr class="separator:a0b776ab6f49083f975a39bc45806e611"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae44901cfb485cdda4467f602cf8a1df7" id="r_ae44901cfb485cdda4467f602cf8a1df7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae44901cfb485cdda4467f602cf8a1df7">SetLogicalFunction</a> (wxRasterOperationMode function)</td></tr>
-<tr class="separator:ae44901cfb485cdda4467f602cf8a1df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0482f76246938aa4163d79353e4e7221" id="r_a0482f76246938aa4163d79353e4e7221"><td class="memItemLeft" align="right" valign="top">virtual wxRasterOperationMode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0482f76246938aa4163d79353e4e7221">GetLogicalFunction</a> () const</td></tr>
-<tr class="separator:a0482f76246938aa4163d79353e4e7221"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c39a47ecb38c4dc6ea5994b900aa77e" id="r_a6c39a47ecb38c4dc6ea5994b900aa77e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6c39a47ecb38c4dc6ea5994b900aa77e">DoSetClippingRegion</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h)</td></tr>
-<tr class="separator:a6c39a47ecb38c4dc6ea5994b900aa77e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c80c3aaf49af7e3ab3c3bb347792eab" id="r_a4c80c3aaf49af7e3ab3c3bb347792eab"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4c80c3aaf49af7e3ab3c3bb347792eab">DoSetDeviceClippingRegion</a> (const wxRegion &amp;region)</td></tr>
-<tr class="separator:a4c80c3aaf49af7e3ab3c3bb347792eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a062f2b12d848458e711301b88ab6d893" id="r_a062f2b12d848458e711301b88ab6d893"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a062f2b12d848458e711301b88ab6d893">DoGetClippingBox</a> (wxCoord *x, wxCoord *y, wxCoord *w, wxCoord *h) const</td></tr>
-<tr class="separator:a062f2b12d848458e711301b88ab6d893"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a1347f85a7c36739783b0615881f8b9" id="r_a5a1347f85a7c36739783b0615881f8b9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5a1347f85a7c36739783b0615881f8b9">DestroyClippingRegion</a> ()</td></tr>
-<tr class="separator:a5a1347f85a7c36739783b0615881f8b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a363fec01c54494a342e5ca000dc7628c" id="r_a363fec01c54494a342e5ca000dc7628c"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a363fec01c54494a342e5ca000dc7628c">DeviceToLogicalX</a> (wxCoord x) const</td></tr>
-<tr class="separator:a363fec01c54494a342e5ca000dc7628c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8df64026171f17d1b58d49b5fbb90210" id="r_a8df64026171f17d1b58d49b5fbb90210"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8df64026171f17d1b58d49b5fbb90210">DeviceToLogicalY</a> (wxCoord y) const</td></tr>
-<tr class="separator:a8df64026171f17d1b58d49b5fbb90210"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a679266fb48e5ec11edee2d509d85cb3e" id="r_a679266fb48e5ec11edee2d509d85cb3e"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a679266fb48e5ec11edee2d509d85cb3e">DeviceToLogicalXRel</a> (wxCoord x) const</td></tr>
-<tr class="separator:a679266fb48e5ec11edee2d509d85cb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c7cebf23cb32107ff31cd7714602b75" id="r_a3c7cebf23cb32107ff31cd7714602b75"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c7cebf23cb32107ff31cd7714602b75">DeviceToLogicalYRel</a> (wxCoord y) const</td></tr>
-<tr class="separator:a3c7cebf23cb32107ff31cd7714602b75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc9918cd832591f92aae9cfe4338b672" id="r_acc9918cd832591f92aae9cfe4338b672"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc9918cd832591f92aae9cfe4338b672">LogicalToDeviceX</a> (wxCoord x) const</td></tr>
-<tr class="separator:acc9918cd832591f92aae9cfe4338b672"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae69508fa3e4e6d25bff7e54dbb23f54b" id="r_ae69508fa3e4e6d25bff7e54dbb23f54b"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae69508fa3e4e6d25bff7e54dbb23f54b">LogicalToDeviceY</a> (wxCoord y) const</td></tr>
-<tr class="separator:ae69508fa3e4e6d25bff7e54dbb23f54b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5730bc23ecb09be0a0c25e585c683531" id="r_a5730bc23ecb09be0a0c25e585c683531"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5730bc23ecb09be0a0c25e585c683531">LogicalToDeviceXRel</a> (wxCoord x) const</td></tr>
-<tr class="separator:a5730bc23ecb09be0a0c25e585c683531"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad22763186dc3da2bd37977ad5157a218" id="r_ad22763186dc3da2bd37977ad5157a218"><td class="memItemLeft" align="right" valign="top">virtual wxCoord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad22763186dc3da2bd37977ad5157a218">LogicalToDeviceYRel</a> (wxCoord y) const</td></tr>
-<tr class="separator:ad22763186dc3da2bd37977ad5157a218"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f15e4cf252c2e6c41559c051896c433" id="r_a8f15e4cf252c2e6c41559c051896c433"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f15e4cf252c2e6c41559c051896c433">SetMapMode</a> (wxMappingMode mode)</td></tr>
-<tr class="separator:a8f15e4cf252c2e6c41559c051896c433"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fa533a0a3233a6e5b42e7604887c94d" id="r_a6fa533a0a3233a6e5b42e7604887c94d"><td class="memItemLeft" align="right" valign="top">virtual wxMappingMode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6fa533a0a3233a6e5b42e7604887c94d">GetMapMode</a> () const</td></tr>
-<tr class="separator:a6fa533a0a3233a6e5b42e7604887c94d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab48d56ec212a74c3c372c275f8021fbd" id="r_ab48d56ec212a74c3c372c275f8021fbd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab48d56ec212a74c3c372c275f8021fbd">SetUserScale</a> (double x, double y)</td></tr>
-<tr class="separator:ab48d56ec212a74c3c372c275f8021fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe4cbde12f5b481cfa25dc7a2018a691" id="r_afe4cbde12f5b481cfa25dc7a2018a691"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe4cbde12f5b481cfa25dc7a2018a691">GetUserScale</a> (double *x, double *y) const</td></tr>
-<tr class="separator:afe4cbde12f5b481cfa25dc7a2018a691"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dcc9d9b04e9274c9f9a85167eea3dfe" id="r_a9dcc9d9b04e9274c9f9a85167eea3dfe"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9dcc9d9b04e9274c9f9a85167eea3dfe">SetLogicalScale</a> (double x, double y)</td></tr>
-<tr class="separator:a9dcc9d9b04e9274c9f9a85167eea3dfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd13183d28949e6bae7cbd9c659920b4" id="r_afd13183d28949e6bae7cbd9c659920b4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afd13183d28949e6bae7cbd9c659920b4">GetLogicalScale</a> (double *x, double *y) const</td></tr>
-<tr class="separator:afd13183d28949e6bae7cbd9c659920b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8a4361b46e3eb24715349932dbc438f" id="r_aa8a4361b46e3eb24715349932dbc438f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa8a4361b46e3eb24715349932dbc438f">SetLogicalOrigin</a> (wxCoord x, wxCoord y)</td></tr>
-<tr class="separator:aa8a4361b46e3eb24715349932dbc438f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41d3d6391c92d82d5ff47aaf77d3113c" id="r_a41d3d6391c92d82d5ff47aaf77d3113c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41d3d6391c92d82d5ff47aaf77d3113c">DoGetLogicalOrigin</a> (wxCoord *x, wxCoord *y) const</td></tr>
-<tr class="separator:a41d3d6391c92d82d5ff47aaf77d3113c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa107b0118b178b0b14acbfd3fa8d4b95" id="r_aa107b0118b178b0b14acbfd3fa8d4b95"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa107b0118b178b0b14acbfd3fa8d4b95">SetDeviceOrigin</a> (wxCoord x, wxCoord y)</td></tr>
-<tr class="separator:aa107b0118b178b0b14acbfd3fa8d4b95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d415849021e2a455cdd982986caaeb1" id="r_a8d415849021e2a455cdd982986caaeb1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d415849021e2a455cdd982986caaeb1">DoGetDeviceOrigin</a> (wxCoord *x, wxCoord *y) const</td></tr>
-<tr class="separator:a8d415849021e2a455cdd982986caaeb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18909814944a836b308250332998dd20" id="r_a18909814944a836b308250332998dd20"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18909814944a836b308250332998dd20">SetDeviceLocalOrigin</a> (wxCoord x, wxCoord y)</td></tr>
-<tr class="separator:a18909814944a836b308250332998dd20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb21c84ac0561f35cf72f5c55a0693bc" id="r_acb21c84ac0561f35cf72f5c55a0693bc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acb21c84ac0561f35cf72f5c55a0693bc">ComputeScaleAndOrigin</a> ()</td></tr>
-<tr class="separator:acb21c84ac0561f35cf72f5c55a0693bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05975e2e29bb3a84dc25400dd9e77527" id="r_a05975e2e29bb3a84dc25400dd9e77527"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a05975e2e29bb3a84dc25400dd9e77527">SetAxisOrientation</a> (bool x, bool y)</td></tr>
-<tr class="separator:a05975e2e29bb3a84dc25400dd9e77527"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa813707c0124467f5270abec84bca567" id="r_aa813707c0124467f5270abec84bca567"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa813707c0124467f5270abec84bca567">DoFloodFill</a> (wxCoord x, wxCoord y, const wxColour &amp;col, wxFloodFillStyle style=wxFLOOD_SURFACE)</td></tr>
-<tr class="separator:aa813707c0124467f5270abec84bca567"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6c54b6572a73ad8fb50113e78ecc2b8" id="r_ac6c54b6572a73ad8fb50113e78ecc2b8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6c54b6572a73ad8fb50113e78ecc2b8">DoGradientFillLinear</a> (const wxRect &amp;rect, const wxColour &amp;initialColour, const wxColour &amp;destColour, wxDirection nDirection=wxEAST)</td></tr>
-<tr class="separator:ac6c54b6572a73ad8fb50113e78ecc2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7b218cd698dfdd2d44bda8421360bd9" id="r_ae7b218cd698dfdd2d44bda8421360bd9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7b218cd698dfdd2d44bda8421360bd9">DoGradientFillConcentric</a> (const wxRect &amp;rect, const wxColour &amp;initialColour, const wxColour &amp;destColour, const wxPoint &amp;circleCenter)</td></tr>
-<tr class="separator:ae7b218cd698dfdd2d44bda8421360bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d01d8d960068998c507d96995df8659" id="r_a4d01d8d960068998c507d96995df8659"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d01d8d960068998c507d96995df8659">DoGetPixel</a> (wxCoord x, wxCoord y, wxColour *col) const</td></tr>
-<tr class="separator:a4d01d8d960068998c507d96995df8659"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b1d6d06f6ed7fbcad9fbacd7c43e866" id="r_a9b1d6d06f6ed7fbcad9fbacd7c43e866"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b1d6d06f6ed7fbcad9fbacd7c43e866">DoDrawPoint</a> (wxCoord x, wxCoord y)</td></tr>
-<tr class="separator:a9b1d6d06f6ed7fbcad9fbacd7c43e866"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7052a2e009d69e0dd7f2975b5b1c22a" id="r_af7052a2e009d69e0dd7f2975b5b1c22a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af7052a2e009d69e0dd7f2975b5b1c22a">DoDrawLine</a> (wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)</td></tr>
-<tr class="separator:af7052a2e009d69e0dd7f2975b5b1c22a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73bea2bcbf4caf890e2692a06ef14e07" id="r_a73bea2bcbf4caf890e2692a06ef14e07"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a73bea2bcbf4caf890e2692a06ef14e07">DoDrawArc</a> (wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord xc, wxCoord yc)</td></tr>
-<tr class="separator:a73bea2bcbf4caf890e2692a06ef14e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af08202921286ff4f6e9b3036daaae8ee" id="r_af08202921286ff4f6e9b3036daaae8ee"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af08202921286ff4f6e9b3036daaae8ee">DoDrawCheckMark</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h)</td></tr>
-<tr class="separator:af08202921286ff4f6e9b3036daaae8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42b5ecbb957d8f02861f3e49cb5060fd" id="r_a42b5ecbb957d8f02861f3e49cb5060fd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42b5ecbb957d8f02861f3e49cb5060fd">DoDrawEllipticArc</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h, double sa, double ea)</td></tr>
-<tr class="separator:a42b5ecbb957d8f02861f3e49cb5060fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a208992f547d94d5da95ea7165c49c417" id="r_a208992f547d94d5da95ea7165c49c417"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a208992f547d94d5da95ea7165c49c417">DoDrawRectangle</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h)</td></tr>
-<tr class="separator:a208992f547d94d5da95ea7165c49c417"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d216643f4d353e4bb94e157bec11c1a" id="r_a6d216643f4d353e4bb94e157bec11c1a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d216643f4d353e4bb94e157bec11c1a">DoDrawRoundedRectangle</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h, double radius)</td></tr>
-<tr class="separator:a6d216643f4d353e4bb94e157bec11c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81d7ba33da2e9edad6e8a4600685665a" id="r_a81d7ba33da2e9edad6e8a4600685665a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81d7ba33da2e9edad6e8a4600685665a">DoDrawEllipse</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h)</td></tr>
-<tr class="separator:a81d7ba33da2e9edad6e8a4600685665a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af287cf4a3265da50820c8142251c56ca" id="r_af287cf4a3265da50820c8142251c56ca"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af287cf4a3265da50820c8142251c56ca">DoCrossHair</a> (wxCoord x, wxCoord y)</td></tr>
-<tr class="separator:af287cf4a3265da50820c8142251c56ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afee1a568de82979af6a5adc74f15ec34" id="r_afee1a568de82979af6a5adc74f15ec34"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afee1a568de82979af6a5adc74f15ec34">DoDrawIcon</a> (const wxIcon &amp;icon, wxCoord x, wxCoord y)</td></tr>
-<tr class="separator:afee1a568de82979af6a5adc74f15ec34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93ed6bfe2d4972ad6faec781e79ca1bb" id="r_a93ed6bfe2d4972ad6faec781e79ca1bb"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a93ed6bfe2d4972ad6faec781e79ca1bb">DoDrawBitmap</a> (const wxBitmap &amp;bmp, wxCoord x, wxCoord y, bool useMask=false)</td></tr>
-<tr class="separator:a93ed6bfe2d4972ad6faec781e79ca1bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3e93aff054d019f57a882f65464a5df" id="r_ab3e93aff054d019f57a882f65464a5df"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3e93aff054d019f57a882f65464a5df">DoDrawText</a> (const wxString &amp;text, wxCoord x, wxCoord y)</td></tr>
-<tr class="separator:ab3e93aff054d019f57a882f65464a5df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7e36dcfb5ffd0f6eb1737b42e24f164a" id="r_a7e36dcfb5ffd0f6eb1737b42e24f164a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e36dcfb5ffd0f6eb1737b42e24f164a">DoDrawRotatedText</a> (const wxString &amp;text, wxCoord x, wxCoord y, double angle)</td></tr>
-<tr class="separator:a7e36dcfb5ffd0f6eb1737b42e24f164a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad99939fcbb37480bcaa856be3ba6ca7b" id="r_ad99939fcbb37480bcaa856be3ba6ca7b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad99939fcbb37480bcaa856be3ba6ca7b">DoBlit</a> (wxCoord xdest, wxCoord ydest, wxCoord w, wxCoord h, wxDC *source, wxCoord xsrc, wxCoord ysrc, wxRasterOperationMode rop=wxCOPY, bool useMask=false, wxCoord xsrcMask=wxDefaultCoord, wxCoord ysrcMask=wxDefaultCoord)</td></tr>
-<tr class="separator:ad99939fcbb37480bcaa856be3ba6ca7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab76552ca6d08524600e3aba426d22b45" id="r_ab76552ca6d08524600e3aba426d22b45"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab76552ca6d08524600e3aba426d22b45">DoStretchBlit</a> (wxCoord xdest, wxCoord ydest, wxCoord dstWidth, wxCoord dstHeight, wxDC *source, wxCoord xsrc, wxCoord ysrc, wxCoord srcWidth, wxCoord srcHeight, wxRasterOperationMode rop=wxCOPY, bool useMask=false, wxCoord xsrcMask=wxDefaultCoord, wxCoord ysrcMask=wxDefaultCoord)</td></tr>
-<tr class="separator:ab76552ca6d08524600e3aba426d22b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bd62759142a933f3a303cec4591c301" id="r_a8bd62759142a933f3a303cec4591c301"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8bd62759142a933f3a303cec4591c301">DoDrawLines</a> (int n, const wxPoint points[], wxCoord xoffset, wxCoord yoffset)</td></tr>
-<tr class="separator:a8bd62759142a933f3a303cec4591c301"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45d47197ab9627ac34bebadc65e04a1b" id="r_a45d47197ab9627ac34bebadc65e04a1b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45d47197ab9627ac34bebadc65e04a1b">DoDrawPolygon</a> (int n, const wxPoint points[], wxCoord xoffset, wxCoord yoffset, wxPolygonFillMode fillStyle=wxODDEVEN_RULE)</td></tr>
-<tr class="separator:a45d47197ab9627ac34bebadc65e04a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fe3a5aca62a6acfa5a71b3be192dbc5" id="r_a5fe3a5aca62a6acfa5a71b3be192dbc5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5fe3a5aca62a6acfa5a71b3be192dbc5">DoSetClippingRegionAsRegion</a> (const wxRegion &amp;region)</td></tr>
-<tr class="separator:a5fe3a5aca62a6acfa5a71b3be192dbc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0464ea138ea5e546d10eeb772e99459c" id="r_a0464ea138ea5e546d10eeb772e99459c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0464ea138ea5e546d10eeb772e99459c">wxPdfPreviewDCImpl</a> (wxDC *owner, wxDCImpl &amp;dc, <a class="el" href="classwx_pdf_d_c.html">wxPdfDC</a> *pdfdc)</td></tr>
+<tr class="memitem:ac9824639a40f5c5dc4adba05bac6da6c" id="r_ac9824639a40f5c5dc4adba05bac6da6c"><td class="memItemLeft"><a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ac9824639a40f5c5dc4adba05bac6da6c">GetPdfDocument</a> () const</td></tr>
+<tr class="memitem:a208f5e97031d3056fa14ef5bdd8a4475" id="r_a208f5e97031d3056fa14ef5bdd8a4475"><td class="memItemLeft">virtual wxRect&#160;</td><td class="memItemRight"><a class="el" href="#a208f5e97031d3056fa14ef5bdd8a4475">GetPaperRect</a> () const</td></tr>
+<tr class="memitem:a7bd5a4766c950b14fd6aba259e584e0e" id="r_a7bd5a4766c950b14fd6aba259e584e0e"><td class="memItemLeft">virtual int&#160;</td><td class="memItemRight"><a class="el" href="#a7bd5a4766c950b14fd6aba259e584e0e">GetResolution</a> () const</td></tr>
+<tr class="memitem:a847402f87f2b1e0128a4d6811457a16c" id="r_a847402f87f2b1e0128a4d6811457a16c"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#a847402f87f2b1e0128a4d6811457a16c">CanGetTextExtent</a> () const</td></tr>
+<tr class="memitem:a8399d15990429fb86c94c8307a17ba8b" id="r_a8399d15990429fb86c94c8307a17ba8b"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#a8399d15990429fb86c94c8307a17ba8b">GetCharHeight</a> () const</td></tr>
+<tr class="memitem:ae257896a71143c50c71b1be0e6b6d73b" id="r_ae257896a71143c50c71b1be0e6b6d73b"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#ae257896a71143c50c71b1be0e6b6d73b">GetCharWidth</a> () const</td></tr>
+<tr class="memitem:aebd25e3aa91894acdc5a28c60673f2fe" id="r_aebd25e3aa91894acdc5a28c60673f2fe"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#aebd25e3aa91894acdc5a28c60673f2fe">DoGetFontMetrics</a> (int *height, int *ascent, int *descent, int *internalLeading, int *externalLeading, int *averageWidth) const</td></tr>
+<tr class="memitem:a19b29e6f7ef14b28dcee1691bf9a7b3c" id="r_a19b29e6f7ef14b28dcee1691bf9a7b3c"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a19b29e6f7ef14b28dcee1691bf9a7b3c">DoGetTextExtent</a> (const wxString &amp;string, wxCoord *x, wxCoord *y, wxCoord *descent=NULL, wxCoord *externalLeading=NULL, const wxFont *theFont=NULL) const</td></tr>
+<tr class="memitem:a0eff79036e98617b9884e2ddc8227f52" id="r_a0eff79036e98617b9884e2ddc8227f52"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#a0eff79036e98617b9884e2ddc8227f52">DoGetPartialTextExtents</a> (const wxString &amp;text, wxArrayInt &amp;widths) const</td></tr>
+<tr class="memitem:aeed863d7633a057e86e89f657ce2ee89" id="r_aeed863d7633a057e86e89f657ce2ee89"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#aeed863d7633a057e86e89f657ce2ee89">GetMultiLineTextExtent</a> (const wxString &amp;string, wxCoord *width, wxCoord *height, wxCoord *heightLine=NULL, const wxFont *font=NULL) const</td></tr>
+<tr class="memitem:a18f619530cebd6894fb637e8742401c9" id="r_a18f619530cebd6894fb637e8742401c9"><td class="memItemLeft">virtual wxSize&#160;</td><td class="memItemRight"><a class="el" href="#a18f619530cebd6894fb637e8742401c9">GetPPI</a> () const</td></tr>
+<tr class="memitem:a734ca895100ea342e80ce816ee395a42" id="r_a734ca895100ea342e80ce816ee395a42"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a734ca895100ea342e80ce816ee395a42">DoGetSize</a> (int *w, int *h) const</td></tr>
+<tr class="memitem:a8fd73b8a2f6445ac03ee1e9e6ff94b84" id="r_a8fd73b8a2f6445ac03ee1e9e6ff94b84"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a8fd73b8a2f6445ac03ee1e9e6ff94b84">DoGetSizeMM</a> (int *w, int *h) const</td></tr>
+<tr class="memitem:aa0a83bc8de043a7613bc40070df0cb63" id="r_aa0a83bc8de043a7613bc40070df0cb63"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#aa0a83bc8de043a7613bc40070df0cb63">IsOk</a> () const</td></tr>
+<tr class="memitem:ab01c7cae199511cf6cdaaeb4267b5b79" id="r_ab01c7cae199511cf6cdaaeb4267b5b79"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#ab01c7cae199511cf6cdaaeb4267b5b79">CanDrawBitmap</a> () const</td></tr>
+<tr class="memitem:a370faf6ff501467080d4a6f00ef0ccd9" id="r_a370faf6ff501467080d4a6f00ef0ccd9"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a370faf6ff501467080d4a6f00ef0ccd9">Clear</a> ()</td></tr>
+<tr class="memitem:aa1a09bcc3d207eec6a1590bb08ff1701" id="r_aa1a09bcc3d207eec6a1590bb08ff1701"><td class="memItemLeft">virtual int&#160;</td><td class="memItemRight"><a class="el" href="#aa1a09bcc3d207eec6a1590bb08ff1701">GetDepth</a> () const</td></tr>
+<tr class="memitem:a6babb5269b2839ce099b263825467843" id="r_a6babb5269b2839ce099b263825467843"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a6babb5269b2839ce099b263825467843">CalcBoundingBox</a> (wxCoord x, wxCoord y)</td></tr>
+<tr class="memitem:a7ee67ae83a0dec5bade64fd30650a684" id="r_a7ee67ae83a0dec5bade64fd30650a684"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a7ee67ae83a0dec5bade64fd30650a684">SetFont</a> (const wxFont &amp;font)</td></tr>
+<tr class="memitem:a378081e096dc82fa4213c50c1a308b2f" id="r_a378081e096dc82fa4213c50c1a308b2f"><td class="memItemLeft">virtual const wxFont &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a378081e096dc82fa4213c50c1a308b2f">GetFont</a> () const</td></tr>
+<tr class="memitem:a00a097dd38f563ef5c3d335f3fce560a" id="r_a00a097dd38f563ef5c3d335f3fce560a"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a00a097dd38f563ef5c3d335f3fce560a">SetPen</a> (const wxPen &amp;pen)</td></tr>
+<tr class="memitem:a9d35e23677cd1376dfb698983c521388" id="r_a9d35e23677cd1376dfb698983c521388"><td class="memItemLeft">virtual const wxPen &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a9d35e23677cd1376dfb698983c521388">GetPen</a> () const</td></tr>
+<tr class="memitem:acbb66f51163957e633bd7ed0831b20c8" id="r_acbb66f51163957e633bd7ed0831b20c8"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#acbb66f51163957e633bd7ed0831b20c8">SetBrush</a> (const wxBrush &amp;brush)</td></tr>
+<tr class="memitem:adf33ed72be4a4902310d8412b277560b" id="r_adf33ed72be4a4902310d8412b277560b"><td class="memItemLeft">virtual const wxBrush &amp;&#160;</td><td class="memItemRight"><a class="el" href="#adf33ed72be4a4902310d8412b277560b">GetBrush</a> () const</td></tr>
+<tr class="memitem:a798ebfa967edce52ec1a9069feb3c25c" id="r_a798ebfa967edce52ec1a9069feb3c25c"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a798ebfa967edce52ec1a9069feb3c25c">SetBackground</a> (const wxBrush &amp;brush)</td></tr>
+<tr class="memitem:af3ce171bea9a5ea12e7167a1d14f31ca" id="r_af3ce171bea9a5ea12e7167a1d14f31ca"><td class="memItemLeft">virtual const wxBrush &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af3ce171bea9a5ea12e7167a1d14f31ca">GetBackground</a> () const</td></tr>
+<tr class="memitem:a3324f324216cbee0ed2f64ab628a1b75" id="r_a3324f324216cbee0ed2f64ab628a1b75"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a3324f324216cbee0ed2f64ab628a1b75">SetBackgroundMode</a> (int mode)</td></tr>
+<tr class="memitem:add2741f0330052724166b21fc8848f1d" id="r_add2741f0330052724166b21fc8848f1d"><td class="memItemLeft">virtual int&#160;</td><td class="memItemRight"><a class="el" href="#add2741f0330052724166b21fc8848f1d">GetBackgroundMode</a> () const</td></tr>
+<tr class="memitem:a3ef6756181084fe80be56b0b3bf25f04" id="r_a3ef6756181084fe80be56b0b3bf25f04"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a3ef6756181084fe80be56b0b3bf25f04">SetTextForeground</a> (const wxColour &amp;colour)</td></tr>
+<tr class="memitem:acd7dcba413450d132b500794765088aa" id="r_acd7dcba413450d132b500794765088aa"><td class="memItemLeft">virtual const wxColour &amp;&#160;</td><td class="memItemRight"><a class="el" href="#acd7dcba413450d132b500794765088aa">GetTextForeground</a> () const</td></tr>
+<tr class="memitem:a159566968046a344a0c3eee100916ca7" id="r_a159566968046a344a0c3eee100916ca7"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a159566968046a344a0c3eee100916ca7">SetTextBackground</a> (const wxColour &amp;colour)</td></tr>
+<tr class="memitem:a404e1f4ace33e5cba8d1ce4cb4553b74" id="r_a404e1f4ace33e5cba8d1ce4cb4553b74"><td class="memItemLeft">virtual const wxColour &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a404e1f4ace33e5cba8d1ce4cb4553b74">GetTextBackground</a> () const</td></tr>
+<tr class="memitem:a0b776ab6f49083f975a39bc45806e611" id="r_a0b776ab6f49083f975a39bc45806e611"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a0b776ab6f49083f975a39bc45806e611">InheritAttributes</a> (wxWindow *win)</td></tr>
+<tr class="memitem:ae44901cfb485cdda4467f602cf8a1df7" id="r_ae44901cfb485cdda4467f602cf8a1df7"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ae44901cfb485cdda4467f602cf8a1df7">SetLogicalFunction</a> (wxRasterOperationMode function)</td></tr>
+<tr class="memitem:a0482f76246938aa4163d79353e4e7221" id="r_a0482f76246938aa4163d79353e4e7221"><td class="memItemLeft">virtual wxRasterOperationMode&#160;</td><td class="memItemRight"><a class="el" href="#a0482f76246938aa4163d79353e4e7221">GetLogicalFunction</a> () const</td></tr>
+<tr class="memitem:a6c39a47ecb38c4dc6ea5994b900aa77e" id="r_a6c39a47ecb38c4dc6ea5994b900aa77e"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a6c39a47ecb38c4dc6ea5994b900aa77e">DoSetClippingRegion</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h)</td></tr>
+<tr class="memitem:a4c80c3aaf49af7e3ab3c3bb347792eab" id="r_a4c80c3aaf49af7e3ab3c3bb347792eab"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a4c80c3aaf49af7e3ab3c3bb347792eab">DoSetDeviceClippingRegion</a> (const wxRegion &amp;region)</td></tr>
+<tr class="memitem:a062f2b12d848458e711301b88ab6d893" id="r_a062f2b12d848458e711301b88ab6d893"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a062f2b12d848458e711301b88ab6d893">DoGetClippingBox</a> (wxCoord *x, wxCoord *y, wxCoord *w, wxCoord *h) const</td></tr>
+<tr class="memitem:a5a1347f85a7c36739783b0615881f8b9" id="r_a5a1347f85a7c36739783b0615881f8b9"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a5a1347f85a7c36739783b0615881f8b9">DestroyClippingRegion</a> ()</td></tr>
+<tr class="memitem:a363fec01c54494a342e5ca000dc7628c" id="r_a363fec01c54494a342e5ca000dc7628c"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#a363fec01c54494a342e5ca000dc7628c">DeviceToLogicalX</a> (wxCoord x) const</td></tr>
+<tr class="memitem:a8df64026171f17d1b58d49b5fbb90210" id="r_a8df64026171f17d1b58d49b5fbb90210"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#a8df64026171f17d1b58d49b5fbb90210">DeviceToLogicalY</a> (wxCoord y) const</td></tr>
+<tr class="memitem:a679266fb48e5ec11edee2d509d85cb3e" id="r_a679266fb48e5ec11edee2d509d85cb3e"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#a679266fb48e5ec11edee2d509d85cb3e">DeviceToLogicalXRel</a> (wxCoord x) const</td></tr>
+<tr class="memitem:a3c7cebf23cb32107ff31cd7714602b75" id="r_a3c7cebf23cb32107ff31cd7714602b75"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#a3c7cebf23cb32107ff31cd7714602b75">DeviceToLogicalYRel</a> (wxCoord y) const</td></tr>
+<tr class="memitem:acc9918cd832591f92aae9cfe4338b672" id="r_acc9918cd832591f92aae9cfe4338b672"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#acc9918cd832591f92aae9cfe4338b672">LogicalToDeviceX</a> (wxCoord x) const</td></tr>
+<tr class="memitem:ae69508fa3e4e6d25bff7e54dbb23f54b" id="r_ae69508fa3e4e6d25bff7e54dbb23f54b"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#ae69508fa3e4e6d25bff7e54dbb23f54b">LogicalToDeviceY</a> (wxCoord y) const</td></tr>
+<tr class="memitem:a5730bc23ecb09be0a0c25e585c683531" id="r_a5730bc23ecb09be0a0c25e585c683531"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#a5730bc23ecb09be0a0c25e585c683531">LogicalToDeviceXRel</a> (wxCoord x) const</td></tr>
+<tr class="memitem:ad22763186dc3da2bd37977ad5157a218" id="r_ad22763186dc3da2bd37977ad5157a218"><td class="memItemLeft">virtual wxCoord&#160;</td><td class="memItemRight"><a class="el" href="#ad22763186dc3da2bd37977ad5157a218">LogicalToDeviceYRel</a> (wxCoord y) const</td></tr>
+<tr class="memitem:a8f15e4cf252c2e6c41559c051896c433" id="r_a8f15e4cf252c2e6c41559c051896c433"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a8f15e4cf252c2e6c41559c051896c433">SetMapMode</a> (wxMappingMode mode)</td></tr>
+<tr class="memitem:a6fa533a0a3233a6e5b42e7604887c94d" id="r_a6fa533a0a3233a6e5b42e7604887c94d"><td class="memItemLeft">virtual wxMappingMode&#160;</td><td class="memItemRight"><a class="el" href="#a6fa533a0a3233a6e5b42e7604887c94d">GetMapMode</a> () const</td></tr>
+<tr class="memitem:ab48d56ec212a74c3c372c275f8021fbd" id="r_ab48d56ec212a74c3c372c275f8021fbd"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ab48d56ec212a74c3c372c275f8021fbd">SetUserScale</a> (double x, double y)</td></tr>
+<tr class="memitem:afe4cbde12f5b481cfa25dc7a2018a691" id="r_afe4cbde12f5b481cfa25dc7a2018a691"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#afe4cbde12f5b481cfa25dc7a2018a691">GetUserScale</a> (double *x, double *y) const</td></tr>
+<tr class="memitem:a9dcc9d9b04e9274c9f9a85167eea3dfe" id="r_a9dcc9d9b04e9274c9f9a85167eea3dfe"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a9dcc9d9b04e9274c9f9a85167eea3dfe">SetLogicalScale</a> (double x, double y)</td></tr>
+<tr class="memitem:afd13183d28949e6bae7cbd9c659920b4" id="r_afd13183d28949e6bae7cbd9c659920b4"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#afd13183d28949e6bae7cbd9c659920b4">GetLogicalScale</a> (double *x, double *y) const</td></tr>
+<tr class="memitem:aa8a4361b46e3eb24715349932dbc438f" id="r_aa8a4361b46e3eb24715349932dbc438f"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#aa8a4361b46e3eb24715349932dbc438f">SetLogicalOrigin</a> (wxCoord x, wxCoord y)</td></tr>
+<tr class="memitem:a41d3d6391c92d82d5ff47aaf77d3113c" id="r_a41d3d6391c92d82d5ff47aaf77d3113c"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a41d3d6391c92d82d5ff47aaf77d3113c">DoGetLogicalOrigin</a> (wxCoord *x, wxCoord *y) const</td></tr>
+<tr class="memitem:aa107b0118b178b0b14acbfd3fa8d4b95" id="r_aa107b0118b178b0b14acbfd3fa8d4b95"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#aa107b0118b178b0b14acbfd3fa8d4b95">SetDeviceOrigin</a> (wxCoord x, wxCoord y)</td></tr>
+<tr class="memitem:a8d415849021e2a455cdd982986caaeb1" id="r_a8d415849021e2a455cdd982986caaeb1"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a8d415849021e2a455cdd982986caaeb1">DoGetDeviceOrigin</a> (wxCoord *x, wxCoord *y) const</td></tr>
+<tr class="memitem:a18909814944a836b308250332998dd20" id="r_a18909814944a836b308250332998dd20"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a18909814944a836b308250332998dd20">SetDeviceLocalOrigin</a> (wxCoord x, wxCoord y)</td></tr>
+<tr class="memitem:acb21c84ac0561f35cf72f5c55a0693bc" id="r_acb21c84ac0561f35cf72f5c55a0693bc"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#acb21c84ac0561f35cf72f5c55a0693bc">ComputeScaleAndOrigin</a> ()</td></tr>
+<tr class="memitem:a05975e2e29bb3a84dc25400dd9e77527" id="r_a05975e2e29bb3a84dc25400dd9e77527"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a05975e2e29bb3a84dc25400dd9e77527">SetAxisOrientation</a> (bool x, bool y)</td></tr>
+<tr class="memitem:aa813707c0124467f5270abec84bca567" id="r_aa813707c0124467f5270abec84bca567"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#aa813707c0124467f5270abec84bca567">DoFloodFill</a> (wxCoord x, wxCoord y, const wxColour &amp;col, wxFloodFillStyle style=wxFLOOD_SURFACE)</td></tr>
+<tr class="memitem:ac6c54b6572a73ad8fb50113e78ecc2b8" id="r_ac6c54b6572a73ad8fb50113e78ecc2b8"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ac6c54b6572a73ad8fb50113e78ecc2b8">DoGradientFillLinear</a> (const wxRect &amp;rect, const wxColour &amp;initialColour, const wxColour &amp;destColour, wxDirection nDirection=wxEAST)</td></tr>
+<tr class="memitem:ae7b218cd698dfdd2d44bda8421360bd9" id="r_ae7b218cd698dfdd2d44bda8421360bd9"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ae7b218cd698dfdd2d44bda8421360bd9">DoGradientFillConcentric</a> (const wxRect &amp;rect, const wxColour &amp;initialColour, const wxColour &amp;destColour, const wxPoint &amp;circleCenter)</td></tr>
+<tr class="memitem:a4d01d8d960068998c507d96995df8659" id="r_a4d01d8d960068998c507d96995df8659"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#a4d01d8d960068998c507d96995df8659">DoGetPixel</a> (wxCoord x, wxCoord y, wxColour *col) const</td></tr>
+<tr class="memitem:a9b1d6d06f6ed7fbcad9fbacd7c43e866" id="r_a9b1d6d06f6ed7fbcad9fbacd7c43e866"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a9b1d6d06f6ed7fbcad9fbacd7c43e866">DoDrawPoint</a> (wxCoord x, wxCoord y)</td></tr>
+<tr class="memitem:af7052a2e009d69e0dd7f2975b5b1c22a" id="r_af7052a2e009d69e0dd7f2975b5b1c22a"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#af7052a2e009d69e0dd7f2975b5b1c22a">DoDrawLine</a> (wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2)</td></tr>
+<tr class="memitem:a73bea2bcbf4caf890e2692a06ef14e07" id="r_a73bea2bcbf4caf890e2692a06ef14e07"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a73bea2bcbf4caf890e2692a06ef14e07">DoDrawArc</a> (wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, wxCoord xc, wxCoord yc)</td></tr>
+<tr class="memitem:af08202921286ff4f6e9b3036daaae8ee" id="r_af08202921286ff4f6e9b3036daaae8ee"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#af08202921286ff4f6e9b3036daaae8ee">DoDrawCheckMark</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h)</td></tr>
+<tr class="memitem:a42b5ecbb957d8f02861f3e49cb5060fd" id="r_a42b5ecbb957d8f02861f3e49cb5060fd"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a42b5ecbb957d8f02861f3e49cb5060fd">DoDrawEllipticArc</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h, double sa, double ea)</td></tr>
+<tr class="memitem:a208992f547d94d5da95ea7165c49c417" id="r_a208992f547d94d5da95ea7165c49c417"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a208992f547d94d5da95ea7165c49c417">DoDrawRectangle</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h)</td></tr>
+<tr class="memitem:a6d216643f4d353e4bb94e157bec11c1a" id="r_a6d216643f4d353e4bb94e157bec11c1a"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a6d216643f4d353e4bb94e157bec11c1a">DoDrawRoundedRectangle</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h, double radius)</td></tr>
+<tr class="memitem:a81d7ba33da2e9edad6e8a4600685665a" id="r_a81d7ba33da2e9edad6e8a4600685665a"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a81d7ba33da2e9edad6e8a4600685665a">DoDrawEllipse</a> (wxCoord x, wxCoord y, wxCoord w, wxCoord h)</td></tr>
+<tr class="memitem:af287cf4a3265da50820c8142251c56ca" id="r_af287cf4a3265da50820c8142251c56ca"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#af287cf4a3265da50820c8142251c56ca">DoCrossHair</a> (wxCoord x, wxCoord y)</td></tr>
+<tr class="memitem:afee1a568de82979af6a5adc74f15ec34" id="r_afee1a568de82979af6a5adc74f15ec34"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#afee1a568de82979af6a5adc74f15ec34">DoDrawIcon</a> (const wxIcon &amp;icon, wxCoord x, wxCoord y)</td></tr>
+<tr class="memitem:a93ed6bfe2d4972ad6faec781e79ca1bb" id="r_a93ed6bfe2d4972ad6faec781e79ca1bb"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a93ed6bfe2d4972ad6faec781e79ca1bb">DoDrawBitmap</a> (const wxBitmap &amp;bmp, wxCoord x, wxCoord y, bool useMask=false)</td></tr>
+<tr class="memitem:ab3e93aff054d019f57a882f65464a5df" id="r_ab3e93aff054d019f57a882f65464a5df"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ab3e93aff054d019f57a882f65464a5df">DoDrawText</a> (const wxString &amp;text, wxCoord x, wxCoord y)</td></tr>
+<tr class="memitem:a7e36dcfb5ffd0f6eb1737b42e24f164a" id="r_a7e36dcfb5ffd0f6eb1737b42e24f164a"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a7e36dcfb5ffd0f6eb1737b42e24f164a">DoDrawRotatedText</a> (const wxString &amp;text, wxCoord x, wxCoord y, double angle)</td></tr>
+<tr class="memitem:ad99939fcbb37480bcaa856be3ba6ca7b" id="r_ad99939fcbb37480bcaa856be3ba6ca7b"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#ad99939fcbb37480bcaa856be3ba6ca7b">DoBlit</a> (wxCoord xdest, wxCoord ydest, wxCoord w, wxCoord h, wxDC *source, wxCoord xsrc, wxCoord ysrc, wxRasterOperationMode rop=wxCOPY, bool useMask=false, wxCoord xsrcMask=wxDefaultCoord, wxCoord ysrcMask=wxDefaultCoord)</td></tr>
+<tr class="memitem:ab76552ca6d08524600e3aba426d22b45" id="r_ab76552ca6d08524600e3aba426d22b45"><td class="memItemLeft">virtual bool&#160;</td><td class="memItemRight"><a class="el" href="#ab76552ca6d08524600e3aba426d22b45">DoStretchBlit</a> (wxCoord xdest, wxCoord ydest, wxCoord dstWidth, wxCoord dstHeight, wxDC *source, wxCoord xsrc, wxCoord ysrc, wxCoord srcWidth, wxCoord srcHeight, wxRasterOperationMode rop=wxCOPY, bool useMask=false, wxCoord xsrcMask=wxDefaultCoord, wxCoord ysrcMask=wxDefaultCoord)</td></tr>
+<tr class="memitem:a8bd62759142a933f3a303cec4591c301" id="r_a8bd62759142a933f3a303cec4591c301"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a8bd62759142a933f3a303cec4591c301">DoDrawLines</a> (int n, const wxPoint points[], wxCoord xoffset, wxCoord yoffset)</td></tr>
+<tr class="memitem:a45d47197ab9627ac34bebadc65e04a1b" id="r_a45d47197ab9627ac34bebadc65e04a1b"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a45d47197ab9627ac34bebadc65e04a1b">DoDrawPolygon</a> (int n, const wxPoint points[], wxCoord xoffset, wxCoord yoffset, wxPolygonFillMode fillStyle=wxODDEVEN_RULE)</td></tr>
+<tr class="memitem:a5fe3a5aca62a6acfa5a71b3be192dbc5" id="r_a5fe3a5aca62a6acfa5a71b3be192dbc5"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a5fe3a5aca62a6acfa5a71b3be192dbc5">DoSetClippingRegionAsRegion</a> (const wxRegion &amp;region)</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0464ea138ea5e546d10eeb772e99459c" name="a0464ea138ea5e546d10eeb772e99459c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0464ea138ea5e546d10eeb772e99459c">&#9670;&#160;</a></span>wxPdfPreviewDCImpl()</h2>
 
@@ -273,7 +289,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a6babb5269b2839ce099b263825467843" name="a6babb5269b2839ce099b263825467843"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6babb5269b2839ce099b263825467843">&#9670;&#160;</a></span>CalcBoundingBox()</h2>
 
@@ -2845,13 +2861,24 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="pdfprint_8h.html">pdfprint.h</a></li>
+<li>E:/github/wxpdfdoc-current/include/wx/<a class="el" href="pdfprint_8h.html">pdfprint.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="classwx_pdf_preview_d_c_impl.html">wxPdfPreviewDCImpl</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

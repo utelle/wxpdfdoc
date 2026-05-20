@@ -1,72 +1,174 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
 <title>wxPdfDocument: Styling text using a simple markup language</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('writexml.html','',''); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div><div class="header">
-  <div class="headertitle"><div class="title">Styling text using a simple markup language</div></div>
+  <div class="headertitle"><div class="title">Styling text using a simple markup language </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="tagoverview"></a>
+<div class="textblock"><h1 class="doxsection"><a class="anchor" id="tagoverview"></a>
 Overview</h1>
 <p>The method wxPdfDocument::WriteXML allows to write text to PDF using a simple markup language. This allows for example to change font attributes within a cell, which is not supported by methods like <a class="el" href="classwx_pdf_document.html#a2d3993fc87ce289deccee3137a758578" title="This method prints text with cell attributes from the current position.">wxPdfDocument::WriteCell</a> or <a class="el" href="classwx_pdf_document.html#a19eff882e8ed85134189ffc604671da8" title="This method allows printing text with line breaks.">wxPdfDocument::MultiCell</a>. The supported markup language consists of a small subset of HTML. Although the subset might be extended in future versions of <b><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a></b>, it is not the goal of this method to allow to convert full fledged HTML pages to PDF.</p>
 <p><b>Important!</b> The XML dialect used is very strict. Each tag must have a corresponding closing tag and all attribute values must be enclosed in double quotes.</p>
 <p>Usually the current position should be at the left margin when calling wxPdfDocument::WriteXML. If the current position is <b>not</b> at left margin and the text passed to wxPdfDocument::WriteXML occupies more than a single line, you may get strange results.</p>
 <p>Currently there is only limited error handling. You will get strange results or no results at all if tags are incorrectly used. Unknown tags and all their content are silently ignored.</p>
-<h1><a class="anchor" id="tagref"></a>
+<h1 class="doxsection"><a class="anchor" id="tagref"></a>
 Reference of supported tags</h1>
 <p>The following sections describe the tags supported by the <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> markup language.</p>
-<h2><a class="anchor" id="notes"></a>
+<h2 class="doxsection"><a class="anchor" id="notes"></a>
 Notes</h2>
 <p>Starting with version 1.0.2 of <b><em><a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a></em></b> numeric values for the attributes of markup elements that denote measures (like margins, line widths, cell heights and so on) may include the measurement unit. If no unit is given, the default unit of the <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> instance is assumed. The latter rule has 2 exceptions:</p><ul>
 <li>a font size is measured in points ("pt")</li>
@@ -80,227 +182,225 @@ Notes</h2>
 <li><b>px</b> = pixel (see note below)</li>
 </ul>
 <p><b>Note</b>: For image related values measured in pixels (unit <b>px</b>) the resulting value will be multiplied with the image scale factor to allow to compensate for high-res images. For values that are not image related the unit <b>px</b> will be treated as a synonym for the unit <b>pt</b>.</p>
-<p><em>Example:</em> <code>&lt;img src="pic1.png" width="40mm" height="25mm" viewport="0 0 0 20mm"/&gt;</code></p>
+<p><em>Example:</em> <span class="tt">&lt;img src="pic1.png" width="40mm" height="25mm" viewport="0 0 0 20mm"/&gt;</span></p>
 <p>This defines the size of the image as 40 millimeters x 25 millimeters with a viewport which moves the lower 5 millimeters of the image height below the baseline of the surrounding cell.</p>
-<h2><a class="anchor" id="simpletags"></a>
+<h2 class="doxsection"><a class="anchor" id="simpletags"></a>
 Simple text markup</h2>
 <p>There are several tags to influence the size and weight of the font used for displaying the text and the relative vertical position within a line:</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td><b>Tag</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Tag</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;b&gt; ... &lt;/b&gt;</code></td><td>bold text </td></tr>
+<td style="color:#000000"><span class="tt">&lt;b&gt; ... &lt;/b&gt;</span></td><td style="color:#000000">bold text</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;i&gt; ... &lt;/i&gt;</code></td><td>italic text </td></tr>
+<td style="color:#000000"><span class="tt">&lt;i&gt; ... &lt;/i&gt;</span></td><td style="color:#000000">italic text</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;u&gt; ... &lt;/u&gt;</code></td><td>underlined text </td></tr>
+<td style="color:#000000"><span class="tt">&lt;u&gt; ... &lt;/u&gt;</span></td><td style="color:#000000">underlined text</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;o&gt; ... &lt;/o&gt;</code></td><td>overlined text </td></tr>
+<td style="color:#000000"><span class="tt">&lt;o&gt; ... &lt;/o&gt;</span></td><td style="color:#000000">overlined text</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;s&gt; ... &lt;/s&gt;</code></td><td>strike-through text </td></tr>
+<td style="color:#000000"><span class="tt">&lt;s&gt; ... &lt;/s&gt;</span></td><td style="color:#000000">strike-through text</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;strong&gt; ... &lt;/strong&gt;</code></td><td>bold text (same as <code>&lt;b&gt;</code>) </td></tr>
+<td style="color:#000000"><span class="tt">&lt;strong&gt; ... &lt;/strong&gt;</span></td><td style="color:#000000">bold text (same as <span class="tt">&lt;b&gt;</span>)</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;em&gt; ... &lt;/em&gt;</code></td><td>emphasized text (same as <code>&lt;i&gt;</code>) </td></tr>
+<td style="color:#000000"><span class="tt">&lt;em&gt; ... &lt;/em&gt;</span></td><td style="color:#000000">emphasized text (same as <span class="tt">&lt;i&gt;</span>)</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;small&gt; ... &lt;/small&gt;</code></td><td>text with reduced font size </td></tr>
+<td style="color:#000000"><span class="tt">&lt;small&gt; ... &lt;/small&gt;</span></td><td style="color:#000000">text with reduced font size</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;sup&gt; ... &lt;/sup&gt;</code></td><td>superscripted text </td></tr>
+<td style="color:#000000"><span class="tt">&lt;sup&gt; ... &lt;/sup&gt;</span></td><td style="color:#000000">superscripted text</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;sub&gt; ... &lt;/sub&gt;</code></td><td>subscripted text </td></tr>
+<td style="color:#000000"><span class="tt">&lt;sub&gt; ... &lt;/sub&gt;</span></td><td style="color:#000000">subscripted text</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;h1&gt; ... &lt;/h1&gt;</code></td><td>headline level 1 </td></tr>
+<td style="color:#000000"><span class="tt">&lt;h1&gt; ... &lt;/h1&gt;</span></td><td style="color:#000000">headline level 1</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;h2&gt; ... &lt;/h2&gt;</code></td><td>headline level 2 </td></tr>
+<td style="color:#000000"><span class="tt">&lt;h2&gt; ... &lt;/h2&gt;</span></td><td style="color:#000000">headline level 2</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;h3&gt; ... &lt;/h3&gt;</code></td><td>headline level 3 </td></tr>
+<td style="color:#000000"><span class="tt">&lt;h3&gt; ... &lt;/h3&gt;</span></td><td style="color:#000000">headline level 3</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;h4&gt; ... &lt;/h4&gt;</code></td><td>headline level 4 </td></tr>
+<td style="color:#000000"><span class="tt">&lt;h4&gt; ... &lt;/h4&gt;</span></td><td style="color:#000000">headline level 4</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;h5&gt; ... &lt;/h5&gt;</code></td><td>headline level 5 </td></tr>
+<td style="color:#000000"><span class="tt">&lt;h5&gt; ... &lt;/h5&gt;</span></td><td style="color:#000000">headline level 5</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;h6&gt; ... &lt;/h6&gt;</code></td><td>headline level 6 </td></tr>
+<td style="color:#000000"><span class="tt">&lt;h6&gt; ... &lt;/h6&gt;</span></td><td style="color:#000000">headline level 6</td></tr>
 </table>
-<h2><a class="anchor" id="structtags"></a>
+<h2 class="doxsection"><a class="anchor" id="structtags"></a>
 Structuring text markup</h2>
 <p>Some tags for structuring the text layout are available. Most of these tags have one or more attributes to change its properties. Click on the tag description to see a detailed description of the attributes.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td><b>Tag</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Tag</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;ul&gt; ... &lt;/ul&gt;</code></td><td><a class="el" href="#ulist">Unordered lists</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;ul&gt; ... &lt;/ul&gt;</span></td><td style="color:#000000"><a class="el" href="#ulist" title="Unordered lists">Unordered lists</a></td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;ol&gt; ... &lt;/ol&gt;</code></td><td><a class="el" href="#olist">Ordered lists</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;ol&gt; ... &lt;/ol&gt;</span></td><td style="color:#000000"><a class="el" href="#olist" title="Ordered lists">Ordered lists</a></td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;li&gt; ... &lt;/li&gt;</code></td><td><b>List item</b> of an ordered or unordered list </td></tr>
+<td style="color:#000000"><span class="tt">&lt;li&gt; ... &lt;/li&gt;</span></td><td style="color:#000000"><b>List item</b> of an ordered or unordered list</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;br /&gt;</code></td><td><b>Line break</b>, positions the current position to the left margin of the next line </td></tr>
+<td style="color:#000000"><span class="tt">&lt;br /&gt;</span></td><td style="color:#000000"><b>Line break</b>, positions the current position to the left margin of the next line</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;p&gt; ... &lt;/p&gt;</code></td><td><a class="el" href="#ptag">Paragraph</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;p&gt; ... &lt;/p&gt;</span></td><td style="color:#000000"><a class="el" href="#ptag" title="Paragraph">Paragraph</a></td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;hr /&gt;</code></td><td><a class="el" href="#hrtag">Horizontal rule</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;hr /&gt;</span></td><td style="color:#000000"><a class="el" href="#hrtag" title="Horizontal rule">Horizontal rule</a></td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;a&gt; ... &lt;/a&gt;</code></td><td><a class="el" href="#atag">Internal or external link</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;a&gt; ... &lt;/a&gt;</span></td><td style="color:#000000"><a class="el" href="#atag" title="Internal or external link">Internal or external link</a></td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;font&gt; ... &lt;/font&gt;</code></td><td><a class="el" href="#fonttag">Font specification</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;font&gt; ... &lt;/font&gt;</span></td><td style="color:#000000"><a class="el" href="#fonttag" title="Font specification">Font specification</a></td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;table&gt; ... &lt;/table&gt;</code></td><td><a class="el" href="#tabletag">Tables</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;table&gt; ... &lt;/table&gt;</span></td><td style="color:#000000"><a class="el" href="#tabletag" title="Tables">Tables</a></td></tr>
 </table>
-<h2><a class="anchor" id="misctags"></a>
-Miscelleaneous text markup</h2>
+<h2 class="doxsection"><a class="anchor" id="misctags"></a>
+Miscellaneous text markup</h2>
 <p>This section lists a few additional tags not fitting in any other category. Click on the tag description to see a detailed description of the attributes.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td><b>Tag</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Tag</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;msg&gt; ... &lt;/msg&gt;</code></td><td><a class="el" href="#msgtag">Translatable text</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;msg&gt; ... &lt;/msg&gt;</span></td><td style="color:#000000"><a class="el" href="#msgtag" title="Translatable text">Translatable text</a></td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;img ... /&gt;</code></td><td><a class="el" href="#imgtag">Images</a> </td></tr>
+<td style="color:#000000"><span class="tt">&lt;img ... /&gt;</span></td><td style="color:#000000"><a class="el" href="#imgtag" title="Images">Images</a></td></tr>
 </table>
-<h2><a class="anchor" id="ulist"></a>
+<h2 class="doxsection"><a class="anchor" id="ulist"></a>
 Unordered lists</h2>
 <p>Unordered lists start on a new line. Each list item is preceded by a list item marker and the content of the list item is indented.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;ul&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;ul&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>type="bullet|dash|number"</code></td><td><p class="starttd">Sets the type of the list item marker </p>
-<p class="intertd"><code><b>bullet</b></code> displays a bullet character</p>
+<td style="color:#000000" valign="top"><span class="tt">type="bullet|dash|number"</span></td><td style="color:#000000"><p class="starttd">Sets the type of the list item marker </p>
+<p class="intertd"><span class="tt"><b>bullet</b></span> displays a bullet character</p>
 <p class="intertd"></p>
-<p class="intertd"><code><b>dash</b></code> displays a dash character</p>
+<p class="intertd"><span class="tt"><b>dash</b></span> displays a dash character</p>
 <p class="intertd"></p>
-<p class="intertd"><code><b>number</b></code> has a value between 0 and 255. The corresponding character of the <b>ZapfDingBats</b> font is used as the list item marker</p>
+<p class="intertd"><span class="tt"><b>number</b></span> has a value between 0 and 255. The corresponding character of the <b>ZapfDingBats</b> font is used as the list item marker</p>
 <p class="endtd"></p>
 </td></tr>
 </table>
-<h2><a class="anchor" id="olist"></a>
+<h2 class="doxsection"><a class="anchor" id="olist"></a>
 Ordered lists</h2>
 <p>Ordered lists start on a new line. Each list item is preceded by a list item enumerator and the content of the list item is indented.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;ol&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;ol&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>type="1|a|A|i|I|z1|z2|z3|z4"</code></td><td><p class="starttd">Sets the type of the list item enumerator </p>
-<p class="intertd"><code><b>1</b></code> displays a decimal number as the list item enumerator</p>
+<td style="color:#000000" valign="top"><span class="tt">type="1|a|A|i|I|z1|z2|z3|z4"</span></td><td style="color:#000000"><p class="starttd">Sets the type of the list item enumerator </p>
+<p class="intertd"><span class="tt"><b>1</b></span> displays a decimal number as the list item enumerator</p>
 <p class="intertd"></p>
-<p class="intertd"><code><b>a</b></code> displays a lowercase alphabetic character as the list item enumerator</p>
+<p class="intertd"><span class="tt"><b>a</b></span> displays a lowercase alphabetic character as the list item enumerator</p>
 <p class="intertd"></p>
-<p class="intertd"><code><b>A</b></code> displays an uppercase alphabetic character as the list item enumerator</p>
+<p class="intertd"><span class="tt"><b>A</b></span> displays an uppercase alphabetic character as the list item enumerator</p>
 <p class="intertd"></p>
-<p class="intertd"><code><b>i</b></code> displays a lowercase roman number as the list item enumerator</p>
+<p class="intertd"><span class="tt"><b>i</b></span> displays a lowercase roman number as the list item enumerator</p>
 <p class="intertd"></p>
-<p class="intertd"><code><b>I</b></code> displays an uppercase roman number as the list item enumerator</p>
+<p class="intertd"><span class="tt"><b>I</b></span> displays an uppercase roman number as the list item enumerator</p>
 <p class="intertd"></p>
-<p class="intertd"><code><b>z1|z2|z3|z4</b></code> displays number symbols of one of the 4 number series in the <b>ZapfDingBats</b> font. This option should only be used for lists of at most 10 items.</p>
+<p class="intertd"><span class="tt"><b>z1|z2|z3|z4</b></span> displays number symbols of one of the 4 number series in the <b>ZapfDingBats</b> font. This option should only be used for lists of at most 10 items.</p>
 <p class="endtd"></p>
 </td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>start="number"</code></td><td><em>number</em> represents the enumerator value of the first list item </td></tr>
+<td style="color:#000000"><span class="tt">start="number"</span></td><td style="color:#000000"><em>number</em> represents the enumerator value of the first list item</td></tr>
 </table>
-<h2><a class="anchor" id="ptag"></a>
+<h2 class="doxsection"><a class="anchor" id="ptag"></a>
 Paragraph</h2>
 <p>A paragraph starts on a new line and forces an empty line after the closing paragraph tag.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;p&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;p&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>align="left|right|center|justify"</code></td><td>As specified by this option the content of the paragraph will be <b>left</b> or <b>right</b> aligned, <b>centered</b> or <b>justified</b>. The default is <b>left</b> aligned. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">align="left|right|center|justify"</span></td><td style="color:#000000">As specified by this option the content of the paragraph will be <b>left</b> or <b>right</b> aligned, <b>centered</b> or <b>justified</b>. The default is <b>left</b> aligned.</td></tr>
 </table>
-<h2><a class="anchor" id="hrtag"></a>
+<h2 class="doxsection"><a class="anchor" id="hrtag"></a>
 Horizontal rule</h2>
 <p>A horizontal rule is a line of specified width which is drawn on a separate line.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;hr&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;hr&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>width="number"</code></td><td>The width of the horizontal rule is an integer <em>number</em> between 1 and 100 giving the width in percent of the available width (from left to right margin). The default value is 100. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">width="number"</span></td><td style="color:#000000">The width of the horizontal rule is an integer <em>number</em> between 1 and 100 giving the width in percent of the available width (from left to right margin). The default value is 100.</td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>linewidth="number"</code></td><td><p class="starttd">The line width of the ruler.</p>
-<p class="endtd"></p>
-</td></tr>
+<td style="color:#000000" valign="top"><span class="tt">linewidth="number"</span></td><td style="color:#000000">The line width of the ruler.</td></tr>
 </table>
-<h2><a class="anchor" id="atag"></a>
+<h2 class="doxsection"><a class="anchor" id="atag"></a>
 Internal or external link</h2>
 <p>An internal or external link is displayed as blue underlined text. Clicking on the text opens a browser window loading the referenced URL.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;a&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;a&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>href="url"</code></td><td><em>url</em> is a unified resource locator. If <em>url</em> starts with <b>#</b> it is interpreted as a reference to an internal link anchor; the characters following <b>#</b> are used as the name of the anchor. </td></tr>
+<td style="color:#000000"><span class="tt">href="url"</span></td><td style="color:#000000"><em>url</em> is a unified resource locator. If <em>url</em> starts with <b>#</b> it is interpreted as a reference to an internal link anchor; the characters following <b>#</b> are used as the name of the anchor.</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>name="anchor"</code></td><td><em>anchor</em> is the name of an internal link anchor. </td></tr>
+<td style="color:#000000"><span class="tt">name="anchor"</span></td><td style="color:#000000"><em>anchor</em> is the name of an internal link anchor.</td></tr>
 </table>
-<p><b>Note:</b> Either the <b><code>name</code></b> or the <b><code>href</code></b> attribute may be specified, but not both.</p>
-<h2><a class="anchor" id="fonttag"></a>
+<p><b>Note:</b> Either the <b><span class="tt">name</span></b> or the <b><span class="tt">href</span></b> attribute may be specified, but not both.</p>
+<h2 class="doxsection"><a class="anchor" id="fonttag"></a>
 Font specification</h2>
 <p>This tag allows to specify several font attributes for the embedded content. Font family, font size and colour can be set. Attributes not given retain their previous value.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;font&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;font&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>face="fontfamily"</code></td><td>The name of the font family. It can be the name of one of the 14 core fonts or the name of a font previously added by <a class="el" href="classwx_pdf_document.html#ab3b6cfbe654598638ce1fc023d002dd4" title="Imports a TrueType, TrueTypeUnicode or Type1 font and makes it available.">wxPdfDocument::AddFont</a>. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">face="fontfamily"</span></td><td style="color:#000000">The name of the font family. It can be the name of one of the 14 core fonts or the name of a font previously added by <a class="el" href="classwx_pdf_document.html#ab3b6cfbe654598638ce1fc023d002dd4" title="Imports a TrueType, TrueTypeUnicode or Type1 font and makes it available.">wxPdfDocument::AddFont</a>.</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>size="fontsize"</code></td><td>The font size in points </td></tr>
+<td style="color:#000000"><span class="tt">size="fontsize"</span></td><td style="color:#000000">The font size in points</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>color="fontcolour"</code></td><td>The font colour in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. </td></tr>
+<td style="color:#000000"><span class="tt">color="fontcolour"</span></td><td style="color:#000000">The font colour in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>.</td></tr>
 </table>
-<h2><a class="anchor" id="msgtag"></a>
+<h2 class="doxsection"><a class="anchor" id="msgtag"></a>
 Translatable text</h2>
 <p>For international applications a simple mechanism is provided to pass a string to <b><code>wxGetTranslation</code></b>.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;msg&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;msg&gt;</b></td></tr>
 </table>
-<p>The text string included in the <b><code>msg</code></b> tag will be translated if a translation is available before it is written to PDF.</p>
-<p><b>Note:</b> Within the <b><code>msg</code></b> tag additional markup is not allowed.</p>
-<h2><a class="anchor" id="imgtag"></a>
+<p>The text string included in the <b><span class="tt">msg</span></b> tag will be translated if a translation is available before it is written to PDF.</p>
+<p><b>Note:</b> Within the <b><span class="tt">msg</span></b> tag additional markup is not allowed.</p>
+<h2 class="doxsection"><a class="anchor" id="imgtag"></a>
 Images</h2>
 <p>In the current implementation output of an image always starts on a new line.</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;img&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;img&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>src="imagefile"</code></td><td>The name of the image file. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">src="imagefile"</span></td><td style="color:#000000">The name of the image file.</td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>width="image width"</code></td><td>The width of the image measured in pixels. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">width="image width"</span></td><td style="color:#000000">The width of the image measured in pixels.</td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>height="image height"</code></td><td>The height of the image measured in pixels. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">height="image height"</span></td><td style="color:#000000">The height of the image measured in pixels.</td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>align="left|right|center"</code></td><td>As specified by this option the image will be <b>left</b> or <b>right</b> aligned, or <b>centered</b>. The default is <b>left</b> aligned. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">align="left|right|center"</span></td><td style="color:#000000">As specified by this option the image will be <b>left</b> or <b>right</b> aligned, or <b>centered</b>. The default is <b>left</b> aligned.</td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top" nowrap="nowrap"><code>viewport="tlx tly brx bry"</code></td><td>The viewport into the image that should correspond to the actual content of the surrounding cell. The viewport is defined as a rectangular area by specifying the coordinates of the top left corner (<em>tlx,tly</em>) and the bottom right corner (<em>brx,bry</em>). The viewport coordinates are measured in pixels. The values <em>tlx</em> and <em>tly</em> may be negative, in which case the viewport will be larger than the image. The values <em>brx</em> and <em>bry</em> may be specified as <b><em>0</em></b>, in which case they will be replaced internally by the <em>width</em> and the <em>height</em> of the image.  </td></tr>
+<td style="color:#000000" valign="top" nowrap="nowrap"><span class="tt">viewport="tlx tly brx bry"</span></td><td style="color:#000000">The viewport into the image that should correspond to the actual content of the surrounding cell. The viewport is defined as a rectangular area by specifying the coordinates of the top left corner (<em>tlx,tly</em>) and the bottom right corner (<em>brx,bry</em>). The viewport coordinates are measured in pixels. The values <em>tlx</em> and <em>tly</em> may be negative, in which case the viewport will be larger than the image. The values <em>brx</em> and <em>bry</em> may be specified as <b><em>0</em></b>, in which case they will be replaced internally by the <em>width</em> and the <em>height</em> of the image. </td></tr>
 </table>
-<h1><a class="anchor" id="tabletag"></a>
+<h1 class="doxsection"><a class="anchor" id="tabletag"></a>
 Tables</h1>
 <p>Very often information is presented in a tabular structure. This is also supported by the <a class="el" href="classwx_pdf_document.html" title="Class representing a PDF document.">wxPdfDocument</a> markup language by using a specific kind of HTML table syntax. The structure is as follows: </p><pre>
     &lt;table&gt;
@@ -317,93 +417,103 @@ Tables</h1>
         ...
       &lt;/tbody&gt;
     &lt;/table&gt;
-</pre><p> The <b><code>colgroup</code></b> tag and embedded <b><code>col</code></b> tags are always required since all column widths have to be specified a priori. <b><code>width</code></b> attributes are not interpreted when used in other table tags.</p>
-<p>The <b><code>thead</code></b> tag and embedded table rows and cells are allowed, but since the current implementation only supports tables fitting completely on one page, the rows are handled as ordinary rows. (A future release will support tables spanning more than one page. Header rows will be repeated on each page.)</p>
-<p>The use of the <b><code>tbody</code></b> tag is always required.</p>
+</pre><p> The <b><span class="tt">colgroup</span></b> tag and embedded <b><span class="tt">col</span></b> tags are always required since all column widths have to be specified a priori. <b><span class="tt">width</span></b> attributes are not interpreted when used in other table tags.</p>
+<p>The <b><span class="tt">thead</span></b> tag and embedded table rows and cells are allowed, but since the current implementation only supports tables fitting completely on one page, the rows are handled as ordinary rows. (A future release will support tables spanning more than one page. Header rows will be repeated on each page.)</p>
+<p>The use of the <b><span class="tt">tbody</span></b> tag is always required.</p>
 <p>Nested tables are supported.</p>
-<p>The <b><code>table</code></b> tag may have the following attributes:</p>
+<p>The <b><span class="tt">table</span></b> tag may have the following attributes:</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;table&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;table&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>border="number"</code></td><td><p class="starttd">Table cells may have borders on each side. This attribute specifies whether cells will have borders on every side or not. This may be overridden for each individual cell. The attribute value consists of the combination of up to 4 letters: </p>
+<td style="color:#000000" valign="top"><span class="tt">border="number"</span></td><td style="color:#000000"><p class="starttd">Table cells may have borders on each side. This attribute specifies whether cells will have borders on every side or not. This may be overridden for each individual cell. The attribute value consists of the combination of up to 4 letters: </p>
 <p class="endtd"><b>0</b> - no borders<br  />
  <b> &gt; 0</b> - borders on all sides of each cell<br  />
-  </p>
+ </p>
 </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>align="left|right|center"</code></td><td>Defines the horizontal alignment of the table. Default is the alignment of the surrounding context. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">align="left|right|center"</span></td><td style="color:#000000">Defines the horizontal alignment of the table. Default is the alignment of the surrounding context.</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>valign="top|middle|bottom"</code></td><td>Defines the vertical alignment of the table. Default is <em>top</em>. </td></tr>
+<td style="color:#000000"><span class="tt">valign="top|middle|bottom"</span></td><td style="color:#000000">Defines the vertical alignment of the table. Default is <em>top</em>.</td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>cellpadding="number"</code></td><td><em>Number</em> defines the padding width on each side of a cell. Default is 0. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">cellpadding="number"</span></td><td style="color:#000000"><em>Number</em> defines the padding width on each side of a cell. Default is 0.</td></tr>
 </table>
 <p>The supported tags and their attributes are shown in the following tables:</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td><b>Tag</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Tag</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;table&gt; ... &lt;/table&gt;</code></td><td>Groups the definitions of column widths. Contains one or more &lt;col&gt; tags. </td></tr>
+<td style="color:#000000"><span class="tt">&lt;table&gt; ... &lt;/table&gt;</span></td><td style="color:#000000">Groups the definitions of column widths. Contains one or more &lt;col&gt; tags.</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>&lt;colgroup&gt; ... &lt;/colgroup&gt;</code></td><td>Groups the definitions of column widths. Contains one or more &lt;col&gt; tags. </td></tr>
+<td style="color:#000000"><span class="tt">&lt;colgroup&gt; ... &lt;/colgroup&gt;</span></td><td style="color:#000000">Groups the definitions of column widths. Contains one or more &lt;col&gt; tags.</td></tr>
 <tr bgcolor="#ddeeff">
-<td><code>&lt;col width="width" span="number"&gt; ... &lt;/col&gt;</code></td><td>Defines the <em>width</em> of one or more columns. <em>number</em> specifies for how many columns the width is specified, default is 1.  </td></tr>
+<td style="color:#000000"><span class="tt">&lt;col width="width" span="number"&gt; ... &lt;/col&gt;</span></td><td style="color:#000000">Defines the <em>width</em> of one or more columns. <em>number</em> specifies for how many columns the width is specified, default is 1. </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>&lt;thead odd="background colour for odd numbered rows" even="background colour for even numbered rows"&gt; ... &lt;/thead&gt;</code> </td><td>Defines a group of table header rows. Contains one or more &lt;tr&gt; tags. If a table does not fit on a single page these rows are repeated on each page. The attributes <b><code>odd</code></b> and <b><code>even</code></b> are optional.  </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">&lt;thead odd="background colour for odd numbered rows" even="background colour for even numbered rows"&gt; ... &lt;/thead&gt;</span></td><td style="color:#000000">Defines a group of table header rows. Contains one or more &lt;tr&gt; tags. If a table does not fit on a single page these rows are repeated on each page. The attributes <b><span class="tt">odd</span></b> and <b><span class="tt">even</span></b> are optional. </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>&lt;tbody odd="background colour for odd numbered rows" even="background colour for even numbered rows"&gt; ... &lt;/tbody&gt;</code> </td><td>Defines a group of table body rows. Contains one or more &lt;tr&gt; tags. The attributes <b><code>odd</code></b> and <b><code>even</code></b> are optional.  </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">&lt;tbody odd="background colour for odd numbered rows" even="background colour for even numbered rows"&gt; ... &lt;/tbody&gt;</span></td><td style="color:#000000">Defines a group of table body rows. Contains one or more &lt;tr&gt; tags. The attributes <b><span class="tt">odd</span></b> and <b><span class="tt">even</span></b> are optional. </td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>&lt;tr bgcolor="background colour" height="height"&gt; ... &lt;/tr&gt;</code> </td><td><p class="starttd">Defines a table row. Contains one or more &lt;td&gt; tags. </p>
+<td style="color:#000000" valign="top"><span class="tt">&lt;tr bgcolor="background colour" height="height"&gt; ... &lt;/tr&gt;</span></td><td style="color:#000000"><p class="starttd">Defines a table row. Contains one or more &lt;td&gt; tags. </p>
 <p class="intertd">The <em>background colour</em> may be specified in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. If no background colour is given the background is transparent.</p>
 <p class="intertd"></p>
 <p class="intertd">Usually the height of the highest cell in a row is used as the row height, but a minimal row <em>height</em> may be specified, too</p>
 <p class="endtd"></p>
 </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>&lt;td&gt; ... &lt;/td&gt;</code></td><td><p class="starttd">Defines a table cell. </p>
-<p class="intertd">The available attributes are described in section <a class="el" href="#tdtag">Table cells</a>.</p>
+<td style="color:#000000" valign="top"><span class="tt">&lt;td&gt; ... &lt;/td&gt;</span></td><td style="color:#000000"><p class="starttd">Defines a table cell. </p>
+<p class="intertd">The available attributes are described in section <a class="el" href="#tdtag" title="Table cells">Table cells</a>.</p>
 <p class="endtd"></p>
 </td></tr>
 </table>
-<h2><a class="anchor" id="tdtag"></a>
+<h2 class="doxsection"><a class="anchor" id="tdtag"></a>
 Table cells</h2>
 <p>A table cell can have several attributes:</p>
 <table border="0">
 <tr bgcolor="#6699dd">
-<td colspan="2"><b>Tag</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>Tag</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td colspan="2"><b>&lt;td&gt;</b> </td></tr>
+<td style="color:#000000" colspan="2"><b>&lt;td&gt;</b></td></tr>
 <tr bgcolor="#6699dd">
-<td><b>Attribute</b></td><td><b>Description</b> </td></tr>
+<td style="color:#000000"><b>Attribute</b></td><td style="color:#000000"><b>Description</b></td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>border="LTBR"</code></td><td><p class="starttd">A cell may have a border on each side. This attribute overrides the border specification in the &lt;table&gt; tag. The attribute value consists of the combination of up to 4 letters: </p>
+<td style="color:#000000" valign="top"><span class="tt">border="LTBR"</span></td><td style="color:#000000"><p class="starttd">A cell may have a border on each side. This attribute overrides the border specification in the &lt;table&gt; tag. The attribute value consists of the combination of up to 4 letters: </p>
 <p class="intertd"><b>L</b> - border on the left side of the cell<br  />
  <b>T</b> - border on the top side of the cell<br  />
  <b>B</b> - border on the bottom side of the cell<br  />
  <b>R</b> - border on the right side of the cell</p>
-<p class="endtd">. </p>
+<p class="endtd">.</p>
 </td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>align="left|right|center"</code></td><td>Defines the horizontal alignment of the cell content. Default is <em>left</em>. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">align="left|right|center"</span></td><td style="color:#000000">Defines the horizontal alignment of the cell content. Default is <em>left</em>.</td></tr>
 <tr bgcolor="#eeeeee">
-<td><code>valign="top|middle|bottom"</code></td><td>Defines the vertical alignment of the cell content. Default is <em>top</em>. </td></tr>
+<td style="color:#000000"><span class="tt">valign="top|middle|bottom"</span></td><td style="color:#000000">Defines the vertical alignment of the cell content. Default is <em>top</em>.</td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>bgcolor="background colour"</code></td><td>The background colour of the cell in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. This attribute overrides the background colour specification of the row. If neither a row nor a cell background colour is specified the background is transparent. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">bgcolor="background colour"</span></td><td style="color:#000000">The background colour of the cell in HTML notation, i.e. <b><em>#rrggbb</em></b>, or as a named colour, i.e. <b><em>red</em></b>. This attribute overrides the background colour specification of the row. If neither a row nor a cell background colour is specified the background is transparent.</td></tr>
 <tr bgcolor="#eeeeee">
-<td valign="top"><code>rowspan="number"</code></td><td><em>Number</em> of rows this cell should span. Default is 1. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">rowspan="number"</span></td><td style="color:#000000"><em>Number</em> of rows this cell should span. Default is 1.</td></tr>
 <tr bgcolor="#ddeeff">
-<td valign="top"><code>colspan="number"</code></td><td><em>Number</em> of columns this cell should span. Default is 1. </td></tr>
+<td style="color:#000000" valign="top"><span class="tt">colspan="number"</span></td><td style="color:#000000"><em>Number</em> of columns this cell should span. Default is 1.</td></tr>
 </table>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

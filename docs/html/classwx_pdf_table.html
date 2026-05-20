@@ -1,161 +1,229 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=11"/>
-<meta name="generator" content="Doxygen 1.13.2"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- BEGIN opengraph metadata -->
+<meta property="og:title" content="Doxygen Awesome" />
+<meta property="og:image" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta property="og:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<meta property="og:url" content="https://jothepro.github.io/doxygen-awesome-css/" />
+<!-- END opengraph metadata -->
+<!-- BEGIN twitter metadata -->
+<meta name="twitter:image:src" content="https://repository-images.githubusercontent.com/348492097/4f16df80-88fb-11eb-9d31-4015ff22c452" />
+<meta name="twitter:title" content="Doxygen Awesome" />
+<meta name="twitter:description" content="Custom CSS theme for doxygen html-documentation with lots of customization parameters." />
+<!-- END twitter metadata -->
 <title>wxPdfDocument: wxPdfTable Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
+<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
-<script type="text/javascript" src="clipboard.js"></script>
+<script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
+<script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
+<script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
+<script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
+<script type="text/javascript" src="doxygen-awesome-tabs.js"></script>
+<script type="text/javascript" src="toggle-alternative-theme.js"></script>
+<script type="text/javascript">
+    DoxygenAwesomeFragmentCopyButton.init()
+    DoxygenAwesomeDarkModeToggle.init()
+    DoxygenAwesomeParagraphLink.init()
+    DoxygenAwesomeInteractiveToc.init()
+    DoxygenAwesomeTabs.init()
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="custom.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
+<link href="theme-round.css" rel="stylesheet" type="text/css"/>
+<link href="theme-robot.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/utelle/wxpdfdoc" class="github-corner" title="View wxPdfDocument on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="40" height="40" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+    <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
 <div id="titlearea">
 <table cellspacing="0" cellpadding="0">
  <tbody>
- <tr id="projectrow">
+ <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="wxpdfdoc-small.jpg"/></td>
-  <td id="projectalign">
-   <div id="projectname">wxPdfDocument<span id="projectnumber">&#160;1.3.1</span>
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">wxPdfDocument
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
+   <div id="projectbrief">Library for generating PDF documents from wxWidgets applications</div>
   </td>
  </tr>
  </tbody>
 </table>
+<div id="theme-selection">
+ <label for="theme-select">Theme:</label>
+ <select id="theme-select">
+  <option value="theme-default">Default</option>
+  <option value="theme-round">Round</option>
+  <option value="theme-robot">Robot</option>
+ </select>
+</div>
 </div>
 <!-- end header part -->
-<!-- Generated by Doxygen 1.13.2 -->
+<!-- Generated by Doxygen 1.17.0 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() { codefold.init(0); });
-/* @license-end */
+let searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', codefold.init);
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function() {
-  initMenu('',false,false,'search.php','Search',false);
+document.addEventListener('DOMContentLoaded', () => {
+  initMenu('',true);
+  init_search();
 });
-/* @license-end */
 </script>
-<div id="main-nav"></div>
-<script type="text/javascript">
-/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){ initResizable(false); });
-/* @license-end */
-</script>
+<div id="main-nav-mobile">
+<div class="sm sm-dox"><input id="main-menu-state" type="checkbox"/>
+<label class="main-menu-btn" for="main-menu-state">
+<span class="main-menu-btn-icon"></span> Toggle main menu visibility</label>
+<span id="searchBoxPos1" style="position:absolute;right:8px;top:8px;height:36px;"></span>
+</div>
+</div><!-- main-nav-mobile -->
+<div id="main-nav">
+  <ul class="sm sm-dox" id="main-menu">
+    <li id="searchBoxPos2" style="float:right">
+        <div id="MSearchBox" class="MSearchBoxInactive">
+        <span class="left">
+          <span id="MSearchSelect" class="search-icon" onmouseover="return searchBox.OnSearchSelectShow()" onmouseout="return searchBox.OnSearchSelectHide()"><span class="search-icon-dropdown"></span></span>
+          <input type="text" id="MSearchField" value="" placeholder="Search" accesskey="S"
+               onfocus="searchBox.OnSearchFieldFocus(true)" 
+               onblur="searchBox.OnSearchFieldFocus(false)" 
+               onkeyup="searchBox.OnSearchFieldChange(event)"/>
+          </span><span class="right">
+            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><div id="MSearchCloseImg" class="close-icon"></div></a>
+          </span>
+        </div>
+    </li>
+  </ul>
+</div><!-- main-nav -->
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('classwx_pdf_table.html','','classwx_pdf_table-members'); });
+</script>
+<div id="container">
 <div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classwx_pdf_table-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">wxPdfTable Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Class representing tables within a cell. (For internal use only)  
- <a href="#details">More...</a></p>
-
 <p><code>#include &lt;pdfxml.h&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae5c72de95f82cbac62a5b426b1c659b7" id="r_ae5c72de95f82cbac62a5b426b1c659b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae5c72de95f82cbac62a5b426b1c659b7">wxPdfTable</a> (<a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *document)</td></tr>
+<tr class="memitem:ae5c72de95f82cbac62a5b426b1c659b7" id="r_ae5c72de95f82cbac62a5b426b1c659b7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae5c72de95f82cbac62a5b426b1c659b7">wxPdfTable</a> (<a class="el" href="classwx_pdf_document.html">wxPdfDocument</a> *document)</td></tr>
 <tr class="memdesc:ae5c72de95f82cbac62a5b426b1c659b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <br /></td></tr>
-<tr class="separator:ae5c72de95f82cbac62a5b426b1c659b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92ec2f8bb49a2eb29a40374940f9ddaa" id="r_a92ec2f8bb49a2eb29a40374940f9ddaa"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92ec2f8bb49a2eb29a40374940f9ddaa">~wxPdfTable</a> ()</td></tr>
+<tr class="memitem:a92ec2f8bb49a2eb29a40374940f9ddaa" id="r_a92ec2f8bb49a2eb29a40374940f9ddaa"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="#a92ec2f8bb49a2eb29a40374940f9ddaa">~wxPdfTable</a> ()</td></tr>
 <tr class="memdesc:a92ec2f8bb49a2eb29a40374940f9ddaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <br /></td></tr>
-<tr class="separator:a92ec2f8bb49a2eb29a40374940f9ddaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac43421e7b1f3d2acc3efa584ea264249" id="r_ac43421e7b1f3d2acc3efa584ea264249"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac43421e7b1f3d2acc3efa584ea264249">SetMinRowHeight</a> (int row, double height)</td></tr>
+<tr class="memitem:ac43421e7b1f3d2acc3efa584ea264249" id="r_ac43421e7b1f3d2acc3efa584ea264249"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac43421e7b1f3d2acc3efa584ea264249">SetMinRowHeight</a> (int row, double height)</td></tr>
 <tr class="memdesc:ac43421e7b1f3d2acc3efa584ea264249"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set minimum required row height.  <br /></td></tr>
-<tr class="separator:ac43421e7b1f3d2acc3efa584ea264249"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92bd75b1cdf7ed5b6197e583b33dc504" id="r_a92bd75b1cdf7ed5b6197e583b33dc504"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92bd75b1cdf7ed5b6197e583b33dc504">SetMaxRowHeight</a> (int row, double height)</td></tr>
+<tr class="memitem:a92bd75b1cdf7ed5b6197e583b33dc504" id="r_a92bd75b1cdf7ed5b6197e583b33dc504"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a92bd75b1cdf7ed5b6197e583b33dc504">SetMaxRowHeight</a> (int row, double height)</td></tr>
 <tr class="memdesc:a92bd75b1cdf7ed5b6197e583b33dc504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set maximum allowed row height.  <br /></td></tr>
-<tr class="separator:a92bd75b1cdf7ed5b6197e583b33dc504"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9cd8ec58c3d992a85a94d5cdbb467f3" id="r_af9cd8ec58c3d992a85a94d5cdbb467f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9cd8ec58c3d992a85a94d5cdbb467f3">SetColumnWidth</a> (int col, double width)</td></tr>
+<tr class="memitem:af9cd8ec58c3d992a85a94d5cdbb467f3" id="r_af9cd8ec58c3d992a85a94d5cdbb467f3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af9cd8ec58c3d992a85a94d5cdbb467f3">SetColumnWidth</a> (int col, double width)</td></tr>
 <tr class="memdesc:af9cd8ec58c3d992a85a94d5cdbb467f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set width of column.  <br /></td></tr>
-<tr class="separator:af9cd8ec58c3d992a85a94d5cdbb467f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ffc2854c945c0db1df49dd1c7193eda" id="r_a4ffc2854c945c0db1df49dd1c7193eda"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ffc2854c945c0db1df49dd1c7193eda">SetCellDimensions</a> (double maxWidth)</td></tr>
+<tr class="memitem:a4ffc2854c945c0db1df49dd1c7193eda" id="r_a4ffc2854c945c0db1df49dd1c7193eda"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4ffc2854c945c0db1df49dd1c7193eda">SetCellDimensions</a> (double maxWidth)</td></tr>
 <tr class="memdesc:a4ffc2854c945c0db1df49dd1c7193eda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate cell dimensions respecting a maximum allowed width.  <br /></td></tr>
-<tr class="separator:a4ffc2854c945c0db1df49dd1c7193eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5bc6a3dd6171ed728f765bd3036ab15" id="r_ac5bc6a3dd6171ed728f765bd3036ab15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5bc6a3dd6171ed728f765bd3036ab15">InsertCell</a> (<a class="el" href="classwx_pdf_table_cell.html">wxPdfTableCell</a> *c)</td></tr>
+<tr class="memitem:ac5bc6a3dd6171ed728f765bd3036ab15" id="r_ac5bc6a3dd6171ed728f765bd3036ab15"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac5bc6a3dd6171ed728f765bd3036ab15">InsertCell</a> (<a class="el" href="classwx_pdf_table_cell.html">wxPdfTableCell</a> *c)</td></tr>
 <tr class="memdesc:ac5bc6a3dd6171ed728f765bd3036ab15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a cell into the cell array.  <br /></td></tr>
-<tr class="separator:ac5bc6a3dd6171ed728f765bd3036ab15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b6a6438ad1da2a90da87925e831d7d4" id="r_a1b6a6438ad1da2a90da87925e831d7d4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1b6a6438ad1da2a90da87925e831d7d4">WriteOnPage</a> (bool writeHeader, double x, double y)</td></tr>
+<tr class="memitem:a1b6a6438ad1da2a90da87925e831d7d4" id="r_a1b6a6438ad1da2a90da87925e831d7d4"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a1b6a6438ad1da2a90da87925e831d7d4">WriteOnPage</a> (bool writeHeader, double x, double y)</td></tr>
 <tr class="memdesc:a1b6a6438ad1da2a90da87925e831d7d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write table header on current page.  <br /></td></tr>
-<tr class="separator:a1b6a6438ad1da2a90da87925e831d7d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4f3f7aecac63f383120266a14ad3e57" id="r_ac4f3f7aecac63f383120266a14ad3e57"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac4f3f7aecac63f383120266a14ad3e57">WriteRowsOnPage</a> (unsigned firstRow, unsigned lastRow, double x, double y, bool writeHeader)</td></tr>
+<tr class="memitem:ac4f3f7aecac63f383120266a14ad3e57" id="r_ac4f3f7aecac63f383120266a14ad3e57"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#ac4f3f7aecac63f383120266a14ad3e57">WriteRowsOnPage</a> (unsigned firstRow, unsigned lastRow, double x, double y, bool writeHeader)</td></tr>
 <tr class="memdesc:ac4f3f7aecac63f383120266a14ad3e57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write range of rows on current page.  <br /></td></tr>
-<tr class="separator:ac4f3f7aecac63f383120266a14ad3e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3df896c4a7ed0f1c7e5ca9a8c140a4e9" id="r_a3df896c4a7ed0f1c7e5ca9a8c140a4e9"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3df896c4a7ed0f1c7e5ca9a8c140a4e9">AddPage</a> (wxArrayInt::const_iterator iter, wxArrayInt::const_iterator endIter)</td></tr>
+<tr class="memitem:a3df896c4a7ed0f1c7e5ca9a8c140a4e9" id="r_a3df896c4a7ed0f1c7e5ca9a8c140a4e9"><td class="memItemLeft">unsigned int&#160;</td><td class="memItemRight"><a class="el" href="#a3df896c4a7ed0f1c7e5ca9a8c140a4e9">AddPage</a> (wxArrayInt::const_iterator iter, wxArrayInt::const_iterator endIter)</td></tr>
 <tr class="memdesc:a3df896c4a7ed0f1c7e5ca9a8c140a4e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a page and return last table row on page.  <br /></td></tr>
-<tr class="separator:a3df896c4a7ed0f1c7e5ca9a8c140a4e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a481ab0d34683f77565218ec76b96c5cd" id="r_a481ab0d34683f77565218ec76b96c5cd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a481ab0d34683f77565218ec76b96c5cd">WriteTable</a> (bool writeHeader, const wxArrayInt &amp;lastRowsOnPage, double x, double y)</td></tr>
+<tr class="memitem:a481ab0d34683f77565218ec76b96c5cd" id="r_a481ab0d34683f77565218ec76b96c5cd"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a481ab0d34683f77565218ec76b96c5cd">WriteTable</a> (bool writeHeader, const wxArrayInt &amp;lastRowsOnPage, double x, double y)</td></tr>
 <tr class="memdesc:a481ab0d34683f77565218ec76b96c5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write the whole table.  <br /></td></tr>
-<tr class="separator:a481ab0d34683f77565218ec76b96c5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a169845f7ed8b49f17143930bd0ffb120" id="r_a169845f7ed8b49f17143930bd0ffb120"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a169845f7ed8b49f17143930bd0ffb120">GetRowHeight</a> (int row)</td></tr>
+<tr class="memitem:a169845f7ed8b49f17143930bd0ffb120" id="r_a169845f7ed8b49f17143930bd0ffb120"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a169845f7ed8b49f17143930bd0ffb120">GetRowHeight</a> (int row)</td></tr>
 <tr class="memdesc:a169845f7ed8b49f17143930bd0ffb120"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get height of row.  <br /></td></tr>
-<tr class="separator:a169845f7ed8b49f17143930bd0ffb120"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41b95de3c67be210e013b23eb5a34375" id="r_a41b95de3c67be210e013b23eb5a34375"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41b95de3c67be210e013b23eb5a34375">Write</a> ()</td></tr>
+<tr class="memitem:a41b95de3c67be210e013b23eb5a34375" id="r_a41b95de3c67be210e013b23eb5a34375"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a41b95de3c67be210e013b23eb5a34375">Write</a> ()</td></tr>
 <tr class="memdesc:a41b95de3c67be210e013b23eb5a34375"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write table to document.  <br /></td></tr>
-<tr class="separator:a41b95de3c67be210e013b23eb5a34375"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a392560252b9f312cade3706b776f57ac" id="r_a392560252b9f312cade3706b776f57ac"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a392560252b9f312cade3706b776f57ac">WriteRows</a> (unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)</td></tr>
+<tr class="memitem:a392560252b9f312cade3706b776f57ac" id="r_a392560252b9f312cade3706b776f57ac"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a392560252b9f312cade3706b776f57ac">WriteRows</a> (unsigned int firstRow, unsigned int lastRow, double x, double y, bool isHeaderRow)</td></tr>
 <tr class="memdesc:a392560252b9f312cade3706b776f57ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write range of rows.  <br /></td></tr>
-<tr class="separator:a392560252b9f312cade3706b776f57ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7de1988b6e49d9c7392e64f262e1018" id="r_ad7de1988b6e49d9c7392e64f262e1018"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad7de1988b6e49d9c7392e64f262e1018">SetPad</a> (double pad)</td></tr>
+<tr class="memitem:ad7de1988b6e49d9c7392e64f262e1018" id="r_ad7de1988b6e49d9c7392e64f262e1018"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad7de1988b6e49d9c7392e64f262e1018">SetPad</a> (double pad)</td></tr>
 <tr class="memdesc:ad7de1988b6e49d9c7392e64f262e1018"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set cell padding.  <br /></td></tr>
-<tr class="separator:ad7de1988b6e49d9c7392e64f262e1018"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a285c67e2fcaef16ee814e712ad95b869" id="r_a285c67e2fcaef16ee814e712ad95b869"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a285c67e2fcaef16ee814e712ad95b869">GetPad</a> ()</td></tr>
+<tr class="memitem:a285c67e2fcaef16ee814e712ad95b869" id="r_a285c67e2fcaef16ee814e712ad95b869"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a285c67e2fcaef16ee814e712ad95b869">GetPad</a> ()</td></tr>
 <tr class="memdesc:a285c67e2fcaef16ee814e712ad95b869"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get cell padding.  <br /></td></tr>
-<tr class="separator:a285c67e2fcaef16ee814e712ad95b869"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62ef0d3e9313e520a059a919e7249d38" id="r_a62ef0d3e9313e520a059a919e7249d38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62ef0d3e9313e520a059a919e7249d38">SetBorder</a> (bool border)</td></tr>
+<tr class="memitem:a62ef0d3e9313e520a059a919e7249d38" id="r_a62ef0d3e9313e520a059a919e7249d38"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a62ef0d3e9313e520a059a919e7249d38">SetBorder</a> (bool border)</td></tr>
 <tr class="memdesc:a62ef0d3e9313e520a059a919e7249d38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set border flag.  <br /></td></tr>
-<tr class="separator:a62ef0d3e9313e520a059a919e7249d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1434c2159eb672a97a4f415be355ddd1" id="r_a1434c2159eb672a97a4f415be355ddd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1434c2159eb672a97a4f415be355ddd1">SetBorderWidth</a> (double borderWidth)</td></tr>
+<tr class="memitem:a1434c2159eb672a97a4f415be355ddd1" id="r_a1434c2159eb672a97a4f415be355ddd1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1434c2159eb672a97a4f415be355ddd1">SetBorderWidth</a> (double borderWidth)</td></tr>
 <tr class="memdesc:a1434c2159eb672a97a4f415be355ddd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set border size.  <br /></td></tr>
-<tr class="separator:a1434c2159eb672a97a4f415be355ddd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4ca3c3d52a3a7df5578e3834fd9f109" id="r_ab4ca3c3d52a3a7df5578e3834fd9f109"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab4ca3c3d52a3a7df5578e3834fd9f109">SetBorderColour</a> (<a class="el" href="classwx_pdf_colour.html">wxPdfColour</a> borderColour)</td></tr>
+<tr class="memitem:ab4ca3c3d52a3a7df5578e3834fd9f109" id="r_ab4ca3c3d52a3a7df5578e3834fd9f109"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab4ca3c3d52a3a7df5578e3834fd9f109">SetBorderColour</a> (<a class="el" href="classwx_pdf_colour.html">wxPdfColour</a> borderColour)</td></tr>
 <tr class="memdesc:ab4ca3c3d52a3a7df5578e3834fd9f109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set border colour.  <br /></td></tr>
-<tr class="separator:ab4ca3c3d52a3a7df5578e3834fd9f109"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f384ee67714cb09db2d37d2ca275d07" id="r_a0f384ee67714cb09db2d37d2ca275d07"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f384ee67714cb09db2d37d2ca275d07">HasBorder</a> ()</td></tr>
+<tr class="memitem:a0f384ee67714cb09db2d37d2ca275d07" id="r_a0f384ee67714cb09db2d37d2ca275d07"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0f384ee67714cb09db2d37d2ca275d07">HasBorder</a> ()</td></tr>
 <tr class="memdesc:a0f384ee67714cb09db2d37d2ca275d07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether border should be drawn.  <br /></td></tr>
-<tr class="separator:a0f384ee67714cb09db2d37d2ca275d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c5c8513502748b3e7ad6e5864059974" id="r_a0c5c8513502748b3e7ad6e5864059974"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c5c8513502748b3e7ad6e5864059974">GetTotalWidth</a> ()</td></tr>
+<tr class="memitem:a0c5c8513502748b3e7ad6e5864059974" id="r_a0c5c8513502748b3e7ad6e5864059974"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a0c5c8513502748b3e7ad6e5864059974">GetTotalWidth</a> ()</td></tr>
 <tr class="memdesc:a0c5c8513502748b3e7ad6e5864059974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total width of table.  <br /></td></tr>
-<tr class="separator:a0c5c8513502748b3e7ad6e5864059974"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10a8e4de8bd91981183c3e85bb400538" id="r_a10a8e4de8bd91981183c3e85bb400538"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10a8e4de8bd91981183c3e85bb400538">GetHeadHeight</a> ()</td></tr>
+<tr class="memitem:a10a8e4de8bd91981183c3e85bb400538" id="r_a10a8e4de8bd91981183c3e85bb400538"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a10a8e4de8bd91981183c3e85bb400538">GetHeadHeight</a> ()</td></tr>
 <tr class="memdesc:a10a8e4de8bd91981183c3e85bb400538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get height of table head.  <br /></td></tr>
-<tr class="separator:a10a8e4de8bd91981183c3e85bb400538"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a147cd49d5d1ff2ec7f7e6d6ffea1893c" id="r_a147cd49d5d1ff2ec7f7e6d6ffea1893c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a147cd49d5d1ff2ec7f7e6d6ffea1893c">GetBodyHeight</a> ()</td></tr>
+<tr class="memitem:a147cd49d5d1ff2ec7f7e6d6ffea1893c" id="r_a147cd49d5d1ff2ec7f7e6d6ffea1893c"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a147cd49d5d1ff2ec7f7e6d6ffea1893c">GetBodyHeight</a> ()</td></tr>
 <tr class="memdesc:a147cd49d5d1ff2ec7f7e6d6ffea1893c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get height of table body.  <br /></td></tr>
-<tr class="separator:a147cd49d5d1ff2ec7f7e6d6ffea1893c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2d04a6d24901d0e769b9e3aa84c0a5cd" id="r_a2d04a6d24901d0e769b9e3aa84c0a5cd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2d04a6d24901d0e769b9e3aa84c0a5cd">GetTotalHeight</a> ()</td></tr>
+<tr class="memitem:a2d04a6d24901d0e769b9e3aa84c0a5cd" id="r_a2d04a6d24901d0e769b9e3aa84c0a5cd"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a2d04a6d24901d0e769b9e3aa84c0a5cd">GetTotalHeight</a> ()</td></tr>
 <tr class="memdesc:a2d04a6d24901d0e769b9e3aa84c0a5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get total height of table.  <br /></td></tr>
-<tr class="separator:a2d04a6d24901d0e769b9e3aa84c0a5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1466cdd658f0833e233425baad674393" id="r_a1466cdd658f0833e233425baad674393"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1466cdd658f0833e233425baad674393">SetHeadRowFirst</a> (unsigned int row)</td></tr>
+<tr class="memitem:a1466cdd658f0833e233425baad674393" id="r_a1466cdd658f0833e233425baad674393"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1466cdd658f0833e233425baad674393">SetHeadRowFirst</a> (unsigned int row)</td></tr>
 <tr class="memdesc:a1466cdd658f0833e233425baad674393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set index of first header row.  <br /></td></tr>
-<tr class="separator:a1466cdd658f0833e233425baad674393"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41a616c40cdf103fa9596f08aa92b32b" id="r_a41a616c40cdf103fa9596f08aa92b32b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41a616c40cdf103fa9596f08aa92b32b">SetHeadRowLast</a> (unsigned int row)</td></tr>
+<tr class="memitem:a41a616c40cdf103fa9596f08aa92b32b" id="r_a41a616c40cdf103fa9596f08aa92b32b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a41a616c40cdf103fa9596f08aa92b32b">SetHeadRowLast</a> (unsigned int row)</td></tr>
 <tr class="memdesc:a41a616c40cdf103fa9596f08aa92b32b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set index of last header row.  <br /></td></tr>
-<tr class="separator:a41a616c40cdf103fa9596f08aa92b32b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a597acafea38e3900023ecce8aa40777c" id="r_a597acafea38e3900023ecce8aa40777c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a597acafea38e3900023ecce8aa40777c">SetBodyRowFirst</a> (unsigned int row)</td></tr>
+<tr class="memitem:a597acafea38e3900023ecce8aa40777c" id="r_a597acafea38e3900023ecce8aa40777c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a597acafea38e3900023ecce8aa40777c">SetBodyRowFirst</a> (unsigned int row)</td></tr>
 <tr class="memdesc:a597acafea38e3900023ecce8aa40777c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set index of first body row.  <br /></td></tr>
-<tr class="separator:a597acafea38e3900023ecce8aa40777c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a506b4c5c5bebe2aa8a9fbc2d75e841c4" id="r_a506b4c5c5bebe2aa8a9fbc2d75e841c4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a506b4c5c5bebe2aa8a9fbc2d75e841c4">SetBodyRowLast</a> (unsigned int row)</td></tr>
+<tr class="memitem:a506b4c5c5bebe2aa8a9fbc2d75e841c4" id="r_a506b4c5c5bebe2aa8a9fbc2d75e841c4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a506b4c5c5bebe2aa8a9fbc2d75e841c4">SetBodyRowLast</a> (unsigned int row)</td></tr>
 <tr class="memdesc:a506b4c5c5bebe2aa8a9fbc2d75e841c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set index of last body row.  <br /></td></tr>
-<tr class="separator:a506b4c5c5bebe2aa8a9fbc2d75e841c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing tables within a cell. (For internal use only) </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+</div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae5c72de95f82cbac62a5b426b1c659b7" name="ae5c72de95f82cbac62a5b426b1c659b7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae5c72de95f82cbac62a5b426b1c659b7">&#9670;&#160;</a></span>wxPdfTable()</h2>
 
@@ -208,7 +276,7 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a3df896c4a7ed0f1c7e5ca9a8c140a4e9" name="a3df896c4a7ed0f1c7e5ca9a8c140a4e9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3df896c4a7ed0f1c7e5ca9a8c140a4e9">&#9670;&#160;</a></span>AddPage()</h2>
 
@@ -438,7 +506,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check whether border should be drawn. </p>
-<dl class="section return"><dt>Returns</dt><dd>TRUE if border should be drawn, FALSE otherwise </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>true</code> if border should be drawn, <code>false</code> otherwise </dd></dl>
 
 </div>
 </div>
@@ -1060,13 +1128,24 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="pdfxml_8h.html">pdfxml.h</a></li>
+<li>E:/github/wxpdfdoc-current/include/wx/<a class="el" href="pdfxml_8h.html">pdfxml.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2
-</small></address>
 </div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="classwx_pdf_table.html">wxPdfTable</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>
