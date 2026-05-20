@@ -36,7 +36,7 @@ on the FPDF web site are incorporated into wxPdfDocument.
 
 ## Version information
 
-* 1.4.0 - *May 2025*
+* 1.4.0 - *May 2026*
   - Updated 3rd party libraries _zint_ and _woff2_
   - Improved documentation
   - Changed default encryption to AES-256 instead of RC4
