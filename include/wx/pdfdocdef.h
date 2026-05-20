@@ -66,7 +66,7 @@ For any remark, question or problem, you can leave a message on the <a href="htt
 Or you can send a mail to the author
 <a href="&#109;&#97;&#105;&#108;&#116;&#111;:&#117;&#108;&#114;&#105;&#99;&#104;&#46;&#116;&#101;&#108;&#108;&#101;&#64;&#103;&#109;&#120;&#46;&#100;&#101;">directly</a>.
 
-\section version Version history
+\section version Current Version
 
 <dl>
 <dt><b>1.4.0</b> - <i>May 2026</i></dt>
@@ -76,11 +76,81 @@ Changes:<br>
 - Added support for granular font weights (contributed by Blake-Madden)
 - Updated 3rd party libraries <i>zint</i> and <i>woff2</i>
 - Improved documentation (contributed by Blake-Madden)
+- Changed default encryption to AES-256 instead of RC4
+- Applied various code improvements
+- Added `wxPdfGraphicsContext` implementation (and sample application)
+- Added support for granular font weights (Thin to ExtraHeavy)
+- Added linear and radial shading patterns for drawing and filling
+- Added font style and weight attributes to font description
 
 Fixed bugs:<br>
-- Fixed issue #97: eliminate compile time warnings
+- Fixed issue where bold fonts were not correctly selected when using <b>wxFont</b> with <b>wxFONTWEIGHT_BOLD</b>
+- Fixed various compile time warnings
+- Fixed several long-standing bugs
+
 
 </dd>
+
+For a detailed change log see the \ref history.
+
+\author Ulrich Telle (<a href="&#109;&#97;&#105;&#108;&#116;&#111;:&#117;&#108;&#114;&#105;&#99;&#104;&#46;&#116;&#101;&#108;&#108;&#101;&#64;&#103;&#109;&#120;&#46;&#100;&#101;">ulrich DOT telle AT gmx DOT de</a>)
+
+\section issues Known issues
+
+Currently there are no known issues regarding the functionality of the wxPdfDocument component.
+All features were thoroughly tested individually, but it's almost impossible to check all
+potential combinations. <b>If you find bugs please report them to the author!</b>
+
+\section acknowledgement Acknowledgements
+
+I'm very grateful to <a href="https://www.lowagie.com"><b>Bruno Lowagie</b></a>, the main author of the <a href="https://itextpdf.com/"><b>iText Java library</b></a>,
+for allowing to take lots of ideas and inspirations from this great Java PDF library. Especially the font handling and font subsetting
+was influenced in that way.
+
+Many thanks go to <b>Ben Moores</b> who provided code for layers and patterns he wrote for
+his PDF extension for <a href="http://www.mapnik.org"><b>Mapnik</b></a>. This code has been extended
+based on ideas from the <b>iText Java library</b> and was incorporated into wxPdfDocument.
+
+Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of the PHP library <a href="https://mpdf.github.io/"><b>mPDF</b></a>;
+special thanks to <b>K Vinod Kumar</b> of the <a href="https://www.cdac.in/"><b>Centre for Development of Advanced
+Computing, Mumbai</b></a>, for clearing license issues of the Raghu font series.
+
+Kudos to <b>Mark Dootson</b> for contributing major enhancements of <b><i>wxPdfDC</i></b> and it's integration
+into the wxWidgets printing framework.
+
+Kudos to <b>Dieter Schmeer</b> for contributing several enhancements for the XML markup handling.
+
+Kudos to <b><a href="https://github.com/Blake-Madden">Blake Madden</a></b> for contributing a <b><i>wxPdfGraphicsContext</i></b> implementation and support for granular font weights.
+
+Since wxPdfDocument is based on the great \b FPDF PHP class and several of the contributions to it
+found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank
+
+- Olivier Plathey (FPDF, Barcodes, Bookmarks, Rotation),
+- Maxime Delorme (Sector)
+- Johannes Guentert (JavaScript)
+- Martin Hall-May (WMF images, Transparency)
+- Emmanuel Havet (Code39 barcodes)
+- Shailesh Humbad (POSTNET barcodes)
+- Matthias Lau (i25 barcodes)
+- Pierre Marletta (Diagrams)
+- Laurent Passebecq (Labels)
+- David Hernandez Sanz (additional graphics primitives)
+- Valentin Schmidt (Transparency, Alpha channel)
+- Jan Slabon (FPDI)
+- Klemen Vodopivec (Protection)
+- Moritz Wagner (Transformation)
+- Andreas Wuermser (Clipping, Gradients, Transformation)
+
+The wxPdfDocument encryption methods use the MD5 Message Digest
+Algorithm implementation of Alexander Peslyak (Public Domain) and
+the Rijndael cipher implementation of Szymon Stefanek (Public Domain).
+For detailed license information \see files pdfencrypt.cpp and pdfrijndael.h.
+
+*/
+
+/** \page history Version history
+
+<dl>
 
 <dt><b>1.3.1</b> - <i>April 2025</i></dt>
 <dd>
@@ -582,59 +652,6 @@ Several add-ons implemented
 Planning and basic PDF features implemented
 </dd>
 </dl>
-
-\author Ulrich Telle (<a href="&#109;&#97;&#105;&#108;&#116;&#111;:&#117;&#108;&#114;&#105;&#99;&#104;&#46;&#116;&#101;&#108;&#108;&#101;&#64;&#103;&#109;&#120;&#46;&#100;&#101;">ulrich DOT telle AT gmx DOT de</a>)
-
-\section issues Known issues
-
-Currently there are no known issues regarding the functionality of the wxPdfDocument component.
-All features were thoroughly tested individually, but it's almost impossible to check all
-potential combinations. <b>If you find bugs please report them to the author!</b>
-
-\section acknowledgement Acknowledgements
-
-I'm very grateful to <a href="https://www.lowagie.com"><b>Bruno Lowagie</b></a>, the main author of the <a href="https://itextpdf.com/"><b>iText Java library</b></a>,
-for allowing to take lots of ideas and inspirations from this great Java PDF library. Especially the font handling and font subsetting
-was influenced in that way.
-
-Many thanks go to <b>Ben Moores</b> who provided code for layers and patterns he wrote for
-his PDF extension for <a href="http://www.mapnik.org"><b>Mapnik</b></a>. This code has been extended
-based on ideas from the <b>iText Java library</b> and was incorporated into wxPdfDocument.
-
-Support for Indic scripts is based on the efforts of <b>Ian Back</b>, creator of the PHP library <a href="https://mpdf.github.io/"><b>mPDF</b></a>;
-special thanks to <b>K Vinod Kumar</b> of the <a href="https://www.cdac.in/"><b>Centre for Development of Advanced
-Computing, Mumbai</b></a>, for clearing license issues of the Raghu font series.
-
-Kudos to <b>Mark Dootson</b> for contributing major enhancements of <b><i>wxPdfDC</i></b> and it's integration
-into the wxWidgets printing framework.
-
-Kudos to <b>Dieter Schmeer</b> for contributing several enhancements for the XML markup handling.
-
-Kudos to <b>Blake Madden</b> for contributing a <b><i>wxPdfGraphicsContext</i></b> implementation and support for granular font weights.
-
-Since wxPdfDocument is based on the great \b FPDF PHP class and several of the contributions to it
-found on the <a href="http://www.fpdf.org"><b>FPDF website</b></a> I would like to thank
-
-- Olivier Plathey (FPDF, Barcodes, Bookmarks, Rotation),
-- Maxime Delorme (Sector)
-- Johannes Guentert (JavaScript)
-- Martin Hall-May (WMF images, Transparency)
-- Emmanuel Havet (Code39 barcodes)
-- Shailesh Humbad (POSTNET barcodes)
-- Matthias Lau (i25 barcodes)
-- Pierre Marletta (Diagrams)
-- Laurent Passebecq (Labels)
-- David Hernandez Sanz (additional graphics primitives)
-- Valentin Schmidt (Transparency, Alpha channel)
-- Jan Slabon (FPDI)
-- Klemen Vodopivec (Protection)
-- Moritz Wagner (Transformation)
-- Andreas Wuermser (Clipping, Gradients, Transformation)
-
-The wxPdfDocument encryption methods use the MD5 Message Digest
-Algorithm implementation of Alexander Peslyak (Public Domain) and
-the Rijndael cipher implementation of Szymon Stefanek (Public Domain).
-For detailed license information \see files pdfencrypt.cpp and pdfrijndael.h.
 
 */
 
