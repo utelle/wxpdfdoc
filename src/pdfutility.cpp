@@ -250,7 +250,7 @@ wxPdfUtility::MapFontWeight2FontStyleString(wxFontWeight fontWeight)
   if (fontWeight == wxFONTWEIGHT_BOLD)
     return wxString("B");
   else if (fontWeight == wxFONTWEIGHT_LIGHT)
-    return wxString("L);
+    return wxString("L");
   else
       return wxString();
 #endif
