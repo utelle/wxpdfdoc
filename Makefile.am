@@ -80,6 +80,7 @@ ZINT_SRCS += \
   thirdparty/zint/backend/vector.c
 ZINT_HDRS += \
   thirdparty/zint/backend/aztec.h \
+  thirdparty/zint/backend/aztec_trace.h \
   thirdparty/zint/backend/big5.h \
   thirdparty/zint/backend/bmp.h \
   thirdparty/zint/backend/channel_precalcs.h \
@@ -119,7 +120,6 @@ ZINT_HDRS += \
   thirdparty/zint/backend/rss.h \
   thirdparty/zint/backend/sjis.h \
   thirdparty/zint/backend/tif.h \
-  thirdparty/zint/backend/tif_lzw.h \
   thirdparty/zint/backend/zfiletypes.h \
   thirdparty/zint/backend/zint.h \
   thirdparty/zint/backend/zintconfig.h
