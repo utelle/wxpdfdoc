@@ -151,7 +151,7 @@ public:
     {
       if (totalWidth < pageWidth / 2.0)
       {
-        blocksPerPage = static_cast<int>(pageWidth / totalWidth);
+        blocksPerPage = static_cast<int>(pageWidth / (totalWidth + 5.0 / m_doc->GetScaleFactor()));
         if (blocksPerPage > 3) blocksPerPage = 3; // Limit to 3 blocks
       }
 
