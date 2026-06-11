@@ -243,7 +243,7 @@ public:
       if (row > 0 && row >= nextPageRow)
       {
         // Add "Continued on next page" if another page follows
-        if (m_options.GetShowContinued() && row < totalRows)
+        if (m_options.GetShowContinued())
         {
           wxFont footerFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
           footerFont.SetStyle(wxFONTSTYLE_ITALIC);
