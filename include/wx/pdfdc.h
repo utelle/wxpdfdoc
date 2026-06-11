@@ -12,10 +12,15 @@
 #ifndef _PDF_DC_H_
 #define _PDF_DC_H_
 
+#include <wx/defs.h>
 #include <wx/cmndata.h>
 #include <wx/dc.h>
 
 #include <stack>
+
+#if wxUSE_LISTCTRL
+class wxListCtrl;
+#endif
 
 #include "wx/pdfdocument.h"
 #include "wx/pdffont.h"
@@ -135,6 +140,18 @@ public:
   * \see SetMapModeStyle()
   */
   wxPdfMapModeStyle GetMapModeStyle() const;
+
+#if wxUSE_LISTCTRL
+  /// Draws a list control's content at the given position
+  /**
+  * \param list Pointer to the list control
+  * \param x Abscissa of the top left corner
+  * \param y Ordinate of the top left corner
+  * \param options Export options
+  */
+  void DrawList(wxListCtrl* list, wxCoord x, wxCoord y,
+                const wxPdfListCtrlOptions& options = wxPdfListCtrlOptions());
+#endif
 
 private:
   wxDECLARE_DYNAMIC_CLASS(wxPdfDC);

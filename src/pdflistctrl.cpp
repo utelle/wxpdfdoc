@@ -1,0 +1,366 @@
+///////////////////////////////////////////////////////////////////////////////
+// Name:        pdflistctrl.cpp
+// Purpose:     
+// Author:      Ulrich Telle
+// Created:     2026-06-10
+// Copyright:   (c) Ulrich Telle
+// Licence:     wxWindows licence
+///////////////////////////////////////////////////////////////////////////////
+
+// For compilers that support precompilation, includes "wx/wx.h".
+#include <wx/wxprec.h>
+
+#ifdef __BORLANDC__
+#pragma hdrstop
+#endif
+
+#if wxUSE_LISTCTRL
+
+#include "wx/pdflistctrl.h"
+#include <wx/listctrl.h>
+#include <wx/imaglist.h>
+#include "wx/pdfdocument.h"
+#include "wx/pdfdc.h"
+
+#include <vector>
+#include <numeric>
+#include <algorithm>
+
+wxPdfListCtrlOptions::wxPdfListCtrlOptions()
+{
+  m_drawRowBorders = true;
+  m_drawColumnBorders = true;
+  m_showContinued = true;
+  m_borderColour = wxPdfColour();
+}
+
+// --- Exporter Engine ---
+
+class wxPdfListCtrlExporter
+{
+public:
+  wxPdfListCtrlExporter(wxPdfDocument* doc, wxListCtrl* list, const wxPdfListCtrlOptions& options)
+    : m_doc(doc), m_list(list), m_options(options), m_dc(NULL)
+  {
+  }
+
+  wxPdfListCtrlExporter(wxPdfDC* dc, wxListCtrl* list, const wxPdfListCtrlOptions& options)
+    : m_doc(dc->GetPdfDocument()), m_list(list), m_options(options), m_dc(dc)
+  {
+  }
+
+  void Export(double x, double y)
+  {
+    if (!m_doc || !m_list || m_list->GetColumnCount() == 0)
+        return;
+
+    // Save current state
+    wxPdfColour saveDrawColour = m_doc->GetDrawColour();
+    wxPdfColour saveFillColour = m_doc->GetFillColour();
+    wxPdfColour saveTextColour = m_doc->GetTextColour();
+    double saveLineWidth = m_doc->GetLineWidth();
+    wxPdfFont saveFont;
+    int saveStyle = m_doc->GetFontStyles();
+    double saveSize = m_doc->GetFontSize();
+    { wxLogNull noLog; saveFont = m_doc->GetCurrentFont(); }
+
+    // Calculate column widths
+    size_t colCount = m_list->GetColumnCount();
+    std::vector<double> colWidths(colCount);
+    
+    m_doc->SetFont(m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont());
+    // Cell padding in user units: 4pt converted to the document's unit system
+    const double cellPadding = 4.0 / m_doc->GetScaleFactor();
+    double totalWidth = 0;
+    for (size_t col = 0; col < colCount; ++col)
+    {
+      wxListItem item;
+      item.SetMask(wxLIST_MASK_TEXT | wxLIST_MASK_WIDTH);
+      m_list->GetColumn(col, item);
+
+      double headerWidth = m_doc->GetStringWidth(item.GetText()) + cellPadding;
+      double maxContentWidth = 0;
+
+      // Check first 100 items for width optimization
+      int rowCount = m_list->GetItemCount();
+      int checkRows = std::min(rowCount, 100);
+      wxImageList* imgList = m_list->GetImageList(wxIMAGE_LIST_SMALL);
+      for (int row = 0; row < checkRows; ++row)
+      {
+        double w = m_doc->GetStringWidth(m_list->GetItemText(row, col)) + cellPadding;
+        
+        // Add icon width if present
+        if (imgList)
+        {
+          wxListItem info;
+          info.SetId(row);
+          info.SetColumn(col);
+          info.SetMask(wxLIST_MASK_IMAGE);
+          if (m_list->GetItem(info) && info.GetImage() != -1)
+          {
+            w += 20.0 / m_doc->GetScaleFactor(); // Approx icon width + padding in user units
+          }
+        }
+        
+        if (w > maxContentWidth) maxContentWidth = w;
+      }
+      
+      colWidths[col] = std::max(headerWidth, maxContentWidth);
+      totalWidth += colWidths[col];
+    }
+
+    // Adjust if too wide for the page
+    double pageWidth = m_doc->GetPageWidth() - m_doc->GetLeftMargin() - m_doc->GetRightMargin();
+    int blocksPerPage = 1;
+    if (totalWidth < pageWidth / 2.0)
+    {
+      blocksPerPage = static_cast<int>(pageWidth / totalWidth);
+      if (blocksPerPage > 3) blocksPerPage = 3; // Limit to 3 blocks
+    }
+
+    if (totalWidth > pageWidth)
+    {
+      double scale = pageWidth / totalWidth;
+      for (size_t col = 0; col < colCount; ++col)
+      {
+        colWidths[col] *= scale;
+      }
+      totalWidth = pageWidth;
+    }
+
+    // Drawing — font size is in points; divide by scale factor to get user units
+    double rowHeight = m_doc->GetFontSize() / m_doc->GetScaleFactor() * 1.5;
+    double blockWidth = totalWidth + 5.0 / m_doc->GetScaleFactor(); // Margin between blocks in user units
+    double startX = x;
+    double startY = y;
+    double pageHeight = m_doc->GetPageHeight() - m_doc->GetBreakMargin();
+
+    // Calculate how many rows fit in a block
+    int rowsPerBlock = static_cast<int>((pageHeight - startY) / rowHeight) - 1; // -1 for header
+    if (m_options.GetShowContinued())
+    {
+      rowsPerBlock -= 1; // Reserve space for footer
+    }
+    if (rowsPerBlock < 1) rowsPerBlock = m_list->GetItemCount();
+
+    auto DrawHeader = [&](double headerX, double headerY)
+    {
+      m_doc->SetXY(headerX, headerY);
+      
+      // Determine header font
+      wxFont headerFont = m_options.GetHeaderFont().IsOk() ? m_options.GetHeaderFont() : m_list->GetFont();
+      headerFont.SetWeight(wxFONTWEIGHT_BOLD);
+      m_doc->SetFont(headerFont);
+      
+      if (m_options.GetHeaderBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+      {
+        m_doc->SetFillColour(m_options.GetHeaderBackgroundColour());
+      }
+      if (m_options.GetHeaderTextColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+      {
+        m_doc->SetTextColour(m_options.GetHeaderTextColour());
+      }
+
+      for (size_t col = 0; col < colCount; ++col)
+      {
+        wxListItem item;
+        item.SetMask(wxLIST_MASK_TEXT);
+        m_list->GetColumn(col, item);
+        
+        if (m_options.GetBorderColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+        {
+          m_doc->SetDrawColour(m_options.GetBorderColour());
+        }
+        
+        m_doc->Cell(colWidths[col], rowHeight, item.GetText(), wxPDF_BORDER_FRAME, 0, wxPDF_ALIGN_CENTER,
+                    m_options.GetHeaderBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN ? 1 : 0);
+      }
+      
+      // Reset to body font
+      m_doc->SetFont(m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont());
+    };
+
+    int totalRows = m_list->GetItemCount();
+    int pages = 0;
+    for (int row = 0; row < totalRows; )
+    {
+      // Check if we need a new page
+      if (row > 0 && row % (rowsPerBlock * blocksPerPage) == 0)
+      {
+        // Add "Continued on next page" if another page follows
+        if (m_options.GetShowContinued() && row < totalRows)
+        {
+          wxFont footerFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
+          footerFont.SetStyle(wxFONTSTYLE_ITALIC);
+          m_doc->SetFont(footerFont);
+          m_doc->SetTextColour(saveTextColour);
+          m_doc->SetXY(m_doc->GetPageWidth() - m_doc->GetRightMargin() - 50,
+                       startY + rowHeight * (rowsPerBlock + 1));
+          m_doc->Cell(50, rowHeight, _("Continued on next page"), 0, 0, wxPDF_ALIGN_RIGHT);
+        }
+
+        m_doc->AddPage();
+        startY = m_doc->GetTopMargin(); // Reset startY on new page
+        pages++;
+
+        if (m_options.GetShowContinued() && pages > 0)
+        {
+            wxFont continuedFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
+            continuedFont.SetStyle(wxFONTSTYLE_ITALIC);
+            m_doc->SetFont(continuedFont);
+            m_doc->SetTextColour(saveTextColour);
+            m_doc->Cell(0, rowHeight, _("(continued)"), 0, 1, wxPDF_ALIGN_LEFT);
+            startY += rowHeight;
+        }
+      }
+
+      // Draw blocks for this set of rows
+      for (int block = 0; block < blocksPerPage; ++block)
+      {
+        int rowIdx = row + block * rowsPerBlock;
+        if (rowIdx >= totalRows) break;
+
+        double curX = startX + block * blockWidth;
+        double curY = startY + (row % rowsPerBlock) * rowHeight;
+        
+        // Draw header if this is the start of a block on the page
+        if (row == 0 || (row % rowsPerBlock == 0))
+        {
+          DrawHeader(curX, startY);
+          curY += rowHeight;
+        }
+
+        // Draw rows for this block
+        int rowsInBlock = std::min(rowsPerBlock, totalRows - rowIdx);
+        for (int i = 0; i < rowsInBlock; ++i)
+        {
+          int currentRow = rowIdx + i;
+          
+          m_doc->SetTextColour(saveTextColour); // Ensure text color is reset for each row
+          
+          // ... [drawing code for row]
+          bool useAlt = (currentRow % 2 != 0) && m_options.GetAlternateRowBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN;
+          if (useAlt)
+          {
+            m_doc->SetFillColour(m_options.GetAlternateRowBackgroundColour());
+          }
+
+          m_doc->SetXY(curX, curY);
+          for (size_t col = 0; col < colCount; ++col)
+          {
+            int border = 0;
+            if (m_options.GetDrawRowBorders())
+                border |= wxPDF_BORDER_TOP | wxPDF_BORDER_BOTTOM;
+            if (m_options.GetDrawColumnBorders())
+                border |= wxPDF_BORDER_LEFT | wxPDF_BORDER_RIGHT;
+            
+            wxString text = m_list->GetItemText(currentRow, col);
+            
+            // Set cell colors
+            bool fill = false;
+            wxColour bgColour = m_list->GetItemBackgroundColour(currentRow);
+            if (bgColour.IsOk())
+            {
+              m_doc->SetFillColour(bgColour);
+              fill = true;
+            }
+            else if (useAlt)
+            {
+              m_doc->SetFillColour(m_options.GetAlternateRowBackgroundColour());
+              fill = true;
+            }
+            
+            if (m_options.GetBorderColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+            {
+              m_doc->SetDrawColour(m_options.GetBorderColour());
+            }
+            
+            wxColour textColour = m_list->GetItemTextColour(currentRow);
+            if (textColour.IsOk())
+            {
+              m_doc->SetTextColour(textColour);
+            }
+            else
+            {
+              m_doc->SetTextColour(saveTextColour);
+            }
+            
+            // Draw icon if available
+            wxImageList* imgList = m_list->GetImageList(wxIMAGE_LIST_SMALL);
+            if (imgList)
+            {
+              wxListItem info;
+              info.SetId(currentRow);
+              info.SetColumn(col);
+              info.SetMask(wxLIST_MASK_IMAGE);
+              m_list->GetItem(info);
+              if (info.GetImage() != -1)
+              {
+                wxBitmap bmp = imgList->GetBitmap(info.GetImage());
+                if (bmp.IsOk())
+                {
+                  double imgW, imgH;
+                  if (m_dc)
+                  {
+                    double docScale = 72.0 / (m_dc->GetResolution() * m_doc->GetScaleFactor());
+                    imgW = m_dc->LogicalToDeviceXRel(bmp.GetWidth()) * docScale;
+                    imgH = m_dc->LogicalToDeviceYRel(bmp.GetHeight()) * docScale;
+                  }
+                  else
+                  {
+                    imgW = bmp.GetWidth() * 72.0 / 96.0;
+                    imgH = bmp.GetHeight() * 72.0 / 96.0;
+                  }
+                  double scale = (rowHeight * 0.8) / imgH;
+                  if (scale < 1.0) { imgW *= scale; imgH *= scale; }
+                  
+                  double iconX = m_doc->GetX() + 1;
+                  double iconY = m_doc->GetY() + (rowHeight - imgH) / 2;
+                  m_doc->Image(wxString::Format(wxS("listicon_%d"), info.GetImage()),
+                                                bmp.ConvertToImage(), iconX, iconY, imgW, imgH);
+                  text = wxS("     ") + text;
+                }
+              }
+            }
+
+            m_doc->Cell(colWidths[col], rowHeight, text, border, 0, wxPDF_ALIGN_LEFT, fill ? 1 : 0);
+          }
+          curY += rowHeight;
+        }
+      }
+      row += rowsPerBlock * blocksPerPage;
+    }
+    // Restore state
+    m_doc->SetDrawColour(saveDrawColour);
+    m_doc->SetFillColour(saveFillColour);
+    m_doc->SetTextColour(saveTextColour);
+    m_doc->SetLineWidth(saveLineWidth);
+    if (saveFont.IsValid())
+      m_doc->SetFont(saveFont, saveStyle, saveSize);
+  }
+
+private:
+  wxPdfDocument* m_doc;
+  wxListCtrl*    m_list;
+  const wxPdfListCtrlOptions& m_options;
+  wxPdfDC*       m_dc;
+};
+
+// --- API Implementation ---
+
+void wxPdfDocument::AddList(wxListCtrl* list, const wxPdfListCtrlOptions& options)
+{
+  if (PageNo() == 0)
+    AddPage();
+  wxPdfListCtrlExporter exporter(this, list, options);
+  exporter.Export(GetX(), GetY());
+}
+
+void wxPdfDC::DrawList(wxListCtrl* list, wxCoord x, wxCoord y, const wxPdfListCtrlOptions& options)
+{
+  wxPdfDCImpl* impl = static_cast<wxPdfDCImpl*>(GetImpl());
+  wxPdfListCtrlExporter exporter(this, list, options);
+  exporter.Export(impl->ScaleLogicalToPdfX(x), impl->ScaleLogicalToPdfY(y));
+}
+
+#endif // wxUSE_LISTCTRL
