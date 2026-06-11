@@ -137,6 +137,22 @@ public:
   */
   bool GetShowContinued() const { return m_showContinued; }
 
+  /// Set whether to stretch the table to the full printable page width.
+  /**
+  * When enabled, all columns are scaled proportionally so that the table
+  * fills the available width between the left and right margins, analogous
+  * to LaTeX's \c tabularx or \c tabular* with \c \\linewidth. Multi-column
+  * layout is disabled when this option is active.
+  * \param fit true to stretch to full page width
+  */
+  void SetFitToPage(bool fit) { m_fitToPage = fit; }
+
+  /// Check whether the table is stretched to the full printable page width.
+  /**
+  * \return true if full-page-width mode is active
+  */
+  bool GetFitToPage() const { return m_fitToPage; }
+
 private:
   wxFont      m_headerFont;
   wxFont      m_bodyFont;
@@ -147,6 +163,7 @@ private:
   bool        m_drawRowBorders;
   bool        m_drawColumnBorders;
   bool        m_showContinued;
+  bool        m_fitToPage;
 };
 
 #endif

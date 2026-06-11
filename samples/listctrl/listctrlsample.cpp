@@ -19,17 +19,19 @@
 #include "listctrlsample.h"
 
 wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
-  EVT_MENU(ID_EXPORT_DIRECT, MyFrame::OnExportDirect)
-  EVT_MENU(ID_EXPORT_DC, MyFrame::OnExportDC)
-  EVT_MENU(wxID_EXIT, MyFrame::OnExit)
+  EVT_MENU(ID_EXPORT_DIRECT,     MyFrame::OnExportDirect)
+  EVT_MENU(ID_EXPORT_DC,         MyFrame::OnExportDC)
+  EVT_MENU(ID_EXPORT_FULL_WIDTH, MyFrame::OnExportFullWidth)
+  EVT_MENU(wxID_EXIT,            MyFrame::OnExit)
 wxEND_EVENT_TABLE()
 
 MyFrame::MyFrame(const wxString& title)
   : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600))
 {
   wxMenu* menuFile = new wxMenu;
-  menuFile->Append(ID_EXPORT_DIRECT, "&Export to PDF (Direct)\tCtrl-E", "Export using wxPdfDocument::AddList");
-  menuFile->Append(ID_EXPORT_DC, "Export to PDF (via &DC)\tCtrl-D", "Export using wxPdfDC::DrawList");
+  menuFile->Append(ID_EXPORT_DIRECT,     "&Export to PDF (Direct)\tCtrl-E",     "Export using wxPdfDocument::AddList");
+  menuFile->Append(ID_EXPORT_DC,         "Export to PDF (via &DC)\tCtrl-D",     "Export using wxPdfDC::DrawList");
+  menuFile->Append(ID_EXPORT_FULL_WIDTH, "Export to PDF (&Full Width)\tCtrl-F", "Export with columns stretched to page width");
   menuFile->AppendSeparator();
   menuFile->Append(wxID_EXIT);
 
@@ -137,6 +139,28 @@ void MyFrame::OnExportDC(wxCommandEvent& WXUNUSED(event))
   
   dc.EndPage();
   dc.EndDoc();
+}
+
+void MyFrame::OnExportFullWidth(wxCommandEvent& WXUNUSED(event))
+{
+  wxFileDialog saveFileDialog(this, _("Save PDF file"), "", "list_fullwidth.pdf",
+    "PDF files (*.pdf)|*.pdf", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+
+  if (saveFileDialog.ShowModal() == wxID_CANCEL)
+    return;
+
+  wxPdfDocument doc;
+  doc.AddPage();
+
+  wxPdfListCtrlOptions options;
+  options.SetHeaderBackgroundColour(wxPdfColour(230, 200, 180));
+  options.SetHeaderTextColour(*wxBLACK);
+  options.SetAlternateRowBackgroundColour(wxPdfColour(240, 240, 240));
+  options.SetBorderColour(wxPdfColour(200, 200, 200));
+  options.SetFitToPage(true);
+
+  doc.AddList(m_list, options);
+  doc.SaveAsFile(saveFileDialog.GetPath());
 }
 
 void MyFrame::OnExit(wxCommandEvent& WXUNUSED(event))

@@ -31,6 +31,7 @@ wxPdfListCtrlOptions::wxPdfListCtrlOptions()
   m_drawRowBorders = true;
   m_drawColumnBorders = true;
   m_showContinued = true;
+  m_fitToPage = false;
   m_borderColour = wxPdfColour();
 }
 
@@ -109,23 +110,33 @@ public:
       totalWidth += colWidths[col];
     }
 
-    // Adjust if too wide for the page
+    // Adjust column widths to fit the available printable width
     double pageWidth = m_doc->GetPageWidth() - m_doc->GetLeftMargin() - m_doc->GetRightMargin();
     int blocksPerPage = 1;
-    if (totalWidth < pageWidth / 2.0)
+    if (m_options.GetFitToPage())
     {
-      blocksPerPage = static_cast<int>(pageWidth / totalWidth);
-      if (blocksPerPage > 3) blocksPerPage = 3; // Limit to 3 blocks
-    }
-
-    if (totalWidth > pageWidth)
-    {
+      // Stretch (or shrink) all columns proportionally to fill the full page width.
+      // Multi-column layout is incompatible with full-width mode.
       double scale = pageWidth / totalWidth;
       for (size_t col = 0; col < colCount; ++col)
-      {
         colWidths[col] *= scale;
-      }
       totalWidth = pageWidth;
+    }
+    else
+    {
+      if (totalWidth < pageWidth / 2.0)
+      {
+        blocksPerPage = static_cast<int>(pageWidth / totalWidth);
+        if (blocksPerPage > 3) blocksPerPage = 3; // Limit to 3 blocks
+      }
+
+      if (totalWidth > pageWidth)
+      {
+        double scale = pageWidth / totalWidth;
+        for (size_t col = 0; col < colCount; ++col)
+          colWidths[col] *= scale;
+        totalWidth = pageWidth;
+      }
     }
 
     // Drawing — font size is in points; divide by scale factor to get user units
