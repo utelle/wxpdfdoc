@@ -135,13 +135,15 @@ public:
     double startY = y;
     double pageHeight = m_doc->GetPageHeight() - m_doc->GetBreakMargin();
 
-    // Calculate how many rows fit in a block
-    int rowsPerBlock = static_cast<int>((pageHeight - startY) / rowHeight) - 1; // -1 for header
-    if (m_options.GetShowContinued())
-    {
-      rowsPerBlock -= 1; // Reserve space for footer
-    }
-    if (rowsPerBlock < 1) rowsPerBlock = m_list->GetItemCount();
+    auto CalcRowsPerBlock = [&](double sy) {
+      int rpb = static_cast<int>((pageHeight - sy) / rowHeight) - 1; // -1 for header
+      if (m_options.GetShowContinued())
+        rpb -= 1; // Reserve space for footer
+      return (rpb < 1) ? m_list->GetItemCount() : rpb;
+    };
+
+    int rowsPerBlock = CalcRowsPerBlock(startY);
+    int nextPageRow = rowsPerBlock * blocksPerPage;
 
     auto DrawHeader = [&](double headerX, double headerY)
     {
@@ -185,7 +187,7 @@ public:
     for (int row = 0; row < totalRows; )
     {
       // Check if we need a new page
-      if (row > 0 && row % (rowsPerBlock * blocksPerPage) == 0)
+      if (row > 0 && row >= nextPageRow)
       {
         // Add "Continued on next page" if another page follows
         if (m_options.GetShowContinued() && row < totalRows)
@@ -212,6 +214,11 @@ public:
             m_doc->Cell(0, rowHeight, _("(continued)"), 0, 1, wxPDF_ALIGN_LEFT);
             startY += rowHeight;
         }
+
+        // Recalculate rows per block for this page's available height,
+        // then advance the page-break threshold by the new stride
+        rowsPerBlock = CalcRowsPerBlock(startY);
+        nextPageRow += rowsPerBlock * blocksPerPage;
       }
 
       // Draw blocks for this set of rows
@@ -299,18 +306,12 @@ public:
                 wxBitmap bmp = imgList->GetBitmap(info.GetImage());
                 if (bmp.IsOk())
                 {
-                  double imgW, imgH;
-                  if (m_dc)
-                  {
-                    double docScale = 72.0 / (m_dc->GetResolution() * m_doc->GetScaleFactor());
-                    imgW = m_dc->LogicalToDeviceXRel(bmp.GetWidth()) * docScale;
-                    imgH = m_dc->LogicalToDeviceYRel(bmp.GetHeight()) * docScale;
-                  }
-                  else
-                  {
-                    imgW = bmp.GetWidth() * 72.0 / 96.0;
-                    imgH = bmp.GetHeight() * 72.0 / 96.0;
-                  }
+                  // bmp.GetWidth/Height() are already in device pixels; convert to
+                  // document user units via DPI and the document's scale factor
+                  double dpi = m_dc ? static_cast<double>(m_dc->GetResolution()) : 96.0;
+                  double docScale = 72.0 / (dpi * m_doc->GetScaleFactor());
+                  double imgW = bmp.GetWidth()  * docScale;
+                  double imgH = bmp.GetHeight() * docScale;
                   double scale = (rowHeight * 0.8) / imgH;
                   if (scale < 1.0) { imgW *= scale; imgH *= scale; }
                   
