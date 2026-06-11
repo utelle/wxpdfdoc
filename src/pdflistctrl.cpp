@@ -211,7 +211,6 @@ public:
     };
 
     int totalRows = m_list->GetItemCount();
-    int pages = 0;
     for (int row = 0; row < totalRows; )
     {
       // Check if we need a new page
@@ -232,10 +231,9 @@ public:
         if (isSimple)
           DrawHRule(startX, lastDrawnY, thickRule);
         m_doc->AddPage();
-        startY = m_doc->GetTopMargin(); // Reset startY on new page
-        pages++;
+        startY = m_doc->GetTopMargin();
 
-        if (m_options.GetShowContinued() && pages > 0)
+        if (m_options.GetShowContinued())
         {
             wxFont continuedFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
             continuedFont.SetStyle(wxFONTSTYLE_ITALIC);
@@ -258,18 +256,14 @@ public:
         if (rowIdx >= totalRows) break;
 
         double curX = startX + block * blockWidth;
-        double curY = startY + (row % rowsPerBlock) * rowHeight;
-        
-        // Draw header if this is the start of a block on the page
-        if (row == 0 || (row % rowsPerBlock == 0))
-        {
-          if (isSimple)
-            DrawHRule(curX, startY, thickRule);
-          DrawHeader(curX, startY);
-          curY += rowHeight;
-          if (isSimple)
-            DrawHRule(curX, curY, thinRule);
-        }
+        double curY = startY;
+
+        if (isSimple)
+          DrawHRule(curX, startY, thickRule);
+        DrawHeader(curX, startY);
+        curY += rowHeight;
+        if (isSimple)
+          DrawHRule(curX, curY, thinRule);
 
         // Draw rows for this block
         int rowsInBlock = std::min(rowsPerBlock, totalRows - rowIdx);
