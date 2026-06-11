@@ -250,9 +250,11 @@ public:
           m_doc->SetFont(footerFont);
           m_doc->SetFontSize(scaledBodySize);
           m_doc->SetTextColour(saveTextColour);
-          m_doc->SetXY(m_doc->GetPageWidth() - m_doc->GetRightMargin() - 50,
+          const wxString footerText = _("Continued on next page");
+          const double footerW = m_doc->GetStringWidth(footerText) + 2.0 / m_doc->GetScaleFactor();
+          m_doc->SetXY(m_doc->GetPageWidth() - m_doc->GetRightMargin() - footerW,
                        startY + rowHeight * (rowsPerBlock + 1));
-          m_doc->Cell(50, rowHeight, _("Continued on next page"), 0, 0, wxPDF_ALIGN_RIGHT);
+          m_doc->Cell(footerW, rowHeight, footerText, 0, 0, wxPDF_ALIGN_RIGHT);
         }
 
         if (isSimple)
