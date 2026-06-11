@@ -114,6 +114,30 @@ public:
     // Adjust column widths to fit the available printable width
     double pageWidth = m_doc->GetPageWidth() - m_doc->GetLeftMargin() - m_doc->GetRightMargin();
     int blocksPerPage = 1;
+
+    // When content overflows the page, shrink the font so every cell's text fits within
+    // its measured column width after scaling. String widths scale linearly with font size,
+    // so one pass is exact (padding is fixed, so we account for it separately).
+    double scaledBodySize = m_doc->GetFontSize();
+    if (totalWidth > pageWidth)
+    {
+      const double textOnlyWidth  = totalWidth - static_cast<double>(colCount) * cellPadding;
+      const double textOnlyTarget = pageWidth  - static_cast<double>(colCount) * cellPadding;
+      if (textOnlyWidth > 0 && textOnlyTarget > 0)
+      {
+        const double fontScale = textOnlyTarget / textOnlyWidth;
+        scaledBodySize = std::max(6.0, scaledBodySize * fontScale);
+        const double actualFontScale = scaledBodySize / m_doc->GetFontSize();
+        m_doc->SetFontSize(scaledBodySize);
+        totalWidth = 0;
+        for (size_t col = 0; col < colCount; ++col)
+        {
+          colWidths[col] = std::max(0.0, colWidths[col] - cellPadding) * actualFontScale + cellPadding;
+          totalWidth += colWidths[col];
+        }
+      }
+    }
+
     if (m_options.GetFitToPage())
     {
       // Stretch (or shrink) all columns proportionally to fill the full page width.
@@ -184,7 +208,8 @@ public:
       wxFont headerFont = m_options.GetHeaderFont().IsOk() ? m_options.GetHeaderFont() : m_list->GetFont();
       headerFont.SetWeight(wxFONTWEIGHT_BOLD);
       m_doc->SetFont(headerFont);
-      
+      m_doc->SetFontSize(scaledBodySize);
+
       if (!isSimple)
       {
         if (m_options.GetHeaderBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
@@ -208,6 +233,7 @@ public:
       
       // Reset to body font
       m_doc->SetFont(m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont());
+      m_doc->SetFontSize(scaledBodySize);
     };
 
     int totalRows = m_list->GetItemCount();
@@ -222,6 +248,7 @@ public:
           wxFont footerFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
           footerFont.SetStyle(wxFONTSTYLE_ITALIC);
           m_doc->SetFont(footerFont);
+          m_doc->SetFontSize(scaledBodySize);
           m_doc->SetTextColour(saveTextColour);
           m_doc->SetXY(m_doc->GetPageWidth() - m_doc->GetRightMargin() - 50,
                        startY + rowHeight * (rowsPerBlock + 1));
@@ -238,6 +265,7 @@ public:
             wxFont continuedFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
             continuedFont.SetStyle(wxFONTSTYLE_ITALIC);
             m_doc->SetFont(continuedFont);
+            m_doc->SetFontSize(scaledBodySize);
             m_doc->SetTextColour(saveTextColour);
             m_doc->Cell(0, rowHeight, _("(continued)"), 0, 1, wxPDF_ALIGN_LEFT);
             startY += rowHeight;
