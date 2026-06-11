@@ -107,11 +107,9 @@ void MyFrame::OnExportDirect(wxCommandEvent& WXUNUSED(event))
   doc.AddPage();
   
   wxPdfListCtrlOptions options;
-  options.SetHeaderBackgroundColour(wxPdfColour(230, 200, 180));
-  options.SetHeaderTextColour(*wxBLACK);
   options.SetAlternateRowBackgroundColour(wxPdfColour(240, 240, 240));
   options.SetBorderColour(wxPdfColour(200, 200, 200));
-  
+
   doc.AddList(m_list, options);
   doc.SaveAsFile(saveFileDialog.GetPath());
 }
@@ -135,10 +133,8 @@ void MyFrame::OnExportDC(wxCommandEvent& WXUNUSED(event))
   dc.DrawText("Exported List via wxPdfDC", 10, 10);
   
   wxPdfListCtrlOptions options;
-  options.SetHeaderBackgroundColour(wxPdfColour(230, 200, 180));
-  options.SetHeaderTextColour(*wxBLACK);
   options.SetBorderColour(wxPdfColour(200, 200, 200));
-  
+
   dc.DrawList(m_list, 10, 30, options);
   
   dc.EndPage();
@@ -176,8 +172,6 @@ void MyFrame::OnExportFullWidth(wxCommandEvent& WXUNUSED(event))
   doc.AddPage();
 
   wxPdfListCtrlOptions options;
-  options.SetHeaderBackgroundColour(wxPdfColour(230, 200, 180));
-  options.SetHeaderTextColour(*wxBLACK);
   options.SetAlternateRowBackgroundColour(wxPdfColour(240, 240, 240));
   options.SetBorderColour(wxPdfColour(200, 200, 200));
   options.SetFitToPage(true);

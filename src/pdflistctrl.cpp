@@ -33,6 +33,8 @@ wxPdfListCtrlOptions::wxPdfListCtrlOptions()
   m_showContinued = true;
   m_fitToPage = false;
   m_style = wxPDF_LISTCTRL_STYLE_GRID;
+  m_headerBackgroundColour = wxPdfColour(195, 220, 240);
+  m_headerTextColour = wxPdfColour(0, 0, 0);
   m_borderColour = wxPdfColour();
 }
 
