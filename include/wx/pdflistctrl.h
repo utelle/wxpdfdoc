@@ -29,7 +29,36 @@ enum wxPdfListCtrlStyle
     wxPDF_LISTCTRL_STYLE_SIMPLE  ///< Horizontal rules only — no vertical lines or cell fills (LaTeX \e booktabs style)
 };
 
-/// Class representing options for wxListCtrl export.
+/// Options that control how a wxListCtrl is rendered into a PDF document.
+/**
+ * Pass an instance to wxPdfDocument::AddList() or wxPdfDC::DrawList() to
+ * configure colours, fonts, borders, and layout behaviour.
+ *
+ * \par Example
+ * \code
+ * // Standard grid export
+ * wxPdfDocument doc;
+ * doc.AddPage();
+ *
+ * wxPdfListCtrlOptions options;
+ * options.SetHeaderBackgroundColour(wxPdfColour(220, 220, 255));
+ * options.SetAlternateRowBackgroundColour(wxPdfColour(245, 245, 245));
+ * doc.AddList(myListCtrl, options);
+ * doc.SaveAsFile("grid.pdf");
+ *
+ * // LaTeX booktabs-style export stretched to page width
+ * wxPdfDocument doc2;
+ * doc2.AddPage();
+ *
+ * wxPdfListCtrlOptions simple;
+ * simple.SetStyle(wxPDF_LISTCTRL_STYLE_SIMPLE);
+ * simple.SetFitToPage(true);
+ * doc2.AddList(myListCtrl, simple);
+ * doc2.SaveAsFile("simple.pdf");
+ * \endcode
+ *
+ * \see wxPdfDocument::AddList(), wxPdfDC::DrawList()
+ */
 class WXDLLIMPEXP_PDFDOC wxPdfListCtrlOptions
 {
 public:
