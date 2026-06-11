@@ -262,6 +262,7 @@ lib@WXPDFDOC_LIBNAME@_la_SOURCES = \
     src/pdfimage.cpp \
     src/pdfkernel.cpp \
     src/pdflayer.cpp \
+    src/pdflistctrl.cpp \
     src/pdfobjects.cpp \
     src/pdfocg.cpp \
     src/pdfparser.cpp \
