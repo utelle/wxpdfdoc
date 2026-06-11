@@ -19,6 +19,7 @@
 #include "wx/pdflistctrl.h"
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
+#include <wx/log.h>
 #include "wx/pdfdocument.h"
 #include "wx/pdfdc.h"
 
