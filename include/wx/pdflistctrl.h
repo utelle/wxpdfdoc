@@ -19,6 +19,7 @@
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 #include "wx/pdfcolour.h"
+#include "wx/pdffont.h"
 
 class wxListCtrl;
 
@@ -88,6 +89,30 @@ public:
   * \return The body font
   */
   wxFont GetBodyFont() const { return m_bodyFont; }
+
+  /// Set the PDF font for the column headers (takes precedence over SetHeaderFont())
+  /**
+  * \param font The wxPdfFont to use for headers
+  */
+  void SetHeaderPdfFont(const wxPdfFont& font) { m_headerPdfFont = font; }
+
+  /// Get the PDF font for the column headers
+  /**
+  * \return The header PDF font
+  */
+  wxPdfFont GetHeaderPdfFont() const { return m_headerPdfFont; }
+
+  /// Set the PDF font for the list items (takes precedence over SetBodyFont())
+  /**
+  * \param font The wxPdfFont to use for items
+  */
+  void SetBodyPdfFont(const wxPdfFont& font) { m_bodyPdfFont = font; }
+
+  /// Get the PDF font for the list items
+  /**
+  * \return The body PDF font
+  */
+  wxPdfFont GetBodyPdfFont() const { return m_bodyPdfFont; }
 
   /// Set the background colour for the column headers
   /**
@@ -207,6 +232,8 @@ public:
 private:
   wxFont      m_headerFont;
   wxFont      m_bodyFont;
+  wxPdfFont   m_headerPdfFont;
+  wxPdfFont   m_bodyPdfFont;
   wxPdfColour m_headerBackgroundColour;
   wxPdfColour m_headerTextColour;
   wxPdfColour m_alternateRowBackgroundColour;

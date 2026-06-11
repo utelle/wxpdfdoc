@@ -73,7 +73,10 @@ public:
     size_t colCount = m_list->GetColumnCount();
     std::vector<double> colWidths(colCount);
     
-    m_doc->SetFont(m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont());
+    if (m_options.GetBodyPdfFont().IsValid())
+        m_doc->SetFont(m_options.GetBodyPdfFont(), wxPDF_FONTSTYLE_REGULAR, 0);
+    else
+        m_doc->SetFont(m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont());
     // Cell padding in user units: 4pt converted to the document's unit system
     const double cellPadding = 4.0 / m_doc->GetScaleFactor();
     double totalWidth = 0;
@@ -210,10 +213,14 @@ public:
       m_doc->SetXY(headerX, headerY);
       
       // Determine header font
-      wxFont headerFont = m_options.GetHeaderFont().IsOk() ? m_options.GetHeaderFont() : m_list->GetFont();
-      headerFont.SetWeight(wxFONTWEIGHT_BOLD);
-      m_doc->SetFont(headerFont);
-      m_doc->SetFontSize(scaledBodySize);
+      if (m_options.GetHeaderPdfFont().IsValid())
+          m_doc->SetFont(m_options.GetHeaderPdfFont(), wxPDF_FONTSTYLE_BOLD, scaledBodySize);
+      else {
+          wxFont headerFont = m_options.GetHeaderFont().IsOk() ? m_options.GetHeaderFont() : m_list->GetFont();
+          headerFont.SetWeight(wxFONTWEIGHT_BOLD);
+          m_doc->SetFont(headerFont);
+          m_doc->SetFontSize(scaledBodySize);
+      }
 
       if (!isSimple)
       {
@@ -237,8 +244,12 @@ public:
       }
       
       // Reset to body font
-      m_doc->SetFont(m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont());
-      m_doc->SetFontSize(scaledBodySize);
+      if (m_options.GetBodyPdfFont().IsValid())
+          m_doc->SetFont(m_options.GetBodyPdfFont(), wxPDF_FONTSTYLE_REGULAR, scaledBodySize);
+      else {
+          m_doc->SetFont(m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont());
+          m_doc->SetFontSize(scaledBodySize);
+      }
     };
 
     for (int row = 0; row < totalRows; )
@@ -249,10 +260,14 @@ public:
         // Add "Continued on next page" if another page follows
         if (m_options.GetShowContinued())
         {
-          wxFont footerFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
-          footerFont.SetStyle(wxFONTSTYLE_ITALIC);
-          m_doc->SetFont(footerFont);
-          m_doc->SetFontSize(scaledBodySize);
+          if (m_options.GetBodyPdfFont().IsValid())
+              m_doc->SetFont(m_options.GetBodyPdfFont(), wxPDF_FONTSTYLE_ITALIC, scaledBodySize);
+          else {
+              wxFont footerFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
+              footerFont.SetStyle(wxFONTSTYLE_ITALIC);
+              m_doc->SetFont(footerFont);
+              m_doc->SetFontSize(scaledBodySize);
+          }
           m_doc->SetTextColour(saveTextColour);
           const wxString footerText = _("Continued on next page");
           const double footerW = m_doc->GetStringWidth(footerText) + 2.0 / m_doc->GetScaleFactor();
@@ -268,10 +283,14 @@ public:
 
         if (m_options.GetShowContinued())
         {
-            wxFont continuedFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
-            continuedFont.SetStyle(wxFONTSTYLE_ITALIC);
-            m_doc->SetFont(continuedFont);
-            m_doc->SetFontSize(scaledBodySize);
+            if (m_options.GetBodyPdfFont().IsValid())
+                m_doc->SetFont(m_options.GetBodyPdfFont(), wxPDF_FONTSTYLE_ITALIC, scaledBodySize);
+            else {
+                wxFont continuedFont = m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_list->GetFont();
+                continuedFont.SetStyle(wxFONTSTYLE_ITALIC);
+                m_doc->SetFont(continuedFont);
+                m_doc->SetFontSize(scaledBodySize);
+            }
             m_doc->SetTextColour(saveTextColour);
             m_doc->Cell(0, rowHeight, _("(continued)"), 0, 1, wxPDF_ALIGN_LEFT);
             startY += rowHeight;
