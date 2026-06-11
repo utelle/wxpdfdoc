@@ -32,6 +32,7 @@ wxPdfListCtrlOptions::wxPdfListCtrlOptions()
   m_drawColumnBorders = true;
   m_showContinued = true;
   m_fitToPage = false;
+  m_style = wxPDF_LISTCTRL_STYLE_GRID;
   m_borderColour = wxPdfColour();
 }
 
@@ -139,12 +140,31 @@ public:
       }
     }
 
+    // SIMPLE style suppresses multi-column layout (rules span the full table width)
+    if (m_options.GetStyle() == wxPDF_LISTCTRL_STYLE_SIMPLE)
+      blocksPerPage = 1;
+
     // Drawing — font size is in points; divide by scale factor to get user units
     double rowHeight = m_doc->GetFontSize() / m_doc->GetScaleFactor() * 1.5;
     double blockWidth = totalWidth + 5.0 / m_doc->GetScaleFactor(); // Margin between blocks in user units
     double startX = x;
     double startY = y;
     double pageHeight = m_doc->GetPageHeight() - m_doc->GetBreakMargin();
+
+    const bool isSimple = (m_options.GetStyle() == wxPDF_LISTCTRL_STYLE_SIMPLE);
+    // booktabs-style rule weights in user units (toprule/bottomrule thicker than midrule)
+    const double thickRule = 0.5 / m_doc->GetScaleFactor();
+    const double thinRule  = 0.3 / m_doc->GetScaleFactor();
+    double lastDrawnY = startY;
+
+    auto DrawHRule = [&](double ruleX, double ruleY, double ruleLineWidth) {
+      if (m_options.GetBorderColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+        m_doc->SetDrawColour(m_options.GetBorderColour());
+      m_doc->SetLineWidth(ruleLineWidth);
+      m_doc->Line(ruleX, ruleY, ruleX + totalWidth, ruleY);
+      m_doc->SetLineWidth(saveLineWidth);
+      m_doc->SetDrawColour(saveDrawColour);
+    };
 
     auto CalcRowsPerBlock = [&](double sy) {
       int rpb = static_cast<int>((pageHeight - sy) / rowHeight) - 1; // -1 for header
@@ -165,13 +185,12 @@ public:
       headerFont.SetWeight(wxFONTWEIGHT_BOLD);
       m_doc->SetFont(headerFont);
       
-      if (m_options.GetHeaderBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+      if (!isSimple)
       {
-        m_doc->SetFillColour(m_options.GetHeaderBackgroundColour());
-      }
-      if (m_options.GetHeaderTextColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
-      {
-        m_doc->SetTextColour(m_options.GetHeaderTextColour());
+        if (m_options.GetHeaderBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+          m_doc->SetFillColour(m_options.GetHeaderBackgroundColour());
+        if (m_options.GetHeaderTextColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+          m_doc->SetTextColour(m_options.GetHeaderTextColour());
       }
 
       for (size_t col = 0; col < colCount; ++col)
@@ -179,14 +198,12 @@ public:
         wxListItem item;
         item.SetMask(wxLIST_MASK_TEXT);
         m_list->GetColumn(col, item);
-        
-        if (m_options.GetBorderColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
-        {
+
+        if (!isSimple && m_options.GetBorderColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
           m_doc->SetDrawColour(m_options.GetBorderColour());
-        }
-        
-        m_doc->Cell(colWidths[col], rowHeight, item.GetText(), wxPDF_BORDER_FRAME, 0, wxPDF_ALIGN_CENTER,
-                    m_options.GetHeaderBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN ? 1 : 0);
+
+        int hdrFill = (!isSimple && m_options.GetHeaderBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN) ? 1 : 0;
+        m_doc->Cell(colWidths[col], rowHeight, item.GetText(), isSimple ? 0 : wxPDF_BORDER_FRAME, 0, wxPDF_ALIGN_CENTER, hdrFill);
       }
       
       // Reset to body font
@@ -212,6 +229,8 @@ public:
           m_doc->Cell(50, rowHeight, _("Continued on next page"), 0, 0, wxPDF_ALIGN_RIGHT);
         }
 
+        if (isSimple)
+          DrawHRule(startX, lastDrawnY, thickRule);
         m_doc->AddPage();
         startY = m_doc->GetTopMargin(); // Reset startY on new page
         pages++;
@@ -244,8 +263,12 @@ public:
         // Draw header if this is the start of a block on the page
         if (row == 0 || (row % rowsPerBlock == 0))
         {
+          if (isSimple)
+            DrawHRule(curX, startY, thickRule);
           DrawHeader(curX, startY);
           curY += rowHeight;
+          if (isSimple)
+            DrawHRule(curX, curY, thinRule);
         }
 
         // Draw rows for this block
@@ -256,8 +279,7 @@ public:
           
           m_doc->SetTextColour(saveTextColour); // Ensure text color is reset for each row
           
-          // ... [drawing code for row]
-          bool useAlt = (currentRow % 2 != 0) && m_options.GetAlternateRowBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN;
+          bool useAlt = !isSimple && (currentRow % 2 != 0) && m_options.GetAlternateRowBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN;
           if (useAlt)
           {
             m_doc->SetFillColour(m_options.GetAlternateRowBackgroundColour());
@@ -267,30 +289,34 @@ public:
           for (size_t col = 0; col < colCount; ++col)
           {
             int border = 0;
-            if (m_options.GetDrawRowBorders())
+            if (!isSimple)
+            {
+              if (m_options.GetDrawRowBorders())
                 border |= wxPDF_BORDER_TOP | wxPDF_BORDER_BOTTOM;
-            if (m_options.GetDrawColumnBorders())
+              if (m_options.GetDrawColumnBorders())
                 border |= wxPDF_BORDER_LEFT | wxPDF_BORDER_RIGHT;
-            
+            }
+
             wxString text = m_list->GetItemText(currentRow, col);
-            
+
             // Set cell colors
             bool fill = false;
-            wxColour bgColour = m_list->GetItemBackgroundColour(currentRow);
-            if (bgColour.IsOk())
+            if (!isSimple)
             {
-              m_doc->SetFillColour(bgColour);
-              fill = true;
-            }
-            else if (useAlt)
-            {
-              m_doc->SetFillColour(m_options.GetAlternateRowBackgroundColour());
-              fill = true;
-            }
-            
-            if (m_options.GetBorderColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
-            {
-              m_doc->SetDrawColour(m_options.GetBorderColour());
+              wxColour bgColour = m_list->GetItemBackgroundColour(currentRow);
+              if (bgColour.IsOk())
+              {
+                m_doc->SetFillColour(bgColour);
+                fill = true;
+              }
+              else if (useAlt)
+              {
+                m_doc->SetFillColour(m_options.GetAlternateRowBackgroundColour());
+                fill = true;
+              }
+
+              if (m_options.GetBorderColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN)
+                m_doc->SetDrawColour(m_options.GetBorderColour());
             }
             
             wxColour textColour = m_list->GetItemTextColour(currentRow);
@@ -338,10 +364,13 @@ public:
             m_doc->Cell(colWidths[col], rowHeight, text, border, 0, wxPDF_ALIGN_LEFT, fill ? 1 : 0);
           }
           curY += rowHeight;
+          lastDrawnY = curY;
         }
       }
       row += rowsPerBlock * blocksPerPage;
     }
+    if (isSimple)
+      DrawHRule(startX, lastDrawnY, thickRule);
     // Restore state
     m_doc->SetDrawColour(saveDrawColour);
     m_doc->SetFillColour(saveFillColour);

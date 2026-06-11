@@ -22,6 +22,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
   EVT_MENU(ID_EXPORT_DIRECT,     MyFrame::OnExportDirect)
   EVT_MENU(ID_EXPORT_DC,         MyFrame::OnExportDC)
   EVT_MENU(ID_EXPORT_FULL_WIDTH, MyFrame::OnExportFullWidth)
+  EVT_MENU(ID_EXPORT_SIMPLE,     MyFrame::OnExportSimple)
   EVT_MENU(wxID_EXIT,            MyFrame::OnExit)
 wxEND_EVENT_TABLE()
 
@@ -31,7 +32,8 @@ MyFrame::MyFrame(const wxString& title)
   wxMenu* menuFile = new wxMenu;
   menuFile->Append(ID_EXPORT_DIRECT,     "&Export to PDF (Direct)\tCtrl-E",     "Export using wxPdfDocument::AddList");
   menuFile->Append(ID_EXPORT_DC,         "Export to PDF (via &DC)\tCtrl-D",     "Export using wxPdfDC::DrawList");
-  menuFile->Append(ID_EXPORT_FULL_WIDTH, "Export to PDF (&Full Width)\tCtrl-F", "Export with columns stretched to page width");
+  menuFile->Append(ID_EXPORT_FULL_WIDTH, "Export to PDF (&Full Width)\tCtrl-F",  "Export with columns stretched to page width");
+  menuFile->Append(ID_EXPORT_SIMPLE,     "Export to PDF (&Simple/LaTeX)\tCtrl-L", "Export with LaTeX booktabs-style rules only");
   menuFile->AppendSeparator();
   menuFile->Append(wxID_EXIT);
 
@@ -139,6 +141,25 @@ void MyFrame::OnExportDC(wxCommandEvent& WXUNUSED(event))
   
   dc.EndPage();
   dc.EndDoc();
+}
+
+void MyFrame::OnExportSimple(wxCommandEvent& WXUNUSED(event))
+{
+  wxFileDialog saveFileDialog(this, _("Save PDF file"), "", "list_simple.pdf",
+    "PDF files (*.pdf)|*.pdf", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+
+  if (saveFileDialog.ShowModal() == wxID_CANCEL)
+    return;
+
+  wxPdfDocument doc;
+  doc.AddPage();
+
+  wxPdfListCtrlOptions options;
+  options.SetStyle(wxPDF_LISTCTRL_STYLE_SIMPLE);
+  options.SetFitToPage(true);
+
+  doc.AddList(m_list, options);
+  doc.SaveAsFile(saveFileDialog.GetPath());
 }
 
 void MyFrame::OnExportFullWidth(wxCommandEvent& WXUNUSED(event))

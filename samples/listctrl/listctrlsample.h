@@ -22,6 +22,7 @@ private:
   void OnExportDirect(wxCommandEvent& event);
   void OnExportDC(wxCommandEvent& event);
   void OnExportFullWidth(wxCommandEvent& event);
+  void OnExportSimple(wxCommandEvent& event);
   void OnExit(wxCommandEvent& event);
 
   wxListCtrl* m_list;
@@ -42,7 +43,8 @@ enum
 {
   ID_EXPORT_DIRECT = wxID_HIGHEST + 1,
   ID_EXPORT_DC,
-  ID_EXPORT_FULL_WIDTH
+  ID_EXPORT_FULL_WIDTH,
+  ID_EXPORT_SIMPLE
 };
 
 #endif

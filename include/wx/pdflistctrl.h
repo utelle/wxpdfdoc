@@ -22,6 +22,13 @@
 
 class wxListCtrl;
 
+/// Table rendering style for wxListCtrl export.
+enum wxPdfListCtrlStyle
+{
+    wxPDF_LISTCTRL_STYLE_GRID,   ///< Full grid with borders and optional cell fills (default)
+    wxPDF_LISTCTRL_STYLE_SIMPLE  ///< Horizontal rules only — no vertical lines or cell fills (LaTeX \e booktabs style)
+};
+
 /// Class representing options for wxListCtrl export.
 class WXDLLIMPEXP_PDFDOC wxPdfListCtrlOptions
 {
@@ -153,6 +160,21 @@ public:
   */
   bool GetFitToPage() const { return m_fitToPage; }
 
+  /// Set the table rendering style.
+  /**
+  * \c wxPDF_LISTCTRL_STYLE_GRID (default) draws full cell borders and honours fill colours.
+  * \c wxPDF_LISTCTRL_STYLE_SIMPLE renders only a top rule, a rule below the header, and a
+  * bottom rule with no vertical lines or cell fills, analogous to the LaTeX \c booktabs package.
+  * \param style The rendering style
+  */
+  void SetStyle(wxPdfListCtrlStyle style) { m_style = style; }
+
+  /// Get the table rendering style.
+  /**
+  * \return The current rendering style
+  */
+  wxPdfListCtrlStyle GetStyle() const { return m_style; }
+
 private:
   wxFont      m_headerFont;
   wxFont      m_bodyFont;
@@ -160,10 +182,11 @@ private:
   wxPdfColour m_headerTextColour;
   wxPdfColour m_alternateRowBackgroundColour;
   wxPdfColour m_borderColour;
-  bool        m_drawRowBorders;
-  bool        m_drawColumnBorders;
-  bool        m_showContinued;
-  bool        m_fitToPage;
+  bool                m_drawRowBorders;
+  bool                m_drawColumnBorders;
+  bool                m_showContinued;
+  bool                m_fitToPage;
+  wxPdfListCtrlStyle  m_style;
 };
 
 #endif
