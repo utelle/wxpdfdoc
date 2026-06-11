@@ -190,14 +190,16 @@ public:
       m_doc->SetDrawColour(saveDrawColour);
     };
 
-    auto CalcRowsPerBlock = [&](double sy) {
+    int totalRows = m_list->GetItemCount();
+
+    auto CalcRowsPerBlock = [&](double sy, int currentRow) {
       int rpb = static_cast<int>((pageHeight - sy) / rowHeight) - 1; // -1 for header
-      if (m_options.GetShowContinued())
-        rpb -= 1; // Reserve space for footer
-      return (rpb < 1) ? m_list->GetItemCount() : rpb;
+      if (m_options.GetShowContinued() && currentRow + rpb * blocksPerPage < totalRows)
+        rpb -= 1; // Reserve space for "Continued" footer only when another page follows
+      return (rpb < 1) ? totalRows : rpb;
     };
 
-    int rowsPerBlock = CalcRowsPerBlock(startY);
+    int rowsPerBlock = CalcRowsPerBlock(startY, 0);
     int nextPageRow = rowsPerBlock * blocksPerPage;
 
     auto DrawHeader = [&](double headerX, double headerY)
@@ -236,7 +238,6 @@ public:
       m_doc->SetFontSize(scaledBodySize);
     };
 
-    int totalRows = m_list->GetItemCount();
     for (int row = 0; row < totalRows; )
     {
       // Check if we need a new page
@@ -275,7 +276,7 @@ public:
 
         // Recalculate rows per block for this page's available height,
         // then advance the page-break threshold by the new stride
-        rowsPerBlock = CalcRowsPerBlock(startY);
+        rowsPerBlock = CalcRowsPerBlock(startY, row);
         nextPageRow += rowsPerBlock * blocksPerPage;
       }
 
