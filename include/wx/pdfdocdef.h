@@ -69,27 +69,16 @@ Or you can send a mail to the author
 \section version Current Version
 
 <dl>
-<dt><b>1.4.0</b> - <i>May 2026</i></dt>
+
+<dt><b>1.4.1</b> - <i>June 2026</i></dt>
 <dd>
 Changes:<br>
-- Added wxPdfGraphicsContext (contributed by Blake-Madden)
-- Added support for granular font weights (contributed by Blake-Madden)
-- Updated 3rd party libraries <i>zint</i> and <i>woff2</i>
-- Improved documentation (contributed by Blake-Madden)
-- Changed default encryption to AES-256 instead of RC4
-- Applied various code improvements
-- Added `wxPdfGraphicsContext` implementation (and sample application)
-- Added support for granular font weights (Thin to ExtraHeavy)
-- Added linear and radial shading patterns for drawing and filling
-- Added font style and weight attributes to font description
-
-Fixed bugs:<br>
-- Fixed issue where bold fonts were not correctly selected when using <b>wxFont</b> with <b>wxFONTWEIGHT_BOLD</b>
-- Fixed various compile time warnings
-- Fixed several long-standing bugs
-
+- Added export of any `wxListCtrl` directly to PDF via `wxPdfDocument::AddList()` or `wxPdfDC::DrawList()` (contributed by Blake Madden)
+- Added VC++ 2026 build support
 
 </dd>
+
+</dl>
 
 For a detailed change log see the \ref history.
 
@@ -151,6 +140,27 @@ For detailed license information \see files pdfencrypt.cpp and pdfrijndael.h.
 /** \page history Version history
 
 <dl>
+
+<dt><b>1.4.0</b> - <i>May 2026</i></dt>
+<dd>
+Changes:<br>
+- Added wxPdfGraphicsContext (contributed by Blake Madden)
+- Added support for granular font weights (contributed by Blake Madden)
+- Updated 3rd party libraries <i>zint</i> and <i>woff2</i>
+- Improved documentation (contributed by Blake Madden)
+- Changed default encryption to AES-256 instead of RC4
+- Applied various code improvements
+- Added `wxPdfGraphicsContext` implementation (and sample application)
+- Added support for granular font weights (Thin to ExtraHeavy)
+- Added linear and radial shading patterns for drawing and filling
+- Added font style and weight attributes to font description
+
+Fixed bugs:<br>
+- Fixed issue where bold fonts were not correctly selected when using <b>wxFont</b> with <b>wxFONTWEIGHT_BOLD</b>
+- Fixed various compile time warnings
+- Fixed several long-standing bugs
+
+</dd>
 
 <dt><b>1.3.1</b> - <i>April 2025</i></dt>
 <dd>

@@ -18,6 +18,10 @@
 
 #include "listctrlsample.h"
 
+#ifndef __WXMSW__
+#include "mondrian.xpm"
+#endif
+
 wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
   EVT_MENU(ID_EXPORT_DIRECT,     MyFrame::OnExportDirect)
   EVT_MENU(ID_EXPORT_DC,         MyFrame::OnExportDC)
@@ -288,6 +292,8 @@ void MyFrame::OnExit(wxCommandEvent& WXUNUSED(event))
 bool MyApp::OnInit()
 {
   MyFrame* frame = new MyFrame("wxPdfDocument wxListCtrl Export Sample");
+  // Load icon and bitmap
+  frame->SetIcon( wxICON( mondrian) );
   frame->Show(true);
   return true;
 }

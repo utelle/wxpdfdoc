@@ -245,6 +245,7 @@ GENERATED += $(OBJDIR)/pdfgraphics.o
 GENERATED += $(OBJDIR)/pdfimage.o
 GENERATED += $(OBJDIR)/pdfkernel.o
 GENERATED += $(OBJDIR)/pdflayer.o
+GENERATED += $(OBJDIR)/pdflistctrl.o
 GENERATED += $(OBJDIR)/pdfobjects.o
 GENERATED += $(OBJDIR)/pdfocg.o
 GENERATED += $(OBJDIR)/pdfparser.o
@@ -297,6 +298,7 @@ OBJECTS += $(OBJDIR)/pdfgraphics.o
 OBJECTS += $(OBJDIR)/pdfimage.o
 OBJECTS += $(OBJDIR)/pdfkernel.o
 OBJECTS += $(OBJDIR)/pdflayer.o
+OBJECTS += $(OBJDIR)/pdflistctrl.o
 OBJECTS += $(OBJDIR)/pdfobjects.o
 OBJECTS += $(OBJDIR)/pdfocg.o
 OBJECTS += $(OBJDIR)/pdfparser.o
@@ -484,6 +486,9 @@ $(OBJDIR)/pdfkernel.o: ../src/pdfkernel.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdflayer.o: ../src/pdflayer.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/pdflistctrl.o: ../src/pdflistctrl.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfobjects.o: ../src/pdfobjects.cpp

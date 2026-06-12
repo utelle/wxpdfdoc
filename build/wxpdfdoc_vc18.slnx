@@ -17,6 +17,8 @@
   </Project>
   <Project Path="libzint_vc18.vcxproj" Id="C1FD7079-2DDD-EF14-36F5-7AEBA2535676">
   </Project>
+  <Project Path="wxpdfdoc_vc18_listctrl.vcxproj" Id="F6A4C8CE-E271-23DA-0B8B-1182F7B65868">
+  </Project>
   <Project Path="wxpdfdoc_vc18_makefont.vcxproj" Id="9A6E813F-863B-DC4A-AF54-CAF29B8011D9">
   </Project>
   <Project Path="wxpdfdoc_vc18_minimal.vcxproj" Id="6C1D3BC7-D8FC-B962-E114-45394D7320C4">

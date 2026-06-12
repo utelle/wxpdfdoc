@@ -17,6 +17,7 @@ ifeq ($(config),debug_win32)
   minimal_config = debug_win32
   dcsample_config = debug_win32
   gcsample_config = debug_win32
+  listctrl_config = debug_win32
   makefont_config = debug_win32
   showfont_config = debug_win32
 
@@ -27,6 +28,7 @@ else ifeq ($(config),debug_x64)
   minimal_config = debug_x64
   dcsample_config = debug_x64
   gcsample_config = debug_x64
+  listctrl_config = debug_x64
   makefont_config = debug_x64
   showfont_config = debug_x64
 
@@ -37,6 +39,7 @@ else ifeq ($(config),release_win32)
   minimal_config = release_win32
   dcsample_config = release_win32
   gcsample_config = release_win32
+  listctrl_config = release_win32
   makefont_config = release_win32
   showfont_config = release_win32
 
@@ -47,6 +50,7 @@ else ifeq ($(config),release_x64)
   minimal_config = release_x64
   dcsample_config = release_x64
   gcsample_config = release_x64
+  listctrl_config = release_x64
   makefont_config = release_x64
   showfont_config = release_x64
 
@@ -57,6 +61,7 @@ else ifeq ($(config),debug_wxdll_win32)
   minimal_config = debug_wxdll_win32
   dcsample_config = debug_wxdll_win32
   gcsample_config = debug_wxdll_win32
+  listctrl_config = debug_wxdll_win32
   makefont_config = debug_wxdll_win32
   showfont_config = debug_wxdll_win32
 
@@ -67,6 +72,7 @@ else ifeq ($(config),debug_wxdll_x64)
   minimal_config = debug_wxdll_x64
   dcsample_config = debug_wxdll_x64
   gcsample_config = debug_wxdll_x64
+  listctrl_config = debug_wxdll_x64
   makefont_config = debug_wxdll_x64
   showfont_config = debug_wxdll_x64
 
@@ -77,6 +83,7 @@ else ifeq ($(config),release_wxdll_win32)
   minimal_config = release_wxdll_win32
   dcsample_config = release_wxdll_win32
   gcsample_config = release_wxdll_win32
+  listctrl_config = release_wxdll_win32
   makefont_config = release_wxdll_win32
   showfont_config = release_wxdll_win32
 
@@ -87,6 +94,7 @@ else ifeq ($(config),release_wxdll_x64)
   minimal_config = release_wxdll_x64
   dcsample_config = release_wxdll_x64
   gcsample_config = release_wxdll_x64
+  listctrl_config = release_wxdll_x64
   makefont_config = release_wxdll_x64
   showfont_config = release_wxdll_x64
 
@@ -97,6 +105,7 @@ else ifeq ($(config),debug_dll_win32)
   minimal_config = debug_dll_win32
   dcsample_config = debug_dll_win32
   gcsample_config = debug_dll_win32
+  listctrl_config = debug_dll_win32
   makefont_config = debug_dll_win32
   showfont_config = debug_dll_win32
 
@@ -107,6 +116,7 @@ else ifeq ($(config),debug_dll_x64)
   minimal_config = debug_dll_x64
   dcsample_config = debug_dll_x64
   gcsample_config = debug_dll_x64
+  listctrl_config = debug_dll_x64
   makefont_config = debug_dll_x64
   showfont_config = debug_dll_x64
 
@@ -117,6 +127,7 @@ else ifeq ($(config),release_dll_win32)
   minimal_config = release_dll_win32
   dcsample_config = release_dll_win32
   gcsample_config = release_dll_win32
+  listctrl_config = release_dll_win32
   makefont_config = release_dll_win32
   showfont_config = release_dll_win32
 
@@ -127,6 +138,7 @@ else ifeq ($(config),release_dll_x64)
   minimal_config = release_dll_x64
   dcsample_config = release_dll_x64
   gcsample_config = release_dll_x64
+  listctrl_config = release_dll_x64
   makefont_config = release_dll_x64
   showfont_config = release_dll_x64
 
@@ -134,7 +146,7 @@ else
   $(error "invalid configuration $(config)")
 endif
 
-PROJECTS := wxpdfdoc libwoff2 libzint minimal dcsample gcsample makefont showfont
+PROJECTS := wxpdfdoc libwoff2 libzint minimal dcsample gcsample listctrl makefont showfont
 
 .PHONY: all clean help $(PROJECTS) 
 
@@ -162,7 +174,7 @@ ifneq (,$(libzint_config))
 	@${MAKE} --no-print-directory -C . -f libzint.make config=$(libzint_config) wxFlavour=$(wxFlavour)
 endif
 
-minimal: wxpdfdoc
+minimal: wxpdfdoc libwoff2 libzint
 ifneq (,$(minimal_config))
 	@echo "==== Building minimal ($(minimal_config)) ===="
 ifeq ($(wxMonolithic),1) 
@@ -172,7 +184,7 @@ else
 endif
 endif
 
-dcsample: wxpdfdoc
+dcsample: wxpdfdoc libwoff2 libzint
 ifneq (,$(dcsample_config))
 	@echo "==== Building dcsample ($(dcsample_config)) ===="
 ifeq ($(wxMonolithic),1) 
@@ -182,7 +194,7 @@ else
 endif
 endif
 
-gcsample: wxpdfdoc
+gcsample: wxpdfdoc libwoff2 libzint
 ifneq (,$(gcsample_config))
 	@echo "==== Building gcsample ($(gcsample_config)) ===="
 ifeq ($(wxMonolithic),1) 
@@ -192,7 +204,17 @@ else
 endif
 endif
 
-makefont: wxpdfdoc
+listctrl: wxpdfdoc libwoff2 libzint
+ifneq (,$(gcsample_config))
+	@echo "==== Building listctrl ($(listctrl_config)) ===="
+ifeq ($(wxMonolithic),1) 
+	@${MAKE} --no-print-directory -C . -f listctrl_mono.make config=$(listctrl_config) wxFlavour=$(wxFlavour)
+else
+	@${MAKE} --no-print-directory -C . -f listctrl.make config=$(listctrl_config) wxFlavour=$(wxFlavour)
+endif
+endif
+
+makefont: wxpdfdoc libwoff2 libzint
 ifneq (,$(makefont_config))
 	@echo "==== Building makefont ($(makefont_config)) ===="
 ifeq ($(wxMonolithic),1) 
@@ -202,7 +224,7 @@ else
 endif
 endif
 
-showfont: wxpdfdoc
+showfont: wxpdfdoc libwoff2 libzint
 ifneq (,$(showfont_config))
 	@echo "==== Building showfont ($(showfont_config)) ===="
 ifeq ($(wxMonolithic),1) 
@@ -220,6 +242,7 @@ ifeq ($(wxMonolithic),1)
 	@${MAKE} --no-print-directory -C . -f minimal_mono.make clean
 	@${MAKE} --no-print-directory -C . -f dcsample_mono.make clean
 	@${MAKE} --no-print-directory -C . -f gcsample_mono.make clean
+	@${MAKE} --no-print-directory -C . -f listctrl_mono.make clean
 	@${MAKE} --no-print-directory -C . -f makefont_mono.make clean
 	@${MAKE} --no-print-directory -C . -f showfont_mono.make clean
 else
@@ -229,6 +252,7 @@ else
 	@${MAKE} --no-print-directory -C . -f minimal.make clean
 	@${MAKE} --no-print-directory -C . -f dcsample.make clean
 	@${MAKE} --no-print-directory -C . -f gcsample.make clean
+	@${MAKE} --no-print-directory -C . -f listctrl.make clean
 	@${MAKE} --no-print-directory -C . -f makefont.make clean
 	@${MAKE} --no-print-directory -C . -f showfont.make clean
 endif
@@ -259,6 +283,7 @@ help:
 	@echo "   minimal"
 	@echo "   dcsample"
 	@echo "   gcsample"
+	@echo "   listctrl"
 	@echo "   makefont"
 	@echo "   showfont"
 	@echo ""

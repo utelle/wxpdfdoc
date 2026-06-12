@@ -150,6 +150,34 @@ project "gcsample"
   entrypoint "WinMainCRTStartup"
   links { "wxpdfdoc" }
 
+-- listctrl sample
+project "listctrl"
+  location(BUILDDIR)
+  language "C++"
+  cppdialect "C++11"
+  kind "WindowedApp"
+
+  if (is_msvc) then
+    local prj = project()
+    prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_listctrl"
+  end
+  if wxMonolithic then
+    local prj = project()
+    prj.filename = "listctrl_mono"
+  end
+
+  use_filters( "PDFDOC", "samples/listctrl", "adv,richtext,html,core,xml" )
+
+  files { "samples/listctrl/*.cpp", "samples/listctrl/*.rc" }
+  vpaths {
+    ["Header Files"] = { "**.h" },
+    ["Source Files"] = { "**.cpp", "**.rc" }
+  }
+  includedirs { "samples/listctrl", "include" }
+  characterset "Unicode"
+  entrypoint "WinMainCRTStartup"
+  links { "wxpdfdoc" }
+
 -- MakeFont utility
 project "makefont"
   location(BUILDDIR)

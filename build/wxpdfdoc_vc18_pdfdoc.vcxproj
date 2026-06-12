@@ -613,6 +613,7 @@
     <ClInclude Include="..\include\wx\pdflayer.h" />
     <ClInclude Include="..\include\wx\pdflinestyle.h" />
     <ClInclude Include="..\include\wx\pdflinks.h" />
+    <ClInclude Include="..\include\wx\pdflistctrl.h" />
     <ClInclude Include="..\include\wx\pdfobjects.h" />
     <ClInclude Include="..\include\wx\pdfparser.h" />
     <ClInclude Include="..\include\wx\pdfpattern.h" />
@@ -679,6 +680,7 @@
     <ClCompile Include="..\src\pdfimage.cpp" />
     <ClCompile Include="..\src\pdfkernel.cpp" />
     <ClCompile Include="..\src\pdflayer.cpp" />
+    <ClCompile Include="..\src\pdflistctrl.cpp" />
     <ClCompile Include="..\src\pdfobjects.cpp" />
     <ClCompile Include="..\src\pdfocg.cpp" />
     <ClCompile Include="..\src\pdfparser.cpp" />
