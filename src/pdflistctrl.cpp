@@ -26,6 +26,7 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
+#include <map>
 
 wxPdfListCtrlOptions::wxPdfListCtrlOptions()
 {
@@ -45,12 +46,12 @@ class wxPdfListCtrlExporter
 {
 public:
   wxPdfListCtrlExporter(wxPdfDocument* doc, wxListCtrl* list, const wxPdfListCtrlOptions& options)
-    : m_doc(doc), m_list(list), m_options(options), m_dc(NULL)
+    : m_doc(doc), m_list(list), m_options(options), m_dc(NULL), m_exportId(ms_exportCounter++)
   {
   }
 
   wxPdfListCtrlExporter(wxPdfDC* dc, wxListCtrl* list, const wxPdfListCtrlOptions& options)
-    : m_doc(dc->GetPdfDocument()), m_list(list), m_options(options), m_dc(dc)
+    : m_doc(dc->GetPdfDocument()), m_list(list), m_options(options), m_dc(dc), m_exportId(ms_exportCounter++)
   {
   }
 
@@ -424,7 +425,9 @@ public:
                     text = wxS("     ") + text;
                   m_doc->Cell(colWidths[col], rowHeight, text, border, 0, colAligns[col], fill ? 1 : 0);
                   drawCell = false;
-                  m_doc->Image(wxString::Format(wxS("listicon_%d"), info.GetImage()),
+                  // Include the export ID in the resource name so that icons from
+                  // different image lists don't collide in the document's image cache
+                  m_doc->Image(wxString::Format(wxS("listicon_%d_%d"), m_exportId, info.GetImage()),
                                                 bmp.ConvertToImage(), iconX, iconY, imgW, imgH);
                 }
               }
@@ -456,7 +459,14 @@ private:
   wxListCtrl*    m_list;
   const wxPdfListCtrlOptions& m_options;
   wxPdfDC*       m_dc;
+  // Unique ID per export, used to keep icon resource names
+  // from different image lists apart
+  int m_exportId;
+
+  static int ms_exportCounter;
 };
+
+int wxPdfListCtrlExporter::ms_exportCounter = 0;
 
 // --- API Implementation ---
 

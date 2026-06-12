@@ -28,6 +28,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
   EVT_MENU(ID_EXPORT_FULL_WIDTH, MyFrame::OnExportFullWidth)
   EVT_MENU(ID_EXPORT_SIMPLE,     MyFrame::OnExportSimple)
   EVT_MENU(ID_EXPORT_FINANCIAL,  MyFrame::OnExportFinancial)
+  EVT_MENU(ID_EXPORT_TWO_LISTS,  MyFrame::OnExportTwoLists)
   EVT_MENU(wxID_EXIT,            MyFrame::OnExit)
 wxEND_EVENT_TABLE()
 
@@ -40,6 +41,7 @@ MyFrame::MyFrame(const wxString& title)
   menuFile->Append(ID_EXPORT_FULL_WIDTH, "Export to PDF (&Full Width)\tCtrl-F",  "Export with columns stretched to page width");
   menuFile->Append(ID_EXPORT_SIMPLE,     "Export to PDF (&Simple/LaTeX)\tCtrl-L",    "Export with LaTeX booktabs-style rules only");
   menuFile->Append(ID_EXPORT_FINANCIAL,  "Export Financial Data (Lan&dscape)\tCtrl-G", "Export sample ledger with long note cells");
+  menuFile->Append(ID_EXPORT_TWO_LISTS,  "Export Two Lists (different &icons)\tCtrl-I", "Export two list controls with separate image lists");
   menuFile->AppendSeparator();
   menuFile->Append(wxID_EXIT);
 
@@ -282,6 +284,86 @@ void MyFrame::OnExportFinancial(wxCommandEvent& WXUNUSED(event))
   doc.AddList(fin, options);
   doc.SaveAsFile(saveFileDialog.GetPath());
   fin->Destroy();
+}
+
+void MyFrame::OnExportTwoLists(wxCommandEvent& WXUNUSED(event))
+{
+  wxFileDialog saveFileDialog(this, _("Save PDF file"), "", "list_two_lists.pdf",
+    "PDF files (*.pdf)|*.pdf", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+  if (saveFileDialog.ShowModal() == wxID_CANCEL)
+    return;
+
+  // First list: build problems, with its own image list of warning and error icons
+  wxListCtrl* problems = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                                        wxLC_REPORT);
+  problems->Hide();
+  wxImageList* problemIcons = new wxImageList(16, 16);
+  problemIcons->Add(wxArtProvider::GetIcon(wxART_WARNING, wxART_MENU, wxSize(16, 16)));
+  problemIcons->Add(wxArtProvider::GetIcon(wxART_ERROR, wxART_MENU, wxSize(16, 16)));
+  // AssignImageList() hands ownership to the control, so it is freed on Destroy()
+  problems->AssignImageList(problemIcons, wxIMAGE_LIST_SMALL);
+
+  problems->InsertColumn(0, "Severity", wxLIST_FORMAT_LEFT, 100);
+  problems->InsertColumn(1, "Message", wxLIST_FORMAT_LEFT, 250);
+
+  struct ProblemRow
+  {
+    const char* severity;
+    // Index into problemIcons: 0 = warning, 1 = error
+    int icon;
+    const char* message;
+  };
+
+  static const ProblemRow problemRows[] =
+  {
+    { "Warning", 0, "Variable 'total' may be used uninitialized" },
+    { "Error",   1, "Undefined reference to 'CalcChecksum'" },
+    { "Warning", 0, "Implicit conversion from double to int" },
+    { "Error",   1, "No matching overload for 'Format'" },
+    { "Warning", 0, "Unused parameter 'event'" },
+  };
+
+  for (const auto& r : problemRows)
+  {
+    long idx = problems->InsertItem(problems->GetItemCount(), r.severity, r.icon);
+    problems->SetItem(idx, 1, r.message);
+  }
+
+  // Second list: test results, with a separate image list holding an OK icon
+  wxListCtrl* results = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+                                       wxLC_REPORT);
+  results->Hide();
+  wxImageList* okIcons = new wxImageList(16, 16);
+  okIcons->Add(wxArtProvider::GetIcon(wxART_TICK_MARK, wxART_MENU, wxSize(16, 16)));
+  results->AssignImageList(okIcons, wxIMAGE_LIST_SMALL);
+
+  results->InsertColumn(0, "Test", wxLIST_FORMAT_LEFT, 150);
+  results->InsertColumn(1, "Result", wxLIST_FORMAT_LEFT, 100);
+
+  const char* tests[] = { "Build", "Unit tests", "Integration tests", "Linting", "Packaging" };
+  for (const auto* test : tests)
+  {
+    long idx = results->InsertItem(results->GetItemCount(), test);
+    results->SetItem(idx, 1, "OK");
+    results->SetItemImage(idx, 0);
+  }
+
+  // Export both lists into the same document; the icons of each list
+  // must come from its own image list
+  wxPdfDocument doc;
+  doc.AddPage();
+
+  wxPdfListCtrlOptions options;
+  options.SetBorderColour(wxPdfColour(200, 200, 200));
+
+  doc.AddList(problems, options);
+  // Leave a gap below the first table
+  doc.SetXY(doc.GetLeftMargin(), doc.GetY() + 20);
+  doc.AddList(results, options);
+  doc.SaveAsFile(saveFileDialog.GetPath());
+
+  problems->Destroy();
+  results->Destroy();
 }
 
 void MyFrame::OnExit(wxCommandEvent& WXUNUSED(event))
