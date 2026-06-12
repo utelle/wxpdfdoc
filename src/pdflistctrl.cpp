@@ -377,6 +377,7 @@ public:
             }
             
             // Draw icon if available
+            bool drawCell = true;
             wxImageList* imgList = m_list->GetImageList(wxIMAGE_LIST_SMALL);
             if (imgList)
             {
@@ -398,17 +399,22 @@ public:
                   double imgH = bmp.GetHeight() * docScale;
                   double scale = (rowHeight * 0.8) / imgH;
                   if (scale < 1.0) { imgW *= scale; imgH *= scale; }
-                  
+
+
                   double iconX = m_doc->GetX() + 1;
                   double iconY = m_doc->GetY() + (rowHeight - imgH) / 2;
+                  text = wxS("     ") + text;
+                  m_doc->Cell(colWidths[col], rowHeight, text, border, 0, wxPDF_ALIGN_LEFT, fill ? 1 : 0);
+                  drawCell = false;
                   m_doc->Image(wxString::Format(wxS("listicon_%d"), info.GetImage()),
                                                 bmp.ConvertToImage(), iconX, iconY, imgW, imgH);
-                  text = wxS("     ") + text;
                 }
               }
             }
-
-            m_doc->Cell(colWidths[col], rowHeight, text, border, 0, wxPDF_ALIGN_LEFT, fill ? 1 : 0);
+            if (drawCell)
+            {
+              m_doc->Cell(colWidths[col], rowHeight, text, border, 0, wxPDF_ALIGN_LEFT, fill ? 1 : 0);
+            }
           }
           curY += rowHeight;
           lastDrawnY = curY;
