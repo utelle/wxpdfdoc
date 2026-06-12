@@ -26,6 +26,7 @@
 #include <vector>
 #include <numeric>
 #include <algorithm>
+#include <map>
 
 wxPdfListCtrlOptions::wxPdfListCtrlOptions()
 {
@@ -45,12 +46,12 @@ class wxPdfListCtrlExporter
 {
 public:
   wxPdfListCtrlExporter(wxPdfDocument* doc, wxListCtrl* list, const wxPdfListCtrlOptions& options)
-    : m_doc(doc), m_list(list), m_options(options), m_dc(NULL)
+    : m_doc(doc), m_list(list), m_options(options), m_dc(NULL), m_exportId(ms_exportCounter++)
   {
   }
 
   wxPdfListCtrlExporter(wxPdfDC* dc, wxListCtrl* list, const wxPdfListCtrlOptions& options)
-    : m_doc(dc->GetPdfDocument()), m_list(list), m_options(options), m_dc(dc)
+    : m_doc(dc->GetPdfDocument()), m_list(list), m_options(options), m_dc(dc), m_exportId(ms_exportCounter++)
   {
   }
 
@@ -72,6 +73,7 @@ public:
     // Calculate column widths
     size_t colCount = m_list->GetColumnCount();
     std::vector<double> colWidths(colCount);
+    std::vector<int> colAligns(colCount, wxPDF_ALIGN_LEFT);
     
     if (m_options.GetBodyPdfFont().IsValid())
         m_doc->SetFont(m_options.GetBodyPdfFont(), wxPDF_FONTSTYLE_REGULAR, 0);
@@ -83,8 +85,22 @@ public:
     for (size_t col = 0; col < colCount; ++col)
     {
       wxListItem item;
-      item.SetMask(wxLIST_MASK_TEXT | wxLIST_MASK_WIDTH);
+      item.SetMask(wxLIST_MASK_TEXT | wxLIST_MASK_WIDTH | wxLIST_MASK_FORMAT);
       m_list->GetColumn(col, item);
+
+      // Map the column's alignment to the PDF cell alignment
+      switch (item.GetAlign())
+      {
+        case wxLIST_FORMAT_RIGHT:
+          colAligns[col] = wxPDF_ALIGN_RIGHT;
+          break;
+        case wxLIST_FORMAT_CENTRE:
+          colAligns[col] = wxPDF_ALIGN_CENTER;
+          break;
+        default:
+          colAligns[col] = wxPDF_ALIGN_LEFT;
+          break;
+      }
 
       double headerWidth = m_doc->GetStringWidth(item.GetText()) + cellPadding;
       double maxContentWidth = 0;
@@ -403,17 +419,22 @@ public:
 
                   double iconX = m_doc->GetX() + 1;
                   double iconY = m_doc->GetY() + (rowHeight - imgH) / 2;
-                  text = wxS("     ") + text;
-                  m_doc->Cell(colWidths[col], rowHeight, text, border, 0, wxPDF_ALIGN_LEFT, fill ? 1 : 0);
+                  // Indent the text past the icon; only needed when the text
+                  // starts at the left edge where the icon is drawn
+                  if (colAligns[col] == wxPDF_ALIGN_LEFT)
+                    text = wxS("     ") + text;
+                  m_doc->Cell(colWidths[col], rowHeight, text, border, 0, colAligns[col], fill ? 1 : 0);
                   drawCell = false;
-                  m_doc->Image(wxString::Format(wxS("listicon_%d"), info.GetImage()),
+                  // Include the export ID in the resource name so that icons from
+                  // different image lists don't collide in the document's image cache
+                  m_doc->Image(wxString::Format(wxS("listicon_%d_%d"), m_exportId, info.GetImage()),
                                                 bmp.ConvertToImage(), iconX, iconY, imgW, imgH);
                 }
               }
             }
             if (drawCell)
             {
-              m_doc->Cell(colWidths[col], rowHeight, text, border, 0, wxPDF_ALIGN_LEFT, fill ? 1 : 0);
+              m_doc->Cell(colWidths[col], rowHeight, text, border, 0, colAligns[col], fill ? 1 : 0);
             }
           }
           curY += rowHeight;
@@ -438,7 +459,14 @@ private:
   wxListCtrl*    m_list;
   const wxPdfListCtrlOptions& m_options;
   wxPdfDC*       m_dc;
+  // Unique ID per export, used to keep icon resource names
+  // from different image lists apart
+  int m_exportId;
+
+  static int ms_exportCounter;
 };
+
+int wxPdfListCtrlExporter::ms_exportCounter = 0;
 
 // --- API Implementation ---
 
