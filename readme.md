@@ -28,6 +28,7 @@ on the FPDF web site are incorporated into wxPdfDocument.
 - **Document Protection**: Support for document encryption (including AES-256) and permission management.
 - **Templates & Layers**: Import pages from existing PDF documents as templates and organize content with layers (Optional Content Groups).
 - **Markup & Tables**: Use a simple XML markup language for styled text and complex tables with multi-page support.
+- **wxListCtrl Export**: Export any `wxListCtrl` directly to PDF via `wxPdfDocument::AddList()` or `wxPdfDC::DrawList()`. Supports column headers repeated across pages, alternating row colours, per-item text/background colours, full-page-width layout, and a LaTeX *booktabs*-style rendering with horizontal rules only.
 - **Integration**: Includes `wxPdfDC` and `wxPdfGraphicsContext`, providing seamless integration with the wxWidgets `wxDC` and `wxGraphicsContext` APIs and the printing framework.
 - **Standards**: Support for PDF/A-1B conformance.
 

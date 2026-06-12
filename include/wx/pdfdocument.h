@@ -13,6 +13,10 @@
 #ifndef _PDF_DOCUMENT_H_
 #define _PDF_DOCUMENT_H_
 
+#if wxUSE_LISTCTRL
+class wxListCtrl;
+#endif
+
 // wxWidgets headers
 #include <wx/dynarray.h>
 #include <wx/graphics.h>
@@ -32,6 +36,10 @@
 #include "wx/pdflinks.h"
 #include "wx/pdfproperties.h"
 #include "wx/pdfdoc_version.h"
+
+#if wxUSE_LISTCTRL
+#include "wx/pdflistctrl.h"
+#endif
 
 #define wxPDF_PRODUCER       wxS(PDFDOC_VERSION_STRING)
 
@@ -2969,6 +2977,15 @@ public:
   * \see \ref writexml
   */
   virtual void WriteXml(const wxString& str);
+
+#if wxUSE_LISTCTRL
+  /// Adds a list control's content to the document
+  /**
+  * \param list Pointer to the list control
+  * \param options Export options
+  */
+  virtual void AddList(wxListCtrl* list, const wxPdfListCtrlOptions& options = wxPdfListCtrlOptions());
+#endif
 
   /// Adds a check box field at the current position
   /**
