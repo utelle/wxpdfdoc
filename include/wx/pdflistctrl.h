@@ -229,6 +229,66 @@ public:
   */
   wxPdfListCtrlStyle GetStyle() const { return m_style; }
 
+  /// Set the starting row (1-indexed)
+  /**
+  * \param row The starting row
+  */
+  void SetFromRow(int row) { m_fromRow = row; }
+
+  /// Get the starting row (1-indexed)
+  /**
+  * \return The starting row
+  */
+  int GetFromRow() const { return m_fromRow; }
+
+  /// Set the starting column (1-indexed)
+  /**
+  * \param column The starting column
+  */
+  void SetFromColumn(int column) { m_fromColumn = column; }
+
+  /// Get the starting column (1-indexed)
+  /**
+  * \return The starting column
+  */
+  int GetFromColumn() const { return m_fromColumn; }
+
+  /// Set the ending row (1-indexed, -1 for all)
+  /**
+  * \param row The ending row
+  */
+  void SetToRow(int row) { m_toRow = row; }
+
+  /// Get the ending row (1-indexed, -1 for all)
+  /**
+  * \return The ending row
+  */
+  int GetToRow() const { return m_toRow; }
+
+  /// Set the ending column (1-indexed, -1 for all)
+  /**
+  * \param column The ending column
+  */
+  void SetToColumn(int column) { m_toColumn = column; }
+
+  /// Get the ending column (1-indexed, -1 for all)
+  /**
+  * \return The ending column
+  */
+  int GetToColumn() const { return m_toColumn; }
+
+  /// Set whether column headers should be exported
+  /**
+  * \param include true to include column headers
+  */
+  void SetIncludeColumnHeaders(bool include) { m_includeColumnHeaders = include; }
+
+  /// Check whether column headers should be exported
+  /**
+  * \return true if column headers should be included
+  */
+  bool GetIncludeColumnHeaders() const { return m_includeColumnHeaders; }
+
 private:
   wxFont      m_headerFont;
   wxFont      m_bodyFont;
@@ -243,6 +303,11 @@ private:
   bool                m_showContinued;
   bool                m_fitToPage;
   wxPdfListCtrlStyle  m_style;
+  int                 m_fromRow;
+  int                 m_fromColumn;
+  int                 m_toRow;
+  int                 m_toColumn;
+  bool                m_includeColumnHeaders;
 };
 
 #endif

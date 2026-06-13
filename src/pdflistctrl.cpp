@@ -38,6 +38,11 @@ wxPdfListCtrlOptions::wxPdfListCtrlOptions()
   m_headerBackgroundColour = wxPdfColour(195, 220, 240);
   m_headerTextColour = wxPdfColour(0, 0, 0);
   m_borderColour = wxPdfColour();
+  m_fromRow = 1;
+  m_fromColumn = 1;
+  m_toRow = -1;
+  m_toColumn = -1;
+  m_includeColumnHeaders = true;
 }
 
 // --- Exporter Engine ---
@@ -60,6 +65,23 @@ public:
     if (!m_doc || !m_list || m_list->GetColumnCount() == 0)
         return;
 
+    const int listColCount = m_list->GetColumnCount();
+    const int listRowCount = m_list->GetItemCount();
+
+    const int fromCol = std::max(0, m_options.GetFromColumn() - 1);
+    const int toCol = m_options.GetToColumn() == -1 ?
+        listColCount - 1 : std::min(listColCount - 1, m_options.GetToColumn() - 1);
+
+    const int fromRow = std::max(0, m_options.GetFromRow() - 1);
+    const int toRow = m_options.GetToRow() == -1 ?
+        listRowCount - 1 : std::min(listRowCount - 1, m_options.GetToRow() - 1);
+
+    const int exportColCount = std::max(0, toCol - fromCol + 1);
+    const int exportRowCount = std::max(0, toRow - fromRow + 1);
+
+    if (exportColCount == 0 || exportRowCount == 0)
+        return;
+
     // Save current state
     wxPdfColour saveDrawColour = m_doc->GetDrawColour();
     wxPdfColour saveFillColour = m_doc->GetFillColour();
@@ -71,9 +93,8 @@ public:
     { wxLogNull noLog; saveFont = m_doc->GetCurrentFont(); }
 
     // Calculate column widths
-    size_t colCount = m_list->GetColumnCount();
-    std::vector<double> colWidths(colCount);
-    std::vector<int> colAligns(colCount, wxPDF_ALIGN_LEFT);
+    std::vector<double> colWidths(listColCount);
+    std::vector<int> colAligns(listColCount, wxPDF_ALIGN_LEFT);
     
     if (m_options.GetBodyPdfFont().IsValid())
         m_doc->SetFont(m_options.GetBodyPdfFont(), wxPDF_FONTSTYLE_REGULAR, 0);
@@ -82,7 +103,7 @@ public:
     // Cell padding in user units: 4pt converted to the document's unit system
     const double cellPadding = 4.0 / m_doc->GetScaleFactor();
     double totalWidth = 0;
-    for (size_t col = 0; col < colCount; ++col)
+    for (int col = fromCol; col <= toCol; ++col)
     {
       wxListItem item;
       item.SetMask(wxLIST_MASK_TEXT | wxLIST_MASK_WIDTH | wxLIST_MASK_FORMAT);
@@ -105,12 +126,12 @@ public:
       double headerWidth = m_doc->GetStringWidth(item.GetText()) + cellPadding;
       double maxContentWidth = 0;
 
-      // Check first 100 items for width optimization
-      int rowCount = m_list->GetItemCount();
-      int checkRows = std::min(rowCount, 100);
+      // Check first 100 items within the exported range for width optimization
+      int checkRowsCount = std::min(exportRowCount, 100);
       wxImageList* imgList = m_list->GetImageList(wxIMAGE_LIST_SMALL);
-      for (int row = 0; row < checkRows; ++row)
+      for (int i = 0; i < checkRowsCount; ++i)
       {
+        int row = fromRow + i;
         double w = m_doc->GetStringWidth(m_list->GetItemText(row, col)) + cellPadding;
         
         // Add icon width if present
@@ -143,8 +164,8 @@ public:
     double scaledBodySize = m_doc->GetFontSize();
     if (totalWidth > pageWidth)
     {
-      const double textOnlyWidth  = totalWidth - static_cast<double>(colCount) * cellPadding;
-      const double textOnlyTarget = pageWidth  - static_cast<double>(colCount) * cellPadding;
+      const double textOnlyWidth  = totalWidth - static_cast<double>(exportColCount) * cellPadding;
+      const double textOnlyTarget = pageWidth  - static_cast<double>(exportColCount) * cellPadding;
       if (textOnlyWidth > 0 && textOnlyTarget > 0)
       {
         const double fontScale = textOnlyTarget / textOnlyWidth;
@@ -152,7 +173,7 @@ public:
         const double actualFontScale = scaledBodySize / m_doc->GetFontSize();
         m_doc->SetFontSize(scaledBodySize);
         totalWidth = 0;
-        for (size_t col = 0; col < colCount; ++col)
+        for (int col = fromCol; col <= toCol; ++col)
         {
           colWidths[col] = std::max(0.0, colWidths[col] - cellPadding) * actualFontScale + cellPadding;
           totalWidth += colWidths[col];
@@ -165,7 +186,7 @@ public:
       // Stretch (or shrink) all columns proportionally to fill the full page width.
       // Multi-column layout is incompatible with full-width mode.
       double scale = pageWidth / totalWidth;
-      for (size_t col = 0; col < colCount; ++col)
+      for (int col = fromCol; col <= toCol; ++col)
         colWidths[col] *= scale;
       totalWidth = pageWidth;
     }
@@ -180,7 +201,7 @@ public:
       if (totalWidth > pageWidth)
       {
         double scale = pageWidth / totalWidth;
-        for (size_t col = 0; col < colCount; ++col)
+        for (int col = fromCol; col <= toCol; ++col)
           colWidths[col] *= scale;
         totalWidth = pageWidth;
       }
@@ -212,17 +233,17 @@ public:
       m_doc->SetDrawColour(saveDrawColour);
     };
 
-    int totalRows = m_list->GetItemCount();
-
     auto CalcRowsPerBlock = [&](double sy, int currentRow) {
-      int rpb = static_cast<int>((pageHeight - sy) / rowHeight) - 1; // -1 for header
-      if (m_options.GetShowContinued() && currentRow + rpb * blocksPerPage < totalRows)
+      int rpb = static_cast<int>((pageHeight - sy) / rowHeight);
+      if (m_options.GetIncludeColumnHeaders())
+          rpb -= 1; // -1 for header
+      if (m_options.GetShowContinued() && currentRow + rpb * blocksPerPage <= toRow)
         rpb -= 1; // Reserve space for "Continued" footer only when another page follows
-      return (rpb < 1) ? totalRows : rpb;
+      return (rpb < 1) ? 1 : rpb;
     };
 
-    int rowsPerBlock = CalcRowsPerBlock(startY, 0);
-    int nextPageRow = rowsPerBlock * blocksPerPage;
+    int rowsPerBlock = CalcRowsPerBlock(startY, fromRow);
+    int nextPageRow = fromRow + rowsPerBlock * blocksPerPage;
 
     auto DrawHeader = [&](double headerX, double headerY)
     {
@@ -246,7 +267,7 @@ public:
           m_doc->SetTextColour(m_options.GetHeaderTextColour());
       }
 
-      for (size_t col = 0; col < colCount; ++col)
+      for (int col = fromCol; col <= toCol; ++col)
       {
         wxListItem item;
         item.SetMask(wxLIST_MASK_TEXT);
@@ -268,10 +289,10 @@ public:
       }
     };
 
-    for (int row = 0; row < totalRows; )
+    for (int row = fromRow; row <= toRow; )
     {
       // Check if we need a new page
-      if (row > 0 && row >= nextPageRow)
+      if (row > fromRow && row >= nextPageRow)
       {
         // Add "Continued on next page" if another page follows
         if (m_options.GetShowContinued())
@@ -288,7 +309,7 @@ public:
           const wxString footerText = _("Continued on next page");
           const double footerW = m_doc->GetStringWidth(footerText) + 2.0 / m_doc->GetScaleFactor();
           m_doc->SetXY(m_doc->GetPageWidth() - m_doc->GetRightMargin() - footerW,
-                       startY + rowHeight * (rowsPerBlock + 1));
+                       startY + rowHeight * (rowsPerBlock + (m_options.GetIncludeColumnHeaders() ? 1 : 0)));
           m_doc->Cell(footerW, rowHeight, footerText, 0, 0, wxPDF_ALIGN_RIGHT);
         }
 
@@ -315,27 +336,30 @@ public:
         // Recalculate rows per block for this page's available height,
         // then advance the page-break threshold by the new stride
         rowsPerBlock = CalcRowsPerBlock(startY, row);
-        nextPageRow += rowsPerBlock * blocksPerPage;
+        nextPageRow = row + rowsPerBlock * blocksPerPage;
       }
 
       // Draw blocks for this set of rows
       for (int block = 0; block < blocksPerPage; ++block)
       {
         int rowIdx = row + block * rowsPerBlock;
-        if (rowIdx >= totalRows) break;
+        if (rowIdx > toRow) break;
 
         double curX = startX + block * blockWidth;
         double curY = startY;
 
         if (isSimple)
           DrawHRule(curX, startY, thickRule);
-        DrawHeader(curX, startY);
-        curY += rowHeight;
-        if (isSimple)
-          DrawHRule(curX, curY, thinRule);
+        if (m_options.GetIncludeColumnHeaders())
+        {
+          DrawHeader(curX, startY);
+          curY += rowHeight;
+          if (isSimple)
+            DrawHRule(curX, curY, thinRule);
+        }
 
         // Draw rows for this block
-        int rowsInBlock = std::min(rowsPerBlock, totalRows - rowIdx);
+        int rowsInBlock = std::min(rowsPerBlock, toRow - rowIdx + 1);
         for (int i = 0; i < rowsInBlock; ++i)
         {
           int currentRow = rowIdx + i;
@@ -349,7 +373,7 @@ public:
           }
 
           m_doc->SetXY(curX, curY);
-          for (size_t col = 0; col < colCount; ++col)
+          for (int col = fromCol; col <= toCol; ++col)
           {
             int border = 0;
             if (!isSimple)

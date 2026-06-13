@@ -25,6 +25,7 @@ private:
   void OnExportSimple(wxCommandEvent& event);
   void OnExportFinancial(wxCommandEvent& event);
   void OnExportTwoLists(wxCommandEvent& event);
+  void OnExportRange(wxCommandEvent& event);
   void OnExit(wxCommandEvent& event);
 
   wxListCtrl* m_list;
@@ -48,7 +49,8 @@ enum
   ID_EXPORT_FULL_WIDTH,
   ID_EXPORT_SIMPLE,
   ID_EXPORT_FINANCIAL,
-  ID_EXPORT_TWO_LISTS
+  ID_EXPORT_TWO_LISTS,
+  ID_EXPORT_RANGE
 };
 
 #endif
