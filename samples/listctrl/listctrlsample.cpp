@@ -29,6 +29,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
   EVT_MENU(ID_EXPORT_SIMPLE,     MyFrame::OnExportSimple)
   EVT_MENU(ID_EXPORT_FINANCIAL,  MyFrame::OnExportFinancial)
   EVT_MENU(ID_EXPORT_TWO_LISTS,  MyFrame::OnExportTwoLists)
+  EVT_MENU(ID_EXPORT_RANGE,      MyFrame::OnExportRange)
   EVT_MENU(wxID_EXIT,            MyFrame::OnExit)
 wxEND_EVENT_TABLE()
 
@@ -42,6 +43,7 @@ MyFrame::MyFrame(const wxString& title)
   menuFile->Append(ID_EXPORT_SIMPLE,     "Export to PDF (&Simple/LaTeX)\tCtrl-L",    "Export with LaTeX booktabs-style rules only");
   menuFile->Append(ID_EXPORT_FINANCIAL,  "Export Financial Data (Lan&dscape)\tCtrl-G", "Export sample ledger with long note cells");
   menuFile->Append(ID_EXPORT_TWO_LISTS,  "Export Two Lists (different &icons)\tCtrl-I", "Export two list controls with separate image lists");
+  menuFile->Append(ID_EXPORT_RANGE,      "Export &Range (rows 10-20, no headers)\tCtrl-R", "Export a specific row/column range and hide headers");
   menuFile->AppendSeparator();
   menuFile->Append(wxID_EXIT);
 
@@ -364,6 +366,34 @@ void MyFrame::OnExportTwoLists(wxCommandEvent& WXUNUSED(event))
 
   problems->Destroy();
   results->Destroy();
+}
+
+void MyFrame::OnExportRange(wxCommandEvent& WXUNUSED(event))
+{
+  wxFileDialog saveFileDialog(this, _("Save PDF file"), "", "list_range.pdf",
+    "PDF files (*.pdf)|*.pdf", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+
+  if (saveFileDialog.ShowModal() == wxID_CANCEL)
+    return;
+
+  wxPdfDocument doc;
+  doc.AddPage();
+
+  wxPdfListCtrlOptions options;
+  options.SetAlternateRowBackgroundColour(wxPdfColour(240, 240, 240));
+  options.SetBorderColour(wxPdfColour(200, 200, 200));
+  
+  // Export only rows 10 through 20 (1-indexed)
+  options.SetFromRow(10);
+  options.SetToRow(20);
+  // Export only columns 2 through 4 (1-indexed: Name, Status, Value)
+  options.SetFromColumn(2);
+  options.SetToColumn(4);
+  // Do not include column headers
+  options.SetIncludeColumnHeaders(false);
+
+  doc.AddList(m_list, options);
+  doc.SaveAsFile(saveFileDialog.GetPath());
 }
 
 void MyFrame::OnExit(wxCommandEvent& WXUNUSED(event))
