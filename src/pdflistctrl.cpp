@@ -50,12 +50,12 @@ wxPdfListCtrlOptions::wxPdfListCtrlOptions()
 class wxPdfListCtrlExporter
 {
 public:
-  wxPdfListCtrlExporter(wxPdfDocument* doc, wxListCtrl* list, const wxPdfListCtrlOptions& options)
+  wxPdfListCtrlExporter(wxPdfDocument* doc, const wxListCtrl* list, const wxPdfListCtrlOptions& options)
     : m_doc(doc), m_list(list), m_options(options), m_dc(NULL), m_exportId(ms_exportCounter++)
   {
   }
 
-  wxPdfListCtrlExporter(wxPdfDC* dc, wxListCtrl* list, const wxPdfListCtrlOptions& options)
+  wxPdfListCtrlExporter(wxPdfDC* dc, const wxListCtrl* list, const wxPdfListCtrlOptions& options)
     : m_doc(dc->GetPdfDocument()), m_list(list), m_options(options), m_dc(dc), m_exportId(ms_exportCounter++)
   {
   }
@@ -479,8 +479,8 @@ public:
   }
 
 private:
-  wxPdfDocument* m_doc;
-  wxListCtrl*    m_list;
+  wxPdfDocument*      m_doc;
+  const wxListCtrl*   m_list;
   const wxPdfListCtrlOptions& m_options;
   wxPdfDC*       m_dc;
   // Unique ID per export, used to keep icon resource names
@@ -494,7 +494,7 @@ int wxPdfListCtrlExporter::ms_exportCounter = 0;
 
 // --- API Implementation ---
 
-void wxPdfDocument::AddList(wxListCtrl* list, const wxPdfListCtrlOptions& options)
+void wxPdfDocument::AddList(const wxListCtrl* list, const wxPdfListCtrlOptions& options)
 {
   if (PageNo() == 0)
     AddPage();
@@ -502,7 +502,7 @@ void wxPdfDocument::AddList(wxListCtrl* list, const wxPdfListCtrlOptions& option
   exporter.Export(GetX(), GetY());
 }
 
-void wxPdfDC::DrawList(wxListCtrl* list, wxCoord x, wxCoord y, const wxPdfListCtrlOptions& options)
+void wxPdfDC::DrawList(const wxListCtrl* list, wxCoord x, wxCoord y, const wxPdfListCtrlOptions& options)
 {
   wxPdfDCImpl* impl = static_cast<wxPdfDCImpl*>(GetImpl());
   wxPdfListCtrlExporter exporter(this, list, options);
