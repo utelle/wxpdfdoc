@@ -2984,7 +2984,7 @@ public:
   * \param list Pointer to the list control
   * \param options Export options
   */
-  virtual void AddList(wxListCtrl* list, const wxPdfListCtrlOptions& options = wxPdfListCtrlOptions());
+  virtual void AddList(const wxListCtrl* list, const wxPdfListCtrlOptions& options = wxPdfListCtrlOptions());
 #endif
 
   /// Adds a check box field at the current position

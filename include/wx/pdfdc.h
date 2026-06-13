@@ -149,7 +149,7 @@ public:
   * \param y Ordinate of the top left corner
   * \param options Export options
   */
-  void DrawList(wxListCtrl* list, wxCoord x, wxCoord y,
+  void DrawList(const wxListCtrl* list, wxCoord x, wxCoord y,
                 const wxPdfListCtrlOptions& options = wxPdfListCtrlOptions());
 #endif
 
