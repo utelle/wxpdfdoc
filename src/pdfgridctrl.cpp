@@ -133,11 +133,36 @@ public:
       totalWidth += colWidths[col];
     }
 
+    // Measure header labels with the bold header font so wide labels aren't clipped
+    if (m_options.GetHeaderPdfFont().IsValid())
+      m_doc->SetFont(m_options.GetHeaderPdfFont(), wxPDF_FONTSTYLE_BOLD, m_doc->GetFontSize());
+    else
+    {
+      wxFont hf = m_options.GetHeaderFont().IsOk() ? m_options.GetHeaderFont() : m_grid->GetLabelFont();
+      hf.SetWeight(wxFONTWEIGHT_BOLD);
+      m_doc->SetFont(hf);
+    }
+    for (int col : visibleCols)
+    {
+      double hdrW = m_doc->GetStringWidth(m_grid->GetColLabelValue(col)) + cellPadding;
+      if (hdrW > colWidths[col])
+      {
+        totalWidth += hdrW - colWidths[col];
+        colWidths[col] = hdrW;
+      }
+    }
+
+    // Restore body font, then sample cell content
+    if (m_options.GetBodyPdfFont().IsValid())
+      m_doc->SetFont(m_options.GetBodyPdfFont(), wxPDF_FONTSTYLE_REGULAR, 0);
+    else
+      m_doc->SetFont(m_options.GetBodyFont().IsOk() ? m_options.GetBodyFont() : m_grid->GetDefaultCellFont());
+
     // Just preview first 100 rows for huge grids
     const int checkCount = std::min(static_cast<int>(visibleRows.size()), 100);
     for (int col : visibleCols)
     {
-      double maxW = m_doc->GetStringWidth(m_grid->GetColLabelValue(col)) + cellPadding;
+      double maxW = colWidths[col];
       for (int ri = 0; ri < checkCount; ++ri)
       {
         double w = m_doc->GetStringWidth(m_grid->GetCellValue(visibleRows[ri], col)) + cellPadding;
@@ -156,8 +181,8 @@ public:
 
     if (totalWidth > pageWidth)
     {
-      const double textOnlyWidth  = totalWidth - static_cast<double>(exportColCount) * cellPadding;
-      const double textOnlyTarget = pageWidth  - static_cast<double>(exportColCount) * cellPadding;
+      const double textOnlyWidth  = totalWidth  - rowLabelWidth - static_cast<double>(exportColCount) * cellPadding;
+      const double textOnlyTarget = pageWidth   - rowLabelWidth - static_cast<double>(exportColCount) * cellPadding;
       if (textOnlyWidth > 0 && textOnlyTarget > 0)
       {
         const double fontScale = textOnlyTarget / textOnlyWidth;
@@ -250,7 +275,7 @@ public:
     int hdrPdfAlign = MapAlign(colLabelHAlign);
 
     const auto DrawIcon = [&](const wxBitmap& bmp, double cellX, double cellY,
-                              double cellW, const wxString& imgName) {
+                              const wxString& imgName) {
       if (!bmp.IsOk()) return;
       double imgW = bmp.GetWidth()  * pxToDoc;
       double imgH = bmp.GetHeight() * pxToDoc;
@@ -310,7 +335,7 @@ public:
           m_doc->Cell(colWidths[col], rowHeight, hdrText, isSimple ? 0 : wxPDF_BORDER_FRAME,
                       0, hdrPdfAlign, hdrFill);
           if (bmp.IsOk())
-            DrawIcon(bmp, cellX, cellY, colWidths[col],
+            DrawIcon(bmp, cellX, cellY,
                      wxString::Format(wxS("hdr%d"), col));
         }
         else
@@ -406,7 +431,7 @@ public:
 
           m_doc->SetTextColour(saveTextColour);
 
-          bool useAlt = !isSimple && (currentRowIdx % 2 != 0) &&
+          bool useAlt = !isSimple && (currentRow % 2 != 0) &&
                         m_options.GetAlternateRowBackgroundColour().GetColourType() != wxPDF_COLOURTYPE_UNKNOWN;
 
           m_doc->SetXY(curX, curY);
@@ -494,7 +519,7 @@ public:
                 text = wxS("     ") + text;
               m_doc->Cell(colWidths[col], rowHeight, text, border, 0, cellAlign, fill ? 1 : 0);
               if (bmp.IsOk())
-                DrawIcon(bmp, cellX, cellY, colWidths[col],
+                DrawIcon(bmp, cellX, cellY,
                          wxString::Format(wxS("cell%d_%d"), currentRow, col));
             }
             else
