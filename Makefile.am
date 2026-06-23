@@ -259,6 +259,7 @@ lib@WXPDFDOC_LIBNAME@_la_SOURCES = \
     src/pdfgc.cpp \
     src/pdfgradient.cpp \
     src/pdfgraphics.cpp \
+    src/pdfgridctrl.cpp \
     src/pdfimage.cpp \
     src/pdfkernel.cpp \
     src/pdflayer.cpp \
@@ -323,6 +324,7 @@ includewx_HEADERS = \
     include/wx/pdfgc.h \
     include/wx/pdfgradient.h \
     include/wx/pdfgraphics.h \
+    include/wx/pdfgridctrl.h \
     include/wx/pdfimage.h \
     include/wx/pdfinfo.h \
     include/wx/pdflayer.h \
