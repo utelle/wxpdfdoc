@@ -464,29 +464,29 @@ samples_pdfgc_pdfgc_LDFLAGS = -no-install
 endif
 
 samples_listctrl_listctrl_SOURCES = \
-    samples/listctrl/listctrl.cpp \
-    samples/listctrl/listctrl.h
+    samples/listctrl/listctrlsample.cpp \
+    samples/listctrl/listctrlsample.h
 
 samples_listctrl_listctrl_LDADD = $(WX_LIBS_PDFGUI_SAMPLES) $(LDADD)
 
 if USE_MSW
-samples_listctrl_listctrl_SOURCES += samples/listctrl/listctrl.rc
-samples_listctrl_listctrl_LDADD += samples/listctrl/listctrl.res_o
-CLEANFILES += samples/listctrl/listctrl.res_o
+samples_listctrl_listctrl_SOURCES += samples/listctrl/listctrlsample.rc
+samples_listctrl_listctrl_LDADD += samples/listctrl/listctrlsample.res_o
+CLEANFILES += samples/listctrl/listctrlsample.res_o
 else
 samples_listctrl_listctrl_LDFLAGS = -no-install
 endif
 
 samples_gridctrl_gridctrl_SOURCES = \
-    samples/gridctrl/gridctrl.cpp \
-    samples/gridctrl/gridctrl.h
+    samples/gridctrl/gridctrlsample.cpp \
+    samples/gridctrl/gridctrlsample.h
 
 samples_gridctrl_gridctrl_LDADD = $(WX_LIBS_PDFGUI_SAMPLES) $(LDADD)
 
 if USE_MSW
-samples_gridctrl_gridctrl_SOURCES += samples/gridctrl/gridctrl.rc
-samples_gridctrl_gridctrl_LDADD += samples/gridctrl/gridctrl.res_o
-CLEANFILES += samples/gridctrl/gridctrl.res_o
+samples_gridctrl_gridctrl_SOURCES += samples/gridctrl/gridctrlsample.rc
+samples_gridctrl_gridctrl_LDADD += samples/gridctrl/gridctrlsample.res_o
+CLEANFILES += samples/gridctrl/gridctrlsample.res_o
 else
 samples_gridctrl_gridctrl_LDFLAGS = -no-install
 endif
