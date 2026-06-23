@@ -242,6 +242,7 @@ GENERATED += $(OBJDIR)/pdfform.o
 GENERATED += $(OBJDIR)/pdfgc.o
 GENERATED += $(OBJDIR)/pdfgradient.o
 GENERATED += $(OBJDIR)/pdfgraphics.o
+GENERATED += $(OBJDIR)/pdfgridctrl.o
 GENERATED += $(OBJDIR)/pdfimage.o
 GENERATED += $(OBJDIR)/pdfkernel.o
 GENERATED += $(OBJDIR)/pdflayer.o
@@ -295,6 +296,7 @@ OBJECTS += $(OBJDIR)/pdfform.o
 OBJECTS += $(OBJDIR)/pdfgc.o
 OBJECTS += $(OBJDIR)/pdfgradient.o
 OBJECTS += $(OBJDIR)/pdfgraphics.o
+OBJECTS += $(OBJDIR)/pdfgridctrl.o
 OBJECTS += $(OBJDIR)/pdfimage.o
 OBJECTS += $(OBJDIR)/pdfkernel.o
 OBJECTS += $(OBJDIR)/pdflayer.o
@@ -477,6 +479,9 @@ $(OBJDIR)/pdfgradient.o: ../src/pdfgradient.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfgraphics.o: ../src/pdfgraphics.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/pdfgridctrl.o: ../src/pdfgridctrl.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfimage.o: ../src/pdfimage.cpp

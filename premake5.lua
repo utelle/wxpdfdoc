@@ -178,6 +178,34 @@ project "listctrl"
   entrypoint "WinMainCRTStartup"
   links { "wxpdfdoc" }
 
+-- gridctrl sample
+project "gridctrl"
+  location(BUILDDIR)
+  language "C++"
+  cppdialect "C++11"
+  kind "WindowedApp"
+
+  if (is_msvc) then
+    local prj = project()
+    prj.filename = "wxpdfdoc_" .. vc_with_ver .. "_gridctrl"
+  end
+  if wxMonolithic then
+    local prj = project()
+    prj.filename = "gridctrl_mono"
+  end
+
+  use_filters( "PDFDOC", "samples/gridctrl", "adv,richtext,html,core,xml" )
+
+  files { "samples/gridctrl/*.cpp", "samples/gridctrl/*.rc" }
+  vpaths {
+    ["Header Files"] = { "**.h" },
+    ["Source Files"] = { "**.cpp", "**.rc" }
+  }
+  includedirs { "samples/gridctrl", "include" }
+  characterset "Unicode"
+  entrypoint "WinMainCRTStartup"
+  links { "wxpdfdoc" }
+
 -- MakeFont utility
 project "makefont"
   location(BUILDDIR)

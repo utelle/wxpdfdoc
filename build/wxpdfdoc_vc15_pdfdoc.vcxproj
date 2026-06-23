@@ -597,12 +597,12 @@
     <ClInclude Include="..\include\wx\pdfgc.h" />
     <ClInclude Include="..\include\wx\pdfgradient.h" />
     <ClInclude Include="..\include\wx\pdfgraphics.h" />
+    <ClInclude Include="..\include\wx\pdfgridctrl.h" />
     <ClInclude Include="..\include\wx\pdfimage.h" />
     <ClInclude Include="..\include\wx\pdfinfo.h" />
     <ClInclude Include="..\include\wx\pdflayer.h" />
     <ClInclude Include="..\include\wx\pdflinestyle.h" />
     <ClInclude Include="..\include\wx\pdflinks.h" />
-    <ClInclude Include="..\include\wx\pdfgridctrl.h" />
     <ClInclude Include="..\include\wx\pdflistctrl.h" />
     <ClInclude Include="..\include\wx\pdfobjects.h" />
     <ClInclude Include="..\include\wx\pdfparser.h" />
@@ -667,10 +667,10 @@
     <ClCompile Include="..\src\pdfgc.cpp" />
     <ClCompile Include="..\src\pdfgradient.cpp" />
     <ClCompile Include="..\src\pdfgraphics.cpp" />
+    <ClCompile Include="..\src\pdfgridctrl.cpp" />
     <ClCompile Include="..\src\pdfimage.cpp" />
     <ClCompile Include="..\src\pdfkernel.cpp" />
     <ClCompile Include="..\src\pdflayer.cpp" />
-    <ClCompile Include="..\src\pdfgridctrl.cpp" />
     <ClCompile Include="..\src\pdflistctrl.cpp" />
     <ClCompile Include="..\src\pdfobjects.cpp" />
     <ClCompile Include="..\src\pdfocg.cpp" />
