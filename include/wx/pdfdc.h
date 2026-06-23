@@ -22,6 +22,10 @@
 class wxListCtrl;
 #endif
 
+#if wxUSE_GRID
+class wxGrid;
+#endif
+
 #include "wx/pdfdocument.h"
 #include "wx/pdffont.h"
 
@@ -151,6 +155,18 @@ public:
   */
   void DrawList(const wxListCtrl* list, wxCoord x, wxCoord y,
                 const wxPdfListCtrlOptions& options = wxPdfListCtrlOptions());
+#endif
+
+#if wxUSE_GRID
+  /// Draws a grid control's content at the given position
+  /**
+  * \param grid Pointer to the grid control
+  * \param x Abscissa of the top left corner
+  * \param y Ordinate of the top left corner
+  * \param options Export options
+  */
+  void DrawGrid(const wxGrid* grid, wxCoord x, wxCoord y,
+                const wxPdfGridOptions& options = wxPdfGridOptions());
 #endif
 
 private:

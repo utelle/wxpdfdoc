@@ -45,7 +45,7 @@ wxPdfListCtrlOptions::wxPdfListCtrlOptions()
   m_includeColumnHeaders = true;
 }
 
-// --- Exporter Engine ---
+// --- Exporter Engine
 
 class wxPdfListCtrlExporter
 {
@@ -492,7 +492,7 @@ private:
 
 int wxPdfListCtrlExporter::ms_exportCounter = 0;
 
-// --- API Implementation ---
+// --- API Implementation
 
 void wxPdfDocument::AddList(const wxListCtrl* list, const wxPdfListCtrlOptions& options)
 {

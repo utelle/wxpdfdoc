@@ -327,6 +327,7 @@ includewx_HEADERS = \
     include/wx/pdfinfo.h \
     include/wx/pdflayer.h \
     include/wx/pdflinestyle.h \
+    include/wx/pdflistctrl.h \
     include/wx/pdflinks.h \
     include/wx/pdfobjects.h \
     include/wx/pdfparser.h \

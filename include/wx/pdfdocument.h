@@ -17,6 +17,10 @@
 class wxListCtrl;
 #endif
 
+#if wxUSE_GRID
+class wxGrid;
+#endif
+
 // wxWidgets headers
 #include <wx/dynarray.h>
 #include <wx/graphics.h>
@@ -39,6 +43,10 @@ class wxListCtrl;
 
 #if wxUSE_LISTCTRL
 #include "wx/pdflistctrl.h"
+#endif
+
+#if wxUSE_GRID
+#include "wx/pdfgridctrl.h"
 #endif
 
 #define wxPDF_PRODUCER       wxS(PDFDOC_VERSION_STRING)
@@ -2985,6 +2993,15 @@ public:
   * \param options Export options
   */
   virtual void AddList(const wxListCtrl* list, const wxPdfListCtrlOptions& options = wxPdfListCtrlOptions());
+#endif
+
+#if wxUSE_GRID
+  /// Adds a grid control's content to the document
+  /**
+  * \param grid Pointer to the grid control
+  * \param options Export options
+  */
+  virtual void AddGrid(const wxGrid* grid, const wxPdfGridOptions& options = wxPdfGridOptions());
 #endif
 
   /// Adds a check box field at the current position
