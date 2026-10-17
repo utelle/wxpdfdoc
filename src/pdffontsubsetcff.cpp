@@ -247,7 +247,7 @@ wxPdfFontSubsetCff::ReadFontIndex(wxPdfCffIndexArray* index)
                wxString(_("Premature end of CFF stream reached while reading index count.")));
     return false;
   }
-  int count = ReadShort();
+  int count = (unsigned short) ReadShort();
   if (count > 0)
   {
     int offsetSize = ReadByte();
@@ -388,13 +388,13 @@ wxPdfFontSubsetCff::ReadFdSelect()
   }
   else if (type == 3)
   {
-    numRanges = ReadShort();
-    last = ReadShort();
+    numRanges = (unsigned short) ReadShort();
+    last = (unsigned short) ReadShort();
     for  (k = 0; k < numRanges; k++)
     {
       first = last;
       fd = ReadByte();
-      last = ReadShort();
+      last = (unsigned short) ReadShort();
       const int limit = std::min(last, (int) m_fdSelect.GetCount());
       for (j = first; j < limit; j++)
       {
@@ -1215,7 +1215,7 @@ wxPdfFontSubsetCff::WriteCidFontDict()
     offsetDict = TellO();
     offset += offsetSize;
     SeekO(offsetBase+offset);
-    WriteInteger(offsetDict-offsetBase+1, offsetSize, m_outFont);
+    WriteInteger(offsetDict - offsetSize * (m_numSubsetFontDicts + 1) - offsetBase + 1, offsetSize, m_outFont);
     SeekO(offsetDict);
   }
 }
