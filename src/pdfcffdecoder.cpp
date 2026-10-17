@@ -557,21 +557,33 @@ wxPdfCffDecoder::ReadCommand(wxInputStream* stream)
       int first = ReadByte(stream) & 0xff;
       int second = ReadByte(stream) & 0xff;
       m_args[m_argCount].m_type = 0;
-      m_args[m_argCount].m_intValue = first << 8 | second;
+      m_args[m_argCount].m_intValue = (short)(first << 8 | second);
+      m_argCount++;
+      continue;
+    }
+    if (b0 == 29) // the four next bytes represent a 32-bit int;
+    {
+      int first = ReadByte(stream) & 0xff;
+      int second = ReadByte(stream) & 0xff;
+      int third = ReadByte(stream) & 0xff;
+      int fourth = ReadByte(stream) & 0xff;
+      m_args[m_argCount].m_type = 0;
+      m_args[m_argCount].m_intValue =
+        (int32_t)((first << 24) | (second << 16) | (third << 8) | fourth);
       m_argCount++;
       continue;
     }
     if (b0 >= 32 && b0 <= 246) // The byte read is the byte;
     {
       m_args[m_argCount].m_type = 0;
-      m_args[m_argCount].m_intValue = (int) (b0 - 139);
+      m_args[m_argCount].m_intValue = (int)b0 - 139;
       m_argCount++;
       continue;
     }
     if (b0 >= 247 && b0 <= 250) // The byte read and the next byte constitute a short int
     {
       unsigned char b1 = ReadByte(stream);
-      short item = (short) ((b0-247)*256 + b1 + 108);
+      short item = ((short)b0-247)*256 + (short)b1 + 108;
       m_args[m_argCount].m_type = 0;
       m_args[m_argCount].m_intValue = item;
       m_argCount++;
@@ -580,7 +592,7 @@ wxPdfCffDecoder::ReadCommand(wxInputStream* stream)
     if (b0 >= 251 && b0 <= 254)// Same as above except negative
     {
       unsigned char b1 = ReadByte(stream);
-      short item = (short) (-(b0-251)*256-b1-108);
+      short item = -((short)b0-251)*256-(short)b1-108;
       m_args[m_argCount].m_type = 0;
       m_args[m_argCount].m_intValue = item;
       m_argCount++;
