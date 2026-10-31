@@ -16,6 +16,8 @@
 #include <wx/defs.h>
 #include <wx/font.h>
 
+#include <functional>
+
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 #include "wx/pdfcolour.h"
@@ -289,6 +291,19 @@ public:
   */
   bool GetIncludeColumnHeaders() const { return m_includeColumnHeaders; }
 
+  /// Set a function to call instead of wxPdfDocument::AddPage() when the table fills a page.
+  /**
+  * The handler must start one new page, and may draw on the old and new pages.
+  * \param handler The function to call, or an empty function to use AddPage()
+  */
+  void SetPageBreakHandler(const std::function<void()>& handler) { m_pageBreakHandler = handler; }
+
+  /// Get the function that starts each continuation page of the table.
+  /**
+  * \return The page break handler, which is empty if the default is being used
+  */
+  const std::function<void()>& GetPageBreakHandler() const { return m_pageBreakHandler; }
+
 private:
   wxFont      m_headerFont;
   wxFont      m_bodyFont;
@@ -308,6 +323,7 @@ private:
   int                 m_toRow;
   int                 m_toColumn;
   bool                m_includeColumnHeaders;
+  std::function<void()> m_pageBreakHandler;
 };
 
 #endif

@@ -11,6 +11,7 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 - Added export of any `wxListCtrl` directly to PDF via `wxPdfDocument::AddList()` or `wxPdfDC::DrawList()`
 - Added export of any `wxGrid` directly to PDF via `wxPdfDocument::AddGrid()` or `wxPdfDC::DrawGrid()`
+- Added `SetPageBreakHandler()` to `wxPdfListCtrlOptions` and `wxPdfGridOptions`, so that users can draw custom headers and footers on every page of an exported table
 - Added VC++ 2026 build support
 
 ## [1.4.0] - 2026-05-20
