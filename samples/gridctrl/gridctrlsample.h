@@ -27,6 +27,7 @@ private:
   void OnExportRange(wxCommandEvent& event);
   void OnExportFinancial(wxCommandEvent& event);
   void OnExportWithIcons(wxCommandEvent& event);
+  void OnExportHeadersFooters(wxCommandEvent& event);
   void OnExit(wxCommandEvent& event);
 
   wxGrid* m_grid{ nullptr };
@@ -51,7 +52,8 @@ enum
   ID_EXPORT_ROW_LABELS,
   ID_EXPORT_RANGE,
   ID_EXPORT_FINANCIAL,
-  ID_EXPORT_WITH_ICONS
+  ID_EXPORT_WITH_ICONS,
+  ID_EXPORT_HEADERS_FOOTERS
 };
 
 #endif

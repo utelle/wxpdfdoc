@@ -68,6 +68,7 @@ wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
   EVT_MENU(ID_EXPORT_RANGE,      MyFrame::OnExportRange)
   EVT_MENU(ID_EXPORT_FINANCIAL,  MyFrame::OnExportFinancial)
   EVT_MENU(ID_EXPORT_WITH_ICONS, MyFrame::OnExportWithIcons)
+  EVT_MENU(ID_EXPORT_HEADERS_FOOTERS, MyFrame::OnExportHeadersFooters)
   EVT_MENU(wxID_EXIT,            MyFrame::OnExit)
 wxEND_EVENT_TABLE()
 
@@ -91,6 +92,8 @@ MyFrame::MyFrame(const wxString& title)
                    "Export a sample financial ledger with long note cells");
   menuFile->Append(ID_EXPORT_WITH_ICONS, "Export with Column Header &Icons\tCtrl-I",
                    "Export with bitmaps in column headers via wxPdfGridBitmapProvider");
+  menuFile->Append(ID_EXPORT_HEADERS_FOOTERS, "Export with &Headers and Footers\tCtrl-H",
+                   "Export with a header and footer on every page using a page break handler");
   menuFile->AppendSeparator();
   menuFile->Append(wxID_EXIT);
 
@@ -433,6 +436,70 @@ void MyFrame::OnExportWithIcons(wxCommandEvent& WXUNUSED(event))
   doc.AddGrid(m_grid, options);
 
   doc.SaveAsFile(dlg.GetPath());
+}
+
+void MyFrame::OnExportHeadersFooters(wxCommandEvent& WXUNUSED(event))
+{
+  wxFileDialog dlg(this, _("Save PDF file"), "", "grid_headers_footers.pdf",
+                   "PDF files (*.pdf)|*.pdf", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+  if (dlg.ShowModal() == wxID_CANCEL) return;
+
+  wxPrintData printData;
+  printData.SetFilename(dlg.GetPath());
+
+  wxPdfDC dc(printData);
+  dc.StartDoc("Grid Export with Headers and Footers");
+
+  // The DC's document is in points. Keep the table clear of the header and footer.
+  const int sideMargin = 36;
+  const int stripMargin = 60;
+  wxPdfDocument* doc = dc.GetPdfDocument();
+  doc->SetMargins(sideMargin, stripMargin, sideMargin);
+  doc->SetAutoPageBreak(true, stripMargin);
+
+  int pageNumber = 1;
+  const auto drawHeaderAndFooter = [&]()
+  {
+    dc.SetFont(*wxSWISS_FONT);
+    dc.SetTextForeground(*wxBLACK);
+    dc.DrawText("Inventory Report", sideMargin, 24);
+    dc.DrawText(wxString::Format("Page %d", pageNumber),
+                sideMargin, dc.GetSize().GetHeight() - 42);
+  };
+
+  wxPdfGridOptions options;
+  options.SetAlternateRowBackgroundColour(wxPdfColour(240, 240, 240));
+  options.SetBorderColour(wxPdfColour(200, 200, 200));
+  // The labels are not needed because every page has a page number
+  options.SetShowContinued(false);
+
+  // With a page break handler: every page gets the header and footer.
+  // The exporter calls the handler each time the table fills a page.
+  options.SetPageBreakHandler([&]()
+  {
+    drawHeaderAndFooter();
+    dc.EndPage();
+    dc.StartPage();
+    ++pageNumber;
+  });
+
+  dc.StartPage();
+  dc.DrawGrid(m_grid, sideMargin, stripMargin, options);
+  // The handler is not called for the table's last page
+  drawHeaderAndFooter();
+  dc.EndPage();
+
+  // Without a page break handler, the exporter adds the pages itself, so only
+  // the last page gets the header and footer. To try this, remove the call to
+  // SetPageBreakHandler() above, along with the four lines above this comment,
+  // and uncomment this code.
+  //
+  // dc.StartPage();
+  // dc.DrawGrid(m_grid, sideMargin, stripMargin, options);
+  // drawHeaderAndFooter();
+  // dc.EndPage();
+
+  dc.EndDoc();
 }
 
 void MyFrame::OnExit(wxCommandEvent& WXUNUSED(event))

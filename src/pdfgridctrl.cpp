@@ -381,7 +381,7 @@ public:
 
         if (isSimple)
           DrawHRule(startX, lastDrawnY, thickRule);
-        m_doc->AddPage();
+        StartNextPage();
         startY = m_doc->GetTopMargin();
 
         if (m_options.GetShowContinued())
@@ -547,6 +547,36 @@ public:
   }
 
 private:
+  // Starts the next page, using the caller's page break handler if there is one
+  void StartNextPage()
+  {
+    if (!m_options.GetPageBreakHandler())
+    {
+      m_doc->AddPage();
+      return;
+    }
+
+    // The handler may draw, so keep the state that the table is using
+    const wxPdfColour drawColour = m_doc->GetDrawColour();
+    const wxPdfColour fillColour = m_doc->GetFillColour();
+    const wxPdfColour textColour = m_doc->GetTextColour();
+    const double lineWidth = m_doc->GetLineWidth();
+    const int fontStyle = m_doc->GetFontStyles();
+    const double fontSize = m_doc->GetFontSize();
+    wxPdfFont font;
+    { wxLogNull noLog; font = m_doc->GetCurrentFont(); }
+
+    m_options.GetPageBreakHandler()();
+
+    m_doc->SetDrawColour(drawColour);
+    m_doc->SetFillColour(fillColour);
+    m_doc->SetTextColour(textColour);
+    m_doc->SetLineWidth(lineWidth);
+    if (font.IsValid())
+      m_doc->SetFont(font, fontStyle, fontSize);
+    m_doc->SetXY(m_doc->GetLeftMargin(), m_doc->GetTopMargin());
+  }
+
   wxPdfDocument*      m_doc;
   const wxGrid*       m_grid;
   const wxPdfGridOptions& m_options;

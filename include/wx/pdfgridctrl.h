@@ -19,6 +19,8 @@
 #include <wx/bitmap.h>
 #include <wx/font.h>
 
+#include <functional>
+
 // wxPdfDocument headers
 #include "wx/pdfdocdef.h"
 #include "wx/pdfcolour.h"
@@ -242,6 +244,15 @@ public:
   /// Get the current bitmap provider (may be nullptr)
   const wxPdfGridBitmapProvider* GetBitmapProvider() const { return m_bitmapProvider; }
 
+  /// Set a function to call instead of wxPdfDocument::AddPage() when the table fills a page.
+  /**
+  * The handler must start one new page, and may draw on the old and new pages.
+  * \param handler The function to call, or an empty function to use AddPage()
+  */
+  void SetPageBreakHandler(const std::function<void()>& handler) { m_pageBreakHandler = handler; }
+  /// Get the function that starts each continuation page of the table (may be empty).
+  const std::function<void()>& GetPageBreakHandler() const { return m_pageBreakHandler; }
+
 private:
   wxFont        m_headerFont;
   wxFont        m_bodyFont;
@@ -264,6 +275,7 @@ private:
   bool          m_includeRowLabels;
   bool          m_useCellAttributes;
   const wxPdfGridBitmapProvider* m_bitmapProvider;
+  std::function<void()> m_pageBreakHandler;
 };
 
 #endif // wxUSE_GRID
