@@ -460,7 +460,7 @@ wxPdfUtility::MapFontStyle2String(int fontStyle)
   {
     if (fontStyle & fontStyles[j])
     {
-      styleString += ((j > 0) ? wxString("|") : wxString("")) + styleStrings[j];
+      styleString += (!styleString.IsEmpty() ? wxString("|") : wxString("")) + styleStrings[j];
     }
   }
   if (styleString.IsEmpty())
