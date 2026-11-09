@@ -448,11 +448,11 @@ wxPdfUtility::MapFontStyle2String(int fontStyle)
   };
   static std::vector<wxString> styleStrings =
   {
-    wxString(_("Italic")),        wxString(_("Underline")),  wxString(_("Overline")),
-    wxString(_("StrikeThrough")),
-    wxString(_("Thin")),          wxString(_("ExtraLight")), wxString(_("Light")),
-    wxString(_("Medium")),        wxString(_("SemiBold")),   wxString(_("Bold")),
-    wxString(_("ExtraBold")),     wxString(_("Heavy")),      wxString(_("ExtraHeavy"))
+    wxS("Italic"),        wxS("Underline"),  wxS("Overline"),
+    wxS("StrikeThrough"),
+    wxS("Thin"),          wxS("ExtraLight"), wxS("Light"),
+    wxS("Medium"),        wxS("SemiBold"),   wxS("Bold"),
+    wxS("ExtraBold"),     wxS("Heavy"),      wxS("ExtraHeavy")
   };
 
   wxString styleString = wxEmptyString;
@@ -465,7 +465,7 @@ wxPdfUtility::MapFontStyle2String(int fontStyle)
   }
   if (styleString.IsEmpty())
   {
-    styleString = wxString(_("Regular"));
+    styleString = wxS("Regular");
   }
   return styleString;
 }
