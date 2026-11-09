@@ -139,7 +139,7 @@ public:
   /**
   * This method converts the font style flags to a human-readable string representation.
   *
-  * \param fontName the name of the font
+  * \param fontStyle the font style flags
   * \return the font styles in string representation
   */
   static wxString MapFontStyle2String(int fontStyle);

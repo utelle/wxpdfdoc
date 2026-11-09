@@ -1222,8 +1222,8 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
     if (fontData == NULL && !fontName.StartsWith(wxS(".")))
     {
       wxString style = ConvertStyleToString(searchStyle);
-      wxLogDebug(wxString(wxS("wxPdfFontManagerBase::GetFont: ")) +
-                 wxString::Format(_("Font '%s' with style '%s' not found."), fontName.c_str(), style.c_str()));
+      wxLogDebug(wxS("wxPdfFontManagerBase::GetFont: Font '%s' with style '%s' not found."),
+                 fontName.c_str(), style.c_str());
     }
   }
   wxPdfFont font(fontData, fontStyle);
