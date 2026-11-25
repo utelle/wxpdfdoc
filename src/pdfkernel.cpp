@@ -144,6 +144,13 @@ wxPdfDocument::SelectFont(const wxString& family, int style, double size, bool s
   wxString fontFamily = (!family.IsEmpty()) ? family : (m_currentFont != NULL) ? m_currentFont->GetFontFamily() : wxString();
   bool selected = false;
   wxPdfFont regFont = wxPdfFontManager::GetFontManager()->GetFont(fontFamily, style);
+  if (!regFont.IsValid() && !fontFamily.IsEmpty() && m_isPdfA1)
+  {
+    // The family is not registered (with this style). Since all fonts are
+    // embedded anyway, it may be located via the operating system - this
+    // is also needed to select other styles of a replacement font family.
+    regFont = FindEmbeddableFont(fontFamily, style);
+  }
   if (regFont.IsValid())
   {
     selected = SelectFont(regFont, style, size, setFont);
@@ -222,9 +229,11 @@ wxPdfDocument::SelectFont(const wxFont& font, bool setFont)
 }
 
 bool
-wxPdfDocument::SelectFont(const wxPdfFont& font, int style, double size, bool setFont)
+wxPdfDocument::SelectFont(const wxPdfFont& requestedFont, int style, double size, bool setFont)
 {
   bool selected = false;
+  // In PDF/A documents a non-embeddable font is replaced here
+  const wxPdfFont font = GetFontToEmbed(requestedFont, style);
   if (font.IsValid())
   {
     m_decoration = style & wxPDF_FONTSTYLE_DECORATION_MASK;
