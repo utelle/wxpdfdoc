@@ -202,6 +202,28 @@ public:
   */
   wxPdfFont GetFont(size_t fontIndex) const;
 
+  /// Find an installed font containing a glyph for a character
+  /**
+  * Searches the fonts installed on the system for a font that can show the given
+  * character, preferably in the given style. This is the lookup used by
+  * wxPdfDocument::SetSystemFontFallback(), but it can also be used directly,
+  * for example to build an explicit fallback list with wxPdfDocument::AddFallbackFont().
+  *
+  * On wxGTK the fontconfig library is queried (the mechanism Pango uses for its own
+  * font fallback). On other platforms a built-in list of well-known font families with
+  * a large Unicode coverage is checked (e.g. Segoe UI and Cambria Math on Windows,
+  * Lucida Grande and STIX Two Math on macOS, DejaVu Sans and Noto Sans everywhere).
+  * A font found is registered with the font manager.
+  *
+  * Results, including negative ones, are cached, so repeated lookups are cheap.
+  *
+  * \param unicodeChar the Unicode code point of the character
+  * \param fontStyle the preferred font style (only weight and italic are considered)
+  * \return a font containing the character, or an invalid font if none was found
+  * \note Only available in Unicode builds. The result depends on the fonts installed on the system.
+  */
+  wxPdfFont FindFallbackFont(wxUint32 unicodeChar, int fontStyle = wxPDF_FONTSTYLE_REGULAR);
+
   /// Get the number of registered fonts
   /**
   * \return the number of registered fonts
@@ -232,6 +254,86 @@ public:
   * \return the encoding
   */
   const wxPdfEncoding* GetEncoding(const wxString& encodingName);
+
+  /// Set the embeddable replacement for a font family
+  /**
+  * Some fonts can never be embedded into a PDF document: the 14 Adobe standard
+  * fonts (Courier, Helvetica, Times, Symbol and ZapfDingbats), the Adobe CJK fonts,
+  * and fonts whose licence does not allow embedding. PDF/A forbids fonts that are
+  * not embedded, so in a PDF/A document (see wxPdfDocument::SetPdfA1Conformance())
+  * such a font is replaced by an embeddable font family. This method defines which
+  * family is used as replacement for a given font family.
+  *
+  * The replacement family is tried first. If it is not available, the built-in
+  * list of metric-compatible free fonts is tried (see GetEmbeddableFont()).
+  *
+  * The replacement family should either be registered already (for example with
+  * RegisterFont() or RegisterFontDirectory()) or be installed on the system, so
+  * that it can be located via the operating system's font services.
+  *
+  * \note The fonts Symbol and ZapfDingbats use a font specific encoding. Text
+  * written with them is reinterpreted using the encoding of the replacement font,
+  * so they should only be replaced by fonts with the same built-in encoding.
+  * Therefore no built-in replacements exist for these two fonts.
+  *
+  * \param fontFamily the font family (or family alias) to be replaced, i.e. @c Helvetica
+  * \param replacementFamily the family of the embeddable replacement font, i.e. <tt>Liberation Sans</tt>.
+  *        An empty string removes a previously defined replacement.
+  * \see GetEmbeddableFontReplacement(), GetEmbeddableFont(), wxPdfDocument::SetPdfA1Conformance()
+  */
+  void SetEmbeddableFontReplacement(const wxString& fontFamily, const wxString& replacementFamily);
+
+  /// Get the embeddable replacement defined for a font family
+  /**
+  * \param fontFamily the font family (or family alias)
+  * \return the replacement family set by SetEmbeddableFontReplacement(), or an empty
+  *         string if no replacement was defined for this family
+  */
+  wxString GetEmbeddableFontReplacement(const wxString& fontFamily) const;
+
+  /// Get an embeddable version of a font
+  /**
+  * If the given font can be embedded, a copy of it with embedding enabled is returned.
+  * Otherwise an embeddable replacement font with matching style is searched in the
+  * following order:
+  * \li the family defined by SetEmbeddableFontReplacement() for the font's family or alias;
+  * \li for the Adobe standard fonts Helvetica, Times and Courier a built-in list of
+  *     free fonts with compatible metrics (Liberation, Croscore, URW base 35, TeX Gyre,
+  *     GNU FreeFont) followed by the common system fonts Arial, Times New Roman and
+  *     Courier New.
+  *
+  * Each candidate family is first searched among the registered fonts. If it is not
+  * registered yet, wxPdfDocument tries to locate the font via the operating system
+  * (on wxMSW, wxGTK and wxOSX, see RegisterFont(const wxFont&)) and registers it.
+  * A system font is only accepted if its family name equals the candidate family,
+  * so that a platform specific fallback font is never used silently.
+  *
+  * \note Locating a system font creates a wxFont object, so like RegisterFont(const wxFont&)
+  * this should be called from the main thread if the font is not registered yet.
+  *
+  * \param font the font to be made embeddable
+  * \param fontStyle the requested font style (in addition to the style of the font itself)
+  * \param useBuiltInReplacements flag whether the built-in replacement lists are used;
+  *        if @c false, only the replacement defined by SetEmbeddableFontReplacement() is tried
+  * \return the embeddable font, or an invalid font if neither the font itself
+  *         nor any replacement can be embedded
+  * \see SetEmbeddableFontReplacement(), wxPdfDocument::SetPdfA1Conformance()
+  */
+  wxPdfFont GetEmbeddableFont(const wxPdfFont& font, int fontStyle = wxPDF_FONTSTYLE_REGULAR,
+                              bool useBuiltInReplacements = true);
+
+  /// Get an embeddable font by family name and style
+  /**
+  * Like GetEmbeddableFont(const wxPdfFont&, int), but starts from a family name.
+  * If no font of that family is registered, the replacements for the family name
+  * are tried, and finally wxPdfDocument tries to locate the family itself via the
+  * operating system.
+  *
+  * \param fontFamily the name of the requested font family
+  * \param fontStyle the requested font style
+  * \return the embeddable font, or an invalid font if no embeddable font could be found
+  */
+  wxPdfFont GetEmbeddableFont(const wxString& fontFamily, int fontStyle = wxPDF_FONTSTYLE_REGULAR);
 
 private:
   /// Default constructor

@@ -62,6 +62,10 @@ wxPdfTemplate::~wxPdfTemplate()
 int
 wxPdfDocument::BeginTemplate(double x, double y, double w, double h)
 {
+  // A marked-content sequence open on the current page must be closed
+  // before output is redirected to the template (tagged PDF)
+  TagCloseMarkedContent();
+
   // Save settings
   m_templateId++;
   m_currentTemplate = new wxPdfTemplate(m_templateId);
