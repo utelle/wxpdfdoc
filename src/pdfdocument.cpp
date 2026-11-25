@@ -47,6 +47,8 @@
 #include "wx/pdffontparser.h"
 #include "wx/pdfutility.h"
 
+#include "pdffontfallback.h"
+
 //#include <vld.h>
 
 #include <map>
@@ -158,6 +160,7 @@ wxPdfDocument::Initialize(int orientation)
 {
   // Allocate arrays
   m_currentFont = NULL;
+  m_fontFallback = new wxPdfFontFallback();
   m_buffer = new wxMemoryOutputStream();
 
   m_page       = 0;
@@ -311,6 +314,7 @@ wxPdfDocument::~wxPdfDocument()
     }
   }
   delete m_fonts;
+  delete m_fontFallback;
   delete m_embeddableFontCache;
 
   wxPdfImageHashMap::iterator image = m_images->begin();
@@ -925,6 +929,59 @@ wxPdfDocument::SetFontSize(double size, bool setSize)
   }
 }
 
+bool
+wxPdfDocument::AddFallbackFont(const wxPdfFont& font)
+{
+  bool ok = font.IsValid();
+  if (ok)
+  {
+    m_fontFallback->m_fonts.push_back(font);
+    m_fontFallback->ClearCache();
+  }
+  else
+  {
+    wxLogError(wxString(wxS("wxPdfDocument::AddFallbackFont: ")) +
+               wxString(_("Undefined font.")));
+  }
+  return ok;
+}
+
+bool
+wxPdfDocument::AddFallbackFont(const wxString& family)
+{
+  wxPdfFont font = wxPdfFontManager::GetFontManager()->GetFont(family);
+  if (!font.IsValid())
+  {
+    wxLogError(wxString(wxS("wxPdfDocument::AddFallbackFont: ")) +
+               wxString::Format(_("No font registered for font family '%s'."), family.c_str()));
+    return false;
+  }
+  return AddFallbackFont(font);
+}
+
+void
+wxPdfDocument::ClearFallbackFonts()
+{
+  m_fontFallback->m_fonts.clear();
+  m_fontFallback->ClearCache();
+}
+
+void
+wxPdfDocument::SetSystemFontFallback(bool enable)
+{
+  if (m_fontFallback->m_useSystemFonts != enable)
+  {
+    m_fontFallback->m_useSystemFonts = enable;
+    m_fontFallback->ClearCache();
+  }
+}
+
+bool
+wxPdfDocument::GetSystemFontFallback() const
+{
+  return m_fontFallback->m_useSystemFonts;
+}
+
 wxPdfFont
 wxPdfDocument::GetCurrentFont() const
 {
@@ -1041,7 +1098,31 @@ wxPdfDocument::DoGetStringWidth(const wxString& s, double charSpacing)
   double w = 0;
   if (m_currentFont != 0)
   {
-    w = m_currentFont->GetStringWidth(s, m_kerning, charSpacing / m_fontSize) * m_fontSize;
+    std::vector<wxPdfFontFallbackRun> runs;
+    if (!SplitTextByFont(s, runs))
+    {
+      // Common case: the current font can show the whole string.
+      w = m_currentFont->GetStringWidth(s, m_kerning, charSpacing / m_fontSize) * m_fontSize;
+    }
+    else
+    {
+      // Sum up the widths of the runs, each measured with the font it will be shown with.
+      // Kerning is applied within runs only, as there are no kerning pairs across fonts.
+      for (size_t j = 0; j < runs.size(); ++j)
+      {
+        const wxPdfFontFallbackRun& run = runs[j];
+        double runWidth;
+        if (run.m_slot < 0)
+        {
+          runWidth = m_currentFont->GetStringWidth(run.m_text, m_kerning, charSpacing / m_fontSize);
+        }
+        else
+        {
+          runWidth = m_fontFallback->m_resolved[run.m_slot].GetStringWidth(run.m_text, m_kerning, charSpacing / m_fontSize);
+        }
+        w += runWidth * m_fontSize;
+      }
+    }
   }
   return w;
 }

@@ -41,6 +41,8 @@
 #include "wx/pdftemplate.h"
 #include "wx/pdfutility.h"
 
+#include "pdffontfallback.h"
+
 #include "pdfcorefontdata.inc"
 
 class wxPdfGraphicState
@@ -253,60 +255,19 @@ wxPdfDocument::SelectFont(const wxPdfFont& requestedFont, int style, double size
       if (!selected)
       {
         selected = true;
-        // Test if used for the first time
-        wxPdfFontDetails* currentFont = NULL;
-        wxPdfFontHashMap::iterator fontIter = (*m_fonts).find(fontKey);
-        if (fontIter != (*m_fonts).end())
-        {
-          currentFont = fontIter->second;
-        }
-        else
-        {
-          // Register font in document
-          int i = (int) (*m_fonts).size() + 1;
-          currentFont = new wxPdfFontDetails(i, font);
-          (*m_fonts)[fontKey] = currentFont;
+        // Register font in document if it is used for the first time
+        wxPdfFontDetails* currentFont = RegisterFontDetails(font);
 
-          if (currentFont->HasDiffs())
-          {
-            // Search existing encodings
-            int d = 0;
-            int nb = (int) (*m_diffs).size();
-            for (i = 1; i <= nb; i++)
-            {
-              if (*(*m_diffs)[i] == currentFont->GetDiffs())
-              {
-                d = i;
-                break;
-              }
-            }
-            if (d == 0)
-            {
-              d = nb + 1;
-              (*m_diffs)[d] = new wxString(currentFont->GetDiffs());
-              (*m_winansi)[d] = currentFont->GetBaseEncoding().IsSameAs(wxS("WinAnsiEncoding"));
-            }
-            currentFont->SetDiffIndex(d);
-          }
-        }
-
-        if (selected)
+        // Set current font state
+        m_fontFamily  = font.GetFamily().Lower();
+        m_fontStyle   = font.GetStyle();
+        m_fontSizePt  = size;
+        m_fontSize    = size / m_k;
+        m_currentFont = currentFont;
+        if (setFont && m_page > 0)
         {
-          // Set current font state
-          m_fontFamily  = font.GetFamily().Lower();
-          m_fontStyle   = font.GetStyle();
-          m_fontSizePt  = size;
-          m_fontSize    = size / m_k;
-          m_currentFont = currentFont;
-          if (setFont && m_page > 0)
-          {
-            OutAscii(wxString::Format(wxS("BT /F%d "),m_currentFont->GetIndex()) +
-                     wxPdfUtility::Double2String(m_fontSizePt,2) + wxString(wxS(" Tf ET")));
-          }
-          if (m_inTemplate)
-          {
-            (*(m_currentTemplate->m_fonts))[fontKey] = currentFont;
-          }
+          OutAscii(wxString::Format(wxS("BT /F%d "),m_currentFont->GetIndex()) +
+                   wxPdfUtility::Double2String(m_fontSizePt,2) + wxString(wxS(" Tf ET")));
         }
       }
     }
@@ -318,6 +279,53 @@ wxPdfDocument::SelectFont(const wxPdfFont& requestedFont, int style, double size
                wxString(_("Undefined font.")));
   }
   return selected;
+}
+
+wxPdfFontDetails*
+wxPdfDocument::RegisterFontDetails(const wxPdfFont& font)
+{
+  wxString fontKey = MakeFontKey(font.GetName(), font.GetEncoding());
+  wxPdfFontDetails* fontDetails = NULL;
+  wxPdfFontHashMap::iterator fontIter = (*m_fonts).find(fontKey);
+  if (fontIter != (*m_fonts).end())
+  {
+    fontDetails = fontIter->second;
+  }
+  else
+  {
+    // Register font in document
+    int i = (int) (*m_fonts).size() + 1;
+    fontDetails = new wxPdfFontDetails(i, font);
+    (*m_fonts)[fontKey] = fontDetails;
+
+    if (fontDetails->HasDiffs())
+    {
+      // Search existing encodings
+      int d = 0;
+      int nb = (int) (*m_diffs).size();
+      for (i = 1; i <= nb; i++)
+      {
+        if (*(*m_diffs)[i] == fontDetails->GetDiffs())
+        {
+          d = i;
+          break;
+        }
+      }
+      if (d == 0)
+      {
+        d = nb + 1;
+        (*m_diffs)[d] = new wxString(fontDetails->GetDiffs());
+        (*m_winansi)[d] = fontDetails->GetBaseEncoding().IsSameAs(wxS("WinAnsiEncoding"));
+      }
+      fontDetails->SetDiffIndex(d);
+    }
+  }
+  if (m_inTemplate)
+  {
+    // A template has its own resource dictionary
+    (*(m_currentTemplate->m_fonts))[fontKey] = fontDetails;
+  }
+  return fontDetails;
 }
 
 void
@@ -2827,8 +2835,229 @@ wxPdfDocument::ShowGlyph(wxUint32 glyph)
   }
 }
 
+// Check whether a code point is a combining mark.
+// A combining mark is attached to the preceding base character, so it should
+// preferably be rendered with the same font as the base character.
+static bool
+IsCombiningMark(wxUint32 cp)
+{
+  return (cp >= 0x0300 && cp <= 0x036F) || // Combining Diacritical Marks
+         (cp >= 0x1AB0 && cp <= 0x1AFF) || // Combining Diacritical Marks Extended
+         (cp >= 0x1DC0 && cp <= 0x1DFF) || // Combining Diacritical Marks Supplement
+         (cp >= 0x20D0 && cp <= 0x20FF) || // Combining Diacritical Marks for Symbols (e.g. vector arrows)
+         (cp >= 0xFE20 && cp <= 0xFE2F);   // Combining Half Marks
+}
+
+int
+wxPdfDocument::FindFallbackSlot(wxUint32 codePoint, const wxString& chr)
+{
+  // The result only depends on the code point, on the style of the current
+  // font (bold text should fall back to a bold font) and on whether all fonts
+  // have to be embedded (PDF/A), so cache it by these.
+  const bool embedAll = m_isPdfA1;
+  int style = m_fontStyle & (wxPDF_FONTSTYLE_BOLDITALIC | wxPDF_FONTSTYLE_WEIGHT_MASK);
+  wxUint64 cacheKey = (((wxUint64) (wxUint32) style) << 32) | codePoint;
+  if (embedAll)
+  {
+    cacheKey |= ((wxUint64) 1) << 62;
+  }
+  std::map<wxUint64, int>::const_iterator cached = m_fontFallback->m_cache.find(cacheKey);
+  if (cached != m_fontFallback->m_cache.end())
+  {
+    return cached->second;
+  }
+
+  wxPdfFontManager* fontManager = wxPdfFontManager::GetFontManager();
+  wxPdfFont found;
+
+  // 1. Fonts explicitly configured by the user, in the order given
+  std::vector<wxPdfFont>::const_iterator fontIter;
+  for (fontIter = m_fontFallback->m_fonts.begin();
+       !found.IsValid() && fontIter != m_fontFallback->m_fonts.end(); ++fontIter)
+  {
+    // Prefer the variant of the fallback family matching the style of the current font
+    wxPdfFont candidates[2];
+    if (style != wxPDF_FONTSTYLE_REGULAR && style != fontIter->GetStyle())
+    {
+      wxLogNull logNo; // a missing style variant is not an error here
+      candidates[0] = fontManager->GetFont(fontIter->GetFamily(), style);
+      if (candidates[0].IsValid())
+      {
+        candidates[0].SetEmbed(fontIter->GetEmbed());
+        candidates[0].SetSubset(fontIter->GetSubset());
+      }
+    }
+    candidates[1] = *fontIter;
+    for (int j = 0; !found.IsValid() && j < 2; ++j)
+    {
+      if (candidates[j].IsValid() && fontManager->InitializeFontData(candidates[j]))
+      {
+        wxPdfFontExtended extendedFont(candidates[j]);
+        if (extendedFont.CanShow(chr))
+        {
+          found = candidates[j];
+        }
+      }
+    }
+  }
+
+  // 2. Fonts installed on the system
+  if (!found.IsValid() && m_fontFallback->m_useSystemFonts)
+  {
+    found = fontManager->FindFallbackFont(codePoint, style);
+  }
+
+  if (found.IsValid() && embedAll)
+  {
+    // In PDF/A documents a fallback font must be embedded
+    // like any other font. If it can't be, the embeddable replacement is used,
+    // provided that it contains the character, too.
+    wxPdfFont embeddable = GetFontToEmbed(found, style);
+    if (embeddable.IsValid() && fontManager->InitializeFontData(embeddable) &&
+        wxPdfFontExtended(embeddable).CanShow(chr))
+    {
+      found = embeddable;
+    }
+  }
+
+  int slot = -1;
+  if (found.IsValid())
+  {
+    // Different characters often resolve to the same font; share one slot per font
+    wxString fontKey = MakeFontKey(found.GetName(), found.GetEncoding());
+    std::map<wxString, int>::const_iterator slotIter = m_fontFallback->m_slotByKey.find(fontKey);
+    if (slotIter != m_fontFallback->m_slotByKey.end())
+    {
+      slot = slotIter->second;
+    }
+    else
+    {
+      slot = (int) m_fontFallback->m_resolved.size();
+      m_fontFallback->m_resolved.push_back(wxPdfFontExtended(found));
+      m_fontFallback->m_resolvedFonts.push_back(found);
+      m_fontFallback->m_slotByKey[fontKey] = slot;
+    }
+  }
+  m_fontFallback->m_cache[cacheKey] = slot;
+  return slot;
+}
+
+bool
+wxPdfDocument::SplitTextByFont(const wxString& txt, std::vector<wxPdfFontFallbackRun>& runs)
+{
+  runs.clear();
+  // Fast path: no fallback configured, or the current font can show everything
+  if (!m_fontFallback->IsEnabled() || m_currentFont == NULL || txt.IsEmpty() ||
+      m_currentFont->CanShow(txt))
+  {
+    return false;
+  }
+
+  bool usesFallback = false;
+  wxString::const_iterator it = txt.begin();
+  while (it != txt.end())
+  {
+    // Extract the next code point. Where wxString uses UTF-16 internally (wxMSW)
+    // characters outside the BMP (e.g. mathematical alphanumeric symbols) are
+    // stored as surrogate pairs which must not be split between fonts.
+    wxString::const_iterator start = it;
+    wxUint32 cp = (wxUint32) (*it).GetValue();
+    ++it;
+    if (cp >= 0xD800 && cp <= 0xDBFF && it != txt.end())
+    {
+      wxUint32 low = (wxUint32) (*it).GetValue();
+      if (low >= 0xDC00 && low <= 0xDFFF)
+      {
+        cp = 0x10000 + ((cp - 0xD800) << 10) + (low - 0xDC00);
+        ++it;
+      }
+    }
+    wxString chr(start, it);
+
+    int currentSlot = runs.empty() ? -1 : runs.back().m_slot;
+    int slot;
+    if (currentSlot >= 0 && IsCombiningMark(cp) && m_fontFallback->m_resolved[currentSlot].CanShow(chr))
+    {
+      // Keep a combining mark together with its base character
+      slot = currentSlot;
+    }
+    else if (m_currentFont->CanShow(chr))
+    {
+      // Always prefer the current font
+      slot = -1;
+    }
+    else if (currentSlot >= 0 && m_fontFallback->m_resolved[currentSlot].CanShow(chr))
+    {
+      // Avoid needless font switches within a run of fallback characters
+      slot = currentSlot;
+    }
+    else
+    {
+      // Not found anywhere => slot -1, i.e. the character is shown with the
+      // current font as before (rendered as the font's missing glyph)
+      slot = FindFallbackSlot(cp, chr);
+    }
+
+    if (slot >= 0)
+    {
+      usesFallback = true;
+    }
+    if (!runs.empty() && runs.back().m_slot == slot)
+    {
+      runs.back().m_text += chr;
+    }
+    else
+    {
+      wxPdfFontFallbackRun run;
+      run.m_text = chr;
+      run.m_slot = slot;
+      runs.push_back(run);
+    }
+  }
+  return usesFallback;
+}
+
 void
 wxPdfDocument::ShowText(const wxString& txt)
+{
+  std::vector<wxPdfFontFallbackRun> runs;
+  if (!SplitTextByFont(txt, runs))
+  {
+    ShowTextRun(txt);
+    return;
+  }
+
+  // Show each run with its own font. We are inside a BT ... ET block, so the
+  // font can simply be switched with the Tf operator. Since the text state is
+  // part of the graphics state and survives ET, the current font must be
+  // reselected at the end, as the rest of wxPdfDocument relies on it.
+  wxPdfFontDetails* mainFont = m_currentFont;
+  wxPdfFontDetails* activeFont = mainFont;
+  wxString fontSize = wxPdfUtility::Double2String(m_fontSizePt, 2);
+  for (size_t j = 0; j < runs.size(); ++j)
+  {
+    const wxPdfFontFallbackRun& run = runs[j];
+    wxPdfFontDetails* runFont = (run.m_slot < 0) ? mainFont
+                                : RegisterFontDetails(m_fontFallback->m_resolvedFonts[run.m_slot]);
+    if (runFont != activeFont)
+    {
+      OutAscii(wxString::Format(wxS("/F%d "), runFont->GetIndex()) + fontSize + wxString(wxS(" Tf ")), false);
+      activeFont = runFont;
+    }
+    // ShowTextRun() and the methods it calls use m_currentFont for
+    // encoding, kerning and for recording the glyphs used (subsetting)
+    m_currentFont = runFont;
+    ShowTextRun(run.m_text);
+  }
+  m_currentFont = mainFont;
+  if (activeFont != mainFont)
+  {
+    OutAscii(wxString::Format(wxS("/F%d "), mainFont->GetIndex()) + fontSize + wxString(wxS(" Tf ")), false);
+  }
+}
+
+void
+wxPdfDocument::ShowTextRun(const wxString& txt)
 {
   bool doSimple = !(m_kerning || m_wsApply);
   if (!doSimple)

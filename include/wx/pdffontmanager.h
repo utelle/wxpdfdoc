@@ -202,6 +202,28 @@ public:
   */
   wxPdfFont GetFont(size_t fontIndex) const;
 
+  /// Find an installed font containing a glyph for a character
+  /**
+  * Searches the fonts installed on the system for a font that can show the given
+  * character, preferably in the given style. This is the lookup used by
+  * wxPdfDocument::SetSystemFontFallback(), but it can also be used directly,
+  * for example to build an explicit fallback list with wxPdfDocument::AddFallbackFont().
+  *
+  * On wxGTK the fontconfig library is queried (the mechanism Pango uses for its own
+  * font fallback). On other platforms a built-in list of well-known font families with
+  * a large Unicode coverage is checked (e.g. Segoe UI and Cambria Math on Windows,
+  * Lucida Grande and STIX Two Math on macOS, DejaVu Sans and Noto Sans everywhere).
+  * A font found is registered with the font manager.
+  *
+  * Results, including negative ones, are cached, so repeated lookups are cheap.
+  *
+  * \param unicodeChar the Unicode code point of the character
+  * \param fontStyle the preferred font style (only weight and italic are considered)
+  * \return a font containing the character, or an invalid font if none was found
+  * \note Only available in Unicode builds. The result depends on the fonts installed on the system.
+  */
+  wxPdfFont FindFallbackFont(wxUint32 unicodeChar, int fontStyle = wxPDF_FONTSTYLE_REGULAR);
+
   /// Get the number of registered fonts
   /**
   * \return the number of registered fonts
