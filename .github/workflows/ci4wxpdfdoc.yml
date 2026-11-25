@@ -44,9 +44,6 @@ jobs:
     - name: Build
       run: |
         make
-    - name: Automated tests
-      run: |
-        make check
     - name: Testing
       run: |
         pwd

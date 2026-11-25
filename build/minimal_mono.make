@@ -216,6 +216,7 @@ GENERATED += $(OBJDIR)/minimal.o
 GENERATED += $(OBJDIR)/minimal.res
 GENERATED += $(OBJDIR)/protection.o
 GENERATED += $(OBJDIR)/rotation.o
+GENERATED += $(OBJDIR)/tagging.o
 GENERATED += $(OBJDIR)/templates.o
 GENERATED += $(OBJDIR)/transformation.o
 GENERATED += $(OBJDIR)/transparency.o
@@ -245,6 +246,7 @@ OBJECTS += $(OBJDIR)/layers.o
 OBJECTS += $(OBJDIR)/minimal.o
 OBJECTS += $(OBJDIR)/protection.o
 OBJECTS += $(OBJDIR)/rotation.o
+OBJECTS += $(OBJDIR)/tagging.o
 OBJECTS += $(OBJDIR)/templates.o
 OBJECTS += $(OBJDIR)/transformation.o
 OBJECTS += $(OBJDIR)/transparency.o
@@ -373,6 +375,9 @@ $(OBJDIR)/protection.o: ../samples/minimal/protection.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/rotation.o: ../samples/minimal/rotation.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/tagging.o: ../samples/minimal/tagging.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/templates.o: ../samples/minimal/templates.cpp

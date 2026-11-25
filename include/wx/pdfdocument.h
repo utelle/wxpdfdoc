@@ -41,6 +41,7 @@ class wxGrid;
 #include "wx/pdflinestyle.h"
 #include "wx/pdflinks.h"
 #include "wx/pdfproperties.h"
+#include "wx/pdfstructure.h"
 #include "wx/pdfdoc_version.h"
 
 #if wxUSE_LISTCTRL
@@ -86,6 +87,9 @@ class WXDLLIMPEXP_FWD_PDFDOC wxPdfOcg;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfLayer;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfLayerMembership;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfLayerGroup;
+
+class wxPdfTaggingState;
+class wxPdfStructElement;
 
 /// Hashmap class for offset values
 WX_DECLARE_HASH_MAP_WITH_DECL(long, int, wxIntegerHash, wxIntegerEqual, wxPdfOffsetHashMap, class WXDLLIMPEXP_PDFDOC);
@@ -3533,6 +3537,161 @@ public:
   */
   virtual void LeaveLayer();
 
+  /// Enable or disable tagged PDF output
+  /**
+  * A tagged PDF document carries a logical structure tree in addition to its
+  * visual content. Assistive technology such as screen readers uses it to
+  * present the document in a meaningful reading order, to announce headings,
+  * figures and formulas, and to read alternate descriptions instead of
+  * drawings. It is a prerequisite for accessible PDF (PDF/UA, ISO 14289).
+  *
+  * When tagging is enabled:
+  * - every drawing command issued between BeginTag() and EndTag() becomes
+  *   content of that structure element;
+  * - content drawn outside of any structure element, content drawn between
+  *   BeginArtifact() and EndArtifact(), and everything drawn by Header() and
+  *   Footer() is marked as an <em>artifact</em>, i.e. as decoration that
+  *   assistive technology skips;
+  * - the document catalog gets a \c /MarkInfo and a \c /StructTreeRoot entry,
+  *   and the PDF version is raised to at least 1.7.
+  *
+  * Tagging should be enabled before the first page is added. While tagging is
+  * disabled (the default), all tagging methods are no-ops and the generated
+  * PDF is unchanged, so applications can call them unconditionally.
+  *
+  * For a document to be accessible, applications should in addition set a
+  * document title (SetTitle()) and display it (SetViewerPreferences() with
+  * wxPDF_VIEWER_DISPLAYDOCTITLE), set the document language (SetLanguage()),
+  * embed all fonts, and give every \c Figure and \c Formula an alternate text.
+  *
+  * \note Tagging content inside templates (BeginTemplate()/EndTemplate()) is not
+  * supported: the structure elements are recorded, but the template content is
+  * not linked to them. Using a template inside a structure element is fine;
+  * the template then belongs to that element as a whole. Annotations and links
+  * are not (yet) added to the structure tree.
+  *
+  * \param tagged flag whether tagged PDF should be produced
+  * \see BeginTag(), EndTag(), BeginFormula(), BeginArtifact(), SetLanguage()
+  */
+  void SetTagged(bool tagged = true);
+
+  /// Check whether tagged PDF output is enabled
+  /**
+  * \return TRUE if tagged PDF output is enabled, FALSE otherwise
+  * \see SetTagged()
+  */
+  bool IsTagged() const { return m_tagging != NULL; }
+
+  /// Set the natural language of the document
+  /**
+  * Writes the \c /Lang entry of the document catalog, which screen readers use
+  * to select the speech synthesizer. The value is a BCP 47 language tag, e.g.
+  * \c "en-US" or \c "de". This setting is independent of SetTagged().
+  * \param language the language tag; an empty string removes the entry
+  */
+  void SetLanguage(const wxString& language) { m_language = language; }
+
+  /// Get the natural language of the document
+  /**
+  * \return the language tag set by SetLanguage()
+  */
+  const wxString& GetLanguage() const { return m_language; }
+
+  /// Begin a logical structure element
+  /**
+  * Opens a new structure element as a child of the innermost open element.
+  * All content drawn until the matching EndTag() belongs to this element;
+  * structure elements may be nested to any depth, and may span several pages.
+  * The order in which elements are begun is the reading order.
+  *
+  * Has no effect unless tagged output was enabled with SetTagged().
+  *
+  * \param tag the description of the structure element
+  * \par Example
+  * \code
+  * pdf.SetTagged();
+  * pdf.SetLanguage(wxS("en"));
+  * pdf.AddPage();
+  * pdf.BeginTag(wxS("H1"));
+  * pdf.Cell(0, 10, wxS("Results"));
+  * pdf.EndTag();
+  * pdf.BeginTag(wxPdfTag(wxS("Figure")).SetAltText(wxS("Plot of sin(x) from 0 to 2 pi")));
+  * pdf.Image(wxS("plot.png"), 10, 30, 80);
+  * pdf.EndTag();
+  * \endcode
+  * \see EndTag(), BeginFormula(), wxPdfTag
+  */
+  virtual void BeginTag(const wxPdfTag& tag);
+
+  /// Begin a logical structure element
+  /**
+  * Convenience method, equivalent to
+  * <tt>BeginTag(wxPdfTag(structureType).SetAltText(altText).SetActualText(actualText))</tt>.
+  * \param structureType the structure type, e.g. \c "P", \c "H1", \c "Span" or \c "Figure"
+  * \param altText optional alternate description (read instead of the content)
+  * \param actualText optional replacement text (used for text extraction instead of the content)
+  * \see BeginTag(const wxPdfTag&), EndTag()
+  */
+  void BeginTag(const wxString& structureType,
+                const wxString& altText = wxEmptyString,
+                const wxString& actualText = wxEmptyString);
+
+  /// End the innermost open structure element
+  /**
+  * \see BeginTag()
+  */
+  virtual void EndTag();
+
+  /// Begin a mathematical formula
+  /**
+  * Convenience method that opens a \c Formula structure element. All content
+  * drawn until EndFormula() is the visual representation of the formula.
+  *
+  * \param altText a textual description of the formula, read by screen readers
+  * that don't understand MathML; required by PDF/UA. A linear notation such as
+  * <tt>x^2+1</tt> or a spoken form such as "x squared plus one" are both common.
+  * \param mathML optional MathML representation of the formula; it is embedded as
+  * an associated file of the structure element (see wxPdfTag::SetMathML()).
+  * \param actualText optional text that replaces the formula's glyphs on text
+  * extraction or copy &amp; paste, e.g. a linear notation of the formula
+  * \see EndFormula(), BeginTag()
+  */
+  void BeginFormula(const wxString& altText,
+                    const wxString& mathML = wxEmptyString,
+                    const wxString& actualText = wxEmptyString);
+
+  /// End a mathematical formula
+  /**
+  * Equivalent to EndTag().
+  * \see BeginFormula()
+  */
+  void EndFormula() { EndTag(); }
+
+  /// Get the number of currently open structure elements
+  /**
+  * \return the nesting depth of BeginTag() calls; 0 if no structure element
+  * is open or tagging is disabled
+  */
+  int GetTagDepth() const;
+
+  /// Begin an artifact
+  /**
+  * Content drawn until the matching EndArtifact() is marked as an artifact:
+  * decoration that carries no meaning and is skipped by assistive technology,
+  * e.g. background graphics, rules, cell brackets or line numbers. Artifacts
+  * may be nested. Do not begin structure elements inside an artifact.
+  *
+  * Has no effect unless tagged output was enabled with SetTagged().
+  * \see EndArtifact()
+  */
+  virtual void BeginArtifact();
+
+  /// End an artifact
+  /**
+  * \see BeginArtifact()
+  */
+  virtual void EndArtifact();
+
   /// Attach file
   /**
   * Attaches a file to the PDF document.
@@ -3836,6 +3995,27 @@ protected:
 
   /// Add catalog
   virtual void PutCatalog();
+
+  /// Add the structure tree of a tagged document
+  virtual void PutStructTree();
+
+  /// Write a structure element (and, recursively, its kids) of a tagged document
+  void PutStructElement(wxPdfStructElement* element, int parentObjId);
+
+  /// Open the marked-content sequence required by the current tagging state
+  void TagOpenMarkedContent();
+
+  /// Close the currently open marked-content sequence of a tagged document, if any
+  void TagCloseMarkedContent();
+
+  /// Close the currently open marked-content sequence and don't open another one until TagResumeMarkedContent()
+  void TagSuspendMarkedContent();
+
+  /// Allow opening marked-content sequences again after TagSuspendMarkedContent()
+  void TagResumeMarkedContent();
+
+  /// Start or end writing page decoration (header or footer) in a tagged document
+  void TagPagination(bool begin);
 
   /// Add object dictionary
   virtual void PutXObjectDict();
@@ -4177,6 +4357,10 @@ private:
   wxPdfLayerRGMap*     m_rgLayers;            ///< array of radio group layers
   wxPdfLayerGroup*     m_lockedLayers;        ///< array of locked layers
   wxArrayInt           m_layerDepth;          ///< stack for nested layers
+
+  wxPdfTaggingState*   m_tagging;             ///< state of tagged PDF output; NULL if tagging is disabled
+  wxString             m_language;            ///< natural language of the document
+  int                  m_structTreeRootObjId; ///< object number of the structure tree root
 
   // File attachments
   int                  m_nAttachments;        ///< attachments object number

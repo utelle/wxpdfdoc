@@ -611,6 +611,7 @@
     <ClInclude Include="..\include\wx\pdfrijndael.h" />
     <ClInclude Include="..\include\wx\pdfshape.h" />
     <ClInclude Include="..\include\wx\pdfspotcolour.h" />
+    <ClInclude Include="..\include\wx\pdfstructure.h" />
     <ClInclude Include="..\include\wx\pdftemplate.h" />
     <ClInclude Include="..\include\wx\pdfutility.h" />
     <ClInclude Include="..\include\wx\pdfxml.h" />
@@ -623,6 +624,7 @@
     <ClInclude Include="..\src\crypto\unicode_norm_table.h" />
     <ClInclude Include="..\src\pdffontfallback.h" />
     <ClInclude Include="..\src\private_graphics.h" />
+    <ClInclude Include="..\src\private_structure.h" />
     <ClInclude Include="..\src\srgb2014icc.h" />
     <ClInclude Include="..\src\woff\woff2converter.h" />
     <ClInclude Include="..\src\woff\woffconverter.h" />
@@ -678,6 +680,7 @@
     <ClCompile Include="..\src\pdfpattern.cpp" />
     <ClCompile Include="..\src\pdfprint.cpp" />
     <ClCompile Include="..\src\pdfrijndael.cpp" />
+    <ClCompile Include="..\src\pdfstructure.cpp" />
     <ClCompile Include="..\src\pdftemplate.cpp" />
     <ClCompile Include="..\src\pdfutility.cpp" />
     <ClCompile Include="..\src\pdfxml.cpp" />

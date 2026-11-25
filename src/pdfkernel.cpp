@@ -42,6 +42,7 @@
 #include "wx/pdfutility.h"
 
 #include "pdffontfallback.h"
+#include "private_structure.h"
 
 #include "pdfcorefontdata.inc"
 
@@ -373,15 +374,29 @@ wxPdfDocument::EndDoc()
   {
     m_PDFVersion = wxS("1.5");
   }
+  if (m_tagging != NULL && m_PDFVersion < wxS("1.7"))
+  {
+    // Tagged PDF features used (e.g. /ActualText, associated files) and
+    // PDF/UA-1 are based on PDF 1.7 (ISO 32000-1)
+    m_PDFVersion = wxS("1.7");
+  }
   if (m_importVersion > m_PDFVersion)
   {
     m_PDFVersion = m_importVersion;
+  }
+  if (m_tagging != NULL && m_tagging->GetDepth() > 0)
+  {
+    wxLogDebug(wxS("wxPdfDocument::EndDoc: %d structure element(s) not closed by EndTag()."),
+               m_tagging->GetDepth());
   }
 
   PutHeader();
   PutPages();
 
   PutResources();
+
+  // Structure tree of tagged documents
+  PutStructTree();
 
   // Info
   NewObj();
@@ -428,6 +443,11 @@ wxPdfDocument::BeginPage(int orientation, wxSize pageSize)
   m_page++;
   (*m_pages)[m_page] = new wxMemoryOutputStream();
   m_state = 2;
+  if (m_tagging != NULL)
+  {
+    // Open a marked-content sequence as soon as content is written
+    m_tagging->m_open = wxPdfTaggingState::MC_NONE;
+  }
 
   // Page orientation
   if (orientation < 0)
@@ -485,6 +505,9 @@ void
 wxPdfDocument::EndPage()
 {
   // End of page contents
+  // Marked-content sequences must not cross page boundaries. The graphics
+  // state operators that finish the page need no marked-content sequence.
+  TagSuspendMarkedContent();
   while (m_inTransform > 0)
   {
     StopTransform();
@@ -731,6 +754,18 @@ wxPdfDocument::PutCatalog()
   if (!m_ocgs->empty())
   {
     PutOCProperties();
+  }
+
+  if (!m_language.IsEmpty())
+  {
+    Out("/Lang ", false);
+    OutTextstring(m_language);
+  }
+
+  if (m_tagging != NULL)
+  {
+    Out("/MarkInfo <</Marked true>>");
+    OutAscii(wxString::Format(wxS("/StructTreeRoot %d 0 R"), m_structTreeRootObjId));
   }
 
   if (m_isPdfA1)
@@ -1046,6 +1081,16 @@ wxPdfDocument::PutPages()
       }
     }
     Out("]");
+    if (m_tagging != NULL)
+    {
+      // Link the page to its entry in the parent tree (key = page index)
+      // and use the structure order as tab order (required by PDF/UA)
+      if (m_tagging->m_parentTree.find(n) != m_tagging->m_parentTree.end())
+      {
+        OutAscii(wxString::Format(wxS("/StructParents %d"), n - 1));
+      }
+      Out("/Tabs /S");
+    }
     // TODO: not sure whether writing the group dictionary is necessary
     if (!m_isPdfA1 && m_PDFVersion > wxS("1.3"))
     {
@@ -3435,6 +3480,12 @@ wxPdfDocument::Out(const char* s, size_t len, bool newline)
   {
     if (!m_inTemplate)
     {
+      // In tagged documents all page content is enclosed in a marked-content
+      // sequence; open one lazily when content is written (see pdfstructure.cpp)
+      if (m_tagging != NULL && m_tagging->m_open == wxPdfTaggingState::MC_NONE)
+      {
+        TagOpenMarkedContent();
+      }
       (*m_pages)[m_page]->Write(s,len);
       if (newline)
       {

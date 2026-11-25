@@ -270,6 +270,8 @@ lib@WXPDFDOC_LIBNAME@_la_SOURCES = \
     src/pdfpattern.cpp \
     src/pdfprint.cpp \
     src/pdfrijndael.cpp \
+    src/pdfstructure.cpp \
+    src/private_structure.h \
     src/pdftemplate.cpp \
     src/pdfutility.cpp \
     src/pdfxml.cpp \
@@ -339,6 +341,7 @@ includewx_HEADERS = \
     include/wx/pdfrijndael.h \
     include/wx/pdfshape.h \
     include/wx/pdfspotcolour.h \
+    include/wx/pdfstructure.h \
     include/wx/pdftemplate.h \
     include/wx/pdfutility.h \
     include/wx/pdfxml.h
@@ -387,11 +390,12 @@ CLEANFILES=
 # The tests use the fonts shipped in lib/fonts. They are run by check-local
 # instead of the TESTS variable, as the latter requires automake's test-driver
 # script, which isn't part of the repository.
-check_PROGRAMS = tests/embedfonts tests/fontfallback
+check_PROGRAMS = tests/embedfonts tests/fontfallback tests/testtagging
 
 check-local: $(check_PROGRAMS)
 	./tests/embedfonts$(EXEEXT)
 	./tests/fontfallback$(EXEEXT)
+	./tests/testtagging$(EXEEXT)
 
 tests_embedfonts_SOURCES = tests/embedfonts.cpp
 tests_embedfonts_CPPFLAGS = -DWXPDFDOC_TEST_FONTDIR='"$(abs_top_srcdir)/lib/fonts"'
@@ -400,9 +404,13 @@ tests_embedfonts_LDADD = $(LDADD)
 tests_fontfallback_SOURCES = tests/fontfallback.cpp
 tests_fontfallback_CPPFLAGS = -DWXPDFDOC_TEST_FONTDIR='"$(abs_top_srcdir)/lib/fonts"'
 tests_fontfallback_LDADD = $(LDADD)
+
+tests_testtagging_SOURCES = tests/testtagging.cpp
+tests_testtagging_LDADD = $(LDADD)
 if !USE_MSW
 tests_embedfonts_LDFLAGS = -no-install
 tests_fontfallback_LDFLAGS = -no-install
+tests_testtagging_LDFLAGS = -no-install
 endif
 
 if BUILD_SAMPLES
@@ -431,6 +439,7 @@ samples_minimal_minimal_SOURCES = \
     samples/minimal/minimal.cpp \
     samples/minimal/protection.cpp \
     samples/minimal/rotation.cpp \
+    samples/minimal/tagging.cpp \
     samples/minimal/templates.cpp \
     samples/minimal/transformation.cpp \
     samples/minimal/transparency.cpp \
