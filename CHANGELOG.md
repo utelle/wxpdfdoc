@@ -24,6 +24,7 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 ### Fixed
 
 - A wxFont with style `wxFONTSTYLE_SLANT` is now drawn with the font's italic (or oblique) face instead of the upright one
+- The random number generator compiles on Cygwin, which has no `rand_s()`; it reads `/dev/urandom` there like other POSIX systems
 
 ## [1.4.0] - 2026-05-20
 

@@ -125,7 +125,11 @@ chacha20_xor(uint8_t* buffer, size_t n, const uint8_t key[32],
  * Platform-specific entropy functions for seeding RNG
  */
 
-#if defined(_WIN32) || defined(__CYGWIN__)
+/*
+  Cygwin is a POSIX system: its C library (newlib) has no rand_s(), but it
+  does provide /dev/urandom, so it takes the Unix branch below.
+*/
+#if defined(_WIN32) && !defined(__CYGWIN__)
 
 #ifndef WXPDFDOC_USE_RAND_S
 #define WXPDFDOC_USE_RAND_S 1
