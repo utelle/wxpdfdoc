@@ -25,6 +25,7 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 
 - A wxFont with style `wxFONTSTYLE_SLANT` is now drawn with the font's italic (or oblique) face instead of the upright one
 - The random number generator compiles on Cygwin, which has no `rand_s()`; it reads `/dev/urandom` there like other POSIX systems
+- A wxFont whose face name is one of the 14 Adobe standard fonts or their aliases (for example Arial, Helvetica, Times, Courier) is now mapped to the font installed on the system instead of the built-in standard font, in `wxPdfDocument::SetFont(const wxFont&)`, `wxPdfDC` and `wxPdfGraphicsContext`. The standard fonts are never embedded and cover only the WinAnsi character set, so for example Greek letters were lost. New method `wxPdfFontManager::GetFont(const wxFont&)`
 
 ## [1.4.0] - 2026-05-20
 

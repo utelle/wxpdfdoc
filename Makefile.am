@@ -390,12 +390,13 @@ CLEANFILES=
 # The tests use the fonts shipped in lib/fonts. They are run by check-local
 # instead of the TESTS variable, as the latter requires automake's test-driver
 # script, which isn't part of the repository.
-check_PROGRAMS = tests/embedfonts tests/fontfallback tests/testtagging
+check_PROGRAMS = tests/embedfonts tests/fontfallback tests/testtagging tests/wxfontlookup
 
 check-local: $(check_PROGRAMS)
 	./tests/embedfonts$(EXEEXT)
 	./tests/fontfallback$(EXEEXT)
 	./tests/testtagging$(EXEEXT)
+	./tests/wxfontlookup$(EXEEXT)
 
 tests_embedfonts_SOURCES = tests/embedfonts.cpp
 tests_embedfonts_CPPFLAGS = -DWXPDFDOC_TEST_FONTDIR='"$(abs_top_srcdir)/lib/fonts"'
@@ -407,10 +408,14 @@ tests_fontfallback_LDADD = $(LDADD)
 
 tests_testtagging_SOURCES = tests/testtagging.cpp
 tests_testtagging_LDADD = $(LDADD)
+
+tests_wxfontlookup_SOURCES = tests/wxfontlookup.cpp
+tests_wxfontlookup_LDADD = $(LDADD)
 if !USE_MSW
 tests_embedfonts_LDFLAGS = -no-install
 tests_fontfallback_LDFLAGS = -no-install
 tests_testtagging_LDFLAGS = -no-install
+tests_wxfontlookup_LDFLAGS = -no-install
 endif
 
 if BUILD_SAMPLES

@@ -21,6 +21,8 @@
 #endif
 
 // includes
+#include <map>
+
 #include <wx/dir.h>
 #include <wx/dynarray.h>
 #include <wx/filefn.h>
@@ -340,6 +342,8 @@ public:
 
   wxPdfFont GetFont(size_t fontIndex) const;
 
+  wxPdfFont GetFont(const wxFont& font);
+
   size_t GetFontCount() const;
 
   bool InitializeFontData(const wxPdfFont& font);
@@ -416,6 +420,10 @@ private:
 
   /// User defined embeddable replacements, maps lower case family names to replacement families
   wxPdfFontAliasMap  m_embeddableReplacementMap;
+
+  /// Fonts located via the operating system for wxFont objects whose face name
+  /// denotes a standard font, maps "face name|style" (lower case) to the font
+  std::map<wxString, wxPdfFont> m_systemFontForStandardFontMap;
 
   wxPdfEncodingMap*        m_encodingMap;
   wxPdfEncodingCheckerMap* m_encodingCheckerMap;
@@ -1519,6 +1527,66 @@ wxPdfFontManagerBase::GetFont(const wxString& fontName, const wxString& fontStyl
 }
 
 wxPdfFont
+wxPdfFontManagerBase::GetFont(const wxFont& font)
+{
+  if (!font.IsOk())
+  {
+    return wxPdfFont();
+  }
+  wxString faceName = font.GetFaceName();
+  int fontStyle = wxPdfUtility::MapFontWeight2FontStyle(font.GetWeight());
+  fontStyle |= wxPdfUtility::MapFont2FontStyle(font);
+
+  wxPdfFont regFont = GetFont(faceName, fontStyle);
+  if (!regFont.IsValid())
+  {
+    // Not registered yet: locate it via the operating system. The face name is
+    // used as alias, so that the font is found by that name next time.
+#if wxUSE_UNICODE
+    return RegisterFont(font, faceName);
+#else
+    return regFont;
+#endif
+  }
+  if (!regFont.GetType().IsSameAs(wxS("core")))
+  {
+    return regFont;
+  }
+
+  // The face name denotes a standard font (like "Arial", an alias of Helvetica).
+  // A wxFont stands for the font the system renders on screen, which - unlike the
+  // standard font - can be embedded and supports Unicode, so prefer that one.
+  wxString key = faceName.Lower() + wxString::Format(wxS("|%d"), fontStyle);
+  {
+#if wxUSE_THREADS
+    wxCriticalSectionLocker locker(gs_csFontManager);
+#endif
+    std::map<wxString, wxPdfFont>::const_iterator cached = m_systemFontForStandardFontMap.find(key);
+    if (cached != m_systemFontForStandardFontMap.end())
+    {
+      return cached->second.IsValid() ? cached->second : regFont;
+    }
+  }
+#if wxUSE_UNICODE
+  // No alias here: the face name already is the name or alias of the standard font
+  wxPdfFont systemFont = RegisterFont(font, wxEmptyString);
+  if (systemFont.IsValid() && systemFont.GetType().IsSameAs(wxS("core")))
+  {
+    systemFont = wxPdfFont();
+  }
+#else
+  wxPdfFont systemFont;
+#endif
+  {
+#if wxUSE_THREADS
+    wxCriticalSectionLocker locker(gs_csFontManager);
+#endif
+    m_systemFontForStandardFontMap[key] = systemFont;
+  }
+  return systemFont.IsValid() ? systemFont : regFont;
+}
+
+wxPdfFont
 wxPdfFontManagerBase::GetFont(size_t fontIndex) const
 {
 #if wxUSE_THREADS
@@ -2386,6 +2454,12 @@ wxPdfFont
 wxPdfFontManager::GetFont(size_t fontIndex) const
 {
   return m_fontManagerBase->GetFont(fontIndex);
+}
+
+wxPdfFont
+wxPdfFontManager::GetFont(const wxFont& font)
+{
+  return m_fontManagerBase->GetFont(font);
 }
 
 wxPdfFont

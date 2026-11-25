@@ -193,6 +193,30 @@ public:
   */
   wxPdfFont GetFont(const wxString& fontName, const wxString& fontStyle) const;
 
+  /// Get the font corresponding to a wxFont object
+  /**
+  * This method is used by wxPdfDocument::SetFont(const wxFont&), wxPdfDC and
+  * wxPdfGraphicsContext to map a wxFont to a PDF font.
+  *
+  * First a registered font matching the face name and style of the wxFont is searched.
+  * If none is registered, the font is located via the operating system and registered
+  * (see RegisterFont(const wxFont&)).
+  *
+  * If the face name denotes one of the 14 Adobe standard fonts or one of their aliases
+  * (for example @c Arial, @c Helvetica, @c Times, @c Courier or @c Symbol), the font
+  * installed on the system is preferred: a wxFont stands for the font the operating
+  * system renders on screen, while the standard fonts support only the WinAnsi
+  * character set (Symbol and ZapfDingbats only their own one) and are never embedded.
+  * Only if no font can be located via the operating system the standard font is used.
+  * The result is cached, so that the operating system is asked only once per face name
+  * and style.
+  *
+  * \param font the wxFont object
+  * \return the matching font, or an invalid font if no font could be found
+  * \note It's the user's responsibility to check the font object before further using it.
+  */
+  wxPdfFont GetFont(const wxFont& font);
+
   /// Get a font by index
   /**
   * \param fontIndex the index of the requested font in the list of registered fonts

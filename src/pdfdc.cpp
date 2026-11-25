@@ -400,13 +400,8 @@ wxPdfDCImpl::SetFont(const wxFont& font)
   int styles = wxPdfUtility::MapFontWeight2FontStyle(font.GetWeight());
   styles |= wxPdfUtility::MapFont2FontStyle(font);
 
-  wxPdfFont regFont = wxPdfFontManager::GetFontManager()->GetFont(font.GetFaceName(), styles);
+  wxPdfFont regFont = wxPdfFontManager::GetFontManager()->GetFont(font);
   bool ok = regFont.IsValid();
-  if (!ok)
-  {
-    regFont = wxPdfFontManager::GetFontManager()->RegisterFont(font, font.GetFaceName());
-    ok = regFont.IsValid();
-  }
 
   if (ok)
   {
