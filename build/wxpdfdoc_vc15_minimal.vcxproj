@@ -556,6 +556,7 @@
     <ClCompile Include="..\samples\minimal\minimal.cpp" />
     <ClCompile Include="..\samples\minimal\protection.cpp" />
     <ClCompile Include="..\samples\minimal\rotation.cpp" />
+    <ClCompile Include="..\samples\minimal\tagging.cpp" />
     <ClCompile Include="..\samples\minimal\templates.cpp" />
     <ClCompile Include="..\samples\minimal\transformation.cpp" />
     <ClCompile Include="..\samples\minimal\transparency.cpp" />
