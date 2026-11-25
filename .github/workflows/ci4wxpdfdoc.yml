@@ -24,6 +24,8 @@ jobs:
         sudo apt update
         sudo apt-get install -y libwxgtk3.2-dev
         sudo apt-get install -y libzint-dev libwoff-dev libfontconfig-dev
+        # Fonts used by the automated tests (metric-compatible replacements of the standard fonts)
+        sudo apt-get install -y fonts-liberation
       if: matrix.os == 'ubuntu-latest'
     - name: Install dependencies (macOS)
       run: |
@@ -46,6 +48,9 @@ jobs:
       run: |
         pwd
         ./samples/minimal/minimal -t -s ./samples/minimal -f ../../lib/fonts
+    - name: Automated tests
+      run: |
+        make check
     - name: Installing
       run: |
         sudo make install

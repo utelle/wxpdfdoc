@@ -58,6 +58,7 @@ class WXDLLIMPEXP_FWD_PDFDOC wxPdfCoonsPatchMesh;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFont;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontDescription;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontDetails;
+class wxPdfEmbeddableFontCache;
 
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfExtGState;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfGradient;
@@ -3593,6 +3594,30 @@ protected:
   */
   virtual bool SelectFont(const wxPdfFont& font, int style, double size = 0, bool setFont = true);
 
+  /// Get the font to be used for a selected font, honouring PDF/A's font rules
+  /**
+  * PDF/A forbids fonts that are not embedded. In a PDF/A document (see
+  * SetPdfA1Conformance()) this returns an embeddable version of the font or an
+  * embeddable replacement (see wxPdfFontManager::GetEmbeddableFont()); if neither
+  * exists, a warning is logged once per font and the font itself is returned.
+  * In other documents the font is returned unchanged.
+  * \param font the selected font
+  * \param style the requested font style
+  * \return the font to be used in the document
+  */
+  wxPdfFont GetFontToEmbed(const wxPdfFont& font, int style);
+
+  /// Find an embeddable font for a family that is not registered (PDF/A)
+  /**
+  * Used if a font family requested by name is not registered with the requested style,
+  * for example to select the bold style of a replacement font family that was located
+  * via the operating system. The result (including failure) is cached per document.
+  * \param family the requested font family
+  * \param style the requested font style
+  * \return the embeddable font, or an invalid font if none was found
+  */
+  wxPdfFont FindEmbeddableFont(const wxString& family, int style);
+
   /// Defines the size of the current font.
   /**
   * \param size The size (in points)
@@ -3977,6 +4002,7 @@ private:
   int                  m_fontStyle;           ///< current font style
   int                  m_decoration;          ///< font decoration flags
   bool                 m_fontSubsetting;      ///< flag whether to use font subsetting
+  wxPdfEmbeddableFontCache* m_embeddableFontCache; ///< fonts resolved for PDF/A
 
   wxPdfFontDetails*    m_currentFont;         ///< current font info
 

@@ -49,6 +49,20 @@
 
 //#include <vld.h>
 
+#include <map>
+
+/// Fonts resolved by wxPdfDocument::GetFontToEmbed() (PDF/A)
+/**
+* Looking up an embeddable replacement may involve the operating system's font
+* services, so the result is remembered per document. A cached invalid font means
+* that no embeddable font was found; the warning about it has already been logged.
+*/
+class wxPdfEmbeddableFontCache
+{
+public:
+  std::map<wxString, wxPdfFont> m_fonts; ///< maps "font name|style" to the font to be used
+};
+
 #if WXPDFDOC_INHERIT_WXOBJECT
 IMPLEMENT_DYNAMIC_CLASS(wxPdfDocument, wxObject)
 #endif
@@ -189,6 +203,7 @@ wxPdfDocument::Initialize(int orientation)
   m_fontSizePt = 12;
   m_decoration = wxPDF_FONTSTYLE_REGULAR;
   m_fontSubsetting = true;
+  m_embeddableFontCache = NULL;
 
   m_drawColour  = wxPdfColour();
   m_fillColour  = wxPdfColour();
@@ -296,6 +311,7 @@ wxPdfDocument::~wxPdfDocument()
     }
   }
   delete m_fonts;
+  delete m_embeddableFontCache;
 
   wxPdfImageHashMap::iterator image = m_images->begin();
   for (image = m_images->begin(); image != m_images->end(); image++)
@@ -2517,6 +2533,67 @@ wxPdfDocument::AttachFile(const wxString& fileName, const wxString& attachName, 
     wxLogDebug(wxS("*** Attachment file '%s' does not exist."), fileName.c_str());
   }
   return ok;
+}
+
+wxPdfFont
+wxPdfDocument::GetFontToEmbed(const wxPdfFont& font, int style)
+{
+  // PDF/A-1 requires all fonts to be embedded
+  if (!m_isPdfA1 || !font.IsValid())
+  {
+    return font;
+  }
+  if (font.EmbedSupported() || font.EmbedRequired())
+  {
+    if (font.GetEmbed())
+    {
+      return font;
+    }
+    wxPdfFont embeddedFont = font;
+    embeddedFont.SetEmbed(true);
+    return embeddedFont;
+  }
+
+  // The font itself can't be embedded: look for a replacement.
+  // PDF/A forbids non-embedded fonts, so even the standard fonts are replaced.
+  int searchStyle = (font.GetStyle() | style) & (wxPDF_FONTSTYLE_ITALIC | wxPDF_FONTSTYLE_WEIGHT_MASK);
+  wxString key = font.GetName() + wxString::Format(wxS("|%d"), searchStyle);
+  if (m_embeddableFontCache == NULL)
+  {
+    m_embeddableFontCache = new wxPdfEmbeddableFontCache();
+  }
+  std::map<wxString, wxPdfFont>::const_iterator cached = m_embeddableFontCache->m_fonts.find(key);
+  if (cached == m_embeddableFontCache->m_fonts.end())
+  {
+    wxPdfFont replacement = wxPdfFontManager::GetFontManager()->GetEmbeddableFont(font, searchStyle);
+    if (!replacement.IsValid())
+    {
+      wxLogWarning(wxString(wxS("wxPdfDocument::SelectFont: ")) +
+                   wxString::Format(_("Font '%s' can't be embedded and no embeddable replacement was found; it is used without embedding."),
+                                    font.GetName().c_str()));
+    }
+    cached = m_embeddableFontCache->m_fonts.insert(std::make_pair(key, replacement)).first;
+  }
+  return (cached->second.IsValid()) ? cached->second : font;
+}
+
+wxPdfFont
+wxPdfDocument::FindEmbeddableFont(const wxString& family, int style)
+{
+  int searchStyle = style & (wxPDF_FONTSTYLE_ITALIC | wxPDF_FONTSTYLE_WEIGHT_MASK);
+  // The prefix keeps family names apart from the font names used by GetFontToEmbed()
+  wxString key = wxS("family:") + family.Lower() + wxString::Format(wxS("|%d"), searchStyle);
+  if (m_embeddableFontCache == NULL)
+  {
+    m_embeddableFontCache = new wxPdfEmbeddableFontCache();
+  }
+  std::map<wxString, wxPdfFont>::const_iterator cached = m_embeddableFontCache->m_fonts.find(key);
+  if (cached == m_embeddableFontCache->m_fonts.end())
+  {
+    wxPdfFont font = wxPdfFontManager::GetFontManager()->GetEmbeddableFont(family, searchStyle);
+    cached = m_embeddableFontCache->m_fonts.insert(std::make_pair(key, font)).first;
+  }
+  return cached->second;
 }
 
 void

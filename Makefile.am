@@ -382,6 +382,16 @@ endif
 noinst_PROGRAMS=
 CLEANFILES=
 
+# Automated tests, run them with "make check".
+check_PROGRAMS = tests/embedfonts
+
+check-local: $(check_PROGRAMS)
+	./tests/embedfonts$(EXEEXT)
+
+tests_embedfonts_SOURCES = tests/embedfonts.cpp
+tests_embedfonts_CPPFLAGS = -DWXPDFDOC_TEST_FONTDIR='"$(abs_top_srcdir)/lib/fonts"'
+tests_embedfonts_LDADD = $(LDADD)
+
 if BUILD_SAMPLES
 # Samples (don't need to be installed).
 noinst_PROGRAMS += samples/minimal/minimal
