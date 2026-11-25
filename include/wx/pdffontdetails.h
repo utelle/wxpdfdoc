@@ -175,6 +175,13 @@ public:
   */
   wxArrayInt GetKerningWidthArray(const wxString& s) const;
 
+  /// Check whether the font contains glyphs for all characters of a string
+  /**
+  * \param s the string to check
+  * \return @c true if all characters can be shown, @c false otherwise
+  */
+  bool CanShow(const wxString& s) const;
+
   /// Convert character codes to glyph numbers
   /**
   * \param s the string to be converted

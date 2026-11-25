@@ -21,6 +21,8 @@ class wxListCtrl;
 class wxGrid;
 #endif
 
+#include <vector>
+
 // wxWidgets headers
 #include <wx/dynarray.h>
 #include <wx/graphics.h>
@@ -58,6 +60,9 @@ class WXDLLIMPEXP_FWD_PDFDOC wxPdfCoonsPatchMesh;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFont;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontDescription;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontDetails;
+class wxPdfFontFallback;
+struct wxPdfFontFallbackRun;
+class wxPdfEmbeddableFontCache;
 
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfExtGState;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfGradient;
@@ -1682,6 +1687,70 @@ public:
   * \see SetFont()
   */
   virtual void SetFontSize(double size);
+
+  /// Adds a font to the list of fallback fonts
+  /**
+  * Font fallback (also known as font substitution) is used for characters the current
+  * font has no glyph for. Without fallback such characters are rendered as blanks
+  * (or as the font's "missing glyph" symbol). With fallback, wxPdfDocument splits the
+  * text into runs, rendering each character the current font lacks with the first
+  * fallback font that contains it - similar to what wxWidgets and the operating system
+  * do when drawing text on screen. Typical use: Greek letters and mathematical symbols
+  * in a document whose main font only covers Latin script.
+  *
+  * Fallback fonts are tried in the order they were added. If the current font is
+  * bold and/or italic, the corresponding style of the fallback font family is used
+  * if it is registered; otherwise the font as given is used.
+  *
+  * Fallback affects text output (Text(), Cell(), MultiCell(), Write(), WriteXml(),
+  * wxPdfDC and wxPdfGraphicsContext) as well as GetStringWidth(), so that layout and
+  * rendering stay consistent. Characters the current font can show are always
+  * rendered with the current font, so documents that do not need fallback are
+  * written exactly as before.
+  *
+  * \param font a valid font, for example as returned by wxPdfFontManager::GetFont()
+  *        or wxPdfFontManager::RegisterFont()
+  * \return @c true if the font was added, @c false if the font is invalid
+  * \note Font fallback is disabled by default.
+  * \note In PDF/A-1 documents, which have to embed all fonts, the same embedding
+  * rules apply to fallback fonts as to the current font.
+  * \see ClearFallbackFonts(), SetSystemFontFallback()
+  */
+  virtual bool AddFallbackFont(const wxPdfFont& font);
+
+  /// Adds a font family to the list of fallback fonts
+  /**
+  * Convenience variant of AddFallbackFont(const wxPdfFont&) for fonts already
+  * registered with wxPdfFontManager (including the core fonts, e.g. "Symbol").
+  * \param family name of a registered font family
+  * \return @c true if the family is known and was added, @c false otherwise
+  */
+  virtual bool AddFallbackFont(const wxString& family);
+
+  /// Removes all fonts from the list of fallback fonts
+  /**
+  * \note This does not affect SetSystemFontFallback().
+  */
+  virtual void ClearFallbackFonts();
+
+  /// Enables or disables the search for fallback fonts among the installed system fonts
+  /**
+  * If enabled, characters that neither the current font nor any font added with
+  * AddFallbackFont() can show are looked up among the fonts installed on the system
+  * using wxPdfFontManager::FindFallbackFont(). Fonts found this way are registered
+  * with the font manager and embedded in the document like any other font.
+  *
+  * \param enable @c true to enable the system font search, @c false to disable it
+  * \note Disabled by default. The result depends on the fonts installed on the
+  * machine creating the PDF; use AddFallbackFont() for reproducible output.
+  */
+  virtual void SetSystemFontFallback(bool enable);
+
+  /// Checks whether fallback fonts are searched among the installed system fonts
+  /**
+  * \return @c true if SetSystemFontFallback() was enabled, @c false otherwise
+  */
+  virtual bool GetSystemFontFallback() const;
 
   /// Force selecting the current font
   /// \private
@@ -3593,6 +3662,30 @@ protected:
   */
   virtual bool SelectFont(const wxPdfFont& font, int style, double size = 0, bool setFont = true);
 
+  /// Get the font to be used for a selected font, honouring PDF/A's font rules
+  /**
+  * PDF/A forbids fonts that are not embedded. In a PDF/A document (see
+  * SetPdfA1Conformance()) this returns an embeddable version of the font or an
+  * embeddable replacement (see wxPdfFontManager::GetEmbeddableFont()); if neither
+  * exists, a warning is logged once per font and the font itself is returned.
+  * In other documents the font is returned unchanged.
+  * \param font the selected font
+  * \param style the requested font style
+  * \return the font to be used in the document
+  */
+  wxPdfFont GetFontToEmbed(const wxPdfFont& font, int style);
+
+  /// Find an embeddable font for a family that is not registered (PDF/A)
+  /**
+  * Used if a font family requested by name is not registered with the requested style,
+  * for example to select the bold style of a replacement font family that was located
+  * via the operating system. The result (including failure) is cached per document.
+  * \param family the requested font family
+  * \param style the requested font style
+  * \return the embeddable font, or an invalid font if none was found
+  */
+  wxPdfFont FindEmbeddableFont(const wxString& family, int style);
+
   /// Defines the size of the current font.
   /**
   * \param size The size (in points)
@@ -3766,7 +3859,41 @@ protected:
   wxString DoDecoration(double x, double y, const wxString& txt);
 
   /// Show text string, with kerning if requested
+  /**
+  * If font fallback is enabled and the current font lacks glyphs for some characters,
+  * the text is split into runs and each run is shown with an appropriate font.
+  * \see AddFallbackFont()
+  */
   void ShowText(const wxString& txt);
+
+  /// Show a text string with the current font, with kerning and word spacing if requested
+  void ShowTextRun(const wxString& txt);
+
+  /// Split a text into runs that can each be rendered with a single font
+  /**
+  * Every character the current font can show stays with the current font.
+  * Other characters are assigned to the first fallback font containing them.
+  * \param txt the text to split
+  * \param runs receives the runs
+  * \return @c true if at least one run uses a fallback font
+  */
+  bool SplitTextByFont(const wxString& txt, std::vector<wxPdfFontFallbackRun>& runs);
+
+  /// Find the fallback font slot for a single code point
+  /**
+  * \param codePoint the Unicode code point
+  * \param chr the code point as a string (one or two UTF-16 code units)
+  * \return the slot index or -1 if no fallback font contains the glyph
+  */
+  int FindFallbackSlot(wxUint32 codePoint, const wxString& chr);
+
+  /// Make sure that a font is known to the document (and to the current template)
+  /**
+  * Assigns a resource index to the font if it is used for the first time.
+  * \param font the font to register
+  * \return the font details of the font
+  */
+  wxPdfFontDetails* RegisterFontDetails(const wxPdfFont& font);
 
   /// Show a single glyph
   void ShowGlyph(wxUint32 glyph);
@@ -3977,8 +4104,10 @@ private:
   int                  m_fontStyle;           ///< current font style
   int                  m_decoration;          ///< font decoration flags
   bool                 m_fontSubsetting;      ///< flag whether to use font subsetting
+  wxPdfEmbeddableFontCache* m_embeddableFontCache; ///< fonts resolved for PDF/A
 
   wxPdfFontDetails*    m_currentFont;         ///< current font info
+  wxPdfFontFallback*   m_fontFallback;        ///< font fallback configuration and cache
 
   double               m_fontSizePt;          ///< current font size in points
   double               m_fontSize;            ///< current font size in user unit

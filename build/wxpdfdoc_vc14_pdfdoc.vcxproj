@@ -621,6 +621,7 @@
     <ClInclude Include="..\src\crypto\sha512.h" />
     <ClInclude Include="..\src\crypto\unicode_norm.h" />
     <ClInclude Include="..\src\crypto\unicode_norm_table.h" />
+    <ClInclude Include="..\src\pdffontfallback.h" />
     <ClInclude Include="..\src\private_graphics.h" />
     <ClInclude Include="..\src\srgb2014icc.h" />
     <ClInclude Include="..\src\woff\woff2converter.h" />

@@ -207,6 +207,9 @@
     <ClInclude Include="..\src\crypto\unicode_norm_table.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\pdffontfallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\src\private_graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
