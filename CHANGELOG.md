@@ -19,6 +19,11 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 - Added tagged PDF output for accessible documents: `SetTagged()`, `BeginTag()`/`EndTag()` with alternate text, replacement text (`/ActualText`), expansion, language and title (class `wxPdfTag`), `BeginFormula()`/`EndFormula()` with MathML embedded as associated file, `BeginArtifact()`/`EndArtifact()`; untagged content and page headers/footers are marked as artifacts automatically
 - Added `SetLanguage()` to set the natural language of the document
 - Added a tagged PDF example to the minimal sample
+- Added `wxPdfDC::SetFontResolution()`, so that the size of text in the PDF no longer depends on the resolution of the screen the program happens to run on (72 ppi on macOS, the display's on other platforms)
+
+### Fixed
+
+- A wxFont with style `wxFONTSTYLE_SLANT` is now drawn with the font's italic (or oblique) face instead of the upright one
 
 ## [1.4.0] - 2026-05-20
 
