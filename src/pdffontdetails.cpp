@@ -150,6 +150,12 @@ wxPdfFontDetails::GetKerningWidthArray(const wxString& s) const
   return m_font.GetKerningWidthArray(s);
 }
 
+bool
+wxPdfFontDetails::CanShow(const wxString& s) const
+{
+  return m_font.CanShow(s);
+}
+
 const wxPdfFontDescription&
 wxPdfFontDetails::GetDescription() const
 {

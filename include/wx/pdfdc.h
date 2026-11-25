@@ -122,6 +122,36 @@ public:
   */
   int GetResolution() const;
 
+  /// Sets the resolution font sizes are interpreted at
+  /**
+  * A wxFont's point size is turned into the size of the PDF font the way a
+  * screen DC would draw it: as if the DC had the resolution of the screen
+  * (wxDisplay::GetPPI(), 72 on macOS). That makes text drawn with wxPdfDC
+  * look as large, relative to the rest of the drawing, as it does in a
+  * window -- but it also makes the PDF depend on the screen of the computer
+  * that created it: the same code writes larger text on a 120 dpi screen
+  * than on a 96 dpi one, and smaller text on a Mac.
+  *
+  * Applications that lay out their drawing for a fixed resolution can make
+  * the output reproducible by setting it here; text measurement
+  * (GetTextExtent()) uses the same value, so the layout stays consistent.
+  *
+  * \param ppi Resolution in pixels per inch that font sizes are meant for,
+  *        for example 96 (the reference resolution of Windows and GTK) or 72
+  *        (so that a font of n points is drawn n points high if the DC's
+  *        resolution is 72 as well). Values <= 0 restore the screen's.
+  * \see GetFontResolution(), SetResolution()
+  */
+  void SetFontResolution(int ppi);
+
+  /// Returns the resolution font sizes are interpreted at
+  /**
+  * 
+eturn Resolution in pixels per inch
+  * \see SetFontResolution()
+  */
+  int GetFontResolution() const;
+
   /// Sets the image type and quality for bitmap output
   /**
   * \param bitmapType The type of the bitmap (e.g., wxBITMAP_TYPE_JPEG)
@@ -251,6 +281,15 @@ public:
   * \see SetResolution()
   */
   virtual int GetResolution() const wxOVERRIDE;
+
+  /// Sets the resolution font sizes are interpreted at
+  /**
+  * \see wxPdfDC::SetFontResolution()
+  */
+  void SetFontResolution(int ppi);
+
+  /// Returns the resolution font sizes are interpreted at
+  int GetFontResolution() const;
 
   /// Sets the image type and quality
   /**
@@ -474,6 +513,9 @@ public:
 
 private:
   int FindPdfFont(wxFont* font) const;
+
+  /// The resolution font sizes are interpreted at unless SetFontResolution() was called
+  static double ScreenFontResolution();
 
   bool MustSetCurrentPen(const wxPen& currentPen) const;
   bool MustSetCurrentBrush(const wxBrush& currentBrush) const;

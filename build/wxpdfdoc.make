@@ -253,6 +253,7 @@ GENERATED += $(OBJDIR)/pdfparser.o
 GENERATED += $(OBJDIR)/pdfpattern.o
 GENERATED += $(OBJDIR)/pdfprint.o
 GENERATED += $(OBJDIR)/pdfrijndael.o
+GENERATED += $(OBJDIR)/pdfstructure.o
 GENERATED += $(OBJDIR)/pdftemplate.o
 GENERATED += $(OBJDIR)/pdfutility.o
 GENERATED += $(OBJDIR)/pdfxml.o
@@ -307,6 +308,7 @@ OBJECTS += $(OBJDIR)/pdfparser.o
 OBJECTS += $(OBJDIR)/pdfpattern.o
 OBJECTS += $(OBJDIR)/pdfprint.o
 OBJECTS += $(OBJDIR)/pdfrijndael.o
+OBJECTS += $(OBJDIR)/pdfstructure.o
 OBJECTS += $(OBJDIR)/pdftemplate.o
 OBJECTS += $(OBJDIR)/pdfutility.o
 OBJECTS += $(OBJDIR)/pdfxml.o
@@ -512,6 +514,9 @@ $(OBJDIR)/pdfprint.o: ../src/pdfprint.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdfrijndael.o: ../src/pdfrijndael.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/pdfstructure.o: ../src/pdfstructure.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pdftemplate.o: ../src/pdftemplate.cpp

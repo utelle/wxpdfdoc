@@ -81,6 +81,9 @@ wxPdfDocument::EnterLayer(wxPdfLayer* layer)
   wxPdfLayer* currentLayer = layer;
   if (currentLayer->GetType() == wxPDF_OCG_TYPE_LAYER)
   {
+    // Keep marked-content sequences of tagged documents properly nested:
+    // the layer's sequence must not be opened inside one of ours
+    TagSuspendMarkedContent();
     int n = 0;
     while (currentLayer != NULL)
     {
@@ -94,6 +97,7 @@ wxPdfDocument::EnterLayer(wxPdfLayer* layer)
       currentLayer = currentLayer->GetParent();
     }
     m_layerDepth.Add(n);
+    TagResumeMarkedContent();
   }
   else
   {
@@ -105,10 +109,14 @@ wxPdfDocument::EnterLayer(wxPdfLayer* layer)
 void
 wxPdfDocument::EnterLayer(wxPdfLayerMembership* layer)
 {
+  // Keep marked-content sequences of tagged documents properly nested:
+  // the layer's sequence must not be opened inside one of ours
+  TagSuspendMarkedContent();
   m_layerDepth.Add(1);
   Out("/OC ", false);
   OutAscii(wxString::Format(wxS("/L%d"), layer->GetIndex()), false);
   Out(" BDC");
+  TagResumeMarkedContent();
 }
 
 void
@@ -125,10 +133,14 @@ wxPdfDocument::LeaveLayer()
     wxLogError(wxString(wxS("wxPdfDocument::LeaveLayer: ")) +
                wxString(_("Unbalanced layer operators.")));
   }
+  // Keep marked-content sequences of tagged documents properly nested:
+  // close ours before the layer's, and don't open one just for the EMC
+  TagSuspendMarkedContent();
   while (n-- > 0)
   {
     Out("EMC");
   }
+  TagResumeMarkedContent();
 }
 
 void

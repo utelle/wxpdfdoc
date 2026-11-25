@@ -27,15 +27,21 @@
 #include <wx/filename.h>
 #include <wx/filesys.h>
 #include <wx/font.h>
+#if wxUSE_FONTENUM
+#include <wx/fontenum.h>
+#endif
 #include <wx/hashmap.h>
 #include <wx/thread.h>
 #include <wx/xml/xml.h>
+
+#include <map>
 
 #include "wx/pdfencoding.h"
 #include "wx/pdffontmanager.h"
 #include "wx/pdffontdata.h"
 #include "wx/pdffontdatacore.h"
 #include "wx/pdffontdataopentype.h"
+#include "wx/pdffontextended.h"
 #include "wx/pdffontdatatruetype.h"
 #include "wx/pdffontdatatype0.h"
 #include "wx/pdffontdatatype1.h"
@@ -346,8 +352,37 @@ public:
 
   static wxString ConvertStyleToString(int fontStyle);
 
+  void SetEmbeddableFontReplacement(const wxString& fontFamily, const wxString& replacementFamily);
+
+  wxString GetEmbeddableFontReplacement(const wxString& fontFamily) const;
+
+  wxPdfFont GetEmbeddableFont(const wxPdfFont& font, int fontStyle, bool useBuiltInReplacements);
+
+  wxPdfFont GetEmbeddableFont(const wxString& fontFamily, int fontStyle);
+
+#if wxUSE_UNICODE
+  wxPdfFont FindFallbackFont(wxUint32 unicodeChar, int fontStyle);
+#endif
+
 private:
+#if wxUSE_UNICODE
+#if defined(__WXGTK__)
+  wxPdfFont FindFallbackFontFontconfig(wxUint32 unicodeChar, const wxString& chr, int fontStyle);
+#else
+  wxPdfFont FindFallbackFontByFamily(const wxString& chr, int fontStyle);
+#endif
+#endif
+
   void InitializeCoreFonts();
+
+  /// Collect the replacement families to try for a font that cannot be embedded
+  void AddReplacementCandidates(const wxString& fontFamily, wxArrayString& candidates, bool useBuiltInReplacements = true) const;
+
+  /// Find an embeddable font of the given family, registering it from the system if necessary
+  wxPdfFont FindEmbeddableFamilyMember(const wxString& fontFamily, int fontStyle);
+
+  /// Locate a font family via the operating system and register it
+  wxPdfFont RegisterSystemFontFamily(const wxString& fontFamily, int fontStyle);
 
 #if wxUSE_UNICODE
   void InitializeCjkFonts();
@@ -379,8 +414,14 @@ private:
   bool               m_defaultEmbed;
   bool               m_defaultSubset;
 
+  /// User defined embeddable replacements, maps lower case family names to replacement families
+  wxPdfFontAliasMap  m_embeddableReplacementMap;
+
   wxPdfEncodingMap*        m_encodingMap;
   wxPdfEncodingCheckerMap* m_encodingCheckerMap;
+
+  /// Cache of FindFallbackFont() results: (style << 32 | code point) -> index in m_fontList, or -1
+  std::map<wxUint64, int>  m_fallbackCache;
 };
 
 wxPdfFontManagerBase::wxPdfFontManagerBase()
@@ -1106,6 +1147,242 @@ wxPdfFontManagerBase::RegisterFontDirectory(const wxString& directory, bool recu
 }
 #endif
 
+#if wxUSE_UNICODE
+
+// Converts a Unicode code point into a wxString, taking into account that
+// wxString uses UTF-16 on platforms with a 16 bit wchar_t (wxMSW).
+static wxString
+CodePointToString(wxUint32 unicodeChar)
+{
+  wxString chr;
+#if SIZEOF_WCHAR_T == 2
+  if (unicodeChar > 0xFFFF)
+  {
+    wchar_t pair[2];
+    pair[0] = (wchar_t) (0xD800 + ((unicodeChar - 0x10000) >> 10));
+    pair[1] = (wchar_t) (0xDC00 + ((unicodeChar - 0x10000) & 0x3FF));
+    chr = wxString(pair, 2);
+  }
+  else
+#endif
+  {
+    chr = wxString(wxUniChar(unicodeChar));
+  }
+  return chr;
+}
+
+wxPdfFont
+wxPdfFontManagerBase::FindFallbackFont(wxUint32 unicodeChar, int fontStyle)
+{
+  const int style = fontStyle & (wxPDF_FONTSTYLE_BOLDITALIC | wxPDF_FONTSTYLE_WEIGHT_MASK);
+  const wxUint64 cacheKey = (((wxUint64) (wxUint32) style) << 32) | unicodeChar;
+  int cachedIndex = -2; // -2: not cached, -1: cached negative result
+  {
+#if wxUSE_THREADS
+    wxCriticalSectionLocker locker(gs_csFontManager);
+#endif
+    std::map<wxUint64, int>::const_iterator cached = m_fallbackCache.find(cacheKey);
+    if (cached != m_fallbackCache.end())
+    {
+      cachedIndex = cached->second;
+    }
+  }
+  if (cachedIndex == -1)
+  {
+    return wxPdfFont();
+  }
+  if (cachedIndex >= 0)
+  {
+    wxPdfFont font = GetFont((size_t) cachedIndex);
+    font.SetEmbed(m_defaultEmbed);
+    font.SetSubset(m_defaultSubset);
+    return font;
+  }
+
+  const wxString chr = CodePointToString(unicodeChar);
+  wxPdfFont found;
+  {
+    // Searching involves trying fonts that may turn out to be unsuitable or
+    // broken; such failures are expected and must not bother the user.
+    wxLogNull noLog;
+#if defined(__WXGTK__)
+    // fontconfig knows all installed fonts and their coverage
+    found = FindFallbackFontFontconfig(unicodeChar, chr, style);
+#else
+    found = FindFallbackFontByFamily(chr, style);
+#endif
+  }
+
+  int foundIndex = -1;
+  {
+#if wxUSE_THREADS
+    wxCriticalSectionLocker locker(gs_csFontManager);
+#endif
+    if (found.IsValid())
+    {
+      wxPdfFontNameMap::const_iterator fontIter = m_fontNameMap.find(found.GetName().Lower());
+      if (fontIter != m_fontNameMap.end())
+      {
+        foundIndex = (int) fontIter->second;
+      }
+    }
+    m_fallbackCache[cacheKey] = foundIndex;
+  }
+  if (found.IsValid())
+  {
+    found.SetEmbed(m_defaultEmbed);
+    found.SetSubset(m_defaultSubset);
+  }
+  return found;
+}
+
+#if defined(__WXGTK__)
+wxPdfFont
+wxPdfFontManagerBase::FindFallbackFontFontconfig(wxUint32 unicodeChar, const wxString& chr, int fontStyle)
+{
+  wxPdfFont found;
+
+  // Map the requested style to fontconfig's slant and weight values
+  int slant = (fontStyle & wxPDF_FONTSTYLE_ITALIC) ? FC_SLANT_ITALIC : FC_SLANT_ROMAN;
+  int weight = FC_WEIGHT_NORMAL;
+  if (fontStyle & wxPDF_FONTSTYLE_THIN)            weight = FC_WEIGHT_THIN;
+  else if (fontStyle & wxPDF_FONTSTYLE_EXTRALIGHT) weight = FC_WEIGHT_EXTRALIGHT;
+  else if (fontStyle & wxPDF_FONTSTYLE_LIGHT)      weight = FC_WEIGHT_LIGHT;
+  else if (fontStyle & wxPDF_FONTSTYLE_MEDIUM)     weight = FC_WEIGHT_MEDIUM;
+  else if (fontStyle & wxPDF_FONTSTYLE_SEMIBOLD)   weight = FC_WEIGHT_DEMIBOLD;
+  else if (fontStyle & wxPDF_FONTSTYLE_EXTRABOLD)  weight = FC_WEIGHT_EXTRABOLD;
+  else if (fontStyle & wxPDF_FONTSTYLE_HEAVY)      weight = FC_WEIGHT_BLACK;
+  else if (fontStyle & wxPDF_FONTSTYLE_EXTRAHEAVY) weight = FC_WEIGHT_BLACK;
+  else if (fontStyle & wxPDF_FONTSTYLE_BOLD)       weight = FC_WEIGHT_BOLD;
+
+  // Ask fontconfig for the installed fonts ordered by how well they match a
+  // font containing the character in the requested style. This is the same
+  // mechanism Pango (and thus wxGTK) uses to find a font for missing glyphs.
+  FcCharSet* charSet = FcCharSetCreate();
+  FcCharSetAddChar(charSet, (FcChar32) unicodeChar);
+  FcPattern* pattern = FcPatternCreate();
+  FcPatternAddCharSet(pattern, FC_CHARSET, charSet);
+  FcPatternAddBool(pattern, FC_SCALABLE, FcTrue);
+  FcPatternAddInteger(pattern, FC_SLANT, slant);
+  FcPatternAddInteger(pattern, FC_WEIGHT, weight);
+  FcConfigSubstitute(NULL, pattern, FcMatchPattern);
+  FcDefaultSubstitute(pattern);
+
+  FcResult result;
+  FcFontSet* fontSet = FcFontSort(NULL, pattern, FcTrue, NULL, &result);
+  if (fontSet != NULL)
+  {
+    // The sorted list contains all fonts; only the first few that actually
+    // contain the character are worth registering and checking.
+    int tries = 0;
+    for (int j = 0; j < fontSet->nfont && tries < 5 && !found.IsValid(); ++j)
+    {
+      FcPattern* candidate = fontSet->fonts[j];
+      FcCharSet* candidateCharSet = NULL;
+      if (FcPatternGetCharSet(candidate, FC_CHARSET, 0, &candidateCharSet) != FcResultMatch ||
+          !FcCharSetHasChar(candidateCharSet, (FcChar32) unicodeChar))
+      {
+        continue;
+      }
+#ifdef FC_COLOR
+      // Colour (bitmap) fonts like emoji fonts can't be embedded as outline fonts
+      FcBool isColour = FcFalse;
+      if (FcPatternGetBool(candidate, FC_COLOR, 0, &isColour) == FcResultMatch && isColour)
+      {
+        continue;
+      }
+#endif
+      FcChar8* file = NULL;
+      if (FcPatternGetString(candidate, FC_FILE, 0, &file) != FcResultMatch)
+      {
+        continue;
+      }
+      wxString fileName = wxString::FromUTF8((const char*) file);
+      wxString ext = wxFileName(fileName).GetExt().Lower();
+      if (!ext.IsSameAs(wxS("ttf")) && !ext.IsSameAs(wxS("otf")) && !ext.IsSameAs(wxS("ttc")))
+      {
+        continue;
+      }
+      int fontIndex = 0;
+      if (FcPatternGetInteger(candidate, FC_INDEX, 0, &fontIndex) != FcResultMatch)
+      {
+        fontIndex = 0;
+      }
+
+      ++tries;
+      wxPdfFont font = RegisterFont(fileName, wxEmptyString, fontIndex);
+      if (font.IsValid() && InitializeFontData(font) && wxPdfFontExtended(font).CanShow(chr))
+      {
+        found = font;
+      }
+    }
+    FcFontSetDestroy(fontSet);
+  }
+  FcPatternDestroy(pattern);
+  FcCharSetDestroy(charSet);
+  return found;
+}
+#else // !__WXGTK__
+
+wxPdfFont
+wxPdfFontManagerBase::FindFallbackFontByFamily(const wxString& chr, int fontStyle)
+{
+  wxPdfFont found;
+#if wxUSE_FONTENUM
+  // Platforms without fontconfig have no simple API to ask for "a font containing
+  // this character", so a list of well-known font families with a large Unicode
+  // coverage (Greek, mathematical symbols, ...) is tried instead, in this order.
+  // Most of them are preinstalled on the respective platform.
+  static const wxChar* const fallbackFamilies[] =
+  {
+#if defined(__WXMSW__)
+    wxS("Segoe UI"), wxS("Cambria Math"), wxS("Segoe UI Symbol"), wxS("Arial Unicode MS"),
+    wxS("Segoe UI Historic"), wxS("Nirmala UI"), wxS("Microsoft YaHei"), wxS("Yu Gothic"),
+    wxS("Malgun Gothic"), wxS("Ebrima"), wxS("Gadugi"), wxS("Leelawadee UI"),
+#elif defined(__WXMAC__)
+    wxS("Helvetica Neue"), wxS("Lucida Grande"), wxS("STIX Two Math"), wxS("Apple Symbols"),
+    wxS("Arial Unicode MS"), wxS("Menlo"), wxS("PingFang SC"), wxS("Hiragino Sans"),
+    wxS("Apple SD Gothic Neo"),
+#endif
+    wxS("DejaVu Sans"), wxS("Noto Sans"), wxS("Noto Sans Math"), wxS("Noto Sans Symbols"),
+    wxS("Noto Sans Symbols 2"), wxS("FreeSerif"), wxS("STIX Two Math"), wxS("Symbola"),
+    NULL
+  };
+
+  const bool bold = (fontStyle & wxPDF_FONTSTYLE_BOLD) != 0;
+  const bool italic = (fontStyle & wxPDF_FONTSTYLE_ITALIC) != 0;
+  for (int j = 0; fallbackFamilies[j] != NULL && !found.IsValid(); ++j)
+  {
+    const wxString family = fallbackFamilies[j];
+    if (!wxFontEnumerator::IsValidFacename(family))
+    {
+      continue;
+    }
+    // Prefer a font that is already registered, e.g. by RegisterSystemFonts()
+    wxPdfFont font = GetFont(family, fontStyle);
+    if (!font.IsValid())
+    {
+      wxFont wxfont(wxFontInfo(12).FaceName(family).Bold(bold).Italic(italic));
+      if (wxfont.IsOk())
+      {
+        font = RegisterFont(wxfont, wxEmptyString);
+      }
+    }
+    if (font.IsValid() && InitializeFontData(font) && wxPdfFontExtended(font).CanShow(chr))
+    {
+      found = font;
+    }
+  }
+#else
+  wxUnusedVar(chr);
+  wxUnusedVar(fontStyle);
+#endif
+  return found;
+}
+#endif // __WXGTK__
+
+#endif // wxUSE_UNICODE
+
 wxPdfFont
 wxPdfFontManagerBase::GetFont(const wxString& fontName, int fontStyle) const
 {
@@ -1357,6 +1634,279 @@ wxString
 wxPdfFontManagerBase::ConvertStyleToString(int fontStyle)
 {
   return wxPdfUtility::MapFontStyle2String(fontStyle);
+}
+
+// --- Embeddable font replacements
+
+namespace
+{
+
+/// Check whether a font can actually be embedded
+bool
+IsEmbeddable(const wxPdfFont& font)
+{
+  return font.IsValid() && (font.EmbedSupported() || font.EmbedRequired());
+}
+
+/// Normalize a family name for comparison (case and blanks/hyphens are ignored)
+wxString
+NormalizeFamilyName(const wxString& family)
+{
+  wxString normalized;
+  for (wxString::const_iterator ch = family.begin(); ch != family.end(); ++ch)
+  {
+    wxUniChar c = *ch;
+    if (c != wxS(' ') && c != wxS('-') && c != wxS('_'))
+    {
+      normalized += c;
+    }
+  }
+  return normalized.Lower();
+}
+
+/// Built-in embeddable replacements for the Adobe standard fonts
+/**
+* The free fonts are listed first, since they have the same metrics as the
+* standard fonts (Liberation and Croscore fonts are metric-compatible with
+* Arial/Times New Roman/Courier New which in turn are metric-compatible with
+* Helvetica/Times/Courier). The system fonts at the end of each list are
+* available on most Windows and macOS installations.
+*
+* Symbol and ZapfDingbats are intentionally missing: they use a font specific
+* encoding, therefore a Unicode replacement would render different glyphs.
+*/
+struct wxPdfEmbeddableReplacementDesc
+{
+  const wxStringCharType* family;          ///< family of the standard font (lower case)
+  const wxStringCharType* replacements[9]; ///< replacement families, terminated by NULL
+};
+
+const wxPdfEmbeddableReplacementDesc gs_embeddableReplacements[] =
+{
+  { wxS("helvetica"), { wxS("Liberation Sans"), wxS("Arimo"), wxS("Nimbus Sans"), wxS("Nimbus Sans L"),
+                        wxS("TeX Gyre Heros"), wxS("FreeSans"), wxS("Arial"), wxS("Helvetica"), NULL } },
+  { wxS("times"),     { wxS("Liberation Serif"), wxS("Tinos"), wxS("Nimbus Roman"), wxS("Nimbus Roman No9 L"),
+                        wxS("TeX Gyre Termes"), wxS("FreeSerif"), wxS("Times New Roman"), wxS("Times"), NULL } },
+  { wxS("courier"),   { wxS("Liberation Mono"), wxS("Cousine"), wxS("Nimbus Mono PS"), wxS("Nimbus Mono L"),
+                        wxS("TeX Gyre Cursor"), wxS("FreeMono"), wxS("Courier New"), wxS("Courier"), NULL } },
+  { NULL,             { NULL } }
+};
+
+#if wxUSE_UNICODE
+/// Map wxPdfDocument font style flags to a numeric (CSS like) font weight
+int
+MapFontStyle2NumericWeight(int fontStyle)
+{
+  if (fontStyle & wxPDF_FONTSTYLE_THIN)       return 100;
+  if (fontStyle & wxPDF_FONTSTYLE_EXTRALIGHT) return 200;
+  if (fontStyle & wxPDF_FONTSTYLE_LIGHT)      return 300;
+  if (fontStyle & wxPDF_FONTSTYLE_MEDIUM)     return 500;
+  if (fontStyle & wxPDF_FONTSTYLE_SEMIBOLD)   return 600;
+  if (fontStyle & wxPDF_FONTSTYLE_BOLD)       return 700;
+  if (fontStyle & wxPDF_FONTSTYLE_EXTRABOLD)  return 800;
+  if (fontStyle & wxPDF_FONTSTYLE_HEAVY)      return 900;
+  if (fontStyle & wxPDF_FONTSTYLE_EXTRAHEAVY) return 1000;
+  return 400;
+}
+#endif
+
+} // anonymous namespace
+
+void
+wxPdfFontManagerBase::SetEmbeddableFontReplacement(const wxString& fontFamily, const wxString& replacementFamily)
+{
+#if wxUSE_THREADS
+  wxCriticalSectionLocker locker(gs_csFontManager);
+#endif
+  wxString family = fontFamily.Lower();
+  if (replacementFamily.IsEmpty())
+  {
+    m_embeddableReplacementMap.erase(family);
+  }
+  else
+  {
+    m_embeddableReplacementMap[family] = replacementFamily;
+  }
+}
+
+wxString
+wxPdfFontManagerBase::GetEmbeddableFontReplacement(const wxString& fontFamily) const
+{
+#if wxUSE_THREADS
+  wxCriticalSectionLocker locker(gs_csFontManager);
+#endif
+  wxPdfFontAliasMap::const_iterator it = m_embeddableReplacementMap.find(fontFamily.Lower());
+  return (it != m_embeddableReplacementMap.end()) ? it->second : wxString();
+}
+
+void
+wxPdfFontManagerBase::AddReplacementCandidates(const wxString& fontFamily, wxArrayString& candidates, bool useBuiltInReplacements) const
+{
+  if (fontFamily.IsEmpty())
+  {
+    return;
+  }
+  // User defined replacement first
+  wxString replacement = GetEmbeddableFontReplacement(fontFamily);
+  if (!replacement.IsEmpty() && candidates.Index(replacement, false) == wxNOT_FOUND)
+  {
+    candidates.Add(replacement);
+  }
+  if (!useBuiltInReplacements)
+  {
+    return;
+  }
+  // Built-in replacements
+  wxString family = fontFamily.Lower();
+  for (size_t j = 0; gs_embeddableReplacements[j].family != NULL; ++j)
+  {
+    if (family.IsSameAs(gs_embeddableReplacements[j].family))
+    {
+      const wxStringCharType* const* names = gs_embeddableReplacements[j].replacements;
+      for (size_t k = 0; names[k] != NULL; ++k)
+      {
+        wxString name(names[k]);
+        if (candidates.Index(name, false) == wxNOT_FOUND)
+        {
+          candidates.Add(name);
+        }
+      }
+      break;
+    }
+  }
+}
+
+wxPdfFont
+wxPdfFontManagerBase::RegisterSystemFontFamily(const wxString& fontFamily, int fontStyle)
+{
+  wxPdfFont regFont;
+#if wxUSE_UNICODE && (defined(__WXMSW__) || defined(__WXGTK__) || (defined(__WXMAC__) && (wxPDFMACOSX_HAS_CORE_TEXT || wxPDFMACOSX_HAS_ATSU_TEXT)))
+  // An explicit size avoids querying the GUI's default font (which would require
+  // a display connection on wxGTK); the size is irrelevant for the font file.
+  wxFontInfo fontInfo(12);
+  fontInfo.FaceName(fontFamily);
+  if (fontStyle & wxPDF_FONTSTYLE_ITALIC)
+  {
+    fontInfo.Italic();
+  }
+  int weight = MapFontStyle2NumericWeight(fontStyle);
+#if wxCHECK_VERSION(3,1,2)
+  fontInfo.Weight(weight);
+#else
+  if (weight >= 600)
+  {
+    fontInfo.Bold();
+  }
+  else if (weight <= 300)
+  {
+    fontInfo.Light();
+  }
+#endif
+  wxFont font(fontInfo);
+  if (font.IsOk())
+  {
+    // No alias is passed: if the platform falls back to another family,
+    // that family must not become known under the requested name.
+    wxPdfFont candidate = RegisterFont(font, wxEmptyString);
+    if (candidate.IsValid() &&
+        NormalizeFamilyName(candidate.GetFamily()).IsSameAs(NormalizeFamilyName(fontFamily)))
+    {
+      regFont = candidate;
+    }
+  }
+#else
+  wxUnusedVar(fontFamily);
+  wxUnusedVar(fontStyle);
+#endif
+  return regFont;
+}
+
+wxPdfFont
+wxPdfFontManagerBase::FindEmbeddableFamilyMember(const wxString& fontFamily, int fontStyle)
+{
+  wxPdfFont font = GetFont(fontFamily, fontStyle);
+  if (!IsEmbeddable(font))
+  {
+    // Not registered (with this style) or registered as a non-embeddable font
+    // (for example "Arial" is an alias of the standard font Helvetica):
+    // ask the operating system for the real font.
+    font = RegisterSystemFontFamily(fontFamily, fontStyle);
+    if (IsEmbeddable(font))
+    {
+      // Prefer the registered family member with exactly the requested style
+      wxPdfFont exactFont = GetFont(fontFamily, fontStyle);
+      if (IsEmbeddable(exactFont) &&
+          NormalizeFamilyName(exactFont.GetFamily()).IsSameAs(NormalizeFamilyName(fontFamily)))
+      {
+        font = exactFont;
+      }
+    }
+  }
+  if (IsEmbeddable(font))
+  {
+    font.SetEmbed(true);
+    return font;
+  }
+  return wxPdfFont();
+}
+
+wxPdfFont
+wxPdfFontManagerBase::GetEmbeddableFont(const wxPdfFont& font, int fontStyle, bool useBuiltInReplacements)
+{
+  if (!font.IsValid())
+  {
+    return wxPdfFont();
+  }
+  if (IsEmbeddable(font))
+  {
+    wxPdfFont embeddedFont = font;
+    embeddedFont.SetEmbed(true);
+    return embeddedFont;
+  }
+
+  int searchStyle = (font.GetStyle() | fontStyle) & (wxPDF_FONTSTYLE_ITALIC | wxPDF_FONTSTYLE_WEIGHT_MASK);
+  wxArrayString candidates;
+  AddReplacementCandidates(font.GetFamily(), candidates, useBuiltInReplacements);
+  if (font.m_fontData != NULL)
+  {
+    AddReplacementCandidates(font.m_fontData->GetAlias(), candidates, useBuiltInReplacements);
+  }
+  for (size_t j = 0; j < candidates.GetCount(); ++j)
+  {
+    wxPdfFont replacement = FindEmbeddableFamilyMember(candidates[j], searchStyle);
+    if (replacement.IsValid())
+    {
+      return replacement;
+    }
+  }
+  return wxPdfFont();
+}
+
+wxPdfFont
+wxPdfFontManagerBase::GetEmbeddableFont(const wxString& fontFamily, int fontStyle)
+{
+  int searchStyle = fontStyle & (wxPDF_FONTSTYLE_ITALIC | wxPDF_FONTSTYLE_WEIGHT_MASK);
+  wxPdfFont font = GetFont(fontFamily, searchStyle);
+  if (font.IsValid())
+  {
+    return GetEmbeddableFont(font, searchStyle, true);
+  }
+  // The family is not registered: try the replacements, then the family itself
+  wxArrayString candidates;
+  AddReplacementCandidates(fontFamily, candidates);
+  if (candidates.Index(fontFamily, false) == wxNOT_FOUND)
+  {
+    candidates.Add(fontFamily);
+  }
+  for (size_t j = 0; j < candidates.GetCount(); ++j)
+  {
+    wxPdfFont replacement = FindEmbeddableFamilyMember(candidates[j], searchStyle);
+    if (replacement.IsValid())
+    {
+      return replacement;
+    }
+  }
+  return wxPdfFont();
 }
 
 // --- wxPdfFontManagerBase (private)
@@ -1838,6 +2388,18 @@ wxPdfFontManager::GetFont(size_t fontIndex) const
   return m_fontManagerBase->GetFont(fontIndex);
 }
 
+wxPdfFont
+wxPdfFontManager::FindFallbackFont(wxUint32 unicodeChar, int fontStyle)
+{
+#if wxUSE_UNICODE
+  return m_fontManagerBase->FindFallbackFont(unicodeChar, fontStyle);
+#else
+  wxUnusedVar(unicodeChar);
+  wxUnusedVar(fontStyle);
+  return wxPdfFont();
+#endif
+}
+
 size_t
 wxPdfFontManager::GetFontCount() const
 {
@@ -1865,6 +2427,30 @@ const wxPdfEncoding*
 wxPdfFontManager::GetEncoding(const wxString& encodingName)
 {
   return m_fontManagerBase->GetEncoding(encodingName);
+}
+
+void
+wxPdfFontManager::SetEmbeddableFontReplacement(const wxString& fontFamily, const wxString& replacementFamily)
+{
+  m_fontManagerBase->SetEmbeddableFontReplacement(fontFamily, replacementFamily);
+}
+
+wxString
+wxPdfFontManager::GetEmbeddableFontReplacement(const wxString& fontFamily) const
+{
+  return m_fontManagerBase->GetEmbeddableFontReplacement(fontFamily);
+}
+
+wxPdfFont
+wxPdfFontManager::GetEmbeddableFont(const wxPdfFont& font, int fontStyle, bool useBuiltInReplacements)
+{
+  return m_fontManagerBase->GetEmbeddableFont(font, fontStyle, useBuiltInReplacements);
+}
+
+wxPdfFont
+wxPdfFontManager::GetEmbeddableFont(const wxString& fontFamily, int fontStyle)
+{
+  return m_fontManagerBase->GetEmbeddableFont(fontFamily, fontStyle);
 }
 
 // A module to allow initialization/cleanup of wxPdfDocument
