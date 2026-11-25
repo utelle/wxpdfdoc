@@ -13,6 +13,19 @@ and from version 0.9.0 onwards this project adheres to [Semantic Versioning](htt
 - Added export of any `wxGrid` directly to PDF via `wxPdfDocument::AddGrid()` or `wxPdfDC::DrawGrid()`
 - Added `SetPageBreakHandler()` to `wxPdfListCtrlOptions` and `wxPdfGridOptions`, so that users can draw custom headers and footers on every page of an exported table
 - Added VC++ 2026 build support
+- PDF/A-1 documents now embed all their fonts, as PDF/A requires: fonts with embedding disabled are embedded anyway, and fonts that can't be embedded (the 14 Adobe standard fonts, CJK fonts, fonts whose licence forbids it) are replaced by embeddable ones. Helvetica/Arial, Times and Courier are replaced automatically by installed metric-compatible free fonts (Liberation, Croscore, URW base 35, TeX Gyre, GNU FreeFont); other replacements can be defined with `wxPdfFontManager::SetEmbeddableFontReplacement()`
+- Added font fallback for characters missing in the current font (`wxPdfDocument::AddFallbackFont()`, `wxPdfDocument::SetSystemFontFallback()`, `wxPdfFontManager::FindFallbackFont()`). Disabled by default; output is unchanged unless enabled
+- Added automated tests (`make check`)
+- Added tagged PDF output for accessible documents: `SetTagged()`, `BeginTag()`/`EndTag()` with alternate text, replacement text (`/ActualText`), expansion, language and title (class `wxPdfTag`), `BeginFormula()`/`EndFormula()` with MathML embedded as associated file, `BeginArtifact()`/`EndArtifact()`; untagged content and page headers/footers are marked as artifacts automatically
+- Added `SetLanguage()` to set the natural language of the document
+- Added a tagged PDF example to the minimal sample
+- Added `wxPdfDC::SetFontResolution()`, so that the size of text in the PDF no longer depends on the resolution of the screen the program happens to run on (72 ppi on macOS, the display's on other platforms)
+
+### Fixed
+
+- A wxFont with style `wxFONTSTYLE_SLANT` is now drawn with the font's italic (or oblique) face instead of the upright one
+- The random number generator compiles on Cygwin, which has no `rand_s()`; it reads `/dev/urandom` there like other POSIX systems
+- A wxFont whose face name is one of the 14 Adobe standard fonts or their aliases (for example Arial, Helvetica, Times, Courier) is now mapped to the font installed on the system instead of the built-in standard font, in `wxPdfDocument::SetFont(const wxFont&)`, `wxPdfDC` and `wxPdfGraphicsContext`. The standard fonts are never embedded and cover only the WinAnsi character set, so for example Greek letters were lost. New method `wxPdfFontManager::GetFont(const wxFont&)`
 
 ## [1.4.0] - 2026-05-20
 

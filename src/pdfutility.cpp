@@ -373,7 +373,10 @@ int
 wxPdfUtility::MapFont2FontStyle(const wxFont& font)
 {
   int styles = 0;
-  if (font.GetStyle() == wxFONTSTYLE_ITALIC)
+  // A slanted (oblique) font is what PDF and most font families call
+  // italic: a family usually has either an italic or an oblique face, not
+  // both, and the font lookup by style finds whichever one exists.
+  if (font.GetStyle() == wxFONTSTYLE_ITALIC || font.GetStyle() == wxFONTSTYLE_SLANT)
   {
     styles |= wxPDF_FONTSTYLE_ITALIC;
   }

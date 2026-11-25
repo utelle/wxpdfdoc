@@ -65,6 +65,9 @@
     <ClCompile Include="..\samples\minimal\rotation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\samples\minimal\tagging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\samples\minimal\templates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

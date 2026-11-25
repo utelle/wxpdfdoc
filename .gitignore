@@ -3,3 +3,8 @@ autom4te.cache/
 configure
 configure~
 Makefile.in
+
+# Test programs built by "make check"
+tests/embedfonts
+tests/fontfallback
+tests/testtagging

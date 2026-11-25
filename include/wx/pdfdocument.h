@@ -21,6 +21,8 @@ class wxListCtrl;
 class wxGrid;
 #endif
 
+#include <vector>
+
 // wxWidgets headers
 #include <wx/dynarray.h>
 #include <wx/graphics.h>
@@ -39,6 +41,7 @@ class wxGrid;
 #include "wx/pdflinestyle.h"
 #include "wx/pdflinks.h"
 #include "wx/pdfproperties.h"
+#include "wx/pdfstructure.h"
 #include "wx/pdfdoc_version.h"
 
 #if wxUSE_LISTCTRL
@@ -58,6 +61,9 @@ class WXDLLIMPEXP_FWD_PDFDOC wxPdfCoonsPatchMesh;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFont;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontDescription;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfFontDetails;
+class wxPdfFontFallback;
+struct wxPdfFontFallbackRun;
+class wxPdfEmbeddableFontCache;
 
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfExtGState;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfGradient;
@@ -81,6 +87,9 @@ class WXDLLIMPEXP_FWD_PDFDOC wxPdfOcg;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfLayer;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfLayerMembership;
 class WXDLLIMPEXP_FWD_PDFDOC wxPdfLayerGroup;
+
+class wxPdfTaggingState;
+class wxPdfStructElement;
 
 /// Hashmap class for offset values
 WX_DECLARE_HASH_MAP_WITH_DECL(long, int, wxIntegerHash, wxIntegerEqual, wxPdfOffsetHashMap, class WXDLLIMPEXP_PDFDOC);
@@ -1682,6 +1691,70 @@ public:
   * \see SetFont()
   */
   virtual void SetFontSize(double size);
+
+  /// Adds a font to the list of fallback fonts
+  /**
+  * Font fallback (also known as font substitution) is used for characters the current
+  * font has no glyph for. Without fallback such characters are rendered as blanks
+  * (or as the font's "missing glyph" symbol). With fallback, wxPdfDocument splits the
+  * text into runs, rendering each character the current font lacks with the first
+  * fallback font that contains it - similar to what wxWidgets and the operating system
+  * do when drawing text on screen. Typical use: Greek letters and mathematical symbols
+  * in a document whose main font only covers Latin script.
+  *
+  * Fallback fonts are tried in the order they were added. If the current font is
+  * bold and/or italic, the corresponding style of the fallback font family is used
+  * if it is registered; otherwise the font as given is used.
+  *
+  * Fallback affects text output (Text(), Cell(), MultiCell(), Write(), WriteXml(),
+  * wxPdfDC and wxPdfGraphicsContext) as well as GetStringWidth(), so that layout and
+  * rendering stay consistent. Characters the current font can show are always
+  * rendered with the current font, so documents that do not need fallback are
+  * written exactly as before.
+  *
+  * \param font a valid font, for example as returned by wxPdfFontManager::GetFont()
+  *        or wxPdfFontManager::RegisterFont()
+  * \return @c true if the font was added, @c false if the font is invalid
+  * \note Font fallback is disabled by default.
+  * \note In PDF/A-1 documents, which have to embed all fonts, the same embedding
+  * rules apply to fallback fonts as to the current font.
+  * \see ClearFallbackFonts(), SetSystemFontFallback()
+  */
+  virtual bool AddFallbackFont(const wxPdfFont& font);
+
+  /// Adds a font family to the list of fallback fonts
+  /**
+  * Convenience variant of AddFallbackFont(const wxPdfFont&) for fonts already
+  * registered with wxPdfFontManager (including the core fonts, e.g. "Symbol").
+  * \param family name of a registered font family
+  * \return @c true if the family is known and was added, @c false otherwise
+  */
+  virtual bool AddFallbackFont(const wxString& family);
+
+  /// Removes all fonts from the list of fallback fonts
+  /**
+  * \note This does not affect SetSystemFontFallback().
+  */
+  virtual void ClearFallbackFonts();
+
+  /// Enables or disables the search for fallback fonts among the installed system fonts
+  /**
+  * If enabled, characters that neither the current font nor any font added with
+  * AddFallbackFont() can show are looked up among the fonts installed on the system
+  * using wxPdfFontManager::FindFallbackFont(). Fonts found this way are registered
+  * with the font manager and embedded in the document like any other font.
+  *
+  * \param enable @c true to enable the system font search, @c false to disable it
+  * \note Disabled by default. The result depends on the fonts installed on the
+  * machine creating the PDF; use AddFallbackFont() for reproducible output.
+  */
+  virtual void SetSystemFontFallback(bool enable);
+
+  /// Checks whether fallback fonts are searched among the installed system fonts
+  /**
+  * \return @c true if SetSystemFontFallback() was enabled, @c false otherwise
+  */
+  virtual bool GetSystemFontFallback() const;
 
   /// Force selecting the current font
   /// \private
@@ -3464,6 +3537,161 @@ public:
   */
   virtual void LeaveLayer();
 
+  /// Enable or disable tagged PDF output
+  /**
+  * A tagged PDF document carries a logical structure tree in addition to its
+  * visual content. Assistive technology such as screen readers uses it to
+  * present the document in a meaningful reading order, to announce headings,
+  * figures and formulas, and to read alternate descriptions instead of
+  * drawings. It is a prerequisite for accessible PDF (PDF/UA, ISO 14289).
+  *
+  * When tagging is enabled:
+  * - every drawing command issued between BeginTag() and EndTag() becomes
+  *   content of that structure element;
+  * - content drawn outside of any structure element, content drawn between
+  *   BeginArtifact() and EndArtifact(), and everything drawn by Header() and
+  *   Footer() is marked as an <em>artifact</em>, i.e. as decoration that
+  *   assistive technology skips;
+  * - the document catalog gets a \c /MarkInfo and a \c /StructTreeRoot entry,
+  *   and the PDF version is raised to at least 1.7.
+  *
+  * Tagging should be enabled before the first page is added. While tagging is
+  * disabled (the default), all tagging methods are no-ops and the generated
+  * PDF is unchanged, so applications can call them unconditionally.
+  *
+  * For a document to be accessible, applications should in addition set a
+  * document title (SetTitle()) and display it (SetViewerPreferences() with
+  * wxPDF_VIEWER_DISPLAYDOCTITLE), set the document language (SetLanguage()),
+  * embed all fonts, and give every \c Figure and \c Formula an alternate text.
+  *
+  * \note Tagging content inside templates (BeginTemplate()/EndTemplate()) is not
+  * supported: the structure elements are recorded, but the template content is
+  * not linked to them. Using a template inside a structure element is fine;
+  * the template then belongs to that element as a whole. Annotations and links
+  * are not (yet) added to the structure tree.
+  *
+  * \param tagged flag whether tagged PDF should be produced
+  * \see BeginTag(), EndTag(), BeginFormula(), BeginArtifact(), SetLanguage()
+  */
+  void SetTagged(bool tagged = true);
+
+  /// Check whether tagged PDF output is enabled
+  /**
+  * \return TRUE if tagged PDF output is enabled, FALSE otherwise
+  * \see SetTagged()
+  */
+  bool IsTagged() const { return m_tagging != NULL; }
+
+  /// Set the natural language of the document
+  /**
+  * Writes the \c /Lang entry of the document catalog, which screen readers use
+  * to select the speech synthesizer. The value is a BCP 47 language tag, e.g.
+  * \c "en-US" or \c "de". This setting is independent of SetTagged().
+  * \param language the language tag; an empty string removes the entry
+  */
+  void SetLanguage(const wxString& language) { m_language = language; }
+
+  /// Get the natural language of the document
+  /**
+  * \return the language tag set by SetLanguage()
+  */
+  const wxString& GetLanguage() const { return m_language; }
+
+  /// Begin a logical structure element
+  /**
+  * Opens a new structure element as a child of the innermost open element.
+  * All content drawn until the matching EndTag() belongs to this element;
+  * structure elements may be nested to any depth, and may span several pages.
+  * The order in which elements are begun is the reading order.
+  *
+  * Has no effect unless tagged output was enabled with SetTagged().
+  *
+  * \param tag the description of the structure element
+  * \par Example
+  * \code
+  * pdf.SetTagged();
+  * pdf.SetLanguage(wxS("en"));
+  * pdf.AddPage();
+  * pdf.BeginTag(wxS("H1"));
+  * pdf.Cell(0, 10, wxS("Results"));
+  * pdf.EndTag();
+  * pdf.BeginTag(wxPdfTag(wxS("Figure")).SetAltText(wxS("Plot of sin(x) from 0 to 2 pi")));
+  * pdf.Image(wxS("plot.png"), 10, 30, 80);
+  * pdf.EndTag();
+  * \endcode
+  * \see EndTag(), BeginFormula(), wxPdfTag
+  */
+  virtual void BeginTag(const wxPdfTag& tag);
+
+  /// Begin a logical structure element
+  /**
+  * Convenience method, equivalent to
+  * <tt>BeginTag(wxPdfTag(structureType).SetAltText(altText).SetActualText(actualText))</tt>.
+  * \param structureType the structure type, e.g. \c "P", \c "H1", \c "Span" or \c "Figure"
+  * \param altText optional alternate description (read instead of the content)
+  * \param actualText optional replacement text (used for text extraction instead of the content)
+  * \see BeginTag(const wxPdfTag&), EndTag()
+  */
+  void BeginTag(const wxString& structureType,
+                const wxString& altText = wxEmptyString,
+                const wxString& actualText = wxEmptyString);
+
+  /// End the innermost open structure element
+  /**
+  * \see BeginTag()
+  */
+  virtual void EndTag();
+
+  /// Begin a mathematical formula
+  /**
+  * Convenience method that opens a \c Formula structure element. All content
+  * drawn until EndFormula() is the visual representation of the formula.
+  *
+  * \param altText a textual description of the formula, read by screen readers
+  * that don't understand MathML; required by PDF/UA. A linear notation such as
+  * <tt>x^2+1</tt> or a spoken form such as "x squared plus one" are both common.
+  * \param mathML optional MathML representation of the formula; it is embedded as
+  * an associated file of the structure element (see wxPdfTag::SetMathML()).
+  * \param actualText optional text that replaces the formula's glyphs on text
+  * extraction or copy &amp; paste, e.g. a linear notation of the formula
+  * \see EndFormula(), BeginTag()
+  */
+  void BeginFormula(const wxString& altText,
+                    const wxString& mathML = wxEmptyString,
+                    const wxString& actualText = wxEmptyString);
+
+  /// End a mathematical formula
+  /**
+  * Equivalent to EndTag().
+  * \see BeginFormula()
+  */
+  void EndFormula() { EndTag(); }
+
+  /// Get the number of currently open structure elements
+  /**
+  * \return the nesting depth of BeginTag() calls; 0 if no structure element
+  * is open or tagging is disabled
+  */
+  int GetTagDepth() const;
+
+  /// Begin an artifact
+  /**
+  * Content drawn until the matching EndArtifact() is marked as an artifact:
+  * decoration that carries no meaning and is skipped by assistive technology,
+  * e.g. background graphics, rules, cell brackets or line numbers. Artifacts
+  * may be nested. Do not begin structure elements inside an artifact.
+  *
+  * Has no effect unless tagged output was enabled with SetTagged().
+  * \see EndArtifact()
+  */
+  virtual void BeginArtifact();
+
+  /// End an artifact
+  /**
+  * \see BeginArtifact()
+  */
+  virtual void EndArtifact();
+
   /// Attach file
   /**
   * Attaches a file to the PDF document.
@@ -3592,6 +3820,30 @@ protected:
   * \return @c true if font was selected, @c false otherwise
   */
   virtual bool SelectFont(const wxPdfFont& font, int style, double size = 0, bool setFont = true);
+
+  /// Get the font to be used for a selected font, honouring PDF/A's font rules
+  /**
+  * PDF/A forbids fonts that are not embedded. In a PDF/A document (see
+  * SetPdfA1Conformance()) this returns an embeddable version of the font or an
+  * embeddable replacement (see wxPdfFontManager::GetEmbeddableFont()); if neither
+  * exists, a warning is logged once per font and the font itself is returned.
+  * In other documents the font is returned unchanged.
+  * \param font the selected font
+  * \param style the requested font style
+  * \return the font to be used in the document
+  */
+  wxPdfFont GetFontToEmbed(const wxPdfFont& font, int style);
+
+  /// Find an embeddable font for a family that is not registered (PDF/A)
+  /**
+  * Used if a font family requested by name is not registered with the requested style,
+  * for example to select the bold style of a replacement font family that was located
+  * via the operating system. The result (including failure) is cached per document.
+  * \param family the requested font family
+  * \param style the requested font style
+  * \return the embeddable font, or an invalid font if none was found
+  */
+  wxPdfFont FindEmbeddableFont(const wxString& family, int style);
 
   /// Defines the size of the current font.
   /**
@@ -3744,6 +3996,27 @@ protected:
   /// Add catalog
   virtual void PutCatalog();
 
+  /// Add the structure tree of a tagged document
+  virtual void PutStructTree();
+
+  /// Write a structure element (and, recursively, its kids) of a tagged document
+  void PutStructElement(wxPdfStructElement* element, int parentObjId);
+
+  /// Open the marked-content sequence required by the current tagging state
+  void TagOpenMarkedContent();
+
+  /// Close the currently open marked-content sequence of a tagged document, if any
+  void TagCloseMarkedContent();
+
+  /// Close the currently open marked-content sequence and don't open another one until TagResumeMarkedContent()
+  void TagSuspendMarkedContent();
+
+  /// Allow opening marked-content sequences again after TagSuspendMarkedContent()
+  void TagResumeMarkedContent();
+
+  /// Start or end writing page decoration (header or footer) in a tagged document
+  void TagPagination(bool begin);
+
   /// Add object dictionary
   virtual void PutXObjectDict();
 
@@ -3766,7 +4039,41 @@ protected:
   wxString DoDecoration(double x, double y, const wxString& txt);
 
   /// Show text string, with kerning if requested
+  /**
+  * If font fallback is enabled and the current font lacks glyphs for some characters,
+  * the text is split into runs and each run is shown with an appropriate font.
+  * \see AddFallbackFont()
+  */
   void ShowText(const wxString& txt);
+
+  /// Show a text string with the current font, with kerning and word spacing if requested
+  void ShowTextRun(const wxString& txt);
+
+  /// Split a text into runs that can each be rendered with a single font
+  /**
+  * Every character the current font can show stays with the current font.
+  * Other characters are assigned to the first fallback font containing them.
+  * \param txt the text to split
+  * \param runs receives the runs
+  * \return @c true if at least one run uses a fallback font
+  */
+  bool SplitTextByFont(const wxString& txt, std::vector<wxPdfFontFallbackRun>& runs);
+
+  /// Find the fallback font slot for a single code point
+  /**
+  * \param codePoint the Unicode code point
+  * \param chr the code point as a string (one or two UTF-16 code units)
+  * \return the slot index or -1 if no fallback font contains the glyph
+  */
+  int FindFallbackSlot(wxUint32 codePoint, const wxString& chr);
+
+  /// Make sure that a font is known to the document (and to the current template)
+  /**
+  * Assigns a resource index to the font if it is used for the first time.
+  * \param font the font to register
+  * \return the font details of the font
+  */
+  wxPdfFontDetails* RegisterFontDetails(const wxPdfFont& font);
 
   /// Show a single glyph
   void ShowGlyph(wxUint32 glyph);
@@ -3977,8 +4284,10 @@ private:
   int                  m_fontStyle;           ///< current font style
   int                  m_decoration;          ///< font decoration flags
   bool                 m_fontSubsetting;      ///< flag whether to use font subsetting
+  wxPdfEmbeddableFontCache* m_embeddableFontCache; ///< fonts resolved for PDF/A
 
   wxPdfFontDetails*    m_currentFont;         ///< current font info
+  wxPdfFontFallback*   m_fontFallback;        ///< font fallback configuration and cache
 
   double               m_fontSizePt;          ///< current font size in points
   double               m_fontSize;            ///< current font size in user unit
@@ -4048,6 +4357,10 @@ private:
   wxPdfLayerRGMap*     m_rgLayers;            ///< array of radio group layers
   wxPdfLayerGroup*     m_lockedLayers;        ///< array of locked layers
   wxArrayInt           m_layerDepth;          ///< stack for nested layers
+
+  wxPdfTaggingState*   m_tagging;             ///< state of tagged PDF output; NULL if tagging is disabled
+  wxString             m_language;            ///< natural language of the document
+  int                  m_structTreeRootObjId; ///< object number of the structure tree root
 
   // File attachments
   int                  m_nAttachments;        ///< attachments object number

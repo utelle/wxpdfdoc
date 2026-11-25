@@ -78,6 +78,18 @@ wxPdfDC::GetResolution() const
 }
 
 void
+wxPdfDC::SetFontResolution(int ppi)
+{
+  ((wxPdfDCImpl*) m_pimpl)->SetFontResolution(ppi);
+}
+
+int
+wxPdfDC::GetFontResolution() const
+{
+  return ((wxPdfDCImpl*) m_pimpl)->GetFontResolution();
+}
+
+void
 wxPdfDC::SetImageType(wxBitmapType bitmapType, int quality)
 {
   ((wxPdfDCImpl*) m_pimpl)->SetImageType(bitmapType, quality);
@@ -205,18 +217,7 @@ wxPdfDCImpl::Init()
   m_graphicContext = NULL;
 #endif
 
-#if wxCHECK_VERSION(3,1,5) && !defined(__WXMSW__)
-  wxDisplay display;
-  m_ppiPdfFont = display.GetPPI().GetHeight();
-#else
-  wxScreenDC screendc;
-  m_ppiPdfFont = screendc.GetPPI().GetHeight();
-#endif
-#if defined(__WXMAC__) || defined(__WXOSX__)
-  // On macOS, the logical resolution is always 72 DPI, regardless of Retina scaling.
-  // wxDisplay::GetPPI() returns the physical resolution, so we force 72 here.
-  m_ppiPdfFont = 72;
-#endif
+  m_ppiPdfFont = ScreenFontResolution();
 
   m_mappingModeStyle = wxPDF_MAPMODESTYLE_STANDARD;
 
@@ -265,6 +266,46 @@ int
 wxPdfDCImpl::GetResolution() const
 {
   return (int) m_ppi;
+}
+
+void
+wxPdfDCImpl::SetFontResolution(int ppi)
+{
+  if (ppi > 0)
+  {
+    m_ppiPdfFont = ppi;
+  }
+  else
+  {
+    m_ppiPdfFont = ScreenFontResolution();
+  }
+  // The current font has to be re-selected at the new size.
+  if (m_pdfDocument != NULL && m_font.IsOk())
+  {
+    SetFont(m_font);
+  }
+}
+
+int
+wxPdfDCImpl::GetFontResolution() const
+{
+  return wxRound(m_ppiPdfFont);
+}
+
+double
+wxPdfDCImpl::ScreenFontResolution()
+{
+#if defined(__WXMAC__) || defined(__WXOSX__)
+  // On macOS, the logical resolution is always 72 DPI, regardless of Retina scaling.
+  // wxDisplay::GetPPI() returns the physical resolution, so we force 72 here.
+  return 72;
+#elif wxCHECK_VERSION(3,1,5) && !defined(__WXMSW__)
+  wxDisplay display;
+  return display.GetPPI().GetHeight();
+#else
+  wxScreenDC screendc;
+  return screendc.GetPPI().GetHeight();
+#endif
 }
 
 void
@@ -359,13 +400,8 @@ wxPdfDCImpl::SetFont(const wxFont& font)
   int styles = wxPdfUtility::MapFontWeight2FontStyle(font.GetWeight());
   styles |= wxPdfUtility::MapFont2FontStyle(font);
 
-  wxPdfFont regFont = wxPdfFontManager::GetFontManager()->GetFont(font.GetFaceName(), styles);
+  wxPdfFont regFont = wxPdfFontManager::GetFontManager()->GetFont(font);
   bool ok = regFont.IsValid();
-  if (!ok)
-  {
-    regFont = wxPdfFontManager::GetFontManager()->RegisterFont(font, font.GetFaceName());
-    ok = regFont.IsValid();
-  }
 
   if (ok)
   {
