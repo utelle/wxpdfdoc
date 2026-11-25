@@ -198,7 +198,10 @@ static size_t entropy(void* buf, size_t n)
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+/* Cygwin has no syscall.h; it falls back to reading /dev/urandom. */
+#ifndef __CYGWIN__
 #include <sys/syscall.h>
+#endif
 #include <unistd.h>
 
 #ifdef __linux__
